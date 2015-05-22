@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Demo</title>
+    	<script type="text/javascript" src="QCObjects.js"></script>
+    	<script type="text/javascript">
+    		var canvas;
+    		var div;
+    		
+    		/**
+    		 * Main import sentence.
+    		 */
+    		Import('cl.quickcorp',function (){
+    			
+    			/**
+    			 * Main Custom Class definition
+    			 */
+	    		Class('MyOwnCanvas',MainContainer,{
+	    			foo:1,
+	    			bar:2,
+	    			__new__:function (){
+	    				console.log('Initialized Custom Canvas...');
+	    			}
+	    		});
+	    		
+	    		/**
+	    		 * Another custom class definition
+	    		 */
+	    		Class('MyOwnDivTag',HTMLDivElement,{
+	    			foo:1,
+	    			bar:2,
+	    			__new__:function (){
+	    				console.log('Initialized Custom Div Tag...');
+	    			}
+	    		});
+	    		
+	    		/**
+	    		 * Instance a new custom canvas
+	    		 */
+	    		canvas = New(MyOwnCanvas);
+	    		
+	    		/**
+	    		 * Instance a new custom div
+	    		 */
+	    		div = New(MyOwnDivTag);
+	    		
+	    		/**
+	    		 * Append to body
+	    		 */
+	    		document.body.appendChild(div);
+	    		
+    		});
+    		
+    	</script>
+    </head>
+    <body>
+    </body>
+</html>
