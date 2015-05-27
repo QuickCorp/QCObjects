@@ -4,50 +4,41 @@
     	<title>Demo</title>
     	<script type="text/javascript" src="QCObjects.js"></script>
     	<script type="text/javascript">
-    		var canvas;
-    		var div;
+    		var container,container2;
     		
     		/**
     		 * Main import sentence.
     		 */
     		Import('cl.quickcorp',function (){
     			
-    			/**
-    			 * Main Custom Class definition
-    			 */
-	    		Class('MyOwnCanvas',MainContainer,{
-	    			foo:1,
-	    			bar:2,
-	    			__new__:function (){
-	    				console.log('Initialized Custom Canvas...');
-	    			}
+
+	    		/**
+	    		 * Another custom class definition
+	    		 */
+	    		Class('MyCanvas1',HTMLElement,{
+	    			width:100,
+	    			height:100,
+	    			customAttr:'custom'
 	    		});
 	    		
 	    		/**
 	    		 * Another custom class definition
 	    		 */
-	    		Class('MyOwnDivTag',HTMLDivElement,{
-	    			foo:1,
-	    			bar:2,
-	    			__new__:function (){
-	    				console.log('Initialized Custom Div Tag...');
-	    			}
+	    		Class('MyCanvas2',HTMLElement,{
+	    			width:200,
+	    			height:100,
 	    		});
 	    		
 	    		/**
 	    		 * Instance a new custom canvas
 	    		 */
-	    		canvas = New(MyOwnCanvas);
+	    		container = New(MyCanvas1);
+	    		container2 = New(MyCanvas2);
 	    		
-	    		/**
-	    		 * Instance a new custom div
-	    		 */
-	    		div = New(MyOwnDivTag);
+	    		container.body.style.backgroundColor='#000';
+	    		container2.body.style.backgroundColor='#0044AA';
 	    		
-	    		/**
-	    		 * Append to body
-	    		 */
-	    		document.body.appendChild(div);
+	    		
 	    		
     		});
     		

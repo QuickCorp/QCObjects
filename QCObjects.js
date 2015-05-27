@@ -8,6 +8,8 @@
  *
  */
 
+var __readyImportLoaded = false;
+
 /**
  * Primary instance ID of all objects
  */
@@ -72,21 +74,32 @@ var Class = function(name, type, definition) {
 	var o;
 	if ( typeof type != 'undefined') {
 		type = (type.hasOwnProperty('prototype')) ? (type.prototype) : (type);
+
+		if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')){
+			definition['__new__'] = function (){
+				console.log('__NEW__ en tipo definido');
+				if (typeof this != 'undefined' && this.hasOwnProperty('body')){
+					console.log('Append Child');
+					document.body.appendChild(this['body']);
+				}
+			};
+		}
+		
 		o = Object.create(type, definition);
-		/*
-		 if ((!o.hasOwnProperty('__new__')) && type.hasOwnProperty('__new__') ){
-		 o['__new__'] = type.__new__;
-		 } else {
-		 o['__new__'] = function (){};
-		 }
-		 */
 	} else {
 		o = Object.create(definition);
+		if (!o.hasOwnProperty('body')){
+			o['body'] = document.createElement('canvas');
+		}
 		if (!o.hasOwnProperty('__new__')) {
 			o['__new__'] = function() {
+				if (typeof this != 'undefined' && this.hasOwnProperty('body')){
+					document.body.appendChild(this['body']);
+				}
 			};
 		}
 	}
+	o['__definition'] = definition;
 	_QC_CLASSES[name] = o;
 	eval('' + name + ' = _QC_CLASSES[\'' + name + '\'];');
 	return o;
@@ -101,6 +114,16 @@ var Class = function(name, type, definition) {
 var New = function(c, args) {
 	c['__instanceID'] = __instanceID++;
 	if (c.hasOwnProperty('__new__')) {
+		if (typeof c != 'undefined' && !c.hasOwnProperty('body')){
+			try{
+				c['body'] = _CastProps(c['__definition'],document.createElement('canvas'));
+				
+			}catch (e){
+				
+			}
+		}
+		console.log('llamada a new');
+		console.trace();
 		c.__new__(args);
 	}
 	return c;
@@ -144,11 +167,14 @@ var Import = function(packagename, ready) {
 		return ret;
 	};
 	var readyImported = function(e) {
-		_QC_PACKAGES_IMPORTED.push(ready);
-		if (allPackagesImported()) {
-			for (var _r in _QC_PACKAGES_IMPORTED) {
-				_QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
+		if (!__readyImportLoaded){
+			_QC_PACKAGES_IMPORTED.push(ready);
+			if (allPackagesImported()) {
+				for (var _r in _QC_PACKAGES_IMPORTED) {
+					_QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
+				}
 			}
+			__readyImportLoaded = true;
 		}
 	};
 	if (!_QC_PACKAGES.hasOwnProperty(packagename)) {
@@ -157,7 +183,7 @@ var Import = function(packagename, ready) {
 		s1.src = 'src/' + packagename + '.js';
 		s1.onreadystatechange = function() {
 			if (this.readyState == 'complete') {
-				readyImported();
+				readyImported.call();
 			}
 		};
 		s1.onload = readyImported;
@@ -174,7 +200,30 @@ var Import = function(packagename, ready) {
 var _Cast = function(obj_source, obj_dest) {
 	for (var v in obj_source) {
 		if ( typeof obj_source[v] != 'undefined') {
-			obj_dest[v] = obj_source[v];
+			try {
+				obj_dest[v] = obj_source[v];
+			}catch (e){
+				
+			}
+		}
+	}
+	return obj_dest;
+};
+
+/**
+ * Casts an object to another object class type. Only properties
+ * 
+ * @param {Object} obj_source
+ * @param {Object} obj_dest
+ */
+var _CastProps = function(obj_source, obj_dest) {
+	for (var v in obj_source) {
+		if ( typeof obj_source[v] != 'undefined' &&  typeof obj_source[v] != 'function') {
+			try {
+				obj_dest[v] = obj_source[v];
+			}catch (e){
+				
+			}
 		}
 	}
 	return obj_dest;
@@ -234,6 +283,7 @@ var Ready = function(e) {
 	for (var _r in _QC_READY_LISTENERS) {
 		if ( typeof _QC_READY_LISTENERS[_r] == 'function') {
 			_QC_READY_LISTENERS[_r].call();
+			delete _QC_READY_LISTENERS[_r];
 		}
 	}
 };
