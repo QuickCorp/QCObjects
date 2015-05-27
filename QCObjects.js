@@ -78,24 +78,14 @@ var Class = function(name, type, definition) {
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')){
 			definition['__new__'] = function (){
 				console.log('__NEW__ en tipo definido');
-				if (typeof this != 'undefined' && this.hasOwnProperty('body')){
-					console.log('Append Child');
-					document.body.appendChild(this['body']);
-				}
 			};
 		}
 		
 		o = Object.create(type, definition);
 	} else {
 		o = Object.create(definition);
-		if (!o.hasOwnProperty('body')){
-			o['body'] = document.createElement('canvas');
-		}
 		if (!o.hasOwnProperty('__new__')) {
 			o['__new__'] = function() {
-				if (typeof this != 'undefined' && this.hasOwnProperty('body')){
-					document.body.appendChild(this['body']);
-				}
 			};
 		}
 	}
@@ -116,7 +106,7 @@ var New = function(c, args) {
 	if (c.hasOwnProperty('__new__')) {
 		if (typeof c != 'undefined' && !c.hasOwnProperty('body')){
 			try{
-				c['body'] = _CastProps(c['__definition'],document.createElement('canvas'));
+				c['body'] = _Cast(c['__definition'],document.createElement('canvas'));
 				
 			}catch (e){
 				
@@ -124,6 +114,10 @@ var New = function(c, args) {
 		}
 		console.log('llamada a new');
 		console.trace();
+		if (typeof c != 'undefined' && c.hasOwnProperty('body')){
+			console.log('Append Child');
+			document.body.appendChild(c['body']);
+		}
 		c.__new__(args);
 	}
 	return c;
