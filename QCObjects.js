@@ -64,6 +64,21 @@ var _QC_PACKAGES_IMPORTED = [];
 var _QC_READY_LISTENERS = [];
 
 /**
+ * Returns the object or function name
+ * 
+ * @param Object or function
+ */
+var ObjectName = function (o){
+	var ret = '';
+	if (typeof o.constructor == 'function'){
+		ret = o.constructor.name;
+	} else if (typeof o.constructor == 'object'){
+		ret = o.constructor.toString().split(' ')[1].replace(']','');
+	}
+	return ret;
+};
+
+/**
  * Creates new object class  of another object
  *
  * @param {String} name
@@ -90,6 +105,7 @@ var Class = function(name, type, definition) {
 		}
 	}
 	o['__definition'] = definition;
+	o['__definition']['__classType']=name;
 	_QC_CLASSES[name] = o;
 	eval('' + name + ' = _QC_CLASSES[\'' + name + '\'];');
 	return o;
@@ -102,11 +118,14 @@ var Class = function(name, type, definition) {
  * @param {Object} args
  */
 var New = function(c, args) {
-	c['__instanceID'] = __instanceID++;
-	if (c.hasOwnProperty('__new__')) {
-		if (typeof c != 'undefined' && !c.hasOwnProperty('body')){
+	__instanceID = __instanceID++;
+	c_new = Object.create(c.constructor.prototype,c.__definition);
+	c_new['__instanceID'] = __instanceID;
+	if (c_new.hasOwnProperty('__new__')) {
+//		if (typeof c_new != 'undefined' && !c_new.hasOwnProperty('body')){
+		if (typeof c_new != 'undefined'){
 			try{
-				c['body'] = _Cast(c['__definition'],document.createElement('canvas'));
+				c_new['body'] = _Cast(c_new['__definition'],document.createElement('canvas'));
 				
 			}catch (e){
 				
@@ -114,13 +133,13 @@ var New = function(c, args) {
 		}
 		console.log('llamada a new');
 		console.trace();
-		if (typeof c != 'undefined' && c.hasOwnProperty('body')){
+		if (typeof c_new != 'undefined' && c_new.hasOwnProperty('body')){
 			console.log('Append Child');
-			document.body.appendChild(c['body']);
+			document.body.appendChild(c_new['body']);
 		}
-		c.__new__(args);
+		c_new.__new__(args);
 	}
-	return c;
+	return c_new;
 };
 
 if ( typeof console == 'undefined') {
