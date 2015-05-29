@@ -87,28 +87,86 @@ var ObjectName = function (o){
  */
 var Class = function(name, type, definition) {
 	var o;
-	if ( typeof type != 'undefined') {
-		type = (type.hasOwnProperty('prototype')) ? (type.prototype) : (type);
-
-		if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')){
-			definition['__new__'] = function (){
-				console.log('__NEW__ en tipo definido');
-			};
-		}
-		
-		o = Object.create(type, definition);
+	var name = arguments[0];
+	var type = (arguments.length>2)?(arguments[1]):(HTMLElement);
+	var definition =  (arguments.length>2)?(arguments[2]):(
+		(arguments.length>1)?(arguments[1]):({})
+	);
+	
+	if (typeof type=='undefined'){
+		type = HTMLElement; // defaults to HTMLElement type
 	} else {
-		o = Object.create(definition);
-		if (!o.hasOwnProperty('__new__')) {
-			o['__new__'] = function() {
-			};
-		}
+		definition = _Cast(
+			(typeof definition=='undefined')?({}):(definition),
+			(typeof type['__definition'] != 'undefined')?(type.__definition):({})  
+		);
 	}
+	
+	type = (type.hasOwnProperty('prototype')) ? (type.prototype) : (type);
+
+	if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')){
+		definition['__new__'] = function (){
+			console.log('__NEW__');
+		};
+	}
+	
+	if (typeof definition != 'undefined' && !definition.hasOwnProperty('css')){
+		definition['css'] = function QC_CSS3(_css){
+			if (typeof this['body'] != 'undefined' && this['body']['style'] != 'undefined'){
+				console.log('body style');
+				this['body']['style']  = _Cast(_css,this['body']['style']);
+			}
+		};
+	}
+	if (typeof definition != 'undefined' && !definition.hasOwnProperty('append')){
+		definition['append'] = function QC_Append(){
+			if (typeof this['body'] != 'undefined' && this['body'].hasOwnProperty('appendChild')){
+				child = (arguments.length>0)?(arguments[0]):(this);
+				console.log('append element');
+				if (typeof this['childs'] == 'undefined'){
+					this['childs'] = [];
+				}
+				if (arguments.length>0){
+					console.log('append & push');
+					this['body'].appendChild(child.body);
+					this['childs'].push(child);
+				} else {
+					console.log('append to body');
+					document.body.appendChild(child.body);
+				}
+			} else {
+				if (typeof this['body'] != 'undefined' ){
+					document.body.appendChild(this['body']);
+				}
+			}
+		};
+	}
+	
+	Element.prototype.append = function QC_Append(child){
+		if (typeof child.__definition != 'undefined' && typeof child.__definition.__classType != 'undefined' && typeof child.body){
+			this.appendChild(child.body);
+		} else{
+			this.appendChild(child);
+		}
+	};
+	
+	if (typeof definition != 'undefined' && !definition.hasOwnProperty('attachIn')){
+		definition['attachIn'] = function QC_AttachIn(tag){
+			tags = document.getElementsByTagName(tag);
+			for(var i=0,j=tags.length; i<j; i++){
+					tags[i].append(this);
+			};
+
+		};
+	}	
+	
+	
+	o = Object.create(type, definition);
 	o['__definition'] = definition;
 	o['__definition']['__classType']=name;
 	_QC_CLASSES[name] = o;
-	eval('' + name + ' = _QC_CLASSES[\'' + name + '\'];');
-	return o;
+	window[name] = o;
+	return window[name];
 };
 
 /**
@@ -120,23 +178,22 @@ var Class = function(name, type, definition) {
 var New = function(c, args) {
 	__instanceID = __instanceID++;
 	c_new = Object.create(c.constructor.prototype,c.__definition);
+	c_new.__definition = _Cast({'__instanceID':__instanceID},c.__definition);
 	c_new['__instanceID'] = __instanceID;
 	if (c_new.hasOwnProperty('__new__')) {
-//		if (typeof c_new != 'undefined' && !c_new.hasOwnProperty('body')){
-		if (typeof c_new != 'undefined'){
+		if (typeof c_new != 'undefined' && !c_new.__definition.hasOwnProperty('body')){
 			try{
 				c_new['body'] = _Cast(c_new['__definition'],document.createElement('canvas'));
+				c_new['body']['style'] = _Cast(c_new.__definition,c_new['body']['style']);
 				
 			}catch (e){
 				
 			}
+		} else if (c_new.__definition.hasOwnProperty('body')){
+			c_new['body'] = c_new.__definition.body;
 		}
 		console.log('llamada a new');
 		console.trace();
-		if (typeof c_new != 'undefined' && c_new.hasOwnProperty('body')){
-			console.log('Append Child');
-			document.body.appendChild(c_new['body']);
-		}
 		c_new.__new__(args);
 	}
 	return c_new;
@@ -288,11 +345,19 @@ var Tag = function(tagname, innerHTML) {
 };
 
 /**
+ * Defines a Custom Ready listener 
+ */
+function Ready(e){
+	_QC_READY_LISTENERS.push(e);
+}
+ready = Ready; // case insensitive ready option
+
+/**
  * Default Ready event function for window. Executes all micro ready events of Import calls
  * 
  * @param {Object} e
  */
-var Ready = function(e) {
+var _Ready = function(e) {
 	for (var _r in _QC_READY_LISTENERS) {
 		if ( typeof _QC_READY_LISTENERS[_r] == 'function') {
 			_QC_READY_LISTENERS[_r].call();
@@ -301,4 +366,12 @@ var Ready = function(e) {
 	}
 };
 
-window.onload = Ready;
+window.onload = _Ready;
+
+Element.prototype.Cast = function QC_Object(_o) {
+	_o.__definition.body = this;
+	var _o = New(_o);
+	return _o;
+};
+
+

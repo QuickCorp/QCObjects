@@ -4,13 +4,30 @@
     	<title>Demo</title>
     	<script type="text/javascript" src="QCObjects.js"></script>
     	<script type="text/javascript">
-    		var container,container2;
+    		var canvas1,canvas2,canvas3,container;
     		
     		/**
     		 * Main import sentence.
     		 */
     		Import('cl.quickcorp',function (){
-    			
+
+    			/**
+    			 * Super Container MyOwnBody
+    			 */
+	    		Class('MyOwnBody',HTMLBodyElement,{
+	    			customAttr:'custom',
+	    			body:document.body  // breakes default body element and replace with them
+	    		});
+
+	    		/**
+	    		 * Another custom class definition
+	    		 */
+	    		Class('MyContainer',HTMLElement,{
+	    			width:400,
+	    			height:400,
+	    			customAttr:'custom attr container'
+	    		});
+	    			    		
 
 	    		/**
 	    		 * Another custom class definition
@@ -32,16 +49,25 @@
 	    		/**
 	    		 * Instance a new custom canvas
 	    		 */
-	    		container = New(MyCanvas1);
-	    		container2 = New(MyCanvas2);
-	    		container3 = New(MyCanvas1);
+	    		canvas1 = New(MyCanvas1);
+	    		canvas2 = New(MyCanvas1);
+	    		canvas3 = New(MyCanvas2);
 	    		
-	    		container.body.style.backgroundColor='#000000';
-	    		container2.body.style.backgroundColor='#0044AA';
-	    		container3.body.style.backgroundColor='#FFFFFF';
+	    		canvas1.css({backgroundColor:'#000000'}); // like jquery and another style access
+	    		canvas2.body.style.backgroundColor='#0044AA'; // standard javascript style access
+	    		canvas3.body.style.backgroundColor='green'; // standard javascript style access
 	    		
+	    		canvas1.append(); //append to body
+	    		canvas2.attachIn('container'); // attach or append to specific tag containers
+	    		canvas3.attachIn('container');
 	    		
+	    		container = document.getElementsByTagName('container')[0].Cast(MyContainer); // cast any javascript dom object to QC_Object class
+	    		container.css({backgroundColor:'red',
+	    							}); // access binding in two directions to dom objects
+	    		container.body.width=300;
 	    		
+	    		body = New(MyOwnBody); // binds to body
+	    		body.css({backgroundColor:'#ccc'});
     		});
     		
     	</script>
