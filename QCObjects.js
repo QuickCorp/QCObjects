@@ -118,29 +118,6 @@ var Class = function(name, type, definition) {
 			}
 		};
 	}
-	if (typeof definition != 'undefined' && !definition.hasOwnProperty('append')){
-		definition['append'] = function QC_Append(){
-			if (typeof this['body'] != 'undefined' && this['body'].hasOwnProperty('appendChild')){
-				child = (arguments.length>0)?(arguments[0]):(this);
-				console.log('append element');
-				if (typeof this['childs'] == 'undefined'){
-					this['childs'] = [];
-				}
-				if (arguments.length>0){
-					console.log('append & push');
-					this['body'].appendChild(child.body);
-					this['childs'].push(child);
-				} else {
-					console.log('append to body');
-					document.body.appendChild(child.body);
-				}
-			} else {
-				if (typeof this['body'] != 'undefined' ){
-					document.body.appendChild(this['body']);
-				}
-			}
-		};
-	}
 	
 	Element.prototype.append = function QC_Append(child){
 		if (typeof child.__definition != 'undefined' && typeof child.__definition.__classType != 'undefined' && typeof child.body){
@@ -149,6 +126,27 @@ var Class = function(name, type, definition) {
 			this.appendChild(child);
 		}
 	};
+	
+	if (typeof definition != 'undefined' && !definition.hasOwnProperty('append')){
+		definition['append'] = function QC_Append(){
+			child = (arguments.length>0)?(arguments[0]):(this['body']);
+			if (typeof this['body'] != 'undefined'){
+				console.log('append element');
+				if (arguments.lenght>0){
+					console.log('append to element');
+					this['body'].append(child);
+					if (typeof this['childs']=='undefined'){
+						this['childs']=[];
+					}
+					this['childs'].push(child);
+				} else {
+					console.log('append to body');
+					document.body.append(child);
+				}
+			}
+		};
+	}
+	
 	
 	if (typeof definition != 'undefined' && !definition.hasOwnProperty('attachIn')){
 		definition['attachIn'] = function QC_AttachIn(tag){
