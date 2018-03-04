@@ -623,6 +623,65 @@
 		}
 	});
 
+	/**
+	* Loads a simple component from a template
+	*
+	* @author: Jean Machuca <jean@toteat.com>
+	* @param component a Component object
+	* @param containerName the name of an HTMLElement object (example: a <div id="containerName"> object)
+	*/
+	var componentLoader = function(component, containerName) {
+	  asyncLoad(function(component, containerName) {
+	    var container = document.getElementById(containerName);
+	    if (container != null) {
+	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(component.data)).replace('{{URL}}', component.url));
+	      var xhr = new XMLHttpRequest();
+	      xhr.open(component.method, component.url);
+	      xhr.setRequestHeader('Content-Type', 'text/html');
+	      xhr.onload = function() {
+	        if (xhr.status === 200) {
+	          var response = xhr.responseText;
+	          logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
+	          logger.debug('CREATING COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
+	          component.template = response;
+	          var parsedAssignmentText = component.template;
+	          for (var k in component.data) {
+	            parsedAssignmentText = parsedAssignmentText.replace('{{' + k + '}}', component.data[k]);
+	          }
+	          component.innerHTML = parsedAssignmentText;
+	          if (component.reload) {
+	            logger.debug('FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
+	            container.innerHTML = component.innerHTML;
+	          } else {
+	            logger.debug('ADDING COMPONENT {{NAME}} TO THE CONTAINER {{CONTAINER_NAME}}'.replace('{{NAME}}', component.name).replace('{{CONTAINER_NAME}}', containerName));
+	            container.innerHTML += component.innerHTML;
+	          }
+	          if (typeof component.done === 'function') {
+	            component.done.call(null, {
+	              'request': xhr,
+	              'component': component
+	            });
+	          }
+	        } else {
+	          if (typeof component.fail === 'function') {
+	            component.fail.call(null, {
+	              'request': xhr,
+	              'component': component
+	            });
+	          }
+	        }
+	      };
+	      xhr.send(JSON.stringify(component.data));
+	      return xhr;
+	    } else {
+				logger.debug('CONTAINER DOESNT EXIST')
+			}
+	  }, arguments);
+	};
+
+	Export(componentLoader);
+
+
 	asyncLoad(function (){
 
 		Class('GLOBAL',Object,{
