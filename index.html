@@ -5,7 +5,8 @@
     	<script type="text/javascript" src="QCObjects.js"></script>
     	<script type="text/javascript">
     		var canvas1,canvas2,canvas3,container;
-    		
+        CONFIG.set('relativeImportPath','src/');
+
     		/**
     		 * Main import sentence.
     		 */
@@ -27,7 +28,7 @@
 	    			height:400,
 	    			customAttr:'custom attr container'
 	    		});
-	    			    		
+
 
 	    		/**
 	    		 * Another custom class definition
@@ -37,7 +38,7 @@
 	    			height:100,
 	    			customAttr:'custom'
 	    		});
-	    		
+
 	    		/**
 	    		 * Another custom class definition
 	    		 */
@@ -45,33 +46,33 @@
 	    			width:200,
 	    			height:100,
 	    		});
-	    		
+
 	    		body = New(MyOwnBody); // binds to body
 	    		body.css({backgroundColor:'#ccc'});
-	    		
+
 	    		container = document.getElementsByTagName('container')[0].Cast(MyContainer); // cast any javascript dom object to QC_Object class
 	    		container.css({backgroundColor:'red'}); // access binding in two directions to dom objects
-	    		
+
 	    		/**
 	    		 * Instance a new custom canvas
 	    		 */
 	    		canvas1 = New(MyCanvas1);
 	    		canvas2 = New(MyCanvas1);
 	    		canvas3 = New(MyCanvas2);
-	    		
+
 	    		canvas1.css({backgroundColor:'#000000'}); // like jquery and another style access
 	    		canvas2.body.style.backgroundColor='#0044AA'; // standard javascript style access
 	    		canvas3.body.style.backgroundColor='green'; // standard javascript style access
-	    		
+
 	    		canvas1.append(); //append canvas1 to body
 	    		canvas2.attachIn('container'); // attach or append to specific tag containers
 	    		container.append(canvas3); // append canvas3 to custom tag binding
-	    		
+
 	    		canvas1.body.remove(); // remove canvas1 from dom
-	    		body.append(canvas1); // append canvas1 to body
-	    		
+	    		body.append(canvas3); // append canvas3 to body
+
     		});
-    		
+
     	</script>
     </head>
     <body>
