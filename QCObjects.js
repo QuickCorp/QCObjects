@@ -714,5 +714,7 @@
 	Export(Class);
 	Export(New);
 	Export(Tag);
+	Export(Ready);
+	Export(ready);
 
 }).call(null);
