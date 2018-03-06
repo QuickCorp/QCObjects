@@ -712,13 +712,13 @@
 	asyncLoad(function (){
 		var components = document.querySelectorAll('component');
 	  for (var _c = 0;_c<components.length;_c++){
-	    Class(components[_c].name.toString(),Component,{
-	      'name':components[_c].name.toString(),
-	      'templateURI':'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].name.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
+	    Class(components[_c].getAttribute('name').toString(),Component,{
+	      'name':components[_c].getAttribute('name').toString(),
+	      'templateURI':'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
 	    });
-	    var newComponent = New(_QC_CLASSES[components[_c].name.toString()],{
-	      'name':components[_c].name.toString(),
-	      'templateURI':'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].id.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
+	    var newComponent = New(_QC_CLASSES[components[_c].getAttribute('name').toString()],{
+	      'name':components[_c].getAttribute('name').toString(),
+	      'templateURI':'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
 	    });
 	    components[_c].append(newComponent);
 	  }
