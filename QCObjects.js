@@ -448,7 +448,7 @@
 		if (c_new.hasOwnProperty('__new__')) {
 			if (typeof c_new != 'undefined' && !c_new.__definition.hasOwnProperty('body')){
 				try{
-					c_new['body'] = _Cast(c_new['__definition'],document.createElement('canvas'));
+					c_new['body'] = _Cast(c_new['__definition'],document.createElement(c_new.__definition.__classType));
 					c_new['body']['style'] = _Cast(c_new.__definition,c_new['body']['style']);
 
 				}catch (e){
@@ -620,6 +620,7 @@
 		'_new_':function (properties){
 			this.__new__(properties);
 			this.set('url',this.get('basePath')+this.get('templateURI'));
+			componentLoader(this,false);
 		}
 	});
 
@@ -630,9 +631,9 @@
 	* @param component a Component object
 	* @param containerName the name of an HTMLElement object (example: a <div id="containerName"> object)
 	*/
-	var componentLoader = function(component, containerName) {
-	  asyncLoad(function(component, containerName) {
-	    var container = document.getElementById(containerName);
+	var componentLoader = function(component, _async) {
+		var _componentLoader = function(component, _async) {
+	    var container = component.body;
 	    if (container != null) {
 	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(component.data)).replace('{{URL}}', component.url));
 	      var xhr = new XMLHttpRequest();
@@ -653,7 +654,7 @@
 	            logger.debug('FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
 	            container.innerHTML = component.innerHTML;
 	          } else {
-	            logger.debug('ADDING COMPONENT {{NAME}} TO THE CONTAINER {{CONTAINER_NAME}}'.replace('{{NAME}}', component.name).replace('{{CONTAINER_NAME}}', containerName));
+	            logger.debug('ADDING COMPONENT {{NAME}} '.replace('{{NAME}}', component.name));
 	            container.innerHTML += component.innerHTML;
 	          }
 	          if (typeof component.done === 'function') {
@@ -676,7 +677,13 @@
 	    } else {
 				logger.debug('CONTAINER DOESNT EXIST')
 			}
-	  }, arguments);
+	  };
+
+		if (typeof _async != 'undefined' && _async){
+			asyncLoad(_componentLoader, arguments);
+		} else {
+			_componentLoader(component,_async);
+		}
 	};
 
 	Export(componentLoader);

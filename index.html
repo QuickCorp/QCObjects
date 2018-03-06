@@ -33,19 +33,14 @@
 	    		/**
 	    		 * Another custom class definition
 	    		 */
-	    		Class('MyCanvas1',HTMLElement,{
-	    			width:100,
-	    			height:100,
+	    		Class('canvas',HTMLCanvasElement,{
 	    			customAttr:'custom'
 	    		});
 
 	    		/**
 	    		 * Another custom class definition
 	    		 */
-	    		Class('MyCanvas2',HTMLElement,{
-	    			width:200,
-	    			height:100,
-	    		});
+	    		Class('MyCanvas2',HTMLCanvasElement,{});
 
 	    		body = New(MyOwnBody); // binds to body
 	    		body.css({backgroundColor:'#ccc'});
@@ -56,11 +51,21 @@
 	    		/**
 	    		 * Instance a new custom canvas
 	    		 */
-	    		canvas1 = New(MyCanvas1);
-	    		canvas2 = New(MyCanvas1);
-	    		canvas3 = New(MyCanvas2);
+	    		canvas1 = New(canvas,{
+            width:100,
+            height:100,
+          });
+	    		canvas2 = New(canvas,{
+            width:200,
+	    			height:100,
+          });
+	    		canvas3 = New(canvas,{
+            width:300,
+	    			height:50,
+          });
 
-	    		canvas1.css({backgroundColor:'#000000'}); // like jquery and another style access
+//	    		canvas1.css({backgroundColor:'#000000'}); // like jquery and another style access
+          canvas1.body.style.backgroundColor='#000000'; // standard javascript style access
 	    		canvas2.body.style.backgroundColor='#0044AA'; // standard javascript style access
 	    		canvas3.body.style.backgroundColor='green'; // standard javascript style access
 
@@ -68,8 +73,13 @@
 	    		canvas2.attachIn('container'); // attach or append to specific tag containers
 	    		container.append(canvas3); // append canvas3 to custom tag binding
 
-	    		canvas1.body.remove(); // remove canvas1 from dom
+//	    		canvas1.body.remove(); // remove canvas1 from dom
 	    		body.append(canvas3); // append canvas3 to body
+
+          // using components
+          var c1 = New(Component,{'templateURI':'templatesample.html'});
+          document.body.append(c1); // appends the c1 to the body 
+
 
     		});
 
