@@ -564,7 +564,6 @@
 	 * @param {Object} innerHTML
 	 */
 	var Tag = function(tagname, innerHTML) {
-//		var o = document.getElementsByTagName(tagname);
 		var o = document.querySelectorAll(tagname);
 		var _o = [];
 		var addedKeys = []
@@ -573,7 +572,7 @@
 				o[_i].innerHTML = innerHTML;
 			}
 			if (addedKeys.indexOf(_i)<0){
-				_o.push(o[_i].Cast(Component));
+				_o.push(o[_i]);
 				addedKeys.push(_i);
 			}
 		}
@@ -621,7 +620,9 @@
 		'_new_':function (properties){
 			this.__new__(properties);
 			this.set('url',this.get('basePath')+this.get('templateURI'));
-			componentLoader(this,false);
+			if (typeof this.get('templateURI') !='undefined' && this.get('templateURI') != ""){
+				componentLoader(this,false);
+			}
 		}
 	});
 
@@ -712,11 +713,10 @@
 	asyncLoad(function (){
 		var components = document.querySelectorAll('component');
 	  for (var _c = 0;_c<components.length;_c++){
-	    Class(components[_c].getAttribute('name').toString(),Component,{
+	    Class('ComponentBody',Component,{
 	      'name':components[_c].getAttribute('name').toString(),
-	      'templateURI':'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
 	    });
-	    var newComponent = New(_QC_CLASSES[components[_c].getAttribute('name').toString()],{
+	    var newComponent = New(ComponentBody,{
 	      'name':components[_c].getAttribute('name').toString(),
 	      'templateURI':'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
 	    });
