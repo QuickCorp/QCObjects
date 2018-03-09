@@ -557,6 +557,18 @@
 		return _o;
 	};
 
+	Class('TagElements',Array,{
+		findElements:function (elementName){
+			var _o = New(TagElements);
+			for (var _k in this){
+				if (typeof _k ==='number' && typeof this[_k] != 'function' && this[_k].hasOwnProperty('querySelectorAll')){
+					_o.push(this[_k].querySelectorAll(elementName));
+				}
+			}
+			return _o;
+		}
+	});
+
 	/**
 	 * Gets the element of DOM found by tag name
 	 *
@@ -565,7 +577,7 @@
 	 */
 	var Tag = function(tagname, innerHTML) {
 		var o = document.querySelectorAll(tagname);
-		var _o = [];
+		var _o = New(TagElements);
 		var addedKeys = []
 		for (var _i=0;_i<o.length;_i++){
 			if ( typeof innerHTML != 'undefined' && o[_i].hasOwnProperty('innerHTML')) {
