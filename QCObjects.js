@@ -254,7 +254,7 @@
 		return function(O) {
 			// 1. If Type(O) is not Object or Null throw a TypeError exception.
 			if ( typeof O != 'object') {
-				throw TypeError('Object prototype may only be an Object or null. The type is ' + typeof (0));
+				throw TypeError('Object prototype may only be an Object or null. The type is ' + typeof (O));
 			}
 
 			// 2. Let obj be the result of creating a new object as if by the
