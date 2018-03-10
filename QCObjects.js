@@ -722,7 +722,7 @@
 	/**
 	* Load every component tag declared in the body
 	**/
-	asyncLoad(function (){
+	Ready(function (){
 		var components = document.querySelectorAll('component');
 	  for (var _c = 0;_c<components.length;_c++){
 	    Class('ComponentBody',Component,{
@@ -734,7 +734,7 @@
 	    });
 	    components[_c].append(newComponent);
 	  }
-	},null);
+	});
 
 	/*
 	Public variables and functions
