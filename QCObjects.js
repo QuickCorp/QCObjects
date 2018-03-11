@@ -478,6 +478,7 @@
 		_CONFIG:{
 			'relativeImportPath':'',
 			'componentsBasePath':'',
+			'delayForReady':0,
 			'basePath':basePath
 		},
 		set:function (name,value){
@@ -595,7 +596,7 @@
 	 * Defines a Custom Ready listener
 	 */
 	function Ready(e){
-		_QC_READY_LISTENERS.push(e);
+		_QC_READY_LISTENERS.push(e.bind(window));
 	}
 	var ready = Ready; // case insensitive ready option
 
@@ -605,12 +606,19 @@
 	 * @param {Object} e
 	 */
 	var _Ready = function(e) {
-		for (var _r in _QC_READY_LISTENERS) {
-			if ( typeof _QC_READY_LISTENERS[_r] == 'function') {
-				_QC_READY_LISTENERS[_r].call();
-				delete _QC_READY_LISTENERS[_r];
+		var _execReady = function (){
+			for (var _r in _QC_READY_LISTENERS) {
+				if ( typeof _QC_READY_LISTENERS[_r] == 'function') {
+					_QC_READY_LISTENERS[_r].call();
+					delete _QC_READY_LISTENERS[_r];
+				}
 			}
-		}
+		};
+		if (CONFIG.get('delayForReady')>0){
+			setTimeout(_execReady.bind(window),CONFIG.get('delayForReady'));
+		} else {
+			_execReady.call(window);
+		};
 	};
 
 	window.onload = _Ready;
@@ -649,6 +657,26 @@
 		var _componentLoader = function(component, _async) {
 	    var container = component.body;
 	    if (container != null) {
+				var feedComponent = function (component){
+					var parsedAssignmentText = component.template;
+					for (var k in component.data) {
+						parsedAssignmentText = parsedAssignmentText.replace('{{' + k + '}}', component.data[k]);
+					}
+					component.innerHTML = parsedAssignmentText;
+					if (component.reload) {
+						logger.debug('FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
+						container.innerHTML = component.innerHTML;
+					} else {
+						logger.debug('ADDING COMPONENT {{NAME}} '.replace('{{NAME}}', component.name));
+						container.innerHTML += component.innerHTML;
+					}
+					if (typeof component.done === 'function') {
+						component.done.call(null, {
+							'request': xhr,
+							'component': component
+						});
+					}
+				};
 	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(component.data)).replace('{{URL}}', component.url));
 	      var xhr = new XMLHttpRequest();
 	      xhr.open(component.method, component.url);
@@ -659,24 +687,8 @@
 	          logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
 	          logger.debug('CREATING COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
 	          component.template = response;
-	          var parsedAssignmentText = component.template;
-	          for (var k in component.data) {
-	            parsedAssignmentText = parsedAssignmentText.replace('{{' + k + '}}', component.data[k]);
-	          }
-	          component.innerHTML = parsedAssignmentText;
-	          if (component.reload) {
-	            logger.debug('FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
-	            container.innerHTML = component.innerHTML;
-	          } else {
-	            logger.debug('ADDING COMPONENT {{NAME}} '.replace('{{NAME}}', component.name));
-	            container.innerHTML += component.innerHTML;
-	          }
-	          if (typeof component.done === 'function') {
-	            component.done.call(null, {
-	              'request': xhr,
-	              'component': component
-	            });
-	          }
+						cache.save(component.name, component.template);
+						feedComponent.call(this,component);
 	        } else {
 	          if (typeof component.fail === 'function') {
 	            component.fail.call(null, {
@@ -686,7 +698,28 @@
 	          }
 	        }
 	      };
-	      xhr.send(JSON.stringify(component.data));
+
+				var cache = new ComplexStorageCache({
+	        'index': component.name,
+	        'load': function(cacheController) {
+	          logger.debug('SENDING THE NORMAL AJAX CALL ');
+	          xhr.send(JSON.stringify(component.data));
+	        },
+	        'alternate': function(cacheController) {
+	          if (component.method == 'GET') {
+	            component.template = cacheController.cache.getCached(component.name);
+							feedComponent.call(this,component);
+	          } else {
+	            logger.debug('SENDING THE NORMAL AJAX CALL ');
+	            xhr.send(JSON.stringify(component.data));
+	          }
+	          return;
+	        }
+	      });
+				GLOBAL.lastCache = cache;
+
+//	      xhr.send(JSON.stringify(component.data));
+
 	      return xhr;
 	    } else {
 				logger.debug('CONTAINER DOESNT EXIST')
@@ -727,6 +760,7 @@
 	  for (var _c = 0;_c<components.length;_c++){
 	    Class('ComponentBody',Component,{
 	      'name':components[_c].getAttribute('name').toString(),
+				'reload':true
 	    });
 	    var newComponent = New(ComponentBody,{
 	      'name':components[_c].getAttribute('name').toString(),
