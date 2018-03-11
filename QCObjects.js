@@ -637,12 +637,15 @@
 		get:function (name){
 			return this[name];
 		},
-		'_new_':function (properties){
-			this.__new__(properties);
+		rebuild:function (){
 			this.set('url',this.get('basePath')+this.get('templateURI'));
 			if (typeof this.get('templateURI') !='undefined' && this.get('templateURI') != ""){
 				componentLoader(this,false);
 			}
+		},
+		'_new_':function (properties){
+			this.__new__(properties);
+			this.rebuild();
 		}
 	});
 
