@@ -1,8 +1,8 @@
 Package('cl.quickcorp.model',[
-	Class('VO',Element,{
-		__new__:function (){
-			//TODO: Implement 
-			console.log('VO Element Initialized');
+	Class('Contact',VO,{
+		_new_:function (){
+			//TODO: Implement
+			console.log('Contact Object Initialized');
 		}
 	}),
 ]);

@@ -649,6 +649,13 @@
 		}
 	});
 
+	Class('VO',Object,{
+		__new__:function (){
+			//TODO: Implement
+			console.log('VO Element Initialized');
+		}
+	});
+
 	/**
 	* Loads a simple component from a template
 	*
