@@ -458,7 +458,7 @@
 				c_new['body'] = c_new.__definition.body;
 			}
 			console.log('llamada a new');
-			console.trace();
+//			console.trace();
 			c_new.__new__(args);
 			if (c_new.hasOwnProperty('_new_')){
 				c_new._new_(args);
