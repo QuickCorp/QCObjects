@@ -629,7 +629,7 @@
 		templateURI:'',
 		url:'',
     method:'GET',
-    data:'',
+    data:{},
     reload:false,
 		set:function (name,value){
 			this[name]=value;
@@ -646,6 +646,21 @@
 		'_new_':function (properties){
 			this.__new__(properties);
 			this.rebuild();
+		}
+	});
+
+	Class('Service',Object,{
+		domain:window.location.host.toLowerCase(),
+    basePath:basePath,
+		url:'',
+    method:'GET',
+    data:{},
+    reload:false,
+		set:function (name,value){
+			this[name]=value;
+		},
+		get:function (name){
+			return this[name];
 		}
 	});
 
@@ -747,7 +762,8 @@
 		var _serviceLoader = function(service, _async) {
       logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
       var xhr = new XMLHttpRequest();
-      xhr.open(service.method, service.url);
+			xhr.withCredentials = service.headers.hasOwnProperty('Authorization');
+      xhr.open(service.method, service.url,true);
 			for (var header in service.headers){
 				xhr.setRequestHeader(header, service.headers[header]);
 			}
