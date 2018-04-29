@@ -698,7 +698,7 @@
 				};
 	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(component.data)).replace('{{URL}}', component.url));
 	      var xhr = new XMLHttpRequest();
-	      xhr.open(component.method, component.url);
+	      xhr.open(component.method, component.url,true);
 	      xhr.setRequestHeader('Content-Type', 'text/html');
 	      xhr.onload = function() {
 	        if (xhr.status === 200) {
