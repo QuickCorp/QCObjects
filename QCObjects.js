@@ -762,7 +762,8 @@
 		var _serviceLoader = function(service, _async) {
       logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
       var xhr = new XMLHttpRequest();
-			xhr.withCredentials = service.headers.hasOwnProperty('Authorization');
+//			xhr.withCredentials = service.headers.hasOwnProperty('Authorization');
+			xhr.withCredentials = true;
       xhr.open(service.method, service.url,true);
 			for (var header in service.headers){
 				xhr.setRequestHeader(header, service.headers[header]);
