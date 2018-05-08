@@ -859,18 +859,28 @@
 	* Load every component tag declared in the body
 	**/
 	Ready(function (){
-		var components = document.querySelectorAll('component');
-	  for (var _c = 0;_c<components.length;_c++){
-	    Class('ComponentBody',Component,{
-	      'name':components[_c].getAttribute('name').toString(),
-				'reload':true
-	    });
-	    var newComponent = New(ComponentBody,{
-	      'name':components[_c].getAttribute('name').toString(),
-	      'templateURI':'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
-	    });
-	    components[_c].append(newComponent);
-	  }
+		var _buildComponent = function (components){
+		  for (var _c = 0;_c<components.length;_c++){
+		    Class('ComponentBody',Component,{
+		      'name':components[_c].getAttribute('name').toString(),
+					'reload':true
+		    });
+		    var newComponent = New(ComponentBody,{
+		      'name':components[_c].getAttribute('name').toString(),
+		      'templateURI':'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
+		    });
+				newComponent.done = function (){
+					_buildComponent(this.body.querySelectorAll('component'));
+				};
+		    components[_c].append(newComponent);
+				components[_c].setAttribute('loaded',true);
+		  }
+		};
+		var components = document.querySelectorAll('component:not([loaded])');
+		while (components.length>0){
+			_buildComponent(components);
+			components = document.querySelectorAll('component:not([loaded])');
+		}
 	});
 
 	/*
