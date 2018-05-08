@@ -861,13 +861,19 @@
 	Ready(function (){
 		var _buildComponent = function (components){
 		  for (var _c = 0;_c<components.length;_c++){
+				var data = {};
+				var attributenames = components[_c].getAttributeNames().filter(function(a){return a.startsWith('data-')}).map(function(a){return a.split('-')[1]});
+				for (var attribute in attributenames){
+					data[attributenames[attribute]] = components[_c].getAttribute('data-'+attributenames[attribute]);
+				}
 		    Class('ComponentBody',Component,{
-		      'name':components[_c].getAttribute('name').toString(),
-					'reload':true
+		      name:components[_c].getAttribute('name').toString(),
+					reload:true
 		    });
 		    var newComponent = New(ComponentBody,{
-		      'name':components[_c].getAttribute('name').toString(),
-		      'templateURI':'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
+		      name:components[_c].getAttribute('name').toString(),
+					data:data,
+		      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
 		    });
 				newComponent.done = function (){
 					_buildComponent(this.body.querySelectorAll('component'));
