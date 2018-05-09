@@ -890,7 +890,7 @@
 					newComponent.done = function (){
 						_buildComponent(this.body.querySelectorAll('component:not([loaded])'));
 					};
-					components[_c]=newComponent.body;
+					components[_c].innerHTML=newComponent.body.innerHTML;
 
 				}
 				components[_c].setAttribute('loaded',true);
