@@ -45,15 +45,25 @@
 		 }
 	 };
 	 window.top.asyncLoad = asyncLoad;
-	 var Logger = function() {};
+	 var Logger = function() {return {
+		 debugEnabled:true,
+		 infoEnabled:true,
+		 warnEnabled:true
+	 }};
 	 Logger.prototype.debug = function(message) {
-		 console.log('[DEBUG] ' + message);
+		 if (this.debugEnabled){
+			 console.log('[DEBUG] ' + message);
+		 }
 	 };
 	 Logger.prototype.info = function(message) {
-		 console.log('[INFO] ' + message);
+		 if (this.infoEnabled){
+			 console.log('[INFO] ' + message);
+		 }
 	 };
 	 Logger.prototype.warn = function(message) {
-		 console.log('[WARN] ' + message);
+		 if (this.warnEnabled){
+			 console.log('[WARN] ' + message);
+		 }
 	 };
 	 var logger = new Logger();
 	 window.top.logger = logger;
