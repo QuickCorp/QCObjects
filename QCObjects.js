@@ -875,8 +875,8 @@
 					data:data,
 		      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
 		    });
-				newComponent.done = function (){
-					_buildComponent(this.body.querySelectorAll('component'));
+				newComponent.done = function (request,newC){
+					_buildComponent(newC.body.querySelectorAll('component:not([loaded])'));
 				};
 		    components[_c].append(newComponent);
 				components[_c].setAttribute('loaded',true);
