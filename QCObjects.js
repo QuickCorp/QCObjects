@@ -479,6 +479,7 @@
 			'relativeImportPath':'',
 			'componentsBasePath':'',
 			'delayForReady':0,
+			'preserveComponentBodyTag':true,
 			'basePath':basePath
 		},
 		set:function (name,value){
@@ -866,19 +867,32 @@
 				for (var attribute in attributenames){
 					data[attributenames[attribute]] = components[_c].getAttribute('data-'+attributenames[attribute]);
 				}
-		    Class('ComponentBody',Component,{
-		      name:components[_c].getAttribute('name').toString(),
-					reload:true
-		    });
-		    var newComponent = New(ComponentBody,{
-		      name:components[_c].getAttribute('name').toString(),
-					data:data,
-		      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
-		    });
-				newComponent.done = function (){
-					_buildComponent(this.body.querySelectorAll('component:not([loaded])'));
-				};
-		    components[_c].append(newComponent);
+				if (CONFIG.get('preserveComponentBodyTag')){
+					Class('ComponentBody',Component,{
+			      name:components[_c].getAttribute('name').toString(),
+						reload:true
+			    });
+					var newComponent = New(ComponentBody,{
+			      name:components[_c].getAttribute('name').toString(),
+						data:data,
+			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
+			    });
+					newComponent.done = function (){
+						_buildComponent(this.body.querySelectorAll('component:not([loaded])'));
+					};
+					components[_c].append(newComponent);
+				} else {
+					var newComponent = New(Component,{
+			      name:components[_c].getAttribute('name').toString(),
+						data:data,
+			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
+			    });
+					newComponent.done = function (){
+						_buildComponent(this.body.querySelectorAll('component:not([loaded])'));
+					};
+					components[_c]=newComponent.body;
+
+				}
 				components[_c].setAttribute('loaded',true);
 		  }
 		};
