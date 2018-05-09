@@ -382,14 +382,14 @@
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')){
 			definition['__new__'] = function (properties){
 				_CastProps(properties,this);
-				console.log('__NEW__');
+				logger.debug('__NEW__');
 			};
 		}
 
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('css')){
 			definition['css'] = function QC_CSS3(_css){
 				if (typeof this['body'] != 'undefined' && this['body']['style'] != 'undefined'){
-					console.log('body style');
+					logger.debug('body style');
 					this['body']['style']  = _Cast(_css,this['body']['style']);
 				}
 			};
@@ -407,16 +407,16 @@
 			definition['append'] = function QC_Append(){
 				var child = (arguments.length>0)?(arguments[0]):(this['body']);
 				if (typeof this['body'] != 'undefined'){
-					console.log('append element');
+					logger.debug('append element');
 					if (arguments.lenght>0){
-						console.log('append to element');
+						logger.debug('append to element');
 						this['body'].append(child);
 						if (typeof this['childs']=='undefined'){
 							this['childs']=[];
 						}
 						this['childs'].push(child);
 					} else {
-						console.log('append to body');
+						logger.debug('append to body');
 						document.body.append(child);
 					}
 				}
@@ -467,7 +467,7 @@
 			} else if (c_new.__definition.hasOwnProperty('body')){
 				c_new['body'] = c_new.__definition.body;
 			}
-			console.log('llamada a new' + c_new.__definition.__classType);
+			logger.debug('llamada a new' + c_new.__definition.__classType);
 //			console.trace();
 			c_new.__new__(args);
 			if (c_new.hasOwnProperty('_new_')){
