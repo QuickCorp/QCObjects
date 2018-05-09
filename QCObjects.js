@@ -690,7 +690,7 @@
 						container.innerHTML += component.innerHTML;
 					}
 					if (typeof component.done === 'function') {
-						component.done.call(null, {
+						component.done.call(component, {
 							'request': xhr,
 							'component': component
 						});
@@ -710,7 +710,7 @@
 						feedComponent.call(this,component);
 	        } else {
 	          if (typeof component.fail === 'function') {
-	            component.fail.call(null, {
+	            component.fail.call(component, {
 	              'request': xhr,
 	              'component': component
 	            });
@@ -778,14 +778,14 @@
 						cache.save(service.name, service.template);
 					}
 					if (typeof service.done === 'function') {
-						service.done.call(null, {
+						service.done.call(service, {
 							'request': xhr,
 							'service': service
 						});
 					}
         } else {
           if (typeof service.fail === 'function') {
-            service.fail.call(null, {
+            service.fail.call(service, {
               'request': xhr,
               'service': service
             });
@@ -808,7 +808,7 @@
 	          if (service.method == 'GET') {
 	            service.template = cacheController.cache.getCached(service.name);
 							if (typeof service.done === 'function') {
-								service.done.call(null, {
+								service.done.call(service, {
 									'request': xhr,
 									'service': service
 								});
@@ -875,8 +875,8 @@
 					data:data,
 		      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
 		    });
-				newComponent.done = function (request,newC){
-					_buildComponent(newC.body.querySelectorAll('component:not([loaded])'));
+				newComponent.done = function (){
+					_buildComponent(this.body.querySelectorAll('component:not([loaded])'));
 				};
 		    components[_c].append(newComponent);
 				components[_c].setAttribute('loaded',true);
