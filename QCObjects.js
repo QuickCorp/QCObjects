@@ -48,23 +48,23 @@
 	 var Logger = function() {return {
 		 debugEnabled:true,
 		 infoEnabled:true,
-		 warnEnabled:true
+		 warnEnabled:true,
+		 debug: function(message) {
+			 if (this.debugEnabled){
+				 console.log('[DEBUG] ' + message);
+			 }
+		 },
+		 info: function(message) {
+			 if (this.infoEnabled){
+				 console.log('[INFO] ' + message);
+			 }
+		 },
+		 warn: function(message) {
+			 if (this.warnEnabled){
+				 console.log('[WARN] ' + message);
+			 }
+		 }
 	 }};
-	 Logger.prototype.debug = function(message) {
-		 if (this.debugEnabled){
-			 console.log('[DEBUG] ' + message);
-		 }
-	 };
-	 Logger.prototype.info = function(message) {
-		 if (this.infoEnabled){
-			 console.log('[INFO] ' + message);
-		 }
-	 };
-	 Logger.prototype.warn = function(message) {
-		 if (this.warnEnabled){
-			 console.log('[WARN] ' + message);
-		 }
-	 };
 	 var logger = new Logger();
 	 window.top.logger = logger;
 	 var Base64 = {
