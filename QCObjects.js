@@ -734,7 +734,7 @@
 	      };
 				var _directLoad = function (){
 					logger.debug('SENDING THE NORMAL AJAX CALL ');
-					xhr.send(JSON.stringify(service.data));
+					xhr.send(JSON.stringify(component.data));
 				};
 
 				if (component.cached){
