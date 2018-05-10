@@ -642,6 +642,7 @@
     method:'GET',
     data:{},
     reload:false,
+		cached:true,
 		set:function (name,value){
 			this[name]=value;
 		},
@@ -667,6 +668,7 @@
     method:'GET',
     data:{},
     reload:false,
+		cached:false,
 		set:function (name,value){
 			this[name]=value;
 		},
@@ -717,7 +719,9 @@
 	          logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
 	          logger.debug('CREATING COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
 	          component.template = response;
-						cache.save(component.name, component.template);
+						if (component.cached && (typeof cache != 'undefined')){
+							cache.save(component.name, component.template);
+						}
 						feedComponent.call(this,component);
 	        } else {
 	          if (typeof component.fail === 'function') {
@@ -728,27 +732,32 @@
 	          }
 	        }
 	      };
+				var _directLoad = function (){
+					logger.debug('SENDING THE NORMAL AJAX CALL ');
+					xhr.send(JSON.stringify(service.data));
+				};
 
-				var cache = new ComplexStorageCache({
-	        'index': component.name,
-	        'load': function(cacheController) {
-	          logger.debug('SENDING THE NORMAL AJAX CALL ');
-	          xhr.send(JSON.stringify(component.data));
-	        },
-	        'alternate': function(cacheController) {
-	          if (component.method == 'GET') {
-	            component.template = cacheController.cache.getCached(component.name);
-							feedComponent.call(this,component);
-	          } else {
-	            logger.debug('SENDING THE NORMAL AJAX CALL ');
-	            xhr.send(JSON.stringify(component.data));
-	          }
-	          return;
-	        }
-	      });
-				GLOBAL.lastCache = cache;
+				if (component.cached){
+					var cache = new ComplexStorageCache({
+		        'index': component.data,
+		        'load': function(cacheController) {
+							_directLoad.call(this);
+		        },
+		        'alternate': function(cacheController) {
+		          if (component.method == 'GET') {
+		            component.template = cacheController.cache.getCached(component.name);
+								feedComponent.call(this,component);
 
-//	      xhr.send(JSON.stringify(component.data));
+		          } else {
+								_directLoad.call(this);
+		          }
+		          return;
+		        }
+		      });
+					GLOBAL.lastCache = cache;
+				} else {
+					_directLoad.call(this);
+				}
 
 	      return xhr;
 	    } else {
