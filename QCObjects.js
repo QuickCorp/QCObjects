@@ -900,6 +900,7 @@
 						_buildComponent(this.body.querySelectorAll('component:not([loaded])'));
 					};
 					components[_c].append(newComponent);
+					components[_c].setAttribute('loaded',true);
 				} else {
 					var newComponent = New(Component,{
 			      name:components[_c].getAttribute('name').toString(),
@@ -909,10 +910,10 @@
 					newComponent.done = function (){
 						components[_c].innerHTML=this.body.innerHTML;
 						_buildComponent(this.body.querySelectorAll('component:not([loaded])'));
+						this.body.setAttribute('loaded',true);
 					};
 
 				}
-				components[_c].setAttribute('loaded',true);
 		  }
 		};
 		var components = document.querySelectorAll('component:not([loaded])');
