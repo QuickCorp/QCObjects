@@ -738,6 +738,7 @@
 				};
 
 				if (component.cached){
+					logger.debug('USING CACHE FOR COMPONENT: '+component.name);
 					var cache = new ComplexStorageCache({
 		        'index': component.data,
 		        'load': function(cacheController) {
@@ -756,6 +757,7 @@
 		      });
 					GLOBAL.lastCache = cache;
 				} else {
+					logger.debug('NOT USING CACHE FOR COMPONENT: '+component.name);
 					_directLoad.call(this);
 				}
 
