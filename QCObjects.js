@@ -877,11 +877,12 @@
 
 	},null);
 
-	/**
-	* Load every component tag declared in the body
-	**/
-	Ready(function (){
+
+	Element.prototype.buildComponents = function (rebuildObjects=false){
+		var tagFilter = (rebuildObjects)?('component:not([loaded])'):('component');
+		var d = this;
 		var _buildComponent = function (components){
+			var componentsBuiltWith = [];
 		  for (var _c = 0;_c<components.length;_c++){
 				var data = {};
 				var attributenames = components[_c].getAttributeNames().filter(function(a){return a.startsWith('data-')}).map(function(a){return a.split('-')[1]});
@@ -896,10 +897,11 @@
 					var newComponent = New(ComponentBody,{
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
-			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
+			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')),
+						subcomponents:[]
 			    });
 					newComponent.done = function (){
-						_buildComponent(this.body.querySelectorAll('component:not([loaded])'));
+						this.subcomponents = _buildComponent(this.body.querySelectorAll(tagFilter));
 					};
 					components[_c].append(newComponent);
 					components[_c].setAttribute('loaded',true);
@@ -908,22 +910,28 @@
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
 						body:components[_c],
-			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath'))
+			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')),
+						subcomponents:[]
 			    });
 					newComponent.done = function (){
-						_buildComponent(this.body.querySelectorAll('component:not([loaded])'));
+						this.subcomponents = _buildComponent(this.body.querySelectorAll(tagFilter));
 						this.body.setAttribute('loaded',true);
 					};
 
 				}
+				componentsBuiltWith.push(newComponent);
 		  }
+			return componentsBuiltWith;
 		};
-		var components = document.querySelectorAll('component:not([loaded])');
-		_buildComponent(components);
-//		while (components.length>0){
-//			_buildComponent(components);
-//			components = document.querySelectorAll('component:not([loaded])');
-//		}
+		var components = d.querySelectorAll(tagFilter);
+		return _buildComponent(components);
+	};
+
+	/**
+	* Load every component tag declared in the body
+	**/
+	Ready(function (){
+		GLOBAL.componentsStack = document.buildComponents();
 	});
 
 	/*
