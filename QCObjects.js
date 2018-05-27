@@ -927,6 +927,9 @@
 		return _buildComponent(components);
 	};
 
+	HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
+	HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
+
 	/**
 	* Load every component tag declared in the body
 	**/
