@@ -892,6 +892,7 @@
 				for (var attribute in attributenames){
 					data[attributenames[attribute]] = components[_c].getAttribute('data-'+attributenames[attribute]);
 				}
+				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
 				if (CONFIG.get('preserveComponentBodyTag')){
 					Class('ComponentBody',Component,{
 			      name:components[_c].getAttribute('name').toString(),
@@ -900,6 +901,7 @@
 					var newComponent = New(ComponentBody,{
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
+						cached:cached,
 			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')),
 						subcomponents:[]
 			    });
@@ -912,6 +914,7 @@
 					var newComponent = New(Component,{
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
+						cached:cached,
 						body:components[_c],
 			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')),
 						subcomponents:[]
