@@ -655,6 +655,9 @@
 				componentLoader(this,false);
 			}
 		},
+		Cast:function (o){
+			return _Cast(this,o);
+		},
 		'_new_':function (properties){
 			this.__new__(properties);
 			this.rebuild();
