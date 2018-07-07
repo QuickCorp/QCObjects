@@ -490,6 +490,7 @@
 			'componentsBasePath':'',
 			'delayForReady':0,
 			'preserveComponentBodyTag':true,
+			'overrideComponentTag':false,
 			'basePath':basePath
 		},
 		set:function (name,value){
@@ -904,6 +905,9 @@
 						this.controller = New(Controller,{component:this}); // Initializes the main controller for the component
 					}
 					this.subcomponents = _buildComponent(this.body.querySelectorAll(tagFilter));
+					if (CONFIG.get('overrideComponentTag')){
+						this.body.outerHTML=this.body.innerHTML;
+					}
 					this.body.setAttribute('loaded',true);
 				};
 				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
