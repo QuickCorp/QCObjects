@@ -896,12 +896,12 @@
 					var viewName = this.body.getAttribute('viewClass');
 					if (viewName != null && _QC_CLASSES.hasOwnProperty(viewName)){
 						var View = _QC_CLASSES[viewName];
-						this.view = New(View); // Initializes the main view for the component
+						this.view = New(View,{component:this}); // Initializes the main view for the component
 					}
 					var controllerName = this.body.getAttribute('controllerClass');
 					if (controllerName != null && _QC_CLASSES.hasOwnProperty(controllerName)){
 						var Controller = _QC_CLASSES[controllerName];
-						this.controller = New(Controller); // Initializes the main controller for the component
+						this.controller = New(Controller,{component:this}); // Initializes the main controller for the component
 					}
 					this.subcomponents = _buildComponent(this.body.querySelectorAll(tagFilter));
 					this.body.setAttribute('loaded',true);
