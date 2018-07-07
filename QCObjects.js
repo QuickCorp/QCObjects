@@ -892,6 +892,20 @@
 				for (var attribute in attributenames){
 					data[attributenames[attribute]] = components[_c].getAttribute('data-'+attributenames[attribute]);
 				}
+				var componentDone = function (){
+					var viewName = this.body.getAttribute('viewClass');
+					if (viewName != null && _QC_CLASSES.hasOwnProperty(viewName)){
+						var View = _QC_CLASSES[viewName];
+						this.view = New(View); // Initializes the main view for the component
+					}
+					var controllerName = this.body.getAttribute('controllerClass');
+					if (controllerName != null && _QC_CLASSES.hasOwnProperty(controllerName)){
+						var Controller = _QC_CLASSES[controllerName];
+						this.controller = New(Controller); // Initializes the main controller for the component
+					}
+					this.subcomponents = _buildComponent(this.body.querySelectorAll(tagFilter));
+					this.body.setAttribute('loaded',true);
+				};
 				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
 				if (CONFIG.get('preserveComponentBodyTag')){
 					Class('ComponentBody',Component,{
@@ -905,9 +919,7 @@
 			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')),
 						subcomponents:[]
 			    });
-					newComponent.done = function (){
-						this.subcomponents = _buildComponent(this.body.querySelectorAll(tagFilter));
-					};
+					newComponent.done = componentDone;
 					components[_c].append(newComponent);
 					components[_c].setAttribute('loaded',true);
 				} else {
@@ -919,10 +931,7 @@
 			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')),
 						subcomponents:[]
 			    });
-					newComponent.done = function (){
-						this.subcomponents = _buildComponent(this.body.querySelectorAll(tagFilter));
-						this.body.setAttribute('loaded',true);
-					};
+					newComponent.done = componentDone;
 
 				}
 				componentsBuiltWith.push(newComponent);
