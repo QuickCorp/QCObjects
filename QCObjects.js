@@ -958,6 +958,7 @@
 	Class('SourceJS',Object,{
 		domain:window.location.host.toLowerCase(),
     basePath:basePath,
+		body:document.createElement('script'),
 		url:'',
     data:{},
 		async:false,
@@ -968,15 +969,20 @@
 		get:function (name){
 			return this[name];
 		},
+		done:function (){},
 		rebuild:function (){
-			document.getElementsByTagName('body')[0].appendChild(
-				(function (s,url){
-					s.type='text/javascript';
-					s.src=url;
-					s.crossOrigin = 'anonymous';
-					return s;
-				}).call(null,document.createElement('script'),
-					(this.external)?(this.url):(this.basePath+this.url) ));
+			var s1 = this;
+			this.body.type='text/javascript';
+			this.body.src=(this.external)?(this.url):(this.basePath+this.url);
+			this.body.crossOrigin='anonymous';
+			this.body.async=this.async;
+			this.body.onreadystatechange = function(e) {
+				if (e.target.readyState == 'complete') {
+					s1.done.call(s1);
+				}
+			};
+			this.body.onload = s1.done;
+			this.append();
 		},
 		Cast:function (o){
 			return _Cast(this,o);
