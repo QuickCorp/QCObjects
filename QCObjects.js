@@ -493,6 +493,7 @@
 	Class('CONFIG',Object,{
 		_CONFIG:{
 			'relativeImportPath':'',
+			'asynchronousImportsLoad':false,
 			'componentsBasePath':'',
 			'delayForReady':0,
 			'preserveComponentBodyTag':true,
@@ -553,6 +554,7 @@
 		if (!_QC_PACKAGES.hasOwnProperty(packagename)) {
 			var s1 = document.createElement('script');
 			s1.type = 'text/javascript';
+			s1.async=(CONFIG.get('asynchronousImportsLoad'))?(true):(false);
 			s1.src = basePath + CONFIG.get('relativeImportPath') + packagename + '.js';
 			s1.onreadystatechange = function() {
 				if (this.readyState == 'complete') {
