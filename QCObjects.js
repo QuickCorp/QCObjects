@@ -1009,8 +1009,9 @@
 					s.onload = context.done;
 					context.body=s;
 					return s;
-				}).call(this,document.createElement('script'),
-					(this.external)?(this.url):(this.basePath+this.url) ),context);
+				}).call(this,
+					document.createElement('script'),
+					(this.external)?(this.url):(this.basePath+this.url),context);
 		},
 		Cast:function (o){
 			return _Cast(this,o);
