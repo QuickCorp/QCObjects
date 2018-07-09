@@ -971,6 +971,7 @@
 		},
 		done:function (){},
 		rebuild:function (){
+			var context = this;
 			document.getElementsByTagName('body')[0].appendChild(
 				(function (s,url,context){
 					s.type='text/javascript';
@@ -985,7 +986,7 @@
 					context.body=s;
 					return s;
 				}).call(null,document.createElement('script'),
-					(this.external)?(this.url):(this.basePath+this.url) ),this);
+					(this.external)?(this.url):(this.basePath+this.url) ),context);
 		},
 		Cast:function (o){
 			return _Cast(this,o);
