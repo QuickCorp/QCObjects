@@ -955,6 +955,37 @@
 	HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
 	HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
 
+	Class('SourceJS',Object,{
+		domain:window.location.host.toLowerCase(),
+    basePath:basePath,
+		url:'',
+    data:{},
+		async:false,
+		set:function (name,value){
+			this[name]=value;
+		},
+		get:function (name){
+			return this[name];
+		},
+		rebuild:function (){
+			document.getElementsByTagName('body')[0].appendChild(
+				(function (s,url){
+					s.type='text/javascript';
+					s.src=url;
+					s.crossOrigin = 'anonymous';
+					return s;
+				}).call(null,document.createElement('script'),
+					this.basePath+this.url));
+		},
+		Cast:function (o){
+			return _Cast(this,o);
+		},
+		'_new_':function (properties){
+			this.__new__(properties);
+			this.rebuild();
+		}
+	});
+
 	/**
 	* Load every component tag declared in the body
 	**/
