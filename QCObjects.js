@@ -24,6 +24,12 @@
 		 }
 	 )();
 
+	 var is_phonegap = (
+		 function (){
+			 return (typeof cordova != 'undefined')?(true):(false);
+		 }
+	 )();
+
 	 window.top._asyncLoad = [];
 	 var asyncLoad = function(callback, args) {
 		 var asyncCallback = {
@@ -634,6 +640,9 @@
 	};
 
 	window.onload = _Ready;
+	if (is_phonegap){
+		document.addEventListener('deviceready', _Ready, false);
+	}
 
 	Class('Component',Object,{
 		domain:window.location.host.toLowerCase(),
@@ -714,11 +723,10 @@
 					}
 				};
 	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(component.data)).replace('{{URL}}', component.url));
-	      var xhr = new XMLHttpRequest();
-	      xhr.open(component.method, component.url,true);
-	      xhr.setRequestHeader('Content-Type', 'text/html');
-	      xhr.onload = function() {
-	        if (xhr.status === 200) {
+
+				var _componentLoaded = function() {
+					var successStatus = (is_file)?(0):(200);
+	        if (xhr.status === successStatus) {
 	          var response = xhr.responseText;
 	          logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
 	          logger.debug('CREATING COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
@@ -736,9 +744,25 @@
 	          }
 	        }
 	      };
+				var is_file = (component.url.startsWith('file:'))?(true):(false);
+	      var xhr = new XMLHttpRequest();
+	      xhr.open(component.method, component.url,(!is_file));
+				if (!is_phonegap && !is_file){
+					xhr.setRequestHeader('Content-Type', 'text/html');
+				}
+				if (!is_file){
+					xhr.onload = _componentLoaded;
+				}
 				var _directLoad = function (){
 					logger.debug('SENDING THE NORMAL AJAX CALL ');
-					xhr.send(JSON.stringify(component.data));
+					if (is_file){
+						xhr.send(null);
+						if(xhr.status == 0){
+							_componentLoaded.call(this);
+						}
+					}else{
+						xhr.send(JSON.stringify(component.data));
+					}
 				};
 
 				if (component.cached){
