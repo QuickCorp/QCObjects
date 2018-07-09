@@ -1009,7 +1009,7 @@
 					s.onload = context.done;
 					context.body=s;
 					return s;
-				}).call(null,document.createElement('script'),
+				}).call(this,document.createElement('script'),
 					(this.external)?(this.url):(this.basePath+this.url) ),context);
 		},
 		Cast:function (o){
