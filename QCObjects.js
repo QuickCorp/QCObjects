@@ -961,6 +961,7 @@
 		url:'',
     data:{},
 		async:false,
+		external:false,
 		set:function (name,value){
 			this[name]=value;
 		},
@@ -975,7 +976,7 @@
 					s.crossOrigin = 'anonymous';
 					return s;
 				}).call(null,document.createElement('script'),
-					this.basePath+this.url));
+					(this.external)?(this.url):(this.basePath+this.url) ));
 		},
 		Cast:function (o){
 			return _Cast(this,o);
