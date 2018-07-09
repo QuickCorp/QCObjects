@@ -971,18 +971,21 @@
 		},
 		done:function (){},
 		rebuild:function (){
-			var s1 = this;
-			this.body.type='text/javascript';
-			this.body.src=(this.external)?(this.url):(this.basePath+this.url);
-			this.body.crossOrigin='anonymous';
-			this.body.async=this.async;
-			this.body.onreadystatechange = function(e) {
-				if (e.target.readyState == 'complete') {
-					s1.done.call(s1);
-				}
-			};
-			this.body.onload = s1.done;
-			this.append();
+			document.getElementsByTagName('body')[0].appendChild(
+				(function (s,url,context){
+					s.type='text/javascript';
+					s.src=url;
+					s.crossOrigin = 'anonymous';
+					s.onreadystatechange = function() {
+						if (this.readyState == 'complete') {
+							context.done.call(context);
+						}
+					};
+					s.onload = context.done;
+					context.body=s;
+					return s;
+				}).call(null,document.createElement('script'),
+					(this.external)?(this.url):(this.basePath+this.url) ),this);
 		},
 		Cast:function (o){
 			return _Cast(this,o);
