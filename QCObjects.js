@@ -456,7 +456,8 @@
 	 * @param {Object} args
 	 */
 	var New = function(c, args) {
-		__instanceID = (typeof __instanceID == 'undefined' || __instanceID==null)?(0):(__instanceID+1);
+		Object.__instanceID = (typeof Object.__instanceID == 'undefined' || Object.__instanceID==null)?(0):(Object.__instanceID+1);
+		__instanceID = Object.__instanceID;
 		var c_new = Object.create(c.constructor.prototype,c.__definition);
 		c_new.__definition = _Cast({'__instanceID':__instanceID},c.__definition);
 		c_new['__instanceID'] = __instanceID;
