@@ -960,7 +960,8 @@
 					components[_c].append(newComponent);
 					components[_c].setAttribute('loaded',true);
 				} else {
-					var newComponent = New(Component,{
+					var _componentClassName = (components[_c].getAttribute('componentClass')!=null)?(components[_c].getAttribute('componentClass')):('Component');
+					var newComponent = New(_QC_CLASSES[_componentClassName],{
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
 						cached:cached,
