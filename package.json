@@ -1,0 +1,27 @@
+{
+  "name": "qcobjects",
+  "version": "1.0.0",
+  "description": "QCObjects a Quickcorp Objects Library - Cross Browser Javascript Framework for MVC Patterns",
+  "main": "QCObjects.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuickGroup/QCObjects.git"
+  },
+  "keywords": [
+    "node",
+    "quickcorp",
+    "javascript",
+    "pure",
+    "mvc",
+    "objects"
+  ],
+  "author": "Jean Machuca <correojean@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QuickGroup/QCObjects/issues"
+  },
+  "homepage": "https://github.com/QuickGroup/QCObjects#readme"
+}
