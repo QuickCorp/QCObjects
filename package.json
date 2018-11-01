@@ -1,6 +1,6 @@
 {
   "name": "qcobjects",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "QCObjects a Quickcorp Objects Library - Cross Browser Javascript Framework for MVC Patterns",
   "main": "QCObjects.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "objects"
   ],
   "author": "Jean Machuca <correojean@gmail.com>",
-  "license": "ISC",
+  "license": "LGPL-3.0",
   "bugs": {
     "url": "https://github.com/QuickGroup/QCObjects/issues"
   },
