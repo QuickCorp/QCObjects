@@ -942,6 +942,9 @@
 						this.body.outerHTML=this.body.innerHTML;
 					}
 					this.body.setAttribute('loaded',true);
+					if ((Tag('component[loaded=true]').length*100/Tag('component').length)>=100){
+						d.dispatchEvent(new CustomEvent('componentsloaded',{detail:{lastComponent:this}}));
+					}
 				};
 				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
 				if (CONFIG.get('preserveComponentBodyTag')){
