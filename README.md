@@ -1,5 +1,7 @@
 QCObjects
 =============
+Copyright (c) Jean Machuca and QuickCorp <info@quickcorp.cl>
+
 See a demo using Foundation components here:
 https://github.com/QuickCorp/quickobjects_sample1foundation
 
@@ -271,7 +273,7 @@ Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into 
 </script>
 ```
 
-# Demo example: The simpliest demo example: 
+# Demo example: The simpliest demo example:
 
 ```html
 <!DOCTYPE html>
