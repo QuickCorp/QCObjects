@@ -3,6 +3,7 @@ QCObjects
 See a demo using Foundation components here:
 https://github.com/QuickCorp/quickobjects_sample1foundation
 
+Please fork this project or make a link to this project into your README.md file. Read the LICENSE.txt file before you use this code.
 
 # Cross Browser Javascript Framework for MVC Patterns
 
@@ -11,6 +12,7 @@ QCObjects is a javascript framework designed to make easier everything about the
 If you like this code please [DONATE ](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
 
 If you like more code samples feel free to write your questions to info@quickcorp.cl
+
 
 # Installing with NPM:
 
