@@ -708,6 +708,44 @@
 		}
 	});
 
+	Class('JSONService',Service,{
+    method:"GET",
+    cached:false,
+  	headers: {
+  		"Content-Type":"application/json",
+      "charset":"utf-8"
+  	},
+    JSONresponse: null,
+    done:function(result){
+      console.log("***** RECEIVED RESPONSE:");
+      console.log(result.service.template);
+      this.JSONresponse = JSON.parse(result.service.template);
+    }
+  });
+
+	Class('ConfigService',JSONService,{
+    method:"GET",
+    cached:false,
+		configFileName:'config.json',
+  	headers: {
+  		"Content-Type":"application/json",
+      "charset":"utf-8"
+  	},
+    JSONresponse: null,
+    done:function(result){
+      console.log("***** CONFIG LOADED:");
+      console.log(result.service.template);
+      this.JSONresponse = JSON.parse(result.service.template);
+			for (var k in this.JSONresponse){
+				CONFIG.set(k,this.JSONresponse[k]);
+			}
+
+    },
+		_new_:function (o){
+			this.set('url',this.get('basePath')+this.get('configFileName'));
+		}
+  });
+
 	Class('VO',Object,{});
 
 	/**
@@ -1049,6 +1087,7 @@
 	* Load every component tag declared in the body
 	**/
 	Ready(function (){
+		GLOBAL.configService = New(ConfigService);
 		GLOBAL.componentsStack = document.buildComponents();
 	});
 
