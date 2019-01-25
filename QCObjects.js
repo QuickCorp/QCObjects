@@ -506,6 +506,13 @@
 		} catch (e){}
 	};
 
+	var _CryptObject = function (o){
+		return Base64.encode(JSON.stringify(o));
+	};
+	var _DecryptObject = function (s){
+		return JSON.parse(Base64.decode(s));
+	};
+
 	Class('CONFIG',Object,{
 		_CONFIG:{
 			'relativeImportPath':'',
@@ -516,12 +523,19 @@
 			'overrideComponentTag':false,
 			'basePath':basePath
 		},
+		_CONFIG_ENC:"e30=",
 		set:function (name,value){
-			this._CONFIG[name]=value;
+			var _conf = _CastProps(_DecryptObject(this._CONFIG_ENC),this._CONFIG);
+			_conf[name]=value;
+			this._CONFIG_ENC = _CryptObject(_conf);
+			if (_CONFIG.hasOwnProperty(name)){
+				this._CONFIG[name]=value;
+			}
 		},
 		get:function (name){
-			return this._CONFIG[name];
-		},
+			var _conf = _CastProps(_DecryptObject(this._CONFIG_ENC),this._CONFIG);
+			return _conf[name];
+		}
 	});
 
 	Export(CONFIG);
