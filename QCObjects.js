@@ -523,6 +523,7 @@
 			'delayForReady':0,
 			'preserveComponentBodyTag':true,
 			'overrideComponentTag':false,
+			'useConfigService':false,
 			'basePath':basePath
 		},
 		_CONFIG_ENC:"e30=",
@@ -1120,11 +1121,15 @@
 	* Load every component tag declared in the body
 	**/
 	Ready(function (){
-		GLOBAL.configService = New(ConfigService);
-		GLOBAL.configService.configLoaded = function (){
+		if (CONFIG.get('useConfigService')){
+			GLOBAL.configService = New(ConfigService);
+			GLOBAL.configService.configLoaded = function (){
+				GLOBAL.componentsStack = document.buildComponents();
+			};
+			serviceLoader(GLOBAL.configService);
+		} else {
 			GLOBAL.componentsStack = document.buildComponents();
-		};
-		serviceLoader(GLOBAL.configService);
+		}
 	});
 
 	/*
