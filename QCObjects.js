@@ -739,6 +739,7 @@
 			for (var k in this.JSONresponse){
 				CONFIG.set(k,this.JSONresponse[k]);
 			}
+			this.configLoaded.call(this);
 
     },
 		_new_:function (o){
@@ -1088,7 +1089,10 @@
 	**/
 	Ready(function (){
 		GLOBAL.configService = New(ConfigService);
-		GLOBAL.componentsStack = document.buildComponents();
+		GLOBAL.configService.configLoaded = function (){
+			GLOBAL.componentsStack = document.buildComponents();
+		};
+		serviceLoader(GLOBAL.configService);
 	});
 
 	/*
