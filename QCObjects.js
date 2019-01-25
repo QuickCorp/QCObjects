@@ -507,10 +507,10 @@
 	};
 
 	var _CryptObject = function (o){
-		return btoa(JSON.stringify(o));
+		return Base64.encode(JSON.stringify(o));
 	};
 	var _DecryptObject = function (s){
-		return JSON.parse(atob(s));
+		return JSON.parse(Base64.decode(s));
 	};
 
 	Class('CONFIG',Object,{
@@ -528,7 +528,7 @@
 			var _conf = _CastProps(_DecryptObject(this._CONFIG_ENC),this._CONFIG);
 			_conf[name]=value;
 			this._CONFIG_ENC = _CryptObject(_conf);
-			if (_CONFIG.hasOwnProperty(name)){
+			if (this._CONFIG.hasOwnProperty(name)){
 				this._CONFIG[name]=value;
 			}
 		},
