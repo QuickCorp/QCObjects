@@ -158,7 +158,9 @@
 		 _utf8_decode: function(e) {
 			 var t = "";
 			 var n = 0;
-			 var r = c1 = c2 = 0;
+			 var r = 0;
+			 var c1 = 0;
+			 var c2= 0;
 			 while (n < e.length) {
 				 r = e.charCodeAt(n);
 				 if (r < 128) {
