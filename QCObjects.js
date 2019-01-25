@@ -507,10 +507,10 @@
 	};
 
 	var _CryptObject = function (o){
-		return Base64.encode(JSON.stringify(o));
+		return btoa(JSON.stringify(o));
 	};
 	var _DecryptObject = function (s){
-		return JSON.parse(Base64.decode(s));
+		return JSON.parse(atob(s));
 	};
 
 	Class('CONFIG',Object,{
