@@ -527,7 +527,14 @@
 		},
 		_CONFIG_ENC:"e30=",
 		set:function (name,value){
-			var _conf = _CastProps(_DecryptObject(this._CONFIG_ENC),this._CONFIG);
+			var _conf = (
+	 		 function (config){
+				var _protectedEnc = config._CONFIG_ENC.valueOf();
+				var _protectedConf = config._CONFIG.valueOf();
+				return _CastProps(_DecryptObject(_protectedEnc),_protectedConf);
+	 		 }
+	 	 )(this);
+
 			_conf[name]=value;
 			this._CONFIG_ENC = _CryptObject(_conf);
 			if (this._CONFIG.hasOwnProperty(name)){
@@ -535,7 +542,13 @@
 			}
 		},
 		get:function (name){
-			var _conf = _CastProps(_DecryptObject(this._CONFIG_ENC),this._CONFIG);
+				var _conf = (
+		 		 function (config){
+					var _protectedEnc = config._CONFIG_ENC.valueOf();
+					var _protectedConf = config._CONFIG.valueOf();
+					return _CastProps(_DecryptObject(_protectedEnc),_protectedConf);
+		 		 }
+		 	 )(this);
 			return _conf[name];
 		}
 	});
