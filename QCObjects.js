@@ -531,7 +531,7 @@
 	 		 function (config){
 				var _protectedEnc = config._CONFIG_ENC.valueOf();
 				var _protectedConf = config._CONFIG.valueOf();
-				return _CastProps(_DecryptObject(_protectedEnc),_protectedConf);
+				return _CastProps(_protectedConf,_DecryptObject(_protectedEnc));
 	 		 }
 	 	 )(this);
 
@@ -546,7 +546,7 @@
 		 		 function (config){
 					var _protectedEnc = config._CONFIG_ENC.valueOf();
 					var _protectedConf = config._CONFIG.valueOf();
-					return _CastProps(_DecryptObject(_protectedEnc),_protectedConf);
+					return _CastProps(_protectedConf,_DecryptObject(_protectedEnc));
 		 		 }
 		 	 )(this);
 			return _conf[name];
