@@ -771,6 +771,9 @@
 			this.configLoaded.call(this);
 
     },
+		fail:function (result){
+			this.configLoaded.call(this);
+		},
 		_new_:function (o){
 			this.set('url',this.get('basePath')+this.get('configFileName'));
 		}
