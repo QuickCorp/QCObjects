@@ -1116,6 +1116,49 @@
 			this.rebuild();
 		}
 	});
+	Class('SourceCSS',Object,{
+		domain:window.location.host.toLowerCase(),
+    basePath:basePath,
+		body:document.createElement('link'),
+		url:'',
+    data:{},
+		async:false,
+		external:false,
+		set:function (name,value){
+			this[name]=value;
+		},
+		get:function (name){
+			return this[name];
+		},
+		done:function (){},
+		rebuild:function (){
+			var context = this;
+			document.getElementsByTagName('head')[0].appendChild(
+				(function (s,url,context){
+					s.type='text/css';
+					s.rel='stylesheet';
+					s.href=url;
+					s.crossOrigin = 'anonymous';
+					s.onreadystatechange = function() {
+						if (this.readyState == 'complete') {
+							context.done.call(context);
+						}
+					};
+					s.onload = context.done;
+					context.body=s;
+					return s;
+				}).call(this,
+					document.createElement('link'),
+					(this.external)?(this.url):(this.basePath+this.url),context));
+		},
+		Cast:function (o){
+			return _Cast(this,o);
+		},
+		'_new_':function (properties){
+			this.__new__(properties);
+			this.rebuild();
+		}
+	});
 
 	/**
 	* Load every component tag declared in the body
