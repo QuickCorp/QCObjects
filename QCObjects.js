@@ -24,6 +24,21 @@
 */
 "use strict";
 (function() {
+	var _top;
+	try {
+		_top = (typeof window.top != 'undefined')?(window.top):(window);
+	}catch (e){
+		try {
+			_top = document;
+		} catch (e2){
+			try {
+				_top = global;
+			} catch (e3){
+				_top = {};
+			}
+		}
+	}
+
 	 if ( typeof window.console == 'undefined') {
 		 window.console = function() {
 		 };
@@ -45,7 +60,7 @@
 		 }
 	 )();
 
-	 window.top._asyncLoad = [];
+	 _top._asyncLoad = [];
 	 var asyncLoad = function(callback, args) {
 		 var asyncCallback = {
 			 'func': callback,
@@ -54,18 +69,18 @@
 				 this.func.apply(null, this.args);
 			 }
 		 };
-		 window.top._asyncLoad.push(asyncCallback);
+		 _top._asyncLoad.push(asyncCallback);
 		 return asyncCallback;
 	 };
 	 document.onreadystatechange = function() {
 		 if (document.readyState == "complete") {
-			 for (var f in window.top._asyncLoad) {
-				 var fc = window.top._asyncLoad[f];
+			 for (var f in _top._asyncLoad) {
+				 var fc = _top._asyncLoad[f];
 				 fc.dispatch();
 			 }
 		 }
 	 };
-	 window.top.asyncLoad = asyncLoad;
+	 _top.asyncLoad = asyncLoad;
 	 var Logger = function() {return {
 		 debugEnabled:true,
 		 infoEnabled:true,
@@ -87,7 +102,7 @@
 		 }
 	 }};
 	 var logger = new Logger();
-	 window.top.logger = logger;
+	 _top.logger = logger;
 	 var Base64 = {
 		 _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 		 encode: function(e) {
@@ -503,7 +518,7 @@
 
 	var Export = function (f){
 		try {
-			window.top[f.name] = f;
+			_top[f.name] = f;
 			window[f.name] = f;
 		} catch (e){}
 	};
