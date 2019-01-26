@@ -27,14 +27,18 @@
 	var _top;
 	try {
 		_top = (typeof window.top != 'undefined')?(window.top):(window);
+		_top['_allowed_']=true;
 	}catch (e){
 		try {
 			_top = document;
+			_top['_allowed_']=true;
 		} catch (e2){
 			try {
 				_top = global;
+				_top['_allowed_']=true;
 			} catch (e3){
 				_top = {};
+				_top['_allowed_']=true;
 			}
 		}
 	}
