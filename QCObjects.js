@@ -1179,6 +1179,37 @@
 		}
 	});
 
+  Class('ArrayList',Array);
+  Class('ArrayCollection',Object,{
+    source:New(ArrayList),
+    changed:function(prop,value){
+      logger.debug('VALUE CHANGED');
+      logger.debug(prop);
+      logger.debug(value);
+    },
+    _new_:function(source){
+      var self = this;
+      self.source = New(ArrayList,source);
+      for (var _k in self.source){
+        if (!isNaN(_k)){
+          logger.debug('binding '+_k.toString());
+          (function (_pname){
+              Object.defineProperty(self,_pname,{
+                set(value){
+                  logger.debug('setting '+_pname+'='+value);
+                  self.source[_pname]=value;
+                  self.changed(_pname,value);
+                },
+                get(){
+                  return self.source[_pname];
+                }
+              });
+            })(_k);
+        }
+      }
+    }
+  });  
+
 	/**
 	* Load every component tag declared in the body
 	**/
