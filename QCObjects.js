@@ -766,8 +766,8 @@
   	},
     JSONresponse: null,
     done:function(result){
-      console.log("***** RECEIVED RESPONSE:");
-      console.log(result.service.template);
+      logger.debug("***** RECEIVED RESPONSE:");
+      logger.debug(result.service.template);
       this.JSONresponse = JSON.parse(result.service.template);
     }
   });
@@ -782,8 +782,8 @@
   	},
     JSONresponse: null,
     done:function(result){
-      console.log("***** CONFIG LOADED:");
-      console.log(result.service.template);
+      logger.debug("***** CONFIG LOADED:");
+      logger.debug(result.service.template);
       this.JSONresponse = JSON.parse(result.service.template);
 			for (var k in this.JSONresponse){
 				CONFIG.set(k,this.JSONresponse[k]);
