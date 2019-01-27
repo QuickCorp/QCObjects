@@ -1179,16 +1179,29 @@
 		}
 	});
 
-  Class('ArrayList',Array);
+  Class('ArrayList',Array,[]);
   Class('ArrayCollection',Object,{
-    source:New(ArrayList),
+    source:New(ArrayList,[]),
     changed:function(prop,value){
       logger.debug('VALUE CHANGED');
       logger.debug(prop);
       logger.debug(value);
     },
-    _new_:function(source){
+    push:function (value){
       var self = this;
+      logger.debug('VALUE ADDED');
+      logger.debug(value);
+      self.source.push(value);
+    },
+    pop:function (value){
+      var self = this;
+      logger.debug('VALUE POPPED');
+      logger.debug(value);
+      self.source.pop(value);
+    },
+    _new_:function (source){
+      var self = this;
+      var _index = 0;
       self.source = New(ArrayList,source);
       for (var _k in self.source){
         if (!isNaN(_k)){
@@ -1205,10 +1218,18 @@
                 }
               });
             })(_k);
+            _index++;
         }
+
       }
+      self.source.length=_index;
+      Object.defineProperty(self,'length',{
+        get(){
+          return self.source.length;
+        }
+      })
     }
-  });  
+  });
 
 	/**
 	* Load every component tag declared in the body
