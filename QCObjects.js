@@ -43,16 +43,16 @@
 		}
 	}
 
-	 if ( typeof window.console == 'undefined') {
-		 window.console = function() {
+	 if ( typeof _top.console == 'undefined') {
+		 _top.console = function() {
 		 };
-		 window.console.prototype.log = function(message) {
+		 _top.console.prototype.log = function(message) {
 		 };
 	 };
 
 	 var basePath = (
 		 function (){
-			 var baseURI = window.document.baseURI.split('/');
+			 var baseURI = _top.document.baseURI.split('/');
 			 baseURI.pop();
 			 return baseURI.join('/')+'/';
 		 }
