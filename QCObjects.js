@@ -809,7 +809,7 @@
 	*/
 	var componentLoader = function(component, _async) {
 		var _componentLoader = function(component, _async) {
-	    var container = (component.hasOwnProperty('container') && typeof component.container != 'undefined')?(component.container):(component.body);
+	    var container = (component.hasOwnProperty('container') && typeof component.container != 'undefined' && component.container != null)?(component.container):(component.body);
 	    if (container != null) {
 				var feedComponent = function (component){
 					var parsedAssignmentText = component.template;
