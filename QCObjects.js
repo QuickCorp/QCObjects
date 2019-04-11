@@ -1053,6 +1053,8 @@
 					}
 				};
 				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
+        var tplextension = (typeof CONFIG.get('tplextension') != 'undefined')?(CONFIG.get('tplextension')):('html');
+        tplextension = (components[_c].getAttribute('tplextension')!=null)?(components[_c].getAttribute('tplextension')):(tplextension);
 				if (CONFIG.get('preserveComponentBodyTag')){
 					Class('ComponentBody',Component,{
 			      name:components[_c].getAttribute('name').toString(),
@@ -1062,7 +1064,8 @@
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
 						cached:cached,
-			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')),
+            tplextension:tplextension,
+			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',tplextension),
 						subcomponents:[]
 			    });
 					newComponent.done = componentDone;
@@ -1074,8 +1077,9 @@
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
 						cached:cached,
+            tplextension:tplextension,
 						body:components[_c],
-			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.html'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')),
+			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',tplextension),
 						subcomponents:[]
 			    });
 					newComponent.done = componentDone;
