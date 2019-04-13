@@ -1270,7 +1270,8 @@
           this.routings.push(routing);
         }
       }
-      this._reroute_(properties);
+      this._reroute_();
+      rc.rebuild();
     },
     _reroute_:function (){
       var rc = this;
