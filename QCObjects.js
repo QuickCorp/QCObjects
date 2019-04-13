@@ -272,6 +272,7 @@
 	 };
 
 	var __readyImportLoaded = false;
+  Element.prototype.subelements = Element.prototype.querySelectorAll;
 
 	/**
 	 * Basic Type of all elements
@@ -280,7 +281,7 @@
 	};
 	QC_Object.prototype = {
 		find : function(tag) {
-			var _tags = document.querySelectorAll(tag);
+			var _tags = document.subelements(tag);
 			var _oo = [];
 			for (var _t in _tags) {
 				var _tt = _tags[_t];
@@ -468,7 +469,7 @@
 
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('attachIn')){
 			definition['attachIn'] = function QC_AttachIn(tag){
-				var tags = document.querySelectorAll(tag);
+				var tags = document.subelements(tag);
 				for(var i=0,j=tags.length; i<j; i++){
 						tags[i].append(this);
 				};
@@ -647,8 +648,8 @@
 		findElements:function (elementName){
 			var _o = New(TagElements);
 			for (var _k in this){
-				if (typeof _k ==='number' && typeof this[_k] != 'function' && this[_k].hasOwnProperty('querySelectorAll')){
-					_o.push(this[_k].querySelectorAll(elementName));
+				if (typeof _k ==='number' && typeof this[_k] != 'function' && this[_k].hasOwnProperty('subelements')){
+					_o.push(this[_k].subelements(elementName));
 				}
 			}
 			return _o;
@@ -662,7 +663,7 @@
 	 * @param {Object} innerHTML
 	 */
 	var Tag = function(tagname, innerHTML) {
-		var o = document.querySelectorAll(tagname);
+		var o = document.subelements(tagname);
 		var _o = New(TagElements);
 		var addedKeys = []
 		for (var _i=0;_i<o.length;_i++){
@@ -1014,7 +1015,6 @@
 
 	},null);
 
-
 	Element.prototype.buildComponents = function (rebuildObjects=false){
 		var tagFilter = (rebuildObjects)?('component:not([loaded])'):('component');
 		var d = this;
@@ -1043,7 +1043,7 @@
 							this.controller.done.call(this.controller);
 						}
 					}
-					this.subcomponents = _buildComponent(this.body.querySelectorAll(tagFilter));
+					this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
 					if (CONFIG.get('overrideComponentTag')){
 						this.body.outerHTML=this.body.innerHTML;
 					}
@@ -1089,7 +1089,7 @@
 		  }
 			return componentsBuiltWith;
 		};
-		var components = d.querySelectorAll(tagFilter);
+		var components = d.subelements(tagFilter);
 		return _buildComponent(components);
 	};
 
@@ -1232,6 +1232,58 @@
           return self.source.length;
         }
       })
+    }
+  });
+
+  Class('RoutingComponent',Component,{
+    routingWay:'hash',
+    validRoutingWays:['pathname','hash','search'],
+    routingNodes:[],
+    routings:[],
+    routingPath:"",
+    routingSelected:New(ArrayCollection),
+    innerHTML:"",
+    body:null,
+    capture:function (){
+      var routingComponents = GLOBAL.componentsStack.filter(function (e){return e.__definition.__classType=='RoutingComponent'});
+      for (var r=0;r<routingComponents.length;r++){
+        var rc = routingComponents[r];
+        rc._reroute_();
+      }
+    },
+    _new_:function (properties){
+      this.__new__(properties);
+      if (this.validRoutingWays.includes(this.routingWay)){
+        var c = Tag('component[name='+properties.name+']')[0];
+        this.innerHTML = c.innerHTML;
+        this.routingNodes = c.subelements('routing');
+        this.routings = [];
+        for (var r=0;r<this.routingNodes.length;r++){
+          var routingNode = this.routingNodes[r];
+          var attributeNames = routingNode.getAttributeNames();
+          var routing = {};
+          for (var a=0;a<attributeNames.length;a++){
+            routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+          }
+          this.routings.push(routing);
+        }
+      }
+      this._reroute_(properties);
+    },
+    _reroute_:function (){
+      var rc = this;
+      if (rc.validRoutingWays.includes(rc.routingWay)){
+        rc.routingPath = document.location[rc.routingWay];
+        rc.routingSelected=rc.routings.filter(function (routing){return routing.path==rc.routingPath});
+        for (var r=0;r<rc.routingSelected.length;r++){
+          var routing = rc.routingSelected[r];
+          rc.templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',routing.name.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',rc.tplextension);
+        }
+        if (rc.routingSelected.length>0){
+          rc.body.innerHTML='';
+          rc.rebuild();
+        }
+      }
     }
   });
 
