@@ -738,10 +738,56 @@
 		Cast:function (o){
 			return _Cast(this,o);
 		},
-		'_new_':function (properties){
-			this.__new__(properties);
-			this.rebuild();
-		}
+    routingWay:'hash',
+    validRoutingWays:['pathname','hash','search'],
+    routingNodes:[],
+    routings:[],
+    routingPath:"",
+    routingSelected:[],
+    capture:function (){
+      var routingComponents = GLOBAL.componentsStack.filter(function (e){return e.__definition.__classType=='RoutingComponent'});
+      for (var r=0;r<routingComponents.length;r++){
+        var rc = routingComponents[r];
+        rc._reroute_();
+      }
+    },
+    _new_:function (properties){
+      this.__new__(properties);
+      if (this.validRoutingWays.includes(this.routingWay)){
+        var c = Tag('component[name='+properties.name+']')[0];
+        if (typeof c != 'undefined'){
+          this.innerHTML = c.innerHTML;
+          this.routingNodes = c.subelements('routing');
+          this.routings = [];
+          for (var r=0;r<this.routingNodes.length;r++){
+            var routingNode = this.routingNodes[r];
+            var attributeNames = routingNode.getAttributeNames();
+            var routing = {};
+            for (var a=0;a<attributeNames.length;a++){
+              routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+            }
+            this.routings.push(routing);
+          }
+        }
+      }
+      this._reroute_();
+      this.rebuild();
+    },
+    _reroute_:function (){
+      var rc = this;
+      if (rc.validRoutingWays.includes(rc.routingWay)){
+        rc.routingPath = document.location[rc.routingWay];
+        rc.routingSelected=rc.routings.filter(function (routing){return routing.path==rc.routingPath});
+        for (var r=0;r<rc.routingSelected.length;r++){
+          var routing = rc.routingSelected[r];
+          rc.templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',routing.name.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',rc.tplextension);
+        }
+        if (rc.routingSelected.length>0){
+          rc.body.innerHTML='';
+          rc.rebuild();
+        }
+      }
+    }
 	});
 
 	Class('Service',Object,{
@@ -1234,61 +1280,6 @@
           return self.source.length;
         }
       })
-    }
-  });
-
-  Class('RoutingComponent',Component,{
-    routingWay:'hash',
-    validRoutingWays:['pathname','hash','search'],
-    routingNodes:[],
-    routings:[],
-    routingPath:"",
-    routingSelected:New(ArrayCollection),
-    innerHTML:"",
-    body:null,
-    capture:function (){
-      var routingComponents = GLOBAL.componentsStack.filter(function (e){return e.__definition.__classType=='RoutingComponent'});
-      for (var r=0;r<routingComponents.length;r++){
-        var rc = routingComponents[r];
-        rc._reroute_();
-      }
-    },
-    _new_:function (properties){
-      this.__new__(properties);
-      if (this.validRoutingWays.includes(this.routingWay)){
-        var c = Tag('component[name='+properties.name+']')[0];
-        if (typeof c != 'undefined'){
-          this.innerHTML = c.innerHTML;
-          this.routingNodes = c.subelements('routing');
-          this.routings = [];
-          for (var r=0;r<this.routingNodes.length;r++){
-            var routingNode = this.routingNodes[r];
-            var attributeNames = routingNode.getAttributeNames();
-            var routing = {};
-            for (var a=0;a<attributeNames.length;a++){
-              routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
-            }
-            this.routings.push(routing);
-          }
-        }
-      }
-      this._reroute_();
-      this.rebuild();
-    },
-    _reroute_:function (){
-      var rc = this;
-      if (rc.validRoutingWays.includes(rc.routingWay)){
-        rc.routingPath = document.location[rc.routingWay];
-        rc.routingSelected=rc.routings.filter(function (routing){return routing.path==rc.routingPath});
-        for (var r=0;r<rc.routingSelected.length;r++){
-          var routing = rc.routingSelected[r];
-          rc.templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',routing.name.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',rc.tplextension);
-        }
-        if (rc.routingSelected.length>0){
-          rc.body.innerHTML='';
-          rc.rebuild();
-        }
-      }
     }
   });
 
