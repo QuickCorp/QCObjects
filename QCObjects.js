@@ -1257,17 +1257,19 @@
       this.__new__(properties);
       if (this.validRoutingWays.includes(this.routingWay)){
         var c = Tag('component[name='+properties.name+']')[0];
-        this.innerHTML = c.innerHTML;
-        this.routingNodes = c.subelements('routing');
-        this.routings = [];
-        for (var r=0;r<this.routingNodes.length;r++){
-          var routingNode = this.routingNodes[r];
-          var attributeNames = routingNode.getAttributeNames();
-          var routing = {};
-          for (var a=0;a<attributeNames.length;a++){
-            routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+        if (typeof c != 'undefined'){
+          this.innerHTML = c.innerHTML;
+          this.routingNodes = c.subelements('routing');
+          this.routings = [];
+          for (var r=0;r<this.routingNodes.length;r++){
+            var routingNode = this.routingNodes[r];
+            var attributeNames = routingNode.getAttributeNames();
+            var routing = {};
+            for (var a=0;a<attributeNames.length;a++){
+              routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+            }
+            this.routings.push(routing);
           }
-          this.routings.push(routing);
         }
       }
       this._reroute_();
