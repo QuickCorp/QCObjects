@@ -744,7 +744,7 @@
     routings:[],
     routingPath:"",
     routingSelected:[],
-    capture:function (){
+    route:function (){
       var routingComponents = GLOBAL.componentsStack;
       for (var r=0;r<routingComponents.length;r++){
         var rc = routingComponents[r];

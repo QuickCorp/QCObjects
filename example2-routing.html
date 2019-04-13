@@ -20,7 +20,7 @@
           routingSelected:New(ArrayCollection),
           innerHTML:"",
           body:null,
-          capture:function (){
+          route:function (){
             var routingComponents = GLOBAL.componentsStack.filter(function (e){return e.__definition.__classType=='RoutingComponent'});
             for (var r=0;r<routingComponents.length;r++){
               var rc = routingComponents[r];
@@ -67,7 +67,7 @@
 
       Ready(function (){
         window.addEventListener('popstate', function (event){
-          RoutingComponent.capture();
+          RoutingComponent.route();
           console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
         });
 
