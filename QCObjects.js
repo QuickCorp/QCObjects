@@ -1271,7 +1271,7 @@
         }
       }
       this._reroute_();
-      rc.rebuild();
+      this.rebuild();
     },
     _reroute_:function (){
       var rc = this;
