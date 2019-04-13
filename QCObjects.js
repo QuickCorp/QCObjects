@@ -25,6 +25,8 @@
 "use strict";
 (function() {
   Element.prototype.subelements = Element.prototype.querySelectorAll;
+  HTMLDocument.prototype.subelements = HTMLDocument.prototype.querySelectorAll;
+  HTMLElement.prototype.subelements = HTMLElement.prototype.querySelectorAll;
 	var _top;
 	try {
 		_top = (typeof window.top != 'undefined')?(window.top):(window);
