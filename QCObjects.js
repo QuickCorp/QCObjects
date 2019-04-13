@@ -24,6 +24,7 @@
 */
 "use strict";
 (function() {
+  Element.prototype.subelements = Element.prototype.querySelectorAll;
 	var _top;
 	try {
 		_top = (typeof window.top != 'undefined')?(window.top):(window);
@@ -272,7 +273,6 @@
 	 };
 
 	var __readyImportLoaded = false;
-  Element.prototype.subelements = Element.prototype.querySelectorAll;
 
 	/**
 	 * Basic Type of all elements
