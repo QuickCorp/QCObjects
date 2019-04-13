@@ -745,7 +745,7 @@
     routingPath:"",
     routingSelected:[],
     capture:function (){
-      var routingComponents = GLOBAL.componentsStack.filter(function (e){return e.__definition.__classType=='RoutingComponent'});
+      var routingComponents = GLOBAL.componentsStack;
       for (var r=0;r<routingComponents.length;r++){
         var rc = routingComponents[r];
         rc._reroute_();
