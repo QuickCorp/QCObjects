@@ -745,6 +745,26 @@
     routings:[],
     routingPath:"",
     routingSelected:[],
+    _bindroute:function (){
+      document.addEventListener('componentsloaded', function(e) {
+        if (!GLOBAL.get('routingPaths')){
+          GLOBAL.set('routingPaths',[]);
+        }
+        Tag('a').map(function (a){
+          if (GLOBAL.get('routingPaths').include(a.href)){
+            a.onclick = function (e){
+              var _ret_ = true;
+              if (GLOBAL.get('routingPaths').include(e.target.href)){
+                history.pushState({href:e.target.href},e.target.href,e.target.href);
+                Component.route();
+                _ret_ = false;
+              }
+              return _ret_;
+            };
+          }
+        });
+      });
+    },
     route:function (){
       var routingComponents = GLOBAL.componentsStack;
       for (var r=0;r<routingComponents.length;r++){
@@ -785,6 +805,7 @@
         for (var r=0;r<rc.routingSelected.length;r++){
           var routing = rc.routingSelected[r];
           rc.templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',routing.name.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',rc.tplextension);
+          GLOBAL.get('routingPaths').push(rc.routingPath);
         }
         if (rc.routingSelected.length>0){
           rc.body.innerHTML='';
@@ -1364,6 +1385,9 @@
 			GLOBAL.componentsStack = document.buildComponents();
 		}
 	});
+  Ready(function (){
+    Component._bindroute();
+  });
 
 	/*
 	Public variables and functions
