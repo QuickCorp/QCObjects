@@ -772,11 +772,13 @@
           }
         }
       }
-      this._reroute_();
-      this.rebuild();
+      if (!this._reroute_()){
+        this.rebuild();
+      }
     },
     _reroute_:function (){
       var rc = this;
+      var _rebuilt = false;
       if (rc.validRoutingWays.includes(rc.routingWay)){
         rc.routingPath = document.location[rc.routingWay];
         rc.routingSelected=rc.routings.filter(function (routing){return routing.path==rc.routingPath});
@@ -787,8 +789,10 @@
         if (rc.routingSelected.length>0){
           rc.body.innerHTML='';
           rc.rebuild();
+          _rebuilt = true;
         }
       }
+      return _rebuilt;
     }
 	});
 
