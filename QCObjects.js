@@ -754,9 +754,12 @@
                 GLOBAL.set('routingPaths',[]);
               }
               if (GLOBAL.get('routingPaths').includes(e.target.href)){
+                logger.debug('A ROUTING WAS FOUND: '+e.target.href);
                 history.pushState({href:e.target.href},e.target.href,e.target.href);
                 Component.route();
                 _ret_ = false;
+              } else {
+                logger.debug('NO ROUTING FOUND FOR: '+e.target.href);
               }
               return _ret_;
             };
@@ -807,7 +810,6 @@
         for (var r=0;r<rc.routingSelected.length;r++){
           var routing = rc.routingSelected[r];
           rc.templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',routing.name.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',rc.tplextension);
-
         }
         if (rc.routingSelected.length>0){
           rc.body.innerHTML='';
