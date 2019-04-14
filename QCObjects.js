@@ -805,6 +805,9 @@
         for (var r=0;r<rc.routingSelected.length;r++){
           var routing = rc.routingSelected[r];
           rc.templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',routing.name.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',rc.tplextension);
+          if (!GLOBAL.get('routingPaths')){
+            GLOBAL.set('routingPaths',[]);
+          }
           GLOBAL.get('routingPaths').push(rc.routingPath);
         }
         if (rc.routingSelected.length>0){
