@@ -1379,6 +1379,7 @@
 	* Load every component tag declared in the body
 	**/
 	Ready(function (){
+    Component._bindroute();
 		if (CONFIG.get('useConfigService')){
 			GLOBAL.configService = New(ConfigService);
 			GLOBAL.configService.configLoaded = function (){
@@ -1389,9 +1390,6 @@
 			GLOBAL.componentsStack = document.buildComponents();
 		}
 	});
-  Ready(function (){
-    Component._bindroute();
-  });
 
 	/*
 	Public variables and functions
