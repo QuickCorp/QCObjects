@@ -747,13 +747,12 @@
     routingSelected:[],
     _bindroute:function (){
       document.addEventListener('componentsloaded', function(e) {
-        if (!GLOBAL.get('routingPaths')){
-          GLOBAL.set('routingPaths',[]);
-        }
         Tag('a').map(function (a){
-          if (GLOBAL.get('routingPaths').includes(a.href)){
             a.onclick = function (e){
               var _ret_ = true;
+              if (!GLOBAL.get('routingPaths')){
+                GLOBAL.set('routingPaths',[]);
+              }
               if (GLOBAL.get('routingPaths').includes(e.target.href)){
                 history.pushState({href:e.target.href},e.target.href,e.target.href);
                 Component.route();
@@ -761,7 +760,6 @@
               }
               return _ret_;
             };
-          }
         });
       });
     },
