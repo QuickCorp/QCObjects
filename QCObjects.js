@@ -753,13 +753,15 @@
               if (!GLOBAL.get('routingPaths')){
                 GLOBAL.set('routingPaths',[]);
               }
-              if (GLOBAL.get('routingPaths').includes(e.target.href)){
-                logger.debug('A ROUTING WAS FOUND: '+e.target.href);
+              var routingWay = CONFIG.get('routingWay');
+              var routingPath = e.target[routingWay];
+              if (GLOBAL.get('routingPaths').includes(routingPath)){
+                logger.debug('A ROUTING WAS FOUND: '+routingPath);
                 history.pushState({href:e.target.href},e.target.href,e.target.href);
                 Component.route();
                 _ret_ = false;
               } else {
-                logger.debug('NO ROUTING FOUND FOR: '+e.target.href);
+                logger.debug('NO ROUTING FOUND FOR: '+routingPath);
               }
               return _ret_;
             };
