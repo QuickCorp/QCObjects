@@ -546,6 +546,7 @@
 			'preserveComponentBodyTag':true,
 			'overrideComponentTag':false,
 			'useConfigService':false,
+      'routingWay':'hash',
 			'basePath':basePath
 		},
 		_CONFIG_ENC:"e30=",
@@ -738,7 +739,7 @@
 		Cast:function (o){
 			return _Cast(this,o);
 		},
-    routingWay:'hash',
+    routingWay:CONFIG.get('routingWay'),
     validRoutingWays:['pathname','hash','search'],
     routingNodes:[],
     routings:[],
@@ -753,6 +754,7 @@
     },
     _new_:function (properties){
       this.__new__(properties);
+      this.routingWay = CONFIG.get('routingWay');
       if (this.validRoutingWays.includes(this.routingWay)){
         var c = Tag('component[name='+properties.name+']')[0];
         if (typeof c != 'undefined'){
