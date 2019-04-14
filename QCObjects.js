@@ -755,7 +755,7 @@
               }
               var routingWay = CONFIG.get('routingWay');
               var routingPath = e.target[routingWay];
-              if (GLOBAL.get('routingPaths').includes(routingPath)){
+              if (GLOBAL.get('routingPaths').includes(routingPath) && e.target.href != document.location.href){
                 logger.debug('A ROUTING WAS FOUND: '+routingPath);
                 history.pushState({href:e.target.href},e.target.href,e.target.href);
                 Component.route();
