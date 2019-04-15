@@ -763,11 +763,11 @@
                 logger.debug('A ROUTING WAS FOUND: '+routingPath);
                 history.pushState({href:e.target.href},e.target.href,e.target.href);
                 Component.route();
-                e.target.oldclick.call(e.target,e);
                 _ret_ = false;
               } else {
                 logger.debug('NO ROUTING FOUND FOR: '+routingPath);
               }
+              e.target.oldclick.call(e.target,e);
               return _ret_;
             };
         });
