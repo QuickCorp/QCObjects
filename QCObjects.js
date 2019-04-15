@@ -748,6 +748,7 @@
     _bindroute:function (){
       document.addEventListener('componentsloaded', function(e) {
         Tag('a').map(function (a){
+            a.oldclick = a.onclick;
             a.onclick = function (e){
               var _ret_ = true;
               if (!GLOBAL.get('routingPaths')){
@@ -762,6 +763,7 @@
                 logger.debug('A ROUTING WAS FOUND: '+routingPath);
                 history.pushState({href:e.target.href},e.target.href,e.target.href);
                 Component.route();
+                e.target.oldclick.call(e.target,e);
                 _ret_ = false;
               } else {
                 logger.debug('NO ROUTING FOUND FOR: '+routingPath);
