@@ -1197,6 +1197,7 @@
 		get:function (name){
 			return this[name];
 		},
+    status:false,
 		done:function (){},
     fail:function (){},
 		rebuild:function (){
@@ -1213,9 +1214,11 @@
 						}
 					};
 					s.onload = function (e){
+            context.status=true;
             context.done.call(context,e);
           };
           s.onerror = function (e){
+            context.status=false;
             context.fail.call(context,e);
           };
 					context.body=s;
