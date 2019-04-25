@@ -1202,30 +1202,35 @@
     fail:function (){},
 		rebuild:function (){
 			var context = this;
-			document.getElementsByTagName('body')[0].appendChild(
-				(function (s,url,context){
-					s.type='text/javascript';
-					s.src=url;
-					s.crossOrigin = 'anonymous';
-					s.async=context.async;
-					s.onreadystatechange = function() {
-						if (this.readyState == 'complete') {
-							context.done.call(context);
-						}
-					};
-					s.onload = function (e){
-            context.status=true;
-            context.done.call(context,e);
-          };
-          s.onerror = function (e){
-            context.status=false;
-            context.fail.call(context,e);
-          };
-					context.body=s;
-					return s;
-				}).call(this,
-					document.createElement('script'),
-					(this.external)?(this.url):(this.basePath+this.url),context));
+      try {
+        document.getElementsByTagName('body')[0].appendChild(
+  				(function (s,url,context){
+  					s.type='text/javascript';
+  					s.src=url;
+  					s.crossOrigin = 'anonymous';
+  					s.async=context.async;
+  					s.onreadystatechange = function() {
+  						if (this.readyState == 'complete') {
+  							context.done.call(context);
+  						}
+  					};
+  					s.onload = function (e){
+              context.status=true;
+              context.done.call(context,e);
+            };
+            s.onerror = function (e){
+              context.status=false;
+              context.fail.call(context,e);
+            };
+  					context.body=s;
+  					return s;
+  				}).call(this,
+  					document.createElement('script'),
+  					(this.external)?(this.url):(this.basePath+this.url),context));
+      }catch(e){
+        context.status=false;
+        context.fail.call(context,e);
+      }
 		},
 		Cast:function (o){
 			return _Cast(this,o);
