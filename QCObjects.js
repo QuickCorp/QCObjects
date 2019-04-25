@@ -547,6 +547,7 @@
 			'overrideComponentTag':false,
 			'useConfigService':false,
       'routingWay':'hash',
+      'useSDK':true,
 			'basePath':basePath
 		},
 		_CONFIG_ENC:"e30=",
@@ -1321,80 +1322,23 @@
     }
   });
 
-  Class('FormField',Component,{
-    cached:false,
-    reload:true,
-  	createBindingEvents:function (){
-  		var _executeBinding = this.executeBinding;
-  		var thisobj = this;
-      if (typeof this.fieldType =='undefined' || this.fieldType == null ){
-        var _objList = this.body.subelements('*[data-field]'); // every child with data-field set
-      } else {
-        var _objList = this.body.subelements(this.fieldType+'[data-field]'); // every child with data-field set and tagname is equal to fieldType property
-      }
-  		for (var _datak=0;_datak<_objList.length;_datak++){
-  			var _obj = _objList[_datak];
-  			_obj.addEventListener('change',function(e){
-  				logger.debug('Executing change event binding');
-  				thisobj.executeBindings();
-  			});
-  			_obj.addEventListener('keydown',function(e){
-  				logger.debug('Executing keydown event binding');
-  					thisobj.executeBindings();
-  			});
-  		}
-  	},
-  	executeBinding:function (_obj){
-  		var _datamodel = _obj.getAttribute('data-field');
-  		logger.debug('Binding '+_datamodel+' for '+this.name);
-  		this.data[_datamodel]=_obj.value;
-  	},
-  	executeBindings:function (){
-      if (typeof this.fieldType =='undefined' || this.fieldType == null ){
-        var _objList = this.body.subelements('*[data-field]'); // every child with data-field set
-      } else {
-        var _objList = this.body.subelements(this.fieldType+'[data-field]'); // every child with data-field set and tagname is equal to fieldType property
-      }
-  		for (var _datak=0;_datak<_objList.length;_datak++){
-  			var _obj = _objList[_datak];
-  			var _datamodel = _obj.getAttribute('data-field');
-        logger.debug('Binding '+_datamodel+' for '+this.name);
-  			this.data[_datamodel]=_obj.value;
-  		}
-  	},
-    done:function (){
-      var thisobj = this;
-      thisobj.executeBindings();
-  		thisobj.createBindingEvents();
-      logger.debug('Field loaded: '+thisobj.fieldType+'[name='+thisobj.name+']');
-    }
-  });
-  Class('ButtonField',FormField,{
-  	fieldType:'button'
-  });
-  Class('InputField',FormField,{
-  	fieldType:'input'
-  });
-  Class('TextField',FormField,{
-  	fieldType:'textarea'
-  });
-  Class('EmailField',FormField,{
-  	fieldType:'input'
-  });
-
 	/**
 	* Load every component tag declared in the body
 	**/
 	Ready(function (){
+    var _buildComponents = function (){
+      if (CONFIG.get('useSDK')){
+        GLOBAL.sdk = New(SourceJS,{external:true,url:'https://sdk.qcobjects.dev/QCObjects-SDK.js',done:function(){logging.debug('QCObjects-SDK.js loaded')}});
+      }
+      GLOBAL.componentsStack = document.buildComponents();
+    };
     Component._bindroute();
 		if (CONFIG.get('useConfigService')){
 			GLOBAL.configService = New(ConfigService);
-			GLOBAL.configService.configLoaded = function (){
-				GLOBAL.componentsStack = document.buildComponents();
-			};
+			GLOBAL.configService.configLoaded = _buildComponents;
 			serviceLoader(GLOBAL.configService);
 		} else {
-			GLOBAL.componentsStack = document.buildComponents();
+			_buildComponents.call(this);
 		}
 	});
 
