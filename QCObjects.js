@@ -1338,7 +1338,7 @@
     var _buildComponents = function (){
       if (CONFIG.get('useSDK')){
         GLOBAL.sdk = New(SourceJS,{external:false,
-                                   url:'https://sdk.qcobjects.dev/QCObjects-SDK.js',
+                                   url:'QCObjects-SDK.js',
                                    done:function(){
                                      if (this.external){
                                        logging.debug('QCObjects-SDK.js loaded from remote location');
@@ -1350,7 +1350,7 @@
                                      if (!this.external){
                                        logging.debug('QCObjects-SDK.js NOT loaded from local, trying remote');
                                        this.external = true;
-                                       this.url = 'https://sdk.qcobjects.dev/QCObjects-SDK.js';
+                                       this.url = '//sdk.qcobjects.dev/QCObjects-SDK.js';
                                        this.rebuild();
                                      } else {
                                        logging.debug('QCObjects-SDK.js NOT loaded from remote location. Download QCObjects SDK from https://sdk.qcobjects.dev');
