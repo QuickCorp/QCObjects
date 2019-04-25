@@ -1198,6 +1198,7 @@
 			return this[name];
 		},
 		done:function (){},
+    fail:function (){},
 		rebuild:function (){
 			var context = this;
 			document.getElementsByTagName('body')[0].appendChild(
@@ -1211,7 +1212,12 @@
 							context.done.call(context);
 						}
 					};
-					s.onload = context.done;
+					s.onload = function (e){
+            context.done.call(context,e);
+          };
+          s.onerror = function (e){
+            context.fail.call(context,e);
+          };
 					context.body=s;
 					return s;
 				}).call(this,
@@ -1328,7 +1334,25 @@
 	Ready(function (){
     var _buildComponents = function (){
       if (CONFIG.get('useSDK')){
-        GLOBAL.sdk = New(SourceJS,{external:true,url:'https://sdk.qcobjects.dev/QCObjects-SDK.js',done:function(){logging.debug('QCObjects-SDK.js loaded')}});
+        GLOBAL.sdk = New(SourceJS,{external:false,
+                                   url:'https://sdk.qcobjects.dev/QCObjects-SDK.js',
+                                   done:function(){
+                                     if (this.external){
+                                       logging.debug('QCObjects-SDK.js loaded from remote location');
+                                     } else {
+                                       logging.debug('QCObjects-SDK.js loaded from local');
+                                     }
+                                   },
+                                   fail:function (){
+                                     if (!this.external){
+                                       logging.debug('QCObjects-SDK.js NOT loaded from local, trying remote');
+                                       this.external = true;
+                                       this.rebuild();
+                                     } else {
+                                       logging.debug('QCObjects-SDK.js NOT loaded from remote location. Download QCObjects SDK from https://sdk.qcobjects.dev');
+                                     }
+                                   }
+                                  });
       }
       GLOBAL.componentsStack = document.buildComponents();
     };
