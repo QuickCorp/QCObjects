@@ -1100,6 +1100,30 @@
 
 		Export(GLOBAL);
 
+    if (CONFIG.get('useSDK')){
+      GLOBAL.sdk = New(SourceJS,{external:false,
+                                 url:'QCObjects-SDK.js',
+                                 done:function(){
+                                   if (this.external){
+                                     logging.debug('QCObjects-SDK.js loaded from remote location');
+                                   } else {
+                                     logging.debug('QCObjects-SDK.js loaded from local');
+                                   }
+                                 },
+                                 fail:function (){
+                                   if (!this.external){
+                                     logging.debug('QCObjects-SDK.js NOT loaded from local, trying remote');
+                                     this.external = true;
+                                     this.url = '//sdk.qcobjects.dev/QCObjects-SDK.js';
+                                     this.rebuild();
+                                   } else {
+                                     logging.debug('QCObjects-SDK.js NOT loaded from remote location. Download QCObjects SDK from https://sdk.qcobjects.dev');
+                                   }
+                                 }
+                                });
+    }
+
+
 	},null);
 
 	Element.prototype.buildComponents = function (rebuildObjects=false){
@@ -1341,28 +1365,6 @@
 	**/
 	Ready(function (){
     var _buildComponents = function (){
-      if (CONFIG.get('useSDK')){
-        GLOBAL.sdk = New(SourceJS,{external:false,
-                                   url:'QCObjects-SDK.js',
-                                   done:function(){
-                                     if (this.external){
-                                       logging.debug('QCObjects-SDK.js loaded from remote location');
-                                     } else {
-                                       logging.debug('QCObjects-SDK.js loaded from local');
-                                     }
-                                   },
-                                   fail:function (){
-                                     if (!this.external){
-                                       logging.debug('QCObjects-SDK.js NOT loaded from local, trying remote');
-                                       this.external = true;
-                                       this.url = '//sdk.qcobjects.dev/QCObjects-SDK.js';
-                                       this.rebuild();
-                                     } else {
-                                       logging.debug('QCObjects-SDK.js NOT loaded from remote location. Download QCObjects SDK from https://sdk.qcobjects.dev');
-                                     }
-                                   }
-                                  });
-      }
       GLOBAL.componentsStack = document.buildComponents();
     };
     Component._bindroute();
