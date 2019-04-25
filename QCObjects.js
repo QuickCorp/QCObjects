@@ -548,6 +548,7 @@
 			'useConfigService':false,
       'routingWay':'hash',
       'useSDK':true,
+      'useLocalSDK':true,
 			'basePath':basePath
 		},
 		_CONFIG_ENC:"e30=",
@@ -1101,8 +1102,8 @@
 		Export(GLOBAL);
 
     if (CONFIG.get('useSDK')){
-      GLOBAL.sdk = New(SourceJS,{external:false,
-                                 url:'QCObjects-SDK.js',
+      GLOBAL.sdk = New(SourceJS,{external:(!CONFIG.get('useLocalSDK'))?(true):(false),
+                                 url:(CONFIG.get('useLocalSDK'))?('QCObjects-SDK.js'):('https://sdk.qcobjects.dev/QCObjects-SDK.js'),
                                  done:function(){
                                    if (this.external){
                                      logging.debug('QCObjects-SDK.js loaded from remote location');
@@ -1111,13 +1112,10 @@
                                    }
                                  },
                                  fail:function (){
-                                   if (!this.external){
-                                     logging.debug('QCObjects-SDK.js NOT loaded from local, trying remote');
-                                     this.external = true;
-                                     this.url = '//sdk.qcobjects.dev/QCObjects-SDK.js';
-                                     this.rebuild();
+                                   if (this.external){
+                                     logging.debug('QCObjects-SDK.js NOT loaded from remote location');
                                    } else {
-                                     logging.debug('QCObjects-SDK.js NOT loaded from remote location. Download QCObjects SDK from https://sdk.qcobjects.dev');
+                                     logging.debug('QCObjects-SDK.js NOT loaded from local');
                                    }
                                  }
                                 });
