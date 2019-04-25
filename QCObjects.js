@@ -548,7 +548,7 @@
 			'useConfigService':false,
       'routingWay':'hash',
       'useSDK':true,
-      'useLocalSDK':true,
+      'useLocalSDK':false,
 			'basePath':basePath
 		},
 		_CONFIG_ENC:"e30=",
