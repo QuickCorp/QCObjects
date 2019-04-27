@@ -830,6 +830,16 @@
     }
 	});
 
+  Class('Controller',Object,{
+    dependencies:[],
+    component:null
+  });
+
+  Class('View',Object,{
+    dependencies:[],
+    component:null
+  });
+
 	Class('Service',Object,{
 		domain:window.location.host.toLowerCase(),
     basePath:basePath,
@@ -1138,16 +1148,16 @@
 				var componentDone = function (){
 					var viewName = this.body.getAttribute('viewClass');
 					if (viewName != null && _QC_CLASSES.hasOwnProperty(viewName)){
-						var View = _QC_CLASSES[viewName];
-						this.view = New(View,{component:this}); // Initializes the main view for the component
+						var _View = _QC_CLASSES[viewName];
+						this.view = New(_View,{component:this}); // Initializes the main view for the component
 						if (this.view.hasOwnProperty('done') && typeof this.view.done == 'function' ){
 							this.view.done.call(this.view);
 						}
 					}
 					var controllerName = this.body.getAttribute('controllerClass');
 					if (controllerName != null && _QC_CLASSES.hasOwnProperty(controllerName)){
-						var Controller = _QC_CLASSES[controllerName];
-						this.controller = New(Controller,{component:this}); // Initializes the main controller for the component
+						var _Controller = _QC_CLASSES[controllerName];
+						this.controller = New(_Controller,{component:this}); // Initializes the main controller for the component
 						if (this.controller.hasOwnProperty('done') && typeof this.controller.done == 'function' ){
 							this.controller.done.call(this.controller);
 						}
@@ -1379,7 +1389,7 @@
 
       });
     }
-  });  
+  });
 
 	/**
 	* Load every component tag declared in the body
