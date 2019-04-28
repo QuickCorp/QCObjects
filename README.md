@@ -17,6 +17,12 @@ If you like this code please [DONATE ](https://www.paypal.com/cgi-bin/webscr?cmd
 
 If you like more code samples feel free to write your questions to info@quickcorp.cl
 
+# Using QCObjects with Atom:
+
+```shell
+> apm install qcobjects-syntax
+```
+https://atom.io/packages/qcobjects-syntax
 
 # Installing with NPM:
 
