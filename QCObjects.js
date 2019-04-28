@@ -555,7 +555,7 @@
        char = String.fromCharCode(char.charCodeAt(0) + keychar.charCodeAt(0));
        result += char;
      }
-     this.last_string = btoa(result);
+     this.last_string = Base64.encode(result);
      return this.last_string;
    },
    _decrypt:function (){
@@ -564,7 +564,7 @@
      var result = '';
      var char;
      var keychar;
-     string = atob(string);
+     string = Base64.decode(string);
      for (var i = 0; i<string.length; i++){
        char = string.substr(i,1);
        keychar = key.substr( (i % key.length)-1, 1);
