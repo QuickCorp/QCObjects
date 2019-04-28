@@ -9,6 +9,21 @@ https://github.com/QuickCorp/quickobjects_sample1foundation
 
 Please fork this project or make a link to this project into your README.md file. Read the LICENSE.txt file before you use this code.
 
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Cross Browser Javascript Framework for MVC Patterns](#cross-browser-javascript-framework-for-mvc-patterns)
+- [Using QCObjects with Atom:](#using-qcobjects-with-atom)
+- [Installing with NPM:](#installing-with-npm)
+- [Using the code in the straight way into HTML5:](#using-the-code-in-the-straight-way-into-html5)
+- [Step 1: Start creating a main import file and name it like: cl.quickcorp.js. Put it into packages/js/ file directory.](#step-1-start-creating-a-main-import-file-and-name-it-like-clquickcorpjs-put-it-into-packagesjs-file-directory)
+- [Step 2: Then create some services inhereting classes into the file js/packages/cl.quickcorp.services.js :](#step-2-then-create-some-services-inhereting-classes-into-the-file-jspackagesclquickcorpservicesjs-)
+- [Step 3: Now it's time to create the components (cl.quickcorp.components.js)](#step-3-now-its-time-to-create-the-components-clquickcorpcomponentsjs)
+- [Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)](#step-4-once-you-have-done-the-above-components-declaration-you-will-now-want-to-code-your-controllers-clquickcorpcontrollerjs)
+- [Step 5: To use into the HTML5 code you only need to do some settings between <script> tags:](#step-5-to-use-into-the-html5-code-you-only-need-to-do-some-settings-between-script-tags)
+- [Demo example: The simpliest demo example:](#demo-example-the-simpliest-demo-example)
+
+<!-- /TOC -->
+
 # Cross Browser Javascript Framework for MVC Patterns
 
 QCObjects is a javascript framework designed to make easier everything about the MVC patterns implementation into the pure javascript scope. You don't need to use typescript nor any transpiler to run QCObjects. It runs directly on the browser and it uses pure javascript with no extra dependencies of code. You can make your own components expressed in real native javascript objects or extend a native DOM object to use in your own way. You can also use QCObjects in conjunction with CSS3 frameworks like [Foundation] (https://foundation.zurb.com), [Bootstrap] (http://getbootstrap.com) and mobile javascript frameworks like [PhoneGap] (https://phonegap.com) and OnsenUI (https://onsen.io)
