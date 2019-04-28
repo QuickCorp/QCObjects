@@ -612,7 +612,7 @@
       'useLocalSDK':false,
 			'basePath':basePath
 		},
-		_CONFIG_ENC:_Crypt.encrypt({},window.location.host.toLowerCase()),
+		_CONFIG_ENC:_Crypt.encrypt(JSON.stringify({}),window.location.host.toLowerCase()),
 		set:function (name,value){
 			var _conf = (
 	 		 function (config){
