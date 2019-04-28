@@ -157,6 +157,9 @@ Become a Sponsor
 ------------------
 If you want to become a sponsor for this wonderful project you can do it [here](https://sponsorsignup.qcobjects.dev/)
 
+Check out the QCObjects SDK
+----------------------------
+You can check out the [QCObjects SDK](https://sdk.qcobjects.dev/) and follow the examples to make your own featured components 
 
 
 Donate
@@ -166,9 +169,6 @@ If you like this code please [DONATE](https://www.paypal.com/cgi-bin/webscr?cmd=
 
  [![paypal](https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)
 
-
-
-If you like more code samples feel free to write your questions to info@quickcorp.cl
 
 Installing
 ------------
