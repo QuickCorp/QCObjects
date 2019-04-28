@@ -173,7 +173,7 @@ https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
 # Using the code in the straight way into HTML5:
 
 ```html
-<script type="text/javascript" src="https://quickcorp.github.io/QCObjects/QCObjects.js"></script>
+<script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
 ```
 
 # Quick Start
