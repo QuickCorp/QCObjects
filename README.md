@@ -15,7 +15,10 @@ Table of Contents
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Demo example: The simpliest demo example:](#demo-example-the-simpliest-demo-example)
+- [Demo Using Foundation](#demo-using-foundation)
+- [Demo Using Materializecss](#demo-using-materializecss)
+- [Demo Using Raw CSS](#demo-using-raw-css)
+- [Another Basic Demo example: The simpliest demo example:](#another-basic-demo-example-the-simpliest-demo-example)
 - [Using QCObjects with Atom:](#using-qcobjects-with-atom)
 - [Using QCObjects in Visual Studio Code:](#using-qcobjects-in-visual-studio-code)
 - [Installing with NPM:](#installing-with-npm)
