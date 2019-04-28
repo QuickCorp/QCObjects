@@ -947,11 +947,13 @@
       logger.debug("***** CONFIG LOADED:");
       logger.debug(result.service.template);
       this.JSONresponse = JSON.parse(result.service.template);
+      if (this.JSONresponse.hasOwnProperty('__encoded__')){
+        this.JSONresponse = JSON.parse(_Crypt.decrypt(this.JSONresponse.__encoded__,window.location.host.toLowerCase()));
+      }
 			for (var k in this.JSONresponse){
 				CONFIG.set(k,this.JSONresponse[k]);
 			}
 			this.configLoaded.call(this);
-
     },
 		fail:function (result){
 			this.configLoaded.call(this);
