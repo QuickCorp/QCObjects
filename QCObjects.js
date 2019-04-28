@@ -592,10 +592,10 @@
   });
 
 	var _CryptObject = function (o){
-		return _Crypt.encrypt(JSON.stringify(o),_top.location.host.toLowerCase());
+		return _Crypt.encrypt(JSON.stringify(o),window.location.host.toLowerCase());
 	};
 	var _DecryptObject = function (s){
-		return JSON.parse(_Crypt.decrypt(s,_top.location.host.toLowerCase()));
+		return JSON.parse(_Crypt.decrypt(s,window.location.host.toLowerCase()));
 	};
 
 	Class('CONFIG',Object,{
