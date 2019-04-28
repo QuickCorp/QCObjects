@@ -529,12 +529,6 @@
 			window[f.name] = f;
 		} catch (e){}
 	};
-  if (typeof btoa == "undefined"){
-    var btoa = Base64.encode;
-  }
-  if (typeof atob == "undefined"){
-    var atob = Base64.decode;
-  }
 
   Class('_Crypt',Object,{
    last_string:"",
