@@ -110,7 +110,7 @@
 	 }};
 	 var logger = new Logger();
 	 _top.logger = logger;
-   _b64kstr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+   var _b64kstr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 	 var Base64 = {
 		 encode: function(e) {
 			 var t = "";
