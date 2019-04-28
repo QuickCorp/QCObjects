@@ -34,8 +34,21 @@ Copyright (c) Jean Machuca and QuickCorp <info@quickcorp.cl>
 
 Demo
 --------------
+
+# Demo Using Foundation
+
 Check out a demo using Foundation components here:
-[DEMO LINK](https://github.com/QuickCorp/quickobjects_sample1foundation)
+[Demo Using Foundation](https://github.com/QuickCorp/quickobjects_sample1foundation)
+
+# Demo Using Materializecss
+
+Check out a demo using MaterializeCSS here:
+[Demo Using Materializecss](https://qln.link)
+
+# Demo Using Raw CSS
+
+Check out a demo using raw CSS:
+[Demo Using Raw CSS](https://github.com/QuickCorp/qcobjects_profile_browser)
 
 # Another Basic Demo example: The simpliest demo example:
 
@@ -136,6 +149,11 @@ Check out a demo using Foundation components here:
 Fork
 --------------
 Please fork this project or make a link to this project into your README.md file. Read the LICENSE.txt file before you use this code.
+
+Become a Sponsor
+------------------
+If you want to become a sponsor for this wonderful project you can do it [here](https://sponsorsignup.qcobjects.dev/)
+
 
 
 Donate
