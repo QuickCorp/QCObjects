@@ -110,9 +110,13 @@
 	 }};
 	 var logger = new Logger();
 	 _top.logger = logger;
+   _b64kstr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 	 var Base64 = {
-		 _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+		 _keyStr: _b64kstr,
 		 encode: function(e) {
+       if (typeof this._keyStr == 'undefined'){
+         this._keyStr = _b64kstr;
+       }
 			 var t = "";
 			 var n, r, i, s, o, u, a;
 			 var f = 0;
@@ -135,6 +139,9 @@
 			 return t
 		 },
 		 decode: function(e) {
+       if (typeof this._keyStr == 'undefined'){
+         this._keyStr = _b64kstr;
+       }
 			 var t = "";
 			 var n, r, i;
 			 var s, o, u, a;
@@ -201,7 +208,7 @@
 			 }
 			 return t
 		 }
-	 }
+	 };
 	 var ComplexStorageCache = function(params) {
 		 var object, load, alternate;
 		 object = params.index;
