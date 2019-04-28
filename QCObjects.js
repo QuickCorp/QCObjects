@@ -112,11 +112,7 @@
 	 _top.logger = logger;
    _b64kstr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 	 var Base64 = {
-		 _keyStr: _b64kstr,
 		 encode: function(e) {
-       if (typeof this._keyStr == 'undefined'){
-         this._keyStr = _b64kstr;
-       }
 			 var t = "";
 			 var n, r, i, s, o, u, a;
 			 var f = 0;
@@ -134,24 +130,21 @@
 				 } else if (isNaN(i)) {
 					 a = 64
 				 }
-				 t = t + this._keyStr.charAt(s) + this._keyStr.charAt(o) + this._keyStr.charAt(u) + this._keyStr.charAt(a)
+				 t = t + _b64kstr.charAt(s) + _b64kstr.charAt(o) + _b64kstr.charAt(u) + _b64kstr.charAt(a)
 			 }
 			 return t
 		 },
 		 decode: function(e) {
-       if (typeof this._keyStr == 'undefined'){
-         this._keyStr = _b64kstr;
-       }
 			 var t = "";
 			 var n, r, i;
 			 var s, o, u, a;
 			 var f = 0;
 			 e = e.replace(/[^A-Za-z0-9+/=]/g, "");
 			 while (f < e.length) {
-				 s = this._keyStr.indexOf(e.charAt(f++));
-				 o = this._keyStr.indexOf(e.charAt(f++));
-				 u = this._keyStr.indexOf(e.charAt(f++));
-				 a = this._keyStr.indexOf(e.charAt(f++));
+				 s = _b64kstr.indexOf(e.charAt(f++));
+				 o = _b64kstr.indexOf(e.charAt(f++));
+				 u = _b64kstr.indexOf(e.charAt(f++));
+				 a = _b64kstr.indexOf(e.charAt(f++));
 				 n = s << 2 | o >> 4;
 				 r = (o & 15) << 4 | u >> 2;
 				 i = (u & 3) << 6 | a;
