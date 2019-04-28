@@ -529,12 +529,79 @@
 			window[f.name] = f;
 		} catch (e){}
 	};
+  if (typeof btoa == "undefined"){
+    var btoa = Base64.encode;
+  }
+  if (typeof atob == "undefined"){
+    var atob = Base64.decode;
+  }
+
+  Class('_Crypt',Object,{
+   last_string:"",
+   last_key:"",
+   construct:false,
+   _new_:function (o){
+     var string = o['string'];
+     var key = (o.hasOwnProperty('key'))?(o['key']):(null);
+     this.__new__(o);
+     key = (key == null)?(this.__instanceID):(key);
+     this.last_key = key;
+     this.last_string = string;
+     this.construct = true;
+   },
+   _encrypt:function (){
+     var string = this.last_string;
+     var key = this.last_key;
+     var result = '';
+     var char;
+     var keychar;
+     for (var i = 0; i<string.length; i++){
+       char = string.substr(i,1);
+       keychar = key.substr( (i % key.length)-1, 1);
+       char = String.fromCharCode(char.charCodeAt(0) + keychar.charCodeAt(0));
+       result += char;
+     }
+     this.last_string = btoa(result);
+     return this.last_string;
+   },
+   _decrypt:function (){
+     var string = this.last_string;
+     var key = this.last_key;
+     var result = '';
+     var char;
+     var keychar;
+     string = atob(string);
+     for (var i = 0; i<string.length; i++){
+       char = string.substr(i,1);
+       keychar = key.substr( (i % key.length)-1, 1);
+       char = String.fromCharCode(char.charCodeAt(0) - keychar.charCodeAt(0));
+       result += char;
+     }
+
+     this.last_string = result;
+     return this.last_string;
+   },
+   encrypt: function (string,key){
+     var crypt = New(_Crypt,{
+         string:string,
+         key:key
+       });
+     return crypt._encrypt();
+   },
+   decrypt: function (string,key){
+     var crypt = New(_Crypt,{
+         string:string,
+         key:key
+       });
+     return crypt._decrypt();
+   }
+  });
 
 	var _CryptObject = function (o){
-		return Base64.encode(JSON.stringify(o));
+		return _Crypt.encrypt(JSON.stringify(o),_top.location.host.toLowerCase());
 	};
 	var _DecryptObject = function (s){
-		return JSON.parse(Base64.decode(s));
+		return JSON.parse(_Crypt.decrypt(s,_top.location.host.toLowerCase()));
 	};
 
 	Class('CONFIG',Object,{
@@ -1392,6 +1459,9 @@
       });
     }
   });
+
+
+
 
 	/**
 	* Load every component tag declared in the body
