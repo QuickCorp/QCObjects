@@ -39,6 +39,10 @@ If you like more code samples feel free to write your questions to info@quickcor
 ```
 https://atom.io/packages/qcobjects-syntax
 
+# Using QCObjects in Visual Studio Code:
+
+https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
+
 # Installing with NPM:
 
 ```shell
