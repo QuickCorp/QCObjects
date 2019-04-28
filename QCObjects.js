@@ -61,6 +61,13 @@
 		 }
 	 )();
 
+   var _secretKey = (
+		 function (){
+			 var __secretKey = _top[(![]+[])[((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+(typeof [])[((+!+[])+(+!+[]))*((+!+[])+(+!+[]))]+(![]+[])[(+!+[])]+(!![]+[])[(+[])]+([]+[]+[][[]])[(+[+!+[]+[+[]]])/((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+([]+[]+[][[]])[(+!+[])] ]['h'+(typeof ![])[(+!+[])]+(![]+[])[(+!+[]+((+!+[])+(+!+[])))]+(!![]+[])[(+[])]].toLowerCase();
+			 return __secretKey;
+		 }
+	 )();
+
 	 var is_phonegap = (
 		 function (){
 			 return (typeof cordova != 'undefined')?(true):(false);
@@ -592,10 +599,10 @@
   });
 
 	var _CryptObject = function (o){
-		return _Crypt.encrypt(JSON.stringify(o),window.location.host.toLowerCase());
+		return _Crypt.encrypt(JSON.stringify(o),_secretKey);
 	};
 	var _DecryptObject = function (s){
-		return JSON.parse(_Crypt.decrypt(s,window.location.host.toLowerCase()));
+		return JSON.parse(_Crypt.decrypt(s,_secretKey));
 	};
 
 	Class('CONFIG',Object,{
@@ -612,7 +619,7 @@
       'useLocalSDK':false,
 			'basePath':basePath
 		},
-		_CONFIG_ENC:_Crypt.encrypt(JSON.stringify({}),window.location.host.toLowerCase()),
+		_CONFIG_ENC:_Crypt.encrypt(JSON.stringify({}),_secretKey),
 		set:function (name,value){
 			var _conf = (
 	 		 function (config){
@@ -948,7 +955,7 @@
       logger.debug(result.service.template);
       this.JSONresponse = JSON.parse(result.service.template);
       if (this.JSONresponse.hasOwnProperty('__encoded__')){
-        this.JSONresponse = JSON.parse(_Crypt.decrypt(this.JSONresponse.__encoded__,window.location.host.toLowerCase()));
+        this.JSONresponse = JSON.parse(_Crypt.decrypt(this.JSONresponse.__encoded__,_secretKey));
       }
 			for (var k in this.JSONresponse){
 				CONFIG.set(k,this.JSONresponse[k]);
