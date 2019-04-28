@@ -35,16 +35,16 @@ Copyright (c) Jean Machuca and QuickCorp <info@quickcorp.cl>
 Demo
 --------------
 Check out a demo using Foundation components here:
-https://github.com/QuickCorp/quickobjects_sample1foundation
+[DEMO LINK](https://github.com/QuickCorp/quickobjects_sample1foundation)
 
-# Demo example: The simpliest demo example:
+# Another Basic Demo example: The simpliest demo example:
 
 ```html
 <!DOCTYPE html>
 <html>
     <head>
     	<title>Demo</title>
-    	<script type="text/javascript" src="QCObjects.js"></script>
+    	<script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
     	<script type="text/javascript">
     		var canvas1,canvas2,canvas3,container;
         CONFIG.set('relativeImportPath','src/');
@@ -141,7 +141,9 @@ Please fork this project or make a link to this project into your README.md file
 Donate
 --------------
 
-If you like this code please [DONATE ](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
+If you like this code please [DONATE](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)  [![paypal](https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)
+
+
 
 If you like more code samples feel free to write your questions to info@quickcorp.cl
 
