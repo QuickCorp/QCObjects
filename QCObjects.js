@@ -717,6 +717,8 @@
 		document.addEventListener('deviceready', _Ready, false);
 	}
 
+  Class('InheritClass',Object,{});
+
 	Class('Component',Object,{
 		domain:window.location.host.toLowerCase(),
     basePath:basePath,
