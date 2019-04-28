@@ -15,16 +15,16 @@ Table of Contents
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
+- [Demo example: The simpliest demo example:](#demo-example-the-simpliest-demo-example)
 - [Using QCObjects with Atom:](#using-qcobjects-with-atom)
 - [Using QCObjects in Visual Studio Code:](#using-qcobjects-in-visual-studio-code)
 - [Installing with NPM:](#installing-with-npm)
 - [Using the code in the straight way into HTML5:](#using-the-code-in-the-straight-way-into-html5)
-- [Step 1: Start creating a main import file and name it like: cl.quickcorp.js. Put it into packages/js/ file directory.](#step-1-start-creating-a-main-import-file-and-name-it-like-clquickcorpjs-put-it-into-packagesjs-file-directory)
-- [Step 2: Then create some services inhereting classes into the file js/packages/cl.quickcorp.services.js :](#step-2-then-create-some-services-inhereting-classes-into-the-file-jspackagesclquickcorpservicesjs-)
-- [Step 3: Now it's time to create the components (cl.quickcorp.components.js)](#step-3-now-its-time-to-create-the-components-clquickcorpcomponentsjs)
-- [Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)](#step-4-once-you-have-done-the-above-components-declaration-you-will-now-want-to-code-your-controllers-clquickcorpcontrollerjs)
-- [Step 5: To use into the HTML5 code you only need to do some settings between <script> tags:](#step-5-to-use-into-the-html5-code-you-only-need-to-do-some-settings-between-script-tags)
-- [Demo example: The simpliest demo example:](#demo-example-the-simpliest-demo-example)
+- [Quick Start](#quick-start)
+  - [Step 1: Start creating a main import file and name it like: cl.quickcorp.js. Put it into packages/js/ file directory](#step-1-start-creating-a-main-import-file-and-name-it-like-clquickcorpjs-put-it-into-packagesjs-file-directory)
+  - [Step 2: Then create some services inhereting classes into the file js/packages/cl.quickcorp.services.js :](#step-2-then-create-some-services-inhereting-classes-into-the-file-jspackagesclquickcorpservicesjs-)
+  - [Step 3: Now it's time to create the components (cl.quickcorp.components.js)](#step-3-now-its-time-to-create-the-components-clquickcorpcomponentsjs)
+  - [Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)](#step-4-once-you-have-done-the-above-components-declaration-you-will-now-want-to-code-your-controllers-clquickcorpcontrollerjs)
 
 <!-- /TOC -->
 
@@ -34,7 +34,7 @@ Copyright (c) Jean Machuca and QuickCorp <info@quickcorp.cl>
 
 Demo
 --------------
-See a demo using Foundation components here:
+Check out a demo using Foundation components here:
 https://github.com/QuickCorp/quickobjects_sample1foundation
 
 # Demo example: The simpliest demo example:
