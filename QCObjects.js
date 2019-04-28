@@ -592,10 +592,10 @@
   });
 
 	var _CryptObject = function (o){
-		return (typeof o != 'undefined' && o != null && o != {})?(_Crypt.encrypt(JSON.stringify(o),window.location.host.toLowerCase())):('');
+		return _Crypt.encrypt(JSON.stringify(o),window.location.host.toLowerCase());
 	};
 	var _DecryptObject = function (s){
-		return (s!='')?(JSON.parse(_Crypt.decrypt(s,window.location.host.toLowerCase()))):('');
+		return JSON.parse(_Crypt.decrypt(s,window.location.host.toLowerCase()));
 	};
 
 	Class('CONFIG',Object,{
@@ -612,7 +612,7 @@
       'useLocalSDK':false,
 			'basePath':basePath
 		},
-		_CONFIG_ENC:"",
+		_CONFIG_ENC:_Crypt.encrypt({},window.location.host.toLowerCase()),
 		set:function (name,value){
 			var _conf = (
 	 		 function (config){
