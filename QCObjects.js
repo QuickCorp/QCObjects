@@ -609,6 +609,7 @@
 	Class('CONFIG',Object,{
 		_CONFIG:{
 			'relativeImportPath':'',
+      'remoteImportsPath':'',
 			'asynchronousImportsLoad':false,
 			'componentsBasePath':'',
 			'delayForReady':0,
@@ -718,7 +719,8 @@
 			var s1 = document.createElement('script');
 			s1.type = 'text/javascript';
 			s1.async=(CONFIG.get('asynchronousImportsLoad'))?(true):(false);
-			s1.src = basePath + CONFIG.get('relativeImportPath') + packagename + '.js';
+      (this.external)?(this.url):(this.basePath+this.url)
+			s1.src = (external)?(CONFIG.get('remoteImportsPath')+ packagename + '.js'):(basePath + CONFIG.get('relativeImportPath') + packagename + '.js');
 			s1.onreadystatechange = function() {
 				if (this.readyState == 'complete') {
 					readyImported.call();
