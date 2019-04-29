@@ -689,6 +689,7 @@
       packagename = arguments[0];
       ready = arguments[1];
       external = arguments[3];
+      logger.debug('[Import] Setting external resource to import: '+packagename);
     }
     if (external){
       logger.debug('[Import] Registering external resource to import: '+packagename);
