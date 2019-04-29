@@ -656,7 +656,9 @@
 	 * @param {Object} classes
 	 */
 	var Package = function(namespace, classes) {
-    if (_QC_PACKAGES[namespace].hasOwnProperty('length') && _QC_PACKAGES[namespace].length>0){
+    if (_QC_PACKAGES.hasOwnProperty(namespace)
+        && _QC_PACKAGES[namespace].hasOwnProperty('length')
+        && _QC_PACKAGES[namespace].length>0){
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
     } else {
       _QC_PACKAGES[namespace] = classes;
