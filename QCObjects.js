@@ -1468,6 +1468,7 @@
   });
 
   Class('Effect',{
+    duration: 1000,
     animate: function ({timing, draw, duration}) {
 
       let start = performance.now();
