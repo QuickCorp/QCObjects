@@ -673,7 +673,23 @@
 	 * @param {Object} packagename
 	 * @param {Object} ready
 	 */
-	var Import = function(packagename, ready) {
+	var Import = function() {
+    var packagename;
+    var ready = function (){};
+    var external = false;
+    if (arguments.length<1){
+      return;
+    } else if (arguments.length==1){
+      packagename = arguments[0];
+    } else if (arguments.length==2){
+      packagename = arguments[0];
+      ready = arguments[1];
+    } else if (arguments.length>2){
+      packagename = arguments[0];
+      ready = arguments[1];
+      external = arguments[3];
+    }
+
 		var allPackagesImported = function() {
 			var ret = false;
 			var cp = 0;
