@@ -7,6 +7,7 @@ Cross Browser Javascript Framework for MVC Patterns
 ---------------------------------------------------
 QCObjects is a javascript framework designed to make easier everything about the MVC patterns implementation into the pure javascript scope. You don't need to use typescript nor any transpiler to run QCObjects. It runs directly on the browser and it uses pure javascript with no extra dependencies of code. You can make your own components expressed in real native javascript objects or extend a native DOM object to use in your own way. You can also use QCObjects in conjunction with CSS3 frameworks like [Foundation] (https://foundation.zurb.com), [Bootstrap] (http://getbootstrap.com) and mobile javascript frameworks like [PhoneGap] (https://phonegap.com) and OnsenUI (https://onsen.io)
 
+![screenshot](doc/img/components.gif)
 
 
 _________________________
@@ -159,7 +160,7 @@ If you want to become a sponsor for this wonderful project you can do it [here](
 
 Check out the QCObjects SDK
 ----------------------------
-You can check out the [QCObjects SDK](https://sdk.qcobjects.dev/) and follow the examples to make your own featured components 
+You can check out the [QCObjects SDK](https://sdk.qcobjects.dev/) and follow the examples to make your own featured components
 
 
 Donate
