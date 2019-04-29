@@ -1215,23 +1215,19 @@
 		Export(GLOBAL);
 
     if (CONFIG.get('useSDK')){
-      GLOBAL.sdk = New(SourceJS,{external:(!CONFIG.get('useLocalSDK'))?(true):(false),
-                                 url:(CONFIG.get('useLocalSDK'))?('QCObjects-SDK.js'):('https://sdk.qcobjects.dev/QCObjects-SDK.js'),
-                                 done:function(){
-                                   if (this.external){
-                                     logging.debug('QCObjects-SDK.js loaded from remote location');
-                                   } else {
-                                     logging.debug('QCObjects-SDK.js loaded from local');
-                                   }
-                                 },
-                                 fail:function (){
-                                   if (this.external){
-                                     logging.debug('QCObjects-SDK.js NOT loaded from remote location');
-                                   } else {
-                                     logging.debug('QCObjects-SDK.js NOT loaded from local');
-                                   }
-                                 }
-                                });
+      (function (CONFIG){
+        var remoteImportsPath = CONFIG.get('remoteImportsPath');
+        var external = (!CONFIG.get('useLocalSDK'))?(true):(false);
+        CONFIG.set('remoteImportsPath','https://sdk.qcobjects.dev/js/');
+        Import('QCObjects-SDK',function (){
+          if (external){
+            logging.debug('QCObjects-SDK.js loaded from remote location');
+          } else {
+            logging.debug('QCObjects-SDK.js loaded from local');
+          }
+          CONFIG.set('remoteImportsPath',remoteImportsPath);
+        },external);
+      }).call(CONFIG);
     }
 
 
