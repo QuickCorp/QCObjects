@@ -434,7 +434,7 @@
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')){
 			definition['__new__'] = function (properties){
 				_CastProps(properties,this);
-				logger.debug('__NEW__');
+//				logger.debug('__NEW__');
 			};
 		}
 
