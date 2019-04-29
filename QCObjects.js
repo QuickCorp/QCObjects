@@ -690,6 +690,11 @@
       ready = arguments[1];
       external = arguments[3];
     }
+    if (external){
+      logger.debug('[Import] Registering external resource to import: '+packagename);
+    } else {
+      logger.debug('[Import] Registering local resource to import: '+packagename);
+    }
 
 		var allPackagesImported = function() {
 			var ret = false;
