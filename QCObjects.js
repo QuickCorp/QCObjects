@@ -1215,7 +1215,7 @@
 		Export(GLOBAL);
 
     if (CONFIG.get('useSDK')){
-      (function (CONFIG){
+      (function (){
         var remoteImportsPath = CONFIG.get('remoteImportsPath');
         var external = (!CONFIG.get('useLocalSDK'))?(true):(false);
         CONFIG.set('remoteImportsPath','https://sdk.qcobjects.dev/js/');
@@ -1227,7 +1227,7 @@
           }
           CONFIG.set('remoteImportsPath',remoteImportsPath);
         },external);
-      }).call(CONFIG);
+      }).call(null);
     }
 
 
