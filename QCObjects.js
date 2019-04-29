@@ -505,7 +505,7 @@
 		Object.__instanceID = (typeof Object.__instanceID == 'undefined' || Object.__instanceID==null)?(0):(Object.__instanceID+1);
 		__instanceID = Object.__instanceID;
     var c_new = (typeof c =='undefined')?(Object.create((new Object()).constructor.prototype,{})):(Object.create(c.constructor.prototype,c.__definition));
-		c_new.__definition = _Cast({'__instanceID':__instanceID},c.__definition);
+		c_new.__definition = _Cast({'__instanceID':__instanceID},(typeof c != 'undefined')?(c.__definition):({}));
 		c_new['__instanceID'] = __instanceID;
 		c_new.__definition['__instanceID']=__instanceID;
 		if (c_new.hasOwnProperty('__new__')) {
