@@ -502,6 +502,7 @@
 	 * @param {Object} args
 	 */
 	var New = function(c, args) {
+    var args = (arguments.length>1)?(arguments[1]):({});
 		Object.__instanceID = (typeof Object.__instanceID == 'undefined' || Object.__instanceID==null)?(0):(Object.__instanceID+1);
 		__instanceID = Object.__instanceID;
     var c_new = (typeof c =='undefined')?(Object.create((new Object()).constructor.prototype,{})):(Object.create(c.constructor.prototype,c.__definition));
