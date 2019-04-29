@@ -521,7 +521,7 @@
 			} else if (c_new.__definition.hasOwnProperty('body')){
 				c_new['body'] = c_new.__definition.body;
 			}
-			logger.debug('llamada a new' + c_new.__definition.__classType);
+//			logger.debug('llamada a new' + c_new.__definition.__classType);
 //			console.trace();
 			c_new.__new__(args);
 			if (c_new.hasOwnProperty('_new_')){
