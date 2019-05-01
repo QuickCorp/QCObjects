@@ -1210,8 +1210,20 @@
 			get:function (name){
 				return this._GLOBAL[name];
 			},
+      __start__:function (){
+        var _buildComponents = function (){
+          GLOBAL.componentsStack = document.buildComponents();
+        };
+        Component._bindroute();
+        if (CONFIG.get('useConfigService')){
+          GLOBAL.configService = New(ConfigService);
+          GLOBAL.configService.configLoaded = _buildComponents;
+          serviceLoader(GLOBAL.configService);
+        } else {
+          _buildComponents.call(this);
+        }
+      }
 		});
-
 		Export(GLOBAL);
 
     if (CONFIG.get('useSDK')){
@@ -1492,19 +1504,7 @@
   });
 
 
-  GLOBAL.__start__ = function (){
-    var _buildComponents = function (){
-      GLOBAL.componentsStack = document.buildComponents();
-    };
-    Component._bindroute();
-    if (CONFIG.get('useConfigService')){
-      GLOBAL.configService = New(ConfigService);
-      GLOBAL.configService.configLoaded = _buildComponents;
-      serviceLoader(GLOBAL.configService);
-    } else {
-      _buildComponents.call(this);
-    }
-  };
+
 
 
 	/**
