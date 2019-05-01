@@ -1492,23 +1492,28 @@
   });
 
 
+  GLOBAL.__start__ = function (){
+    var _buildComponents = function (){
+      GLOBAL.componentsStack = document.buildComponents();
+    };
+    Component._bindroute();
+    if (CONFIG.get('useConfigService')){
+      GLOBAL.configService = New(ConfigService);
+      GLOBAL.configService.configLoaded = _buildComponents;
+      serviceLoader(GLOBAL.configService);
+    } else {
+      _buildComponents.call(this);
+    }
+  };
 
 
 	/**
 	* Load every component tag declared in the body
 	**/
 	Ready(function (){
-    var _buildComponents = function (){
-      GLOBAL.componentsStack = document.buildComponents();
-    };
-    Component._bindroute();
-		if (CONFIG.get('useConfigService')){
-			GLOBAL.configService = New(ConfigService);
-			GLOBAL.configService.configLoaded = _buildComponents;
-			serviceLoader(GLOBAL.configService);
-		} else {
-			_buildComponents.call(this);
-		}
+    if (!CONFIG.get('useSDK')){
+      GLOBAL.__start__();
+    }
 	});
 
 	/*
