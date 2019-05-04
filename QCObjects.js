@@ -528,7 +528,7 @@
    * @param {String} classMethodName
 	 * @param {Object} params
 	 */
-  var super = function (className,classMethodName,params){
+  var _super_ = function (className,classMethodName,params){
     return _QC_CLASSES[className][classMethodName];
   };
 
@@ -689,6 +689,7 @@
 
 	Export(CONFIG);
   Export(waitUntil);
+  Export(_super_);
 
 	/**
 	 * Defines a package for Class classification
