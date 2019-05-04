@@ -520,6 +520,18 @@
 		return _top[name];
 	};
 
+  /**
+	 * Returns a method from a superior QCObjects Class
+   * It is useful for Class Inheritance in the _new_ and __new__ method constructors
+	 *
+	 * @param {String} className
+   * @param {String} classMethodName
+	 * @param {Object} params
+	 */
+  var super = function (className,classMethodName,params){
+    return _QC_CLASSES[className][classMethodName];
+  };
+
 	/**
 	 * Creates an object from a Class definition
 	 *
