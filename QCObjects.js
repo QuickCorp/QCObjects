@@ -911,7 +911,7 @@
               } else {
                 logger.debug('NO ROUTING FOUND FOR: '+routingPath);
               }
-              if (typeof e.target.oldclick != 'undefined'){
+              if (typeof e.target.oldclick != 'undefined' && typeof e.target.oldclick == 'function'){
                 e.target.oldclick.call(e.target,e);
               }
               return _ret_;
