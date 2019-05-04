@@ -523,6 +523,7 @@
   /**
 	 * Returns a method from a superior QCObjects Class
    * It is useful for Class Inheritance in the _new_ and __new__ method constructors
+   * @example _super_('MySuperClass','MySuperMethod').call(this,params) #where this is the current instance and params are method parameters
 	 *
 	 * @param {String} className
    * @param {String} classMethodName
