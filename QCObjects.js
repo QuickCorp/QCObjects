@@ -24,6 +24,7 @@
 */
 "use strict";
 (function() {
+
   Element.prototype.subelements = Element.prototype.querySelectorAll;
   HTMLDocument.prototype.subelements = HTMLDocument.prototype.querySelectorAll;
   HTMLElement.prototype.subelements = HTMLElement.prototype.querySelectorAll;
@@ -209,6 +210,30 @@
 			 return t
 		 }
 	 };
+   var waitUntil = function (func,exp){
+     var _waitUntil = function (func,exp){
+       var maxWaitSeconds = 60;
+       var _w = 0;
+       var _t = setInterval(function (){
+         if (exp.call()){
+           clearInterval(_t);
+           func.call();
+           logger.debug('Ejecuting '+func.name + ' after wait');
+         } else {
+           if (_w<maxWaitSeconds){
+             _w+=1;
+             logger.debug('WAIT UNTIL '+func.name + ' is true, '+_w.toString()+' cycles');
+           } else {
+             logger.debug('Max execution time for '+func.name + ' expression until true');
+             clearInterval(_t);
+           }
+         }
+       },10);
+     };
+     setTimeout(function (){
+       _waitUntil(func,exp);
+     },1);
+   };
 	 var ComplexStorageCache = function(params) {
 		 var object, load, alternate;
 		 object = params.index;
@@ -651,6 +676,7 @@
 	});
 
 	Export(CONFIG);
+  Export(waitUntil);
 
 	/**
 	 * Defines a package for Class classification
