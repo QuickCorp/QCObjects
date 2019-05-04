@@ -516,8 +516,8 @@
 		o['__definition'] = definition;
 		o['__definition']['__classType']=name;
 		_QC_CLASSES[name] = o;
-		window[name] = o;
-		return window[name];
+		_top[name] = o;
+		return _top[name];
 	};
 
 	/**
