@@ -610,6 +610,7 @@
 		_CONFIG:{
 			'relativeImportPath':'',
       'remoteImportsPath':'',
+      'remoteSDKPath':'https://sdk.qcobjects.dev/',
 			'asynchronousImportsLoad':false,
 			'componentsBasePath':'',
 			'delayForReady':0,
@@ -1230,7 +1231,7 @@
       (function (){
         var remoteImportsPath = CONFIG.get('remoteImportsPath');
         var external = (!CONFIG.get('useLocalSDK'))?(true):(false);
-        CONFIG.set('remoteImportsPath','https://sdk.qcobjects.dev/');
+        CONFIG.set('remoteImportsPath',CONFIG.get('remoteSDKPath'));
         Import('QCObjects-SDK',function (){
           if (external){
             logging.debug('QCObjects-SDK.js loaded from remote location');
