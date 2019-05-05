@@ -863,6 +863,7 @@
 		domain:window.location.host.toLowerCase(),
     basePath:basePath,
 		templateURI:'',
+    tplsource:'default',
 		url:'',
     method:'GET',
     data:{},
@@ -1045,6 +1046,26 @@
   });
 
 	Class('VO',Object,{});
+
+  /**
+	* Returns a standarized uri for a component
+	* @example
+  * templateURI = ComponentURI({'COMPONENTS_BASE_PATH':'','COMPONENT_NAME':'','TPLEXTENSION':'','TPL_SOURCE':''})
+	* @author: Jean Machuca <correojean@gmail.com>
+	* @param params an object with the params to build the uri path
+	*/
+  var ComponentURI = function (params){
+    var templateURI = '';
+    if (params['TPL_SOURCE']=='default'){
+      templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}';
+      for (var k in params){
+        var param = params[k];
+        templateURI = templateURI.replace('{{' + k + '}}', params[k]);
+      }
+    }
+    return templateURI;
+  };
+
 
 	/**
 	* Loads a simple component from a template
@@ -1328,17 +1349,26 @@
 				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
         var tplextension = (typeof CONFIG.get('tplextension') != 'undefined')?(CONFIG.get('tplextension')):('html');
         tplextension = (components[_c].getAttribute('tplextension')!=null)?(components[_c].getAttribute('tplextension')):(tplextension);
+        var tplsource = (components[_c].getAttribute('template-source')==null)?('default'):(components[_c].getAttribute('template-source'));
+        var componentURI = ComponentURI({
+          'COMPONENTS_BASE_PATH':CONFIG.get('componentsBasePath'),
+          'COMPONENT_NAME':components[_c].getAttribute('name').toString(),
+          'TPLEXTENSION':tplextension,
+          'TPL_SOURCE':tplsource
+        });
 				if (CONFIG.get('preserveComponentBodyTag')){
 					Class('ComponentBody',Component,{
 			      name:components[_c].getAttribute('name').toString(),
 						reload:true
 			    });
+
 					var newComponent = New(ComponentBody,{
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
 						cached:cached,
             tplextension:tplextension,
-			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',tplextension),
+			      templateURI:componentURI,
+            tplsource:tplsource,
 						subcomponents:[]
 			    });
 					newComponent.done = componentDone;
@@ -1352,7 +1382,8 @@
 						cached:cached,
             tplextension:tplextension,
 						body:components[_c],
-			      templateURI:'{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',components[_c].getAttribute('name').toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',tplextension),
+			      templateURI:componentURI,
+            tplsource:tplsource,
 						subcomponents:[]
 			    });
 					newComponent.done = componentDone;
