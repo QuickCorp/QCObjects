@@ -212,7 +212,7 @@
 	 };
    var waitUntil = function (func,exp){
      var _waitUntil = function (func,exp){
-       var maxWaitSeconds = 60;
+       var maxWaitSeconds = 6000;
        var _w = 0;
        var _t = setInterval(function (){
          if (exp.call()){
@@ -228,7 +228,7 @@
              clearInterval(_t);
            }
          }
-       },10);
+       },1);
      };
      setTimeout(function (){
        _waitUntil(func,exp);
