@@ -212,7 +212,7 @@
 	 };
    var waitUntil = function (func,exp){
      var _waitUntil = function (func,exp){
-       var maxWaitSeconds = 6000;
+       var maxWaitCycles = 2000;
        var _w = 0;
        var _t = setInterval(function (){
          if (exp.call()){
@@ -220,7 +220,7 @@
            func.call();
            logger.debug('Ejecuting '+func.name + ' after wait');
          } else {
-           if (_w<maxWaitSeconds){
+           if (_w<maxWaitCycles){
              _w+=1;
              logger.debug('WAIT UNTIL '+func.name + ' is true, '+_w.toString()+' cycles');
            } else {
