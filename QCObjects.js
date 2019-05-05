@@ -700,6 +700,7 @@
 	 */
 	var Package = function(namespace, classes) {
     if (_QC_PACKAGES.hasOwnProperty(namespace)
+        && typeof _QC_PACKAGES[namespace] != 'undefined'
         && _QC_PACKAGES[namespace].hasOwnProperty('length')
         && _QC_PACKAGES[namespace].length>0){
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
