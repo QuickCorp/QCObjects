@@ -896,6 +896,13 @@
       document.addEventListener('componentsloaded', function(e) {
         e.stopImmediatePropagation();
         if (!Component._bindroute.__assigned){
+          var _top.__oldpopstate = _top.onpopstate;
+          _top.onpopstate = function (e) {
+            Component.route();
+            if (typeof e.target.__oldpopstate != 'undefined' && typeof e.target.__oldpopstate == 'function'){
+              e.target.__oldpopstate.call(e.target,e);
+            }
+          }
           Tag('a').map(function (a){
               a.oldclick = a.onclick;
               a.onclick = function (e){
