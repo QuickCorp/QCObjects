@@ -893,6 +893,7 @@
     routingSelected:[],
     _bindroute:function (){
       document.addEventListener('componentsloaded', function(e) {
+        e.stopImmediatePropagation();
         Tag('a').map(function (a){
             a.oldclick = a.onclick;
             a.onclick = function (e){
