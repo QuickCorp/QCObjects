@@ -1000,7 +1000,7 @@
             'COMPONENTS_BASE_PATH':CONFIG.get('componentsBasePath'),
             'COMPONENT_NAME':routing.name.toString(),
             'TPLEXTENSION':rc.tplextension,
-            'TPL_SOURCE':'default' #here is always default in order to get the right uri
+            'TPL_SOURCE':'default' //here is always default in order to get the right uri
           });
           rc.templateURI = componentURI;
         }
