@@ -922,11 +922,20 @@
       });
     },
     route:function (){
-      var routingComponents = GLOBAL.componentsStack;
-      for (var r=0;r<routingComponents.length;r++){
-        var rc = routingComponents[r];
-        rc._reroute_();
-      }
+      var componentClass = this;
+      var __route__ = function (routingComponents){
+        for (var r=0;r<routingComponents.length;r++){
+          var rc = routingComponents[r];
+          rc._reroute_();
+          if (rc.hasOwnProperty('subcomponents')
+            && typeof rc.subcomponents != 'undefined'
+            && rc.subcomponents.length>0
+          ){
+            __route__.call(componentClass,routingComponents);
+          }
+        }
+      };
+      __route__.call(componentClass,GLOBAL.componentsStack);
     },
     fullscreen: function(){
       var elem = this.body;
@@ -987,7 +996,13 @@
         rc.routingSelected=rc.routings.filter(function (routing){return routing.path==rc.routingPath});
         for (var r=0;r<rc.routingSelected.length;r++){
           var routing = rc.routingSelected[r];
-          rc.templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',routing.name.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',rc.tplextension);
+          var componentURI = ComponentURI({
+            'COMPONENTS_BASE_PATH':CONFIG.get('componentsBasePath'),
+            'COMPONENT_NAME':routing.name.toString(),
+            'TPLEXTENSION':rc.tplextension,
+            'TPL_SOURCE':'default' #here is always default in order to get the right uri
+          });
+          rc.templateURI = componentURI;
         }
         if (rc.routingSelected.length>0){
           rc.body.innerHTML='';
