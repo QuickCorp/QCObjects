@@ -932,6 +932,13 @@
         for (var r=0;r<routingComponents.length;r++){
           var rc = routingComponents[r];
           rc._reroute_();
+          if (rc.hasOwnProperty('subcomponents')
+            && typeof rc.subcomponents != 'undefined'
+            && rc.subcomponents.length>0
+          ){
+            logger.debug('LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: '+rc.name);
+            __route__.call(componentClass,rc.subcomponents);
+          }
         }
       };
       __route__.call(componentClass,GLOBAL.componentsStack);
