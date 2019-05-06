@@ -960,11 +960,8 @@
         document.msExitFullscreen();
       }
     },
-    _new_:function (properties){
-      this.__new__(properties);
-      this.routingWay = CONFIG.get('routingWay');
+    _generateRoutingPaths:(c){
       if (this.validRoutingWays.includes(this.routingWay)){
-        var c = Tag('component[name='+properties.name+']')[0];
         if (typeof c != 'undefined'){
           this.innerHTML = c.innerHTML;
           this.routingNodes = c.subelements('routing');
@@ -980,10 +977,28 @@
             if (!GLOBAL.get('routingPaths')){
               GLOBAL.set('routingPaths',[]);
             }
-            GLOBAL.get('routingPaths').push(routing.path);
+            if (!GLOBAL.get('routingPaths').includes(routing.path)){
+              GLOBAL.get('routingPaths').push(routing.path);
+            }
           }
         }
       }
+    },
+    _new_:function (properties){
+      this.routingWay = CONFIG.get('routingWay');
+
+      var self = this;
+      Object.defineProperty(self,'body',{
+        set(value){
+          self._body = value;
+          self._generateRoutingPaths(value);
+        },
+        get(){
+          return self._body;
+        }
+      });
+      this.__new__(properties);
+
       if (!this._reroute_()){
         this.rebuild();
       }
@@ -1588,7 +1603,7 @@
         get(){
           return self.source.length;
         }
-      })
+      });
     }
   });
 
