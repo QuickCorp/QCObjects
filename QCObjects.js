@@ -931,7 +931,7 @@
             && typeof rc.subcomponents != 'undefined'
             && rc.subcomponents.length>0
           ){
-            __route__.call(componentClass,routingComponents);
+            __route__.call(componentClass,rc.subcomponents);
           }
         }
       };
