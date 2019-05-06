@@ -1413,6 +1413,7 @@
 						d.dispatchEvent(new CustomEvent('componentsloaded',{detail:{lastComponent:this}}));
 					}
 				};
+        var __cached_not_set = (components[_c].getAttribute('cached')==null)?(true):(false);
 				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
         var tplextension = (typeof CONFIG.get('tplextension') != 'undefined')?(CONFIG.get('tplextension')):('html');
         tplextension = (components[_c].getAttribute('tplextension')!=null)?(components[_c].getAttribute('tplextension')):(tplextension);
@@ -1432,7 +1433,7 @@
 					var newComponent = New(ComponentBody,{
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
-						cached:(cached==null)?(Component.cached):(cached),
+						cached:(__cached_not_set)?(Component.cached):(cached),
             tplextension:tplextension,
 			      templateURI:componentURI,
             tplsource:tplsource,
@@ -1446,7 +1447,7 @@
 					var newComponent = New(_QC_CLASSES[_componentClassName],{
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
-            cached:(cached==null)?(Component.cached):(cached),
+            cached:(__cached_not_set)?(Component.cached):(cached),
             tplextension:tplextension,
 						body:components[_c],
 			      templateURI:componentURI,
