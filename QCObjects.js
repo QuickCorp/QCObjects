@@ -898,6 +898,8 @@
         if (!Component._bindroute.__assigned){
           _top.__oldpopstate = _top.onpopstate;
           _top.onpopstate = function (e) {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
             Component.route();
             if (typeof e.target.__oldpopstate != 'undefined' && typeof e.target.__oldpopstate == 'function'){
               e.target.__oldpopstate.call(e.target,e);
