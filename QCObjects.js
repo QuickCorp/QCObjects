@@ -892,34 +892,38 @@
     routingPath:"",
     routingSelected:[],
     _bindroute:function (){
+      Component._bindroute.__assigned = false;
       document.addEventListener('componentsloaded', function(e) {
         e.stopImmediatePropagation();
-        Tag('a').map(function (a){
-            a.oldclick = a.onclick;
-            a.onclick = function (e){
-              var _ret_ = true;
-              if (!GLOBAL.get('routingPaths')){
-                GLOBAL.set('routingPaths',[]);
-              }
-              var routingWay = CONFIG.get('routingWay');
-              var routingPath = e.target[routingWay];
-              if (GLOBAL.get('routingPaths').includes(routingPath)
-                  && e.target[routingWay] != document.location[routingWay]
-                  && e.target.href != document.location.href
-                ){
-                logger.debug('A ROUTING WAS FOUND: '+routingPath);
-                history.pushState({href:e.target.href},e.target.href,e.target.href);
-                Component.route();
-                _ret_ = false;
-              } else {
-                logger.debug('NO ROUTING FOUND FOR: '+routingPath);
-              }
-              if (typeof e.target.oldclick != 'undefined' && typeof e.target.oldclick == 'function'){
-                e.target.oldclick.call(e.target,e);
-              }
-              return _ret_;
-            };
-        });
+        if (!Component._bindroute.__assigned){
+          Tag('a').map(function (a){
+              a.oldclick = a.onclick;
+              a.onclick = function (e){
+                var _ret_ = true;
+                if (!GLOBAL.get('routingPaths')){
+                  GLOBAL.set('routingPaths',[]);
+                }
+                var routingWay = CONFIG.get('routingWay');
+                var routingPath = e.target[routingWay];
+                if (GLOBAL.get('routingPaths').includes(routingPath)
+                    && e.target[routingWay] != document.location[routingWay]
+                    && e.target.href != document.location.href
+                  ){
+                  logger.debug('A ROUTING WAS FOUND: '+routingPath);
+                  history.pushState({href:e.target.href},e.target.href,e.target.href);
+                  Component.route();
+                  _ret_ = false;
+                } else {
+                  logger.debug('NO ROUTING FOUND FOR: '+routingPath);
+                }
+                if (typeof e.target.oldclick != 'undefined' && typeof e.target.oldclick == 'function'){
+                  e.target.oldclick.call(e.target,e);
+                }
+                return _ret_;
+              };
+          });
+          Component._bindroute.__assigned=true;
+        }
       });
     },
     route:function (){
