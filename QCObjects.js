@@ -954,7 +954,7 @@
         document.msExitFullscreen();
       }
     },
-    _generateRoutingPaths:(c){
+    _generateRoutingPaths:function (c){
       if (this.validRoutingWays.includes(this.routingWay)){
         if (typeof c != 'undefined'){
           this.innerHTML = c.innerHTML;
