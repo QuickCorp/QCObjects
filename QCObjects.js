@@ -1432,7 +1432,7 @@
 					var newComponent = New(ComponentBody,{
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
-						cached:cached,
+						cached:(cached==null)?(Component.cached):(cached),
             tplextension:tplextension,
 			      templateURI:componentURI,
             tplsource:tplsource,
@@ -1446,7 +1446,7 @@
 					var newComponent = New(_QC_CLASSES[_componentClassName],{
 			      name:components[_c].getAttribute('name').toString(),
 						data:data,
-						cached:cached,
+            cached:(cached==null)?(Component.cached):(cached),
             tplextension:tplextension,
 						body:components[_c],
 			      templateURI:componentURI,
