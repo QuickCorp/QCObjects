@@ -1356,8 +1356,32 @@
 				return this._GLOBAL[name];
 			},
       __start__:function (){
+        var __load__serviceWorker = function (){
+          var _promise = new Promise(function (resolve,reject){
+            if(('serviceWorker' in navigator)
+                && (typeof CONFIG.get('serviceWorkerURI') != 'undefined')) {
+              navigator.serviceWorker.register(CONFIG.get('serviceWorkerURI'), { scope: '/' })
+                .then(function(registration) {
+                      logger.debug('Service Worker Registered');
+                      resolve.call(_promise,registration);
+                },function (registration){
+                  logger.debug('Error registering Service Worker');
+                  reject.call(_promise,registration);
+                });
+              navigator.serviceWorker.ready.then(function(registration) {
+                 logger.debug('Service Worker Ready');
+                 resolve.call(_promise,registration);
+              },function (registration){
+                logger.debug('Error loading Service Worker');
+                reject.call(_promise,registration);
+              });
+            }
+          });
+          return _promise;
+        };
         var _buildComponents = function (){
           GLOBAL.componentsStack = document.buildComponents();
+          __load__serviceWorker.call(_top);
         };
         Component._bindroute();
         if (CONFIG.get('useConfigService')){
