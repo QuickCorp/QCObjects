@@ -1254,79 +1254,91 @@
 	*/
 	var serviceLoader = function(service, _async) {
 		var _serviceLoader = function(service, _async) {
-      logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
-      var xhr = new XMLHttpRequest();
-//			xhr.withCredentials = service.headers.hasOwnProperty('Authorization');
-			xhr.withCredentials = true;
-      xhr.open(service.method, service.url,true);
-			for (var header in service.headers){
-				xhr.setRequestHeader(header, service.headers[header]);
-			}
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          var response = xhr.responseText;
-          logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
-          logger.debug('CREATING SERVICE {{NAME}}'.replace('{{NAME}}', service.name));
-          service.template = response;
-					if (service.cached && (typeof cache != 'undefined')){
-						cache.save(service.name, service.template);
-					}
-					if (typeof service.done === 'function') {
-						service.done.call(service, {
-							'request': xhr,
-							'service': service
-						});
-					}
-        } else {
-          if (typeof service.fail === 'function') {
-            service.fail.call(service, {
-              'request': xhr,
-              'service': service
-            });
-          }
+      var _promise = new Promise(
+        function (resolve,reject){
+
+          logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
+          var xhr = new XMLHttpRequest();
+    			xhr.withCredentials = true;
+          xhr.open(service.method, service.url,true);
+    			for (var header in service.headers){
+    				xhr.setRequestHeader(header, service.headers[header]);
+    			}
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+              var response = xhr.responseText;
+              logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
+              logger.debug('CREATING SERVICE {{NAME}}'.replace('{{NAME}}', service.name));
+              service.template = response;
+    					if (service.cached && (typeof cache != 'undefined')){
+    						cache.save(service.name, service.template);
+    					}
+    					if (typeof service.done === 'function') {
+                var standardResponse = {
+    							'request': xhr,
+    							'service': service
+    						};
+    						service.done.call(service, standardResponse);
+                resolve.call(_promise,standardResponse);
+    					}
+            } else {
+              if (typeof service.fail === 'function') {
+                var standardResponse = {
+    							'request': xhr,
+    							'service': service
+    						};
+                service.fail.call(service, standardResponse);
+                reject.call(_promise,standardResponse);
+              }
+            }
+          };
+
+    			var _directLoad = function (){
+    				logger.debug('SENDING THE NORMAL AJAX CALL ');
+    				xhr.send(JSON.stringify(service.data));
+    			};
+
+    			if (service.cached){
+    				var cache = new ComplexStorageCache({
+    	        'index': service.data,
+    	        'load': function(cacheController) {
+    						_directLoad.call(this);
+    	        },
+    	        'alternate': function(cacheController) {
+    	          if (service.method == 'GET') {
+    	            service.template = cacheController.cache.getCached(service.name);
+    							if (typeof service.done === 'function') {
+                    var standardResponse = {
+        							'request': xhr,
+        							'service': service
+        						};
+        						service.done.call(service, standardResponse);
+                    resolve.call(_promise,standardResponse);
+    							}
+    	          } else {
+    							_directLoad.call(this);
+    	          }
+    	          return;
+    	        }
+    	      });
+    				GLOBAL.lastCache = cache;
+    			} else {
+    				_directLoad.call(this);
+    			}
+
+          return xhr;
         }
-      };
-
-			var _directLoad = function (){
-				logger.debug('SENDING THE NORMAL AJAX CALL ');
-				xhr.send(JSON.stringify(service.data));
-			};
-
-			if (service.cached){
-				var cache = new ComplexStorageCache({
-	        'index': service.data,
-	        'load': function(cacheController) {
-						_directLoad.call(this);
-	        },
-	        'alternate': function(cacheController) {
-	          if (service.method == 'GET') {
-	            service.template = cacheController.cache.getCached(service.name);
-							if (typeof service.done === 'function') {
-								service.done.call(service, {
-									'request': xhr,
-									'service': service
-								});
-							}
-	          } else {
-							_directLoad.call(this);
-	          }
-	          return;
-	        }
-	      });
-				GLOBAL.lastCache = cache;
-			} else {
-				_directLoad.call(this);
-			}
-
-      return xhr;
-
+      );
+      return _promise;
 	  };
 
+    var _ret_;
 		if (typeof _async != 'undefined' && _async){
-			asyncLoad(_serviceLoader, arguments);
+			_ret_ = asyncLoad(_serviceLoader, arguments);
 		} else {
-			_serviceLoader(service,_async);
+			_ret_ = _serviceLoader(service,_async);
 		}
+    return _ret_;
 	};
 
 	Export(serviceLoader);
