@@ -47,6 +47,26 @@
 		}
 	}
 
+  /**
+  * Polyfilling Promise
+  */
+  if (!('Promise' in _top)){
+    _top.Promise = function (_f){
+      var _p = {
+        then:function (){},
+        catch:function (){},
+        _then: function (response){
+          this.then.call(_p,response);
+        },
+        _catch:function (response){
+          this.catch.call(_p,response);
+        }
+      };
+      _f.call(_p,_p._then,_p._catch);
+      return _p;
+    };
+  }
+
 	 if ( typeof _top.console == 'undefined') {
 		 _top.console = function() {
 		 };
