@@ -1164,106 +1164,116 @@
 	*/
 	var componentLoader = function(component, _async) {
 		var _componentLoader = function(component, _async) {
-	    var container = (component.hasOwnProperty('container') && typeof component.container != 'undefined' && component.container != null)?(component.container):(component.body);
-	    if (container != null) {
-				var feedComponent = function (component){
-					var parsedAssignmentText = component.template;
-					for (var k in component.data) {
-						parsedAssignmentText = parsedAssignmentText.replace('{{' + k + '}}', component.data[k]);
-					}
-					component.innerHTML = parsedAssignmentText;
-					if (component.reload) {
-						logger.debug('FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
-						container.innerHTML = component.innerHTML;
-					} else {
-						logger.debug('ADDING COMPONENT {{NAME}} '.replace('{{NAME}}', component.name));
-						container.innerHTML += component.innerHTML;
-					}
-					if (typeof component.done === 'function') {
-						component.done.call(component, {
-							'request': xhr,
-							'component': component
-						});
-					}
-				};
-	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(component.data)).replace('{{URL}}', component.url));
+      var _promise = new Promise(function (resolve,reject){
+        var container = (component.hasOwnProperty('container') && typeof component.container != 'undefined' && component.container != null)?(component.container):(component.body);
+  	    if (container != null) {
+  				var feedComponent = function (component){
+  					var parsedAssignmentText = component.template;
+  					for (var k in component.data) {
+  						parsedAssignmentText = parsedAssignmentText.replace('{{' + k + '}}', component.data[k]);
+  					}
+  					component.innerHTML = parsedAssignmentText;
+  					if (component.reload) {
+  						logger.debug('FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
+  						container.innerHTML = component.innerHTML;
+  					} else {
+  						logger.debug('ADDING COMPONENT {{NAME}} '.replace('{{NAME}}', component.name));
+  						container.innerHTML += component.innerHTML;
+  					}
+            var standardResponse = {
+              'request': xhr,
+              'component': component
+            };
+  					if (typeof component.done === 'function') {
+  						component.done.call(component, standardResponse);
+  					}
+            resolve.call(_promise,standardResponse);
+  				};
+  	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(component.data)).replace('{{URL}}', component.url));
 
-				var _componentLoaded = function() {
-					var successStatus = (is_file)?(0):(200);
-	        if (xhr.status === successStatus) {
-	          var response = xhr.responseText;
-	          logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
-	          logger.debug('CREATING COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
-	          component.template = response;
-						if (component.cached && (typeof cache != 'undefined')){
-							cache.save(component.name, component.template);
-						}
-						feedComponent.call(this,component);
-	        } else {
-	          if (typeof component.fail === 'function') {
-	            component.fail.call(component, {
-	              'request': xhr,
-	              'component': component
-	            });
-	          }
-	        }
-	      };
-				var is_file = (component.url.startsWith('file:'))?(true):(false);
-	      var xhr = new XMLHttpRequest();
-	      xhr.open(component.method, component.url,(!is_file));
-				if (!is_phonegap && !is_file){
-					xhr.setRequestHeader('Content-Type', 'text/html');
-				}
-				if (!is_file){
-					xhr.onload = _componentLoaded;
-				}
-				var _directLoad = function (){
-					logger.debug('SENDING THE NORMAL AJAX CALL ');
-					if (is_file){
-						xhr.send(null);
-						if(xhr.status == 0){
-							_componentLoaded.call(this);
-						}
-					}else{
-						xhr.send(JSON.stringify(component.data));
-					}
-				};
+  				var _componentLoaded = function() {
+  					var successStatus = (is_file)?(0):(200);
+  	        if (xhr.status === successStatus) {
+  	          var response = xhr.responseText;
+  	          logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
+  	          logger.debug('CREATING COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
+  	          component.template = response;
+  						if (component.cached && (typeof cache != 'undefined')){
+  							cache.save(component.name, component.template);
+  						}
+  						feedComponent.call(this,component);
+  	        } else {
+              var standardResponse = {
+                'request': xhr,
+                'component': component
+              };
+  	          if (typeof component.fail === 'function') {
+  	            component.fail.call(component, standardResponse);
+  	          }
+              reject.call(_promise,standardResponse);
 
-				if (component.cached){
-					logger.debug('USING CACHE FOR COMPONENT: '+component.name);
-					var cache = new ComplexStorageCache({
-		        'index': component.data,
-		        'load': function(cacheController) {
-							_directLoad.call(this);
-		        },
-		        'alternate': function(cacheController) {
-		          if (component.method == 'GET') {
-		            component.template = cacheController.cache.getCached(component.name);
-								feedComponent.call(this,component);
+  	        }
+  	      };
+  				var is_file = (component.url.startsWith('file:'))?(true):(false);
+  	      var xhr = new XMLHttpRequest();
+  	      xhr.open(component.method, component.url,(!is_file));
+  				if (!is_phonegap && !is_file){
+  					xhr.setRequestHeader('Content-Type', 'text/html');
+  				}
+  				if (!is_file){
+  					xhr.onload = _componentLoaded;
+  				}
+  				var _directLoad = function (){
+  					logger.debug('SENDING THE NORMAL AJAX CALL ');
+  					if (is_file){
+  						xhr.send(null);
+  						if(xhr.status == 0){
+  							_componentLoaded.call(this);
+  						}
+  					}else{
+  						xhr.send(JSON.stringify(component.data));
+  					}
+  				};
 
-		          } else {
-								_directLoad.call(this);
-		          }
-		          return;
-		        }
-		      });
-					GLOBAL.lastCache = cache;
-				} else {
-					logger.debug('NOT USING CACHE FOR COMPONENT: '+component.name);
-					_directLoad.call(this);
-				}
+  				if (component.cached){
+  					logger.debug('USING CACHE FOR COMPONENT: '+component.name);
+  					var cache = new ComplexStorageCache({
+  		        'index': component.data,
+  		        'load': function(cacheController) {
+  							_directLoad.call(this);
+  		        },
+  		        'alternate': function(cacheController) {
+  		          if (component.method == 'GET') {
+  		            component.template = cacheController.cache.getCached(component.name);
+  								feedComponent.call(this,component);
 
-	      return xhr;
-	    } else {
-				logger.debug('CONTAINER DOESNT EXIST')
-			}
+  		          } else {
+  								_directLoad.call(this);
+  		          }
+  		          return;
+  		        }
+  		      });
+  					GLOBAL.lastCache = cache;
+  				} else {
+  					logger.debug('NOT USING CACHE FOR COMPONENT: '+component.name);
+  					_directLoad.call(this);
+  				}
+
+  	      return xhr;
+  	    } else {
+  				logger.debug('CONTAINER DOESNT EXIST')
+  			}
+      });
+      return _promise;
 	  };
 
+    var _ret_;
 		if (typeof _async != 'undefined' && _async){
-			asyncLoad(_componentLoader, arguments);
+			_ret_ asyncLoad(_componentLoader, arguments);
 		} else {
-			_componentLoader(component,_async);
+			_ret_ = _componentLoader(component,_async);
 		}
+    return _ret_;
 	};
 
 	/**
