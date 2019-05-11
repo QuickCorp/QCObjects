@@ -899,7 +899,7 @@
 		},
 		rebuild:function (){
       var _component = this;
-      var _promise = Promise(function (resolve,reject){
+      var _promise = new Promise(function (resolve,reject){
         _component.set('url',_component.get('basePath')+_component.get('templateURI'));
   			if (typeof _component.get('templateURI') !='undefined' && _component.get('templateURI') != ""){
   				componentLoader(_component,false).then(
