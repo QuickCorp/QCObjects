@@ -1051,7 +1051,9 @@
       this.__new__(properties);
 
       if (!this._reroute_()){
-        this.rebuild();
+        this.rebuild().catch(function (standardResponse){
+          logger.debug('Component not rebuilt');
+        });
       }
     },
     _reroute_:function (){
@@ -1072,7 +1074,9 @@
         }
         if (rc.routingSelected.length>0){
           rc.body.innerHTML='';
-          rc.rebuild();
+          rc.rebuild().catch(function (standardResponse){
+            logger.debug('Component not rebuilt');
+          });
           _rebuilt = true;
         }
       }
