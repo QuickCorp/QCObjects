@@ -886,6 +886,7 @@
 		templateURI:'',
     tplsource:'default',
 		url:'',
+    name:'',
     method:'GET',
     data:{},
     reload:false,
@@ -897,10 +898,25 @@
 			return this[name];
 		},
 		rebuild:function (){
-			this.set('url',this.get('basePath')+this.get('templateURI'));
-			if (typeof this.get('templateURI') !='undefined' && this.get('templateURI') != ""){
-				componentLoader(this,false);
-			}
+      var _component = this;
+      var _promise = Promise(function (resolve,reject){
+        _component.set('url',_component.get('basePath')+_component.get('templateURI'));
+  			if (typeof _component.get('templateURI') !='undefined' && _component.get('templateURI') != ""){
+  				componentLoader(_component,false).then(
+            function (standardResponse){
+              resolve.call(_promise,standardResponse);
+            },function (standardResponse){
+              reject.call(_promise,standardResponse);
+            });
+  			} else {
+          logger.debug('Component '+_component.name+' will not be rebuilt because no templateURI is present');
+          reject.call(_promise,{
+            xhr:null,
+            component:_component
+          });
+        }
+      });
+      return _promise;
 		},
 		Cast:function (o){
 			return _Cast(this,o);
