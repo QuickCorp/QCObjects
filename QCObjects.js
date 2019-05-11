@@ -911,7 +911,7 @@
   			} else {
           logger.debug('Component '+_component.name+' will not be rebuilt because no templateURI is present');
           reject.call(_promise,{
-            xhr:null,
+            request:null,
             component:_component
           });
         }
@@ -1345,7 +1345,12 @@
 
     			var _directLoad = function (){
     				logger.debug('SENDING THE NORMAL AJAX CALL ');
-    				xhr.send(JSON.stringify(service.data));
+            try {
+              xhr.send(JSON.stringify(service.data));
+            }catch (e){
+              logger.debug('SOMETHING WRONG WITH AJAX CALL ');
+              reject.call(_promise,{request:xhr,service:service});
+            }
     			};
 
     			if (service.cached){
