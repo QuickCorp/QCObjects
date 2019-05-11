@@ -1269,7 +1269,7 @@
 
     var _ret_;
 		if (typeof _async != 'undefined' && _async){
-			_ret_ asyncLoad(_componentLoader, arguments);
+			_ret_ = asyncLoad(_componentLoader, arguments);
 		} else {
 			_ret_ = _componentLoader(component,_async);
 		}
