@@ -787,8 +787,7 @@
   				__readyImportLoaded = true;
           resolve.call(_promise_import_,{
             '_imported_':e.target,
-            '_package_name_':packagename,
-            'package':_QC_PACKAGES[packagename]
+            '_package_name_':packagename
           });
   			}
   		};
@@ -807,8 +806,7 @@
         s1.onerror = function (e){
           reject.call(_promise_import_,{
             '_imported_':s1,
-            '_package_name_':packagename,
-            'package':_QC_PACKAGES[packagename]
+            '_package_name_':packagename
           });
         };
   			document.getElementsByTagName('head')[0].appendChild(s1);
