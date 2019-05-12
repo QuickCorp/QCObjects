@@ -566,7 +566,9 @@
     var c_new = (typeof c =='undefined')?(Object.create((new Object()).constructor.prototype,{})):(Object.create(c.constructor.prototype,c.__definition));
 		c_new.__definition = _Cast({'__instanceID':__instanceID},(typeof c != 'undefined')?(c.__definition):({}));
 		c_new['__instanceID'] = __instanceID;
-		c_new.__definition['__instanceID']=__instanceID;
+    if (c_new.hasOwnProperty('definition') && typeof c_new.__definition != 'undefined' && c_new.__definition != null){
+      c_new.__definition['__instanceID']=__instanceID;
+    }
 		if (c_new.hasOwnProperty('__new__')) {
 			if (typeof c_new != 'undefined' && !c_new.__definition.hasOwnProperty('body')){
 				try{
@@ -777,7 +779,9 @@
   		};
 
       var readyImported = function(e) {
-  			if (!__readyImportLoaded){
+  			if (typeof ready != 'undefined'
+        && ready != null
+        && _QC_PACKAGES_IMPORTED.includes(ready)){
   				_QC_PACKAGES_IMPORTED.push(ready);
   				if (allPackagesImported()) {
   					for (var _r in _QC_PACKAGES_IMPORTED) {
@@ -796,7 +800,6 @@
   			var s1 = document.createElement('script');
   			s1.type = 'text/javascript';
   			s1.async=(CONFIG.get('asynchronousImportsLoad'))?(true):(false);
-  			s1.src = (external)?(CONFIG.get('remoteImportsPath')+ packagename + '.js'):(basePath + CONFIG.get('relativeImportPath') + packagename + '.js');
   			s1.onreadystatechange = function() {
   				if (s1.readyState == 'complete') {
   					readyImported.call();
@@ -809,6 +812,7 @@
             '_package_name_':packagename
           });
         };
+        s1.src = (external)?(CONFIG.get('remoteImportsPath')+ packagename + '.js'):(basePath + CONFIG.get('relativeImportPath') + packagename + '.js');
   			document.getElementsByTagName('head')[0].appendChild(s1);
   		}
     });
