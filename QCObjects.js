@@ -711,6 +711,7 @@
 	Export(CONFIG);
   Export(waitUntil);
   Export(_super_);
+  Export(ComplexStorageCache);
 
 	/**
 	 * Defines a package for Class classification
