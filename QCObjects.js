@@ -24,6 +24,19 @@
 */
 "use strict";
 (function() {
+  (function() {
+    var __oldtoString = Function.prototype.toString;
+    Function.prototype.toString = function (){
+      var _protected_symbols = ['Class','New','Export','Package','Import','subelements'];
+      var _ret_;
+      if (_promise_import_.includes(this.name)){
+        _ret_ = this.name + "{ [QCObjects native code] }";
+      } else {
+        _ret_ = __oldtoString.call(this);
+      }
+      return _ret_;
+    };
+  })();
 
   Element.prototype.subelements = Element.prototype.querySelectorAll;
   HTMLDocument.prototype.subelements = HTMLDocument.prototype.querySelectorAll;
