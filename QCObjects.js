@@ -738,28 +738,29 @@
 	 * @param {Object} ready
 	 */
 	var Import = function() {
+    var packagename;
+    var ready = function (){};
+    var external = false;
+    if (arguments.length<1){
+      return;
+    } else if (arguments.length==1){
+      packagename = arguments[0];
+    } else if (arguments.length==2){
+      packagename = arguments[0];
+      ready = arguments[1];
+    } else if (arguments.length>2){
+      packagename = arguments[0];
+      ready = arguments[1];
+      external = arguments[2];
+      logger.debug('[Import] Setting external='+external.toString()+' resource to import: '+packagename);
+    }
+    if (external){
+      logger.debug('[Import] Registering external resource to import: '+packagename);
+    } else {
+      logger.debug('[Import] Registering local resource to import: '+packagename);
+    }
+
     var _promise_import_ = new Promise(function (resolve,reject){
-      var packagename;
-      var ready = function (){};
-      var external = false;
-      if (arguments.length<1){
-        return;
-      } else if (arguments.length==1){
-        packagename = arguments[0];
-      } else if (arguments.length==2){
-        packagename = arguments[0];
-        ready = arguments[1];
-      } else if (arguments.length>2){
-        packagename = arguments[0];
-        ready = arguments[1];
-        external = arguments[2];
-        logger.debug('[Import] Setting external='+external.toString()+' resource to import: '+packagename);
-      }
-      if (external){
-        logger.debug('[Import] Registering external resource to import: '+packagename);
-      } else {
-        logger.debug('[Import] Registering local resource to import: '+packagename);
-      }
 
       var allPackagesImported = function() {
   			var ret = false;
