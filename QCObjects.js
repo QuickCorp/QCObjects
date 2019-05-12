@@ -814,7 +814,7 @@
   		}
     });
     _promise_import_.catch(function (){
-      logger.debug('Import: Error loading a package: '+JSON.stringify(arguments));
+      logger.debug('Import: Error loading a package ');
     });
     return _promise_import_;
 	};
