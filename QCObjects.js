@@ -326,7 +326,6 @@
 		 }
 	 };
 
-	var __readyImportLoaded = false;
 
 	/**
 	 * Basic Type of all elements
@@ -779,21 +778,16 @@
   		};
 
       var readyImported = function(e) {
-  			if (typeof ready != 'undefined'
-        && ready != null
-        && _QC_PACKAGES_IMPORTED.includes(ready)){
   				_QC_PACKAGES_IMPORTED.push(ready);
   				if (allPackagesImported()) {
   					for (var _r in _QC_PACKAGES_IMPORTED) {
   						_QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
   					}
   				}
-  				__readyImportLoaded = true;
           resolve.call(_promise_import_,{
             '_imported_':e.target,
             '_package_name_':packagename
           });
-  			}
   		};
 
       if (!_QC_PACKAGES.hasOwnProperty(packagename)) {
