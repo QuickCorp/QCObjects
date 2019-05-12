@@ -738,69 +738,86 @@
 	 * @param {Object} ready
 	 */
 	var Import = function() {
-    var packagename;
-    var ready = function (){};
-    var external = false;
-    if (arguments.length<1){
-      return;
-    } else if (arguments.length==1){
-      packagename = arguments[0];
-    } else if (arguments.length==2){
-      packagename = arguments[0];
-      ready = arguments[1];
-    } else if (arguments.length>2){
-      packagename = arguments[0];
-      ready = arguments[1];
-      external = arguments[2];
-      logger.debug('[Import] Setting external='+external.toString()+' resource to import: '+packagename);
-    }
-    if (external){
-      logger.debug('[Import] Registering external resource to import: '+packagename);
-    } else {
-      logger.debug('[Import] Registering local resource to import: '+packagename);
-    }
+    var _promise_import_ = new Promise(function (resolve,reject){
+      var packagename;
+      var ready = function (){};
+      var external = false;
+      if (arguments.length<1){
+        return;
+      } else if (arguments.length==1){
+        packagename = arguments[0];
+      } else if (arguments.length==2){
+        packagename = arguments[0];
+        ready = arguments[1];
+      } else if (arguments.length>2){
+        packagename = arguments[0];
+        ready = arguments[1];
+        external = arguments[2];
+        logger.debug('[Import] Setting external='+external.toString()+' resource to import: '+packagename);
+      }
+      if (external){
+        logger.debug('[Import] Registering external resource to import: '+packagename);
+      } else {
+        logger.debug('[Import] Registering local resource to import: '+packagename);
+      }
 
-		var allPackagesImported = function() {
-			var ret = false;
-			var cp = 0;
-			for (var p in _QC_PACKAGES) {
-				cp++;
-			}
-			if (cp < _QC_PACKAGES_IMPORTED.length) {
-				ret = false;
-			} else {
-				ret = true;
-			}
-			return ret;
-		};
-		var readyImported = function(e) {
-			if (!__readyImportLoaded){
-				_QC_PACKAGES_IMPORTED.push(ready);
-				if (allPackagesImported()) {
-					for (var _r in _QC_PACKAGES_IMPORTED) {
-						_QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
-					}
-				}
-				__readyImportLoaded = true;
-			}
-		};
-		if (!_QC_PACKAGES.hasOwnProperty(packagename)) {
-			var s1 = document.createElement('script');
-			s1.type = 'text/javascript';
-			s1.async=(CONFIG.get('asynchronousImportsLoad'))?(true):(false);
-			s1.src = (external)?(CONFIG.get('remoteImportsPath')+ packagename + '.js'):(basePath + CONFIG.get('relativeImportPath') + packagename + '.js');
-			s1.onreadystatechange = function() {
-				if (this.readyState == 'complete') {
-					readyImported.call();
-				}
-			};
-			s1.onload = readyImported;
-			document.getElementsByTagName('head')[0].appendChild(s1);
-		}
+      var allPackagesImported = function() {
+  			var ret = false;
+  			var cp = 0;
+  			for (var p in _QC_PACKAGES) {
+  				cp++;
+  			}
+  			if (cp < _QC_PACKAGES_IMPORTED.length) {
+  				ret = false;
+  			} else {
+  				ret = true;
+  			}
+  			return ret;
+  		};
+
+      var readyImported = function(e) {
+  			if (!__readyImportLoaded){
+  				_QC_PACKAGES_IMPORTED.push(ready);
+  				if (allPackagesImported()) {
+  					for (var _r in _QC_PACKAGES_IMPORTED) {
+  						_QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
+  					}
+  				}
+  				__readyImportLoaded = true;
+          resolve.call(_promise_import_,{
+            '_imported_':e.target,
+            '_package_name_':packagename,
+            'package':_QC_PACKAGES[packagename]
+          });
+  			}
+  		};
+
+      if (!_QC_PACKAGES.hasOwnProperty(packagename)) {
+  			var s1 = document.createElement('script');
+  			s1.type = 'text/javascript';
+  			s1.async=(CONFIG.get('asynchronousImportsLoad'))?(true):(false);
+  			s1.src = (external)?(CONFIG.get('remoteImportsPath')+ packagename + '.js'):(basePath + CONFIG.get('relativeImportPath') + packagename + '.js');
+  			s1.onreadystatechange = function() {
+  				if (s1.readyState == 'complete') {
+  					readyImported.call();
+  				}
+  			};
+  			s1.onload = readyImported;
+        s1.onerror = function (e){
+          reject.call(_promise_import_,{
+            '_imported_':s1,
+            '_package_name_':packagename,
+            'package':_QC_PACKAGES[packagename]
+          });
+        };
+  			document.getElementsByTagName('head')[0].appendChild(s1);
+  		}
+    });
+    _promise_import_.catch(function (){
+      logger.debug('Import: Error loading a package: '+JSON.stringify(arguments));
+    });
+    return _promise_import_;
 	};
-
-
-
 
 	/**
 	* Adds a Cast functionaly to every Element of DOM
