@@ -538,6 +538,9 @@
 		_top[name] = o;
 		return _top[name];
 	};
+  Class.prototype.toString = function (){
+    return "Class(name, type, definition) { [QCObjects native code] }";
+  };
 
   /**
 	 * Returns a method from a superior QCObjects Class
@@ -550,6 +553,9 @@
 	 */
   var _super_ = function (className,classMethodName,params){
     return _QC_CLASSES[className][classMethodName];
+  };
+  _super_.prototype.toString = function (){
+    return "_super_(className,classMethodName,params) { [QCObjects native code] }";
   };
 
 	/**
@@ -589,6 +595,9 @@
 		}
 		return c_new;
 	};
+  New.prototype.toString = function (){
+    return "New(QCObjectsClassName, args) { [QCObjects native code] }";
+  };
 
 	var Export = function (f){
 		try {
@@ -596,6 +605,11 @@
 			window[f.name] = f;
 		} catch (e){}
 	};
+  Export.prototype.toString = function (){
+    return "Export(function or symbol) { [QCObjects native code] }";
+  };
+
+
 
   Class('_Crypt',Object,{
    last_string:"",
@@ -731,12 +745,17 @@
     }
     return _QC_PACKAGES[namespace];
 	};
+  Package.prototype.toString = function (){
+    return "Package(namespace, classes) { [QCObjects native code] }";
+  };
+
 
 	/**
 	 * Imports a script with the package nomenclature
 	 *
 	 * @param {Object} packagename
 	 * @param {Object} ready
+   * @param {Boolean} external
 	 */
 	var Import = function() {
     var packagename;
@@ -815,6 +834,9 @@
     });
     return _promise_import_;
 	};
+  Import.prototype.toString = function (){
+    return "Import(packagename,ready,external) { [QCObjects native code] }";
+  };
 
 	/**
 	* Adds a Cast functionaly to every Element of DOM
