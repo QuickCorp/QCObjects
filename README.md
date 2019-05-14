@@ -443,7 +443,7 @@ Package('cl.quickcorp.controller',[
 ]);
 ```
 
-## Step 5: To use into the HTML5 code you only need to do some settings between <script> tags:
+## Step 5: To use into the HTML5 code you only need to do some settings between script tags:
 
 ```html
 <script>
