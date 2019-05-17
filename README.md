@@ -797,7 +797,8 @@ Attaches a current component body to any element in the given selector.
 Is a HTML tag representation of a component instance. Every declaration of a `<component></component>` tag will generate a related instance of a QCObjects component. While a component tag is not an instance itself, you can even define some instance properties by setting the related tag attribute when it is available.
 
 #### Available attributes:
-##### **`<component name>`**
+##### The name Attribute
+**`<component name>`**
 Sets the name of the related component instance built by QCObjects.
 
 ###### Usage:
@@ -822,7 +823,8 @@ Sets the name of the related component instance built by QCObjects.
 ```
 
 
-##### **`<component cached>`**
+##### The cached Attribute
+**`<component cached>`**
 Sets the cached property if the related instance of a component.
 
 NOTE: Only a value of "true" can be set in order to tell QCObjects that the component template content has to be cached. Any other value will be interpreted as false.
@@ -832,12 +834,14 @@ NOTE: Only a value of "true" can be set in order to tell QCObjects that the comp
 <component name="name_of_component" cached="true"></component>
 ```
 
-##### **`<component data-property1 data-property2 ...>`**
+##### The data property tag declaration
+ **`<component data-property1 data-property2 ...>`**
 Sets a static value of a property for the data object in the component instance.
 
 NOTE: Data property tag declaration was thought with the purpose to give some simple way to mocking a dynamic component with template assignments. Don't use it thinking it is a bidirectional way data binding. While you can get a bidirectional way behaviour accesing a data object from a component instance, it is not the same for the component tag. Data property declaration in component tags is only one way data binding because of components tree architecture.
 
-##### **`<component controllerClass>`**
+##### The controllerClass Attribute
+**`<component controllerClass>`**
 Defines a custom Controller Class for the component instance
 
 ###### Usage:
@@ -846,7 +850,8 @@ Defines a custom Controller Class for the component instance
 ```
 
 
-##### **`<component viewClass>`**
+##### The viewClass Attribute
+ **`<component viewClass>`**
 Defines a custom View Class for the component instance
 
 ###### Usage:
@@ -855,7 +860,8 @@ Defines a custom View Class for the component instance
 ```
 
 
-##### **`<component componentClass>`**
+##### The componentClass Attribute
+**`<component componentClass>`**
 Defines a custom Component Class for the component instance
 
 ###### Usage:
@@ -863,7 +869,8 @@ Defines a custom Component Class for the component instance
 <component name="name_of_component" componentClass="ComponentClassName"></component>
 ```
 
-##### **`<component effectClass>`**
+##### The effecClass Attribute 
+**`<component effectClass>`**
 Defines a custom Effect Class for the component instance
 
 ###### Usage:
@@ -871,7 +878,8 @@ Defines a custom Effect Class for the component instance
 <component name="name_of_component" effectClass="EffectClassName"></component>
 ```
 
-##### **`<component template-source>`**
+##### The template-source Attribute 
+**`<component template-source>`**
 Sets the tplsource property of the related instance of a component. Possible values are "none" or "default".
 
 ###### Usage:
@@ -879,7 +887,8 @@ Sets the tplsource property of the related instance of a component. Possible val
 <component name="name_of_component" template-source="none"></component>
 ```
 
-##### **`<component tplextension>`**
+##### The tplextension Attribute
+**`<component tplextension>`**
 Sets the tplextension property of the related instance of a component. Possible values are any file extension. Default value is "html"
 
 ###### Usage:
