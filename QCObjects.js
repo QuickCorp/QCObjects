@@ -1386,8 +1386,8 @@
 
           logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
           var xhr = new XMLHttpRequest();
-    			xhr.withCredentials = true;
-          xhr.open(service.method, service.url,true);
+    			xhr.withCredentials = service.withCredentials;
+          xhr.open(service.method, service.url,service.withCredentials);
     			for (var header in service.headers){
     				xhr.setRequestHeader(header, service.headers[header]);
     			}
