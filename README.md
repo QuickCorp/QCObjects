@@ -20,6 +20,7 @@ _________________________
 - [Table of Contents](#table-of-contents)
 - [ALPHA RISE Startup](#alpha-rise-startup)
 - [ECMA-262 Specification](#ecma-262-specification)
+- [Copyright](#copyright)
 - [Demo](#demo)
 	- [Demo Using Foundation](#demo-using-foundation)
 	- [Demo Using Materializecss](#demo-using-materializecss)
@@ -95,8 +96,9 @@ If you want to find out more about RISE event check out their website [https://r
 See
 [ECMAScript® 2020 Language Specification](https://tc39.github.io/ecma262/#sec-intro) for reference
 
-Copyright
---------------
+# Copyright
+-----------
+
 Copyright (c) Jean Machuca and QuickCorp <info@quickcorp.cl>
 
 # Demo
@@ -275,7 +277,7 @@ Basic Type of all elements
 
 With **CompletStorageCache** you can handle a cache for any object and save it in the local storage.
 
-#### Usage:
+#### Usage:
 ```javascript
 var cache = new CompletStorageCache({
                       index:object.id, // Object Index
@@ -313,7 +315,9 @@ console.log(dataObjectCopyFromCache); // will show the very same object value th
 ```
 
 ### asyncLoad
+
 The **asyncLoad** function loads a code once in async mode. This is useful to asure some initial process don't replicate its execution and aren't loaded after sensitive code.
+
 #### Usage:
 ```javascript
 asyncLoad(()=>{
@@ -343,7 +347,8 @@ This is NOT the class definition of ECMAScript 2015 (see [class ECMAScript 2015]
 
 Class is a special function to help you to declare a class in an easier and compatible way. It works cross-browser, and I hope ECMA could adopt something like that in the future. To let javascript not to be confuse about this, QCObjects uses "Class" not "class" (note the Camel Case).
 
-#### Usage:
+#### Usage:
+
 ```javascript
 Class('MyClassName',MyClassDefinition);
 ```
@@ -379,7 +384,7 @@ console.log(newObject.classMethod2()); // this will show "some value"
 
 This is a special method inserted to make your life easier when you want to dynamically manipulate the **DOM**. You can insert even a **Component**, a **QCObjects** Object or a **DOM** Element inside another **HTMLElement**.
 
-##### Usage:
+##### Usage:
 ```javascript
 [element].append([object or element]);
 ```
@@ -443,8 +448,7 @@ var newObject = New(MyClassName,{
 console.log(newObject.classMethod2()); // this will show the number 1
 ```
 
-
-### New
+### New
 
 Creates an object instance of a QCObjects class definition.
 
@@ -456,7 +460,8 @@ let objectInstance = New(QCObjectsClassName, properties);
 ```
 NOTE: In the properties object you can use single values or getter as well but they will be executed once.
 
-#### Example:
+#### Example:
+
 ```javascript
 Class('MyCustomClass',Object);
 let objectInstance = New(MyCustomClass,{
@@ -479,7 +484,6 @@ With \_Crypt you can encode serializable objects by a passphrase
 #### Example (1):
 
 ```javascript
-
  var _string = New(_Crypt,{string:'hello world',key:'some encryption md5 key'});
  console.log(_string._encrypt());
  console.log(_string._decrypt()); // decodes encrypted string to the source
@@ -493,15 +497,17 @@ With \_Crypt you can encode serializable objects by a passphrase
 
 
 ### GLOBAL
+
 **GLOBAL** is a special QCObjects class to reach the global scope. It has a set and a get method to help you to manage the internal GLOBAL properties.
 
 #### Example:
+
 ```javascript
 GLOBAL.set('globalProperty1','some value in global scope');
 var globalProperty1 = GLOBAL.get('globalProperty1');
 ```
 
-### CONFIG
+### CONFIG
 
 CONFIG is a smart class that manages the global settings of your application. You can get the properties either from a config.json or from the memory previously saved by a set() call.
 
@@ -536,7 +542,7 @@ waitUntil is a helper just in case you are in trouble trying to run a code befor
 
 NOTE: This is useful in some cases but an excessive use is not recommended.
 
-#### Usage:
+#### Usage:
 ```javascript
 waitUntil(()=>{
   // the code that will be executed after the condition is true
@@ -557,7 +563,7 @@ waitUntil(()=>{
 ### Package
 Defines a QCObjects package and returns it.
 
-#### Usage:
+#### Usage:
 ```javascript
 Package('packageName',[packageContent]);
 ```
@@ -610,7 +616,8 @@ NOTE: In both examples above you have not use or specify the ".js" extension. Th
 ### Export
 Put a symbol (var or function) in the global scope.
 
-#### Usage:
+#### Usage:
+
 ```javascript
 Export('name of symbol');
 ```
@@ -630,11 +637,11 @@ Export('name of symbol');
 someFunction('this works');
 ```
 
-### Cast
+### Cast
 
 Use the Cast method of any DOM element to get the properties of another type of object. This is useful to transform an object type to another giving more flexibility in your code.
 
-#### Usage:
+#### Usage:
 
 ```javascript
 let resultObject = [element or QCObjects type].Cast(objectToCastFrom);
@@ -709,7 +716,7 @@ You will use Ready implementation mostly when you want to implement QCObjects in
 ### Component Class
 A QCObjects class type for components.
 
-#### Properties
+#### Properties
 
 **[Component].domain**
 Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
@@ -807,7 +814,7 @@ Is a HTML tag representation of a component instance. Every declaration of a `<c
 #### Available attributes
 Below is a list of the available attributes for a component tag
 
-##### The name Attribute
+##### The name Attribute
 **`<component name>`**
 Sets the name of the related component instance built by QCObjects.
 
@@ -832,38 +839,38 @@ Sets the name of the related component instance built by QCObjects.
 </html>
 ```
 
-##### The cached Attribute
+##### The cached Attribute
 **`<component cached>`**
 Sets the cached property if the related instance of a component.
 
 NOTE: Only a value of "true" can be set in order to tell QCObjects that the component template content has to be cached. Any other value will be interpreted as false.
 
-###### Usage:
+###### Usage:
 ```html
 <component name="name_of_component" cached="true"></component>
 ```
 
 ##### The data property tag declaration
- **`<component data-property1 data-property2 ...>`**
+ **`<component data-property1 data-property2 ...>`**
 Sets a static value of a property for the data object in the component instance.
 
 NOTE: Data property tag declaration was thought with the purpose to give some simple way to mocking a dynamic component with template assignments. Don't use it thinking it is a bidirectional way data binding. While you can get a bidirectional way behaviour accesing a data object from a component instance, it is not the same for the component tag. Data property declaration in component tags is only one way data binding because of components tree architecture.
 
-##### The controllerClass Attribute
+##### The controllerClass Attribute
 **`<component controllerClass>`**
 Defines a custom Controller Class for the component instance
 
-###### Usage:
+###### Usage:
 ```html
 <component name="name_of_component" controllerClass="ControllerClassName"></component>
 ```
 
 
 ##### The viewClass Attribute
- **`<component viewClass>`**
+ **`<component viewClass>`**
 Defines a custom View Class for the component instance
 
-###### Usage:
+###### Usage:
 ```html
 <component name="name_of_component" viewClass="ViewClassName"></component>
 ```
@@ -873,34 +880,34 @@ Defines a custom View Class for the component instance
 **`<component componentClass>`**
 Defines a custom Component Class for the component instance
 
-###### Usage:
+###### Usage:
 ```html
 <component name="name_of_component" componentClass="ComponentClassName"></component>
 ```
 
-##### The effecClass Attribute 
+##### The effecClass Attribute
 **`<component effectClass>`**
 Defines a custom Effect Class for the component instance
 
-###### Usage:
+###### Usage:
 ```html
 <component name="name_of_component" effectClass="EffectClassName"></component>
 ```
 
-##### The template-source Attribute 
+##### The template-source Attribute
 **`<component template-source>`**
 Sets the tplsource property of the related instance of a component. Possible values are "none" or "default".
 
-###### Usage:
+###### Usage:
 ```html
 <component name="name_of_component" template-source="none"></component>
 ```
 
-##### The tplextension Attribute
+##### The tplextension Attribute
 **`<component tplextension>`**
 Sets the tplextension property of the related instance of a component. Possible values are any file extension. Default value is "html"
 
-###### Usage:
+###### Usage:
 ```html
 <component name="name_of_component" tplextension="tpl.html"></component>
 ```
@@ -909,7 +916,7 @@ Sets the tplextension property of the related instance of a component. Possible 
 #### ComponentURI
 Is a helper function to let you define the templateURI for a component in a normalised way.
 
-##### Example:
+##### Example:
 ```javascript
 var templateURI = ComponentURI({
   'COMPONENTS_BASE_PATH':CONFIG.get('componentsBasePath'),
@@ -974,7 +981,7 @@ A built-in QCObjects Class to define a value object
 A QCObjects class type for services.
 
 
-#### Properties
+#### Properties
 
 **[Service].domain**
 Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
@@ -1008,7 +1015,7 @@ Sets a value for a service property.
 Returns the value of a service property
 
 
-### serviceLoader
+### serviceLoader
 Loads a service instance and returns a promise that is resolved when the service has a successful response load and is rejected when it fails loading the response.
 
 #### Usage:
@@ -1049,7 +1056,7 @@ var service = serviceLoader(New(MyTestService,{
 ### JSONService
 Is a built-in definition for a JSON Service Class
 
-#### Properties
+#### Properties
 
 **[JSONService].domain**
 Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
@@ -1126,7 +1133,7 @@ CONFIG.set('useConfigService',true); // using config.json for custom settings co
 ### SourceCSS
 ### ArrayList
 ### ArrayCollection
-### Effect
+### Effect
 ### Timer
 
 ## SDK
@@ -1363,7 +1370,7 @@ Package('cl.quickcorp.controller',[
 ]);
 ```
 
-## Step 5: To use into the HTML5 code you only need to do some settings between script tags:
+## Step 5: To use into the HTML5 code you only need to do some settings between script tags:
 
 ```html
 <script>
