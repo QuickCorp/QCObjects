@@ -27,7 +27,13 @@
   (function() {
     var __oldtoString = Function.prototype.toString;
     Function.prototype.toString = function (){
-			var _protected_symbols = ['Class',
+			var _protected_symbols = ['QC_Append',
+																'set',
+																'get',
+																'done',
+																'_new_',
+																'__new__',
+																'Class',
 																'New',
 																'Export',
 																'Package',
