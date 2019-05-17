@@ -27,7 +27,28 @@
   (function() {
     var __oldtoString = Function.prototype.toString;
     Function.prototype.toString = function (){
-      var _protected_symbols = ['Class','New','Export','Package','Import','subelements'];
+			var _protected_symbols = ['Class',
+																'New',
+																'Export',
+																'Package',
+																'Import',
+																'subelements',
+																'componentLoader',
+																'buildComponents',
+																'Controller',
+																'View',
+																'VO',
+																'Service',
+																'serviceLoader',
+																'JSONService',
+																'ConfigService',
+																'SourceJS',
+																'SourceCSS',
+																'ArrayList',
+																'ArrayCollection',
+																'Effect',
+																'Timer'
+															];
       var _ret_;
       if (_protected_symbols.includes(this.name)) {
         _ret_ = this.name + "{ [QCObjects native code] }";
