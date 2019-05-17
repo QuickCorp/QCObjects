@@ -1,11 +1,13 @@
 ![logo](qcobjects_01.png)
 
 # QCObjects
-----------------
+------------------------------------
+Welcome to [QCObjects](https://qcobjects.dev) Main Reference Documentation!
+Check the official page of [QCObjects](https://qcobjects.dev) at https://qcobjects.dev
 
 ## Cross Browser Javascript Framework for MVC Patterns
 ----------------------------------------
-QCObjects is a javascript framework designed to make easier everything about the MVC patterns implementation into the pure javascript scope. You don't need to use typescript nor any transpiler to run QCObjects. It runs directly on the browser and it uses pure javascript with no extra dependencies of code. You can make your own components expressed in real native javascript objects or extend a native DOM object to use in your own way. You can also use QCObjects in conjunction with CSS3 frameworks like [Foundation] (https://foundation.zurb.com), [Bootstrap] (http://getbootstrap.com) and mobile javascript frameworks like [PhoneGap] (https://phonegap.com) and OnsenUI (https://onsen.io)
+[QCObjects](https://qcobjects.dev) is a javascript framework designed to make easier everything about the MVC patterns implementation into the pure javascript scope. You don't need to use typescript nor any transpiler to run [QCObjects](https://qcobjects.dev). It runs directly on the browser and it uses pure javascript with no extra dependencies of code. You can make your own components expressed in real native javascript objects or extend a native DOM object to use in your own way. You can also use [QCObjects](https://qcobjects.dev) in conjunction with CSS3 frameworks like [Foundation] (https://foundation.zurb.com), [Bootstrap] (http://getbootstrap.com) and mobile javascript frameworks like [PhoneGap] (https://phonegap.com) and OnsenUI (https://onsen.io)
 
 ![screenshot](doc/img/components.gif)
 
@@ -87,7 +89,7 @@ _________________________
 --------------------------
 ![alpha](doc/img/ALPHA-RISE.png)
 
-QCObjects was invited to exhibit as an ALPHA Startup in the RISE Conf Hong Kong 2019. RISE attracts the most dynamic startups from around the world. We'll be showing how QCObjects is making a real Global Impact to the JavaScript developers life transforming the way for coding.
+[QCObjects](https://qcobjects.dev) was invited to exhibit as an ALPHA Startup in the RISE Conf Hong Kong 2019. RISE attracts the most dynamic startups from around the world. We'll be showing how [QCObjects](https://qcobjects.dev) is making a real Global Impact to the JavaScript developers life transforming the way for coding.
 
 If you want to find out more about RISE event check out their website [https://riseconf.com](https://riseconf.com)
 
@@ -99,7 +101,7 @@ See
 # Copyright
 -----------
 
-Copyright (c) Jean Machuca and QuickCorp <info@quickcorp.cl>
+Copyright (c) Jean Machuca and [QuickCorp](https://quickcorp.org) <info@quickcorp.cl>
 
 # Demo
 --------------
@@ -267,7 +269,7 @@ https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
 ------------
 
 ## Essentials
-Here are the essentials symbols and concepts of QCObjects Reference
+Here are the essentials symbols and concepts of [QCObjects](https://qcobjects.dev) Reference
 
 ### QC_Object
 
@@ -345,7 +347,7 @@ doSomething(1,2); // the code of doSomething will be executed once after the res
 
 This is NOT the class definition of ECMAScript 2015 (see [class ECMAScript 2015](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) for reference).
 
-Class is a special function to help you to declare a class in an easier and compatible way. It works cross-browser, and I hope ECMA could adopt something like that in the future. To let javascript not to be confuse about this, QCObjects uses "Class" not "class" (note the Camel Case).
+Class is a special function to help you to declare a class in an easier and compatible way. It works cross-browser, and I hope ECMA could adopt something like that in the future. To let javascript not to be confuse about this, [QCObjects](https://qcobjects.dev) uses "Class" not "class" (note the Camel Case).
 
 #### Usage:
 
