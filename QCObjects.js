@@ -1448,6 +1448,7 @@
 
 	Export(serviceLoader);
 	Export(componentLoader);
+  Export(ComponentURI);
 
 
 	asyncLoad(function (){
