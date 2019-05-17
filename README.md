@@ -34,11 +34,6 @@ _________________________
   - [Using QCObjects in Visual Studio Code:](#using-qcobjects-in-visual-studio-code)
   - [Installing with NPM:](#installing-with-npm)
   - [Using the code in the straight way into HTML5:](#using-the-code-in-the-straight-way-into-html5)
-- [Quick Start](#quick-start)
-  - [Step 1: Start creating a main import file and name it like: cl.quickcorp.js. Put it into packages/js/ file directory](#step-1-start-creating-a-main-import-file-and-name-it-like-clquickcorpjs-put-it-into-packagesjs-file-directory)
-  - [Step 2: Then create some services inhereting classes into the file js/packages/cl.quickcorp.services.js :](#step-2-then-create-some-services-inhereting-classes-into-the-file-jspackagesclquickcorpservicesjs-)
-  - [Step 3: Now it's time to create the components (cl.quickcorp.components.js)](#step-3-now-its-time-to-create-the-components-clquickcorpcomponentsjs)
-  - [Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)](#step-4-once-you-have-done-the-above-components-declaration-you-will-now-want-to-code-your-controllers-clquickcorpcontrollerjs)
   - [Essentials](#essentials)
     - [QC_Object](#qc_object)
     - [ComplexStorageCache](#complexstoragecache)
@@ -110,6 +105,11 @@ _________________________
     - [ArrayCollection](#arraycollection)
     - [Timer](#timer)
   - [SDK](#sdk)
+- [Quick Start](#quick-start)
+  - [Step 1: Start creating a main import file and name it like: cl.quickcorp.js. Put it into packages/js/ file directory](#step-1-start-creating-a-main-import-file-and-name-it-like-clquickcorpjs-put-it-into-packagesjs-file-directory)
+  - [Step 2: Then create some services inhereting classes into the file js/packages/cl.quickcorp.services.js :](#step-2-then-create-some-services-inhereting-classes-into-the-file-jspackagesclquickcorpservicesjs-)
+  - [Step 3: Now it's time to create the components (cl.quickcorp.components.js)](#step-3-now-its-time-to-create-the-components-clquickcorpcomponentsjs)
+  - [Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)](#step-4-once-you-have-done-the-above-components-declaration-you-will-now-want-to-code-your-controllers-clquickcorpcontrollerjs)
 
 <!-- /TOC -->
 
@@ -296,250 +296,6 @@ https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
 <script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
 ```
 
-# Quick Start
-## Step 1: Start creating a main import file and name it like: cl.quickcorp.js. Put it into packages/js/ file directory
-
-```javascript
-"use strict";
-/*
-* QuickCorp/QCObjects is licensed under the
-* GNU Lesser General Public License v3.0
-* [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
-*
-* Permissions of this copyleft license are conditioned on making available
-* complete source code of licensed works and modifications under the same
-* license or the GNU GPLv3. Copyright and license notices must be preserved.
-* Contributors provide an express grant of patent rights. However, a larger
-* work using the licensed work through interfaces provided by the licensed
-* work may be distributed under different terms and without source code for
-* the larger work.
-*
-* Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
-*
-* Everyone is permitted to copy and distribute verbatim copies of this
-* license document, but changing it is not allowed.
-*/
-
-
-Import ('external/libs');
-Import ('cl.quickcorp.model');
-Import ('cl.quickcorp.components');
-Import ('cl.quickcorp.controller');
-Import ('cl.quickcorp.view');
-
-Package('cl.quickcorp',[
-  Class('FormValidator',Object,{
-
-  }),
-]);
-
-```
-
-## Step 2: Then create some services inhereting classes into the file js/packages/cl.quickcorp.services.js :
-
-```javascript
-"use strict";
-/*
-* QuickCorp/QCObjects is licensed under the
-* GNU Lesser General Public License v3.0
-* [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
-*
-* Permissions of this copyleft license are conditioned on making available
-* complete source code of licensed works and modifications under the same
-* license or the GNU GPLv3. Copyright and license notices must be preserved.
-* Contributors provide an express grant of patent rights. However, a larger
-* work using the licensed work through interfaces provided by the licensed
-* work may be distributed under different terms and without source code for
-* the larger work.
-*
-* Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
-*
-* Everyone is permitted to copy and distribute verbatim copies of this
-* license document, but changing it is not allowed.
-*/
-
-
-Package('cl.quickcorp.service',[
-  Class('JsonService',{
-    method:"GET",
-    cached:false,
-  	headers: {
-  		"Content-Type":"application/json",
-      "charset":"utf-8"
-  	},
-    JSONresponse: null,
-    done:function(result){
-      console.log("***** RECEIVED RESPONSE:");
-      console.log(result.service.template);
-      this.JSONresponse = JSON.parse(result.service.template);
-      alert(this.template);
-    }
-  }),
-  Class('FormSubmitService',{
-    method:"POST",
-    cached:false,
-    headers: {
-      "Content-Type":"application/json"
-    },
-    JSONresponse: null,
-    done: function(result) {
-      console.log("***** CALLED FormSubmitService");
-      this.JSONresponse = JSON.parse(result.service.template);
-      //TODO success case
-      console.log("***** SUCCESS!")
-      console.log(this.JSONresponse);
-    },
-    fail: function(result) {
-      //TODO negative case
-      console.log("***** ERROR");
-    }
-
-  })
-
-])
-```
-
-## Step 3: Now it's time to create the components (cl.quickcorp.components.js)
-
-```javascript
-"use strict";
-/*
-* QuickCorp/QCObjects is licensed under the
-* GNU Lesser General Public License v3.0
-* [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
-*
-* Permissions of this copyleft license are conditioned on making available
-* complete source code of licensed works and modifications under the same
-* license or the GNU GPLv3. Copyright and license notices must be preserved.
-* Contributors provide an express grant of patent rights. However, a larger
-* work using the licensed work through interfaces provided by the licensed
-* work may be distributed under different terms and without source code for
-* the larger work.
-*
-* Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
-*
-* Everyone is permitted to copy and distribute verbatim copies of this
-* license document, but changing it is not allowed.
-*/
-Package('cl.quickcorp.components',[
-  Class('FormField',Component,{
-    cached:false,
-    reload:true,
-  	createBindingEvents:function (){
-  		var _executeBinding = this.executeBinding;
-  		var thisobj = this;
-  		var _objList = this.body.querySelectorAll(this.fieldType);
-  		for (var _datak=0;_datak<_objList.length;_datak++){
-  			var _obj = _objList[_datak];
-  			_obj.addEventListener('change',function(e){
-  				logger.debug('Executing change event binding');
-  				thisobj.executeBindings();
-  			});
-  			_obj.addEventListener('keydown',function(e){
-  				logger.debug('Executing keydown event binding');
-  					thisobj.executeBindings();
-  			});
-  		}
-  	},
-  	executeBinding:function (_obj){
-  		var _datamodel = _obj.getAttribute('data-field');
-  		logger.debug('Binding '+_datamodel+' for '+this.name);
-  		this.data[_datamodel]=_obj.value;
-  	},
-  	executeBindings:function (){
-      var _objList = this.body.querySelectorAll(this.fieldType);
-  		for (var _datak=0;_datak<_objList.length;_datak++){
-  			var _obj = _objList[_datak];
-  			var _datamodel = _obj.getAttribute('data-field');
-        logger.debug('Binding '+_datamodel+' for '+this.name);
-  			this.data[_datamodel]=_obj.value;
-  		}
-  	},
-    done:function (){
-      var thisobj = this;
-      thisobj.executeBindings();
-  		thisobj.createBindingEvents();
-      logger.debug('Field loaded: '+thisobj.fieldType+'[name='+thisobj.name+']');
-    }
-  }),
-  Class('ButtonField',FormField,{
-  	fieldType:'button'
-  }),
-  Class('InputField',FormField,{
-  	fieldType:'input'
-  }),
-  Class('TextField',FormField,{
-  	fieldType:'textarea'
-  }),
-  Class('EmailField',FormField,{
-  	fieldType:'input'
-  })
-]);
-```
-
-## Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)
-
-
-```javascript
-"use strict";
-/*
-* QuickCorp/QCObjects is licensed under the
-* GNU Lesser General Public License v3.0
-* [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
-*
-* Permissions of this copyleft license are conditioned on making available
-* complete source code of licensed works and modifications under the same
-* license or the GNU GPLv3. Copyright and license notices must be preserved.
-* Contributors provide an express grant of patent rights. However, a larger
-* work using the licensed work through interfaces provided by the licensed
-* work may be distributed under different terms and without source code for
-* the larger work.
-*
-* Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
-*
-* Everyone is permitted to copy and distribute verbatim copies of this
-* license document, but changing it is not allowed.
-*/
-"use strict";
-Package('cl.quickcorp.controller',[
-	Class('MainController',Object,{
-		_new_:function (){
-			//TODO: Implement
-			logger.debug('MainController Element Initialized');
-		}
-	}),
-	Class('MyAccountController',Object,{
-		component: null,
-		done:function (){
-			var controller = this;
-
-
-
-			logger.debug('MyAccountController Element Initialized');
-			this.component.body.setAttribute('loaded',true);
-
-		},
-		_new_:function (o){
-			//TODO: Implement
-			this.component = o.component;
-
-		}
-	}),
-]);
-```
-
-## Step 5: To use into the HTML5 code you only need to do some settings between script tags:
-
-```html
-<script>
-CONFIG.set('relativeImportPath','js/packages/');
-CONFIG.set('componentsBasePath','templates/components/');
-CONFIG.set('delayForReady',1); // delay to wait before executing the first ready event, it includes imports
-CONFIG.set('preserveComponentBodyTag',false); // don't use <componentBody></componentBody> tag
-
-Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into js/packages/ file path
-</script>
-```
 -------------------------------
 
 # Reference
@@ -1400,3 +1156,248 @@ CONFIG.set('useConfigService',true); // using config.json for custom settings co
 ### Timer
 
 ## SDK
+
+# Quick Start
+## Step 1: Start creating a main import file and name it like: cl.quickcorp.js. Put it into packages/js/ file directory
+
+```javascript
+"use strict";
+/*
+* QuickCorp/QCObjects is licensed under the
+* GNU Lesser General Public License v3.0
+* [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
+*
+* Permissions of this copyleft license are conditioned on making available
+* complete source code of licensed works and modifications under the same
+* license or the GNU GPLv3. Copyright and license notices must be preserved.
+* Contributors provide an express grant of patent rights. However, a larger
+* work using the licensed work through interfaces provided by the licensed
+* work may be distributed under different terms and without source code for
+* the larger work.
+*
+* Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
+*
+* Everyone is permitted to copy and distribute verbatim copies of this
+* license document, but changing it is not allowed.
+*/
+
+
+Import ('external/libs');
+Import ('cl.quickcorp.model');
+Import ('cl.quickcorp.components');
+Import ('cl.quickcorp.controller');
+Import ('cl.quickcorp.view');
+
+Package('cl.quickcorp',[
+  Class('FormValidator',Object,{
+
+  }),
+]);
+
+```
+
+## Step 2: Then create some services inhereting classes into the file js/packages/cl.quickcorp.services.js :
+
+```javascript
+"use strict";
+/*
+* QuickCorp/QCObjects is licensed under the
+* GNU Lesser General Public License v3.0
+* [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
+*
+* Permissions of this copyleft license are conditioned on making available
+* complete source code of licensed works and modifications under the same
+* license or the GNU GPLv3. Copyright and license notices must be preserved.
+* Contributors provide an express grant of patent rights. However, a larger
+* work using the licensed work through interfaces provided by the licensed
+* work may be distributed under different terms and without source code for
+* the larger work.
+*
+* Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
+*
+* Everyone is permitted to copy and distribute verbatim copies of this
+* license document, but changing it is not allowed.
+*/
+
+
+Package('cl.quickcorp.service',[
+  Class('JsonService',{
+    method:"GET",
+    cached:false,
+  	headers: {
+  		"Content-Type":"application/json",
+      "charset":"utf-8"
+  	},
+    JSONresponse: null,
+    done:function(result){
+      console.log("***** RECEIVED RESPONSE:");
+      console.log(result.service.template);
+      this.JSONresponse = JSON.parse(result.service.template);
+      alert(this.template);
+    }
+  }),
+  Class('FormSubmitService',{
+    method:"POST",
+    cached:false,
+    headers: {
+      "Content-Type":"application/json"
+    },
+    JSONresponse: null,
+    done: function(result) {
+      console.log("***** CALLED FormSubmitService");
+      this.JSONresponse = JSON.parse(result.service.template);
+      //TODO success case
+      console.log("***** SUCCESS!")
+      console.log(this.JSONresponse);
+    },
+    fail: function(result) {
+      //TODO negative case
+      console.log("***** ERROR");
+    }
+
+  })
+
+])
+```
+
+## Step 3: Now it's time to create the components (cl.quickcorp.components.js)
+
+```javascript
+"use strict";
+/*
+* QuickCorp/QCObjects is licensed under the
+* GNU Lesser General Public License v3.0
+* [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
+*
+* Permissions of this copyleft license are conditioned on making available
+* complete source code of licensed works and modifications under the same
+* license or the GNU GPLv3. Copyright and license notices must be preserved.
+* Contributors provide an express grant of patent rights. However, a larger
+* work using the licensed work through interfaces provided by the licensed
+* work may be distributed under different terms and without source code for
+* the larger work.
+*
+* Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
+*
+* Everyone is permitted to copy and distribute verbatim copies of this
+* license document, but changing it is not allowed.
+*/
+Package('cl.quickcorp.components',[
+  Class('FormField',Component,{
+    cached:false,
+    reload:true,
+  	createBindingEvents:function (){
+  		var _executeBinding = this.executeBinding;
+  		var thisobj = this;
+  		var _objList = this.body.querySelectorAll(this.fieldType);
+  		for (var _datak=0;_datak<_objList.length;_datak++){
+  			var _obj = _objList[_datak];
+  			_obj.addEventListener('change',function(e){
+  				logger.debug('Executing change event binding');
+  				thisobj.executeBindings();
+  			});
+  			_obj.addEventListener('keydown',function(e){
+  				logger.debug('Executing keydown event binding');
+  					thisobj.executeBindings();
+  			});
+  		}
+  	},
+  	executeBinding:function (_obj){
+  		var _datamodel = _obj.getAttribute('data-field');
+  		logger.debug('Binding '+_datamodel+' for '+this.name);
+  		this.data[_datamodel]=_obj.value;
+  	},
+  	executeBindings:function (){
+      var _objList = this.body.querySelectorAll(this.fieldType);
+  		for (var _datak=0;_datak<_objList.length;_datak++){
+  			var _obj = _objList[_datak];
+  			var _datamodel = _obj.getAttribute('data-field');
+        logger.debug('Binding '+_datamodel+' for '+this.name);
+  			this.data[_datamodel]=_obj.value;
+  		}
+  	},
+    done:function (){
+      var thisobj = this;
+      thisobj.executeBindings();
+  		thisobj.createBindingEvents();
+      logger.debug('Field loaded: '+thisobj.fieldType+'[name='+thisobj.name+']');
+    }
+  }),
+  Class('ButtonField',FormField,{
+  	fieldType:'button'
+  }),
+  Class('InputField',FormField,{
+  	fieldType:'input'
+  }),
+  Class('TextField',FormField,{
+  	fieldType:'textarea'
+  }),
+  Class('EmailField',FormField,{
+  	fieldType:'input'
+  })
+]);
+```
+
+## Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)
+
+
+```javascript
+"use strict";
+/*
+* QuickCorp/QCObjects is licensed under the
+* GNU Lesser General Public License v3.0
+* [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
+*
+* Permissions of this copyleft license are conditioned on making available
+* complete source code of licensed works and modifications under the same
+* license or the GNU GPLv3. Copyright and license notices must be preserved.
+* Contributors provide an express grant of patent rights. However, a larger
+* work using the licensed work through interfaces provided by the licensed
+* work may be distributed under different terms and without source code for
+* the larger work.
+*
+* Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
+*
+* Everyone is permitted to copy and distribute verbatim copies of this
+* license document, but changing it is not allowed.
+*/
+"use strict";
+Package('cl.quickcorp.controller',[
+	Class('MainController',Object,{
+		_new_:function (){
+			//TODO: Implement
+			logger.debug('MainController Element Initialized');
+		}
+	}),
+	Class('MyAccountController',Object,{
+		component: null,
+		done:function (){
+			var controller = this;
+
+
+
+			logger.debug('MyAccountController Element Initialized');
+			this.component.body.setAttribute('loaded',true);
+
+		},
+		_new_:function (o){
+			//TODO: Implement
+			this.component = o.component;
+
+		}
+	}),
+]);
+```
+
+## Step 5: To use into the HTML5 code you only need to do some settings between script tags:
+
+```html
+<script>
+CONFIG.set('relativeImportPath','js/packages/');
+CONFIG.set('componentsBasePath','templates/components/');
+CONFIG.set('delayForReady',1); // delay to wait before executing the first ready event, it includes imports
+CONFIG.set('preserveComponentBodyTag',false); // don't use <componentBody></componentBody> tag
+
+Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into js/packages/ file path
+</script>
+```
