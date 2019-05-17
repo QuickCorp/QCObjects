@@ -34,6 +34,7 @@ _________________________
   - [Using QCObjects in Visual Studio Code:](#using-qcobjects-in-visual-studio-code)
   - [Installing with NPM:](#installing-with-npm)
   - [Using the code in the straight way into HTML5:](#using-the-code-in-the-straight-way-into-html5)
+- [Reference](#reference)
   - [Essentials](#essentials)
     - [QC_Object](#qc_object)
     - [ComplexStorageCache](#complexstoragecache)
@@ -296,11 +297,11 @@ https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
 <script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
 ```
 
--------------------------------
-
-# Reference
+# Reference
+------------
 
 ## Essentials
+Here are the essentials symbols and concepts of QCObjects Reference
 
 ### QC_Object
 
