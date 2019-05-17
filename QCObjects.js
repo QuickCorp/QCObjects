@@ -29,7 +29,7 @@
     Function.prototype.toString = function (){
       var _protected_symbols = ['Class','New','Export','Package','Import','subelements'];
       var _ret_;
-      if (_promise_import_.includes(this.name)){
+      if (_protected_symbols.includes(this.name)) {
         _ret_ = this.name + "{ [QCObjects native code] }";
       } else {
         _ret_ = __oldtoString.call(this);
