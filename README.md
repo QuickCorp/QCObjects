@@ -873,30 +873,486 @@ someFunction('this works');
 
 ### Cast
 
+Use the Cast method of any DOM element to get the properties of another type of object. This is useful to transform an object type to another giving more flexibility in your code.
+
+#### Usage:
+```javascript
+let resultObject = [element or QCObjects type].Cast(objectToCastFrom);
+```
+
+Where objectToCastFrom is an object to get the properties from and put it into the result object returned by Cast.
+
+#### Example:
+```javascript
+Class('MyOwnClass',{
+  prop1:'1',
+  prop2:2
+});
+
+let obj = document.createElement('div').Cast(MyOwnClass);
+```
+
+The above code will create a DOM object and Cast it to MyOwnClass. Because of MyOwnClass is a QCObjects type class, obj will now have a prop1 and prop2 properties, and will now be a QCObjects object instance with a body property that is a div element.
+
 ### Tag
 
-### Ready
+Tag is a useful function to select any DOM element using selectors. Tag will always return a list of elements, that you can map, sort, and filter as any other list.
 
-### Component
+#### Usage:
+
+```javascript
+var listOfElements = Tag(selector);
+```
+
+Where selector is a DOM query selector.
+
+#### Example:
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Demo</title>
+    	<script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
+    </head>
+    <body>
+    <div class="myselector">
+    <p>Hello world</p>
+    </div>
+    <script>
+    Ready(()=>{
+      Tag('.myselector > p').map((element)=>{
+        element.innerHTML = 'Hello world! How are you?';
+      });
+    });
+    </script>
+    </body>
+</html>
+
+```
+
+In the above code, a paragraph element was created inside a div with a css class named myselector by html, and then is  modified dynamically using the QCObjects Tag function. If you are familiar with query selector frameworks like JQuery, you will love this one.
+
+
+### Ready
+Assign a function to run after everything is done by QCObjects and after the window.onload event. Use it to prevent 'undefined' DOM objects error.
+
+#### Usage:
+```javascript
+Ready(()=>{
+  // My init code here!
+});
+```
+Note that if you define dynamic components by using a HTML "component" tag, the dynamic content load will not trigger Ready events. To catch code everytime a dynamic component is loaded, use a Controller done method instead.
+
+You will use Ready implementation mostly when you want to implement QCObjects in conjunction with another framework that needs it.
+
+### Component Class
+A QCObjects class type for components.
+
+#### Properties
+
+**[Component].domain**
+Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
+
+**[Component].basePath**
+Returns a string with the base path url of your application. It is automatically set by QCObjects at the load time.
+
+NOTE: If you want to change the components base path, you have to use _CONFIG.set('componentsBasePath','new path relative to the domain')_ in your init code.
+
+**[Component].templateURI**
+Is a string representing the component template URI relative to the domain. When is set, the component will load a template and append the inner content into the body childs as a part of the DOM. To set this property, it is recommended to use the ComponentURI helper function.
+
+**[Component].tplsource**
+Is a string representing the source where the template will be loaded. It can be "default" or "none". A value of "default" will tell QCObjects to load the template from the templateURI content. A value of "none" will tell QCObjects not to load a template from anywhere.
+
+**[Component].url**
+Is a string representing the entire url of the component. It is automatically set by QCObjects when the component is instantiated.
+
+**[Component].name**
+Is a string representing the name of a component. The name of a component can be any alphanumeric value that identifies the component type. It will be internally used by ComponentURI to build a normalised component template URI.
+
+**[Component].method**
+Is a string representing a HTTP or HTTPS method. By default, every component is set to use the "GET" method. In the most of cases, you don't need to change this property.
+
+**[Component].data**
+Is an object representing the data of the component. When QCObjects loads a template, it will get every property of data object and bind it to a template label representing the same property inside the template content between double brakets (example: {{prop1}} in the template content will represent data.prop1 in the component instance).
+NOTE: To refresh the data bindings it is needed to rebuild the component (see the use of [Component].rebuild() method for more details ).
+
+**[Component].reload**
+Is a boolean value that tells QCObjects when to force reload the content of a component from the template or not. If its value is true, the template content will be replacing the current DOM childs of the component body element. If its value is false, the template content will be added after the las component body child.
+
+**[Component].cached**
+Is a boolean value that tells QCObjects if the component needs to be cached or not. When a component is cached, the template content loaded from templateURI will be loaded once. You can set this property either as a static property of the Component Class to set the default value for every next component object instance, or setting the individual value of the property in every component definition. In a world where the performance matters, to give more flexibility to the cache behaviour is needed more than ever.
+
+**[Component].routingWay**
+Returns a string representing the routing way. Its value can be "hash", "pathname" or "search".
+NOTE: To change the routingWay of every component it is recommended to use CONFIG.set('routingWay','value of a valid routing way') in your init code.
+
+**[Component].validRoutingWays**
+Returns a list representing the valid routing ways.  QCObjects uses this to internally validate the routingWay which was used to build the component routings.
+
+**[Component].routingNodes**
+Returns a NodeList object representing the list of nodes that were loaded by the component routing builder.
+
+**[Component].routings**
+Returns a list with the component routings built when the component was instantiated.
+
+**[Component].routingPath**
+Returns a string representing the current routing path
+
+**[Component].routingSelected**
+Returns an object representing the current routing of the component
+
+**[Component].subcomponents**
+Returns a list of components that are childs of the component instance.
+
+**[Component].body**
+Is a DOM element representing the body of the component.
+NOTE: Every time a component body is set, it will trigger the routings builder for this component.
+
+#### Methods
+**[Component].set('prop',value)**
+Sets a value for a component property.
+
+**[Component].get('prop')**
+Returns the value of a component property
+
+**[Component].rebuild()**
+Rebuilds the component. It will force a call for the componentLoader with this component when it's needed.
+
+**[Component].Cast(ClassName or ComponentClassName)**
+Returns the cast of a component definition into another one. This is useful to dynamically merge components definitions.
+
+**[Component].route()**
+Forces the component routings builder to reload the routings of the component. This will result in a rebuild call when it's needed.
+
+**[Component].fullscreen()**
+Puts the component in fullscreen mode.
+
+**[Component].closefullscreen()**
+Closes the fullscreen mode.
+
+**[Component].css(css object)**
+Sets the css properties for the component.
+
+**[Component].append(component or QCObjects object)**
+Appends a component as a child of the current component body
+
+**[Component].attachIn(selector)**
+Attaches a current component body to any element in the given selector.
+
+### Component HTML Tag
+Is a HTML tag representation of a component instance. Every declaration of a `<component></component>` tag will generate a related instance of a QCObjects component. While a component tag is not an instance itself, you can even define some instance properties by setting the related tag attribute when it is available.
+
+#### Available attributes:
+##### **`<component name>`**
+Sets the name of the related component instance built by QCObjects.
+
+###### Usage:
+```html
+<component name="name_of_component"></component>
+```
+
+###### Example:
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Demo</title>
+    	<script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
+    </head>
+    <body>
+      <!-- this will load the contents of ./templates/main[.tplextension] file -->
+      <component name="main"></component>
+    </body>
+</html>
+```
+
+
+##### **`<component cached>`**
+Sets the cached property if the related instance of a component.
+
+NOTE: Only a value of "true" can be set in order to tell QCObjects that the component template content has to be cached. Any other value will be interpreted as false.
+
+###### Usage:
+```html
+<component name="name_of_component" cached="true"></component>
+```
+
+##### **`<component data-property1 data-property2 ...>`**
+Sets a static value of a property for the data object in the component instance.
+
+NOTE: Data property tag declaration was thought with the purpose to give some simple way to mocking a dynamic component with template assignments. Don't use it thinking it is a bidirectional way data binding. While you can get a bidirectional way behaviour accesing a data object from a component instance, it is not the same for the component tag. Data property declaration in component tags is only one way data binding because of components tree architecture.
+
+##### **`<component controllerClass>`**
+Defines a custom Controller Class for the component instance
+
+###### Usage:
+```html
+<component name="name_of_component" controllerClass="ControllerClassName"></component>
+```
+
+
+##### **`<component viewClass>`**
+Defines a custom View Class for the component instance
+
+###### Usage:
+```html
+<component name="name_of_component" viewClass="ViewClassName"></component>
+```
+
+
+##### **`<component componentClass>`**
+Defines a custom Component Class for the component instance
+
+###### Usage:
+```html
+<component name="name_of_component" componentClass="ComponentClassName"></component>
+```
+
+##### **`<component effectClass>`**
+Defines a custom Effect Class for the component instance
+
+###### Usage:
+```html
+<component name="name_of_component" effectClass="EffectClassName"></component>
+```
+
+##### **`<component template-source>`**
+Sets the tplsource property of the related instance of a component. Possible values are "none" or "default".
+
+###### Usage:
+```html
+<component name="name_of_component" template-source="none"></component>
+```
+
+##### **`<component tplextension>`**
+Sets the tplextension property of the related instance of a component. Possible values are any file extension. Default value is "html"
+
+###### Usage:
+```html
+<component name="name_of_component" tplextension="tpl.html"></component>
+```
+
+
 #### ComponentURI
+Is a helper function to let you define the templateURI for a component in a normalised way.
+
+###### Example:
+```javascript
+var templateURI = ComponentURI({
+  'COMPONENTS_BASE_PATH':CONFIG.get('componentsBasePath'),
+  'COMPONENT_NAME':'main',
+  'TPLEXTENSION':"tpl.html",
+  'TPL_SOURCE':"default"
+});
+
+console.log(templateURI); // this will show something like "templates/components/main.tpl.html" depending on your CONFIG settings
+```
+
 
 #### componentLoader
+Loads a component instance in a low level, and appends the component template content to the component body. In the most of cases you won't need to call componentLoader in order to load a component. This is automatically called by QCObjects when it's needed. componentLoader returns a promise that is resolved when the component load is done and rejected when the component load was failed.
+
+##### Usage:
+```javascript
+ [Promise] componentLoader(componentInstance,load_async)
+```
+
+Where componentInstance is a component instance created by _`New(ComponentDefinitionClass)`_
+
+##### Example:
+```javascript
+componentLoader(componentInstance,load_async).then(
+  (successStandardResponse)=>{
+    // component load successful
+    var request = successStandardResponse.request;
+    var component = successStandardResponse.component;
+  },(failStandardResponse)=>{
+    // component load failed
+    var component = failStandardResponse.component;
+  });
+```
+
 
 #### buildComponents
+Rebuilds every component that is a child element of the DOM element who owns the method. In the most of cases, you won't need to call buildComponents in order to build or rebuild every component in the DOM. This is automatically called by QCObjects when it's needed.
+
+##### Usage:
+```javascript
+[element].buildComponents()
+```
+
+##### Example:
+```javascript
+document.buildComponents()
+```
+
 
 ### Controller
+A built-in QCObjects Class to define a controller
 
 ### View
+A built-in QCObjects View to define a view
 
 ### VO
+A built-in QCObjects Class to define a value object
 
 
 ### Service
+A QCObjects class type for services.
+
+
+#### Properties
+
+**[Service].domain**
+Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
+
+**[Service].basePath**
+Returns a string with the base path url of your application. It is automatically set by QCObjects at the load time.
+
+**[Service].url**
+Is a string representing the entire url of the service. It can be absolute or relative to the basePath when it applies. It can be also an external url.
+
+NOTE: To load a service of an external resource you need to specify the external parameter to true using serviceLoader.
+
+**[Service].name**
+Is a string representing the name of a component. The name of a service can be any alphanumeric value that identifies the service instance. It isn't a unique ID but only a descriptive name.
+
+**[Service].method**
+Is a string representing a HTTP or HTTPS method. Possible values are: "GET", "POST", "PUT", ... any other that is accepted by REST services calls.
+
+**[Service].data**
+Is an object representing the data of the service. When QCObjects loads a service. It receives the response and interpretes it as a  template. So once a service response is obtained, it will get every property of data object and bind it to a template label representing the same property inside the template content between double brakets (example: {{prop1}} in the template content will represent data.prop1 in the service instance).
+
+
+**[Service].cached**
+Is a boolean value that tells QCObjects if the service response needs to be cached or not. When a service is cached, the template content loaded from the service url will be loaded only once. You have to set this value to false for every Service instance you define in order to asure the service is loaded from the resource but not the storage cache.
+
+#### Methods
+**[Service].set('prop',value)**
+Sets a value for a service property.
+
+**[Service].get('prop')**
+Returns the value of a service property
+
 
 #### serviceLoader
+Loads a service instance and returns a promise that is resolved when the service has a successful response load and is rejected when it fails loading the response.
+
+##### Usage:
+```javascript
+[Promise] serviceLoader(serviceInstance)
+```
+
+##### Example:
+```javascript
+Class('MyTestService',Service,{
+    name:'myservice',
+    external:true,
+    cached:false,
+    method:'GET',
+    headers:{'Content-Type':'application/json'},
+    url:'https://api.github.com/orgs/QuickCorp/repos',
+    withCredentials:false,
+    _new_:()=>{
+      // service instantiated
+    },
+    done:()=>{
+      // service loaded
+    }
+});
+var service = serviceLoader(New(MyTestService,{
+  data:{param1:1}
+})).then(
+  (successfulResponse)=>{
+    // This will show the service response as a plain text
+    console.log(successfulResponse.service.template);
+  },
+  (failedResponse)=>{
+
+  });
+```
+
 
 ### JSONService
+Is a built-in definition for a JSON Service Class
+
+#### Properties
+
+**[JSONService].domain**
+Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
+
+**[JSONService].basePath**
+Returns a string with the base path url of your application. It is automatically set by QCObjects at the load time.
+
+**[JSONService].url**
+Is a string representing the entire url of the service. It can be absolute or relative to the basePath when it applies. It can be also an external url.
+
+NOTE: To load a service of an external resource you need to specify the external parameter to true using serviceLoader.
+
+**[JSONService].name**
+Is a string representing the name of a component. The name of a service can be any alphanumeric value that identifies the service instance. It isn't a unique ID but only a descriptive name.
+
+**[JSONService].method**
+Is a string representing a HTTP or HTTPS method. Possible values are: "GET", "POST", "PUT", ... any other that is accepted by REST services calls.
+
+**[JSONService].data**
+Is an object representing the data of the service. When QCObjects loads a service. It receives the response and interpretes it as a  template. So once a service response is obtained, it will get every property of data object and bind it to a template label representing the same property inside the template content between double brakets (example: {{prop1}} in the template content will represent data.prop1 in the service instance).
+
+
+**[JSONService].cached**
+Is a boolean value that tells QCObjects if the service response needs to be cached or not. When a service is cached, the template content loaded from the service url will be loaded only once. You have to set this value to false for every Service instance you define in order to asure the service is loaded from the resource but not the storage cache.
+
+#### Methods
+**[JSONService].set('prop',value)**
+Sets a value for a service property.
+
+**[JSONService].get('prop')**
+Returns the value of a service property
+
+#### Example:
+```javascript
+Class('MyTestJSONService',JSONService,{
+    name:'myJSONservice',
+    external:true,
+    cached:false,
+    method:'GET',
+    withCredentials:false,
+    url:'https://api.github.com/orgs/QuickCorp/repos',
+    _new_:function (){
+      // service instantiated
+      delete this.headers.charset; // do not send the charset header
+    },
+    done:function (result){
+      _super_('JSONService','done').call(this,result);
+    }
+});
+var service = serviceLoader(New(MyTestJSONService,{
+  data:{param1:1}
+})).then(
+  (successfulResponse)=>{
+    // This will show the service response as a JSON object
+    console.log(successfulResponse.service.JSONresponse);
+  },
+  (failedResponse)=>{
+
+  });
+```
+
 ### ConfigService
+Is a built-in Class definition to load the CONFIG settings from a config.json file
+
+#### Example:
+```javascript
+// To set the config.json file relative url
+ConfigService.configFileName='config.json'; // it is done by default
+CONFIG.set('useConfigService',true); // using config.json for custom settings config
+```
+
+
 ### SourceJS
 ### SourceCSS
 ### ArrayList
