@@ -40,6 +40,14 @@ _________________________
 		- [ComplexStorageCache](#complexstoragecache)
 		- [asyncLoad](#asyncload)
 		- [Class](#class)
+		- [QC_Append, append method](#qcappend-append-method)
+		- [The \_super\_ method](#the-super-method)
+		- [New](#new)
+		- [InheritClass](#inheritclass)
+		- [\_Crypt](#crypt)
+		- [GLOBAL](#global)
+		- [CONFIG](#config)
+		- [waitUntil](#waituntil)
 		- [Package](#package)
 		- [Import](#import)
 		- [Export](#export)
@@ -52,6 +60,7 @@ _________________________
 		- [View](#view)
 		- [VO](#vo)
 		- [Service](#service)
+		- [serviceLoader](#serviceloader)
 		- [JSONService](#jsonservice)
 		- [ConfigService](#configservice)
 		- [SourceJS](#sourcejs)
@@ -366,7 +375,7 @@ console.log(newObject.classMethod2()); // this will show "some value"
 ```
 
 
-#### QC_Append, append method
+### QC_Append, append method
 
 This is a special method inserted to make your life easier when you want to dynamically manipulate the **DOM**. You can insert even a **Component**, a **QCObjects** Object or a **DOM** Element inside another **HTMLElement**.
 
@@ -374,7 +383,7 @@ This is a special method inserted to make your life easier when you want to dyna
 ```javascript
 [element].append([object or element]);
 ```
-##### Example:
+#### Example:
 ```javascript
 // This will create a QCObjects class named "canvas" extending a HTMLCanvasElement with a customAttr property that has a "custom" value
 Class('canvas',HTMLCanvasElement,{
@@ -394,18 +403,18 @@ document.body.append(canvas1);
 
 
 
-#### The \_super\_ method
+### The \_super\_ method
 
 When you extend a QCObjects class from another one, you can use \_super\_ method to get an instance from the main class definition.
 
-##### Usage:
+#### Usage:
 ```javascript
 
 _super_('MySuperClass','MySuperMethod').call(this,params)
 // where this is the current instance and params are method parameters
 ```
 
-##### Example:
+#### Example:
 ```javascript
 Class('MySuperiorClass',InheritClass,{
   propertyName1:0, // just to declare purpose
@@ -435,11 +444,11 @@ console.log(newObject.classMethod2()); // this will show the number 1
 ```
 
 
-#### New
+### New
 
 Creates an object instance of a QCObjects class definition.
 
-##### Usage:
+#### Usage:
 
 ```javascript
 let objectInstance = New(QCObjectsClassName, properties);
@@ -447,7 +456,7 @@ let objectInstance = New(QCObjectsClassName, properties);
 ```
 NOTE: In the properties object you can use single values or getter as well but they will be executed once.
 
-##### Example:
+#### Example:
 ```javascript
 Class('MyCustomClass',Object);
 let objectInstance = New(MyCustomClass,{
@@ -461,13 +470,13 @@ console.log(objectInstance.randomNumber); // it will show console.log(objectInst
 ```
 
 
-#### InheritClass
+### InheritClass
 A single common used QCObjects class definition.
 
-#### \_Crypt
+### \_Crypt
 With \_Crypt you can encode serializable objects by a passphrase
 
-##### Example (1):
+#### Example (1):
 
 ```javascript
 
@@ -475,7 +484,7 @@ With \_Crypt you can encode serializable objects by a passphrase
  console.log(_string._encrypt());
  console.log(_string._decrypt()); // decodes encrypted string to the source
  ```
- ##### Example (2):
+ #### Example (2):
 
  ```javascript
  _Crypt.encrypt('hola mundo','12345678866');
@@ -483,20 +492,20 @@ With \_Crypt you can encode serializable objects by a passphrase
 ```
 
 
-#### GLOBAL
+### GLOBAL
 **GLOBAL** is a special QCObjects class to reach the global scope. It has a set and a get method to help you to manage the internal GLOBAL properties.
 
-##### Example:
+#### Example:
 ```javascript
 GLOBAL.set('globalProperty1','some value in global scope');
 var globalProperty1 = GLOBAL.get('globalProperty1');
 ```
 
+### CONFIG
 
-#### CONFIG
 CONFIG is a smart class that manages the global settings of your application. You can get the properties either from a config.json or from the memory previously saved by a set() call.
 
-##### Usage from memory:
+#### Usage from memory:
 
 1.- In your initial code set the CONFIG initial values:
 ```javascript
@@ -507,7 +516,7 @@ CONFIG.set('someSettingProperty','some initial value');
 var someSettingProperty = CONFIG.get('someSettingProperty');
 ```
 
-##### Usage from config.json:
+#### Usage from config.json:
 
 1.- You need to indicate first that you are using a config.json file by setting the "useConfigService" value to true
 ```javascript
@@ -515,19 +524,19 @@ CONFIG.set('useConfigService',true); // using config.json for custom settings co
 ```
 2.- Once you have set the value above QCObjects will know and look to the next CONFIG settings into the file config.json in the basePath folder of your application.
 
-##### Usage from an encrypted config.json:
+#### Usage from an encrypted config.json:
 
 There is also a way to use an encrypted config.json file in order to protect your settings robots that can steal unprotected data from your web application (like API keys web crawlers).
 
 To encrypt your json file go to https://config.qcobjects.dev, put your domain and the config.json content. The tool will encrypt your json and you can copy the encrypted content to insert it in your config.json file. QCObjects will know the data is encrypted and the process to decode the data will be transparent for you.
 
 
-#### waitUntil
+### waitUntil
 waitUntil is a helper just in case you are in trouble trying to run a code before a condition is true. The code inside waitUntil will be executed once.
 
 NOTE: This is useful in some cases but an excessive use is not recommended.
 
-##### Usage:
+#### Usage:
 ```javascript
 waitUntil(()=>{
   // the code that will be executed after the condition is true
@@ -535,7 +544,7 @@ waitUntil(()=>{
 // where condition is what I want to wait for
 ```
 
-##### Example:
+#### Example:
 ```javascript
 let someVar = 0;
 waitUntil(()=>{
@@ -606,7 +615,7 @@ Put a symbol (var or function) in the global scope.
 Export('name of symbol');
 ```
 
-##### Example:
+#### Example:
 ```javascript
 (()=>{
   // this is local scope
@@ -621,12 +630,12 @@ Export('name of symbol');
 someFunction('this works');
 ```
 
-
 ### Cast
 
 Use the Cast method of any DOM element to get the properties of another type of object. This is useful to transform an object type to another giving more flexibility in your code.
 
 #### Usage:
+
 ```javascript
 let resultObject = [element or QCObjects type].Cast(objectToCastFrom);
 ```
@@ -634,6 +643,7 @@ let resultObject = [element or QCObjects type].Cast(objectToCastFrom);
 Where objectToCastFrom is an object to get the properties from and put it into the result object returned by Cast.
 
 #### Example:
+
 ```javascript
 Class('MyOwnClass',{
   prop1:'1',
@@ -679,11 +689,9 @@ Where selector is a DOM query selector.
     </script>
     </body>
 </html>
-
 ```
 
 In the above code, a paragraph element was created inside a div with a css class named myselector by html, and then is  modified dynamically using the QCObjects Tag function. If you are familiar with query selector frameworks like JQuery, you will love this one.
-
 
 ### Ready
 Assign a function to run after everything is done by QCObjects and after the window.onload event. Use it to prevent 'undefined' DOM objects error.
@@ -796,7 +804,9 @@ Attaches a current component body to any element in the given selector.
 ### Component HTML Tag
 Is a HTML tag representation of a component instance. Every declaration of a `<component></component>` tag will generate a related instance of a QCObjects component. While a component tag is not an instance itself, you can even define some instance properties by setting the related tag attribute when it is available.
 
-#### Available attributes:
+#### Available attributes
+Below is a list of the available attributes for a component tag
+
 ##### The name Attribute
 **`<component name>`**
 Sets the name of the related component instance built by QCObjects.
@@ -821,7 +831,6 @@ Sets the name of the related component instance built by QCObjects.
     </body>
 </html>
 ```
-
 
 ##### The cached Attribute
 **`<component cached>`**
@@ -900,7 +909,7 @@ Sets the tplextension property of the related instance of a component. Possible 
 #### ComponentURI
 Is a helper function to let you define the templateURI for a component in a normalised way.
 
-###### Example:
+##### Example:
 ```javascript
 var templateURI = ComponentURI({
   'COMPONENTS_BASE_PATH':CONFIG.get('componentsBasePath'),
@@ -999,15 +1008,15 @@ Sets a value for a service property.
 Returns the value of a service property
 
 
-#### serviceLoader
+### serviceLoader
 Loads a service instance and returns a promise that is resolved when the service has a successful response load and is rejected when it fails loading the response.
 
-##### Usage:
+#### Usage:
 ```javascript
 [Promise] serviceLoader(serviceInstance)
 ```
 
-##### Example:
+#### Example:
 ```javascript
 Class('MyTestService',Service,{
     name:'myservice',
