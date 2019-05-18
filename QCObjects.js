@@ -27,7 +27,11 @@
   (function() {
     var __oldtoString = Function.prototype.toString;
     Function.prototype.toString = function (){
-			var _protected_symbols = ['QC_Append',
+			var _protected_symbols = ['ComplexStorageCache',
+                                'debug',
+                                'info',
+                                'warn',
+                                'QC_Append',
 																'set',
 																'get',
 																'done',
