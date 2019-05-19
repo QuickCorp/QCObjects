@@ -167,8 +167,6 @@
    var domain = 'localhost';
  }
 
-
-
 	 _top._asyncLoad = [];
 	 var asyncLoad = function(callback, args) {
 		 var asyncCallback = {
@@ -1134,12 +1132,12 @@
                 a.oldclick = a.onclick;
                 a.onclick = function (e){
                   var _ret_ = true;
-                  if (!GLOBAL.get('routingPaths')){
-                    GLOBAL.set('routingPaths',[]);
+                  if (!global.get('routingPaths')){
+                    global.set('routingPaths',[]);
                   }
                   var routingWay = CONFIG.get('routingWay');
                   var routingPath = e.target[routingWay];
-                  if (GLOBAL.get('routingPaths').includes(routingPath)
+                  if (global.get('routingPaths').includes(routingPath)
                       && e.target[routingWay] != document.location[routingWay]
                       && e.target.href != document.location.href
                     ){
@@ -1178,7 +1176,7 @@
           }
         }
       };
-      __route__.call(componentClass,GLOBAL.componentsStack);
+      __route__.call(componentClass,global.componentsStack);
     },
     fullscreen: function(){
       if (isBrowser){
@@ -1226,11 +1224,11 @@
                 routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
               }
               this.routings.push(routing);
-              if (!GLOBAL.get('routingPaths')){
-                GLOBAL.set('routingPaths',[]);
+              if (!global.get('routingPaths')){
+                global.set('routingPaths',[]);
               }
-              if (!GLOBAL.get('routingPaths').includes(routing.path)){
-                GLOBAL.get('routingPaths').push(routing.path);
+              if (!global.get('routingPaths').includes(routing.path)){
+                global.get('routingPaths').push(routing.path);
               }
             }
           }
@@ -1477,7 +1475,7 @@
   		          return;
   		        }
   		      });
-  					GLOBAL.lastCache = cache;
+  					global.lastCache = cache;
   				} else {
   					logger.debug('NOT USING CACHE FOR COMPONENT: '+component.name);
   					_directLoad.call(this);
@@ -1580,7 +1578,7 @@
     	          return;
     	        }
     	      });
-    				GLOBAL.lastCache = cache;
+    				global.lastCache = cache;
     			} else {
     				_directLoad.call(this);
     			}
@@ -1607,7 +1605,7 @@
 
 	asyncLoad(function (){
 
-		Class('GLOBAL',Object,{
+		Class('global',Object,{
 			_GLOBAL:{},
 			set:function (name,value){
 				this._GLOBAL[name]=value;
@@ -1644,21 +1642,23 @@
         };
         var _buildComponents = function (){
           if (isBrowser){
-            GLOBAL.componentsStack = document.buildComponents();
+            global.componentsStack = document.buildComponents();
             __load__serviceWorker.call(_top);
           }
         };
         Component._bindroute();
         if (CONFIG.get('useConfigService')){
-          GLOBAL.configService = New(ConfigService);
-          GLOBAL.configService.configLoaded = _buildComponents;
-          serviceLoader(GLOBAL.configService);
+          global.configService = New(ConfigService);
+          global.configService.configLoaded = _buildComponents;
+          serviceLoader(global.configService);
         } else {
           _buildComponents.call(this);
         }
       }
 		});
+    GLOBAL = global; // case insensitive for compatibility con old versions;
 		Export(GLOBAL);
+    Export(global);
 
     if (CONFIG.get('useSDK')){
       (function (){
@@ -1987,7 +1987,7 @@
 	**/
 	Ready(function (){
     if (!CONFIG.get('useSDK')){
-      GLOBAL.__start__();
+      global.__start__();
     }
 	});
 
