@@ -439,9 +439,12 @@
       window.addEventListener("testPassive", null, opts);
       window.removeEventListener("testPassive", null, opts);
     } catch (e) {}
+    var captureFalse = function (){
+      return (supportsPassive) ? ({ passive: true }) : (false);
+    };
 
     // Use our detect's results. passive applied if supported, capture will be false either way.
-    //elem.addEventListener('touchstart', fn, supportsPassive ? { passive: true } : false);
+    //elem.addEventListener('touchstart', fn, captureFalse);
 
   }
 
@@ -1136,7 +1139,7 @@
   if (isBrowser){
     window.onload = _Ready;
     if (is_phonegap){
-  		document.addEventListener('deviceready', _Ready, false);
+  		document.addEventListener('deviceready', _Ready, captureFalse);
   	}
   } else {
     global.onload = _Ready;
@@ -1234,7 +1237,7 @@
             });
             Component._bindroute.__assigned=true;
           }
-        });
+        },captureFalse);
       } else {
         // not yet implemented.
       }
