@@ -421,6 +421,30 @@
 		 }
 	 };
 
+  /**
+  *  Detecting passive events feature
+  *
+  * https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md#feature-detection
+  **/
+
+  // Test via a getter in the options object to see if the passive property is accessed
+  if (isBrowser){
+    var supportsPassive = false;
+    try {
+      var opts = Object.defineProperty({}, 'passive', {
+        get: function() {
+          supportsPassive = true;
+        }
+      });
+      window.addEventListener("testPassive", null, opts);
+      window.removeEventListener("testPassive", null, opts);
+    } catch (e) {}
+
+    // Use our detect's results. passive applied if supported, capture will be false either way.
+    //elem.addEventListener('touchstart', fn, supportsPassive ? { passive: true } : false);
+
+  }
+
 
 	/**
 	 * Basic Type of all elements
