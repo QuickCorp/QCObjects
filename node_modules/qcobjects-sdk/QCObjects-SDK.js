@@ -27,20 +27,35 @@
   var remoteImportsPath = CONFIG.get('remoteImportsPath');
   var external = (!CONFIG.get('useLocalSDK'))?(true):(false);
   CONFIG.set('remoteImportsPath','https://sdk.qcobjects.dev/js/');
-  var _imports_ = [
-    Import('org.quickcorp.models',function (){},external),
-    Import('org.quickcorp.components',function (){},external),
-    Import('org.quickcorp.controllers',function (){},external),
-    Import('org.quickcorp.views',function (){},external),
-    Import('org.quickcorp.effects',function (){},external),
-    Import('org.quickcorp.tools.canvas',function (){},external),
-    Import('org.quickcorp.tools.layouts',function (){},external)
-  ];
-  GLOBAL._sdk_ = Promise.all(_imports_).then(function (){
+  var _imports_;
+  if (isBrowser){
+    _imports_ = [
+      Import('org.quickcorp.models',function (){},external),
+      Import('org.quickcorp.components',function (){},external),
+      Import('org.quickcorp.controllers',function (){},external),
+      Import('org.quickcorp.views',function (){},external),
+      Import('org.quickcorp.effects',function (){},external),
+      Import('org.quickcorp.tools.canvas',function (){},external),
+      Import('org.quickcorp.tools.layouts',function (){},external)
+    ];
+  } else {
+    // non-browsers environment
+    var _relative_path_ = 'QCObjects-SDK/js/';
+    _imports_ = [
+      Import(_relative_path_+'org.quickcorp.models',function (){},external),
+      Import(_relative_path_+'org.quickcorp.components',function (){},external),
+      Import(_relative_path_+'org.quickcorp.controllers',function (){},external),
+      Import(_relative_path_+'org.quickcorp.views',function (){},external),
+      Import(_relative_path_+'org.quickcorp.effects',function (){},external),
+      Import(_relative_path_+'org.quickcorp.tools.canvas',function (){},external),
+      Import(_relative_path_+'org.quickcorp.tools.layouts',function (){},external)
+    ];
+  }
+  global._sdk_ = Promise.all(_imports_).then(function (){
     CONFIG.set('useSDK',true);
     CONFIG.set('remoteImportsPath',remoteImportsPath);
 
-    GLOBAL.__start__();
+    global.__start__();
 
   });
 
