@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/QuickGroup/QCObjects/issues"
   },
-  "homepage": "https://github.com/QuickGroup/QCObjects#readme"
+  "homepage": "https://github.com/QuickGroup/QCObjects#readme",
+  "dependencies": {
+    "qcobjects-sdk": "0.0.112"
+  }
 }

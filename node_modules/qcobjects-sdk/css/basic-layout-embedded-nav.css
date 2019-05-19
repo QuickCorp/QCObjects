@@ -1,0 +1,14 @@
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px),
+@media (max-width:460px),
+@media (aspect-ratio: 9/16),
+@media (aspect-ratio: 10/16),
+@media (aspect-ratio: 5/8),
+@media (aspect-ratio: 3/4),
+@media (aspect-ratio: 2/3){
+ nav, article {
+   width: 100%;
+   height: auto;
+   position: relative;
+ }
+}
