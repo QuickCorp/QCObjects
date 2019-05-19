@@ -69,56 +69,71 @@
     };
   })();
 
-  Element.prototype.subelements = Element.prototype.querySelectorAll;
-  HTMLDocument.prototype.subelements = HTMLDocument.prototype.querySelectorAll;
-  HTMLElement.prototype.subelements = HTMLElement.prototype.querySelectorAll;
-	var _top;
-	try {
-		_top = (typeof window.top != 'undefined')?(window.top):(window);
-		_top['_allowed_']=true;
-	}catch (e){
-		try {
-			_top = document;
-			_top['_allowed_']=true;
-		} catch (e2){
-			try {
-				_top = global;
-				_top['_allowed_']=true;
-			} catch (e3){
-				_top = {};
-				_top['_allowed_']=true;
-			}
-		}
-	}
+  var isBrowser = typeof self !== 'undefined' && typeof this.window !== 'undefined' &&  this.window === self;
+  var _DOMCreateElement = function (elementName){
+    var _ret_;
+    if (isBrowser){
+      _ret_ = document.createElement(elementName);
+    } else {
+      _ret_ = new Object();
+    }
+    return _ret_;
+  };
 
-  /**
-  * Polyfilling Promise
-  */
-  if (!('Promise' in _top)){
-    _top.Promise = function (_f){
-      var _p = {
-        then:function (){},
-        catch:function (){},
-        _then: function (response){
-          this.then.call(_p,response);
-        },
-        _catch:function (response){
-          this.catch.call(_p,response);
-        }
-      };
-      _f.call(_p,_p._then,_p._catch);
-      return _p;
-    };
+  if (isBrowser){
+    Element.prototype.subelements = Element.prototype.querySelectorAll;
+    HTMLDocument.prototype.subelements = HTMLDocument.prototype.querySelectorAll;
+    HTMLElement.prototype.subelements = HTMLElement.prototype.querySelectorAll;
   }
-
-	 if ( typeof _top.console == 'undefined') {
-		 _top.console = function() {
-		 };
-		 _top.console.prototype.log = function(message) {
-		 };
-	 };
-
-	 var basePath = (
+	var _top;
+  if (isBrowser){
+    try {
+  		_top = (typeof window.top != 'undefined')?(window.top):(window);
+  		_top['_allowed_']=true;
+  	}catch (e){
+  		try {
+  			_top = document;
+  			_top['_allowed_']=true;
+  		} catch (e2){
+  			try {
+  				_top = global;
+  				_top['_allowed_']=true;
+  			} catch (e3){
+  				_top = {};
+  				_top['_allowed_']=true;
+  			}
+  		}
+  	}
+  } else if (typeof global !== 'undefined'){
+    _top = global;
+  }
+  if (isBrowser){
+    /**
+    * Polyfilling Promise
+    */
+    if (!('Promise' in _top)){
+      _top.Promise = function (_f){
+        var _p = {
+          then:function (){},
+          catch:function (){},
+          _then: function (response){
+            this.then.call(_p,response);
+          },
+          _catch:function (response){
+            this.catch.call(_p,response);
+          }
+        };
+        _f.call(_p,_p._then,_p._catch);
+        return _p;
+      };
+    }
+    if ( typeof _top.console == 'undefined') {
+ 		 _top.console = function() {
+ 		 };
+ 		 _top.console.prototype.log = function(message) {
+ 		 };
+ 	 };
+   var basePath = (
 		 function (){
 			 var baseURI = _top.document.baseURI.split('/');
 			 baseURI.pop();
@@ -126,18 +141,33 @@
 		 }
 	 )();
 
+   var domain = (
+     function (){
+       return domain;
+     }
+   )();
+
    var _secretKey = (
 		 function (){
 			 var __secretKey = _top[(![]+[])[((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+(typeof [])[((+!+[])+(+!+[]))*((+!+[])+(+!+[]))]+(![]+[])[(+!+[])]+(!![]+[])[(+[])]+([]+[]+[][[]])[(+[+!+[]+[+[]]])/((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+([]+[]+[][[]])[(+!+[])] ]['h'+(typeof ![])[(+!+[])]+(![]+[])[(+!+[]+((+!+[])+(+!+[])))]+(!![]+[])[(+[])]].toLowerCase();
 			 return __secretKey;
 		 }
 	 )();
+   var is_phonegap = (
+     function (){
+       return (typeof cordova != 'undefined')?(true):(false);
+     }
+   )();
 
-	 var is_phonegap = (
-		 function (){
-			 return (typeof cordova != 'undefined')?(true):(false);
-		 }
-	 )();
+ } else {
+   // This is only for code integrity purpose using non-browser implementations
+   // like using node.js
+   var basePath = './';
+   var _secretKey = 'secret';
+   var domain = 'localhost';
+ }
+
+
 
 	 _top._asyncLoad = [];
 	 var asyncLoad = function(callback, args) {
@@ -151,14 +181,19 @@
 		 _top._asyncLoad.push(asyncCallback);
 		 return asyncCallback;
 	 };
-	 document.onreadystatechange = function() {
-		 if (document.readyState == "complete") {
-			 for (var f in _top._asyncLoad) {
-				 var fc = _top._asyncLoad[f];
-				 fc.dispatch();
-			 }
-		 }
-	 };
+
+   if (isBrowser){
+     var _fireAsyncLoad = function() {
+  		 if (document.readyState == "complete") {
+  			 for (var f in _top._asyncLoad) {
+  				 var fc = _top._asyncLoad[f];
+  				 fc.dispatch();
+  			 }
+  		 }
+  	 };
+     document.onreadystatechange = _fireAsyncLoad;
+   }
+
 	 _top.asyncLoad = asyncLoad;
 	 var Logger = function() {return {
 		 debugEnabled:true,
@@ -378,14 +413,18 @@
 	};
 	QC_Object.prototype = {
 		find : function(tag) {
-			var _tags = document.subelements(tag);
-			var _oo = [];
-			for (var _t in _tags) {
-				var _tt = _tags[_t];
-				if (( typeof _tags[_t] != 'undefined') && _tags[_t].parentNode.tagName == this.parentNode.tagName) {
-					_oo.push(_Cast(_tt, (new QC_Object())));
-				}
-			}
+      var _oo = [];
+      if (isBrowser){
+        var _tags = document.subelements(tag);
+  			for (var _t in _tags) {
+  				var _tt = _tags[_t];
+  				if (( typeof _tags[_t] != 'undefined') && _tags[_t].parentNode.tagName == this.parentNode.tagName) {
+  					_oo.push(_Cast(_tt, (new QC_Object())));
+  				}
+  			}
+      } else {
+        //not implemented yet.
+      }
 			return _oo;
 		}
 	};
@@ -503,13 +542,21 @@
 	var Class = function(name, type, definition) {
 		var o;
 		var name = arguments[0];
-		var type = (arguments.length>2)?(arguments[1]):(HTMLElement);
+    if (isBrowser){
+      var type = (arguments.length>2)?(arguments[1]):(HTMLElement);
+    } else {
+      var type = (arguments.length>2)?(arguments[1]):(Object);
+    }
 		var definition =  (arguments.length>2)?(arguments[2]):(
 			(arguments.length>1)?(arguments[1]):({})
 		);
 
 		if (typeof type=='undefined'){
-			type = HTMLElement; // defaults to HTMLElement type
+      if (isBrowser){
+        type = HTMLElement; // defaults to HTMLElement type
+      } else {
+        type = Object;
+      }
 		} else {
 			definition = _Cast(
 				(typeof definition=='undefined')?({}):(definition),
@@ -522,7 +569,6 @@
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')){
 			definition['__new__'] = function (properties){
 				_CastProps(properties,this);
-//				logger.debug('__NEW__');
 			};
 		}
 
@@ -534,14 +580,6 @@
 				}
 			};
 		}
-
-		Element.prototype.append = function QC_Append(child){
-			if (typeof child.__definition != 'undefined' && typeof child.__definition.__classType != 'undefined' && typeof child.body){
-				this.appendChild(child.body);
-			} else{
-				this.appendChild(child);
-			}
-		};
 
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('append')){
 			definition['append'] = function QC_Append(){
@@ -556,35 +594,48 @@
 						}
 						this['childs'].push(child);
 					} else {
-						logger.debug('append to body');
-						document.body.append(child);
+            if (isBrowser){
+              logger.debug('append to body');
+  						document.body.append(child);
+            }
 					}
 				}
 			};
 		}
 
-
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('attachIn')){
 			definition['attachIn'] = function QC_AttachIn(tag){
-				var tags = document.subelements(tag);
-				for(var i=0,j=tags.length; i<j; i++){
-						tags[i].append(this);
-				};
-
+        if (isBrowser){
+          var tags = document.subelements(tag);
+  				for(var i=0,j=tags.length; i<j; i++){
+  						tags[i].append(this);
+  				};
+        } else {
+          // not yet implemented.
+        }
 			};
 		}
 
-
-		o = Object.create(type, definition);
-		o['__definition'] = definition;
+		o = Object.create(type, Object.assign({},definition));
+		o['__definition'] = Object.assign({},definition);
 		o['__definition']['__classType']=name;
 		_QC_CLASSES[name] = o;
-		_top[name] = o;
+		_top[name] = _QC_CLASSES[name];
 		return _top[name];
 	};
   Class.prototype.toString = function (){
     return "Class(name, type, definition) { [QCObjects native code] }";
   };
+
+  if (isBrowser){
+    Element.prototype.append = function QC_Append(child){
+      if (typeof child.__definition != 'undefined' && typeof child.__definition.__classType != 'undefined' && typeof child.body){
+        this.appendChild(child.body);
+      } else{
+        this.appendChild(child);
+      }
+    };
+  }
 
   /**
 	 * Returns a method from a superior QCObjects Class
@@ -621,17 +672,20 @@
 		if (c_new.hasOwnProperty('__new__')) {
 			if (typeof c_new != 'undefined' && !c_new.__definition.hasOwnProperty('body')){
 				try{
-					c_new['body'] = _Cast(c_new['__definition'],document.createElement(c_new.__definition.__classType));
-					c_new['body']['style'] = _Cast(c_new.__definition,c_new['body']['style']);
-
+          if (isBrowser){
+            c_new['body'] = _Cast(c_new['__definition'],_DOMCreateElement(c_new.__definition.__classType));
+  					c_new['body']['style'] = _Cast(c_new.__definition,c_new['body']['style']);
+          } else {
+            c_new['body'] = new Object();
+            c_new['body']['style'] = new Object();
+          }
 				}catch (e){
-
+          c_new['body'] = new Object();
+          c_new['body']['style'] = new Object();
 				}
 			} else if (c_new.__definition.hasOwnProperty('body')){
 				c_new['body'] = c_new.__definition.body;
 			}
-//			logger.debug('llamada a new' + c_new.__definition.__classType);
-//			console.trace();
 			c_new.__new__(args);
 			if (c_new.hasOwnProperty('_new_')){
 				c_new._new_(args);
@@ -644,10 +698,16 @@
   };
 
 	var Export = function (f){
-		try {
-			_top[f.name] = f;
-			window[f.name] = f;
-		} catch (e){}
+    if (isBrowser){
+      try {
+  			_top[f.name] = f;
+  			window[f.name] = f;
+  		} catch (e){}
+    } else if (typeof global !== 'undefined'){
+      if (!global.hasOwnProperty(f.name)){
+        global[f.name] = f;
+      }
+    }
 	};
   Export.prototype.toString = function (){
     return "Export(function or symbol) { [QCObjects native code] }";
@@ -823,82 +883,106 @@
     } else {
       logger.debug('[Import] Registering local resource to import: '+packagename);
     }
+    var _promise_import_;
+    if (isBrowser){
+      _promise_import_ = new Promise(function (resolve,reject){
 
-    var _promise_import_ = new Promise(function (resolve,reject){
+        var allPackagesImported = function() {
+    			var ret = false;
+    			var cp = 0;
+    			for (var p in _QC_PACKAGES) {
+    				cp++;
+    			}
+    			if (cp < _QC_PACKAGES_IMPORTED.length) {
+    				ret = false;
+    			} else {
+    				ret = true;
+    			}
+    			return ret;
+    		};
 
-      var allPackagesImported = function() {
-  			var ret = false;
-  			var cp = 0;
-  			for (var p in _QC_PACKAGES) {
-  				cp++;
-  			}
-  			if (cp < _QC_PACKAGES_IMPORTED.length) {
-  				ret = false;
-  			} else {
-  				ret = true;
-  			}
-  			return ret;
-  		};
+        var readyImported = function(e) {
+    				_QC_PACKAGES_IMPORTED.push(ready);
+    				if (allPackagesImported()) {
+    					for (var _r in _QC_PACKAGES_IMPORTED) {
+    						_QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
+    					}
+    				}
+            resolve.call(_promise_import_,{
+              '_imported_':e.target,
+              '_package_name_':packagename
+            });
+    		};
 
-      var readyImported = function(e) {
-  				_QC_PACKAGES_IMPORTED.push(ready);
-  				if (allPackagesImported()) {
-  					for (var _r in _QC_PACKAGES_IMPORTED) {
-  						_QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
-  					}
-  				}
+        if (!_QC_PACKAGES.hasOwnProperty(packagename)) {
+    			var s1 = _DOMCreateElement('script');
+    			s1.type = 'text/javascript';
+    			s1.async=(CONFIG.get('asynchronousImportsLoad'))?(true):(false);
+    			s1.onreadystatechange = function() {
+    				if (s1.readyState == 'complete') {
+    					readyImported.call();
+    				}
+    			};
+    			s1.onload = readyImported;
+          s1.onerror = function (e){
+            reject.call(_promise_import_,{
+              '_imported_':s1,
+              '_package_name_':packagename
+            });
+          };
+          s1.src = (external)?(CONFIG.get('remoteImportsPath')+ packagename + '.js'):(basePath + CONFIG.get('relativeImportPath') + packagename + '.js');
+    			document.getElementsByTagName('head')[0].appendChild(s1);
+    		}
+      });
+      _promise_import_.catch(function (){
+        logger.debug('Import: Error loading a package ');
+      });
+
+    } else {
+      // support to be used in a nodejs environment
+      _promise_import_ = new Promise(function (resolve,reject){
+        try {
           resolve.call(_promise_import_,{
-            '_imported_':e.target,
+            '_imported_':require(packagename),
             '_package_name_':packagename
           });
-  		};
-
-      if (!_QC_PACKAGES.hasOwnProperty(packagename)) {
-  			var s1 = document.createElement('script');
-  			s1.type = 'text/javascript';
-  			s1.async=(CONFIG.get('asynchronousImportsLoad'))?(true):(false);
-  			s1.onreadystatechange = function() {
-  				if (s1.readyState == 'complete') {
-  					readyImported.call();
-  				}
-  			};
-  			s1.onload = readyImported;
-        s1.onerror = function (e){
+        } catch (e){
           reject.call(_promise_import_,{
-            '_imported_':s1,
+            '_imported_':null,
             '_package_name_':packagename
           });
-        };
-        s1.src = (external)?(CONFIG.get('remoteImportsPath')+ packagename + '.js'):(basePath + CONFIG.get('relativeImportPath') + packagename + '.js');
-  			document.getElementsByTagName('head')[0].appendChild(s1);
-  		}
-    });
-    _promise_import_.catch(function (){
-      logger.debug('Import: Error loading a package ');
-    });
+        }
+      });
+    }
     return _promise_import_;
 	};
   Import.prototype.toString = function (){
     return "Import(packagename,ready,external) { [QCObjects native code] }";
   };
 
-	/**
-	* Adds a Cast functionaly to every Element of DOM
-	*/
-	Element.prototype.Cast = function QC_Object(_o) {
-		_o.__definition.body = this;
-		var _o = New(_o);
-		return _o;
-	};
+  if (isBrowser){
+    /**
+  	* Adds a Cast functionality to every Element of DOM
+  	*/
+  	Element.prototype.Cast = function QC_Object(_o) {
+  		_o.__definition.body = this;
+  		var _o = New(_o);
+  		return _o;
+  	};
+  }
 
 	Class('TagElements',Array,{
 		findElements:function (elementName){
-			var _o = New(TagElements);
-			for (var _k in this){
-				if (typeof _k ==='number' && typeof this[_k] != 'function' && this[_k].hasOwnProperty('subelements')){
-					_o.push(this[_k].subelements(elementName));
-				}
-			}
+      var _o = New(TagElements);
+      if (isBrowser){
+  			for (var _k in this){
+  				if (typeof _k ==='number' && typeof this[_k] != 'function' && this[_k].hasOwnProperty('subelements')){
+  					_o.push(this[_k].subelements(elementName));
+  				}
+  			}
+      } else {
+        // not yet implemented.
+      }
 			return _o;
 		}
 	});
@@ -910,18 +994,22 @@
 	 * @param {Object} innerHTML
 	 */
 	var Tag = function(tagname, innerHTML) {
-		var o = document.subelements(tagname);
-		var _o = New(TagElements);
-		var addedKeys = []
-		for (var _i=0;_i<o.length;_i++){
-			if ( typeof innerHTML != 'undefined' && o[_i].hasOwnProperty('innerHTML')) {
-				o[_i].innerHTML = innerHTML;
-			}
-			if (addedKeys.indexOf(_i)<0){
-				_o.push(o[_i]);
-				addedKeys.push(_i);
-			}
-		}
+    var _o = New(TagElements);
+    if (isBrowser){
+      var o = document.subelements(tagname);
+  		var addedKeys = []
+  		for (var _i=0;_i<o.length;_i++){
+  			if ( typeof innerHTML != 'undefined' && o[_i].hasOwnProperty('innerHTML')) {
+  				o[_i].innerHTML = innerHTML;
+  			}
+  			if (addedKeys.indexOf(_i)<0){
+  				_o.push(o[_i]);
+  				addedKeys.push(_i);
+  			}
+  		}
+    } else {
+      // not yet implemented.
+    }
 		return _o;
 	};
 
@@ -929,7 +1017,11 @@
 	 * Defines a Custom Ready listener
 	 */
 	function Ready(e){
-		_QC_READY_LISTENERS.push(e.bind(window));
+    if (isBrowser){
+      _QC_READY_LISTENERS.push(e.bind(window));
+    } else if (typeof global !== 'undefined'){
+      _QC_READY_LISTENERS.push(e.bind(global));
+    }
 	}
 	var ready = Ready; // case insensitive ready option
 
@@ -948,21 +1040,29 @@
 			}
 		};
 		if (CONFIG.get('delayForReady')>0){
-			setTimeout(_execReady.bind(window),CONFIG.get('delayForReady'));
+      if (isBrowser){
+        setTimeout(_execReady.bind(window),CONFIG.get('delayForReady'));
+      } else if (typeof global !== 'undefined'){
+        setTimeout(_execReady.bind(global),CONFIG.get('delayForReady'));
+      }
 		} else {
 			_execReady.call(window);
 		};
 	};
 
-	window.onload = _Ready;
-	if (is_phonegap){
-		document.addEventListener('deviceready', _Ready, false);
-	}
+  if (isBrowser){
+    window.onload = _Ready;
+    if (is_phonegap){
+  		document.addEventListener('deviceready', _Ready, false);
+  	}
+  } else {
+    global.onload = _Ready;
+  }
 
   Class('InheritClass',Object,{});
 
 	Class('Component',Object,{
-		domain:window.location.host.toLowerCase(),
+		domain:domain,
     basePath:basePath,
 		templateURI:'',
     tplsource:'default',
@@ -1010,47 +1110,51 @@
     routingSelected:[],
     _bindroute:function (){
       Component._bindroute.__assigned = false;
-      document.addEventListener('componentsloaded', function(e) {
-        e.stopImmediatePropagation();
-        if (!Component._bindroute.__assigned){
-          _top.__oldpopstate = _top.onpopstate;
-          _top.onpopstate = function (e) {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            Component.route();
-            if (typeof e.target.__oldpopstate != 'undefined' && typeof e.target.__oldpopstate == 'function'){
-              e.target.__oldpopstate.call(e.target,e);
+      if (isBrowser){
+        document.addEventListener('componentsloaded', function(e) {
+          e.stopImmediatePropagation();
+          if (!Component._bindroute.__assigned){
+            _top.__oldpopstate = _top.onpopstate;
+            _top.onpopstate = function (e) {
+              e.stopImmediatePropagation();
+              e.stopPropagation();
+              Component.route();
+              if (typeof e.target.__oldpopstate != 'undefined' && typeof e.target.__oldpopstate == 'function'){
+                e.target.__oldpopstate.call(e.target,e);
+              }
             }
+            Tag('a').map(function (a){
+                a.oldclick = a.onclick;
+                a.onclick = function (e){
+                  var _ret_ = true;
+                  if (!GLOBAL.get('routingPaths')){
+                    GLOBAL.set('routingPaths',[]);
+                  }
+                  var routingWay = CONFIG.get('routingWay');
+                  var routingPath = e.target[routingWay];
+                  if (GLOBAL.get('routingPaths').includes(routingPath)
+                      && e.target[routingWay] != document.location[routingWay]
+                      && e.target.href != document.location.href
+                    ){
+                    logger.debug('A ROUTING WAS FOUND: '+routingPath);
+                    history.pushState({href:e.target.href},e.target.href,e.target.href);
+                    Component.route();
+                    _ret_ = false;
+                  } else {
+                    logger.debug('NO ROUTING FOUND FOR: '+routingPath);
+                  }
+                  if (typeof e.target.oldclick != 'undefined' && typeof e.target.oldclick == 'function'){
+                    e.target.oldclick.call(e.target,e);
+                  }
+                  return _ret_;
+                };
+            });
+            Component._bindroute.__assigned=true;
           }
-          Tag('a').map(function (a){
-              a.oldclick = a.onclick;
-              a.onclick = function (e){
-                var _ret_ = true;
-                if (!GLOBAL.get('routingPaths')){
-                  GLOBAL.set('routingPaths',[]);
-                }
-                var routingWay = CONFIG.get('routingWay');
-                var routingPath = e.target[routingWay];
-                if (GLOBAL.get('routingPaths').includes(routingPath)
-                    && e.target[routingWay] != document.location[routingWay]
-                    && e.target.href != document.location.href
-                  ){
-                  logger.debug('A ROUTING WAS FOUND: '+routingPath);
-                  history.pushState({href:e.target.href},e.target.href,e.target.href);
-                  Component.route();
-                  _ret_ = false;
-                } else {
-                  logger.debug('NO ROUTING FOUND FOR: '+routingPath);
-                }
-                if (typeof e.target.oldclick != 'undefined' && typeof e.target.oldclick == 'function'){
-                  e.target.oldclick.call(e.target,e);
-                }
-                return _ret_;
-              };
-          });
-          Component._bindroute.__assigned=true;
-        }
-      });
+        });
+      } else {
+        // not yet implemented.
+      }
     },
     route:function (){
       var componentClass = this;
@@ -1070,50 +1174,62 @@
       __route__.call(componentClass,GLOBAL.componentsStack);
     },
     fullscreen: function(){
-      var elem = this.body;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) { /* Firefox */
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE/Edge */
-        elem.msRequestFullscreen();
+      if (isBrowser){
+        var elem = this.body;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { /* Firefox */
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE/Edge */
+          elem.msRequestFullscreen();
+        }
+      } else {
+        // not yet implemented.
       }
     },
     closefullscreen: function (){
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
+      if (isBrowser){
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      } else {
+        // noy yet implemented.
       }
     },
     _generateRoutingPaths:function (c){
-      if (this.validRoutingWays.includes(this.routingWay)){
-        if (typeof c != 'undefined'){
-          this.innerHTML = c.innerHTML;
-          this.routingNodes = c.subelements('routing');
-          this.routings = [];
-          for (var r=0;r<this.routingNodes.length;r++){
-            var routingNode = this.routingNodes[r];
-            var attributeNames = routingNode.getAttributeNames();
-            var routing = {};
-            for (var a=0;a<attributeNames.length;a++){
-              routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
-            }
-            this.routings.push(routing);
-            if (!GLOBAL.get('routingPaths')){
-              GLOBAL.set('routingPaths',[]);
-            }
-            if (!GLOBAL.get('routingPaths').includes(routing.path)){
-              GLOBAL.get('routingPaths').push(routing.path);
+      if (isBrowser){
+        if (this.validRoutingWays.includes(this.routingWay)){
+          if (typeof c != 'undefined'){
+            this.innerHTML = c.innerHTML;
+            this.routingNodes = c.subelements('routing');
+            this.routings = [];
+            for (var r=0;r<this.routingNodes.length;r++){
+              var routingNode = this.routingNodes[r];
+              var attributeNames = routingNode.getAttributeNames();
+              var routing = {};
+              for (var a=0;a<attributeNames.length;a++){
+                routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+              }
+              this.routings.push(routing);
+              if (!GLOBAL.get('routingPaths')){
+                GLOBAL.set('routingPaths',[]);
+              }
+              if (!GLOBAL.get('routingPaths').includes(routing.path)){
+                GLOBAL.get('routingPaths').push(routing.path);
+              }
             }
           }
         }
+      } else {
+        // not yet implemented.
       }
     },
     _new_:function (properties){
@@ -1176,7 +1292,7 @@
   });
 
 	Class('Service',Object,{
-		domain:window.location.host.toLowerCase(),
+		domain:domain,
     basePath:basePath,
 		url:'',
     method:'GET',
@@ -1493,31 +1609,35 @@
 				return this._GLOBAL[name];
 			},
       __start__:function (){
-        var __load__serviceWorker = function (){
-          var _promise = new Promise(function (resolve,reject){
-            if(('serviceWorker' in navigator)
-                && (typeof CONFIG.get('serviceWorkerURI') != 'undefined')) {
-              navigator.serviceWorker.register(CONFIG.get('serviceWorkerURI'), { scope: '/' })
-                .then(function(registration) {
-                      logger.debug('Service Worker Registered');
-                      resolve.call(_promise,registration);
+        if (isBrowser){
+          var __load__serviceWorker = function (){
+            var _promise = new Promise(function (resolve,reject){
+              if(('serviceWorker' in navigator)
+                  && (typeof CONFIG.get('serviceWorkerURI') != 'undefined')) {
+                navigator.serviceWorker.register(CONFIG.get('serviceWorkerURI'), { scope: '/' })
+                  .then(function(registration) {
+                        logger.debug('Service Worker Registered');
+                        resolve.call(_promise,registration);
+                  },function (registration){
+                    logger.debug('Error registering Service Worker');
+                    reject.call(_promise,registration);
+                  });
+                navigator.serviceWorker.ready.then(function(registration) {
+                   logger.debug('Service Worker Ready');
+                   resolve.call(_promise,registration);
                 },function (registration){
-                  logger.debug('Error registering Service Worker');
+                  logger.debug('Error loading Service Worker');
                   reject.call(_promise,registration);
                 });
-              navigator.serviceWorker.ready.then(function(registration) {
-                 logger.debug('Service Worker Ready');
-                 resolve.call(_promise,registration);
-              },function (registration){
-                logger.debug('Error loading Service Worker');
-                reject.call(_promise,registration);
-              });
-            }
-          });
+              }
+            });
+        }
           return _promise;
         };
         var _buildComponents = function (){
-          GLOBAL.componentsStack = document.buildComponents();
+          if (isBrowser){
+            GLOBAL.componentsStack = document.buildComponents();
+          }
           __load__serviceWorker.call(_top);
         };
         Component._bindroute();
@@ -1551,102 +1671,107 @@
 
 	},null);
 
-	Element.prototype.buildComponents = function (rebuildObjects=false){
-		var tagFilter = (rebuildObjects)?('component:not([loaded])'):('component');
-		var d = this;
-		var _buildComponent = function (components){
-			var componentsBuiltWith = [];
-		  for (var _c = 0;_c<components.length;_c++){
-				var data = {};
-				var attributenames = components[_c].getAttributeNames().filter(function(a){return a.startsWith('data-')}).map(function(a){return a.split('-')[1]});
-				for (var attribute in attributenames){
-					data[attributenames[attribute]] = components[_c].getAttribute('data-'+attributenames[attribute]);
-				}
-				var componentDone = function (){
-					var viewName = this.body.getAttribute('viewClass');
-					if (viewName != null && _QC_CLASSES.hasOwnProperty(viewName)){
-						var _View = _QC_CLASSES[viewName];
-						this.view = New(_View,{component:this}); // Initializes the main view for the component
-						if (this.view.hasOwnProperty('done') && typeof this.view.done == 'function' ){
-							this.view.done.call(this.view);
-						}
-					}
-					var controllerName = this.body.getAttribute('controllerClass');
-					if (controllerName != null && _QC_CLASSES.hasOwnProperty(controllerName)){
-						var _Controller = _QC_CLASSES[controllerName];
-						this.controller = New(_Controller,{component:this}); // Initializes the main controller for the component
-						if (this.controller.hasOwnProperty('done') && typeof this.controller.done == 'function' ){
-							this.controller.done.call(this.controller);
-						}
-					}
-					this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
-					if (CONFIG.get('overrideComponentTag')){
-						this.body.outerHTML=this.body.innerHTML;
-					}
-					this.body.setAttribute('loaded',true);
-					if ((Tag('component[loaded=true]').length*100/Tag('component').length)>=100){
-						d.dispatchEvent(new CustomEvent('componentsloaded',{detail:{lastComponent:this}}));
-					}
-				};
-        var __cached_not_set = (components[_c].getAttribute('cached')==null)?(true):(false);
-				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
-        var tplextension = (typeof CONFIG.get('tplextension') != 'undefined')?(CONFIG.get('tplextension')):('html');
-        tplextension = (components[_c].getAttribute('tplextension')!=null)?(components[_c].getAttribute('tplextension')):(tplextension);
-        var tplsource = (components[_c].getAttribute('template-source')==null)?('default'):(components[_c].getAttribute('template-source'));
-        var componentURI = ComponentURI({
-          'COMPONENTS_BASE_PATH':CONFIG.get('componentsBasePath'),
-          'COMPONENT_NAME':components[_c].getAttribute('name').toString(),
-          'TPLEXTENSION':tplextension,
-          'TPL_SOURCE':tplsource
-        });
-				if (CONFIG.get('preserveComponentBodyTag')){
-					Class('ComponentBody',Component,{
-			      name:components[_c].getAttribute('name').toString(),
-						reload:true
-			    });
+  if (isBrowser){
+    Element.prototype.buildComponents = function (rebuildObjects=false){
+  		var tagFilter = (rebuildObjects)?('component:not([loaded])'):('component');
+  		var d = this;
+  		var _buildComponent = function (components){
+  			var componentsBuiltWith = [];
+  		  for (var _c = 0;_c<components.length;_c++){
+  				var data = {};
+  				var attributenames = components[_c].getAttributeNames().filter(function(a){return a.startsWith('data-')}).map(function(a){return a.split('-')[1]});
+  				for (var attribute in attributenames){
+  					data[attributenames[attribute]] = components[_c].getAttribute('data-'+attributenames[attribute]);
+  				}
+  				var componentDone = function (){
+  					var viewName = this.body.getAttribute('viewClass');
+  					if (viewName != null && _QC_CLASSES.hasOwnProperty(viewName)){
+  						var _View = _QC_CLASSES[viewName];
+  						this.view = New(_View,{component:this}); // Initializes the main view for the component
+  						if (this.view.hasOwnProperty('done') && typeof this.view.done == 'function' ){
+  							this.view.done.call(this.view);
+  						}
+  					}
+  					var controllerName = this.body.getAttribute('controllerClass');
+  					if (controllerName != null && _QC_CLASSES.hasOwnProperty(controllerName)){
+  						var _Controller = _QC_CLASSES[controllerName];
+  						this.controller = New(_Controller,{component:this}); // Initializes the main controller for the component
+  						if (this.controller.hasOwnProperty('done') && typeof this.controller.done == 'function' ){
+  							this.controller.done.call(this.controller);
+  						}
+  					}
+  					this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
+  					if (CONFIG.get('overrideComponentTag')){
+  						this.body.outerHTML=this.body.innerHTML;
+  					}
+  					this.body.setAttribute('loaded',true);
+  					if ((Tag('component[loaded=true]').length*100/Tag('component').length)>=100){
+  						d.dispatchEvent(new CustomEvent('componentsloaded',{detail:{lastComponent:this}}));
+  					}
+  				};
+          var __cached_not_set = (components[_c].getAttribute('cached')==null)?(true):(false);
+  				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
+          var tplextension = (typeof CONFIG.get('tplextension') != 'undefined')?(CONFIG.get('tplextension')):('html');
+          tplextension = (components[_c].getAttribute('tplextension')!=null)?(components[_c].getAttribute('tplextension')):(tplextension);
+          var tplsource = (components[_c].getAttribute('template-source')==null)?('default'):(components[_c].getAttribute('template-source'));
+          var componentURI = ComponentURI({
+            'COMPONENTS_BASE_PATH':CONFIG.get('componentsBasePath'),
+            'COMPONENT_NAME':components[_c].getAttribute('name').toString(),
+            'TPLEXTENSION':tplextension,
+            'TPL_SOURCE':tplsource
+          });
+  				if (CONFIG.get('preserveComponentBodyTag')){
+  					Class('ComponentBody',Component,{
+  			      name:components[_c].getAttribute('name').toString(),
+  						reload:true
+  			    });
 
-					var newComponent = New(ComponentBody,{
-			      name:components[_c].getAttribute('name').toString(),
-						data:data,
-						cached:(__cached_not_set)?(Component.cached):(cached),
-            tplextension:tplextension,
-			      templateURI:componentURI,
-            tplsource:tplsource,
-						subcomponents:[]
-			    });
-					newComponent.done = componentDone;
-					components[_c].append(newComponent);
-					components[_c].setAttribute('loaded',true);
-				} else {
-					var _componentClassName = (components[_c].getAttribute('componentClass')!=null)?(components[_c].getAttribute('componentClass')):('Component');
-					var newComponent = New(_QC_CLASSES[_componentClassName],{
-			      name:components[_c].getAttribute('name').toString(),
-						data:data,
-            cached:(__cached_not_set)?(Component.cached):(cached),
-            tplextension:tplextension,
-						body:components[_c],
-			      templateURI:componentURI,
-            tplsource:tplsource,
-						subcomponents:[]
-			    });
-					newComponent.done = componentDone;
+  					var newComponent = New(ComponentBody,{
+  			      name:components[_c].getAttribute('name').toString(),
+  						data:data,
+  						cached:(__cached_not_set)?(Component.cached):(cached),
+              tplextension:tplextension,
+  			      templateURI:componentURI,
+              tplsource:tplsource,
+  						subcomponents:[]
+  			    });
+  					newComponent.done = componentDone;
+  					components[_c].append(newComponent);
+  					components[_c].setAttribute('loaded',true);
+  				} else {
+  					var _componentClassName = (components[_c].getAttribute('componentClass')!=null)?(components[_c].getAttribute('componentClass')):('Component');
+  					var newComponent = New(_QC_CLASSES[_componentClassName],{
+  			      name:components[_c].getAttribute('name').toString(),
+  						data:data,
+              cached:(__cached_not_set)?(Component.cached):(cached),
+              tplextension:tplextension,
+  						body:components[_c],
+  			      templateURI:componentURI,
+              tplsource:tplsource,
+  						subcomponents:[]
+  			    });
+  					newComponent.done = componentDone;
 
-				}
-				componentsBuiltWith.push(newComponent);
-		  }
-			return componentsBuiltWith;
-		};
-		var components = d.subelements(tagFilter);
-		return _buildComponent(components);
-	};
+  				}
+  				componentsBuiltWith.push(newComponent);
+  		  }
+  			return componentsBuiltWith;
+  		};
+  		var components = d.subelements(tagFilter);
+  		return _buildComponent(components);
+  	};
+    HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
+  	HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
 
-	HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
-	HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
+  } else {
+    // not yet implemented.
+  }
+
 
 	Class('SourceJS',Object,{
-		domain:window.location.host.toLowerCase(),
+		domain:domain,
     basePath:basePath,
-		body:document.createElement('script'),
+		body:_DOMCreateElement('script'),
 		url:'',
     data:{},
 		async:false,
@@ -1685,7 +1810,7 @@
   					context.body=s;
   					return s;
   				}).call(this,
-  					document.createElement('script'),
+  					_DOMCreateElement('script'),
   					(this.external)?(this.url):(this.basePath+this.url),context));
       }catch(e){
         context.status=false;
@@ -1701,9 +1826,9 @@
 		}
 	});
 	Class('SourceCSS',Object,{
-		domain:window.location.host.toLowerCase(),
+		domain:domain,
     basePath:basePath,
-		body:document.createElement('link'),
+		body:_DOMCreateElement('link'),
 		url:'',
     data:{},
 		async:false,
@@ -1732,7 +1857,7 @@
 					context.body=s;
 					return s;
 				}).call(this,
-					document.createElement('link'),
+					_DOMCreateElement('link'),
 					(this.external)?(this.url):(this.basePath+this.url),context));
 		},
 		Cast:function (o){
