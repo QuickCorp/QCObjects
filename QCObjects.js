@@ -69,7 +69,7 @@
     };
   })();
 
-  var isBrowser = typeof self !== 'undefined' && typeof this.window !== 'undefined' &&  this.window === self;
+  var isBrowser = typeof self !== 'undefined' && typeof window !== 'undefined' &&  window === self;
   var _DOMCreateElement = function (elementName){
     var _ret_;
     if (isBrowser){
