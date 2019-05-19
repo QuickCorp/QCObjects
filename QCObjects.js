@@ -605,7 +605,7 @@
 			);
 		}
 
-		type = (type.hasOwnProperty('prototype')) ? (_LegacyCopy(type.prototype)) : (_LegacyCopy(type));
+		type = (type.hasOwnProperty('prototype')) ? (type.prototype) : (_LegacyCopy(type));
 
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')){
 			definition['__new__'] = function (properties){
