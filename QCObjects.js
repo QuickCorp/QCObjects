@@ -509,7 +509,10 @@
         writable: true,
         configurable: true
       });
-    }
+    };
+    var _LegacyCopy = function (obj){
+      return Object.assign({},obj);
+    };
 
 
 	var _QC_CLASSES = {};
@@ -598,11 +601,11 @@
 		} else {
 			definition = _Cast(
 				(typeof definition=='undefined')?({}):(definition),
-				(typeof type['__definition'] != 'undefined')?(type.__definition):({})
+				(typeof type['__definition'] != 'undefined')?(_LegacyCopy(type.__definition)):({})
 			);
 		}
 
-		type = (type.hasOwnProperty('prototype')) ? (type.prototype) : (type);
+		type = (type.hasOwnProperty('prototype')) ? (_LegacyCopy(type.prototype)) : (_LegacyCopy(type));
 
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')){
 			definition['__new__'] = function (properties){
@@ -654,8 +657,8 @@
 			};
 		}
 
-		o = Object.create(type, Object.assign({},definition));
-		o['__definition'] = Object.assign({},definition);
+		o = Object.create(type, definition);
+		o['__definition'] = definition;
 		o['__definition']['__classType']=name;
 		_QC_CLASSES[name] = o;
 		_top[name] = _QC_CLASSES[name];
