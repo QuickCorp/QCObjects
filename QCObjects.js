@@ -80,7 +80,7 @@
     return _m;
   };
   var _protected_class_ = function (_Class_){
-    (_methods_(_Class_).map( function (_method_) { (_protected_code_)(_method_); }))();
+    _methods_(_Class_).map( function (_method_) { (_protected_code_)(_method_); });
   };
 
 
