@@ -1656,9 +1656,13 @@
         }
       }
 		});
-    Class('GLOBAL',_QC_CLASSES['global']); // case insensitive for compatibility con old versions;
-    GLOBAL=global;
-		Export(GLOBAL);
+    if (isBrowser){
+      // use of GLOBAL word is deprecated in node.js
+      // this is only for compatibility purpose with old versions of QCObjects in browsers
+      Class('GLOBAL',_QC_CLASSES['global']); // case insensitive for compatibility con old versions;
+      GLOBAL=global;
+  		Export(GLOBAL);
+    }
     Export(global);
 
     if (CONFIG.get('useSDK')){
