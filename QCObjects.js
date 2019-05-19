@@ -192,6 +192,13 @@
   		 }
   	 };
      document.onreadystatechange = _fireAsyncLoad;
+   } else if (typeof global !== 'undefined'){
+     global._fireAsyncLoad = function() {
+			 for (var f in _top._asyncLoad) {
+				 var fc = _top._asyncLoad[f];
+				 fc.dispatch();
+			 }
+  	 };
    }
 
 	 _top.asyncLoad = asyncLoad;
@@ -1996,5 +2003,14 @@
 	Export(Ready);
 	Export(ready);
   Export(isBrowser);
+
+  if (!isBrowser){
+    if (typeof global !== 'undefined' && global.hasOwnProperty('_fireAsyncLoad')){
+      global._fireAsyncLoad.call(this);
+    }
+    if (typeof global !== 'undefined' && global.hasOwnProperty('onload')){
+      global.onload.call(this);
+    }
+  }
 
 }).call(null);
