@@ -1053,7 +1053,7 @@
         setTimeout(_execReady.bind(global),CONFIG.get('delayForReady'));
       }
 		} else {
-			_execReady.call(window);
+			_execReady.call(_top);
 		};
 	};
 
