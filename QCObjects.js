@@ -79,13 +79,6 @@
        }
     return _m;
   };
-  var _protected_class_ = function (_Class_){
-    var __methods_ = _methods_(_Class_);
-    for (var _i in __methods_){
-      _protected_code_(__methods_[_i]);
-    }
-  };
-
 
   var isBrowser = typeof self !== 'undefined' && typeof window !== 'undefined' &&  window === self;
   var _DOMCreateElement = function (elementName){
@@ -838,7 +831,6 @@
      return crypt._decrypt();
    }
   });
-  (_protected_class_)(_Crypt);
 
 	var _CryptObject = function (o){
 		return _Crypt.encrypt(JSON.stringify(o),_secretKey);
@@ -890,7 +882,6 @@
 			return _conf[name];
 		}
 	});
-  (_protected_class_)(CONFIG);
 
 	Export(CONFIG);
   Export(waitUntil);
@@ -1054,7 +1045,6 @@
 			return _o;
 		}
 	});
-  (_protected_class_)(TagElements);
 
 	/**
 	 * Gets the element of DOM found by tag name
@@ -1349,19 +1339,16 @@
       return _rebuilt;
     }
 	});
-  (_protected_class_)(Component);
 
   Class('Controller',Object,{
     dependencies:[],
     component:null
   });
-  (_protected_class_)(Controller);
 
   Class('View',Object,{
     dependencies:[],
     component:null
   });
-  (_protected_class_)(View);
 
 	Class('Service',Object,{
 		domain:domain,
@@ -1378,7 +1365,6 @@
 			return this[name];
 		}
 	});
-  (_protected_class_)(Service);
 
 	Class('JSONService',Service,{
     method:"GET",
@@ -1394,7 +1380,6 @@
       this.JSONresponse = JSON.parse(result.service.template);
     }
   });
-  (_protected_class_)(JSONService);
 
 	Class('ConfigService',JSONService,{
     method:"GET",
@@ -1424,7 +1409,6 @@
 			this.set('url',this.get('basePath')+this.get('configFileName'));
 		}
   });
-  (_protected_class_)(ConfigService);
 
 	Class('VO',Object,{});
 
@@ -1726,13 +1710,11 @@
         }
       }
 		});
-    (_protected_class_)(global);
 
     if (isBrowser){
       // use of GLOBAL word is deprecated in node.js
       // this is only for compatibility purpose with old versions of QCObjects in browsers
       Class('GLOBAL',_QC_CLASSES['global']); // case insensitive for compatibility con old versions;
-      (_protected_class_)(GLOBAL);
       GLOBAL=global;
   		Export(GLOBAL);
     }
@@ -1912,7 +1894,6 @@
 			this.rebuild();
 		}
 	});
-  (_protected_class_)(SourceJS);
 	Class('SourceCSS',Object,{
 		domain:domain,
     basePath:basePath,
@@ -1956,10 +1937,8 @@
 			this.rebuild();
 		}
 	});
-  (_protected_class_)(SourceCSS);
 
   Class('ArrayList',Array,[]);
-  (_protected_class_)(ArrayList);
   Class('ArrayCollection',Object,{
     source:New(ArrayList,[]),
     changed:function(prop,value){
@@ -2010,7 +1989,6 @@
       });
     }
   });
-  (_protected_class_)(ArrayCollection);
 
   Class('Effect',{
     duration: 1000,
@@ -2035,7 +2013,6 @@
       });
     }
   });
-  (_protected_class_)(Effect);
 
   Class('Timer',{
     duration: 1000,
@@ -2063,7 +2040,6 @@
       });
     }
   });
-  (_protected_class_)(Timer);
 
 
 
