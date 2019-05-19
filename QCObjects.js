@@ -24,9 +24,9 @@
 */
 "use strict";
 (function() {
-  (function() {
-    var __oldtoString = Function.prototype.toString;
-    Function.prototype.toString = function (){
+  var _protected_code_=function(_) {
+    var __oldtoString = _.prototype.toString;
+    _.prototype.toString = function (){
 			var _protected_symbols = ['ComplexStorageCache',
                                 'debug',
                                 'info',
@@ -35,6 +35,7 @@
 																'set',
 																'get',
 																'done',
+                                'componentDone',
 																'_new_',
 																'__new__',
 																'Class',
@@ -67,7 +68,21 @@
       }
       return _ret_;
     };
-  })();
+  };
+  (_protected_code_)(Function);
+  var _methods_=function (_){
+      var _m=[];
+      for (var i in _){
+          if ((typeof _[i]).toLowerCase() === 'function' ) {
+              _m.push(_[i]);
+          }
+       }
+    return _m;
+  };
+  var _protected_class_ = function (_Class_){
+    (_methods_(_Class_).map( function (_method_) { (_protected_code_)(_method_); }))();
+  };
+
 
   var isBrowser = typeof self !== 'undefined' && typeof window !== 'undefined' &&  window === self;
   var _DOMCreateElement = function (elementName){
@@ -611,6 +626,7 @@
 			definition['__new__'] = function (properties){
 				_CastProps(properties,this);
 			};
+      (_protected_code_)(definition['__new__']);
 		}
 
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('css')){
@@ -620,6 +636,7 @@
 					this['body']['style']  = _Cast(_css,this['body']['style']);
 				}
 			};
+      (_protected_code_)(definition['css']);
 		}
 
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('append')){
@@ -642,6 +659,7 @@
 					}
 				}
 			};
+      (_protected_code_)(definition['append']);
 		}
 
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('attachIn')){
@@ -655,6 +673,7 @@
           // not yet implemented.
         }
 			};
+      (_protected_code_)(definition['attachIn']);
 		}
 
 		o = Object.create(type, definition);
@@ -816,6 +835,7 @@
      return crypt._decrypt();
    }
   });
+  (_protected_class_)(_Crypt);
 
 	var _CryptObject = function (o){
 		return _Crypt.encrypt(JSON.stringify(o),_secretKey);
@@ -867,6 +887,7 @@
 			return _conf[name];
 		}
 	});
+  (_protected_class_)(CONFIG);
 
 	Export(CONFIG);
   Export(waitUntil);
@@ -1030,6 +1051,7 @@
 			return _o;
 		}
 	});
+  (_protected_class_)(TagElements);
 
 	/**
 	 * Gets the element of DOM found by tag name
@@ -1324,16 +1346,19 @@
       return _rebuilt;
     }
 	});
+  (_protected_class_)(Component);
 
   Class('Controller',Object,{
     dependencies:[],
     component:null
   });
+  (_protected_class_)(Controller);
 
   Class('View',Object,{
     dependencies:[],
     component:null
   });
+  (_protected_class_)(View);
 
 	Class('Service',Object,{
 		domain:domain,
@@ -1350,6 +1375,7 @@
 			return this[name];
 		}
 	});
+  (_protected_class_)(Service);
 
 	Class('JSONService',Service,{
     method:"GET",
@@ -1365,6 +1391,7 @@
       this.JSONresponse = JSON.parse(result.service.template);
     }
   });
+  (_protected_class_)(JSONService);
 
 	Class('ConfigService',JSONService,{
     method:"GET",
@@ -1394,6 +1421,7 @@
 			this.set('url',this.get('basePath')+this.get('configFileName'));
 		}
   });
+  (_protected_class_)(ConfigService);
 
 	Class('VO',Object,{});
 
@@ -1695,10 +1723,13 @@
         }
       }
 		});
+    (_protected_class_)(global);
+
     if (isBrowser){
       // use of GLOBAL word is deprecated in node.js
       // this is only for compatibility purpose with old versions of QCObjects in browsers
       Class('GLOBAL',_QC_CLASSES['global']); // case insensitive for compatibility con old versions;
+      (_protected_class_)(GLOBAL);
       GLOBAL=global;
   		Export(GLOBAL);
     }
@@ -1761,6 +1792,7 @@
   						d.dispatchEvent(new CustomEvent('componentsloaded',{detail:{lastComponent:this}}));
   					}
   				};
+          (_protected_code_)(componentDone);
           var __cached_not_set = (components[_c].getAttribute('cached')==null)?(true):(false);
   				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
           var tplextension = (typeof CONFIG.get('tplextension') != 'undefined')?(CONFIG.get('tplextension')):('html');
@@ -1877,6 +1909,7 @@
 			this.rebuild();
 		}
 	});
+  (_protected_class_)(SourceJS);
 	Class('SourceCSS',Object,{
 		domain:domain,
     basePath:basePath,
@@ -1920,8 +1953,10 @@
 			this.rebuild();
 		}
 	});
+  (_protected_class_)(SourceCSS);
 
   Class('ArrayList',Array,[]);
+  (_protected_class_)(ArrayList);
   Class('ArrayCollection',Object,{
     source:New(ArrayList,[]),
     changed:function(prop,value){
@@ -1972,6 +2007,7 @@
       });
     }
   });
+  (_protected_class_)(ArrayCollection);
 
   Class('Effect',{
     duration: 1000,
@@ -1996,6 +2032,7 @@
       });
     }
   });
+  (_protected_class_)(Effect);
 
   Class('Timer',{
     duration: 1000,
@@ -2023,6 +2060,7 @@
       });
     }
   });
+  (_protected_class_)(Timer);
 
 
 
