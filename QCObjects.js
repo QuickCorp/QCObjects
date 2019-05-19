@@ -25,7 +25,7 @@
 "use strict";
 (function() {
   var _protected_code_=function(_) {
-    var __oldtoString = _.prototype.toString;
+    var __oldtoString = (typeof _.prototype != 'undefined')?(_.prototype.toString):(function(){return ""});
     _.prototype.toString = function (){
 			var _protected_symbols = ['ComplexStorageCache',
                                 'debug',
@@ -80,7 +80,10 @@
     return _m;
   };
   var _protected_class_ = function (_Class_){
-    _methods_(_Class_).map( function (_method_) { (_protected_code_)(_method_); });
+    var __methods_ = _methods_(_Class_);
+    for (var _i in __methods_){
+      _protected_code_(__methods_[_i]);
+    }
   };
 
 
