@@ -992,7 +992,7 @@
         }
       }).catch(function (e){
         // something wrong importing a package
-        logger.debug('Something happend when importing '+packagename);
+        logger.debug('Something happened when importing '+packagename);
       });
     }
     return _promise_import_;
