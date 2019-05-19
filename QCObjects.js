@@ -1656,7 +1656,7 @@
         }
       }
 		});
-    GLOBAL = global; // case insensitive for compatibility con old versions;
+    Class('GLOBAL',_QC_CLASSES['global']); // case insensitive for compatibility con old versions;
 		Export(GLOBAL);
     Export(global);
 
