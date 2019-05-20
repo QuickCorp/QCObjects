@@ -1729,27 +1729,15 @@
         };
         var _buildComponents = function (){
           if (isBrowser){
-            var _promise_b_components = new Promise(function (resolve,reject){
-              logger.debug('Starting to bind routes');
-              resolve(Component._bindroute());
-            }).then(function (resolved){
-              logger.debug('Starting to building components');
-              return new Promise (function (resolve,reject){
-                global.componentsStack = document.buildComponents();
-                resolve(global.componentsStack);
-              }).catch(function (){
-                logger.debug('A problem ocurred loading the components stack');
-              });
-            }).then(function (resolved){
-              resolved.then(function (){
-                logger.debug('Initializing the service worker');
-                __load__serviceWorker.call(_top).catch(function (){
-                  logger.debug('error loading the service worker');
-                });
-              });
-            }).catch(function (e){
-              logger.debug('Something wrong loading components');
+            logger.debug('Starting to bind routes');
+            Component._bindroute.call(Component);
+            logger.debug('Starting to building components');
+            global.componentsStack = document.buildComponents.call(document);
+            logger.debug('Initializing the service worker');
+            __load__serviceWorker.call(_top).catch(function (){
+              logger.debug('error loading the service worker');
             });
+
           }
         };
         if (CONFIG.get('useConfigService')){
