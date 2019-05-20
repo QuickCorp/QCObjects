@@ -1220,6 +1220,8 @@
         if (!Component._bindroute.__assigned){
           document.addEventListener('componentsloaded', function(e) {
             e.stopImmediatePropagation();
+            if (!Component._bindroute.__assigned){
+
               _top.onpopstate = function (e) {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -1227,7 +1229,7 @@
                 if (typeof e.target.__oldpopstate != 'undefined' && typeof e.target.__oldpopstate == 'function'){
                   e.target.__oldpopstate.call(e.target,e);
                 }
-              }
+              };
               Tag('a').map(function (a){
                   a.oldclick = a.onclick;
                   a.onclick = function (e){
@@ -1255,6 +1257,7 @@
                   };
               });
               Component._bindroute.__assigned=true;
+            }  
           },captureFalse);
         }
       } else {
