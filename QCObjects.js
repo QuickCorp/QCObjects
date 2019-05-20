@@ -1185,8 +1185,8 @@
             request:null,
             component:_component
           };
-          if (typeof component.done === 'function') {
-            component.done.call(component, standardResponse);
+          if (typeof _component.done === 'function') {
+            _component.done.call(_component, standardResponse);
           }
           resolve(_promise,standardResponse);
         } else {
