@@ -1163,7 +1163,7 @@
     },
     fail:function (){
       //TODO: default fail method
-    }
+    },
 		set:function (name,value){
 			this[name]=value;
 		},
