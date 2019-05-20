@@ -1724,7 +1724,9 @@
         var _buildComponents = function (){
           if (isBrowser){
             global.componentsStack = document.buildComponents();
-            __load__serviceWorker.call(_top);
+            __load__serviceWorker.call(_top).catch(function (){
+              logger.debug('error loading the service worker');
+            });
           }
         };
         Component._bindroute();
