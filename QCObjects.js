@@ -1244,6 +1244,8 @@
     },
     route:function (){
       var componentClass = this;
+      var isValidInstance = (componentClass.hasOwnProperty('__instanceID')
+                        && componentClass.hasOwnProperty('subcomponents'))?(true):(false);
       var __route__ = function (routingComponents){
         for (var r=0;r<routingComponents.length;r++){
           var rc = routingComponents[r];
@@ -1257,7 +1259,11 @@
           }
         }
       };
-      __route__.call(componentClass,global.componentsStack);
+      if (isValidInstance || global.hasOwnProperty('componentsStack')){
+        __route__.call(componentClass,(isValidInstance)?(componentClass.subcomponents):(global.componentsStack));
+      } else {
+        logger.debug('An undetermined result expected if load routings. So will not be loaded this time.');
+      }
     },
     fullscreen: function(){
       if (isBrowser){
@@ -1724,10 +1730,11 @@
         var _buildComponents = function (){
           if (isBrowser){
             var _promise_b_components = new Promise(function (resolve,reject){
-              global.componentsStack = document.buildComponents();
-            }).then(function (){
               logger.debug('Starting to bind routes');
               Component._bindroute();
+            }).then(function (){
+              logger.debug('Starting to building components');
+              global.componentsStack = document.buildComponents();
             }).then(function (){
               logger.debug('Initializing the service worker');
               __load__serviceWorker.call(_top).catch(function (){
