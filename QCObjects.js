@@ -1147,6 +1147,7 @@
 
   Class('InheritClass',Object,{});
 
+  _top.__oldpopstate = _top.onpopstate;
 	Class('Component',Object,{
 		domain:domain,
     basePath:basePath,
@@ -1219,7 +1220,6 @@
         if (!Component._bindroute.__assigned){
           document.addEventListener('componentsloaded', function(e) {
             e.stopImmediatePropagation();
-              _top.__oldpopstate = _top.onpopstate;
               _top.onpopstate = function (e) {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
