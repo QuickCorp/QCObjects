@@ -1158,6 +1158,12 @@
     data:{},
     reload:false,
 		cached:true,
+    done:function (){
+      //TODO: default done method
+    },
+    fail:function (){
+      //TODO: default fail method
+    }
 		set:function (name,value){
 			this[name]=value;
 		},
@@ -1509,9 +1515,6 @@
               'request': xhr,
               'component': component
             };
-  					if (typeof component.done === 'function') {
-  						component.done.call(component, standardResponse);
-  					}
             resolve.call(_promise,standardResponse);
   				};
   	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(component.data)).replace('{{URL}}', component.url));
@@ -1532,9 +1535,6 @@
                 'request': xhr,
                 'component': component
               };
-  	          if (typeof component.fail === 'function') {
-  	            component.fail.call(component, standardResponse);
-  	          }
               reject.call(_promise,standardResponse);
 
   	        }
@@ -1549,7 +1549,7 @@
   					xhr.onload = _componentLoaded;
   				}
   				var _directLoad = function (){
-  					logger.debug('SENDING THE NORMAL AJAX CALL ');
+  					logger.debug('SENDING THE NORMAL REQUEST  ');
   					if (is_file){
   						xhr.send(null);
   						if(xhr.status == 0){
@@ -1588,6 +1588,21 @@
   	    } else {
   				logger.debug('CONTAINER DOESNT EXIST')
   			}
+      });
+      _promise.then(function (standardResponse){
+        var _ret_;
+        if (typeof component.done === 'function') {
+          _ret_ = component.done.call(component, standardResponse);
+        }
+        return Promise.resolve(_ret_);
+      },function (standardResponse){
+        var _ret_;
+        if (typeof component.fail === 'function') {
+          _ret_ = component.fail.call(component, standardResponse);
+        }
+        return Promise.reject(_ret_);
+      }).catch(function (e){
+        logger.debug('Something wrong loading the component');
       });
       return _promise;
 	  };
@@ -1649,11 +1664,11 @@
           };
 
     			var _directLoad = function (){
-    				logger.debug('SENDING THE NORMAL AJAX CALL ');
+    				logger.debug('SENDING THE NORMAL REQUEST  ');
             try {
               xhr.send(JSON.stringify(service.data));
             }catch (e){
-              logger.debug('SOMETHING WRONG WITH AJAX CALL ');
+              logger.debug('SOMETHING WRONG WITH REQUEST  ');
               reject.call(_promise,{request:xhr,service:service});
             }
     			};
@@ -1824,6 +1839,7 @@
   						}
   					}
   					this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
+
   					if (CONFIG.get('overrideComponentTag')){
   						this.body.outerHTML=this.body.innerHTML;
   					}
@@ -1833,6 +1849,7 @@
   					}
   				};
           (_protected_code_)(componentDone);
+
           var __cached_not_set = (components[_c].getAttribute('cached')==null)?(true):(false);
   				var cached = (components[_c].getAttribute('cached')=='true')?(true):(false);
           var tplextension = (typeof CONFIG.get('tplextension') != 'undefined')?(CONFIG.get('tplextension')):('html');
