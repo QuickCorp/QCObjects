@@ -1220,6 +1220,7 @@
         if (!Component._bindroute.__assigned){
           document.addEventListener('componentsloaded', function(e) {
             e.stopImmediatePropagation();
+            e.stopPropagation();
             if (!Component._bindroute.__assigned){
 
               _top.onpopstate = function (e) {
@@ -1257,7 +1258,7 @@
                   };
               });
               Component._bindroute.__assigned=true;
-            }  
+            }
           },captureFalse);
         }
       } else {
