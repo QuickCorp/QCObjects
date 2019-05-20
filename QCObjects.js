@@ -1168,14 +1168,28 @@
       var _component = this;
       var _promise = new Promise(function (resolve,reject){
         _component.set('url',_component.get('basePath')+_component.get('templateURI'));
-  			if (typeof _component.get('templateURI') !='undefined' && _component.get('templateURI') != ""){
+  			if (typeof _component.get('tplsource') != 'undefined'
+            && _component.get('tplsource') == 'default'
+            && typeof _component.get('templateURI') !='undefined'
+            && _component.get('templateURI') != ""){
   				componentLoader(_component,false).then(
             function (standardResponse){
               resolve.call(_promise,standardResponse);
             },function (standardResponse){
               reject.call(_promise,standardResponse);
             });
-  			} else {
+  			} else if (typeof _component.get('tplsource') != 'undefined'
+          && _component.get('tplsource') == "none" ){
+          logger.debug('Component '+_component.name+' has specified template-source=none, so no template load was done');
+          var standardResponse = {
+            request:null,
+            component:_component
+          };
+          if (typeof component.done === 'function') {
+            component.done.call(component, standardResponse);
+          }
+          resolve(_promise,standardResponse);
+        } else {
           logger.debug('Component '+_component.name+' will not be rebuilt because no templateURI is present');
           reject.call(_promise,{
             request:null,
@@ -1363,10 +1377,11 @@
         }
         if (rc.routingSelected.length>0){
           rc.body.innerHTML='';
-          rc.rebuild().catch(function (standardResponse){
+          rc.rebuild().then(function (){
+            _rebuilt = true;
+          }).catch(function (standardResponse){
             logger.debug('Component not rebuilt');
           });
-          _rebuilt = true;
         }
       }
       return _rebuilt;
