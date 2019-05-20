@@ -1365,6 +1365,7 @@
       }
     },
     _reroute_:function (){
+      //This method set the selected routing and makes the switch to the templateURI
       var rc = this;
       var _rebuilt = false;
       if (rc.validRoutingWays.includes(rc.routingWay)){
@@ -1383,10 +1384,11 @@
         if (rc.routingSelected.length>0){
           rc.body.innerHTML='';
           rc.rebuild().then(function (){
-            _rebuilt = true;
+            // not yet implemented.
           }).catch(function (standardResponse){
             logger.debug('Component not rebuilt');
           });
+          _rebuilt = true;
         }
       }
       return _rebuilt;
