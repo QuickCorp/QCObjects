@@ -1279,6 +1279,9 @@
         }
       };
       if (isValidInstance || global.hasOwnProperty('componentsStack')){
+        if (isValidInstance && componentClass.hasOwnProperty('name')){
+          logger.debug('loading routings for instance'+componentClass.name);
+        }
         __route__.call(componentClass,(isValidInstance)?(componentClass.subcomponents):(global.componentsStack));
       } else {
         logger.debug('An undetermined result expected if load routings. So will not be loaded this time.');
