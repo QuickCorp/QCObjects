@@ -1639,7 +1639,8 @@
           logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
           var xhr = new XMLHttpRequest();
     			xhr.withCredentials = service.withCredentials;
-          xhr.open(service.method, service.url,service.withCredentials);
+          var xhrasync = true; // always async because xhr sync is deprecated
+          xhr.open(service.method, service.url,xhrasync);
     			for (var header in service.headers){
     				xhr.setRequestHeader(header, service.headers[header]);
     			}
