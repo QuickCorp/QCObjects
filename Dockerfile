@@ -25,6 +25,10 @@
 
 FROM node:12.3
 
+RUN groupadd -r qcobjects && useradd -m -r -g -s /bin/bash qcobjects qcobjects
+
+USER qcobjects
+
 WORKDIR /usr/src/qcobjects
 
 COPY package*.json ./
