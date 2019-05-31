@@ -1163,12 +1163,23 @@
   }
 
   Class('InheritClass',Object,{});
+  Class('DefaultTemplateHandler',Object,{
+    template:'',
+    assign:function (data){
+      var parsedAssignmentText = this.template;
+      for (var k in data) {
+        parsedAssignmentText = parsedAssignmentText.replace('{{' + k + '}}', data[k]);
+      }
+      return parsedAssignmentText;
+    }
+  });
 
   _top.__oldpopstate = _top.onpopstate;
 	Class('Component',Object,{
 		domain:domain,
     basePath:basePath,
 		templateURI:'',
+    templateHandler:'DefaultTemplateHandler',
     tplsource:'default',
 		url:'',
     name:'',
@@ -1544,9 +1555,6 @@
   	    if (container != null) {
   				var feedComponent = function (component){
   					var parsedAssignmentText = component.template;
-  					for (var k in component.data) {
-  						parsedAssignmentText = parsedAssignmentText.replace('{{' + k + '}}', component.data[k]);
-  					}
   					component.innerHTML = parsedAssignmentText;
   					if (component.reload) {
   						logger.debug('FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
