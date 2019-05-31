@@ -1850,16 +1850,16 @@
   				}
   				var componentDone = function (){
   					var viewName = this.body.getAttribute('viewClass');
-  					if (viewName != null && _QC_CLASSES.hasOwnProperty(viewName)){
-  						var _View = _QC_CLASSES[viewName];
+            var _View = ClassFactory(viewName);
+  					if (typeof _View != 'undefined'){
   						this.view = New(_View,{component:this}); // Initializes the main view for the component
   						if (this.view.hasOwnProperty('done') && typeof this.view.done == 'function' ){
   							this.view.done.call(this.view);
   						}
   					}
   					var controllerName = this.body.getAttribute('controllerClass');
-  					if (controllerName != null && _QC_CLASSES.hasOwnProperty(controllerName)){
-  						var _Controller = _QC_CLASSES[controllerName];
+            var _Controller = ClassFactory(controllerName);
+            if (typeof _Controller != 'undefined'){
   						this.controller = New(_Controller,{component:this}); // Initializes the main controller for the component
   						if (this.controller.hasOwnProperty('done') && typeof this.controller.done == 'function' ){
   							this.controller.done.call(this.controller);
