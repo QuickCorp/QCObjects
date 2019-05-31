@@ -39,6 +39,7 @@
 																'_new_',
 																'__new__',
 																'Class',
+                                'ClassFactory',
 																'New',
 																'Export',
 																'Package',
@@ -929,6 +930,7 @@
   Export(waitUntil);
   Export(_super_);
   Export(ComplexStorageCache);
+  Export(ClassFactory);
 
 	/**
 	 * Defines a package for Class classification
