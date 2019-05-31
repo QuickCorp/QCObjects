@@ -1380,6 +1380,24 @@
           return self._body;
         }
       });
+
+      Object.defineProperty(self,'template',{
+        set(value){
+          if (self.hasOwnProperty('templateHandler')){
+            var templateHandlerName = self.templateHandler;
+            var templateHandlerClass = ClassFactory(self.templateHandler);
+            var templateInstance = New(templateHandlerClass,{
+              template:value
+            });
+            self._template = templateInstance.assign(self.data);
+          } else {
+            self._template = value;
+          }
+        },
+        get(){
+          return self._template;
+        }
+      });
       this.__new__(properties);
 
       if (!this._reroute_()){
