@@ -710,6 +710,21 @@
     return "Class(name, type, definition) { [QCObjects native code] }";
   };
 
+  /**
+	 * Returns the QCObjects Class Factory of a given ClassName
+	 *
+	 * @param {String} name
+	 */
+
+   var ClassFactory = function (className) {
+     var _classFactory;
+     if (className != null && _QC_CLASSES.hasOwnProperty(className)){
+       _classFactory = _QC_CLASSES[className];
+     }
+     return _classFactory;
+   };
+
+
   if (isBrowser){
     Element.prototype.append = function QC_Append(child){
       if (typeof child.__definition != 'undefined' && typeof child.__definition.__classType != 'undefined' && typeof child.body){
