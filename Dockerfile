@@ -46,4 +46,4 @@ RUN npm ci --only=production
 # Bundle app source
 COPY . .
 
-CMD [ "npm", "qcobjects-shell" ]
+CMD [ "npm", "shell" ]
