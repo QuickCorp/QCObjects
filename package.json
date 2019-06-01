@@ -1,6 +1,6 @@
 {
   "name": "qcobjects",
-  "version": "2.1.128",
+  "version": "2.1.129",
   "description": "QCObjects a Quickcorp Objects Library - Cross Browser Javascript Framework for MVC Patterns",
   "main": "QCObjects.js",
   "scripts": {
