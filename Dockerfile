@@ -31,14 +31,16 @@ LABEL org.quickcorp.qcobjects.release-date="2019-06-01"
 LABEL org.quickcorp.qcobjects.version.is-production=""
 
 
-RUN groupadd -r qcobjects && useradd -r -s /bin/false -g qcobjects qcobjects
+RUN groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects
 
 USER qcobjects
+
 
 WORKDIR /usr/src/qcobjects
 
 COPY package*.json ./
 
+RUN npm cache clean --force
 RUN npm ci --only=production
 
 # Bundle app source
