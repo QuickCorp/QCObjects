@@ -1,6 +1,6 @@
 {
   "name": "qcobjects",
-  "version": "2.1.124",
+  "version": "2.1.125",
   "description": "QCObjects a Quickcorp Objects Library - Cross Browser Javascript Framework for MVC Patterns",
   "main": "QCObjects.js",
   "scripts": {
@@ -26,6 +26,6 @@
   "homepage": "https://github.com/QuickGroup/QCObjects#readme",
   "dependencies": {
     "qcobjects-sdk": "^0.0.114",
-    "qcobjects-cli":"^0.0.2"
+    "qcobjects-cli": "^0.0.2"
   }
 }
