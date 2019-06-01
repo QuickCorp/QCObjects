@@ -23,9 +23,16 @@
 #  license document, but changing it is not allowed.
 ###
 
+LABEL org.quickcorp.qcobjects.cli.version="0.0.4"
+LABEL vendor1="QuickCorp"
+LABEL vendor2="QCObjects"
+LABEL org.quickcorp.qcobjects.release-date="2019-06-01"
+LABEL org.quickcorp.qcobjects.version.is-production=""
+
 FROM node:12.3
 
-RUN groupadd -r qcobjects && useradd -m -r -g /bin/bash qcobjects qcobjects
+RUN groupadd -r qcobjects && useradd -r -s /bin/false -g qcobjects qcobjects
+RUN chown -R qcobjects:qcobjects /usr/src/qcobjects
 
 USER qcobjects
 
@@ -38,4 +45,4 @@ RUN npm ci --only=production
 # Bundle app source
 COPY . .
 
-CMD [ "npm", "test" ]
+CMD [ "npm", "qcobjects-shell" ]
