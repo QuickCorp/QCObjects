@@ -25,7 +25,7 @@
 
 FROM node:12.3
 
-RUN groupadd -r qcobjects && useradd -m -r -g -s /bin/bash qcobjects qcobjects
+RUN groupadd -r qcobjects && useradd -m -r -g /bin/bash qcobjects qcobjects
 
 USER qcobjects
 
