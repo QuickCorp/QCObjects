@@ -36,7 +36,6 @@ RUN groupadd -r qcobjects && useradd -r -s /bin/false -g qcobjects qcobjects
 USER qcobjects
 
 WORKDIR /usr/src/qcobjects
-RUN chown -R qcobjects:qcobjects /usr/src/qcobjects
 
 COPY package*.json ./
 
