@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/QuickGroup/QCObjects#readme",
   "dependencies": {
-    "qcobjects-sdk": "^0.0.114"
+    "qcobjects-sdk": "^0.0.114",
+    "qcobjects-cli":"^0.0.2"
   }
 }
