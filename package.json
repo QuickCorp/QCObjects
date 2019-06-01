@@ -4,7 +4,7 @@
   "description": "QCObjects a Quickcorp Objects Library - Cross Browser Javascript Framework for MVC Patterns",
   "main": "QCObjects.js",
   "scripts": {
-    "start": "qcobjects-shell",
+    "shell": "qcobjects-shell",
     "test": "echo \"Welcome to QCObjects\" && exit 0"
   },
   "repository": {
