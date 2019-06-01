@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Demo</title>
+    	<script type="text/javascript" src="QCObjects.js"></script>
+    	<script type="text/javascript">
+      logger.debugEnabled=true;
+      CONFIG.set('componentsBasePath','templates/components/');
+      CONFIG.set('delayForReady',1); // delay to wait before executing the first ready event, it includes imports
+      CONFIG.set('preserveComponentBodyTag',false); // don't use <componentBody></componentBody> tag
+      CONFIG.set('useConfigService',false); // using config.json for custom settings config
+
+      Element.prototype.subelements = Element.prototype.querySelectorAll;
+      Package('cl.quickcorp.tools',[
+        Class('RoutingComponent',Component,{
+          routingWay:'hash',
+          routingNodes:[],
+          routings:[],
+          routingPath:"",
+          routingSelected:New(ArrayCollection),
+          innerHTML:"",
+          body:null,
+          route:function (){
+            var routingComponents = GLOBAL.componentsStack.filter(function (e){return e.__definition.__classType=='RoutingComponent'});
+            for (var r=0;r<routingComponents.length;r++){
+              var rc = routingComponents[r];
+              rc._reroute_();
+            }
+          },
+          _new_:function (properties){
+      			this.__new__(properties);
+            if (['pathname','hash','search'].includes(this.routingWay)){
+              var c = Tag('component[name='+properties.name+']')[0];
+              this.innerHTML = c.innerHTML;
+              this.routingNodes = c.subelements('routing');
+              this.routings = [];
+              for (var r=0;r<this.routingNodes.length;r++){
+                var routingNode = this.routingNodes[r];
+                var attributeNames = routingNode.getAttributeNames();
+                var routing = {};
+                for (var a=0;a<attributeNames.length;a++){
+                  routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+                }
+                this.routings.push(routing);
+              }
+            }
+            this._reroute_(properties);
+      		},
+          _reroute_:function (){
+            var rc = this;
+            if (['pathname','hash','search'].includes(rc.routingWay)){
+              rc.routingPath = document.location[rc.routingWay];
+              rc.routingSelected=rc.routings.filter(function (routing){return routing.path==rc.routingPath});
+              for (var r=0;r<rc.routingSelected.length;r++){
+                var routing = rc.routingSelected[r];
+                rc.templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}'.replace('{{COMPONENT_NAME}}',routing.name.toString()).replace('{{COMPONENTS_BASE_PATH}}',CONFIG.get('componentsBasePath')).replace('{{TPLEXTENSION}}',rc.tplextension);
+              }
+              if (rc.routingSelected.length>0){
+                rc.body.innerHTML='';
+                rc.rebuild();
+              }
+            }
+          }
+        })
+      ]);
+
+
+      Ready(function (){
+        window.addEventListener('popstate', function (event){
+          RoutingComponent.route();
+          console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+        });
+
+      });
+
+    	</script>
+    </head>
+    <body>
+      <component name="routing1" componentClass="RoutingComponent">
+          <routing path="#page1" name="page1"></routing>
+          <routing path="#page2" name="page2"></routing>
+      </component>
+    </body>
+</html>
