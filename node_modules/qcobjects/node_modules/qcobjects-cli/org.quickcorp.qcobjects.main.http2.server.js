@@ -7,6 +7,7 @@ const Handlebars = require('handlebars');
 const http2 = require('http2');
 const fs = require('fs');
 const mime = require("mime");
+Import(absolutePath+'/org.quickcorp.qcobjects.main.file');
 
 Package('org.quickcorp.qcobjects.main.http2.server',[
   Class('PipeLog',{
