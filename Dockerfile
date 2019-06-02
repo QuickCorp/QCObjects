@@ -37,7 +37,7 @@ WORKDIR /usr/src/qcobjects
 
 USER qcobjects
 COPY package*.json ./
-RUN npm cache clean
+RUN npm cache verify
 RUN npm ci --only=production
 
 # Bundle app source
