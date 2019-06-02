@@ -1,9 +1,9 @@
 {
   "name": "qcobjects",
-  "version": "2.1.138",
+  "version": "2.1.139",
   "description": "QCObjects a Quickcorp Objects Library - Cross Browser Javascript Framework for MVC Patterns",
   "main": "QCObjects.js",
-  "license":"LGPL-3.0",
+  "license": "LGPL-3.0",
   "scripts": {
     "start": "qcobjects-shell",
     "test": "echo \"Welcome to QCObjects\" && exit 0"
@@ -21,7 +21,6 @@
     "objects"
   ],
   "author": "Jean Machuca <correojean@gmail.com>",
-  "license": "LGPL-3.0",
   "bugs": {
     "url": "https://github.com/QuickGroup/QCObjects/issues"
   },
