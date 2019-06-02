@@ -32,18 +32,15 @@ LABEL org.quickcorp.qcobjects.version.is-production=""
 
 
 RUN groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects
-
-USER qcobjects
-
-
+RUN mkdir -p /usr/src/qcobjects && chown -R qcobjects:qcobjects /usr/src/qcobjects
 WORKDIR /usr/src/qcobjects
 
+USER qcobjects
 COPY package*.json ./
-
-RUN npm cache clean --force
+RUN npm cache clean
 RUN npm ci --only=production
 
 # Bundle app source
-COPY . .
+COPY --chown=qcobjects:qcobjects . .
 
 CMD [ "npm", "shell" ]
