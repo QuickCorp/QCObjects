@@ -32,8 +32,8 @@ LABEL org.quickcorp.qcobjects.version.is-production=""
 
 
 RUN groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects
-RUN mkdir -p /usr/src/qcobjects && chown -R qcobjects:qcobjects /usr/src/qcobjects
-WORKDIR /usr/src/qcobjects
+RUN mkdir -p /home/qcobjects && chown -R qcobjects:qcobjects /home/qcobjects
+WORKDIR /home/qcobjects
 
 USER qcobjects
 COPY package*.json ./
