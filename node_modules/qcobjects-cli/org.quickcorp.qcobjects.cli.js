@@ -1,0 +1,177 @@
+/**
+ * QCObjects CLI 0.0.6
+ * ________________
+ *
+ * Author: Jean Machuca <correojean@gmail.com>
+ *
+ * Cross Browser Javascript Framework for MVC Patterns
+ * QuickCorp/QCObjects is licensed under the
+ * GNU Lesser General Public License v3.0
+ * [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
+ *
+ * Permissions of this copyleft license are conditioned on making available
+ * complete source code of licensed works and modifications under the same
+ * license or the GNU GPLv3. Copyright and license notices must be preserved.
+ * Contributors provide an express grant of patent rights. However, a larger
+ * work using the licensed work through interfaces provided by the licensed
+ * work may be distributed under different terms and without source code for
+ * the larger work.
+ *
+ * Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
+ *
+ * Everyone is permitted to copy and distribute verbatim copies of this
+ * license document, but changing it is not allowed.
+*/
+"use strict";
+const fs = require('fs');
+const path = require('path');
+const absolutePath = path.resolve( __dirname, "./" );
+const templatePath = path.resolve( __dirname, "./templates/apps/" )+'/';
+const package_config = require(absolutePath+'/package.json');
+const { exec,execSync } = require('child_process');
+
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+logger.debugEnabled=false;
+CONFIG.set('qcobjectsnewapp_path','./node_modules/qcobjectsnewapp');
+
+Package('org.quickcorp.qcobjects.cli',[
+  Class('SwitchCommander',{
+    program:require('commander'),
+    copyTemplate: function (){
+      var map_files = function (pathname,callback){
+        var _filenames = function (pathname){
+          fs.readdir(pathname,{withFileTypes:true},function (err,files){
+            if (typeof files !== 'undefined'){
+              files.filter((f)=>{return f.isFile()}).map((file)=>{
+                callback(pathname+'/'+file.name);
+                _filenames(pathname+'/'+file.name);
+              });
+            }
+          });
+        };
+        return _filenames(pathname);
+      };
+      var map_dirnames = function (pathname,callback){
+        var _main_pathnames = [];
+        var _dirnames = function (pathname){
+          fs.readdir(pathname,{withFileTypes:true},function (err,files){
+            var _pathnames = [];
+            files.filter((f)=>{return f.isDirectory()}).map((d)=>{
+                _pathnames.push(pathname+'/'+d.name);
+                callback(pathname+'/'+d.name);
+                _dirnames(pathname+'/'+d.name);
+              });
+            _main_pathnames = _main_pathnames.concat(_pathnames);
+          });
+          return _main_pathnames;
+        }
+        return _dirnames(pathname);
+      };
+      var relativePath = function (dirname){
+        return dirname.replace(CONFIG.get('qcobjectsnewapp_path'),'.');
+      };
+      var copyTemplateFile = function (sourceFileName, destFileName){
+        fs.copyFile(sourceFileName, destFileName, (err) => {
+          if (err) throw err;
+          logger.debug('File '+destFileName+' was created successfully');
+        });
+      };
+      map_dirnames(CONFIG.get('qcobjectsnewapp_path'),(dirname)=>{
+        logger.info('Creating path: '+relativePath(dirname));
+        fs.mkdir(relativePath(dirname),()=>{
+          map_files(dirname,(filename)=>{
+            logger.debug('Creating file: '+relativePath(filename));
+            copyTemplateFile(filename,relativePath(filename));
+          });
+        });
+      });
+      map_files(CONFIG.get('qcobjectsnewapp_path'),(filename)=>{
+        logger.debug('Creating file: '+relativePath(filename));
+        copyTemplateFile(filename,relativePath(filename));
+      });
+
+    },
+    choiceOption:{
+      create:function (_appName){
+        let switchCommander = this;
+        let appName = (typeof _appName ==='undefined' || _appName === true)?('MyAppName'):(_appName);
+
+        rl.question('Please tell me your git repository url: \n', (answer) => {
+          logger.info(`your git repository url is ${answer}`);
+          rl.close();
+          let giturl = answer;
+
+          let createAppCommand = "echo \"{\\\"name\\\": \\\""+appName.toLowerCase()+"\\\",\\\"repository\\\": {\\\"type\\\": \\\"git\\\",\\\"url\\\": \\\""+giturl+"\\\"},\\\"description\\\":\\\".\\\",\\\"license\\\": \\\"LGPL-3.0-or-later\\\",\\\"dependencies\\\":{\\\"qcobjectsnewapp\\\":\\\"latest\\\",\\\"qcobjects\\\":\\\"latest\\\"}}\" > package.json";
+          logger.debug(createAppCommand);
+          exec(createAppCommand, (err, stdout, stderr) => {
+            console.log(stdout);
+            exec("npm cache verify && npm i --save-dev ", (err, stdout, stderr) => {
+              console.log(stdout);
+              Promise.resolve(switchCommander.copyTemplate()).then(()=>{
+                logger.info('Good! Your application is getting done. You can play with QCObjects now!');
+                logger.info('In five second your server will start...');
+                exec("qcobjects-createcert",(err,stdout,stderr)=>{
+                  logger.info("Test certificates generated");
+                });
+                setTimeout(()=>{
+                  exec("qcobjects-server",(err,stdout,stderr)=>{
+                    logger.info("Bye.");
+                  });
+                },5000);
+                setTimeout(()=>{
+                  execSync("open -a \"google chrome\" https://localhost");
+                },6000);
+              });
+            });
+          });
+
+        });
+
+      },
+      publish:function (_appName){
+        logger.debug('publish is not yet implemented');
+      }
+    },
+    initCommand: function (){
+      let switchCommander = this;
+      this.program
+        .version(package_config.version);
+      this.program
+        .command('create <appname>')
+        .description('Creates an app with <appname>')
+        .option('--pwa, --create-pwa', 'Creates the progressive web app assets')
+        .option('--amp, --create-amp', 'Creates the accelerated mobile pages assets')
+        .option('--tests, --create-tests', 'Creates the test suite')
+        .action(function(args, options){
+            switchCommander.choiceOption.create.call(switchCommander,args,options);
+        });
+      this.program.command('publish <appname>')
+        .description('Publishes an app with <appname>')
+        .option('--pwa, --create-pwa', 'Publishes the progressive web app assets')
+        .option('--amp, --create-amp', 'Publishes the accelerated mobile pages assets')
+        .option('--tests, --create-tests', 'Publishes the test suite')
+        .action(function(args, options){
+            switchCommander.choiceOption.publish.call(switchCommander,args,options);
+        });
+
+        this.program.on('--help', function(){
+          console.log('')
+          console.log('Use:');
+          console.log('  $ qcobjects-cli [command] --help');
+          console.log('  For detailed information of a command ');
+          console.log('')
+        });
+        this.program.on('command:*', function () {
+          console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '));
+          process.exit(1);
+        });
+        this.program.parse(process.argv);
+
+    }
+  })
+]);

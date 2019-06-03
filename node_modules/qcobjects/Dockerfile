@@ -30,6 +30,7 @@ LABEL vendor2="QCObjects"
 LABEL org.quickcorp.qcobjects.release-date="2019-06-01"
 LABEL org.quickcorp.qcobjects.version.is-production=""
 
+RUN npm install -g qcobjects-sdk --only=production
 RUN npm install -g qcobjects-cli --only=production
 
 RUN groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects
@@ -39,7 +40,7 @@ WORKDIR /home/qcobjects
 USER qcobjects
 COPY package*.json ./
 RUN npm cache verify
-RUN npm ci --only=production
+RUN npm ci --save --only=production
 
 # Bundle app source
 COPY --chown=qcobjects:qcobjects . .
