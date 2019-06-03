@@ -1891,6 +1891,12 @@
   							this.controller.done.call(this.controller);
   						}
   					}
+            var effectClassName = this.body.getAttribute('effectClass');
+            var _Effect = ClassFactory(effectClassName);
+            if (typeof _Effect != 'undefined'){
+              this.effect = New(_Effect,{component:this});
+              this.effect.apply.apply(this.effect,this.effect.default);
+            }
   					this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
 
   					if (CONFIG.get('overrideComponentTag')){
