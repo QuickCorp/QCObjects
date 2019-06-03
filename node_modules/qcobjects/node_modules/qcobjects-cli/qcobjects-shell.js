@@ -11,25 +11,21 @@ const absolutePath = path.resolve( __dirname, "./" );
 
 const package_config = require(absolutePath+'/package.json');
 const vm = require('vm');
+require('qcobjects');
 let sandbox = {
   require:require,
   module:module,
   __dirname:'./',
-  __filename:'qcobjects-shell-file.js',
-  global:global,
+  __filename:'qcobjects-shell-file.js'
 };
-require('qcobjects');
-sandbox = Object.assign(sandbox,this);
-sandbox = Object.assign(sandbox,global);
-const context = vm.createContext(sandbox);
+global.context = vm.createContext(sandbox);
 
 
 const runScript = (code,logOutput=false)=>{
   const options = {filename:sandbox.__filename};
 
   const backgroundRunScript = (code)=>{
-    var script = new vm.Script(code,options);
-    var output = script.runInContext(context);
+    var output = vm.runInContext(code,global.context,options);
     return output;
   }
 
@@ -41,14 +37,22 @@ const runScript = (code,logOutput=false)=>{
   }
 }
 
+const syncGlobal = ()=>{
+  var s = 'Object.assign(this,this.constructor.constructor(\'return this\')())';
+  runScript(s);
+}
+
 
 const readline = require('readline');
+readline.emitKeypressEvents(process.stdin);
+if (process.stdin.isTTY)
+  process.stdin.setRawMode(true);
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
   prompt: 'QCObjects v'+package_config.version+'> '
 });
-
 
 const protected_symbols = [ 'clearInterval',
   'clearTimeout',
@@ -76,23 +80,19 @@ const protected_symbols = [ 'clearInterval',
 ]
 
 const preloaded_scripts = [
-  "require('qcobjects')"
+  "require('qcobjects')",
+  "Object.assign(this,this.constructor.constructor(\'return this\')())"
 ];
-
-
-for (var prop in protected_symbols){
-  var s = protected_symbols[prop] + '=' + 'global.'+protected_symbols[prop]+';';
-  preloaded_scripts.push(s);
-}
 
 for (var k in preloaded_scripts){
   runScript(preloaded_scripts[k].trim());
 }
 
+
 console.log(welcometo);
 console.log(logo);
 console.log(instructions);
-rl.prompt();
+rl.prompt(true);
 
 rl.on('line', (line) => {
   var codeline = line.trim();
@@ -106,6 +106,7 @@ rl.on('line', (line) => {
     default:
       try{
         runScript(codeline,true);
+        syncGlobal(sandbox);
       }catch (e){
         console.log('An exeption ocurred while trying to run your awesome code! ');
         console.log(e);
