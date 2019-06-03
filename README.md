@@ -256,8 +256,18 @@ https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
 ## Installing with NPM:
 
 ```shell
-> npm install qcobjects
+> npm install qcobjects-cli -g && npm install qcobjects --save
 ```
+![screenshot2](doc/img/QCObjects-Quick-Start.gif)
+
+## Installing the docker playground:
+
+```shell
+docker pull -a quickcorp/qcobjects && docker run -it --name qcobjects-playground --rm -it quickcorp/qcobjects
+```
+
+![screenshot3](doc/img/QCObjects-Docker-Playground.gif)
+
 
 ## Using the code in the straight way into HTML5:
 
