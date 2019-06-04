@@ -1895,7 +1895,7 @@
             var _Effect = ClassFactory(effectClassName);
             if (typeof _Effect != 'undefined'){
               this.effect = New(_Effect,{component:this});
-              this.effect.apply.call(this.effect,this.effect.defaultParams);
+              this.effect.apply(this.effect.defaultParams);
             }
   					this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
 
