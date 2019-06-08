@@ -23,7 +23,7 @@
     letter-spacing: 2px !important;
     animation: typing 5s steps(30, end), blink .75s step-end infinite !important;
     white-space: nowrap !important;
-    font-size: 20px !important;
+    font-size: 12px !important;
     font-weight: 700 !important;
     border-right: 4px solid orange !important;
     box-sizing: border-box !important;
