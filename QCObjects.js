@@ -223,12 +223,12 @@
 		 },
 		 info: function(message) {
 			 if (this.infoEnabled){
-				 console.log('[INFO] ' + message);
+				 console.info('[INFO] ' + message);
 			 }
 		 },
 		 warn: function(message) {
 			 if (this.warnEnabled){
-				 console.log('[WARN] ' + message);
+				 console.warn('[WARN] ' + message);
 			 }
 		 }
 	 }};
