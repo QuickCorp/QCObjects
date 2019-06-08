@@ -2,7 +2,7 @@
 Package('cl.quickcorp.components',[
   Class('MarkdownComponent',Component,{
     name:'markdowncomponent',
-    url:ComponentURI({
+    templateURI:ComponentURI({
       'COMPONENTS_BASE_PATH':Component.basePath,
       'COMPONENT_NAME':'README',
       'TPLEXTENSION':'md',
@@ -19,7 +19,8 @@ Package('cl.quickcorp.components',[
       this.rebuild().then(function (){
         // not yet implemented.
       }).catch(function (standardResponse){
-        logger.debug('Component not rebuilt');
+        logger.debug('Component not rebuilt ');
+        console.log(standardResponse);
       });
     }
   })
