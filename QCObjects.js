@@ -1180,7 +1180,7 @@
 	 *
 	 */
   Class('DDO',Object,{
-      _new_:function ({instance,fget, fset, fdel, doc,name,_value}){
+      _new_:function ({instance,fget, fset, fdel, doc,name,value}){
           instance.name = name;
           instance._value = _value;
           instance['_' + instance.name]=instance._value;
