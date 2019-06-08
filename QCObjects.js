@@ -1162,6 +1162,10 @@
     global.onload = _Ready;
   }
 
+  /**
+	 * Dynamic Data Objects Class
+	 *
+	 */
   Class('DDO',Object,{
       _new_:function ({instance,fget, fset, fdel, doc,name,value}){
           instance.name = name;
@@ -1196,7 +1200,7 @@
       },
 
   });
-  
+
   Class('InheritClass',Object,{});
 
   Class('DefaultTemplateHandler',Object,{
