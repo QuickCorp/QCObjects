@@ -1182,7 +1182,7 @@
   Class('DDO',Object,{
       _new_:function ({instance,fget, fset, fdel, doc,name,value}){
           instance.name = name;
-          instance._value = _value;
+          instance._value = value;
           instance['_' + instance.name]=instance._value;
           instance.fget = fget;
           instance.fset = fset;
