@@ -2,7 +2,12 @@
 Package('cl.quickcorp.components',[
   Class('MarkdownComponent',Component,{
     name:'markdowncomponent',
-    url:'README.md',
+    url:ComponentURI({
+      'COMPONENTS_BASE_PATH':Component.basePath,
+      'COMPONENT_NAME':'README',
+      'TPLEXTENSION':'md',
+      'TPL_SOURCE':'default' //here is always default in order to get the right uri
+    }),
     tplsource:'none',
     cached:false,
     controller:null,
