@@ -12,6 +12,7 @@ Package('cl.quickcorp.effects',[
     },
     apply: function ({alphaFrom,alphaTo}){
       logger.info('EXECUTING MAIN EFFECT ');
+      this.component.body.style.display = 'block';
       _super_('Fade','apply').call(this,this.component.body,alphaFrom,alphaTo);
 
     }
