@@ -1,3 +1,5 @@
+@import url("./theme.css");
+
 .typewriter-text {
     display: inline-block;
     overflow: hidden;
