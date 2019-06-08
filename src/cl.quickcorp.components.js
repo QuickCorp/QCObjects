@@ -20,8 +20,8 @@ Package('cl.quickcorp.components',[
         'TPL_SOURCE':'default' //here is always default in order to get the right uri
       });
       componentInstance.rebuild().then(function (){
-        component.dependencies.push(New(SourceJS,{external:false,url:'doc/js/prism-okaidia.js',done:function(){}}));
-        component.dependencies.push(New(SourceCSS,{external:false,url:'doc/css/prism-okaidia.css',done:function(){}}));
+        componentInstance.dependencies.push(New(SourceJS,{external:false,url:'doc/js/prism-okaidia.js',done:function(){}}));
+        componentInstance.dependencies.push(New(SourceCSS,{external:false,url:'doc/css/prism-okaidia.css',done:function(){}}));
       }).catch(function (standardResponse){
         logger.debug('Component not rebuilt ');
         console.log(standardResponse);
