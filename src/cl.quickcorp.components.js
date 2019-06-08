@@ -3,6 +3,7 @@ Package('cl.quickcorp.components',[
   Class('MarkdownComponent',Component,{
     name:'markdowncomponent',
     templateURI:'../../README.md',
+    tplsource:'default',
     cached:false,
     controller:null,
     view:null,
