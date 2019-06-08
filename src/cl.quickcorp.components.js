@@ -2,6 +2,7 @@
 Package('cl.quickcorp.components',[
   Class('MarkdownComponent',Component,{
     name:'markdowncomponent',
+    templateURI:'../../README.md',
     cached:false,
     controller:null,
     view:null,
