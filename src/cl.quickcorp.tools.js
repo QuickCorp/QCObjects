@@ -4,6 +4,7 @@ Package('cl.quickcorp.tools',[
     template:'',
     assign:function (data){
       var converter = new showdown.Converter();
+      converter.setFlavor('github');
       var parsedAssignmentText = converter.makeHtml(this.template);
       return parsedAssignmentText;
     }
