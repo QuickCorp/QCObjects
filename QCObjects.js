@@ -1180,21 +1180,21 @@
 	 *
 	 */
   Class('DDO',Object,{
-      _new_:function ({instance,fget, fset, fdel, doc,name,value}){
+      _new_:function ({instance,fget, fset, fdel, doc,name,_value}){
           instance.name = name;
-          instance.value = value;
-          instance['_' + instance.name]=instance.value;
+          instance._value = _value;
+          instance['_' + instance.name]=instance._value;
           instance.fget = fget;
           instance.fset = fset;
           instance.fdel = fdel;
 
           Object.defineProperty(instance,instance.name,{
-              set(value){
-                  instance.value=value;
-                  instance['_' + instance.name]=instance.value;
+              set(_value){
+                  instance._value=_value;
+                  instance['_' + instance.name]=instance._value;
                   logger.debug('value changed');
                   if (typeof fset !== 'undefined' && typeof fset == 'function'){
-                      instance.fset.call(instance,instance.value);
+                      instance.fset.call(instance,instance._value);
                   }
               },
               get(){
@@ -1209,7 +1209,6 @@
                   return new_value;
               }
           });
-          instance[name]=value;
       },
 
   });
