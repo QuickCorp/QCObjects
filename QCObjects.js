@@ -1164,6 +1164,19 @@
 
   /**
 	 * Dynamic Data Objects Class
+   * Usage:
+   * Class('TestDDO',{
+   *    _new_:function (){
+   *        this.ddo = New(DDO,{
+   *            instance:this,
+   *            name:'ddo',
+   *            value:0,
+   *            fget:function (value){
+   *                logger.debug('returned value '+ value );
+   *            }
+   *            })
+   *    }
+   * });
 	 *
 	 */
   Class('DDO',Object,{
