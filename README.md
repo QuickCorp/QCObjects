@@ -1,5 +1,7 @@
 ![logo](qcobjects_01.png)
 
+[![GitHub license](https://img.shields.io/github/license/QuickCorp/QCObjects.svg)](https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt) [![](https://data.jsdelivr.com/v1/package/npm/qcobjects/badge)](https://www.jsdelivr.com/package/npm/qcobjects)  [![Badge for version for Visual Studio Code extension Quickcorp.QCObjects-vscode](https://vsmarketplacebadge.apphb.com/version/Quickcorp.QCObjects-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode) [![Documentation Status](https://readthedocs.org/projects/qcobjects/badge/?version=latest)](http://qcobjects.readthedocs.io/?badge=latest) [![GitHub release](https://img.shields.io/github/issues/QuickCorp/QCObjects.svg)](https://github.com/QuickCorp/QCObjects/releases/) [![GitHub stars](https://img.shields.io/github/stars/QuickCorp/QCObjects.svg)](https://github.com/QuickCorp/QCObjects) [![npm version](https://badge.fury.io/js/qcobjects.svg)](https://badge.fury.io/js/qcobjects) ![apm: version](http://flat.badgen.net/apm/v/qcobjects-syntax?params) ![docker pulls](https://img.shields.io/docker/pulls/quickcorp/qcobjects.svg)
+
 # QCObjects
 ------------------------------------
 Welcome to [QCObjects](https://qcobjects.dev) Main Reference Documentation!
@@ -252,6 +254,8 @@ https://atom.io/packages/qcobjects-syntax
 
 ## Using QCObjects in Visual Studio Code:
 
+[![Badge for installs for Visual Studio Code extension Quickcorp.QCObjects-vscode](https://vsmarketplacebadge.apphb.com/version/Quickcorp.QCObjects-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode)
+
 https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
 
 ## Installing with NPM:
@@ -275,6 +279,15 @@ docker pull -a quickcorp/qcobjects && docker run -it --name qcobjects-playground
 ```html
 <script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
 ```
+
+## Using the code from jsDelivr CDN
+
+
+```html
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/qcobjects@<version>/QCObjects.js"></script>
+```
+
+
 
 # Reference
 ------------
