@@ -20,6 +20,7 @@
 <script type="application/ld+json">
 {"@type":"WebSite","url":"https://qcobjects.dev/","name":"QCObjects","headline":"QCObjects","description":"Cross Browser Javascript Framework for MVC Patterns","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
 <script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
   </head>
 
@@ -38,7 +39,7 @@
     </div>
 
     <!-- MAIN CONTENT -->
-    <component name="main" template-source="none" componentClass="MarkdownComponent" controllerClass="MarkdownController"></component>
+    <component name="main" template-source="none" componentClass="MarkdownComponent"></component>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
@@ -50,11 +51,11 @@
     </div>
 
 <script type="text/javascript">
-  logger.debugEnabled=false;
+  logger.debugEnabled=true;
   Component.cached=true;
 
 
-  CONFIG.set('relativeImportPath', 'js/packages/');
+  CONFIG.set('relativeImportPath', 'src/');
   CONFIG.set('componentsBasePath', 'templates/components/');
   CONFIG.set('delayForReady', 1); // delay to wait before executing the first ready event, it includes imports
   CONFIG.set('preserveComponentBodyTag', false); // don't use <componentBody></componentBody> tag
