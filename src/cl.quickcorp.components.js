@@ -16,7 +16,11 @@ Package('cl.quickcorp.components',[
     _new_:function (o){
       _super_('Component','_new_').call(this,o);
       this.tplsource='default';
-      this.rebuild();
+      this.rebuild().then(function (){
+        // not yet implemented.
+      }).catch(function (standardResponse){
+        logger.debug('Component not rebuilt');
+      });
     }
   })
 ]);
