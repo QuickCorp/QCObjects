@@ -38,7 +38,7 @@
     </div>
 
     <!-- MAIN CONTENT -->
-    <component name="main" componentClass="MarkdownComponent" controllerClass="MarkdownController"></component>
+    <component name="main" template-source="none" componentClass="MarkdownComponent" controllerClass="MarkdownController"></component>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
@@ -49,6 +49,24 @@
       </footer>
     </div>
 
+<script type="text/javascript">
+  logger.debugEnabled=false;
+  Component.cached=true;
+
+
+  CONFIG.set('relativeImportPath', 'js/packages/');
+  CONFIG.set('componentsBasePath', 'templates/components/');
+  CONFIG.set('delayForReady', 1); // delay to wait before executing the first ready event, it includes imports
+  CONFIG.set('preserveComponentBodyTag', false); // don't use <componentBody></componentBody> tag
+  CONFIG.set('useConfigService', false); // Load settings from config.json
+  CONFIG.set('routingWay','hash');
+  CONFIG.set('useSDK',true);
+  CONFIG.set('useLocalSDK',false);
+  CONFIG.set('asynchronousImportsLoad',true);
+  CONFIG.set('tplextension','tpl.html');
+
+
+</script>
 
   </body>
 </html>
