@@ -1162,7 +1162,43 @@
     global.onload = _Ready;
   }
 
+  Class('DDO',Object,{
+      _new_:function ({instance,fget, fset, fdel, doc,name,value}){
+          instance.name = name;
+          instance.value = value;
+          instance['_' + instance.name]=instance.value;
+          instance.fget = fget;
+          instance.fset = fset;
+          instance.fdel = fdel;
+
+          Object.defineProperty(instance,instance.name,{
+              set(value){
+                  instance.value=value;
+                  instance['_' + instance.name]=instance.value;
+                  logger.debug('value changed');
+                  if (typeof fset !== 'undefined' && typeof fset == 'function'){
+                      instance.fset.call(instance,instance.value);
+                  }
+              },
+              get(){
+                  logger.debug('returning value');
+                  let is_ddo = function (obj){
+                      return obj.hasOwnProperty('__classType') && obj.__classType=='DDO';
+                  };
+                  let new_value = (is_ddo(instance['_' + instance.name]))?(instance['_' + instance.name].value):( instance['_' + instance.name]);
+                  if (typeof fget !== 'undefined' && typeof fget == 'function'){
+                      instance.fget.call(instance,new_value);
+                  }
+                  return new_value;
+              }
+          });
+          instance[name]=value;
+      },
+
+  });
+  
   Class('InheritClass',Object,{});
+
   Class('DefaultTemplateHandler',Object,{
     template:'',
     assign:function (data){
