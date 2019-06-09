@@ -284,7 +284,7 @@ docker pull -a quickcorp/qcobjects && docker run -it --name qcobjects-playground
 
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/qcobjects@<version>/QCObjects.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qcobjects@2/QCObjects.min.js"></script>
 ```
 
 
