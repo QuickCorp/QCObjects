@@ -39,7 +39,8 @@ _________________________
 	- [Using QCObjects in Visual Studio Code:](#using-qcobjects-in-visual-studio-code)
 	- [Installing with NPM:](#installing-with-npm)
 	- [Installing the docker playground:](#installing-the-docker-playground)
-	- [Using the code in the straight way into HTML5:](#using-the-code-in-the-straight-way-into-html5)
+	- [Using the development version code in the straight way into HTML5:](#using-the-development-version-code-in-the-straight-way-into-html5)
+	- [Using the CDN minified version code from jsDelivr CDN](#using-the-cdn-minified-version-code-from-jsdelivr-cdn)
 - [Reference](#reference)
 	- [Essentials](#essentials)
 		- [QC_Object](#qc_object)
@@ -274,14 +275,13 @@ docker pull -a quickcorp/qcobjects && docker run -it --name qcobjects-playground
 ![screenshot3](doc/img/QCObjects-Docker-Playground.gif)
 
 
-## Using the code in the straight way into HTML5:
+## Using the development version code in the straight way into HTML5:
 
 ```html
 <script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
 ```
 
-## Using the code from jsDelivr CDN
-
+## Using the CDN minified version code from jsDelivr CDN
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/qcobjects@2/QCObjects.min.js"></script>
