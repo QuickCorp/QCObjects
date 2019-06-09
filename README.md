@@ -1228,42 +1228,25 @@ Package('cl.quickcorp',[
 
 
 Package('cl.quickcorp.service',[
-  Class('JsonService',{
-    method:"GET",
-    cached:false,
-  	headers: {
-  		"Content-Type":"application/json",
-      "charset":"utf-8"
-  	},
-    JSONresponse: null,
-    done:function(result){
-      console.log("***** RECEIVED RESPONSE:");
-      console.log(result.service.template);
-      this.JSONresponse = JSON.parse(result.service.template);
-      alert(this.template);
-    }
-  }),
-  Class('FormSubmitService',{
-    method:"POST",
-    cached:false,
-    headers: {
-      "Content-Type":"application/json"
-    },
-    JSONresponse: null,
-    done: function(result) {
-      console.log("***** CALLED FormSubmitService");
-      this.JSONresponse = JSON.parse(result.service.template);
-      //TODO success case
-      console.log("***** SUCCESS!")
-      console.log(this.JSONresponse);
-    },
-    fail: function(result) {
-      //TODO negative case
-      console.log("***** ERROR");
-    }
-
+	Class('FormSubmitService',JSONService,{
+	    name:'mySubmitService',
+	    external:true,
+	    cached:false,
+	    method:'POST',
+	    withCredentials:false,
+	    url:'https://api.github.com/orgs/QuickCorp/repos',
+	    _new_:function (){
+	      // service instantiated
+	      delete this.headers.charset; // do not send the charset header
+	    },
+	    done:function (result){
+	      _super_('JSONService','done').call(this,result);
+	    },
+			fail: function(result) {
+	      //TODO negative case
+	      console.log("***** ERROR");
+	    }
   })
-
 ])
 ```
 
@@ -1290,58 +1273,18 @@ Package('cl.quickcorp.service',[
 * license document, but changing it is not allowed.
 */
 Package('cl.quickcorp.components',[
-  Class('FormField',Component,{
-    cached:false,
-    reload:true,
-  	createBindingEvents:function (){
-  		var _executeBinding = this.executeBinding;
-  		var thisobj = this;
-  		var _objList = this.body.querySelectorAll(this.fieldType);
-  		for (var _datak=0;_datak<_objList.length;_datak++){
-  			var _obj = _objList[_datak];
-  			_obj.addEventListener('change',function(e){
-  				logger.debug('Executing change event binding');
-  				thisobj.executeBindings();
-  			});
-  			_obj.addEventListener('keydown',function(e){
-  				logger.debug('Executing keydown event binding');
-  					thisobj.executeBindings();
-  			});
-  		}
-  	},
-  	executeBinding:function (_obj){
-  		var _datamodel = _obj.getAttribute('data-field');
-  		logger.debug('Binding '+_datamodel+' for '+this.name);
-  		this.data[_datamodel]=_obj.value;
-  	},
-  	executeBindings:function (){
-      var _objList = this.body.querySelectorAll(this.fieldType);
-  		for (var _datak=0;_datak<_objList.length;_datak++){
-  			var _obj = _objList[_datak];
-  			var _datamodel = _obj.getAttribute('data-field');
-        logger.debug('Binding '+_datamodel+' for '+this.name);
-  			this.data[_datamodel]=_obj.value;
-  		}
-  	},
-    done:function (){
-      var thisobj = this;
-      thisobj.executeBindings();
-  		thisobj.createBindingEvents();
-      logger.debug('Field loaded: '+thisobj.fieldType+'[name='+thisobj.name+']');
-    }
-  }),
-  Class('ButtonField',FormField,{
-  	fieldType:'button'
-  }),
-  Class('InputField',FormField,{
-  	fieldType:'input'
-  }),
-  Class('TextField',FormField,{
-  	fieldType:'textarea'
-  }),
-  Class('EmailField',FormField,{
-  	fieldType:'input'
-  })
+	Class('MyCustomComponent',Component,{
+	  name:'mycustomcomponent',
+	  cached:false,
+	  controller:null,
+	  view:null,
+		templateURI:ComponentURI({
+			'COMPONENTS_BASE_PATH':Component.basePath,
+			'COMPONENT_NAME':'mycustomcomponent',
+			'TPLEXTENSION':'tpl.html',
+			'TPL_SOURCE':'default'
+		})
+	})
 ]);
 ```
 
@@ -1370,13 +1313,13 @@ Package('cl.quickcorp.components',[
 */
 "use strict";
 Package('cl.quickcorp.controller',[
-	Class('MainController',Object,{
+	Class('MainController',Controller,{
 		_new_:function (){
 			//TODO: Implement
 			logger.debug('MainController Element Initialized');
 		}
 	}),
-	Class('MyAccountController',Object,{
+	Class('MyAccountController',Controller,{
 		component: null,
 		done:function (){
 			var controller = this;
