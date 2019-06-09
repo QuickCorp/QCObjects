@@ -174,7 +174,7 @@ Check out a demo using raw CSS:
 	    		body = New(MyOwnBody); // binds to body
 	    		body.css({backgroundColor:'#ccc'});
 
-	    		container = document.getElementsByTagName('container')[0].Cast(MyContainer); // cast any javascript dom object to QC_Object class
+	    		container = Tag('container')[0].Cast(MyContainer); // cast any javascript dom object to QC_Object class
 	    		container.css({backgroundColor:'red'}); // access binding in two directions to dom objects
 
 	    		/**
