@@ -17,7 +17,6 @@ console.log(instructions);
 
 logger.debugEnabled=true;
 
-//Import(templatePath+'spa-local');
 require(absolutePath+'/org.quickcorp.qcobjects.cli');
 
 let switchCommander;
