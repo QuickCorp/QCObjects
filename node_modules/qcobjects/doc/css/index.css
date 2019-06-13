@@ -1,0 +1,33 @@
+@import url("./theme.css");
+@keyframes typing {
+    from {
+        width: 0%
+    }
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink {
+    from, to {
+        border-color: transparent
+    }
+    50% {
+        border-color: white;
+    }
+}
+
+.typewriter-text {
+    display: inline-block !important;
+    overflow: hidden !important;
+    letter-spacing: 2px !important;
+    animation: typing 5s steps(30, end), blink .75s step-end infinite !important;
+    white-space: nowrap !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    border-right: 4px solid orange !important;
+    box-sizing: border-box !important;
+    line-height: normal !important;
+    text-align: left !important;
+    color: white !important;
+}

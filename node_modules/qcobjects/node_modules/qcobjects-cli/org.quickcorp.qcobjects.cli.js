@@ -40,7 +40,8 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 logger.debugEnabled=false;
-CONFIG.set('qcobjectsnewapp_path','./node_modules/qcobjectsnewapp');
+CONFIG.set('node_modules_path','./node_modules/');
+CONFIG.set('qcobjectsnewapp_path',CONFIG.get('node_modules_path')+'/qcobjectsnewapp');
 
 
 Package('org.quickcorp.qcobjects.cli',[
@@ -135,7 +136,7 @@ Package('org.quickcorp.qcobjects.cli',[
         switchCommander.generateServiceWorker(appName);
 
       },
-      create:function (_appName){
+      create:function (_appName, options){
         let switchCommander = this;
         let appName = (typeof _appName ==='undefined' || _appName === true)?('MyAppName'):(_appName);
 
@@ -144,7 +145,18 @@ Package('org.quickcorp.qcobjects.cli',[
           rl.close();
           let giturl = answer;
 
-          let createAppCommand = "echo \"{\\\"name\\\": \\\""+appName.toLowerCase()+"\\\",\\\"repository\\\": {\\\"type\\\": \\\"git\\\",\\\"url\\\": \\\""+giturl+"\\\"},\\\"description\\\":\\\".\\\",\\\"license\\\": \\\"LGPL-3.0-or-later\\\",\\\"dependencies\\\":{\\\"qcobjectsnewapp\\\":\\\"latest\\\",\\\"qcobjects\\\":\\\"latest\\\"}}\" > package.json";
+          let createAppCommandPWA = "echo \"{\\\"name\\\": \\\""+appName.toLowerCase()+"\\\",\\\"repository\\\": {\\\"type\\\": \\\"git\\\",\\\"url\\\": \\\""+giturl+"\\\"},\\\"description\\\":\\\".\\\",\\\"license\\\": \\\"LGPL-3.0-or-later\\\",\\\"dependencies\\\":{\\\"qcobjectsnewapp\\\":\\\"latest\\\",\\\"qcobjects\\\":\\\"latest\\\"}}\" > package.json";
+          let createAppCommandAMP = "echo \"{\\\"name\\\": \\\""+appName.toLowerCase()+"\\\",\\\"repository\\\": {\\\"type\\\": \\\"git\\\",\\\"url\\\": \\\""+giturl+"\\\"},\\\"description\\\":\\\".\\\",\\\"license\\\": \\\"LGPL-3.0-or-later\\\",\\\"dependencies\\\":{\\\"qcobjects-ecommerce-amp\\\":\\\"latest\\\",\\\"qcobjects\\\":\\\"latest\\\"}}\" > package.json";
+          let createAppCommand;
+
+          if (options.createAmp){
+            CONFIG.set('qcobjectsnewapp_path',CONFIG.get('node_modules_path')+'/qcobjects-ecommerce-amp');
+            createAppCommand = createAppCommandAMP;
+          } else {
+            CONFIG.set('qcobjectsnewapp_path',CONFIG.get('node_modules_path')+'/qcobjectsnewapp');
+            createAppCommand = createAppCommandPWA;
+          }
+
           logger.debug(createAppCommand);
           exec(createAppCommand, (err, stdout, stderr) => {
             console.log(stdout);
