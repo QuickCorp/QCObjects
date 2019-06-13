@@ -153,7 +153,7 @@ Package('org.quickcorp.qcobjects.main.http2.server',[
       var server = this.server;
 
       // http2 port is 8443 but normally is used 443 by replacing current https
-      server.listen(CONFIG.get('serverPort'));
+      server.listen(CONFIG.get('serverPortHTTPS'));
     },
     _new_:function (){
       var server = this.server;
@@ -162,12 +162,14 @@ Package('org.quickcorp.qcobjects.main.http2.server',[
 
       server.on('session', (session) => {
         // Set altsvc for origin https://example.org:80
-        //  session.altsvc('h2=":8000"', 'https://localhost:80');
-        session.origin('https://localhost');
+        session.altsvc('h2=":8000"', 'http://'+CONFIG.get('domain'));
+        session.altsvc('https=":443"','http://'+CONFIG.get('domain'))
+        session.origin('http://'+CONFIG.get('domain'));
       });
 
       server.on('stream', (stream, headers, flags) => {
-        //  stream.session.altsvc('h2=":8000"', stream.id);
+        stream.session.altsvc('h2=":8000"', stream.id);
+        stream.session.altsvc('https=":443"', stream.id);
         this.request = Object.assign(New(HTTP2ServerRequest),require('url').parse(headers[':path']));
         this.request.method = headers[':method'];
         this.request.path = headers[':path'];

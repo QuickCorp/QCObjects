@@ -62,19 +62,34 @@ Package('org.quickcorp.qcobjects.main.http2.server',[
     sendFile: function (stream, fileName) {
       // read and send file content in the stream
 
-      const fd = fs.openSync(fileName, "r");
-      const stat = fs.fstatSync(fd);
-      const headers = {
-        "content-length": stat.size,
-        "last-modified": stat.mtime.toUTCString(),
-        "content-type": mime.getType(fileName)
-      };
-      stream.respondWithFD(fd, headers);
-      stream.on("close", () => {
-        console.log("closing file", fileName);
-        fs.closeSync(fd);
-      });
-      stream.end();
+      try {
+        const fd = fs.openSync(fileName, "r");
+        const stat = fs.fstatSync(fd);
+        const headers = {
+          "content-length": stat.size,
+          "last-modified": stat.mtime.toUTCString(),
+          "content-type": mime.getType(fileName)
+        };
+        stream.respondWithFD(fd, headers);
+        stream.on("close", () => {
+          console.log("closing file", fileName);
+          fs.closeSync(fd);
+        });
+        stream.end();
+
+      } catch (e){
+        if (e.errno==-2){
+          const headers = {
+            ':status': 404,
+            'content-type': 'text/html'
+          };
+          stream.write('<h1>404 - FILE NOT FOUND</h1>');
+          stream.on("close", () => {
+            console.log("closing file", fileName);
+          });
+          stream.end();
+        }
+      }
     },
     _generateResponse:function (){
       var response = this;
