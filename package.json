@@ -6,7 +6,7 @@
   "license": "LGPL-3.0",
   "scripts": {
     "start": "qcobjects-shell",
-    "test": "echo \"Welcome to QCObjects\" && exit 0"
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,8 @@
   "dependencies": {
     "qcobjects-sdk": "^0.0.114",
     "qcobjects-cli": "^0.1.0"
+  },
+  "devDependencies": {
+    "jasmine": "^3.4.0"
   }
 }
