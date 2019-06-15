@@ -21,7 +21,7 @@ _________________________
 - [Table of Contents](#table-of-contents)
 - [Principals](#principals)
 - [Cross Browser Javascript Framework for MVC Patterns](#cross-browser-javascript-framework-for-mvc-patterns)
-- [ALPHA RISE Startup](#alpha-rise-startup)
+- [Dynamic Components Architecture](#dynamic-components-architecture)
 - [ECMA-262 Specification](#ecma-262-specification)
 - [Copyright](#copyright)
 - [Demo](#demo)
@@ -82,6 +82,7 @@ _________________________
 	- [Step 3: Now it's time to create the components (cl.quickcorp.components.js)](#step-3-now-its-time-to-create-the-components-clquickcorpcomponentsjs)
 	- [Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)](#step-4-once-you-have-done-the-above-components-declaration-you-will-now-want-to-code-your-controllers-clquickcorpcontrollerjs)
 	- [Step 5: To use into the HTML5 code you only need to do some settings between script tags:](#step-5-to-use-into-the-html5-code-you-only-need-to-do-some-settings-between-script-tags)
+- [ALPHA RISE Startup](#alpha-rise-startup)
 
 <!-- /TOC -->
 
@@ -123,16 +124,10 @@ Here are the principals with QCObjects was made with:
 
 ![screenshot](doc/img/components.gif)
 
+# Dynamic Components Architecture
 
+![qcobjects components layout](doc/img/QCObjects-Components-Layout.gif)
 
-
-# ALPHA RISE Startup
---------------------------
-![alpha](doc/img/ALPHA-RISE.png)
-
-[QCObjects](https://qcobjects.dev) was invited to exhibit as an ALPHA Startup in the RISE Conf Hong Kong 2019. RISE attracts the most dynamic startups from around the world. We'll be showing how [QCObjects](https://qcobjects.dev) is making a real Global Impact to the JavaScript developers life transforming the way for coding.
-
-If you want to find out more about RISE event check out their website [https://riseconf.com](https://riseconf.com)
 
 # ECMA-262 Specification
 --------------------------
@@ -1388,3 +1383,12 @@ CONFIG.set('preserveComponentBodyTag',false); // don't use <componentBody></comp
 Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into js/packages/ file path
 </script>
 ```
+
+
+# ALPHA RISE Startup
+--------------------------
+![alpha](doc/img/ALPHA-RISE.png)
+
+[QCObjects](https://qcobjects.dev) was invited to exhibit as an ALPHA Startup in the RISE Conf Hong Kong 2019. RISE attracts the most dynamic startups from around the world. We'll be showing how [QCObjects](https://qcobjects.dev) is making a real Global Impact to the JavaScript developers life transforming the way for coding.
+
+If you want to find out more about RISE event check out their website [https://riseconf.com](https://riseconf.com)
