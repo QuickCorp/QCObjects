@@ -143,19 +143,29 @@ Package('org.quickcorp.qcobjects.main.http2.server',[
   Class('HTTP2Server',{
     request:null,
     response:'',
-    server:http2.createSecureServer({
-      key: fs.readFileSync(CONFIG.get('private-key-pem')),
-      cert: fs.readFileSync(CONFIG.get('private-cert-pem')),
-      allowHTTP1:CONFIG.get('allowHTTP1')
-    }),
+    server:null,
     scriptname:'',
     start:function (){
       var server = this.server;
 
       // http2 port is 8443 but normally is used 443 by replacing current https
+
+      const http = require('http');
+
+      const httpServer = http.createServer((req, res) => {
+        res.writeHead(301,{Location: `https://${req.headers.host}${req.url}`});
+        res.end();
+      });
+
+      httpServer.listen(CONFIG.get('serverPortHTTP'));
       server.listen(CONFIG.get('serverPortHTTPS'));
     },
     _new_:function (){
+      this.server = http2.createSecureServer({
+        key: fs.readFileSync(CONFIG.get('private-key-pem')),
+        cert: fs.readFileSync(CONFIG.get('private-cert-pem')),
+        allowHTTP1:CONFIG.get('allowHTTP1')
+      });
       var server = this.server;
 
       server.on('error', (err) => console.error(err));
