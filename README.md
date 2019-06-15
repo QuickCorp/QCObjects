@@ -89,6 +89,7 @@ _________________________
 
 Here are the principals with QCObjects was made with:
 
+0. You should use JavaScript to write JavaScript.
 1. Everything is an object.
 2. Any object can be stacked into the DOM.
 3. Every object has a definition.
