@@ -119,6 +119,29 @@
   } else if (typeof global !== 'undefined'){
     _top = global;
   }
+  var basePath = (
+    function (){
+      var _basePath='';
+      if (isBrowser){
+        var baseURI = _top.document.baseURI.split('/');
+        baseURI.pop();
+        _basePath= baseURI.join('/')+'/';
+      } else {
+        var process;
+        try {
+         process = require('process');
+        } catch (e){
+          // not a process module
+        }
+        if (typeof process != 'undefined'){
+         _basePath = `${process.cwd()}/`;
+        } else {
+          _basePath = '';
+        }
+      }
+      return _basePath;
+    }
+  )();
   if (isBrowser){
     /**
     * Polyfilling Promise
@@ -145,29 +168,7 @@
  		 _top.console.prototype.log = function(message) {
  		 };
  	 };
-   var basePath = (
-		 function (){
-       var _basePath='';
-       if (isBrowser){
-         var baseURI = _top.document.baseURI.split('/');
-  			 baseURI.pop();
-  			 _basePath= baseURI.join('/')+'/';
-       } else {
-         var process;
-         try {
-          process = require('process');
-         } catch (e){
-           // not a process module
-         }
-         if (typeof process != 'undefined'){
-          _basePath = `${process.cwd()}/`;
-         } else {
-           _basePath = '';
-         }
-       }
-       return _basePath;
-		 }
-	 )();
+
 
    var domain = (
      function (){
@@ -190,7 +191,6 @@
  } else {
    // This is only for code integrity purpose using non-browser implementations
    // like using node.js
-   var basePath = './';
    var _secretKey = 'secret';
    var domain = 'localhost';
  }
