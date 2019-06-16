@@ -30,6 +30,7 @@ LABEL vendor2="QCObjects"
 LABEL org.quickcorp.qcobjects.release-date="2019-06-01"
 LABEL org.quickcorp.qcobjects.version.is-production=""
 
+RUN npm install -g jasmine --only=production
 RUN npm install -g qcobjects-sdk --only=production
 RUN npm install -g qcobjects-cli --only=production
 
@@ -39,6 +40,7 @@ RUN mkdir -p /home/qcobjects && chown -R qcobjects:qcobjects /home/qcobjects
 WORKDIR /home/qcobjects
 USER qcobjects
 COPY package*.json ./
+RUN jasmine init
 RUN npm cache verify
 RUN npm ci --save --only=production
 

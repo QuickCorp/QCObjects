@@ -27,7 +27,7 @@
   "homepage": "https://github.com/QuickGroup/QCObjects#readme",
   "dependencies": {
     "qcobjects-sdk": "^0.0.114",
-    "qcobjects-cli": "^0.1.1"
+    "qcobjects-cli": "^0.1.2"
   },
   "devDependencies": {
     "jasmine": "^3.4.0"
