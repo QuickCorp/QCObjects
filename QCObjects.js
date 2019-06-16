@@ -147,9 +147,17 @@
  	 };
    var basePath = (
 		 function (){
-			 var baseURI = _top.document.baseURI.split('/');
-			 baseURI.pop();
-			 return baseURI.join('/')+'/';
+       var _basePath='';
+       if (isBrowser){
+         var baseURI = _top.document.baseURI.split('/');
+  			 baseURI.pop();
+  			 _basePath= baseURI.join('/')+'/';
+       } else if (typeof process != 'undefined'){
+         _basePath = `${process.cwd()}/`;
+       } else {
+         _basePath = '';
+       }
+       return _basePath;
 		 }
 	 )();
 
@@ -1043,7 +1051,7 @@
       _promise_import_ = new Promise(function (resolve,reject){
         try {
           resolve.call(_promise_import_,{
-            '_imported_':require(packagename),
+            '_imported_':require((external)?(CONFIG.get('remoteImportsPath')+ packagename + '.js'):(basePath + CONFIG.get('relativeImportPath') + packagename + '.js')),
             '_package_name_':packagename
           });
         } catch (e){
