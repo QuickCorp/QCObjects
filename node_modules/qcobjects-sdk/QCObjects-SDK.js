@@ -41,7 +41,10 @@
     ];
   } else {
     // non-browsers environment
-    var _relative_path_ = 'node_modules/QCObjects-SDK/js/';
+    const path = require('path');
+    const absolutePath = path.resolve( __dirname, "./" );
+
+    var _relative_path_ = absolutePath+'/js/';
     _imports_ = [
       Import(_relative_path_+'org.quickcorp.models',function (){},external),
       Import(_relative_path_+'org.quickcorp.components',function (){},external),
