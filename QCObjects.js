@@ -1059,10 +1059,11 @@
       _promise_import_ = new Promise(function (resolve,reject){
         try {
           resolve.call(_promise_import_,{
-            '_imported_':require((external)?(CONFIG.get('remoteImportsPath')+ packagename ):(basePath + CONFIG.get('relativeImportPath') + packagename )),
+            '_imported_':require(basePath + CONFIG.get('relativeImportPath') + packagename ),
             '_package_name_':packagename
           });
         } catch (e){
+          console.log(e);
           reject.call(_promise_import_,{
             '_imported_':null,
             '_package_name_':packagename
@@ -1070,6 +1071,7 @@
         }
       }).catch(function (e){
         // something wrong importing a package
+        console.log(e);
         logger.debug('Something happened when importing '+packagename);
       });
     }
@@ -1916,7 +1918,7 @@
         var remoteImportsPath = CONFIG.get('remoteImportsPath');
         var external = (!CONFIG.get('useLocalSDK'))?(true):(false);
         CONFIG.set('remoteImportsPath',CONFIG.get('remoteSDKPath'));
-        var sdkName = (isBrowser)?('QCObjects-SDK'):('qcobjects-sdk');
+        var sdkName = (isBrowser)?('QCObjects-SDK'):('node_modules/qcobjects-sdk');
         Import(sdkName,function (){
           if (external){
             logging.debug('QCObjects-SDK.js loaded from remote location');
