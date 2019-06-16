@@ -152,10 +152,18 @@
          var baseURI = _top.document.baseURI.split('/');
   			 baseURI.pop();
   			 _basePath= baseURI.join('/')+'/';
-       } else if (typeof process != 'undefined'){
-         _basePath = `${process.cwd()}/`;
        } else {
-         _basePath = '';
+         var process;
+         try {
+          process = require('process');
+         } catch (e){
+           // not a process module
+         }
+         if (typeof process != 'undefined'){
+          _basePath = `${process.cwd()}/`;
+         } else {
+           _basePath = '';
+         }
        }
        return _basePath;
 		 }
