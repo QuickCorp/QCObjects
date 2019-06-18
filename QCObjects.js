@@ -1667,7 +1667,7 @@
   	          logger.debug('CREATING COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
   	          component.template = response;
   						if (component.cached && (typeof cache != 'undefined')){
-  							cache.save(_DataStringify(component.data), component.template);
+  							cache.save(component.name, component.template);
   						}
   						feedComponent.call(this,component);
   	        } else {
@@ -1703,13 +1703,13 @@
   				if (component.cached){
   					logger.debug('USING CACHE FOR COMPONENT: '+component.name);
   					var cache = new ComplexStorageCache({
-  		        'index': _DataStringify(component.data),
+  		        'index': component.name,
   		        'load': function(cacheController) {
   							_directLoad.call(this);
   		        },
   		        'alternate': function(cacheController) {
   		          if (component.method == 'GET') {
-  		            component.template = cacheController.cache.getCached(_DataStringify(component.data));
+  		            component.template = cacheController.cache.getCached(component.name);
   								feedComponent.call(this,component);
 
   		          } else {
