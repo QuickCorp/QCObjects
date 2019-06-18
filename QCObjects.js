@@ -1211,7 +1211,7 @@
                   instance._value=_value;
                   instance['_' + instance.name]=instance._value;
                   logger.debug('value changed');
-                  if (typeof fset !== 'undefined' && typeof fset == 'function'){
+                  if (typeof instance.fset !== 'undefined' && typeof instance.fset == 'function'){
                       instance.fset.call(instance,instance._value);
                   }
               },
@@ -1221,7 +1221,7 @@
                       return obj.hasOwnProperty('__classType') && obj.__classType=='DDO';
                   };
                   let new_value = (is_ddo(instance['_' + instance.name]))?(instance['_' + instance.name].value):( instance['_' + instance.name]);
-                  if (typeof fget !== 'undefined' && typeof fget == 'function'){
+                  if (typeof instance.fget !== 'undefined' && typeof instance.fget == 'function'){
                       instance.fget.call(instance,new_value);
                   }
                   return new_value;
