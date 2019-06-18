@@ -1206,6 +1206,7 @@
           instance.fset = fset;
           instance.fdel = fdel;
 
+
           Object.defineProperty(instance,instance.name,{
               set(_value){
                   instance._value=_value;
@@ -1220,7 +1221,7 @@
                   let is_ddo = function (obj){
                       return obj.hasOwnProperty('__classType') && obj.__classType=='DDO';
                   };
-                  let new_value = (is_ddo(instance['_' + instance.name]))?(instance['_' + instance.name].value):( instance['_' + instance.name]);
+                  let new_value = (is_ddo(instance['_' + instance.name]))?(instance['_' + instance.name]._value):( instance['_' + instance.name]);
                   if (typeof instance.fget !== 'undefined' && typeof instance.fget == 'function'){
                       instance.fget.call(instance,new_value);
                   }
