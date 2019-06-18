@@ -1611,6 +1611,24 @@
     return templateURI;
   };
 
+  var _DataStringify = function(data){
+    var getCircularReplacer = function () {
+      var seen = new WeakSet();
+      var _level = 0;
+      return function (key, value) {
+        if (typeof value === "object" && value !== null) {
+          if (seen.has(value)) {
+            _level+=1;
+            return (_level<=3)?(_LegacyCopy(value)):(null);
+          }
+          seen.add(value);
+        }
+        return value;
+      };
+    };
+    return JSON.stringify(data,getCircularReplacer());
+  }
+
 
 	/**
 	* Loads a simple component from a template
@@ -1639,7 +1657,7 @@
             };
             resolve.call(_promise,standardResponse);
   				};
-  	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(component.data)).replace('{{URL}}', component.url));
+  	      logger.debug('LOADING COMPONENT DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', _DataStringify(component.data)).replace('{{URL}}', component.url));
 
   				var _componentLoaded = function() {
   					var successStatus = (is_file)?(0):(200);
@@ -1678,7 +1696,7 @@
   							_componentLoaded.call(this);
   						}
   					}else{
-  						xhr.send(JSON.stringify(component.data));
+  						xhr.send(_DataStringify(component.data));
   					}
   				};
 
