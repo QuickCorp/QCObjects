@@ -1703,7 +1703,7 @@
   				if (component.cached){
   					logger.debug('USING CACHE FOR COMPONENT: '+component.name);
   					var cache = new ComplexStorageCache({
-  		        'index': component.name,
+  		        'index': component.__instanceID.toString(),
   		        'load': function(cacheController) {
   							_directLoad.call(this);
   		        },
