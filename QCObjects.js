@@ -1198,37 +1198,30 @@
 	 *
 	 */
   Class('DDO',Object,{
-      _new_:function ({instance,fget, fset, fdel, doc,name,value}){
-          instance.name = name;
-          instance._value = value;
-          instance['_' + instance.name]=instance._value;
-          instance.fget = fget;
-          instance.fset = fset;
-          instance.fdel = fdel;
+      _new_:function ({instance,name,fget, fset, fdel, doc,value}){
+          var _value;
+          var ddoInstance = this;
 
-
-          Object.defineProperty(instance,instance.name,{
-              set(_value){
-                  instance._value=_value;
-                  instance['_' + instance.name]=instance._value;
+          Object.defineProperty(instance,name,{
+              set(val){
+                  _value = val;
                   logger.debug('value changed');
-                  if (typeof instance.fset !== 'undefined' && typeof instance.fset == 'function'){
-                      instance.fset.call(instance,instance._value);
+                  if (typeof fset !== 'undefined' && typeof fset == 'function'){
+                      return fset(_value);
                   }
               },
               get(){
                   logger.debug('returning value');
-                  let is_ddo = function (obj){
-                      return obj.hasOwnProperty('__classType') && obj.__classType=='DDO';
-                  };
-                  let new_value = (is_ddo(instance['_' + instance.name]))?(instance['_' + instance.name]._value):( instance['_' + instance.name]);
-                  if (typeof instance.fget !== 'undefined' && typeof instance.fget == 'function'){
-                      instance.fget.call(instance,new_value);
+                  var is_ddo = function (v){
+                    if (typeof v == 'object' && v.hasOwnProperty('value')){
+                      return v.value;
+                    }
+                    return v;
                   }
-                  return new_value;
+                  return fget(is_ddo(_value));
               }
           });
-      },
+      }
 
   });
 
