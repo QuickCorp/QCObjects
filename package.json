@@ -18,7 +18,25 @@
     "javascript",
     "pure",
     "mvc",
-    "objects"
+    "objects",
+    "microfrontend",
+    "micro-frontend",
+    "architecture",
+    "components",
+    "pure",
+    "framework",
+    "javascript-framework",
+    "mvc-pattern",
+    "demo",
+    "html",
+    "first-timers-only",
+    "microfrontends",
+    "microservices",
+    "microfrontend",
+    "component-architecture"
+    "cli",
+    "tool",
+    "nodejs"
   ],
   "author": "Jean Machuca <correojean@gmail.com>",
   "bugs": {
