@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width,maximum-scale=2">
 
 <!-- Begin Jekyll SEO tag v2.5.0 -->
+<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=5'>
 <title>QCObjects | Cross Browser Javascript Framework for MVC Patterns</title>
 <meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="QCObjects" />
@@ -23,6 +24,7 @@
 <script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
 <link rel="stylesheet" type="text/css" href="https://sdk.qcobjects.dev/css/basic-layout.css"/>
 <link rel="stylesheet" type="text/css" href="doc/css/index.css"/>
+<component name="pwa" controllerClass="PWAController"></component>
   </head>
 
   <body>
@@ -43,7 +45,9 @@
     </div>
 
     <!-- MAIN CONTENT -->
-    <component name="main" cached="false" template-source="none" componentClass="MarkdownComponent" effectClass="MainTransitionEffect"></component>
+    <component name="main" cached="false" template-source="none">
+      <component name="doc" cached="false" template-source="none"  componentClass="MarkdownComponent" effectClass="MainTransitionEffect"></component>
+    </component>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
