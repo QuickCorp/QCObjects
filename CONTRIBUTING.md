@@ -4,6 +4,8 @@
 
 The following is a set of guidelines for contributing to QCObjects, which is hosted in the [Quickcorp Organization](https://github.com/quickcorp) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
+Any contribution code, comment, issue and or request must be written in English.
+
 ## Table Of Contents
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
