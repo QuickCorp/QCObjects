@@ -538,7 +538,7 @@ form {
 }
 
 #project_title {
-  margin: 0;
+  margin: 0 auto;
   color: #fff;
   font-size: 42px;
   font-weight: 700;
@@ -709,6 +709,6 @@ form {
   }
 }
 
-component[name=doc]{
+component.doc{
   margin:5%;
 }
