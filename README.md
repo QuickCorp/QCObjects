@@ -13,6 +13,10 @@ Check out the official page of [QCObjects](https://qcobjects.dev) at https://qco
 
 This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to info@quickcorp.cl.
 
+**Contributors are welcome!**
+
+You can contribute to [QCObjects](https://qcobjects.dev) following the set of guidelines expressed in the file [CONTRIBUTING.md](CONTRIBUTING.md)
+
 
 _________________________
 # Table of Contents
