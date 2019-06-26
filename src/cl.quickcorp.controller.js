@@ -9,11 +9,17 @@ Package('cl.quickcorp.model',[
 			document.head.innerHTML+=this.component.body.innerHTML;
 			this.component.body.innerHTML="";
 		}
-	}),	
-	Class('MainController',Element,{
-		__new__:function (){
+	}),
+	Class('MarkdownController',Element,{
+		dependencies:[],
+		_new_:function (){
 			//TODO: Implement
-			console.log('MainController Element Initialized');
+			console.log('MarkdownController Element Initialized');
+		},
+		done: function (){
+			var controller = this;
+			controller.dependencies.push(New(SourceJS,{external:false,url:'doc/js/prism-okaidia.js',done:function(){}}));
+			controller.dependencies.push(New(SourceCSS,{external:false,url:'doc/css/prism-okaidia.css',done:function(){}}));
 		}
 	}),
 ]);

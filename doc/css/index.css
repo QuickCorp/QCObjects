@@ -1,4 +1,5 @@
 @import url("./theme.css");
+@import url("./snippet.css");
 @keyframes typing {
     from {
         width: 0%
