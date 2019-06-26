@@ -712,3 +712,7 @@ form {
 component.doc{
   margin:5%;
 }
+
+p img {
+  border-radius: 8px;
+}
