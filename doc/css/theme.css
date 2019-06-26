@@ -606,6 +606,9 @@ form {
 }
 
 #footer_wrap {
+  position: fixed;
+  bottom: 0;
+  height: 100px;
   background: #212121
 }
 
