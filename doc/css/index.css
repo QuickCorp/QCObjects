@@ -83,3 +83,8 @@ main {
     text-align: left !important;
     color: white !important;
 }
+
+code {
+  -webkit-user-select: text;                 /* prevent copy paste, to allow, change 'none' to 'text' */
+
+}
