@@ -279,26 +279,27 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   padding: 0;
   border: 0;
   font: inherit;
-  vertical-align: baseline
+  vertical-align: baseline;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-  display: block
+  display: block;
 }
 
 ol, ul {
-  list-style: none
+  list-style: none;
 }
 
 table {
   border-collapse: collapse;
-  border-spacing: 0
+  border-spacing: 0;
 }
 
 body {
   box-sizing: border-box;
+  background: white;
+  background-image: radial-gradient(#fcfcfc, #edeeef,#dee3de);
   color: #373737;
-  background: #212121;
   font-size: 16px;
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -551,6 +552,7 @@ form {
   font-size: 24px;
   font-weight: 300;
   background: none;
+  max-width: 260px;
   text-shadow: #111 0px 0px 10px;
 }
 
@@ -714,6 +716,7 @@ component.doc{
 }
 
 p img {
+  margin:0 auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
