@@ -1850,11 +1850,9 @@
 		}
     return _ret_;
 	};
-
 	Export(serviceLoader);
 	Export(componentLoader);
   Export(ComponentURI);
-
 
 	asyncLoad(function (){
 
@@ -2050,6 +2048,27 @@
     // not yet implemented.
   }
 
+  if (!isBrowser){
+
+      Class('BackendMicroservice',Object,{
+        _new_:function (o){
+          let microservice = this;
+          let request = microservice.request;
+          let stream = o.stream;
+          stream.on('data', (data) => {
+            // data from POST
+            if (request.method.toLowerCase()=='post'){
+              microservice.post(data);
+            }
+          });
+
+          stream.respond(o.headers);
+          stream.write(JSON.stringify(this.body));
+          stream.end();
+        }
+      });
+
+  }
 
 	Class('SourceJS',Object,{
 		domain:domain,
