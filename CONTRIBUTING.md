@@ -36,7 +36,7 @@ This project and everyone participating in it is governed by the [QCObjects Code
 
 ### Related Issues
 
-Before creating a new issue, please past issues [here](https://github.com/QuickCorp/QCObjects/issues)
+Before creating a new issue, please review past issues [here](https://github.com/QuickCorp/QCObjects/issues)
 
 ### Creating Issues
 
