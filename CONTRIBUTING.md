@@ -36,7 +36,7 @@ This project and everyone participating in it is governed by the [QCObjects Code
 
 ### Related Issues
 
-Please, before to create a new issue, read all the old issues [here](https://github.com/QuickCorp/QCObjects/issues)
+Before creating a new issue, please past issues [here](https://github.com/QuickCorp/QCObjects/issues)
 
 ### Creating Issues
 
@@ -53,7 +53,7 @@ If you've found a bug, please report it following the template for a [Bug Report
 
 #### Non related issue
 
-If you want to contribute with an non-listed issue you can do it [here](https://github.com/QuickCorp/QCObjects/issues/new?assignees=&labels=&template=custom.md&title=)
+If you want to contribute with a non-listed issue you can do it [here](https://github.com/QuickCorp/QCObjects/issues/new?assignees=&labels=&template=custom.md&title=)
 
 # Fork
 --------------
