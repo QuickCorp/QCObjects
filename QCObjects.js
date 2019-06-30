@@ -2241,6 +2241,13 @@
 
         if (timeFraction < 1) {
           requestAnimationFrame(animate);
+        } else {
+          // if this is an object with a done method
+          if (typeof this != 'undefined'
+            && this.hasOwnProperty('done')
+            && (typeof this.done).toLowerCase() == 'function'){
+            this.done.call(this);
+          }
         }
 
       });
