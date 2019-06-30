@@ -130,8 +130,10 @@ Here are the principals with QCObjects was made with:
 - Breakthrough backend microservices
 - The simplicity of a wonderful layout design
 - Fully usable tools
-- Components driven architecture
+- Objects & Components driven architecture
 - Frontend and backend together in a single developent environment
+- Recursive routing for components
+- Built-in nested components management
 
 # Cross Browser Javascript Framework for MVC Patterns
 ----------------------------------------
