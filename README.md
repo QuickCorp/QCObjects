@@ -26,6 +26,7 @@ _________________________
 - [QCObjects](#qcobjects)
 - [Table of Contents](#table-of-contents)
 - [Principals](#principals)
+- [Main features:](#main-features)
 - [Cross Browser Javascript Framework for MVC Patterns](#cross-browser-javascript-framework-for-mvc-patterns)
 - [Dynamic Components Architecture](#dynamic-components-architecture)
 - [ECMA-262 Specification](#ecma-262-specification)
@@ -122,6 +123,15 @@ Here are the principals with QCObjects was made with:
 23. You should be able to apply simultaneous visual effects and animations in an easy way to any DOM element instance.
 24. You should be able to control the visual effects and animations either from CSS or JavaScript without affecting the performance.
 25. You should be able to control the behaviour of your code Into-the-box and out-of-the-box and survive doing it.
+
+# Main features:
+
+- Revolutionary UI Effects
+- Breakthrough backend microservices
+- The simplicity of a wonderful layout design
+- Fully usable tools
+- Components driven architecture
+- Frontend and backend together in a single developent environment
 
 # Cross Browser Javascript Framework for MVC Patterns
 ----------------------------------------
