@@ -134,6 +134,7 @@ Here are the principals with QCObjects was made with:
 - Frontend and backend together in a single developent environment
 - Recursive routing for components
 - Built-in nested components management
+- Fully integrated MVC pattern (Model, View, Controller)
 
 # Cross Browser Javascript Framework for MVC Patterns
 ----------------------------------------
