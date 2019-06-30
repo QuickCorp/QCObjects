@@ -135,6 +135,7 @@ Here are the principals with QCObjects was made with:
 - Recursive routing for components
 - Built-in nested components management
 - Fully integrated MVC pattern (Model, View, Controller)
+- Dynamic Data Objects
 
 # Cross Browser Javascript Framework for MVC Patterns
 ----------------------------------------
