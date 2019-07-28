@@ -39,7 +39,6 @@ self.addEventListener('install', e => {
 	"README.md",
 	"README.pdf",
 	"README.rst",
-	"_config.yml",
 	"config-example.json",
 	"doc/README.rst",
 	"doc/css/index.css",
