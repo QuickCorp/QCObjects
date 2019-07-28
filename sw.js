@@ -31,9 +31,6 @@ self.addEventListener('install', e => {
     caches.open(cacheName).then(cache => {
       return cache.addAll([
 	"/",
-	".dockerignore",
-	".project",
-	"CNAME",
 	"CODE_OF_CONDUCT.md",
 	"CONTRIBUTING.md",
 	"Dockerfile",
