@@ -86,4 +86,4 @@ If you like this code please [DONATE](https://www.paypal.com/cgi-bin/webscr?cmd=
 # Become a Patreon
 --------------
 
-[Become a Patreon](https://www.patreon.com/qcobjects)
+[![Become a Patreon ](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/join/qcobjects?)
