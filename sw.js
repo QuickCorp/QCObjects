@@ -88,8 +88,7 @@ self.addEventListener('install', e => {
 	"doc/templates/components/page1.html",
 	"doc/templates/components/page2.html",
 	"doc/templates/components/pwa.tpl.html",
-	"doc/templates/components/snippet.tpl.html",
-	"doc/templatesample.html"])
+	"doc/templates/components/snippet.tpl.html"])
           .then(() => self.skipWaiting());
     })
   );
