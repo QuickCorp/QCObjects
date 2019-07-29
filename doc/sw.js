@@ -78,18 +78,18 @@ self.addEventListener('install', e => {
 	"qcobjects_01.png",
 	"spec/support/jasmine.json",
 	"spec/testsSpec.js",
-	"src/cl.quickcorp.components.js",
-	"src/cl.quickcorp.controller.js",
-	"src/cl.quickcorp.effects.js",
-	"src/cl.quickcorp.js",
-	"src/cl.quickcorp.model.js",
-	"src/cl.quickcorp.tools.js",
-	"src/cl.quickcorp.view.js",
-	"templates/components/page1.html",
-	"templates/components/page2.html",
-	"templates/components/pwa.tpl.html",
-	"templates/components/snippet.tpl.html",
-	"templatesample.html"])
+	"doc/js/cl.quickcorp.components.js",
+	"doc/js/cl.quickcorp.controller.js",
+	"doc/js/cl.quickcorp.effects.js",
+	"doc/js/cl.quickcorp.js",
+	"doc/js/cl.quickcorp.model.js",
+	"doc/js/cl.quickcorp.tools.js",
+	"doc/js/cl.quickcorp.view.js",
+	"doc/templates/components/page1.html",
+	"doc/templates/components/page2.html",
+	"doc/templates/components/pwa.tpl.html",
+	"doc/templates/components/snippet.tpl.html",
+	"doc/templatesample.html"])
           .then(() => self.skipWaiting());
     })
   );
