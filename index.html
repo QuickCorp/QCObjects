@@ -54,7 +54,7 @@
 
     <!-- MAIN CONTENT -->
     <component name="main" cached="false" template-source="none">
-      <component name="../../README" class="doc" cached="false" tplextension="md" controllerClass="MarkdownController"  componentClass="MarkdownComponent" effectClass="MainTransitionEffect"></component>
+      <component name="../../../README" class="doc" cached="false" tplextension="md" controllerClass="MarkdownController"  componentClass="MarkdownComponent" effectClass="MainTransitionEffect"></component>
     </component>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
@@ -72,8 +72,8 @@
   Component.cached=false;
 
 
-  CONFIG.set('relativeImportPath', 'src/');
-  CONFIG.set('componentsBasePath', 'templates/components/');
+  CONFIG.set('relativeImportPath', 'doc/js/');
+  CONFIG.set('componentsBasePath', 'doc/templates/components/');
   CONFIG.set('delayForReady', 1); // delay to wait before executing the first ready event, it includes imports
   CONFIG.set('preserveComponentBodyTag', false); // don't use <componentBody></componentBody> tag
   CONFIG.set('useConfigService', false); // Load settings from config.json
@@ -82,7 +82,7 @@
   CONFIG.set('useLocalSDK',false);
   CONFIG.set('asynchronousImportsLoad',true);
   CONFIG.set('tplextension','tpl.html');
-  CONFIG.set('serviceWorkerURI','/sw.js');
+  CONFIG.set('serviceWorkerURI','/doc/sw.js');
 
   Import ('cl.quickcorp');
 
