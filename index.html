@@ -54,7 +54,14 @@
 
     <!-- MAIN CONTENT -->
     <component name="main" cached="false" template-source="none">
-      <component name="../../../README" class="doc" cached="false" tplextension="md" controllerClass="MarkdownController"  componentClass="MarkdownComponent" effectClass="MainTransitionEffect"></component>
+      <component name="../../../README" class="doc" cached="false" tplextension="md" controllerClass="MarkdownController"  componentClass="MarkdownComponent" effectClass="MainTransitionEffect">
+        <routing path="" name="../../../README"></routing>
+        <routing path="#" name="../../../README"></routing>
+        <routing path="contributing.md" name="../../../CONTRIBUTING"></routing>
+        <routing path="CONTRIBUTING.md" name="../../../CONTRIBUTING"></routing>
+        <routing path="CODE_OF_CONDUCT.md" name="../../../CODE_OF_CONDUCT"></routing>
+        <routing path="code_of_conduct.md" name="../../../CODE_OF_CONDUCT"></routing>
+      </component>
     </component>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
