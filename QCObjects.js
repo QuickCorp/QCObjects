@@ -2057,6 +2057,7 @@
           let microservice = this;
           let request = microservice.request;
           let stream = o.stream;
+          microservice.stream = stream;
           stream.on('data', (data) => {
             // data from POST, GET
             var requestMethod = request.method.toLowerCase();
@@ -2077,11 +2078,10 @@
 
           stream.respond(o.headers);
           if (this.body != null){
-            this.finishWithBody();
+            microservice.finishWithBody.call(microservice,stream);
           }
         },
-        finishWithBody:function (){
-          stream = this.stream;
+        finishWithBody:function (stream){
           try {
             stream.write(JSON.stringify(this.body));
             stream.end();
