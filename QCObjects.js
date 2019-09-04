@@ -2056,16 +2056,37 @@
           let request = microservice.request;
           let stream = o.stream;
           stream.on('data', (data) => {
-            // data from POST
-            if (request.method.toLowerCase()=='post'){
-              microservice.post(data);
+            // data from POST, GET
+            var requestMethod = request.method.toLowerCase();
+            var supportedMethods = {'post':microservice.post,
+                                    'get':microservice.get,
+                                    'head':microservice.head,
+                                    'put':microservice.put,
+                                    'delete':microservice.delete,
+                                    'connect':microservice.connect,
+                                    'options':microservice.options,
+                                    'trace':microservice.trace,
+                                    'patch':microservice.patch
+                                  };
+            if (supportedMethods.hasOwnProperty(requestMethod)) {
+              supportedMethods[requestMethod].call(microservice,data);
             }
           });
 
           stream.respond(o.headers);
           stream.write(JSON.stringify(this.body));
           stream.end();
-        }
+        },
+        get:function (formData){},
+        head:function (formData){},
+        post:function (formData){},
+        put:function (formData){},
+        delete:function (formData){},
+        connect:function (formData){},
+        options:function (formData){},
+        trace:function (formData){},
+        patch:function (formData){}
+
       });
 
   }
