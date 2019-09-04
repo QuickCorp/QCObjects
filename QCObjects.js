@@ -2051,6 +2051,8 @@
   if (!isBrowser){
 
       Class('BackendMicroservice',Object,{
+        stream:null,
+        request:null,
         _new_:function (o){
           let microservice = this;
           let request = microservice.request;
@@ -2074,6 +2076,12 @@
           });
 
           stream.respond(o.headers);
+          if (this.body != null){
+            this.finishWithBody();
+          }
+        },
+        finishWithBody:function (){
+          stream = this.stream;
           stream.write(JSON.stringify(this.body));
           stream.end();
         },
