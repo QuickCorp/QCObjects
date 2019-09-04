@@ -2082,8 +2082,12 @@
         },
         finishWithBody:function (){
           stream = this.stream;
-          stream.write(JSON.stringify(this.body));
-          stream.end();
+          try {
+            stream.write(JSON.stringify(this.body));
+            stream.end();
+          } catch (e){
+            logger.debug('Something wrong writing the response for microservice'+e.toString());
+          }
         },
         get:function (formData){},
         head:function (formData){},
