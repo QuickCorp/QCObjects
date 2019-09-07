@@ -42,21 +42,42 @@
           <a id="forkme_banner" href="https://github.com/QuickCorp/QCObjects">View on GitHub</a>
           <!-- Place this tag where you want the button to render. -->
 
-          <h1 id="project_title">QCObjects</h1>
+          <h1 id="project_title"><a style="color:white" href="#">QCObjects</a></h1>
           <h2 id="project_tagline" class="typewriter-text">To code fancy, clean and quick</h2><br/>
+          <div style="display: inline-grid;grid-auto-flow: column;grid-column-gap: 20px;">
+            <a href="#essentials" style="color:white">Reference</a>
+            <a href="#CODE_OF_CONDUCT" style="color:white">Code Of Conduct</a>
+            <a href="#CONTRIBUTING" style="color:white">Contributing</a>
+          </div>
           <div style="display: inline-grid;grid-auto-flow: column;grid-column-gap: 20px;">
             <a class="github-button" href="https://github.com/Quickcorp/QCObjects" data-size="large" data-show-count="true" aria-label="Star Quickcorp/QCObjects on GitHub">Star</a>
             <a href="https://www.patreon.com/bePatron?u=21083697" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
           </div>
         </header>
     </div>
-    <a href="https://www.producthunt.com/posts/qcobjects?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-qcobjects" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=167109&theme=dark" alt="QCObjects - To code fancy, clean and quick | Product Hunt Embed" style="width: 250px; height: 54px;" width="250px" height="54px" /></a>
-    <component name="thanksvideo" effectclass="MainTransitionEffect" ></component>
+
+    <component name="thanksvideo" effectclass="MainTransitionEffect" >
+      <routing path="#CONTRIBUTING" name="blank"></routing>
+      <routing path="#contributing" name="blank"></routing>
+      <routing path="#CODE_OF_CONDUCT" name="blank"></routing>
+      <routing path="#code_of_conduct" name="blank"></routing>
+      <routing path="#essentials" name="blank"></routing>
+      <routing path="#" name="thanksvideo" ></routing>
+      <routing path="" name="thanksvideo" ></routing>
+    </component>
+    <a href="https://www.producthunt.com/posts/qcobjects?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-qcobjects" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=167109&theme=dark" alt="QCObjects - To code fancy, clean and quick | Product Hunt Embed" style="box-shadow: none;border:none;width: 250px; height: 54px;" width="250px" height="54px" /></a>
 
     <!-- MAIN CONTENT -->
-    <component name="main" cached="false" template-source="none">
-      <component name="../../../README" class="doc" cached="false" tplextension="md" controllerClass="MarkdownController"  componentClass="MarkdownComponent" effectClass="MainTransitionEffect"></component>
-    </component>
+    <main>
+      <component name="../../../README" class="doc" cached="false" tplextension="md" controllerClass="MarkdownController"  componentClass="MarkdownComponent" effectClass="MainTransitionEffect">
+        <routing path="#CONTRIBUTING" name="../../../CONTRIBUTING"></routing>
+        <routing path="#contributing" name="../../../CONTRIBUTING"></routing>
+        <routing path="#CODE_OF_CONDUCT" name="../../../CODE_OF_CONDUCT"></routing>
+        <routing path="#code_of_conduct" name="../../../CODE_OF_CONDUCT"></routing>
+        <routing path="#" name="../../../README" ></routing>
+        <routing path="" name="../../../README" ></routing>
+      </component>
+    </main>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
@@ -86,6 +107,14 @@
   CONFIG.set('serviceWorkerURI','/sw.js');
 
   Import ('cl.quickcorp');
+  Ready(function() {
+      window.onpopstate = function (event) {
+          event.stopImmediatePropagation();
+          event.stopPropagation();
+          Component.route();
+      }
+
+  });
 
 </script>
 
