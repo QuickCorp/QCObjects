@@ -59,7 +59,7 @@ echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >> /home/qcobject
 echo "prefix=\${HOME}/.npm-packages"  >> /home/qcobjects/.npmrc
 mkdir -p /home/qcobjects/projects && chown -R qcobjects:qcobjects /home/qcobjects/projects
 npm completion >> /home/qcobjects/.bashrc
-su - qcobjects && npm install -g qcobjects-cli --only=production 
+su - qcobjects && npm install -g qcobjects-cli --only=production
 clear
 echo "Welcome to... "
 echo ""
