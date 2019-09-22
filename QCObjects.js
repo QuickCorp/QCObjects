@@ -916,6 +916,10 @@
 		},
 		_CONFIG_ENC:_Crypt.encrypt(JSON.stringify({}),_secretKey),
 		set:function (name,value){
+      // hack to force update basePath from CONFIG
+      if (name=='basePath'){
+        basePath = value;
+      }
 			var _conf = (
 	 		 function (config){
 				var _protectedEnc = config._CONFIG_ENC.valueOf();
@@ -2051,6 +2055,8 @@
   if (!isBrowser){
 
       Class('BackendMicroservice',Object,{
+        domain:domain,
+        basePath:basePath,
         stream:null,
         request:null,
         _new_:function (o){
