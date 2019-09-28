@@ -56,12 +56,14 @@ echo "export PATH=\"\$NPM_PACKAGES/bin:\$PATH\"" >> /home/qcobjects/.bashrc
 echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >> /home/qcobjects/.bashrc
 echo "prefix=\${HOME}/.npm-packages"  >> /home/qcobjects/.npmrc
 mkdir -p /home/qcobjects/projects && chown -R qcobjects:qcobjects /home/qcobjects/projects
+mkdir -p /home/qcobjects/projects/mynewapp && chown -R qcobjects:qcobjects /home/qcobjects/projects/mynewapp
 npm completion >> /home/qcobjects/.bashrc
 sudo su -c "npm install -g qcobjects-cli" qcobjects
 sudo su -c "npm install -g qcobjects-sdk" qcobjects
 sudo su -c "apt-get -y install --reinstall systemd" root
 sudo su -c "wget -qO /etc/qcobjects/config.json https://qcobjects.dev/bin/install/ubuntu18/etc/qcobjects/config.json.template" root
 sudo su -c "wget -qO /etc/systemd/system/qcobjects.service https://qcobjects.dev/bin/install/ubuntu18/etc/systemd/system/qcobjects.service" root
+sudo su -c "cd /etc/qcobjects/ && qcobjects-createcert" root
 sudo su -c "systemctl daemon-reload" root
 sudo su -c "systemctl enable qcobjects" root
 clear
