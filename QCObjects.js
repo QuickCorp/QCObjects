@@ -1114,7 +1114,7 @@
         effectClass = ClassFactory(effectClass);
       }
       this.map(function (element){
-        effectClass.apply.apply(effectClass,effectArguments);
+        effectClass.apply.apply(effectClass,element,effectArguments);
       });
     },
 		findElements:function (elementName){
