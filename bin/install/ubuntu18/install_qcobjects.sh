@@ -45,8 +45,8 @@ sudo apt-get update
 sudo apt-get -y update && sudo apt-get install yarn
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
-groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects
-usermod -a -G sudo qcobjects
+sudo su -c "groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects" root
+sudo su -c "usermod -a -G sudo qcobjects" root
 mkdir -p /home/qcobjects && chown -R qcobjects:qcobjects /home/qcobjects
 mkdir -p /etc/qcobjects && chown -R qcobjects:qcobjects /etc/qcobjects
 mkdir -p /etc/data && chown -R qcobjects:qcobjects /etc/data
@@ -58,12 +58,14 @@ echo "prefix=\${HOME}/.npm-packages"  >> /home/qcobjects/.npmrc
 mkdir -p /home/qcobjects/projects && chown -R qcobjects:qcobjects /home/qcobjects/projects
 mkdir -p /home/qcobjects/projects/mynewapp && chown -R qcobjects:qcobjects /home/qcobjects/projects/mynewapp
 npm completion >> /home/qcobjects/.bashrc
+sudo su -c "npm install -g npm" root
 sudo su -c "npm install -g qcobjects-cli" qcobjects
 sudo su -c "npm install -g qcobjects-sdk" qcobjects
 sudo su -c "apt-get -y install --reinstall systemd" root
 sudo su -c "wget -qO /etc/qcobjects/config.json https://qcobjects.dev/bin/install/ubuntu18/etc/qcobjects/config.json.template" root
 sudo su -c "wget -qO /etc/systemd/system/qcobjects.service https://qcobjects.dev/bin/install/ubuntu18/etc/systemd/system/qcobjects.service" root
 sudo su -c "cd /etc/qcobjects/ && qcobjects-createcert" root
+sudo su -c "cd /home/qcobjects/projects/mynewapp && qcobjects create --pwa mynewapp" root
 sudo su -c "systemctl daemon-reload" root
 sudo su -c "systemctl enable qcobjects" root
 clear
