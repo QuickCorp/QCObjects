@@ -42,8 +42,6 @@ sudo apt-get -y install software-properties-common
 sudo add-apt-repository -y universe
 sudo add-apt-repository -y ppa:certbot/certbot
 sudo apt-get update
-npm install -g qcobjects-sdk --only=production
-npm install -g qcobjects-cli --only=production
 sudo apt-get -y update && sudo apt-get install yarn
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
@@ -57,7 +55,7 @@ echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >> /home/qcobject
 echo "prefix=\${HOME}/.npm-packages"  >> /home/qcobjects/.npmrc
 mkdir -p /home/qcobjects/projects && chown -R qcobjects:qcobjects /home/qcobjects/projects
 npm completion >> /home/qcobjects/.bashrc
-sudo su -c "npm install -g qcobjects-cli --only=production" qcobjects
+sudo su -c "npm install -g qcobjects-cli && npm install -g qcobjects-sdk" qcobjects
 clear
 echo "Welcome to... "
 echo ""
