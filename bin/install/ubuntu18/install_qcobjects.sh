@@ -53,8 +53,8 @@ mkdir -p /home/qcobjects && chown -R qcobjects:qcobjects /home/qcobjects
 
 echo "NPM_PACKAGES=\"\${HOME}/.npm-packages\"" >> /home/qcobjects/.bashrc
 echo "export PATH=\"\$NPM_PACKAGES/bin:\$PATH\"" >> /home/qcobjects/.bashrc
-echo "\# Unset manpath so we can inherit from /etc/manpath via the `manpath` command" >> /home/qcobjects/.bashrc
-echo "unset MANPATH \# delete if you already modified MANPATH elsewhere in your config" >> /home/qcobjects/.bashrc
+echo "# Unset manpath so we can inherit from /etc/manpath via the `manpath` command" >> /home/qcobjects/.bashrc
+echo "unset MANPATH # delete if you already modified MANPATH elsewhere in your config" >> /home/qcobjects/.bashrc
 echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >> /home/qcobjects/.bashrc
 echo "prefix=\${HOME}/.npm-packages"  >> /home/qcobjects/.npmrc
 mkdir -p /home/qcobjects/projects && chown -R qcobjects:qcobjects /home/qcobjects/projects
