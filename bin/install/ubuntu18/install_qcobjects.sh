@@ -57,11 +57,13 @@ echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >> /home/qcobject
 echo "prefix=\${HOME}/.npm-packages"  >> /home/qcobjects/.npmrc
 mkdir -p /home/qcobjects/projects && chown -R qcobjects:qcobjects /home/qcobjects/projects
 npm completion >> /home/qcobjects/.bashrc
-sudo su -c "npm install -g qcobjects-cli && npm install -g qcobjects-sdk" qcobjects
-sudo su -c "apt-get install systemctl" root
+sudo su -c "npm install -g qcobjects-cli" qcobjects
+sudo su -c "npm install -g qcobjects-sdk" qcobjects
+sudo su -c "apt-get -y install --reinstall systemd" root
 sudo su -c "wget -qO /etc/qcobjects/config.json https://qcobjects.dev/bin/install/ubuntu18/etc/qcobjects/config.json.template" root
 sudo su -c "wget -qO /etc/systemd/system/qcobjects.service https://qcobjects.dev/bin/install/ubuntu18/etc/systemd/system/qcobjects.service" root
-sudo su -c "systemctl daemon-reload && systemctl enable qcobjects" qcobjects
+sudo su -c "systemctl daemon-reload" root
+sudo su -c "systemctl enable qcobjects" root
 clear
 echo "Welcome to... "
 echo ""
