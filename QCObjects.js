@@ -1108,7 +1108,7 @@
       });
     },
     effect:function (){
-      var effectArguments = arguments;
+      var effectArguments = arguments.slice(1);
       var effectClass = arguments[0];
       if ((typeof effectClass).toLowerCase() =='string'){
         effectClass = ClassFactory(effectClass);
