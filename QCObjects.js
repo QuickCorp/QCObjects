@@ -1097,6 +1097,26 @@
   }
 
 	Class('TagElements',Array,{
+    show:function (){
+      this.map(function (element){
+        element.style.display='block';
+      });
+    },
+    hide:function (){
+      this.map(function (element){
+        element.style.display='none';
+      });
+    },
+    effect:function (){
+      var effectArguments = arguments;
+      var effectClass = arguments[0];
+      if ((typeof effectClass).toLowerCase() =='string'){
+        effectClass = ClassFactory(effectClass);
+      }
+      this.map(function (element){
+        effectClass.apply.apply(effectClass,effectArguments);
+      });
+    },
 		findElements:function (elementName){
       var _o = New(TagElements);
       if (isBrowser){
