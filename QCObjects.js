@@ -1099,12 +1099,12 @@
 	Class('TagElements',Array,{
     show:function (){
       this.map(function (element){
-        element.style.display='block';
+        element.style.opacity=1;
       });
     },
     hide:function (){
       this.map(function (element){
-        element.style.display='none';
+        element.style.opacity=0;
       });
     },
     effect:function (){
