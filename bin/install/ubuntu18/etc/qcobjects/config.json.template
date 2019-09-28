@@ -1,0 +1,19 @@
+{
+  "documentRoot":"/home/qcobjects/projects/mynewapp/",
+  "relativeImportPath":"js/packages/",
+  "basePath":"/home/qcobjects/projects/mynewapp/",
+  "projectPath":"/home/qcobjects/projects/mynewapp/",
+  "domain":"mynewapp.qcobjects.com",
+  "dataPath":"/etc/qcobjects/data/",
+  "private-cert-pem":"/etc/letsencrypt/live/mynewapp.qcobjects.com/fullchain.pem",
+  "private-key-pem":"/etc/letsencrypt/live/mynewapp.qcobjects.com/privkey.pem",
+  "backend":{
+    "routes":[
+      {
+        "path":"/createaccount",
+        "microservice":"org.quickcorp.backend.signup",
+        "responseHeaders":{}
+      }
+    ]
+  }
+}

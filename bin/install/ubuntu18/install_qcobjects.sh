@@ -48,6 +48,8 @@ sudo apt-get install -y nodejs
 groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects
 usermod -a -G sudo qcobjects
 mkdir -p /home/qcobjects && chown -R qcobjects:qcobjects /home/qcobjects
+mkdir -p /etc/qcobjects && chown -R qcobjects:qcobjects /etc/qcobjects
+mkdir -p /etc/data && chown -R qcobjects:qcobjects /etc/data
 
 echo "NPM_PACKAGES=\"\${HOME}/.npm-packages\"" >> /home/qcobjects/.bashrc
 echo "export PATH=\"\$NPM_PACKAGES/bin:\$PATH\"" >> /home/qcobjects/.bashrc
@@ -56,6 +58,9 @@ echo "prefix=\${HOME}/.npm-packages"  >> /home/qcobjects/.npmrc
 mkdir -p /home/qcobjects/projects && chown -R qcobjects:qcobjects /home/qcobjects/projects
 npm completion >> /home/qcobjects/.bashrc
 sudo su -c "npm install -g qcobjects-cli && npm install -g qcobjects-sdk" qcobjects
+wget -qO /etc/qcobjects/config.json https://qcobjects.dev/bin/install/ubuntu18/etc/qcobjects/config.json.template
+wget -qO /etc/systemd/system/qcobjects.service https://qcobjects.dev/bin/install/ubuntu18/etc/systemd/system/qcobjects.service
+sudo su -c "systemctl daemon-reload && systemctl enable qcobjects"
 clear
 echo "Welcome to... "
 echo ""
