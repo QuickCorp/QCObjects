@@ -46,6 +46,7 @@ _________________________
 	- [Using QCObjects in Visual Studio Code:](#using-qcobjects-in-visual-studio-code)
 	- [Installing with NPM:](#installing-with-npm)
 	- [Installing the docker playground:](#installing-the-docker-playground)
+	- [One-Step Installation Script for Ubuntu 18.x](#one-step-installation-script-for-ubuntu-18x)
 	- [Using the development version code in the straight way into HTML5:](#using-the-development-version-code-in-the-straight-way-into-html5)
 	- [Using the CDN minified version code from jsDelivr CDN](#using-the-cdn-minified-version-code-from-jsdelivr-cdn)
 - [Reference](#reference)
