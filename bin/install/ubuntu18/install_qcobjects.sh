@@ -72,6 +72,7 @@ sudo su -c "cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-
 sudo su -c "cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save && qcobjects create --pwa mynewapp" root
 sudo su -c "systemctl daemon-reload" root
 sudo su -c "systemctl enable qcobjects" root
+sudo su -c "systemctl start qcobjects" root
 clear
 echo "Welcome to... "
 echo ""
@@ -95,4 +96,15 @@ echo "> qcobjects create mynewapp --pwa"
 echo ""
 echo "To create an accelerated mobile page type: "
 echo "> qcobjects create mynewapp --pwa"
+echo ""
+echo "The QCObjects HTTP2 Server Settings file is in: "
+echo "/etc/qcobjects/config.json"
+echo ""
+echo "To check the status of the service:"
+echo "> service qcobjects status"
+echo ""
+echo "To start|stop|prestart the service:"
+echo "> service qcobjects start"
+echo "> service qcobjects stop"
+echo "> service qcobjects restart"
 echo ""
