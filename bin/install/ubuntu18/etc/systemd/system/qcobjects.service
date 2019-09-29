@@ -4,8 +4,8 @@ After=network.target auditd.service
 
 [Service]
 WorkingDirectory=/etc/qcobjects
-ExecStart=/root/.nvm/versions/node/v12.9.1/bin/node /root/.nvm/versions/node/v12.9.1/lib/node_modules/qcobjects-cli/qcobjects-http2-server.js &
-ExecReload=/root/.nvm/versions/node/v12.9.1/bin/node /root/.nvm/versions/node/v12.9.1/lib/node_modules/qcobjects-cli/qcobjects-http2-server.js &
+ExecStart=/usr/bin/qcobjects-server &
+ExecReload=/usr/bin/qcobjects-server &
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure
