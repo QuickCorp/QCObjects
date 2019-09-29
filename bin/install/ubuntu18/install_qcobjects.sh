@@ -41,9 +41,11 @@ echo ""
 sudo apt-get -y install software-properties-common
 sudo add-apt-repository -y universe
 sudo add-apt-repository -y ppa:certbot/certbot
+sudo apt-get -y install certbot
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get -y update && sudo apt-get install yarn
 sudo apt-get install -y nodejs
+sudo apt-get -y upgrade
 sudo su -c "groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects" root
 sudo su -c "usermod -a -G sudo qcobjects" root
 mkdir -p /home/qcobjects && chown -R qcobjects:qcobjects /home/qcobjects
