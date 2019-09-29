@@ -1269,18 +1269,18 @@ QCObjects was designed to work into a professional environment. There are many w
 
 The benefits of a Multitier or N-Tier architecture are scalability and reliability of the systems that are demanding higger impact and performance. To go deep into this concepts would unnecessary enlarge this reference document but you can read more about this concepts in the following external links (only for reference and study):
 
-- [Miltitier Architecture] (https://en.m.wikipedia.org/wiki/Multitier_architecture)
-- [3 Tier Architecture] (http://www.tonymarston.net/php-mysql/3-tier-architecture.html)
-- [Milti Tier Application] (https://www.techopedia.com/definition/23599/multi-tier-application)
-- [N Tier Architecture System Concepts and Tips] (https://www.guru99.com/n-tier-architecture-system-concepts-tips.html)
+- [Miltitier Architecture](https://en.m.wikipedia.org/wiki/Multitier_architecture)
+- [3 Tier Architecture](http://www.tonymarston.net/php-mysql/3-tier-architecture.html)
+- [Milti Tier Application](https://www.techopedia.com/definition/23599/multi-tier-application)
+- [N Tier Architecture System Concepts and Tips](https://www.guru99.com/n-tier-architecture-system-concepts-tips.html)
 
 
 ### Micro-services Principals
 
 The main goal of a microservice is that you can compact a fragment of backend functionality in a piece of code that can be called remotely from another backend or frontend terminal. Basically you can split a high level backend service into a multiple small micro-services that can complete the task. There are thousands of good examples of this kind of pattern adoption. You can read more about this concept in the following external links (only for reference and study):
 
-- [Microservice Patterns] (https://microservices.io)
-- [Microservices on Wikipedia] (https://en.wikipedia.org/wiki/Microservices)
+- [Microservice Patterns](https://microservices.io)
+- [Microservices on Wikipedia](https://en.wikipedia.org/wiki/Microservices)
 
 With QCObjects you can code your microservices in a way more fancy, clean and quick.
 
@@ -1368,7 +1368,7 @@ Package('cl.quickcorp.backend.signup',[
 
 ```
 
-The above microservice is saving a file with the data received from a post request, and answering a jsonrpc 2.0 standard output. Read more about JSON RPC 2.0 Specification [here] (https://www.jsonrpc.org/specification)
+The above microservice is saving a file with the data received from a post request, and answering a jsonrpc 2.0 standard output. Read more about JSON RPC 2.0 Specification [here](https://www.jsonrpc.org/specification)
 
 QCObjects HTTP2 Built-In Server will make a call to the post() method of the Microservice class definition only when a post request is made to the right path defined into the config.json referencing the name of the package as the initial indexing point of reference.
 
