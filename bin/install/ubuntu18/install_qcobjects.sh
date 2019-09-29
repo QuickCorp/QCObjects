@@ -64,6 +64,7 @@ sudo su -c "npm install -g qcobjects-sdk && npm install -g qcobjects-cli" root
 sudo su -c "apt-get -y install --reinstall systemd" root
 sudo su -c "wget -qO /etc/qcobjects/config.json https://qcobjects.dev/bin/install/ubuntu18/etc/qcobjects/config.json.template" root
 sudo su -c "wget -qO /etc/systemd/system/qcobjects.service https://qcobjects.dev/bin/install/ubuntu18/etc/systemd/system/qcobjects.service" root
+sudo mkdir -p /etc/letsencrypt/live/
 sudo mkdir -p /etc/letsencrypt/live/mynewapp.qcobjects.com/
 sudo su -c "cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-createcert" root
 sudo su -c "cd /home/qcobjects/projects/mynewapp && qcobjects create --pwa mynewapp" root
