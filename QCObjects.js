@@ -172,16 +172,14 @@
 
    var domain = (
      function (){
-       return (typeof document != 'undefined' && document.domain != '') ? (document.domain): ('localhost');
+       return domain;
      }
    )();
 
    var _secretKey = (
 		 function (){
 			 var __secretKey = _top[(![]+[])[((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+(typeof [])[((+!+[])+(+!+[]))*((+!+[])+(+!+[]))]+(![]+[])[(+!+[])]+(!![]+[])[(+[])]+([]+[]+[][[]])[(+[+!+[]+[+[]]])/((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+([]+[]+[][[]])[(+!+[])] ]['h'+(typeof ![])[(+!+[])]+(![]+[])[(+!+[]+((+!+[])+(+!+[])))]+(!![]+[])[(+[])]].toLowerCase();
-       if (__secretKey == ''){
-         __secretKey = 'secret';
-       }
+       __secretKey = 'localhost';
 			 return __secretKey;
 		 }
 	 )();
@@ -1898,7 +1896,8 @@
               _promise = new Promise(function (resolve,reject){
                 if(('serviceWorker' in navigator)
                     && (typeof CONFIG.get('serviceWorkerURI') != 'undefined')) {
-                  navigator.serviceWorker.register(CONFIG.get('serviceWorkerURI'), { scope: '/' })
+                      CONFIG.set('serviceWorkerScope',CONFIG.get('serviceWorkerScope')?(CONFIG.get('serviceWorkerScope')):('/') );
+                  navigator.serviceWorker.register(CONFIG.get('serviceWorkerURI'), { scope: CONFIG.get('serviceWorkerScope') })
                     .then(function(registration) {
                           logger.debug('Service Worker Registered');
                           resolve.call(_promise,registration);
