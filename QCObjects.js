@@ -172,7 +172,7 @@
 
    var domain = (
      function (){
-       return (typeof document != 'undefined') ? (document.domain): ('localhost');
+       return (typeof document != 'undefined' && document.domain != '') ? (document.domain): ('localhost');
      }
    )();
 
