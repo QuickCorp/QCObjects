@@ -71,7 +71,8 @@ sudo mkdir -p /etc/letsencrypt/live/mynewapp.qcobjects.com/
 sudo chmod 775 /etc/letsencrypt/live/
 sudo chmod 777 /etc/letsencrypt/live/mynewapp.qcobjects.com/
 sudo su -c "cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-createcert" root
-sudo su -c "cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save && qcobjects create --pwa mynewapp" root
+sudo su -c "cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save" root
+sudo su -c "cd /home/qcobjects/projects/mynewapp && qcobjects create --pwa mynewapp" qcobjects
 sudo su -c "systemctl daemon-reload" root
 sudo su -c "systemctl enable qcobjects" root
 sudo su -c "systemctl start qcobjects" root
