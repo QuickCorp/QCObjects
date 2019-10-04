@@ -61,7 +61,8 @@ mkdir -p /home/qcobjects/projects && chown -R qcobjects:qcobjects /home/qcobject
 mkdir -p /home/qcobjects/projects/mynewapp && chown -R qcobjects:qcobjects /home/qcobjects/projects/mynewapp
 npm completion >> /home/qcobjects/.bashrc
 sudo su -c "npm install -g npm" root
-sudo su -c "npm install -g qcobjects-sdk && npm install -g qcobjects-cli" root
+sudo su -c "npm install -g qcobjects-sdk" root
+sudo su -c "npm install -g qcobjects-cli" root
 sudo su -c "apt-get -y install --reinstall systemd" root
 sudo su -c "wget -qO /etc/qcobjects/config.json https://qcobjects.dev/bin/install/ubuntu18/etc/qcobjects/config.json.template" root
 sudo su -c "wget -qO /etc/systemd/system/qcobjects.service https://qcobjects.dev/bin/install/ubuntu18/etc/systemd/system/qcobjects.service" root
