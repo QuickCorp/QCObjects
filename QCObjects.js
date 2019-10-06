@@ -1872,41 +1872,50 @@
         function (resolve,reject){
           var serviceURL = new URL(service.url);
 
-          if (service.hasOwnProperty('useHTTP2') && service.useHTTP2){
-            var http2 = require('http2');
-            var client = http2.connect(serviceURL.origin);
-            var req = client.request({ ':method': service.method, ':path': serviceURL.pathname });
-          } else {
-            var request = require("request");
-            var req = request[service.method](service.url);
+          try {
+            if (service.hasOwnProperty('useHTTP2') && service.useHTTP2){
+              var http2 = require('http2');
+              var client = http2.connect(serviceURL.origin);
+              var req = client.request({ ':method': service.method, ':path': serviceURL.pathname });
+            } else {
+              var request = require("request");
+              var req = request[service.method.toLowerCase()](service.url);
+            }
+
+            logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
+            var dataXML;
+            var standardResponse = {
+              'http2Client':client,
+              'request': req,
+              'service': service,
+              'responseHeaders':null
+            };
+            req.on('response', (responseHeaders) => {
+              standardResponse.responseHeaders = responseHeaders;
+              dataXML = '';
+            });
+            req.on('data', (chunk) => {
+              // do something with the data
+              dataXML += chunk.toString();
+            });
+            req.on('end', () => {
+              service.template = dataXML;
+              client.destroy();
+              service.done.call(service, standardResponse);
+              resolve.call(_promise,standardResponse);
+            });
+
+            
+          } catch (e){
+            service.fail.call(service, e);
+            reject.call(_promise,e);
+
           }
-
-          logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
-          var dataXML;
-          var standardResponse = {
-            'http2Client':client,
-            'request': req,
-            'service': service,
-            'responseHeaders':null
-          };
-          req.on('response', (responseHeaders) => {
-            standardResponse.responseHeaders = responseHeaders;
-            dataXML = '';
-          });
-          req.on('data', (chunk) => {
-            // do something with the data
-            dataXML += chunk.toString();
-          });
-          req.on('end', () => {
-            service.template = dataXML;
-            client.destroy();
-            service.done.call(service, standardResponse);
-            resolve.call(_promise,standardResponse);
-          });
-
       }).catch (function (e){
         console.log(e);
         logger.debug('Something happened when trying to call the service: '+service.name);
+        service.fail.call(service, e);
+        reject.call(_promise,e);
       });
       return _promise;
 
