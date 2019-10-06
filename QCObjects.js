@@ -1872,9 +1872,15 @@
         function (resolve,reject){
           var serviceURL = new URL(service.url);
 
-          var http2 = require('http2');
-          var client = http2.connect(serviceURL.origin);
-          var req = client.request({ ':method': service.method, ':path': serviceURL.pathname });
+          if (service.hasOwnProperty('useHTTP2') && service.useHTTP2){
+            var http2 = require('http2');
+            var client = http2.connect(serviceURL.origin);
+            var req = client.request({ ':method': service.method, ':path': serviceURL.pathname });
+          } else {
+            var request = require("request");
+            var req = request[service.method](service.url);
+          }
+
           logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
           var dataXML;
           var standardResponse = {
