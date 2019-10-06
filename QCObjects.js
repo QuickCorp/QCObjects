@@ -1782,7 +1782,7 @@
 	* @param service a Service object
 	*/
 	var serviceLoader = function(service, _async) {
-		var _serviceLoader = function(service, _async) {
+		var _serviceLoaderInBrowser = function(service, _async) {
       var _promise = new Promise(
         function (resolve,reject){
 
@@ -1867,12 +1867,55 @@
       return _promise;
 	  };
 
+    var _serviceLoaderInNode = function (service,_async){
+      var _promise = new Promise(
+        function (resolve,reject){
+          var serviceURL = new URL(service.url);
+
+          var http2 = require('http2');
+          var client = http2.connect(serviceURL.origin);
+          var req = client.request({ ':method': service.method, ':path': serviceURL.pathname });
+          logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
+          var dataXML;
+          var standardResponse = {
+            'http2Client':client,
+            'request': req,
+            'service': service,
+            'responseHeaders':null
+          };
+          req.on('response', (responseHeaders) => {
+            standardResponse.responseHeaders = responseHeaders;
+            dataXML = '';
+          });
+          req.on('data', (chunk) => {
+            // do something with the data
+            dataXML += chunk.toString();
+          });
+          req.on('end', () => {
+            service.template = dataXML;
+            client.destroy();
+            service.done.call(service, standardResponse);
+            resolve.call(_promise,standardResponse);
+          });
+
+      }).catch (function (e){
+        console.log(e);
+        logger.debug('Something happened when trying to call the service: '+service.name);
+      });
+      return _promise;
+
+    };
+
     var _ret_;
-		if (typeof _async != 'undefined' && _async){
-			_ret_ = asyncLoad(_serviceLoader, arguments);
-		} else {
-			_ret_ = _serviceLoader(service,_async);
-		}
+    if (isBrowser){
+      if (typeof _async != 'undefined' && _async){
+  			_ret_ = asyncLoad(_serviceLoaderInBrowser, arguments);
+  		} else {
+  			_ret_ = _serviceLoaderInBrowser(service,_async);
+  		}
+    } else {
+      _ret_ = _serviceLoaderInNode(service,_async);
+    }
     return _ret_;
 	};
 	Export(serviceLoader);
