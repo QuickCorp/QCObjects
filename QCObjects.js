@@ -1900,12 +1900,16 @@
             });
             req.on('end', () => {
               service.template = dataXML;
-              client.destroy();
+              if (service.hasOwnProperty('useHTTP2') && service.useHTTP2){
+                client.destroy();
+              } else {
+                req.destroy();
+              }
               service.done.call(service, standardResponse);
               resolve.call(_promise,standardResponse);
             });
 
-            
+
           } catch (e){
             service.fail.call(service, e);
             reject.call(_promise,e);
