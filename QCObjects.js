@@ -1879,6 +1879,7 @@
               var req = client.request({ ':method': service.method, ':path': serviceURL.pathname });
             } else {
               var request = require("request");
+              var requestOptions = Object.assign({'url':service.url,headers:service.headers},service.options);
               var req = request[service.method.toLowerCase()](service.url);
             }
 
