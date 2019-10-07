@@ -1883,7 +1883,7 @@
               var req = request[service.method.toLowerCase()](service.url);
             }
 
-            logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
+            logger.debug('LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
             var dataXML;
             var standardResponse = {
               'http2Client':client,
