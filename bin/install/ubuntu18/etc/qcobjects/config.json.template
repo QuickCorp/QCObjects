@@ -3,10 +3,10 @@
   "relativeImportPath":"js/packages/",
   "basePath":"/home/qcobjects/projects/mynewapp/",
   "projectPath":"/home/qcobjects/projects/mynewapp/",
-  "domain":"mynewapp.qcobjects.com",
+  "domain":"0.0.0.0",
   "dataPath":"/etc/qcobjects/data/",
-  "private-cert-pem":"/etc/letsencrypt/live/mynewapp.qcobjects.com/fullchain.pem",
-  "private-key-pem":"/etc/letsencrypt/live/mynewapp.qcobjects.com/privkey.pem",
+  "private-cert-pem":"/home/qcobjects/projects/mynewapp/localhost-cert.pem",
+  "private-key-pem":"/home/qcobjects/projects/mynewapp/localhost-privkey.pem",
   "backend":{
     "routes":[
       {
