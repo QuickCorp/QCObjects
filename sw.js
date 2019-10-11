@@ -26,6 +26,7 @@
 const version = "0.0.1";
 const appName = "QCObjects";
 const cacheName = `qcobjects-app-${appName}-${version}`;
+caches.delete(cacheName);
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(cacheName).then(cache => {
