@@ -2218,7 +2218,7 @@
   				(function (s,url,context){
   					s.type='text/javascript';
   					s.src=url;
-  					s.crossOrigin = 'anonymous';
+  					s.crossOrigin = (context.hasOwnProperty('crossOrigin'))?(context.crossOrigin):('anonymous');
   					s.async=context.async;
   					s.onreadystatechange = function() {
   						if (this.readyState == 'complete') {
