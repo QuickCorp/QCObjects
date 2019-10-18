@@ -2405,7 +2405,7 @@
     }
   });
 
-  Class('Toggle',{
+  Class('Toggle',InheritClass,{
       _toggle:false,
       _inverse:true,
       _positive:null,
