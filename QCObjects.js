@@ -1291,34 +1291,50 @@
 		rebuild:function (){
       var _component = this;
       var _promise = new Promise(function (resolve,reject){
-  			if (typeof _component.get('tplsource') != 'undefined'
-            && _component.get('tplsource') == 'default'
-            && typeof _component.get('templateURI') !='undefined'
-            && _component.get('templateURI') != ""){
-          _component.set('url',_component.get('basePath')+_component.get('templateURI'));
-  				componentLoader(_component,false).then(
-            function (standardResponse){
-              resolve.call(_promise,standardResponse);
-            },function (standardResponse){
-              reject.call(_promise,standardResponse);
+        switch (true) {
+    			case (typeof _component.get('tplsource') != 'undefined'
+              && _component.get('tplsource') == 'default'
+              && typeof _component.get('templateURI') !='undefined'
+              && _component.get('templateURI') != ""):
+            _component.set('url',_component.get('basePath')+_component.get('templateURI'));
+    				componentLoader(_component,false).then(
+              function (standardResponse){
+                resolve.call(_promise,standardResponse);
+              },function (standardResponse){
+                reject.call(_promise,standardResponse);
+              });
+            break;
+          case (typeof _component.get('tplsource') != 'undefined'
+              && _component.get('tplsource') == "external"
+              && typeof _component.get('templateURI') !='undefined'
+              && _component.get('templateURI') != ""):
+            _component.set('url',_component.get('templateURI'));
+            componentLoader(_component,false).then(
+              function (standardResponse){
+                resolve.call(_promise,standardResponse);
+              },function (standardResponse){
+                reject.call(_promise,standardResponse);
+              });
+            break;
+    			case (typeof _component.get('tplsource') != 'undefined'
+            && _component.get('tplsource') == "none" ):
+            logger.debug('Component '+_component.name+' has specified template-source=none, so no template load was done');
+            var standardResponse = {
+              request:null,
+              component:_component
+            };
+            if (typeof _component.done === 'function') {
+              _component.done.call(_component, standardResponse);
+            }
+            resolve(_promise,standardResponse);
+            break;
+          default:
+            logger.debug('Component '+_component.name+' will not be rebuilt because no templateURI is present');
+            reject.call(_promise,{
+              request:null,
+              component:_component
             });
-  			} else if (typeof _component.get('tplsource') != 'undefined'
-          && _component.get('tplsource') == "none" ){
-          logger.debug('Component '+_component.name+' has specified template-source=none, so no template load was done');
-          var standardResponse = {
-            request:null,
-            component:_component
-          };
-          if (typeof _component.done === 'function') {
-            _component.done.call(_component, standardResponse);
-          }
-          resolve(_promise,standardResponse);
-        } else {
-          logger.debug('Component '+_component.name+' will not be rebuilt because no templateURI is present');
-          reject.call(_promise,{
-            request:null,
-            component:_component
-          });
+            break;
         }
       });
       return _promise;
