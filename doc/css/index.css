@@ -88,3 +88,17 @@ code {
   -webkit-user-select: text;                 /* prevent copy paste, to allow, change 'none' to 'text' */
 
 }
+
+
+:root {
+  --color-bg: #ffffff;
+}
+
+body {
+  background-color: var(--color-bg) !important;
+}
+
+[data-theme="dark"] {
+  --color-bg: #000000;
+  color:white !important;
+}
