@@ -679,6 +679,19 @@
 			};
       (_protected_code_)(definition['css']);
 		}
+    if (typeof definition != 'undefined' && !definition.hasOwnProperty('hierarchy')){
+      definition['hierarchy'] = function hierarchy(){
+        var __classType = function (o_c){
+          return (o_c.hasOwnProperty('__classType'))?(o_c.__classType):((o_c.hasOwnProperty('__definition'))?(o_c.__definition.__classType):(ObjectName(o_c)));
+        }
+        var __hierarchy=[];
+        __hierarchy.push(__classType(this));
+        if (this.hasOwnProperty('__definition')){
+          __hierarchy=__hierarchy.concat(this.__definition.hierarchy.call(this.__definition));
+        }
+        return __hierarchy;
+      }
+    }
 
 		if (typeof definition != 'undefined' && !definition.hasOwnProperty('append')){
 			definition['append'] = function QC_Append(){
