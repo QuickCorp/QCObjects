@@ -36,7 +36,18 @@
     "component-architecture",
     "cli",
     "tool",
-    "nodejs"
+    "nodejs",
+    "cloud",
+    "multicloud",
+    "multi-cloud",
+    "aws",
+    "server",
+    "digitalocean",
+    "hosting",
+    "architecture",
+    "n-tier",
+    "multitier",
+    "multi-tier"
   ],
   "author": "Jean Machuca <correojean@gmail.com>",
   "bugs": {
