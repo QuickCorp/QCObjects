@@ -23,7 +23,7 @@
  * license document, but changing it is not allowed.
 */
 "use strict";
-const version = "0.0.15";
+const version = "0.0.16";
 const appName = "QCObjects";
 const cacheName = `qcobjects-app-${appName}-${version}`;
 caches.delete(cacheName);
