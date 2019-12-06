@@ -2171,9 +2171,11 @@
       Class('BackendMicroservice',Object,{
         domain:domain,
         basePath:basePath,
+        body:null,
         stream:null,
         request:null,
         _new_:function (o){
+          logger.debug('Executing BackendMicroservice ');
           let microservice = this;
           let request = microservice.request;
           let stream = o.stream;
@@ -2182,25 +2184,36 @@
             // data from POST, GET
             var requestMethod = request.method.toLowerCase();
             var supportedMethods = {'post':microservice.post,
-                                    'get':microservice.get,
-                                    'head':microservice.head,
-                                    'put':microservice.put,
-                                    'delete':microservice.delete,
-                                    'connect':microservice.connect,
-                                    'options':microservice.options,
-                                    'trace':microservice.trace,
-                                    'patch':microservice.patch
                                   };
             if (supportedMethods.hasOwnProperty(requestMethod)) {
               supportedMethods[requestMethod].call(microservice,data);
             }
           });
 
-          stream.respond(o.headers);
-          if (this.body != null){
-            microservice.finishWithBody.call(microservice,stream);
+          // data from POST, GET
+          var requestMethod = request.method.toLowerCase();
+          var supportedMethods = {'get':microservice.get,
+                                  'head':microservice.head,
+                                  'put':microservice.put,
+                                  'delete':microservice.delete,
+                                  'connect':microservice.connect,
+                                  'options':microservice.options,
+                                  'trace':microservice.trace,
+                                  'patch':microservice.patch
+                                };
+          if (supportedMethods.hasOwnProperty(requestMethod)) {
+            supportedMethods[requestMethod].call(microservice);
           }
+
         },
+        head:function (formData){this.done()},
+        post:function (formData){this.done()},
+        put:function (formData){this.done()},
+        delete:function (formData){this.done()},
+        connect:function (formData){this.done()},
+        options:function (formData){this.done()},
+        trace:function (formData){this.done()},
+        patch:function (formData){this.done()},
         finishWithBody:function (stream){
           try {
             stream.write(JSON.stringify(this.body));
@@ -2209,16 +2222,14 @@
             logger.debug('Something wrong writing the response for microservice'+e.toString());
           }
         },
-        get:function (formData){},
-        head:function (formData){},
-        post:function (formData){},
-        put:function (formData){},
-        delete:function (formData){},
-        connect:function (formData){},
-        options:function (formData){},
-        trace:function (formData){},
-        patch:function (formData){}
-
+        done: function(){
+          var microservice = this;
+          var stream = microservice.stream;
+          stream.respond(microservice.headers);
+          if (microservice.body != null){
+            microservice.finishWithBody.call(microservice,stream);
+          }
+        }
       });
 
   }
