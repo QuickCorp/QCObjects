@@ -23,7 +23,7 @@
  * license document, but changing it is not allowed.
 */
 "use strict";
-const version = "0.0.16";
+const version = "0.0.17";
 const appName = "QCObjects";
 const cacheName = `qcobjects-app-${appName}-${version}`;
 caches.delete(cacheName);
@@ -34,6 +34,7 @@ self.addEventListener('install', e => {
 	"/",
 	"CODE_OF_CONDUCT.md",
 	"CONTRIBUTING.md",
+  "AUTHOR.md",
 	"Dockerfile",
 	"LICENSE.txt",
 	"QCObjects.js",
@@ -52,6 +53,7 @@ self.addEventListener('install', e => {
 	"doc/img/QCObjects-Docker-Playground.gif",
 	"doc/img/QCObjects-Quick-Start.gif",
 	"doc/img/components.gif",
+  "doc/img/jeanmachuca.png",
 	"doc/img/home/bg_hr.png",
 	"doc/img/home/blacktocat.png",
 	"doc/img/home/icon_download.png",
