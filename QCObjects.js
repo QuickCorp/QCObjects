@@ -842,7 +842,24 @@
     return "Export(function or symbol) { [QCObjects native code] }";
   };
 
-
+  if (!isBrowser){
+    var findPackageNodePath = function (packagename){
+      var sdkPath = null;
+      try {
+        var sdkPaths = module.paths.filter(p=>{return fs.existsSync(p+'/'+packagename)});
+        if (sdkPaths.length >0){
+          sdkPath = sdkPaths[0];
+          logger.info(packagename+' is Installed.');
+        } else {
+          // do nothing
+        }
+      } catch (e){
+        // do nothing
+      }
+      return sdkPath;
+    }
+    Export(findPackageNodePath);
+  }
 
   Class('_Crypt',Object,{
    last_string:"",
@@ -1076,8 +1093,20 @@
       // support to be used in a nodejs environment
       _promise_import_ = new Promise(function (resolve,reject){
         try {
+          var standardNodePath = findPackageNodePath(packagename);
+          var packageAbsoluteName = '';
+          if (standardNodePath !== null){
+            packageAbsoluteName = standardNodePath + '/'+packagename;
+          } else {
+            var jsNodePath = findPackageNodePath(packagename+'.js');
+            if (jsNodePath !== null){
+              packageAbsoluteName = jsNodePath + '/'+packagename+'.js';
+            } else {
+              packageAbsoluteName = basePath + CONFIG.get('relativeImportPath') + packagename;
+            }
+          }
           resolve.call(_promise_import_,{
-            '_imported_':require(basePath + CONFIG.get('relativeImportPath') + packagename ),
+            '_imported_':require(packageAbsoluteName),
             '_package_name_':packagename
           });
         } catch (e){
@@ -2041,20 +2070,39 @@
     }
     Export(global);
 
+
+
     if (CONFIG.get('useSDK')){
       (function (){
         var remoteImportsPath = CONFIG.get('remoteImportsPath');
         var external = (!CONFIG.get('useLocalSDK'))?(true):(false);
         CONFIG.set('remoteImportsPath',CONFIG.get('remoteSDKPath'));
-        var sdkName = (isBrowser)?('QCObjects-SDK'):('node_modules/qcobjects-sdk');
-        Import(sdkName,function (){
-          if (external){
-            logging.debug('QCObjects-SDK.js loaded from remote location');
-          } else {
-            logging.debug('QCObjects-SDK.js loaded from local');
+
+        var tryImportingSDK = false;
+        var sdkName = 'QCObjects-SDK';
+        if (isBrowser){
+          tryImportingSDK = true;
+        } else {
+          var sdkPath = findPackageNodePath('qcobjects-sdk');
+          if (sdkPath !== null) {
+            sdkName = 'qcobjects-sdk';
+            tryImportingSDK = true;
           }
-          CONFIG.set('remoteImportsPath',remoteImportsPath);
-        },external);
+        }
+
+        if (tryImportingSDK){
+          logger.info('Importing SDK... '+sdkName);
+          Import(sdkName,function (){
+            if (external){
+              logging.debug('QCObjects-SDK.js loaded from remote location');
+            } else {
+              logging.debug('QCObjects-SDK.js loaded from local');
+            }
+            CONFIG.set('remoteImportsPath',remoteImportsPath);
+          },external);
+        } else {
+          logger.debug('SDK has not been imported as it is not available at the moment');
+        }
       }).call(null);
     }
 
