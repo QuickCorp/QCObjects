@@ -859,7 +859,6 @@
           './'
         ].concat(module.paths);
         sdkPaths = sdkPaths.filter(p=>{return fs.existsSync(p+'/'+packagename)});
-        console.log('length '+sdkPaths.length.toString())
         if (sdkPaths.length > 0){
           sdkPath = sdkPaths[0];
           logger.info(packagename+' is Installed.');
