@@ -92,6 +92,10 @@
     return _ret_;
   };
 
+  if (!isBrowser){
+    const fs = require('fs');
+  }
+
   if (isBrowser){
     Element.prototype.subelements = Element.prototype.querySelectorAll;
     HTMLDocument.prototype.subelements = HTMLDocument.prototype.querySelectorAll;
@@ -844,10 +848,19 @@
 
   if (!isBrowser){
     var findPackageNodePath = function (packagename){
+      const fs = require('fs');
       var sdkPath = null;
       try {
-        var sdkPaths = module.paths.filter(p=>{return fs.existsSync(p+'/'+packagename)});
-        if (sdkPaths.length >0){
+        var sdkPaths = [
+          `${process.cwd()}/node_modules/`+packagename,
+          `${process.cwd()}/node_modules`,
+          `${process.cwd()}`,
+          'node_modules',
+          './'
+        ].concat(module.paths);
+        sdkPaths = sdkPaths.filter(p=>{return fs.existsSync(p+'/'+packagename)});
+        console.log('length '+sdkPaths.length.toString())
+        if (sdkPaths.length > 0){
           sdkPath = sdkPaths[0];
           logger.info(packagename+' is Installed.');
         } else {
@@ -855,6 +868,7 @@
         }
       } catch (e){
         // do nothing
+        console.log(e)
       }
       return sdkPath;
     }
@@ -1105,6 +1119,7 @@
               packageAbsoluteName = basePath + CONFIG.get('relativeImportPath') + packagename;
             }
           }
+          console.log(packageAbsoluteName);
           resolve.call(_promise_import_,{
             '_imported_':require(packageAbsoluteName),
             '_package_name_':packagename
@@ -2086,6 +2101,9 @@
           var sdkPath = findPackageNodePath('qcobjects-sdk');
           if (sdkPath !== null) {
             sdkName = 'qcobjects-sdk';
+            tryImportingSDK = true;
+          } else {
+            sdkName = 'node_modules/qcobjects-sdk/QCObjects-SDK';
             tryImportingSDK = true;
           }
         }
