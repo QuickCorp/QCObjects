@@ -1118,7 +1118,6 @@
               packageAbsoluteName = basePath + CONFIG.get('relativeImportPath') + packagename;
             }
           }
-          console.log(packageAbsoluteName);
           resolve.call(_promise_import_,{
             '_imported_':require(packageAbsoluteName),
             '_package_name_':packagename
