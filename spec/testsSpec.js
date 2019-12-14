@@ -37,7 +37,7 @@ describe('QCObjects Main Test', function () {
   });
 
   it('Existence of QCObjects SDK', function () {
-    expect(typeof global._sdk_).toEqual('object');
+    expect(global.hasOwnProperty('_sdk_')).toEqual(true);
     logger.debug('Existence of QCObjects SDK... OK');
   });
 
