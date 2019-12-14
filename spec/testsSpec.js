@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 describe('QCObjects Main Test', function () {
-  require('qcobjects');
+  require('../QCObjects');
 
   it('Class Declaration Test Spec', function () {
     Class('Main', Object, {
