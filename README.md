@@ -8,6 +8,8 @@
 ------------------------------------
 Welcome to [QCObjects](https://qcobjects.dev). An open source technology based in JavaScript designed to allow web developers to code targeting desktop and mobile devices into a runtime components and objects scope.
 
+[QCObjects is being featured by British Herald as today, the most advanced framework for modern software development.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
+
 This document is the Main Reference Documentation!
 
 Check out the official page of [QCObjects](https://qcobjects.dev) at https://qcobjects.dev
