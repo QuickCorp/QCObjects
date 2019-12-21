@@ -51,8 +51,8 @@ _________________________
 	- [One-Step Installation Script for Ubuntu 18.x](#one-step-installation-script-for-ubuntu-18x)
 	- [QCObjects Multi-Cloud Installation](#qcobjects-multi-cloud-installation)
 		- [DigitalOcean One-Click Droplet](#digitalocean-one-click-droplet)
-		- [AWS Amazon Machine Images (AMI):](#aws-amazon-machine-images-ami)
-		- [Amazon Web Services AWS PIB (Private Amazon Machine Image):](#amazon-web-services-aws-pib-private-amazon-machine-image)
+		- [AWS Amazon Machine Images (AMI)](#aws-amazon-machine-images-ami)
+		- [Amazon Web Services AWS PIB (Private Amazon Machine Image)](#amazon-web-services-aws-pib-private-amazon-machine-image)
 	- [Using the development version code in the straight way into HTML5:](#using-the-development-version-code-in-the-straight-way-into-html5)
 	- [Using the CDN minified version code from jsDelivr CDN](#using-the-cdn-minified-version-code-from-jsdelivr-cdn)
 - [Reference](#reference)
@@ -369,7 +369,7 @@ If you want to forget apt-get and the config guide. Go straight to deploying you
 
 [Create Your Own QCObjects DigitalOcean Droplet here](https://marketplace.digitalocean.com/apps/qcobjects)
 
-### AWS Amazon Machine Images (AMI):
+### AWS Amazon Machine Images (AMI)
 
 An Amazon Machine Image (AMI) provides the information required to launch an instance. You must specify an AMI when you launch an instance. You can launch multiple instances from a single AMI when you need multiple instances with the same configuration. You can use different AMIs to launch instances when you need instances with different configurations.
 
@@ -381,7 +381,7 @@ An AMI includes the following:
 
 [Start building your QCObjects AMI here](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
 
-### Amazon Web Services AWS PIB (Private Amazon Machine Image):
+### Amazon Web Services AWS PIB (Private Amazon Machine Image)
 
 
 A Private Image lets you build a new AMI by installing AWS Marketplace software on an image you choose from the AMIs available to your AWS account, this allows you to better meet internal specifications for security, management and compliance. As with standard AWS Marketplace AMIs, each Private Image will comprise a subscription for the installed product and have software usage billed via AWS Marketplace.
