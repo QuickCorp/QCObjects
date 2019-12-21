@@ -363,13 +363,13 @@ WARNING: I'm not responsible for damaging your infrastructure by using an automa
 
 QCObjects is natively supported by the most famous cloud providers. In most of them, you can install it and set everything up and running in just one step.
 
-### DigitalOcean One-Click Droplet
+### DigitalOcean One-Click Droplet
 
 If you want to forget apt-get and the config guide. Go straight to deploying your project using a preconfigured 1-Click App including QCObjects CLI, QCObjects-SDK and QCObjects HTTP2 Built-In Server, then spin it up on a Droplet VM or a Kubernetes cluster in 60 seconds or less.
 
 [Create Your Own QCObjects DigitalOcean Droplet here](https://marketplace.digitalocean.com/apps/qcobjects)
 
-### AWS Amazon Machine Images (AMI):
+### AWS Amazon Machine Images (AMI):
 
 An Amazon Machine Image (AMI) provides the information required to launch an instance. You must specify an AMI when you launch an instance. You can launch multiple instances from a single AMI when you need multiple instances with the same configuration. You can use different AMIs to launch instances when you need instances with different configurations.
 
