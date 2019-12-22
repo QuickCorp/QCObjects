@@ -2196,6 +2196,7 @@
               tplextension:tplextension,
   			      templateURI:componentURI,
               tplsource:tplsource,
+              body:_DOMCreateElement('componentBody'),
   						subcomponents:[]
   			    });
   					newComponent.done = componentDone;
