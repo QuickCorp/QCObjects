@@ -6,7 +6,10 @@
   "license": "LGPL-3.0",
   "scripts": {
     "start": "qcobjects-shell",
-    "test": "jasmine"
+    "test": "jasmine",
+    "preversion": "npm test",
+    "version": "npm i --upgrade",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
     "type": "git",
