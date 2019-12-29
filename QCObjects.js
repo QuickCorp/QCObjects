@@ -856,7 +856,8 @@
           `${process.cwd()}/node_modules`,
           `${process.cwd()}`,
           'node_modules',
-          './'
+          './',
+          ''
         ].concat(module.paths);
         sdkPaths = sdkPaths.filter(p=>{return fs.existsSync(p+'/'+packagename)});
         if (sdkPaths.length > 0){
