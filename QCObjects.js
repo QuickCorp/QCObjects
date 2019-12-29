@@ -1278,27 +1278,38 @@
 	 *
 	 */
   Class('DDO',Object,{
-      _new_:function ({instance,name,fget, fset, fdel, doc,value}){
+      _new_:function ({instance,name,fget, fset, value}){
           var _value;
           var ddoInstance = this;
+          var name = (typeof name=='undefined')?(ObjectName(ddoInstance)):(name);
 
           Object.defineProperty(instance,name,{
               set(val){
                   _value = val;
-                  logger.debug('value changed');
+                  logger.debug('value changed '+name);
+                  var ret;
                   if (typeof fset !== 'undefined' && typeof fset == 'function'){
-                      return fset(_value);
+                    ret = fset(_value);
+                  } else {
+                    ret = _value;
                   }
+                  return ret;
               },
               get(){
-                  logger.debug('returning value');
+                  logger.debug('returning value '+name);
                   var is_ddo = function (v){
                     if (typeof v == 'object' && v.hasOwnProperty('value')){
                       return v.value;
                     }
                     return v;
                   }
-                  return fget(is_ddo(_value));
+                  var ret;
+                  if (typeof fget !== 'undefined' && typeof fget == 'function'){
+                    ret = fget(is_ddo(_value));
+                  } else {
+                    ret = is_ddo(_value);
+                  }
+                  return ret;
               }
           });
       }
@@ -2012,6 +2023,7 @@
 	Export(serviceLoader);
 	Export(componentLoader);
   Export(ComponentURI);
+  Export(ObjectName);
 
 	asyncLoad(function (){
 
