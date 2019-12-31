@@ -2594,4 +2594,17 @@
     }
   }
 
+  if (isBrowser){
+    asyncLoad(function (){
+      Ready(function() {
+          window.onpopstate = function (event) {
+              event.stopImmediatePropagation();
+              event.stopPropagation();
+              Component.route();
+          }
+
+      });
+    },null);
+  }
+
 }).call(null);
