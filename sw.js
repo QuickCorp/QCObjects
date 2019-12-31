@@ -32,10 +32,8 @@ self.addEventListener('install', e => {
       return cache.addAll([
 	"/",
 	"AUTHOR.md",
-	"CNAME",
 	"CODE_OF_CONDUCT.md",
 	"CONTRIBUTING.md",
-	"Dockerfile",
 	"LICENSE.txt",
 	"QCObjects.js",
 	"README.md",
@@ -90,7 +88,6 @@ self.addEventListener('install', e => {
 	"humans.txt",
 	"index.html",
 	"index.rst",
-	"install_qcobjects_ubuntu18x.sh",
 	"manifest.json",
 	"qcobjects_01.png",
 	"robots.txt",
