@@ -23,25 +23,24 @@
  * license document, but changing it is not allowed.
 */
 "use strict";
-const version = "0.0.19";
+const version = "2.1.238";
 const appName = "QCObjects";
 const cacheName = `qcobjects-app-${appName}-${version}`;
-caches.delete(cacheName);
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(cacheName).then(cache => {
       return cache.addAll([
 	"/",
+	"AUTHOR.md",
+	"CNAME",
 	"CODE_OF_CONDUCT.md",
 	"CONTRIBUTING.md",
-  "AUTHOR.md",
 	"Dockerfile",
 	"LICENSE.txt",
 	"QCObjects.js",
 	"README.md",
 	"README.pdf",
 	"README.rst",
-	"config-example.json",
 	"doc/README.rst",
 	"doc/css/index.css",
 	"doc/css/prism-okaidia.css",
@@ -52,8 +51,8 @@ self.addEventListener('install', e => {
 	"doc/img/QCObjects-Components-Layout.gif",
 	"doc/img/QCObjects-Docker-Playground.gif",
 	"doc/img/QCObjects-Quick-Start.gif",
+	"doc/img/QCObjects-running-on-Windows64bit.gif",
 	"doc/img/components.gif",
-  "doc/img/jeanmachuca.png",
 	"doc/img/home/bg_hr.png",
 	"doc/img/home/blacktocat.png",
 	"doc/img/home/icon_download.png",
@@ -66,21 +65,8 @@ self.addEventListener('install', e => {
 	"doc/img/icons/icon-512x512.png",
 	"doc/img/icons/icon-72x72.png",
 	"doc/img/icons/icon-96x96.png",
+	"doc/img/jeanmachuca.png",
 	"doc/index.rst",
-	"doc/js/prism-okaidia.js",
-	"doc/test_service_response.html",
-	"docker-compose.test.yml",
-	"example1.html",
-	"example2-routing.html",
-	"favicon.ico",
-	"index.html",
-	"index.rst",
-	"manifest.json",
-	"package-lock.json",
-	"package.json",
-	"qcobjects_01.png",
-	"spec/support/jasmine.json",
-	"spec/testsSpec.js",
 	"doc/js/cl.quickcorp.components.js",
 	"doc/js/cl.quickcorp.controller.js",
 	"doc/js/cl.quickcorp.effects.js",
@@ -88,10 +74,28 @@ self.addEventListener('install', e => {
 	"doc/js/cl.quickcorp.model.js",
 	"doc/js/cl.quickcorp.tools.js",
 	"doc/js/cl.quickcorp.view.js",
+	"doc/js/prism-okaidia.js",
+	"doc/templates/components/blank.tpl.html",
+	"doc/templates/components/main.tpl.html",
 	"doc/templates/components/page1.html",
 	"doc/templates/components/page2.html",
 	"doc/templates/components/pwa.tpl.html",
-	"doc/templates/components/snippet.tpl.html"])
+	"doc/templates/components/snippet.tpl.html",
+	"doc/templates/components/thanksvideo.tpl.html",
+	"doc/test_service_response.html",
+	"docker-compose.test.yml",
+	"example1.html",
+	"example2-routing.html",
+	"favicon.ico",
+	"humans.txt",
+	"index.html",
+	"index.rst",
+	"install_qcobjects_ubuntu18x.sh",
+	"manifest.json",
+	"qcobjects_01.png",
+	"robots.txt",
+	"spec/support/jasmine.json",
+	"spec/testsSpec.js"])
           .then(() => self.skipWaiting());
     })
   );
