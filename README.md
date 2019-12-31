@@ -49,6 +49,7 @@ _________________________
 	- [Installing with NPM:](#installing-with-npm)
 	- [Installing the docker playground:](#installing-the-docker-playground)
 	- [One-Step Installation Script for Ubuntu 18.x](#one-step-installation-script-for-ubuntu-18x)
+	- [Install and test QCObjects on Microsoft Windows OS](#install-and-test-qcobjects-on-microsoft-windows-os)
 	- [QCObjects Multi-Cloud Installation](#qcobjects-multi-cloud-installation)
 		- [DigitalOcean One-Click Droplet](#digitalocean-one-click-droplet)
 		- [AWS Amazon Machine Images (AMI)](#aws-amazon-machine-images-ami)
@@ -112,6 +113,8 @@ _________________________
 - [ALPHA RISE Startup](#alpha-rise-startup)
 
 <!-- /TOC -->
+
+
 
 # Principals
 
@@ -358,6 +361,28 @@ curl -L https://qcobjects.dev/install_qcobjects_ubuntu18x.sh |sh
 ```
 
 WARNING: I'm not responsible for damaging your infrastructure by using an automated installation script into an unsafe network. Make sure all your repos and scripts are under HTTPS with a valid certificate. For better safe results I recommended you to download the script, edit it for your special needs and then execute it in your machine as local.
+
+## Install and test QCObjects on Microsoft Windows OS
+
+1.- Install the latest version of NodeJS for Windows from [here](https://nodejs.org/)
+2.- From cmd install qcobjects-cli using npm
+
+```powershell
+npm i qcobjects-cli -g
+```
+3.- Create a directory for your project
+
+```powershell
+md mynewproject && cd mynewproject
+```
+4.- Create a new QCObjects Progressive Web Application
+
+```powershell
+qcobjects create mynewproject --pwa
+```
+
+![screenshot](doc/img/QCObjects-running-on-Windows64bit.gif)
+
 
 ## QCObjects Multi-Cloud Installation
 
