@@ -176,14 +176,13 @@
 
    var domain = (
      function (){
-       return domain;
+       return (typeof document != 'undefined' && document.domain != '') ? (document.domain): ('localhost');
      }
    )();
 
    var _secretKey = (
 		 function (){
 			 var __secretKey = _top[(![]+[])[((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+(typeof [])[((+!+[])+(+!+[]))*((+!+[])+(+!+[]))]+(![]+[])[(+!+[])]+(!![]+[])[(+[])]+([]+[]+[][[]])[(+[+!+[]+[+[]]])/((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+([]+[]+[][[]])[(+!+[])] ]['h'+(typeof ![])[(+!+[])]+(![]+[])[(+!+[]+((+!+[])+(+!+[])))]+(!![]+[])[(+[])]].toLowerCase();
-       __secretKey = 'localhost';
 			 return __secretKey;
 		 }
 	 )();
