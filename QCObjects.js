@@ -254,6 +254,7 @@
 		 }
 	 }};
 	 var logger = new Logger();
+   logger.debugEnabled=false;
 	 _top.logger = logger;
 	 var Base64 = {
 		 _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
