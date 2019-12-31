@@ -96,6 +96,24 @@
     const fs = require('fs');
   }
 
+  var _DataStringify = function(data){
+    var getCircularReplacer = function () {
+      var seen = new WeakSet();
+      var _level = 0;
+      return function (key, value) {
+        if (typeof value === "object" && value !== null) {
+          if (seen.has(value)) {
+            _level+=1;
+            return (_level<=3)?(_LegacyCopy(value)):(null);
+          }
+          seen.add(value);
+        }
+        return value;
+      };
+    };
+    return JSON.stringify(data,getCircularReplacer());
+  };
+
   if (isBrowser){
     Element.prototype.subelements = Element.prototype.querySelectorAll;
     HTMLDocument.prototype.subelements = HTMLDocument.prototype.querySelectorAll;
@@ -405,7 +423,7 @@
 		 }
 	 };
 	 ComplexStorageCache.prototype.setItem = function(cachedObjectID, value) {
-		 localStorage.setItem(cachedObjectID, JSON.stringify(value));
+		 localStorage.setItem(cachedObjectID, _DataStringify(value));
 	 };
 	 ComplexStorageCache.prototype.isEmpty = function(object) {
 		 var r = false;
@@ -423,7 +441,7 @@
 		 return r;
 	 };
 	 ComplexStorageCache.prototype.getID = function(object) {
-		 var cachedObjectID = 'cachedObject_' + Base64.encode(JSON.stringify(object).replace(',', '_').replace('{', '_').replace('}', '_'));
+		 var cachedObjectID = 'cachedObject_' + Base64.encode(_DataStringify(object).replace(',', '_').replace('{', '_').replace('}', '_'));
 		 return cachedObjectID;
 	 };
 	 ComplexStorageCache.prototype.save = function(object, cachedNewResponse) {
@@ -937,7 +955,7 @@
   });
 
 	var _CryptObject = function (o){
-		return _Crypt.encrypt(JSON.stringify(o),_secretKey);
+		return _Crypt.encrypt(_DataStringify(o),_secretKey);
 	};
 	var _DecryptObject = function (s){
 		return JSON.parse(_Crypt.decrypt(s,_secretKey));
@@ -959,7 +977,7 @@
       'useLocalSDK':false,
 			'basePath':basePath
 		},
-		_CONFIG_ENC:_Crypt.encrypt(JSON.stringify({}),_secretKey),
+		_CONFIG_ENC:_Crypt.encrypt(_DataStringify({}),_secretKey),
 		set:function (name,value){
       // hack to force update basePath from CONFIG
       if (name=='basePath'){
@@ -1595,7 +1613,7 @@
       var _rebuilt = false;
       if (rc.validRoutingWays.includes(rc.routingWay)){
         rc.routingPath = document.location[rc.routingWay];
-        rc.routingSelected=rc.routings.filter(function (routing){return routing.path==rc.routingPath});
+        rc.routingSelected=rc.routings.filter(function (routing){return (new RegExp(routing.path,'g')).test(rc.routingPath)}).reverse();
         for (var r=0;r<rc.routingSelected.length;r++){
           var routing = rc.routingSelected[r];
           var componentURI = ComponentURI({
@@ -1713,25 +1731,6 @@
     return templateURI;
   };
 
-  var _DataStringify = function(data){
-    var getCircularReplacer = function () {
-      var seen = new WeakSet();
-      var _level = 0;
-      return function (key, value) {
-        if (typeof value === "object" && value !== null) {
-          if (seen.has(value)) {
-            _level+=1;
-            return (_level<=3)?(_LegacyCopy(value)):(null);
-          }
-          seen.add(value);
-        }
-        return value;
-      };
-    };
-    return JSON.stringify(data,getCircularReplacer());
-  }
-
-
 	/**
 	* Loads a simple component from a template
 	*
@@ -1765,7 +1764,7 @@
   					var successStatus = (is_file)?(0):(200);
   	        if (xhr.status === successStatus) {
   	          var response = xhr.responseText;
-  	          logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
+  	          logger.debug('Data received {{DATA}}'.replace('{{DATA}}', _DataStringify(response)));
   	          logger.debug('CREATING COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
   	          component.template = response;
   						if (component.cached && (typeof cache != 'undefined')){
@@ -1869,7 +1868,7 @@
       var _promise = new Promise(
         function (resolve,reject){
 
-          logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
+          logger.debug('LOADING SERVICE DATA {{DATA}} FROM {{URL}}'.replace('{{DATA}}', _DataStringify(service.data)).replace('{{URL}}', service.url));
           var xhr = new XMLHttpRequest();
     			xhr.withCredentials = service.withCredentials;
           var xhrasync = true; // always async because xhr sync is deprecated
@@ -1880,7 +1879,7 @@
           xhr.onload = function() {
             if (xhr.status === 200) {
               var response = xhr.responseText;
-              logger.debug('Data received {{DATA}}'.replace('{{DATA}}', JSON.stringify(response)));
+              logger.debug('Data received {{DATA}}'.replace('{{DATA}}', _DataStringify(response)));
               logger.debug('CREATING SERVICE {{NAME}}'.replace('{{NAME}}', service.name));
               service.template = response;
     					if (service.cached && (typeof cache != 'undefined')){
@@ -1909,7 +1908,7 @@
     			var _directLoad = function (){
     				logger.debug('SENDING THE NORMAL REQUEST  ');
             try {
-              xhr.send(JSON.stringify(service.data));
+              xhr.send(_DataStringify(service.data));
             }catch (e){
               logger.debug('SOMETHING WRONG WITH REQUEST  ');
               reject.call(_promise,{request:xhr,service:service});
@@ -1966,7 +1965,7 @@
               var req = request[service.method.toLowerCase()](service.url);
             }
 
-            logger.debug('LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}'.replace('{{DATA}}', JSON.stringify(service.data)).replace('{{URL}}', service.url));
+            logger.debug('LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}'.replace('{{DATA}}', _DataStringify(service.data)).replace('{{URL}}', service.url));
             var dataXML;
             var standardResponse = {
               'http2Client':client,
@@ -2025,6 +2024,7 @@
 	Export(componentLoader);
   Export(ComponentURI);
   Export(ObjectName);
+  Export(_DataStringify);
 
 	asyncLoad(function (){
 
@@ -2294,7 +2294,7 @@
         patch:function (formData){this.done()},
         finishWithBody:function (stream){
           try {
-            stream.write(JSON.stringify(this.body));
+            stream.write(_DataStringify(this.body));
             stream.end();
           } catch (e){
             logger.debug('Something wrong writing the response for microservice'+e.toString());

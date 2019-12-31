@@ -31,6 +31,11 @@ describe('QCObjects Main Test', function () {
     logger.debug('Existence of Effect Class... OK');
   });
 
+  it('Existence of _DataStringify Function Helper', function () {
+    expect(typeof _DataStringify).toEqual('function');
+    logger.debug('Existence of _DataStringify Function Helper... OK');
+  });
+
   it('global as QCObjects global', function () {
     expect(typeof global.__definition).toEqual('object');
     logger.debug('global as QCObjects global... OK');
