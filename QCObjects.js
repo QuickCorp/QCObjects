@@ -1342,7 +1342,7 @@
     assign:function (data){
       var parsedAssignmentText = this.template;
       for (var k in data) {
-        parsedAssignmentText = parsedAssignmentText.replace('{{' + k + '}}', data[k]);
+        parsedAssignmentText = parsedAssignmentText.replace((new RegExp('{{'+k+'}}','g')), data[k]);
       }
       return parsedAssignmentText;
     }
