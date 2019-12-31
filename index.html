@@ -115,11 +115,15 @@
 
   Import ('cl.quickcorp');
   Ready(function() {
-      window.onpopstate = function (event) {
-          event.stopImmediatePropagation();
-          event.stopPropagation();
-          Component.route();
-      }
+    function forceClearCache(){
+      var cacheStorage = new ComplexStorageCache({
+                                  index:'index',
+                                  load:(cacheController)=>{},
+                                  alternate: (cacheController)=>{}
+                                });
+      cacheStorage.clear();
+    }
+    forceClearCache(); // force clear cache on startup
 
   });
 
