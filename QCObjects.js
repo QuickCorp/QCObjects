@@ -1805,13 +1805,13 @@
   				if (component.cached){
   					logger.debug('USING CACHE FOR COMPONENT: '+component.name);
   					var cache = new ComplexStorageCache({
-  		        'index': component.__instanceID.toString(),
+  		        'index': component.name+'_'+component.__instanceID.toString(),
   		        'load': function(cacheController) {
   							_directLoad.call(this);
   		        },
   		        'alternate': function(cacheController) {
   		          if (component.method == 'GET') {
-  		            component.template = cacheController.cache.getCached(component.name);
+  		            component.template = cacheController.cache.getCached(component.name+'_'+component.__instanceID.toString());
   								feedComponent.call(this,component);
 
   		          } else {
