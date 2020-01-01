@@ -2603,6 +2603,45 @@
               Component.route();
           }
 
+          /*
+          * scroll management custom events
+          * usage: document.body.addEventListener('percentY90',function(e){console.log(e.detail.percentY)});
+          * possible events: scrollpercent, defaultscroll, percentY0, percentY25, percentY50, percentY75, percentY90
+          */
+
+          Tag('*').map(function (element){
+              element.addEventListener('scroll',function (event){
+                  event.preventDefault();
+                  var percentY = Math.round(event.target.scrollTop*100/event.target.scrollHeight);
+                  var percentX = Math.round(event.target.scrollLeft*100/event.target.scrollWidth);
+                  var customEvent = new CustomEvent('scrollpercent',{detail:{percentX:percentX,percentY:percentY}});
+                  event.target.dispatchEvent(customEvent);
+                  var secondaryEventName = 'defaultscroll';
+                  switch (true){
+                      case (percentY==0):
+                          secondaryEventName = 'percentY0';
+                          break;
+                      case (percentY==25):
+                          secondaryEventName = 'percentY25';
+                          break;
+                      case (percentY==50):
+                          secondaryEventName = 'percentY50';
+                          break;
+                      case (percentY==75):
+                          secondaryEventName = 'percentY75';
+                          break;
+                      case (percentY==90):
+                          secondaryEventName = 'percentY90';
+                          break;
+                      default:
+                      break;
+                  }
+                  var customEvent = new CustomEvent(secondaryEventName,{detail:{percentX:percentX,percentY:percentY}});
+                  event.target.dispatchEvent(customEvent);
+
+              });
+          });
+
       });
     },null);
   }
