@@ -2139,6 +2139,41 @@
 	},null);
 
   if (isBrowser){
+    var componentHelpers = function (component){
+      /*
+      * BEGIN component images lazy-load
+      */
+      var _imgLazyLoaded = component.body.subelements('img[lazy-src]');
+      var _lazyLoadImages = function (image){
+        image.setAttribute('src', image.getAttribute('lazy-src'));
+        image.onload = () => {
+          image.removeAttribute('lazy-src');
+        };
+      };
+      if('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver((items, observer) => {
+          items.forEach((item) => {
+            if(item.isIntersecting) {
+              _lazyLoadImages(item.target);
+              observer.unobserve(item.target);
+            }
+          });
+        });
+        _imgLazyLoaded.map(function (img) {
+          observer.observe(img);
+        });
+      } else {
+        _imgLazyLoaded.map(_lazyLoadImages);
+      }
+
+      /*
+      * END component images lazy-load
+      */
+
+    };
+  }
+
+  if (isBrowser){
     Element.prototype.buildComponents = function (rebuildObjects=false){
   		var tagFilter = (rebuildObjects)?('component:not([loaded])'):('component');
   		var d = this;
@@ -2179,6 +2214,9 @@
   						this.body.outerHTML=this.body.innerHTML;
   					}
   					this.body.setAttribute('loaded',true);
+
+            componentHelpers(this);
+
   					if ((Tag('component[loaded=true]').length*100/Tag('component:not([template-source=none])').length)>=100){
   						d.dispatchEvent(new CustomEvent('componentsloaded',{detail:{lastComponent:this}}));
   					}
