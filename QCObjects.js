@@ -2143,7 +2143,7 @@
       /*
       * BEGIN component images lazy-load
       */
-      var _imgLazyLoaded = component.body.subelements('img[lazy-src]');
+      var _imgLazyLoaded = [...component.body.subelements('img[lazy-src]')];
       var _lazyLoadImages = function (image){
         image.setAttribute('src', image.getAttribute('lazy-src'));
         image.onload = () => {
