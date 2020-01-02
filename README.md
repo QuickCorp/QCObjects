@@ -159,6 +159,12 @@ Here are the principals with QCObjects was made with:
 - Fully integrated MVC pattern (Model, View, Controller)
 - Dynamic Data Objects
 
+# Progressive Web Apps Adopted Features
+
+- Prevent Render-blocking resources
+- On-Demand Resources Load
+- Lazy-loading of images in components (use lazy-src instead of src attribute in img tag)
+
 # Cross Browser Javascript Framework for MVC Patterns
 ----------------------------------------
 
