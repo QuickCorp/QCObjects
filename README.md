@@ -115,6 +115,11 @@ _________________________
 	- [Step 3: Now it's time to create the components (cl.quickcorp.components.js)](#step-3-now-its-time-to-create-the-components-clquickcorpcomponentsjs)
 	- [Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)](#step-4-once-you-have-done-the-above-components-declaration-you-will-now-want-to-code-your-controllers-clquickcorpcontrollerjs)
 	- [Step 5: To use into the HTML5 code you only need to do some settings between script tags:](#step-5-to-use-into-the-html5-code-you-only-need-to-do-some-settings-between-script-tags)
+- [QCObjects CLI Tool](#qcobjects-cli-tool)
+	- [Usage: qcobjects [options] [command]](#usage-qcobjects-options-command)
+	- [Options:](#options)
+	- [Commands:](#commands)
+	- [Use:](#use)
 - [ALPHA RISE Startup](#alpha-rise-startup)
 
 <!-- /TOC -->
@@ -1687,6 +1692,27 @@ Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into 
 </script>
 ```
 
+# QCObjects CLI Tool
+
+## Usage
+
+ qcobjects [options] [command]
+
+## Options
+
+ *  -V, --version                output the version number
+ *  -h, --help                   output usage information
+
+## Commands
+
+ *  create [options] <appname>   Creates an app with <appname>
+ *  publish [options] <appname>  Publishes an app with <appname>
+ *  generate-sw <appname>        Generates the service worker  <appname>
+ *  launch <appname>             Launches the application
+
+## Use:
+ *  $ qcobjects-cli [command] --help
+ *  For detailed information of a command
 
 # ALPHA RISE Startup
 --------------------------
