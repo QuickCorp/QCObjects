@@ -1696,7 +1696,7 @@ Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into 
 
 ## Usage
 
- qcobjects [options] [command]
+ **qcobjects** [options] [command]
 
 ## Options
 
@@ -1705,10 +1705,10 @@ Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into 
 
 ## Commands
 
- *  create [options] <appname>   Creates an app with <appname>
- *  publish [options] <appname>  Publishes an app with <appname>
- *  generate-sw <appname>        Generates the service worker  <appname>
- *  launch <appname>             Launches the application
+ *  **create** [options] <appname>   Creates an app with <appname>
+ *  **publish** [options] <appname>  Publishes an app with <appname>
+ *  **generate-sw** <appname>        Generates the service worker  <appname>
+ *  **launch** <appname>             Launches the application
 
 ## Use:
  *  $ qcobjects-cli [command] --help
