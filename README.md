@@ -29,7 +29,7 @@ _________________________
 - [QCObjects](#qcobjects)
 - [Table of Contents](#table-of-contents)
 - [Principals](#principals)
-- [Main features:](#main-features)
+- [Main features](#main-features)
 - [Progressive Web Apps (PWA) Adopted Features](#progressive-web-apps-pwa-adopted-features)
 	- [Prevent Render-blocking resources](#prevent-render-blocking-resources)
 	- [On-Demand Resources Load](#on-demand-resources-load)
@@ -152,7 +152,7 @@ Here are the principals with QCObjects was made with:
 24. You should be able to control the visual effects and animations either from CSS or JavaScript without affecting the performance.
 25. You should be able to control the behaviour of your code Into-the-box and out-of-the-box and survive doing it.
 
-# Main features:
+# Main features
 
 - Revolutionary UI Effects
 - Breakthrough backend microservices
