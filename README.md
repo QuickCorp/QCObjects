@@ -1703,7 +1703,7 @@ Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into 
  *  -V, --version                output the version number
  *  -h, --help                   output usage information
 
-## Commands
+## Commands
 
  *  create [options] <appname>   Creates an app with <appname>
  *  publish [options] <appname>  Publishes an app with <appname>
