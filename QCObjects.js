@@ -115,9 +115,10 @@
   };
 
   if (isBrowser){
-    Element.prototype.subelements = Element.prototype.querySelectorAll;
-    HTMLDocument.prototype.subelements = HTMLDocument.prototype.querySelectorAll;
-    HTMLElement.prototype.subelements = HTMLElement.prototype.querySelectorAll;
+    var _subelements = function subelements(selector){return [...this.querySelectorAll(selector)];};
+    Element.prototype.subelements = _subelements;
+    HTMLDocument.prototype.subelements = _subelements;
+    HTMLElement.prototype.subelements = _subelements;
   }
 	var _top;
   if (isBrowser){
