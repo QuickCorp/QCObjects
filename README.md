@@ -116,9 +116,9 @@ _________________________
 	- [Step 4: Once you have done the above components declaration, you will now want to code your controllers (cl.quickcorp.controller.js)](#step-4-once-you-have-done-the-above-components-declaration-you-will-now-want-to-code-your-controllers-clquickcorpcontrollerjs)
 	- [Step 5: To use into the HTML5 code you only need to do some settings between script tags:](#step-5-to-use-into-the-html5-code-you-only-need-to-do-some-settings-between-script-tags)
 - [QCObjects CLI Tool](#qcobjects-cli-tool)
-	- [Usage: qcobjects [options] [command]](#usage-qcobjects-options-command)
-	- [Options:](#options)
-	- [Commands:](#commands)
+	- [Usage](#usage)
+	- [Options](#options)
+	- [Commands](#commands)
 	- [Use:](#use)
 - [ALPHA RISE Startup](#alpha-rise-startup)
 
