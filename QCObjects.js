@@ -871,8 +871,11 @@
       var sdkPath = null;
       try {
         var sdkPaths = [
+          `${CONFIG.get('projectPath')+CONFIG.get('relativeImportPath')}`,
+          `${CONFIG.get('basePath')+CONFIG.get('relativeImportPath')}`,
           `${CONFIG.get('projectPath')}`,
           `${CONFIG.get('basePath')}`,
+          `${CONFIG.get('relativeImportPath')}`,
           `${process.cwd()}/node_modules/`+packagename,
           `${process.cwd()}/node_modules`,
           `${process.cwd()}`,
