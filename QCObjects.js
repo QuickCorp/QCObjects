@@ -2299,6 +2299,7 @@
         _new_:function (o){
           logger.debug('Executing BackendMicroservice ');
           let microservice = this;
+          microservice.body=null;
           let request = microservice.request;
           let stream = o.stream;
           microservice.stream = stream;
