@@ -2388,6 +2388,9 @@
       head: function(formData) {
         this.done()
       },
+      get: function(formData){
+        this.done()
+      },
       post: function(formData) {
         this.done()
       },

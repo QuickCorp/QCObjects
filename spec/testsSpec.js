@@ -2,6 +2,9 @@
 
 describe('QCObjects Main Test', function () {
   require('../QCObjects');
+  logger.debugEnabled=true;
+  logger.infoEnabled=true;
+  logger.warnEnabled=true;
 
   it('Class Declaration Test Spec', function () {
     Class('Main', Object, {
