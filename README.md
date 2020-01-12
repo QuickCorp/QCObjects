@@ -71,6 +71,7 @@ _________________________
 		- [The \_super\_ method](#the-super-method)
 		- [New](#new)
 		- [InheritClass](#inheritclass)
+		- [ClassFactory](#classfactory)
 		- [\_Crypt](#crypt)
 		- [GLOBAL](#global)
 		- [CONFIG](#config)
