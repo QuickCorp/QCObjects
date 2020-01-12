@@ -782,7 +782,18 @@
 
   var ClassFactory = function(className) {
     var _classFactory;
-    if (className != null && _QC_CLASSES.hasOwnProperty(className)) {
+    if (className != null && className.indexOf('.')>-1){
+      var packageName = className.split('.').slice(0,className.split('.').length-1).join('.');
+      var _className = className.split('.').slice(-1).join('');
+      var packageClasses = Package(packageName).filter(classFactory=>{
+        return typeof classFactory !== 'undefined'
+            && classFactory.hasOwnProperty('__definition')
+            && classFactory.__definition.__classType==_className
+            && !classFactory.hasOwnProperty('__instanceID')}).reverse()
+      if (packageClasses.length>0){
+        _classFactory = packageClasses[0]
+      }
+    } else if (className != null && _QC_CLASSES.hasOwnProperty(className)) {
       _classFactory = _QC_CLASSES[className];
     }
     return _classFactory;
