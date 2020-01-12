@@ -820,7 +820,7 @@
    * @param {Object} params
    */
   var _super_ = function(className, classMethodName, params) {
-    return _QC_CLASSES[className][classMethodName];
+    return ClassFactory(className)[classMethodName];
   };
   _super_.prototype.toString = function() {
     return "_super_(className,classMethodName,params) { [QCObjects native code] }";
