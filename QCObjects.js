@@ -998,6 +998,7 @@
       'remoteImportsPath': '',
       'remoteSDKPath': 'https://sdk.qcobjects.dev/',
       'asynchronousImportsLoad': false,
+      'removePackageScriptAfterLoading':true,
       'componentsBasePath': '',
       'delayForReady': 0,
       'preserveComponentBodyTag': true,
@@ -1121,6 +1122,9 @@
             for (var _r in _QC_PACKAGES_IMPORTED) {
               _QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
             }
+          }
+          if (isBrowser && CONFIG.get('removePackageScriptAfterLoading')){
+            e.target.remove();
           }
           resolve.call(_promise_import_, {
             '_imported_': e.target,
