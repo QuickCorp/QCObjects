@@ -822,7 +822,7 @@
       };
       if (typeof this.innerHTML !== 'undefined'){
         try {
-          this.innerHTML = content;
+          this.innerHTML += content;
         }catch (e){
           _appendVDOM(_self,content);
         }
