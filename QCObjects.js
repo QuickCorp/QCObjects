@@ -1029,15 +1029,27 @@
         this._CONFIG[name] = value;
       }
     },
-    get: function(name) {
-      var _conf = (
-        function(config) {
-          var _protectedEnc = config._CONFIG_ENC.valueOf();
-          var _protectedConf = config._CONFIG.valueOf();
-          return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
+    get: function(name,_default) {
+      var _value;
+      try {
+        var _conf = (
+          function(config) {
+            var _protectedEnc = config._CONFIG_ENC.valueOf();
+            var _protectedConf = config._CONFIG.valueOf();
+            return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
+          }
+        )(this);
+        if (typeof _conf[name] !== 'undefined'){
+          _value = _conf[name];
+        } else  if (typeof _default !== 'undefined'){
+          _value = _default;
         }
-      )(this);
-      return _conf[name];
+      } catch (e){
+        logger.debug('Something wrong when trying to get CONFIG values');
+        logger.debug('No config value for: '+name);
+        _value = _default;
+      }
+      return _value;
     }
   });
 
@@ -2208,7 +2220,9 @@
       if (document.location.hash != ''){
         var scrollIntoHash = component.body.subelements(document.location.hash);
         if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView == 'function')){
-          scrollIntoHash[0].scrollIntoView();
+          scrollIntoHash[0].scrollIntoView(
+            {behavior: "smooth", block: "center", inline: "center"}
+          );
         }
       }
 
