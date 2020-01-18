@@ -2205,9 +2205,11 @@
       * BEGIN component scrollIntoHash
       */
 
-      var scrollIntoHash = component.body.subelements(document.location.hash);
-      if (scrollIntoHash.length>0 && scrollIntoHash[0].hasOwnProperty('scrollIntoView')){
-        scrollIntoHash[0].scrollIntoView();
+      if (document.location.hash != ''){
+        var scrollIntoHash = component.body.subelements(document.location.hash);
+        if (scrollIntoHash.length>0 && scrollIntoHash[0].hasOwnProperty('scrollIntoView')){
+          scrollIntoHash[0].scrollIntoView();
+        }
       }
 
       /*
