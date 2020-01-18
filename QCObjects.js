@@ -2202,6 +2202,19 @@
   if (isBrowser) {
     var componentHelpers = function(component) {
       /*
+      * BEGIN component scrollIntoHash
+      */
+
+      var scrollIntoHash = component.body.subelements(document.location.hash);
+      if (scrollIntoHash.length>0 && scrollIntoHash[0].hasOwnProperty('scrollIntoView')){
+        scrollIntoHash[0].scrollIntoView();
+      }
+
+      /*
+      * END component scrollIntoHash
+      */
+
+      /*
        * BEGIN component images lazy-load
        */
       var _imgLazyLoaded = [...component.body.subelements('img[lazy-src]')];
