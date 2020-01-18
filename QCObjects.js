@@ -808,6 +808,26 @@
         this.appendChild(child);
       }
     };
+
+    Element.prototype.render = function QC_Render(content) {
+      var _self = this;
+      var _appendVDOM = function (_self,content){
+        if (typeof document.implementation.createHTMLDocument !== 'undefined'){
+          var doc = document.implementation.createHTMLDocument("");
+          doc.innerHTML = content;
+          doc.body.subelements('*').map(function (element){
+            _self.append(element);
+          });
+        }
+      };
+      if (typeof this.innerHTML !== 'undefined'){
+        try {
+          this.innerHTML = content;
+        }catch (e){
+          _appendVDOM(_self,content);
+        }
+      }
+    };
   }
 
   /**
