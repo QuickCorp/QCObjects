@@ -2309,40 +2309,36 @@
             'TPLEXTENSION': tplextension,
             'TPL_SOURCE': tplsource
           });
+          var _componentName = components[_c].getAttribute('name').toString();
           if (CONFIG.get('preserveComponentBodyTag')) {
-            Class('ComponentBody', Component, {
-              name: components[_c].getAttribute('name').toString(),
-              reload: true
-            });
-
-            var newComponent = New(ComponentBody, {
-              name: components[_c].getAttribute('name').toString(),
-              data: data,
-              cached: (__cached_not_set) ? (Component.cached) : (cached),
-              tplextension: tplextension,
-              templateURI: componentURI,
-              tplsource: tplsource,
-              body: _DOMCreateElement('componentBody'),
-              subcomponents: []
-            });
-            newComponent.done = componentDone;
-            components[_c].append(newComponent);
-            components[_c].setAttribute('loaded', true);
-          } else {
-            var _componentClassName = (components[_c].getAttribute('componentClass') != null) ? (components[_c].getAttribute('componentClass')) : ('Component');
-            var newComponent = New(_QC_CLASSES[_componentClassName], {
-              name: components[_c].getAttribute('name').toString(),
-              data: data,
-              cached: (__cached_not_set) ? (Component.cached) : (cached),
-              tplextension: tplextension,
-              body: components[_c],
-              templateURI: componentURI,
-              tplsource: tplsource,
-              subcomponents: []
-            });
-            newComponent.done = componentDone;
-
+            Package('com.qcobjects.components.'+_componentName+'',[
+              Class('ComponentBody', Component, {
+                name: _componentName,
+                reload: true
+              })
+            ]);
           }
+          var _componentClassName = (components[_c].getAttribute('componentClass') != null) ? (components[_c].getAttribute('componentClass')) : ('Component');
+          var __componentClassName = (CONFIG.get('preserveComponentBodyTag'))?('com.qcobjects.components.'+_componentName+'.ComponentBody'):(_componentClassName);
+          var __definition = {
+            name: _componentName,
+            data: data,
+            cached: (__cached_not_set) ? (Component.cached) : (cached),
+            tplextension: tplextension,
+            body: (CONFIG.get('preserveComponentBodyTag')) ? (_DOMCreateElement('componentBody')):(components[_c]),
+            templateURI: componentURI,
+            tplsource: tplsource,
+            subcomponents: []
+          };
+          if (componentURI == ''){
+            delete __definition.templateURI;
+          }
+          var newComponent = New(ClassFactory(__componentClassName), __definition);
+
+          if (CONFIG.get('preserveComponentBodyTag')) {
+            components[_c].append(newComponent);
+          }
+          newComponent.done = componentDone;
           componentsBuiltWith.push(newComponent);
         }
         return componentsBuiltWith;
