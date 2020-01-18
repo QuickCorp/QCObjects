@@ -1,4 +1,4 @@
-![logo](qcobjects_01.png)
+![logo](https://qcobjects.dev/qcobjects_01.png)
 
 [![GitHub license](https://img.shields.io/github/license/QuickCorp/QCObjects.svg)](https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt) [![](https://data.jsdelivr.com/v1/package/npm/qcobjects/badge)](https://www.jsdelivr.com/package/npm/qcobjects)  [![Badge for version for Visual Studio Code extension Quickcorp.QCObjects-vscode](https://vsmarketplacebadge.apphb.com/version/Quickcorp.QCObjects-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode) [![Documentation Status](https://readthedocs.org/projects/qcobjects/badge/?version=latest)](https://qcobjects.readthedocs.io/?badge=latest) [![GitHub release](https://img.shields.io/github/issues/QuickCorp/QCObjects.svg)](https://github.com/QuickCorp/QCObjects/releases/) [![GitHub stars](https://img.shields.io/github/stars/QuickCorp/QCObjects.svg)](https://github.com/QuickCorp/QCObjects) [![npm version](https://badge.fury.io/js/qcobjects.svg)](https://badge.fury.io/js/qcobjects) ![apm: version](https://flat.badgen.net/apm/v/qcobjects-syntax?params) ![docker pulls](https://img.shields.io/docker/pulls/quickcorp/qcobjects.svg) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
@@ -201,11 +201,11 @@ If you don't want to use lazy loading for images, you can always keep the normal
 
 [QCObjects](https://qcobjects.dev) is a javascript framework designed to make easier everything about the MVC patterns implementation into the pure javascript scope. You don't need to use typescript nor any transpiler to run [QCObjects](https://qcobjects.dev). It runs directly on the browser and it uses pure javascript with no extra dependencies of code. You can make your own components expressed in real native javascript objects or extend a native DOM object to use in your own way. You can also use [QCObjects](https://qcobjects.dev) in conjunction with CSS3 frameworks like [Foundation] (https://foundation.zurb.com), [Bootstrap] (https://getbootstrap.com) and mobile javascript frameworks like [PhoneGap] (https://phonegap.com) and OnsenUI (https://onsen.io)
 
-![screenshot](doc/img/components.gif)
+![screenshot](https://qcobjects.dev/doc/img/components.gif)
 
 # Dynamic Components Architecture
 
-![qcobjects components layout](doc/img/QCObjects-Components-Layout.gif)
+![qcobjects components layout](https://qcobjects.dev/doc/img/QCObjects-Components-Layout.gif)
 
 
 # ECMA-262 Specification
@@ -377,7 +377,7 @@ https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
 ```shell
 > npm install qcobjects-cli -g && npm install qcobjects --save
 ```
-![screenshot2](doc/img/QCObjects-Quick-Start.gif)
+![screenshot2](https://qcobjects.dev/doc/img/QCObjects-Quick-Start.gif)
 
 ## Installing the docker playground:
 
@@ -385,7 +385,7 @@ https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
 docker pull -a quickcorp/qcobjects && docker run -it --name qcobjects-playground --rm -it quickcorp/qcobjects
 ```
 
-![screenshot3](doc/img/QCObjects-Docker-Playground.gif)
+![screenshot3](https://qcobjects.dev/doc/img/QCObjects-Docker-Playground.gif)
 
 ## One-Step Installation Script for Ubuntu 18.x
 
@@ -417,7 +417,7 @@ md mynewproject && cd mynewproject
 qcobjects create mynewproject --pwa
 ```
 
-![screenshot](doc/img/QCObjects-running-on-Windows64bit.gif)
+![screenshot](https://qcobjects.dev/doc/img/QCObjects-running-on-Windows64bit.gif)
 
 
 ## QCObjects Multi-Cloud Installation
@@ -1821,7 +1821,7 @@ Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into 
 
 # ALPHA RISE Startup
 --------------------------
-![alpha](doc/img/ALPHA-RISE.png)
+![alpha](https://qcobjects.dev/doc/img/ALPHA-RISE.png)
 
 [QCObjects](https://qcobjects.dev) was invited to exhibit as an ALPHA Startup in the RISE Conf Hong Kong 2019. RISE attracts the most dynamic startups from around the world. We'll be showing how [QCObjects](https://qcobjects.dev) is making a real Global Impact to the JavaScript developers life transforming the way for coding.
 
