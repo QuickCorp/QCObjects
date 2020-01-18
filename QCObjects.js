@@ -2221,7 +2221,7 @@
         var scrollIntoHash = component.body.subelements(document.location.hash);
         if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView == 'function')){
           scrollIntoHash[0].scrollIntoView(
-            CONFIG.get('scrollIntoHash',{behavior: "smooth", block: "center", inline: "center"});
+            CONFIG.get('scrollIntoHash',{behavior: "smooth", block: "center", inline: "center"})
           );
         }
       }
