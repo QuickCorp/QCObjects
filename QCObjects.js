@@ -2207,7 +2207,7 @@
 
       if (document.location.hash != ''){
         var scrollIntoHash = component.body.subelements(document.location.hash);
-        if (scrollIntoHash.length>0 && scrollIntoHash[0].hasOwnProperty('scrollIntoView')){
+        if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView == 'function')){
           scrollIntoHash[0].scrollIntoView();
         }
       }
