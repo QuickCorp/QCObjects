@@ -39,6 +39,11 @@ describe('QCObjects Main Test', function () {
     logger.debug('Existence of _DataStringify Function Helper... OK');
   });
 
+  it('Existence of CONFIG global Class', function () {
+    expect(typeof CONFIG.__definition).toEqual('object');
+    logger.debug('Existence of CONFIG global Class... OK');
+  });
+
   it('global as QCObjects global', function () {
     expect(typeof global.__definition).toEqual('object');
     logger.debug('global as QCObjects global... OK');
