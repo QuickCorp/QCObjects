@@ -657,6 +657,12 @@
         } catch (e) {
 
         }
+      } else if (typeof obj_source[v] == 'function'){
+        try {
+          obj_dest[v] = obj_source[v].bind(obj_dest);
+        } catch (e) {
+
+        }
       }
     }
     return obj_dest;
