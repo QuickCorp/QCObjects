@@ -1737,7 +1737,7 @@
               if (typeof i18n == 'object' && i18n.hasOwnProperty('messages')){
                 i18n.messages.map(function (message){
                   if (message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2)){
-                    element.innerText = element.innerText.replace(message[lang1],message[lang2]);
+                    element.innerHTML = element.innerHTML.replace(message[lang1],message[lang2]);
                   }
                 });
               }
