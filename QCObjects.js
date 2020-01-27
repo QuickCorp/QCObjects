@@ -1724,6 +1724,30 @@
         }
       }
       return _rebuilt;
+    },
+    i18n_translate: function (){
+      if (isBrowser){
+        if (CONFIG.get('use_i18n')){
+          var component = this;
+          var lang1=GLOBAL.get('lang','en');
+          var lang2 = navigator.language.slice(0, 2);
+          if (lang1!=lang2){
+            component.body.subelements('*').map(function (element){
+              var i18n = CONFIG.get('i18n');
+              if (typeof i18n == 'object' && i18n.hasOwnProperty('messages')){
+                i18n.messages.map(function (message){
+                  if (message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2)){
+                    element.innerText = element.innerText.replace(message[lang1],message[lang2]);
+                  }
+                });
+              }
+              return element;
+            });
+          }
+        }
+      } else {
+        // not yet implemented
+      }
     }
   });
   Component._bindroute.__assigned = false;
@@ -2240,6 +2264,14 @@
 
   if (isBrowser) {
     var componentHelpers = function(component) {
+      /*
+      * BEGIN use i18n translation
+      */
+      component.i18n_translate();
+      /*
+      * END use i18n translation
+      */
+
       /*
       * BEGIN component scrollIntoHash
       */
