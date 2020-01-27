@@ -1559,6 +1559,15 @@
                   return _ret_;
                 };
               });
+
+              /*
+              * BEGIN use i18n
+              */
+              global.componentsStack.map(function (c){c.i18n_translate()});
+              /*
+              * END use i18n
+              */
+
               Component._bindroute.__assigned = true;
             }
           }, captureFalse);
