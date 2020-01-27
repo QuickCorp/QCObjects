@@ -39,10 +39,11 @@ _________________________
 - [ECMA-262 Specification](#ecma-262-specification)
 - [Copyright](#copyright)
 - [Demo](#demo)
-	- [Demo Using Foundation](#demo-using-foundation)
-	- [Demo Using Materializecss](#demo-using-materializecss)
+	- [PWA Live Demo](#pwa-live-demo)
+	- [Demo Integrating Foundation](#demo-integrating-foundation)
+	- [Demo Integrating Materializecss](#demo-integrating-materializecss)
 	- [Demo Using Raw CSS](#demo-using-raw-css)
-	- [Another Basic Demo example: The simpliest demo example:](#another-basic-demo-example-the-simpliest-demo-example)
+	- [Demo of QCObjects using and manipulating canvas objects](#demo-of-qcobjects-using-and-manipulating-canvas-objects)
 - [Fork](#fork)
 - [Become a Sponsor](#become-a-sponsor)
 - [Check out the QCObjects SDK](#check-out-the-qcobjects-sdk)
@@ -221,12 +222,17 @@ Copyright (c) Jean Machuca and [QuickCorp](https://quickcorp.org) <info@quickcor
 # Demo
 --------------
 
-## Demo Using Foundation
+## PWA Live Demo
+
+Check out a live demo of pure QCObjects based frontend Progressive Web App here:
+[PWA QCObjects](https://newapp.qcobjects.dev/)
+
+## Demo Integrating Foundation
 
 Check out a demo using Foundation components here:
 [Demo Using Foundation](https://github.com/QuickCorp/quickobjects_sample1foundation)
 
-## Demo Using Materializecss
+## Demo Integrating Materializecss
 
 Check out a demo using MaterializeCSS here:
 [Demo Using Materializecss](https://qln.link)
@@ -236,7 +242,9 @@ Check out a demo using MaterializeCSS here:
 Check out a demo using raw CSS:
 [Demo Using Raw CSS](https://github.com/QuickCorp/qcobjects_profile_browser)
 
-## Another Basic Demo example: The simpliest demo example:
+## Demo of QCObjects using and manipulating canvas objects
+
+The following code shows how QCObjects can manipulate canvas objects directly and inside components
 
 ```html
 <!DOCTYPE html>
