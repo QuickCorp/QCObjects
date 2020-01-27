@@ -1733,16 +1733,16 @@
           var component = this;
           var lang1=CONFIG.get('lang','en');
           var lang2 = navigator.language.slice(0, 2);
-          if (lang1!=lang2){
-            component.body.subelements('p,a,b,h1,h2,h3,input,textarea,summary,details,ul,li,option,component').map(function (element){
-              var i18n = CONFIG.get('i18n');
-              if (typeof i18n == 'object' && i18n.hasOwnProperty('messages')){
-                i18n.messages.map(function (message){
-                  if (message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2)){
-                    element.innerHTML = element.innerHTML.replace(message[lang1],message[lang2]);
-                  }
-                });
-              }
+          var i18n = CONFIG.get('i18n');
+          if ((lang1 != lang2) && (typeof i18n == 'object' && i18n.hasOwnProperty('messages'))){
+            var messages = i18n.messages.filter(function (message){
+              return message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2);
+            });
+            component.body.subelements('p,a,b,h1,h2,h3,input,textarea,summary,details,ul,li,option,component')
+            .map(function (element){
+              messages.map(function (message){
+                element.innerHTML = element.innerHTML.replace(new RegExp(message[lang1],'g'),message[lang2]);
+              });
               return element;
             });
           }
