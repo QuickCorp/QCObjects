@@ -1522,6 +1522,13 @@
             e.stopImmediatePropagation();
             e.stopPropagation();
             if (!Component._bindroute.__assigned) {
+              /*
+              * BEGIN use i18n
+              */
+              global.componentsStack.map(function (c){c.i18n_translate()});
+              /*
+              * END use i18n
+              */
 
               _top.onpopstate = function(e) {
                 e.stopImmediatePropagation();
@@ -1560,13 +1567,6 @@
                 };
               });
 
-              /*
-              * BEGIN use i18n
-              */
-              global.componentsStack.map(function (c){c.i18n_translate()});
-              /*
-              * END use i18n
-              */
 
               Component._bindroute.__assigned = true;
             }
