@@ -1729,7 +1729,7 @@
       if (isBrowser){
         if (CONFIG.get('use_i18n')){
           var component = this;
-          var lang1=GLOBAL.get('lang','en');
+          var lang1=CONFIG.get('lang','en');
           var lang2 = navigator.language.slice(0, 2);
           if (lang1!=lang2){
             component.body.subelements('*').map(function (element){
