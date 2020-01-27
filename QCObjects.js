@@ -1732,7 +1732,7 @@
           var lang1=CONFIG.get('lang','en');
           var lang2 = navigator.language.slice(0, 2);
           if (lang1!=lang2){
-            component.body.subelements('p,a,b,h1,h2,h3,input,component').map(function (element){
+            component.body.subelements('p,a,b,h1,h2,h3,input,textarea,summary,details,ul,li,option,component').map(function (element){
               var i18n = CONFIG.get('i18n');
               if (typeof i18n == 'object' && i18n.hasOwnProperty('messages')){
                 i18n.messages.map(function (message){
