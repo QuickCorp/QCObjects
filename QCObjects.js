@@ -920,11 +920,12 @@
       var sdkPath = null;
       try {
         var sdkPaths = [
-          `${CONFIG.get('projectPath')+CONFIG.get('relativeImportPath')}`,
-          `${CONFIG.get('basePath')+CONFIG.get('relativeImportPath')}`,
+          `${CONFIG.get('projectPath')}${CONFIG.get('relativeImportPath')}`,
+          `${CONFIG.get('basePath')}${CONFIG.get('relativeImportPath')}`,
           `${CONFIG.get('projectPath')}`,
           `${CONFIG.get('basePath')}`,
           `${CONFIG.get('relativeImportPath')}`,
+          `${process.cwd()}${CONFIG.get('relativeImportPath')}`,
           `${process.cwd()}/node_modules/` + packagename,
           `${process.cwd()}/node_modules`,
           `${process.cwd()}`,
@@ -939,7 +940,7 @@
           sdkPath = sdkPaths[0];
           logger.info(packagename + ' is Installed.');
         } else {
-          // do nothing
+          logger.debug(packagename + ' is not in a standard path.');
         }
       } catch (e) {
         // do nothing
