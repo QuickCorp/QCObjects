@@ -940,7 +940,7 @@
           sdkPath = sdkPaths[0];
           logger.info(packagename + ' is Installed.');
         } else {
-          logger.debug(packagename + ' is not in a standard path.');
+//          logger.debug(packagename + ' is not in a standard path.');
         }
       } catch (e) {
         // do nothing
