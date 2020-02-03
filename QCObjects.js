@@ -1671,7 +1671,7 @@
         }
       });
 
-      Object.defineProperty(self, 'template', {
+      Object.defineProperty(self, 'parsedAssignmentText', {
         set(value) {
           if (self.hasOwnProperty('templateHandler')) {
             var templateHandlerName = self.templateHandler;
@@ -1679,13 +1679,13 @@
             var templateInstance = New(templateHandlerClass, {
               template: value
             });
-            self._template = templateInstance.assign(self.data);
+            self._parsedAssignmentText = templateInstance.assign(self.data);
           } else {
-            self._template = value;
+            self._parsedAssignmentText = value;
           }
         },
         get() {
-          return self._template;
+          return self._parsedAssignmentText;
         }
       });
       this.__new__(properties);
@@ -1858,7 +1858,7 @@
         var container = (component.hasOwnProperty('container') && typeof component.container != 'undefined' && component.container != null) ? (component.container) : (component.body);
         if (container != null) {
           var feedComponent = function(component) {
-            var parsedAssignmentText = component.template;
+            var parsedAssignmentText = component.parsedAssignmentText;
             component.innerHTML = parsedAssignmentText;
             if (component.reload) {
               logger.debug('FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
@@ -1919,13 +1919,13 @@
           if (component.cached) {
             logger.debug('USING CACHE FOR COMPONENT: ' + component.name);
             var cache = new ComplexStorageCache({
-              'index': component.name + '_' + component.__instanceID.toString(),
+              'index': component.name,
               'load': function(cacheController) {
                 _directLoad.call(this);
               },
               'alternate': function(cacheController) {
                 if (component.method == 'GET') {
-                  component.template = cacheController.cache.getCached(component.name + '_' + component.__instanceID.toString());
+                  component.template = cacheController.cache.getCached(component.name);
                   feedComponent.call(this, component);
 
                 } else {
