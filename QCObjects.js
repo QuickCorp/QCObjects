@@ -1671,6 +1671,16 @@
         }
       });
 
+      Object.defineProperty(self, 'cacheIndex', {
+        set(value) {
+          // readonly
+          logger.debug('[cacheIndex] This property is readonly');
+        },
+        get() {
+          return Base64.encode(self.name + _DataStringify(self.routingSelected));
+        }
+      });
+
       Object.defineProperty(self, 'parsedAssignmentText', {
         set(value) {
           // readonly
@@ -1923,13 +1933,13 @@
           if (component.cached) {
             logger.debug('USING CACHE FOR COMPONENT: ' + component.name);
             var cache = new ComplexStorageCache({
-              'index': component.name,
+              'index': component.cacheIndex,
               'load': function(cacheController) {
                 _directLoad.call(this);
               },
               'alternate': function(cacheController) {
                 if (component.method == 'GET') {
-                  component.template = cacheController.cache.getCached(component.name);
+                  component.template = cacheController.cache.getCached(component.cacheIndex);
                   feedComponent.call(this, component);
 
                 } else {
