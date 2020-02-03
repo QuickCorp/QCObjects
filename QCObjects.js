@@ -1673,7 +1673,12 @@
 
       Object.defineProperty(self, 'parsedAssignmentText', {
         set(value) {
+          // readonly
+          logger.debug('[parsedAssignmentText] This property is readonly');
+        },
+        get() {
           if (self.hasOwnProperty('templateHandler')) {
+            var value = self.template;
             var templateHandlerName = self.templateHandler;
             var templateHandlerClass = ClassFactory(self.templateHandler);
             var templateInstance = New(templateHandlerClass, {
@@ -1683,8 +1688,7 @@
           } else {
             self._parsedAssignmentText = value;
           }
-        },
-        get() {
+
           return self._parsedAssignmentText;
         }
       });
