@@ -20,7 +20,7 @@ describe('QCObjects Main Test', function () {
   it('Main intance Test Spec', function () {
     let __main__ = New(Main, {})
     expect(typeof __main__.__instanceID).toEqual('number');
-    expect(__main__.__definition.__classType).toEqual('Main')
+    expect(__main__.__classType).toEqual('Main')
     logger.debug('Main intance Test Spec... OK');
   });
 

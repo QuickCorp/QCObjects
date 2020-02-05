@@ -775,6 +775,11 @@
     o = Object.create(type, definition);
     o['__definition'] = definition;
     o['__definition']['__classType'] = name;
+    // hack to prevent pre-population of __classType into the object instance
+    // note: __classType must to be only a property into the __definition subinstance
+    if (o.hasOwnProperty('__classType')){
+      delete o.__classType;
+    }
     _QC_CLASSES[name] = o;
     _top[name] = _QC_CLASSES[name];
     return _top[name];
@@ -896,11 +901,6 @@
       if (c_new.hasOwnProperty('_new_')) {
         c_new._new_(args);
       }
-    }
-    // hack to prevent pre-population of __classType into the object instance
-    // note: __classType must to be only a property into the __definition subinstance
-    if (c_new.hasOwnProperty('__classType')){
-      delete c_new.__classType;
     }
     return c_new;
   };
