@@ -791,11 +791,13 @@
     if (className != null && className.indexOf('.')>-1){
       var packageName = className.split('.').slice(0,className.split('.').length-1).join('.');
       var _className = className.split('.').slice(-1).join('');
-      var packageClasses = Package(packageName).filter(classFactory=>{
+      var _package = Package(packageName);
+      var packageClasses = (typeof _package != 'undefined')?(_package.filter(classFactory=>{
         return typeof classFactory !== 'undefined'
             && classFactory.hasOwnProperty('__definition')
+            && isQCObjects_Class(classFactory)
             && classFactory.__definition.__classType==_className
-            && !classFactory.hasOwnProperty('__instanceID')}).reverse()
+            && !classFactory.hasOwnProperty('__instanceID')}).reverse()):([]);
       if (packageClasses.length>0){
         _classFactory = packageClasses[0]
       }
@@ -1086,6 +1088,25 @@
   Export(ComplexStorageCache);
   Export(ClassFactory);
 
+  var isQCObjects_Object = function (_){
+    return (typeof _ == 'object'
+            && _.hasOwnProperty('__classType')
+            && _.hasOwnProperty('__instanceID')
+            && _.hasOwnProperty('__definition')
+            && typeof _.__definition !== 'undefined'
+          )?(true):(false);
+  }
+
+  var isQCObjects_Class = function (_){
+    return (typeof _ == 'object'
+            && (!_.hasOwnProperty('__classType'))
+            && (!_.hasOwnProperty('__instanceID'))
+            && _.hasOwnProperty('__definition')
+            && typeof _.__definition !== 'undefined'
+            && _.__definition.hasOwnProperty('__classType')
+          )?(true):(false);
+  }
+
   /**
    * Defines a package for Class classification
    *
@@ -1096,12 +1117,34 @@
     if (_QC_PACKAGES.hasOwnProperty(namespace) &&
       typeof _QC_PACKAGES[namespace] != 'undefined' &&
       _QC_PACKAGES[namespace].hasOwnProperty('length') &&
-      _QC_PACKAGES[namespace].length > 0) {
+      _QC_PACKAGES[namespace].length > 0 &&
+      typeof classes !== 'undefined' &&
+      classes.hasOwnProperty('length') &&
+      classes.length > 0
+    ) {
+        for (var _c in classes.filter(
+          function (_c1){
+            return isQCObjects_Class(_c1)
+          }
+        )){
+            classes[_c].__definition.__namespace = namespace;
+        }
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
-    } else {
+    } else if (typeof classes != 'undefined'){
+      if (typeof classes =='object' && classes.hasOwnProperty('length')){
+        for (var _c in classes.filter(
+          function (_c1){
+            return isQCObjects_Class(_c1)
+          }
+        )){
+            classes[_c].__definition.__namespace = namespace;
+        }
+      } else if (isQCObjects_Class(classes)) {
+        classes.__definition.__namespace = namespace;
+      }
       _QC_PACKAGES[namespace] = classes;
     }
-    return _QC_PACKAGES[namespace];
+    return (_QC_PACKAGES.hasOwnProperty(namespace))?(_QC_PACKAGES[namespace]):(undefined);
   };
   Package.prototype.toString = function() {
     return "Package(namespace, classes) { [QCObjects native code] }";
