@@ -768,7 +768,10 @@
       };
       (_protected_code_)(definition['attachIn']);
     }
-
+    // hack to prevent pre-population of __instanceID into the class definition
+    if (definition.hasOwnProperty('__instanceID')){
+      delete definition.__instanceID;
+    }
     o = Object.create(type, definition);
     o['__definition'] = definition;
     o['__definition']['__classType'] = name;
