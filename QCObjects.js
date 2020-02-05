@@ -897,6 +897,11 @@
         c_new._new_(args);
       }
     }
+    // hack to prevent pre-population of __classType into the object instance
+    // note: __classType must to be only a property into the __definition subinstance
+    if (c_new.hasOwnProperty('__classType')){
+      delete c_new.__classType;
+    }
     return c_new;
   };
   New.prototype.toString = function() {
