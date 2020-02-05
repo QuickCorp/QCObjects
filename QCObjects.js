@@ -1134,7 +1134,7 @@
         }
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
     } else if (typeof classes != 'undefined'){
-      if (typeof classes =='object' && classes.hasOwnProperty('length')){
+      if (typeof classes == 'object' && classes.hasOwnProperty('length')){
         for (var _c in classes.filter(
           function (_c1){
             return isQCObjects_Class(_c1)
@@ -2209,6 +2209,8 @@
   Export(ComponentURI);
   Export(ObjectName);
   Export(_DataStringify);
+  Export(isQCObjects_Class);
+  Export(isQCObjects_Object);
 
   asyncLoad(function() {
 
