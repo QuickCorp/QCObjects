@@ -775,11 +775,6 @@
     o = Object.create(type, definition);
     o['__definition'] = definition;
     o['__definition']['__classType'] = name;
-    // hack to prevent pre-population of __classType into the object instance
-    // note: __classType must to be only a property into the __definition subinstance
-    if (o.hasOwnProperty('__classType')){
-      delete o.__classType;
-    }
     _QC_CLASSES[name] = o;
     _top[name] = _QC_CLASSES[name];
     return _top[name];
@@ -1107,7 +1102,6 @@
 
   var isQCObjects_Class = function (_){
     return (typeof _ == 'object'
-            && (!_.hasOwnProperty('__classType'))
             && (!_.hasOwnProperty('__instanceID'))
             && _.hasOwnProperty('__definition')
             && typeof _.__definition !== 'undefined'
