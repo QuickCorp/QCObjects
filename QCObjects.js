@@ -1786,6 +1786,51 @@
       }
       return _rebuilt;
     },
+    lazyLoadImages: function (){
+      if (isBrowser){
+        var component = this;
+        var _imgLazyLoaded = [...component.body.subelements('img[lazy-src]')];
+        var _lazyLoadImages = function(image) {
+          image.setAttribute('src', image.getAttribute('lazy-src'));
+          image.onload = () => {
+            image.removeAttribute('lazy-src');
+          };
+        };
+        if ('IntersectionObserver' in window) {
+          var observer = new IntersectionObserver((items, observer) => {
+            items.forEach((item) => {
+              if (item.isIntersecting) {
+                _lazyLoadImages(item.target);
+                observer.unobserve(item.target);
+              }
+            });
+          });
+          _imgLazyLoaded.map(function(img) {
+            observer.observe(img);
+          });
+        } else {
+          _imgLazyLoaded.map(_lazyLoadImages);
+        }
+
+      } else {
+        // not yet implemented
+      }
+    },
+    scrollIntoHash: function (){
+      if (isBrowser){
+        var component = this;
+        if (document.location.hash != ''){
+          var scrollIntoHash = component.body.subelements(document.location.hash);
+          if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView == 'function')){
+            scrollIntoHash[0].scrollIntoView(
+              CONFIG.get('scrollIntoHash',{behavior: "auto", block: "center", inline: "center"})
+            );
+          }
+        }
+      } else {
+        // not yet implemented
+      }
+    },
     i18n_translate: function (){
       if (isBrowser){
         if (CONFIG.get('use_i18n')){
@@ -2339,15 +2384,7 @@
       * BEGIN component scrollIntoHash
       */
 
-      if (document.location.hash != ''){
-        var scrollIntoHash = component.body.subelements(document.location.hash);
-        if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView == 'function')){
-          scrollIntoHash[0].scrollIntoView(
-            CONFIG.get('scrollIntoHash',{behavior: "auto", block: "center", inline: "center"})
-          );
-        }
-      }
-
+      component.scrollIntoHash();
       /*
       * END component scrollIntoHash
       */
@@ -2355,28 +2392,8 @@
       /*
        * BEGIN component images lazy-load
        */
-      var _imgLazyLoaded = [...component.body.subelements('img[lazy-src]')];
-      var _lazyLoadImages = function(image) {
-        image.setAttribute('src', image.getAttribute('lazy-src'));
-        image.onload = () => {
-          image.removeAttribute('lazy-src');
-        };
-      };
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver((items, observer) => {
-          items.forEach((item) => {
-            if (item.isIntersecting) {
-              _lazyLoadImages(item.target);
-              observer.unobserve(item.target);
-            }
-          });
-        });
-        _imgLazyLoaded.map(function(img) {
-          observer.observe(img);
-        });
-      } else {
-        _imgLazyLoaded.map(_lazyLoadImages);
-      }
+
+       component.lazyLoadImages();
 
       /*
        * END component images lazy-load
