@@ -1854,6 +1854,41 @@
       } else {
         // not yet implemented
       }
+    },
+    runComponentHelpers: function() {
+      if (isBrowser){
+        var component = this;
+        /*
+        * BEGIN use i18n translation
+        */
+        component.i18n_translate();
+        /*
+        * END use i18n translation
+        */
+
+        /*
+        * BEGIN component scrollIntoHash
+        */
+
+        component.scrollIntoHash();
+        /*
+        * END component scrollIntoHash
+        */
+
+        /*
+         * BEGIN component images lazy-load
+         */
+
+         component.lazyLoadImages();
+
+        /*
+         * END component images lazy-load
+         */
+
+      } else {
+        // not yet implemented
+      }
+
     }
   });
   Component._bindroute.__assigned = false;
@@ -2371,38 +2406,6 @@
   }, null);
 
   if (isBrowser) {
-    var componentHelpers = function(component) {
-      /*
-      * BEGIN use i18n translation
-      */
-      component.i18n_translate();
-      /*
-      * END use i18n translation
-      */
-
-      /*
-      * BEGIN component scrollIntoHash
-      */
-
-      component.scrollIntoHash();
-      /*
-      * END component scrollIntoHash
-      */
-
-      /*
-       * BEGIN component images lazy-load
-       */
-
-       component.lazyLoadImages();
-
-      /*
-       * END component images lazy-load
-       */
-
-    };
-  }
-
-  if (isBrowser) {
     Element.prototype.buildComponents = function(rebuildObjects = false) {
       var tagFilter = (rebuildObjects) ? ('component:not([loaded])') : ('component');
       var d = this;
@@ -2454,7 +2457,7 @@
             }
             this.body.setAttribute('loaded', true);
 
-            componentHelpers(this);
+            this.runComponentHelpers();
 
             if ((Tag('component[loaded=true]').length * 100 / Tag('component:not([template-source=none])').length) >= 100) {
               d.dispatchEvent(new CustomEvent('componentsloaded', {
