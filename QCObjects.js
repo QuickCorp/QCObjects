@@ -2802,6 +2802,61 @@
     }
   });
 
+  Class('TransitionEffect',Effect,{
+    duration:385,
+    defaultParams:{
+      alphaFrom:0,
+      alphaTo:1,
+      angleFrom:180,
+      angleTo:0,
+      radiusFrom:0,
+      radiusTo:30,
+      scaleFrom:0,
+      scaleTo:1
+    },
+    fitToHeight:false,
+    fitToWidth:false,
+    effects: [],
+    _new_:function (o){
+      logger.info('DECLARING TransitionEffect  ');
+      this.component.defaultParams = this.defaultParams;
+    },
+    apply: function ({alphaFrom,
+                      alphaTo,
+                      angleFrom,
+                      angleTo,
+                      radiusFrom,
+                      radiusTo,
+                      scaleFrom,
+                      scaleTo}){
+      logger.info('EXECUTING TransitionEffect  ');
+      if (this.fitToHeight){
+        this.component.body.height = this.component.body.offsetParent.scrollHeight;
+      }
+      if (this.fitToWidth){
+        this.component.body.width = this.component.body.offsetParent.scrollWidth;
+      }
+      this.component.body.style.display = 'block';
+      for (var eff in this.effects){
+        var effectClassName = this.effects[eff];
+        var effectClassMethod = _super_(effectClassName,'apply');
+        var args = [this.component.body].concat(Object.values(
+          {
+            alphaFrom,
+            alphaTo,
+            angleFrom,
+            angleTo,
+            radiusFrom,
+            radiusTo,
+            scaleFrom,
+            scaleTo
+          }
+        ));
+        effectClassMethod.apply(this,args);
+      }
+    }
+  });  
+
   Class('Timer', {
     duration: 1000,
     alive: true,
