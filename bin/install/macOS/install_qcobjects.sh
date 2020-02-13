@@ -37,13 +37,12 @@ echo "       Y8b                                888"
 echo "                                         d88P"
 echo "                                       888P"
 echo ""
-export HOME=~
 curl "https://nodejs.org/dist/v12.16.0/node-v12.16.0.pkg" > ~/Downloads/node-latest.pkg && installer -store -pkg ~/Downloads/node-latest.pkg -target "/"
 
-echo "NPM_PACKAGES=\"\${HOME}/.npm-packages\"" >>  ~/.bash_profile
+echo "NPM_PACKAGES=\"\~/.npm-packages\"" >>  ~/.bash_profile
 echo "export PATH=\"\$NPM_PACKAGES/bin:\$PATH\"" >>  ~/.bash_profile
 echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >>  ~/.bash_profile
-echo "prefix=\${HOME}/.npm-packages"  >>  ~/.npmrc
+echo "prefix=\~/.npm-packages"  >>  ~/.npmrc
 
 npm install -g npm
 npm install -g qcobjects-sdk
