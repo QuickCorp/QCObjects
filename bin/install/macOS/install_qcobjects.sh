@@ -38,7 +38,7 @@ echo "                                         d88P"
 echo "                                       888P"
 echo ""
 export HOME=~
-curl "https://nodejs.org/dist/v12.16.0/node-v12.16.0.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
+curl "https://nodejs.org/dist/v12.16.0/node-v12.16.0.pkg" > ~/Downloads/node-latest.pkg && installer -store -pkg ~/Downloads/node-latest.pkg -target "/"
 
 echo "NPM_PACKAGES=\"\${HOME}/.npm-packages\"" >>  ~/.bash_profile
 echo "export PATH=\"\$NPM_PACKAGES/bin:\$PATH\"" >>  ~/.bash_profile
