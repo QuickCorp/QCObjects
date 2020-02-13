@@ -39,10 +39,10 @@ echo "                                       888P"
 echo ""
 curl "https://nodejs.org/dist/v12.16.0/node-v12.16.0.pkg" > ~/Downloads/node-latest.pkg && installer -store -pkg ~/Downloads/node-latest.pkg -target "/"
 
-echo "NPM_PACKAGES=\"\~/.npm-packages\"" >>  ~/.bash_profile
+echo "NPM_PACKAGES=\"~/.npm-packages\"" >>  ~/.bash_profile
 echo "export PATH=\"\$NPM_PACKAGES/bin:\$PATH\"" >>  ~/.bash_profile
 echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >>  ~/.bash_profile
-echo "prefix=\~/.npm-packages"  >>  ~/.npmrc
+echo "prefix=~/.npm-packages"  >>  ~/.npmrc
 echo "source ~/.bash_profile" > ~/.zshrc
 source ~/.zshrc
 
