@@ -44,6 +44,11 @@ echo "export PATH=\"\$NPM_PACKAGES/bin:\$PATH\"" >>  ~/.bash_profile
 echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >>  ~/.bash_profile
 echo "prefix=\${HOME}/.npm-packages"  >>  ~/.npmrc
 
+npm install -g npm
+npm install -g qcobjects-sdk
+npm install -g qcobjects-cli
+npm install -g qcobjects
+
 clear
 echo "Welcome to... "
 echo ""
