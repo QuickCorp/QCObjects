@@ -54,6 +54,7 @@ _________________________
 	- [Installing with NPM:](#installing-with-npm)
 	- [Installing the docker playground:](#installing-the-docker-playground)
 	- [One-Step Installation Script for Ubuntu 18.x](#one-step-installation-script-for-ubuntu-18x)
+	- [One-Step Installation Script for macOS](#one-step-installation-script-for-macos)
 	- [Install and test QCObjects on Microsoft Windows OS](#install-and-test-qcobjects-on-microsoft-windows-os)
 	- [QCObjects Multi-Cloud Installation](#qcobjects-multi-cloud-installation)
 		- [DigitalOcean One-Click Droplet](#digitalocean-one-click-droplet)
@@ -405,6 +406,13 @@ curl -L https://qcobjects.dev/install_qcobjects_ubuntu18x.sh |sh
 ```
 
 WARNING: I'm not responsible for damaging your infrastructure by using an automated installation script into an unsafe network. Make sure all your repos and scripts are under HTTPS with a valid certificate. For better safe results I recommended you to download the script, edit it for your special needs and then execute it in your machine as local.
+
+## One-Step Installation Script for macOS
+Tested on macOS Catalina 10.15.3
+
+```shell
+curl -L https://qcobjects.dev/install_qcobjects_macOS.sh | zsh
+```
 
 ## Install and test QCObjects on Microsoft Windows OS
 
