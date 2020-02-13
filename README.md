@@ -414,7 +414,7 @@ Tested on macOS Catalina 10.15.3
 curl -L https://qcobjects.dev/install_qcobjects_macOS.sh | zsh
 ```
 
-## Install and test QCObjects on Microsoft Windows OS
+## Install and test QCObjects on Microsoft Windows OS
 
 1.- Install the latest version of NodeJS for Windows from [here](https://nodejs.org/)
 2.- From cmd install qcobjects-cli using npm
