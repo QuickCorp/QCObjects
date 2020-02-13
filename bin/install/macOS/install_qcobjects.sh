@@ -37,7 +37,8 @@ echo "       Y8b                                888"
 echo "                                         d88P"
 echo "                                       888P"
 echo ""
-curl "https://nodejs.org/dist/v12.16.0/node-v12.16.0.pkg" > ~/Downloads/node-latest.pkg && installer -store -pkg ~/Downloads/node-latest.pkg -target "/"
+NODE_VERSION=${${$(curl -L https://nodejs.org/en/download/ |grep "LTS Version: ")[5]//"<\/strong>"/""}//"<strong>"/""}
+curl "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.pkg" > ~/Downloads/node-latest.pkg && installer -store -pkg ~/Downloads/node-latest.pkg -target "/"
 
 echo "NPM_PACKAGES=\"~/.npm-packages\"" >>  ~/.bash_profile
 echo "export PATH=\"\$NPM_PACKAGES/bin:\$PATH\"" >>  ~/.bash_profile
