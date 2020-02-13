@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # QCObjects macOS Installer Script
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 #Created On: February, 12, 2020
