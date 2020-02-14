@@ -63,6 +63,7 @@ _________________________
 	- [Using the development version code in the straight way into HTML5:](#using-the-development-version-code-in-the-straight-way-into-html5)
 	- [Using the CDN minified version code from jsDelivr CDN](#using-the-cdn-minified-version-code-from-jsdelivr-cdn)
 	- [Using the latest non-minified version from jsDelivr CDN](#using-the-latest-non-minified-version-from-jsdelivr-cdn)
+	- [Using UNPKG CDN](#using-unpkg-cdn)
 - [Reference](#reference)
 	- [Essentials](#essentials)
 		- [QC_Object](#qcobject)
@@ -483,6 +484,13 @@ A Private Image lets you build a new AMI by installing AWS Marketplace software 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/qcobjects/QCObjects.js"></script>
 ```
+
+## Using UNPKG CDN
+
+```html
+<script src="https://unpkg.com/qcobjects@latest/QCObjects.js"></script>
+```
+
 
 
 # Reference
