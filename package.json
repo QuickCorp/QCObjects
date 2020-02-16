@@ -17,6 +17,9 @@
     "url": "git+https://github.com/QuickGroup/QCObjects.git"
   },
   "keywords": [
+    "server",
+    "view",
+    "mvvm",
     "node",
     "quickcorp",
     "javascript",
@@ -26,6 +29,7 @@
     "microfrontend",
     "micro-frontend",
     "architecture",
+    "component",
     "components",
     "pure",
     "framework",
@@ -57,7 +61,7 @@
   "bugs": {
     "url": "https://github.com/QuickGroup/QCObjects/issues"
   },
-  "homepage": "https://github.com/QuickGroup/QCObjects#readme",
+  "homepage": "https://qcobjects.com",
   "dependencies": {
     "qcobjects-cli": "latest",
     "qcobjects-sdk": "latest"
