@@ -2354,6 +2354,50 @@
       }
     });
 
+    Object.defineProperty(global._GLOBAL,'PackagesNameList',{
+      set(val){
+        logger.debug('PackagesNameList is readonly');
+        return;
+      },
+      get(){
+        var _get_packages_names = function (_packages){
+          var _keys = [];
+          for (var _k in _packages){
+            if (
+              typeof _packages[_k] !== 'undefined'
+              && _packages[_k].hasOwnProperty('length')
+              && _packages[_k].length>0
+            ){
+              _keys.push(_k);
+              _keys = _keys.concat(_get_packages_names(_packages[_k]));
+            }
+          }
+          return _keys;
+        };
+        return _get_packages_names(_QC_PACKAGES);
+      }
+    });
+
+    Object.defineProperty(global._GLOBAL,'PackagesList',{
+      set(value){
+        logger.debug('PackagesList is readonly');
+        return;
+      },
+      get(){
+        return global.get('PackagesNameList').map(function (packagename) {
+          return {
+            packageName:packagename,
+            classesList:Package(packagename).filter(function (_packageClass) {
+                return isQCObjects_Class(_packageClass);
+              }
+            )
+          };
+         });
+      }
+    });
+
+
+
     if (isBrowser) {
       // use of GLOBAL word is deprecated in node.js
       // this is only for compatibility purpose with old versions of QCObjects in browsers
@@ -2855,7 +2899,7 @@
         effectClassMethod.apply(this,args);
       }
     }
-  });  
+  });
 
   Class('Timer', {
     duration: 1000,
