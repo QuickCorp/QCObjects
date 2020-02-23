@@ -2419,9 +2419,9 @@
       }
     });
 
-    Object.defineProperty(global._GLOBAL,'ClassNamesList',{
+    Object.defineProperty(global._GLOBAL,'ClassesNameList',{
       set(value){
-        logger.debug('ClassNamesList is readonly');
+        logger.debug('ClassesNameList is readonly');
         return;
       },
       get(){
