@@ -2396,6 +2396,41 @@
       }
     });
 
+    Object.defineProperty(global._GLOBAL,'ClassesList',{
+      set(value){
+        logger.debug('ClassesList is readonly');
+        return;
+      },
+      get(){
+        var _classesList = [];
+        global.get('PackagesList').map(function (_package_element){
+          _classesList = _classesList.concat(_package_element.classesList.map(
+            function (_class_element){
+              return {
+                packageName:_package_element.packageName,
+                className:_package_element.packageName+'.'+_class_element.__definition.__classType,
+                classFactory:_class_element
+              }
+            }
+          ));
+        });
+
+        return _classesList;
+      }
+    });
+
+    Object.defineProperty(global._GLOBAL,'ClassNamesList',{
+      set(value){
+        logger.debug('ClassNamesList is readonly');
+        return;
+      },
+      get(){
+        return global.get('ClassesList').map(function (_class_element) {
+          return _class_element.className;
+         });
+      }
+    });
+
 
 
     if (isBrowser) {
