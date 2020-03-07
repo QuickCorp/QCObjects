@@ -2353,6 +2353,9 @@
         }
       }
     });
+    if (typeof global._GLOBAL == 'undefined'){
+      global._GLOBAL = {};
+    }
 
     Object.defineProperty(global._GLOBAL,'PackagesNameList',{
       set(val){
