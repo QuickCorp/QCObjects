@@ -2384,7 +2384,7 @@
         return;
       },
       get(){
-        return global.get('PackagesNameList').map(function (packagename) {
+        return global.PackagesNameList.map(function (packagename) {
           return {
             packageName:packagename,
             classesList:Package(packagename).filter(function (_packageClass) {
@@ -2403,7 +2403,7 @@
       },
       get(){
         var _classesList = [];
-        global.get('PackagesList').map(function (_package_element){
+        global.PackagesList.map(function (_package_element){
           _classesList = _classesList.concat(_package_element.classesList.map(
             function (_class_element){
               return {
@@ -2425,7 +2425,7 @@
         return;
       },
       get(){
-        return global.get('ClassesList').map(function (_class_element) {
+        return global.ClassesList.map(function (_class_element) {
           return _class_element.className;
          });
       }
