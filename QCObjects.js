@@ -2353,11 +2353,8 @@
         }
       }
     });
-    if (typeof global._GLOBAL == 'undefined'){
-      global._GLOBAL = {};
-    }
 
-    Object.defineProperty(global._GLOBAL,'PackagesNameList',{
+    Object.defineProperty(global,'PackagesNameList',{
       set(val){
         logger.debug('PackagesNameList is readonly');
         return;
@@ -2381,7 +2378,7 @@
       }
     });
 
-    Object.defineProperty(global._GLOBAL,'PackagesList',{
+    Object.defineProperty(global,'PackagesList',{
       set(value){
         logger.debug('PackagesList is readonly');
         return;
@@ -2399,7 +2396,7 @@
       }
     });
 
-    Object.defineProperty(global._GLOBAL,'ClassesList',{
+    Object.defineProperty(global,'ClassesList',{
       set(value){
         logger.debug('ClassesList is readonly');
         return;
@@ -2422,7 +2419,7 @@
       }
     });
 
-    Object.defineProperty(global._GLOBAL,'ClassesNameList',{
+    Object.defineProperty(global,'ClassesNameList',{
       set(value){
         logger.debug('ClassesNameList is readonly');
         return;
