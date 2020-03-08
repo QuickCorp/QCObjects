@@ -10,6 +10,20 @@
   "backend":{
     "routes":[
       {
+        "name":"OpenAPI3.JSON",
+        "description":"Open API v3 JSON",
+        "path":"^/openapi.json$",
+        "microservice":"org.quickcorp.backend.openapi.json"
+      },
+      {
+        "name":"OpenAPI3.YAML",
+        "description":"Open API v3 YAML",
+        "path":"^/openapi.yaml$",
+        "microservice":"org.quickcorp.backend.openapi.yaml"
+      },
+      {
+        "name":"Create Account",
+        "description":"Example of url for creating an account",
         "path":"/createaccount",
         "microservice":"org.quickcorp.backend.signup",
         "responseHeaders":{}
