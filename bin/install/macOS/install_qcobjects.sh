@@ -44,7 +44,10 @@ echo "NPM_PACKAGES=\"~/.npm-packages\"" >>  ~/.bash_profile
 echo "export PATH=\"\$NPM_PACKAGES/bin:\$PATH\"" >>  ~/.bash_profile
 echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >>  ~/.bash_profile
 echo "prefix=~/.npm-packages"  >>  ~/.npmrc
+
 echo "source ~/.bash_profile" > ~/.zshrc
+echo "source ~/.npmrc" > ~/.zshrc
+npm completion >> ~/.zshrc
 source ~/.zshrc
 
 npm install -g npm
