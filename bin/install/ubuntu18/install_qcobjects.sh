@@ -59,7 +59,9 @@ echo "export MANPATH=\"\$NPM_PACKAGES/share/man:\$(manpath)\"" >> /home/qcobject
 echo "prefix=\${HOME}/.npm-packages"  >> /home/qcobjects/.npmrc
 mkdir -p /home/qcobjects/projects && chown -R qcobjects:qcobjects /home/qcobjects/projects
 mkdir -p /home/qcobjects/projects/mynewapp && chown -R qcobjects:qcobjects /home/qcobjects/projects/mynewapp
+echo "source ~/.npmrc" > /home/qcobjects/.bashrc
 npm completion >> /home/qcobjects/.bashrc
+source /home/qcobjects/.bashrc
 sudo su -c "npm install -g npm" root
 sudo su -c "npm install -g qcobjects-sdk" root
 sudo su -c "npm install -g qcobjects-cli" root
