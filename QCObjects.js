@@ -2213,12 +2213,14 @@
 
           try {
             if (service.hasOwnProperty('useHTTP2') && service.useHTTP2) {
+              logger.debug('using http2');
               var http2 = require('http2');
               var client = http2.connect(serviceURL.origin);
               var req = client.request({
                 ':method': service.method,
                 ':path': serviceURL.pathname
               });
+              req.setEncoding('utf8');
             } else {
               var request = require("request");
               var requestOptions = Object.assign({
@@ -2236,15 +2238,31 @@
               'service': service,
               'responseHeaders': null
             };
-            req.on('response', (responseHeaders) => {
+
+            if (typeof service.data == 'object'){
+              if (service.useHTTP2){
+                logger.debug('Sending data...');
+                let buffer = new Buffer(_DataStringify(service.data));
+                req.write(buffer);
+              }
+            }
+
+            dataXML = '';
+            req.on('response', (responseHeaders,flags) => {
+              logger.debug('receiving response...');
               standardResponse.responseHeaders = responseHeaders;
+              for (const name in responseHeaders) {
+                logger.debug(`${name}: ${responseHeaders[name]}`);
+              }
               dataXML = '';
             });
             req.on('data', (chunk) => {
+              logger.debug('receiving data...');
               // do something with the data
               dataXML += chunk.toString();
             });
             req.on('end', () => {
+              logger.debug('ending call...');
               service.template = dataXML;
               if (service.hasOwnProperty('useHTTP2') && service.useHTTP2) {
                 client.destroy();
@@ -2257,6 +2275,7 @@
 
 
           } catch (e) {
+            logger.debug(e);
             service.fail.call(service, e);
             reject.call(_promise, e);
 
