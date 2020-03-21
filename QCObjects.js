@@ -1896,7 +1896,42 @@
 
   Class('Controller', Object, {
     dependencies: [],
-    component: null
+    component: null,
+    routingSelectedAttr: function (attrName){
+      return this.component.routingSelected.map(function (r){return r[attrName]}).filter(function (v){return v}).pop();
+    },
+    isTouchable:function (){
+      return ('ontouchstart' in window)
+           || (navigator.MaxTouchPoints > 0)
+           || (navigator.msMaxTouchPoints > 0);
+    },
+    onpress:function (subelementSelector,handler){
+      try {
+        if (this.isTouchable()){
+          this.component.body.subelements(subelementSelector)[0].addEventListener('touchstart',handler, {passive:true});
+        } else {
+          this.component.body.subelements(subelementSelector)[0].addEventListener('click',handler, {passive:true});
+        }
+      }catch (e){
+        logger.debug('No button to assign press event');
+      }
+    },
+    createRoutingController: function (){
+      var controller = this;
+      var component = controller.component;
+      var controllerName = controller.routingSelectedAttr('controllerclass');
+      if (typeof controllerName !== 'undefined'){
+        var _Controller = ClassFactory(controllerName);
+        if (typeof _Controller != 'undefined') {
+          component.routingController = New(_Controller, {
+            component: component
+          }); // Initializes the main controller for the component
+          if (component.routingController.hasOwnProperty('done') && typeof component.routingController.done == 'function') {
+            component.routingController.done.call(component.routingController);
+          }
+        }
+      }
+    }
   });
 
   Class('View', Object, {
@@ -2531,6 +2566,9 @@
               }
             }
             var controllerName = this.body.getAttribute('controllerClass');
+            if (!controllerName){
+              controllerName = 'Controller';
+            }
             var _Controller = ClassFactory(controllerName);
             if (typeof _Controller != 'undefined') {
               this.controller = New(_Controller, {
@@ -2539,6 +2577,7 @@
               if (this.controller.hasOwnProperty('done') && typeof this.controller.done == 'function') {
                 this.controller.done.call(this.controller);
               }
+              this.controller.createRoutingController();
             }
             var effectClassName = this.body.getAttribute('effectClass');
             var _Effect = ClassFactory(effectClassName);
