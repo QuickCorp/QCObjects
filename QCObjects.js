@@ -264,12 +264,12 @@
       warnEnabled: true,
       debug: function(message) {
         if (this.debugEnabled) {
-          console.log('\x1b[95m%s\x1b[0m','[DEBUG] ' + message);
+          console.log('\x1b[35m%s\x1b[0m','[DEBUG] ' + message);
         }
       },
       info: function(message) {
         if (this.infoEnabled) {
-          console.info('\x1b[93m%s\x1b[0m','[INFO] ' + message);
+          console.info('\x1b[33m%s\x1b[0m','[INFO] ' + message);
         }
       },
       warn: function(message) {
