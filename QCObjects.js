@@ -2669,11 +2669,50 @@
       body: null,
       stream: null,
       request: null,
+      cors: function (){
+        let {allow_origins,allow_credentials,allow_methods,allow_headers} = this.route.cors;
+        var microservice = this;
+        if (typeof microservice.headers !== 'object'){
+          microservice.headers = {};
+        }
+        if (typeof allow_origins !== 'undefined'){
+          // an example of allow_origins is ['https://example.com','http://www.example.com']
+          if (allow_origins =='*' || (typeof microservice.request.headers.origin == 'undefined') || [...allow_origins].indexOf(microservice.request.headers.origin)!== -1){
+            // for compatibility with all browsers allways return a wildcard when the origin is allowed
+            microservice.headers['Access-Control-Allow-Origin'] = '*';
+          } else {
+            logger.debug('Origin is not allowed: ' + microservice.request.headers.origin);
+            logger.debug('Forcing to finish the response...');
+            this.body = {};
+            try {
+              this.done();
+            } catch (e){}
+          }
+        } else {
+          microservice.headers['Access-Control-Allow-Origin'] = '*';
+        }
+        if (typeof allow_credentials !== 'undefined'){
+          microservice.headers['Access-Control-Allow-Credentials'] = allow_credentials.toString();
+        } else {
+          microservice.headers['Access-Control-Allow-Credentials'] = 'true';
+        }
+        if (typeof allow_methods !== 'undefined'){
+          microservice.headers['Access-Control-Allow-Methods'] = [...allow_methods].join(',');
+        } else {
+          microservice.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS, POST';
+        }
+        if (typeof allow_headers !== 'undefined'){
+          microservice.headers['Access-Control-Allow-Headers'] = [...allow_headers].join(',');
+        } else {
+          microservice.headers['Access-Control-Allow-Headers'] = '*';
+        }
+      },
       _new_: function(o) {
         logger.debug('Executing BackendMicroservice ');
         let microservice = this;
         microservice.body = null;
         let request = microservice.request;
+        this.cors();
         let stream = o.stream;
         microservice.stream = stream;
         stream.on('data', (data) => {
