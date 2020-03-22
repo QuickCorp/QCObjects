@@ -63,6 +63,7 @@
   },
   "homepage": "https://qcobjects.com",
   "dependencies": {
+    "patch": "0.0.1",
     "qcobjects-cli": "latest",
     "qcobjects-sdk": "latest"
   },
