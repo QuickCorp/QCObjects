@@ -2274,7 +2274,7 @@
               'responseHeaders': null
             };
 
-            if (typeof service.data == 'object'){
+            if (typeof service.data == 'object' && service.data !== null){
               if (service.useHTTP2){
                 logger.debug('Sending data...');
                 let buffer = new Buffer(_DataStringify(service.data));
