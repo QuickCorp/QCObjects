@@ -1845,7 +1845,7 @@
             component.body.subelements('p,a,b,h1,h2,h3,input,textarea,summary,details,ul,li,option,component')
             .map(function (element){
               messages.map(function (message){
-                element.innerHTML = element.innerHTML.replace(new RegExp(`^${message[lang1]}$`,'g'),message[lang2]);
+                element.innerHTML = element.innerHTML.replace(new RegExp(`${message[lang1]}`,'g'),message[lang2]);
               });
               return element;
             });
