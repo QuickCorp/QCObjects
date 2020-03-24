@@ -1842,7 +1842,7 @@
             var messages = i18n.messages.filter(function (message){
               return message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2);
             });
-            component.body.subelements('p,a,b,h1,h2,h3,input,textarea,summary,details,ul,li,option,component')
+            component.body.subelements('ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option')
             .map(function (element){
               messages.map(function (message){
                 element.innerHTML = element.innerHTML.replace(new RegExp(`${message[lang1]}`,'g'),message[lang2]);
