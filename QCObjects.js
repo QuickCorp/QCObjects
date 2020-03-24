@@ -1837,7 +1837,7 @@
           var component = this;
           var lang1=CONFIG.get('lang','en');
           var lang2 = navigator.language.slice(0, 2);
-          var i18n = CONFIG.get('i18n');
+          var i18n = global.get('i18n');
           if ((lang1 != lang2) && (typeof i18n == 'object' && i18n.hasOwnProperty('messages'))){
             var messages = i18n.messages.filter(function (message){
               return message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2);
@@ -1845,7 +1845,7 @@
             component.body.subelements('p,a,b,h1,h2,h3,input,textarea,summary,details,ul,li,option,component')
             .map(function (element){
               messages.map(function (message){
-                element.innerHTML = element.innerHTML.replace(new RegExp(message[lang1],'g'),message[lang2]);
+                element.innerHTML = element.innerHTML.replace(new RegExp(`^${message[lang1]}$`,'g'),message[lang2]);
               });
               return element;
             });
@@ -2356,8 +2356,14 @@
       set: function(name, value) {
         this._GLOBAL[name] = value;
       },
-      get: function(name) {
-        return this._GLOBAL[name];
+      get: function(name,_default) {
+        var _value;
+        if (typeof this._GLOBAL[name] !== 'undefined'){
+          _value = this._GLOBAL[name];
+        } else  if (typeof _default !== 'undefined'){
+          _value = _default;
+        }
+        return _value;
       },
       __start__: function() {
         var __load__serviceWorker = function() {
