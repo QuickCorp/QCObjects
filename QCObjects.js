@@ -1839,18 +1839,25 @@
           var lang2 = navigator.language.slice(0, 2);
           var i18n = global.get('i18n');
           if ((lang1 != lang2) && (typeof i18n == 'object' && i18n.hasOwnProperty('messages'))){
-            var messages = i18n.messages.filter(function (message){
-              return message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2);
-            });
-            component.body.subelements('ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component')
-            .map(function (element){
-              messages.map(function (message){
-                var _innerHTML = element.innerHTML;
-                _innerHTML = _innerHTML.replace(new RegExp(`${message[lang1]}`,'g'),message[lang2]);
-                element.innerHTML = _innerHTML;
+            var callback_i18n = function (component){
+              return new Promise(function (resolve, reject){
+                var messages = i18n.messages.filter(function (message){
+                  return message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2);
+                });
+                component.body.subelements('ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component')
+                .map(function (element){
+                  messages.map(function (message){
+                    var _innerHTML = element.innerHTML;
+                    _innerHTML = _innerHTML.replace(new RegExp(`${message[lang1]}`,'g'),message[lang2]);
+                    element.innerHTML = _innerHTML;
+                  });
+                  return element;
+                });
+                resolve();
               });
-              return element;
-            });
+            };
+            callback_i18n(component).call(component);
+
           }
         }
       } else {
