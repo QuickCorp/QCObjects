@@ -10,7 +10,7 @@
     "preversion": "npm test",
     "version": "npm i --upgrade",
     "sync": "git add . && git commit -am ",
-    "postversion": "git push && git push --tags && npm publish"
+    "postversion": "git push && git push --tags "
   },
   "repository": {
     "type": "git",
