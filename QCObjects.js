@@ -1775,6 +1775,7 @@
           rc.templateURI = componentURI;
         }
         if (rc.routingSelected.length > 0) {
+          rc.template = '';
           rc.body.innerHTML = '';
           rc.rebuild().then(function() {
             // not yet implemented.
@@ -2078,52 +2079,57 @@
 
             }
           };
-          var is_file = (component.url.startsWith('file:')) ? (true) : (false);
-          var xhr = new XMLHttpRequest();
-          xhr.open(component.method, component.url, (!is_file));
-          if (!is_phonegap && !is_file) {
-            xhr.setRequestHeader('Content-Type', 'text/html');
-          }
-          if (!is_file) {
-            xhr.onload = _componentLoaded;
-          }
-          var _directLoad = function() {
-            logger.debug('SENDING THE NORMAL REQUEST  ');
-            if (is_file) {
-              xhr.send(null);
-              if (xhr.status == 0) {
-                _componentLoaded.call(this);
-              }
-            } else {
-              xhr.send(_DataStringify(component.data));
-            }
-          };
-
-          if (component.cached) {
-            logger.debug('USING CACHE FOR COMPONENT: ' + component.name);
-            var cache = new ComplexStorageCache({
-              'index': component.cacheIndex,
-              'load': function(cacheController) {
-                _directLoad.call(this);
-              },
-              'alternate': function(cacheController) {
-                if (component.method == 'GET') {
-                  component.template = cacheController.cache.getCached(component.cacheIndex);
-                  feedComponent.call(this, component);
-
-                } else {
-                  _directLoad.call(this);
-                }
-                return;
-              }
-            });
-            global.lastCache = cache;
+          if (typeof component.template == 'string' && component.template !== ''){
+            // component already has a template it does not need to be reloaded
+            feedComponent.call(this, component);
           } else {
-            logger.debug('NOT USING CACHE FOR COMPONENT: ' + component.name);
-            _directLoad.call(this);
+            var is_file = (component.url.startsWith('file:')) ? (true) : (false);
+            var xhr = new XMLHttpRequest();
+            xhr.open(component.method, component.url, (!is_file));
+            if (!is_phonegap && !is_file) {
+              xhr.setRequestHeader('Content-Type', 'text/html');
+            }
+            if (!is_file) {
+              xhr.onload = _componentLoaded;
+            }
+            var _directLoad = function() {
+              logger.debug('SENDING THE NORMAL REQUEST  ');
+              if (is_file) {
+                xhr.send(null);
+                if (xhr.status == 0) {
+                  _componentLoaded.call(this);
+                }
+              } else {
+                xhr.send(_DataStringify(component.data));
+              }
+            };
+
+            if (component.cached) {
+              logger.debug('USING CACHE FOR COMPONENT: ' + component.name);
+              var cache = new ComplexStorageCache({
+                'index': component.cacheIndex,
+                'load': function(cacheController) {
+                  _directLoad.call(this);
+                },
+                'alternate': function(cacheController) {
+                  if (component.method == 'GET') {
+                    component.template = cacheController.cache.getCached(component.cacheIndex);
+                    feedComponent.call(this, component);
+                  } else {
+                    _directLoad.call(this);
+                  }
+                  return;
+                }
+              });
+              global.lastCache = cache;
+            } else {
+              logger.debug('NOT USING CACHE FOR COMPONENT: ' + component.name);
+              _directLoad.call(this);
+            }
+
           }
 
-          return xhr;
+          return;
         } else {
           logger.debug('CONTAINER DOESNT EXIST')
         }
