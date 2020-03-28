@@ -1840,7 +1840,8 @@
           var lang2 = navigator.language.slice(0, 2);
           var i18n = global.get('i18n');
           if ((lang1 != lang2) && (typeof i18n == 'object' && i18n.hasOwnProperty('messages'))){
-            var callback_i18n = function (component){
+            var callback_i18n = function (){
+              var component = this;
               return new Promise(function (resolve, reject){
                 var messages = i18n.messages.filter(function (message){
                   return message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2);
@@ -1857,7 +1858,9 @@
                 resolve();
               });
             };
-            callback_i18n(component).call(component);
+            callback_i18n.call(component).then(function (){
+              logger.debug('i18n loaded for component: '+component.name);
+            });
 
           }
         }
