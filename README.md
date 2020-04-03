@@ -6,7 +6,9 @@
 
 # QCObjects
 ------------------------------------
-Welcome to [QCObjects](https://qcobjects.dev). An open source technology based in JavaScript designed to allow web developers to code targeting desktop and mobile devices into a runtime components and objects scope.
+Welcome to [QCObjects](https://qcobjects.dev). An Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.
+
+With QCObjects devlopers are also able to code front-end and back-end together using a common syntax in pure JavaScript. It is cross-browser, cross-platform and cross-frame.
 
 [QCObjects is being featured by British Herald as today, the most advanced framework for modern software development.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
 
@@ -136,24 +138,24 @@ Here are the principals with QCObjects was made with:
 
 0. You should type in JavaScript to code a JavaScript application.
 1. Everything is an object.
-2. Any object can be stacked into the DOM.
-3. Every object has a definition.
+2. Every object has a definition.
+3. On the front-end side, any object can be stacked into the DOM or Virtual-DOM without the need to re-declare its definition.
 4. Every object has a body.
 5. A class should be the main definition of an object.
 6. A class should be easy typed as an object itself.
 7. Your code should be easily organised into packages.
 8. Your code should be possible to easily scafold your applications into a clean architecture.
-9. A component is an entity that has an object representation, and a tag declaration. The content of a component should be possible to be filled up remotely and locally. As a component is an object, it has a body as well, and the body of the component normally is an instance of a DOM element.
+9. A component is an entity that has an object representation, and a tag declaration. The content of a component should be possible to be filled up remotely and locally. As a component is an object, it has a body as well, and the body of the component normally is an stacked instance of a DOM element.
 10. A component can be attached to the DOM or detached from it without affecting its functionality.
 11. A service call can be extended to scafold its functionality.
 12. You should be able to import a package remotely.
 13. You should be able to scafold your code and also controlling your savings on the server side by not doing unnecessary calls to remote sources. You should not need to repeat yourself coding this kind of controls.
-14. You should be able to code your N-Tier application in a single language.
-15. You should be able to apply any template you want to a component, doesn't matter the syntax of the template language.
-16. If an HTML tag is already represented by a DOM object instance, you should not need to duplicate this instance in order to render its contents.
+14. You should be able to code your N-Tier application in a single language or syntax.
+15. You should be able to apply any template you want to a component, it doesn't matter the what syntax or language the template was written with.
+16. If an HTML tag is already represented by a DOM object instance, you should not need to duplicate this instance definition in order to render its contents.
 17. Your HTML main page should be clean. But you should be able to bind what controls the tag behaviour without affecting the HTML syntax.
 18. The order of execution of your code should be easily understandable and readable from the code, and the rendering process of every component should have and execution control in as many layers you need.
-19. The MVC pattern should be present for every component. It doesn't matter if you define every layer or not.
+19. A layered pattern (like MVC or MVCC) should be present for every component. It doesn't matter if you define every layer or not.
 20. The behaviour of a component should not be determined by its rendering process.
 21. It is necessary a components stack that splits the DOM into a subjacent tree of attached elements. So now it exists and it is called The QCObjects Nested Components Stack.
 22. You should be able to extend a component instance. But you should be able to control its dynamic behaviour without affecting its initial declaration.
@@ -163,16 +165,19 @@ Here are the principals with QCObjects was made with:
 
 # Main features
 
+
+- Built-In & custom templates for Progressive Web Apps (PWA) and Accelerated Mobile Pages (AMP)
 - Revolutionary UI Effects
-- Breakthrough backend microservices
+- Breakthrough backend micro-services
 - The simplicity of a wonderful layout design
-- Fully usable tools
+- Fully usable CLI tools
 - Objects & Components driven architecture
-- Frontend and backend together in a single developent environment
+- Front-end and back-end together in a full-stack environment
 - Recursive routing for components
-- Built-in nested components management
+- Built-In nested components management
 - Fully integrated MVC pattern (Model, View, Controller)
 - Dynamic Data Objects
+- Based on N-Tier Architecture concepts
 
 # Progressive Web Apps (PWA) Adopted Features
 
