@@ -17,6 +17,12 @@
     "url": "git+https://github.com/QuickGroup/QCObjects.git"
   },
   "keywords": [
+    "ROUTING",
+    "TOOLBAR",
+    "MEDIA",
+    "IMAGE",
+    "LAYOUT",
+    "BUTTON",
     "server",
     "view",
     "mvvm",
