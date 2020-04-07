@@ -83,7 +83,7 @@
     return _m;
   };
 
-  var isBrowser = typeof self !== 'undefined' && typeof window !== 'undefined' && window === self;
+  var isBrowser = typeof window !== 'undefined' && typeof window.self !== 'undefined' && window === window.self;
   var _DOMCreateElement = function(elementName) {
     var _ret_;
     if (isBrowser) {
@@ -356,6 +356,7 @@
       var r = 0;
       var c1 = 0;
       var c2 = 0;
+      var c3;
       while (n < e.length) {
         r = e.charCodeAt(n);
         if (r < 128) {
@@ -925,12 +926,12 @@
       var sdkPath = null;
       try {
         var sdkPaths = [
-          `${CONFIG.get('projectPath')}${CONFIG.get('relativeImportPath')}`,
-          `${CONFIG.get('basePath')}${CONFIG.get('relativeImportPath')}`,
-          `${CONFIG.get('projectPath')}`,
-          `${CONFIG.get('basePath')}`,
-          `${CONFIG.get('relativeImportPath')}`,
-          `${process.cwd()}${CONFIG.get('relativeImportPath')}`,
+          `${ClassFactory('CONFIG').get('projectPath')}${ClassFactory('CONFIG').get('relativeImportPath')}`,
+          `${ClassFactory('CONFIG').get('basePath')}${ClassFactory('CONFIG').get('relativeImportPath')}`,
+          `${ClassFactory('CONFIG').get('projectPath')}`,
+          `${ClassFactory('CONFIG').get('basePath')}`,
+          `${ClassFactory('CONFIG').get('relativeImportPath')}`,
+          `${process.cwd()}${ClassFactory('CONFIG').get('relativeImportPath')}`,
           `${process.cwd()}/node_modules/` + packagename,
           `${process.cwd()}/node_modules`,
           `${process.cwd()}`,
@@ -1018,10 +1019,10 @@
   });
 
   var _CryptObject = function(o) {
-    return _Crypt.encrypt(_DataStringify(o), _secretKey);
+    return ClassFactory('_Crypt').encrypt(_DataStringify(o), _secretKey);
   };
   var _DecryptObject = function(s) {
-    return JSON.parse(_Crypt.decrypt(s, _secretKey));
+    return JSON.parse(ClassFactory('_Crypt').decrypt(s, _secretKey));
   };
 
   Class('CONFIG', Object, {
@@ -1041,7 +1042,7 @@
       'useLocalSDK': false,
       'basePath': basePath
     },
-    _CONFIG_ENC: _Crypt.encrypt(_DataStringify({}), _secretKey),
+    _CONFIG_ENC: ClassFactory('_Crypt').encrypt(_DataStringify({}), _secretKey),
     set: function(name, value) {
       // hack to force update basePath from CONFIG
       if (name == 'basePath') {
@@ -1207,7 +1208,7 @@
               _QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
             }
           }
-          if (isBrowser && CONFIG.get('removePackageScriptAfterLoading')){
+          if (isBrowser && ClassFactory('CONFIG').get('removePackageScriptAfterLoading')){
             e.target.remove();
           }
           resolve.call(_promise_import_, {
@@ -1219,7 +1220,7 @@
         if (!_QC_PACKAGES.hasOwnProperty(packagename)) {
           var s1 = _DOMCreateElement('script');
           s1.type = 'text/javascript';
-          s1.async = (CONFIG.get('asynchronousImportsLoad')) ? (true) : (false);
+          s1.async = (ClassFactory('CONFIG').get('asynchronousImportsLoad')) ? (true) : (false);
           s1.onreadystatechange = function() {
             if (s1.readyState == 'complete') {
               readyImported.call();
@@ -1232,7 +1233,7 @@
               '_package_name_': packagename
             });
           };
-          s1.src = (external) ? (CONFIG.get('remoteImportsPath') + packagename + '.js') : (basePath + CONFIG.get('relativeImportPath') + packagename + '.js');
+          s1.src = (external) ? (ClassFactory('CONFIG').get('remoteImportsPath') + packagename + '.js') : (basePath + ClassFactory('CONFIG').get('relativeImportPath') + packagename + '.js');
           document.getElementsByTagName('head')[0].appendChild(s1);
         }
       });
@@ -1253,7 +1254,7 @@
             if (jsNodePath !== null) {
               packageAbsoluteName = jsNodePath + '/' + packagename + '.js';
             } else {
-              packageAbsoluteName = basePath + CONFIG.get('relativeImportPath') + packagename;
+              packageAbsoluteName = basePath + ClassFactory('CONFIG').get('relativeImportPath') + packagename;
             }
           }
           resolve.call(_promise_import_, {
@@ -1312,7 +1313,7 @@
       });
     },
     findElements: function(elementName) {
-      var _o = New(TagElements);
+      var _o = New(ClassFactory('TagElements'));
       if (isBrowser) {
         for (var _k in this) {
           if (typeof _k === 'number' && typeof this[_k] != 'function' && this[_k].hasOwnProperty('subelements')) {
@@ -1378,11 +1379,11 @@
         }
       }
     };
-    if (CONFIG.get('delayForReady') > 0) {
+    if (ClassFactory('CONFIG').get('delayForReady') > 0) {
       if (isBrowser) {
-        setTimeout(_execReady.bind(window), CONFIG.get('delayForReady'));
+        setTimeout(_execReady.bind(window), ClassFactory('CONFIG').get('delayForReady'));
       } else if (typeof global !== 'undefined') {
-        setTimeout(_execReady.bind(global), CONFIG.get('delayForReady'));
+        setTimeout(_execReady.bind(global), ClassFactory('CONFIG').get('delayForReady'));
       }
     } else {
       _execReady.call(_top);
@@ -1554,7 +1555,7 @@
     Cast: function(o) {
       return _Cast(this, o);
     },
-    routingWay: CONFIG.get('routingWay'),
+    routingWay: ClassFactory('CONFIG').get('routingWay'),
     validRoutingWays: ['pathname', 'hash', 'search'],
     routingNodes: [],
     routings: [],
@@ -1583,7 +1584,7 @@
                   if (!global.get('routingPaths')) {
                     global.set('routingPaths', []);
                   }
-                  var routingWay = CONFIG.get('routingWay');
+                  var routingWay = ClassFactory('CONFIG').get('routingWay');
                   var routingPath = e.target[routingWay];
                   if (global.get('routingPaths').includes(routingPath) &&
                     e.target[routingWay] != document.location[routingWay] &&
@@ -1703,7 +1704,7 @@
       }
     },
     _new_: function(properties) {
-      this.routingWay = CONFIG.get('routingWay');
+      this.routingWay = ClassFactory('CONFIG').get('routingWay');
 
       var self = this;
       Object.defineProperty(self, 'body', {
@@ -1767,7 +1768,7 @@
         for (var r = 0; r < rc.routingSelected.length; r++) {
           var routing = rc.routingSelected[r];
           var componentURI = ComponentURI({
-            'COMPONENTS_BASE_PATH': CONFIG.get('componentsBasePath'),
+            'COMPONENTS_BASE_PATH': ClassFactory('CONFIG').get('componentsBasePath'),
             'COMPONENT_NAME': routing.name.toString(),
             'TPLEXTENSION': rc.tplextension,
             'TPL_SOURCE': 'default' //here is always default in order to get the right uri
@@ -1824,7 +1825,7 @@
           var scrollIntoHash = component.body.subelements(document.location.hash);
           if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView == 'function')){
             scrollIntoHash[0].scrollIntoView(
-              CONFIG.get('scrollIntoHash',{behavior: "auto", block: "center", inline: "center"})
+              ClassFactory('CONFIG').get('scrollIntoHash',{behavior: "auto", block: "center", inline: "center"})
             );
           }
         }
@@ -1834,9 +1835,9 @@
     },
     i18n_translate: function (){
       if (isBrowser){
-        if (CONFIG.get('use_i18n')){
+        if (ClassFactory('CONFIG').get('use_i18n')){
           var component = this;
-          var lang1=CONFIG.get('lang','en');
+          var lang1=ClassFactory('CONFIG').get('lang','en');
           var lang2 = navigator.language.slice(0, 2);
           var i18n = global.get('i18n');
           if ((lang1 != lang2) && (typeof i18n == 'object' && i18n.hasOwnProperty('messages'))){
@@ -1997,7 +1998,7 @@
       logger.debug(result.service.template);
       this.JSONresponse = JSON.parse(result.service.template);
       if (this.JSONresponse.hasOwnProperty('__encoded__')) {
-        this.JSONresponse = JSON.parse(_Crypt.decrypt(this.JSONresponse.__encoded__, _secretKey));
+        this.JSONresponse = JSON.parse(ClassFactory('_Crypt').decrypt(this.JSONresponse.__encoded__, _secretKey));
       }
       for (var k in this.JSONresponse) {
         CONFIG.set(k, this.JSONresponse[k]);
@@ -2389,10 +2390,10 @@
           if (isBrowser) {
             _promise = new Promise(function(resolve, reject) {
               if (('serviceWorker' in navigator) &&
-                (typeof CONFIG.get('serviceWorkerURI') != 'undefined')) {
-                CONFIG.set('serviceWorkerScope', CONFIG.get('serviceWorkerScope') ? (CONFIG.get('serviceWorkerScope')) : ('/'));
-                navigator.serviceWorker.register(CONFIG.get('serviceWorkerURI'), {
-                    scope: CONFIG.get('serviceWorkerScope')
+                (typeof ClassFactory('CONFIG').get('serviceWorkerURI') != 'undefined')) {
+                CONFIG.set('serviceWorkerScope', ClassFactory('CONFIG').get('serviceWorkerScope') ? (ClassFactory('CONFIG').get('serviceWorkerScope')) : ('/'));
+                navigator.serviceWorker.register(ClassFactory('CONFIG').get('serviceWorkerURI'), {
+                    scope: ClassFactory('CONFIG').get('serviceWorkerScope')
                   })
                   .then(function(registration) {
                     logger.debug('Service Worker Registered');
@@ -2426,7 +2427,7 @@
 
           }
         };
-        if (CONFIG.get('useConfigService')) {
+        if (ClassFactory('CONFIG').get('useConfigService')) {
           global.configService = New(ConfigService);
           global.configService.configLoaded = _buildComponents;
           serviceLoader(global.configService);
@@ -2526,11 +2527,11 @@
 
 
 
-    if (CONFIG.get('useSDK')) {
+    if (ClassFactory('CONFIG').get('useSDK')) {
       (function() {
-        var remoteImportsPath = CONFIG.get('remoteImportsPath');
-        var external = (!CONFIG.get('useLocalSDK')) ? (true) : (false);
-        CONFIG.set('remoteImportsPath', CONFIG.get('remoteSDKPath'));
+        var remoteImportsPath = ClassFactory('CONFIG').get('remoteImportsPath');
+        var external = (!ClassFactory('CONFIG').get('useLocalSDK')) ? (true) : (false);
+        CONFIG.set('remoteImportsPath', ClassFactory('CONFIG').get('remoteSDKPath'));
 
         var tryImportingSDK = false;
         var sdkName = 'QCObjects-SDK';
@@ -2617,7 +2618,7 @@
             }
             this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
 
-            if (CONFIG.get('overrideComponentTag')) {
+            if (ClassFactory('CONFIG').get('overrideComponentTag')) {
               this.body.outerHTML = this.body.innerHTML;
             }
             this.body.setAttribute('loaded', true);
@@ -2636,17 +2637,17 @@
 
           var __cached_not_set = (components[_c].getAttribute('cached') == null) ? (true) : (false);
           var cached = (components[_c].getAttribute('cached') == 'true') ? (true) : (false);
-          var tplextension = (typeof CONFIG.get('tplextension') != 'undefined') ? (CONFIG.get('tplextension')) : ('html');
+          var tplextension = (typeof ClassFactory('CONFIG').get('tplextension') != 'undefined') ? (ClassFactory('CONFIG').get('tplextension')) : ('html');
           tplextension = (components[_c].getAttribute('tplextension') != null) ? (components[_c].getAttribute('tplextension')) : (tplextension);
           var tplsource = (components[_c].getAttribute('template-source') == null) ? ('default') : (components[_c].getAttribute('template-source'));
           var componentURI = ComponentURI({
-            'COMPONENTS_BASE_PATH': CONFIG.get('componentsBasePath'),
+            'COMPONENTS_BASE_PATH': ClassFactory('CONFIG').get('componentsBasePath'),
             'COMPONENT_NAME': components[_c].getAttribute('name').toString(),
             'TPLEXTENSION': tplextension,
             'TPL_SOURCE': tplsource
           });
           var _componentName = components[_c].getAttribute('name').toString();
-          if (CONFIG.get('preserveComponentBodyTag')) {
+          if (ClassFactory('CONFIG').get('preserveComponentBodyTag')) {
             Package('com.qcobjects.components.'+_componentName+'',[
               Class('ComponentBody', Component, {
                 name: _componentName,
@@ -2655,13 +2656,13 @@
             ]);
           }
           var _componentClassName = (components[_c].getAttribute('componentClass') != null) ? (components[_c].getAttribute('componentClass')) : ('Component');
-          var __componentClassName = (CONFIG.get('preserveComponentBodyTag'))?('com.qcobjects.components.'+_componentName+'.ComponentBody'):(_componentClassName);
+          var __componentClassName = (ClassFactory('CONFIG').get('preserveComponentBodyTag'))?('com.qcobjects.components.'+_componentName+'.ComponentBody'):(_componentClassName);
           var __definition = {
             name: _componentName,
             data: data,
             cached: (__cached_not_set) ? (Component.cached) : (cached),
             tplextension: tplextension,
-            body: (CONFIG.get('preserveComponentBodyTag')) ? (_DOMCreateElement('componentBody')):(components[_c]),
+            body: (ClassFactory('CONFIG').get('preserveComponentBodyTag')) ? (_DOMCreateElement('componentBody')):(components[_c]),
             templateURI: componentURI,
             tplsource: tplsource,
             subcomponents: []
@@ -2671,7 +2672,7 @@
           }
           var newComponent = New(ClassFactory(__componentClassName), __definition);
 
-          if (CONFIG.get('preserveComponentBodyTag')) {
+          if (ClassFactory('CONFIG').get('preserveComponentBodyTag')) {
             components[_c].append(newComponent);
           }
           newComponent.done = componentDone;
@@ -3142,7 +3143,7 @@
    * Load every component tag declared in the body
    **/
   Ready(function() {
-    if (!CONFIG.get('useSDK')) {
+    if (!ClassFactory('CONFIG').get('useSDK')) {
       global.__start__();
     }
   });
