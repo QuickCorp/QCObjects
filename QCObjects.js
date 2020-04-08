@@ -806,7 +806,7 @@
         return typeof classFactory !== "undefined"
             && classFactory.hasOwnProperty.call(classFactory,"__definition")
             && isQCObjects_Class(classFactory)
-            && classFactory.__definition.__classType==_className
+            && classFactory.__definition.__classType===_className
             && !classFactory.hasOwnProperty.call(classFactory,"__instanceID");}).reverse()):([]);
       if (packageClasses.length>0){
         _classFactory = packageClasses[0];
@@ -834,7 +834,7 @@
           var doc = document.implementation.createHTMLDocument("");
           doc.innerHTML = content;
           doc.body.subelements("*").map(function (element){
-            _self.append(element);
+            return _self.append(element);
           });
         }
       };
@@ -874,7 +874,7 @@
     var args = (arguments.length > 1) ? (arguments[1]) : ({});
     Object.__instanceID = (typeof Object.__instanceID === "undefined" || Object.__instanceID === null) ? (0) : (Object.__instanceID + 1);
     __instanceID = Object.__instanceID;
-    var c_new = (typeof c === "undefined") ? (Object.create((new Object()).constructor.prototype, {})) : (Object.create(c.constructor.prototype, c.__definition));
+    var c_new = (typeof c === "undefined") ? (Object.create(({}).constructor.prototype, {})) : (Object.create(c.constructor.prototype, c.__definition));
     c_new.__definition = _Cast({
       "__instanceID": __instanceID
     }, (typeof c !== "undefined") ? (c.__definition) : ({}));
@@ -1300,12 +1300,12 @@
   Class("TagElements", Array, {
     show: function() {
       this.map(function(element) {
-        element.style.opacity = 1;
+        return element.style.opacity = 1;
       });
     },
     hide: function() {
       this.map(function(element) {
-        element.style.opacity = 0;
+        return element.style.opacity = 0;
       });
     },
     effect: function() {
@@ -1315,7 +1315,7 @@
         effectClass = ClassFactory(effectClass);
       }
       this.map(function(element) {
-        effectClass.apply.apply(effectClass, [element].concat(effectArguments));
+        return effectClass.apply.apply(effectClass, [element].concat(effectArguments));
       });
     },
     findElements: function(elementName) {
@@ -1610,6 +1610,7 @@
                   }
                   return _ret_;
                 };
+                return null;
               });
 
 
@@ -1814,7 +1815,7 @@
             });
           });
           _imgLazyLoaded.map(function(img) {
-            observer.observe(img);
+            return observer.observe(img);
           });
         } else {
           _imgLazyLoaded.map(_lazyLoadImages);
@@ -1823,6 +1824,7 @@
       } else {
         // not yet implemented
       }
+      return null;
     },
     scrollIntoHash: function (){
       if (isBrowser){
@@ -2501,6 +2503,7 @@
               };
             }
           ));
+          return _package_element;
         });
 
         return _classesList;
