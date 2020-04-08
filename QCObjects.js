@@ -1263,10 +1263,18 @@
               packageAbsoluteName = basePath + ClassFactory("CONFIG").get("relativeImportPath") + packagename;
             }
           }
-          resolve.call(_promise_import_, {
-            "_imported_": require(`${packageAbsoluteName}`),
-            "_package_name_": packagename
-          });
+          try {
+            resolve.call(_promise_import_, {
+              "_imported_": require(`${packageAbsoluteName}`),
+              "_package_name_": packagename
+            });
+          }catch (e){
+            console.log(e);
+            reject.call(_promise_import_, {
+              "_imported_": null,
+              "_package_name_": packagename
+            });
+          }
         } catch (e) {
           console.log(e);
           reject.call(_promise_import_, {
