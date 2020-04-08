@@ -3274,6 +3274,6 @@
     }, null);
   }
 
-}).call(null,(typeof module === "object" && typeof module.exports === "object")?(module.exports):((typeof global === "object")?(global):(
+}).call(null,(typeof module === "object" && typeof module.exports === "object")?(module.exports = global):((typeof global === "object")?(global):(
   (typeof window === "object")?(window):({})
 )));
