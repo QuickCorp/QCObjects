@@ -1264,7 +1264,7 @@
             }
           }
           resolve.call(_promise_import_, {
-            "_imported_": require(packageAbsoluteName),
+            "_imported_": require(`${packageAbsoluteName}`),
             "_package_name_": packagename
           });
         } catch (e) {
