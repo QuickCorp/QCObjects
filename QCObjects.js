@@ -25,7 +25,7 @@
 "use strict";
 (function() {
   var _protected_code_ = function(_) {
-    var __oldtoString = (typeof _.prototype != 'undefined') ? (_.prototype.toString) : (function() {
+    var __oldtoString = (typeof _.prototype !== 'undefined') ? (_.prototype.toString) : (function() {
       return ""
     });
     _.prototype.toString = function() {
@@ -127,7 +127,7 @@
   var _top;
   if (isBrowser) {
     try {
-      _top = (typeof window.top != 'undefined') ? (window.top) : (window);
+      _top = (typeof window.top !== 'undefined') ? (window.top) : (window);
       _top['_allowed_'] = true;
     } catch (e) {
       try {
@@ -160,7 +160,7 @@
         } catch (e) {
           // not a process module
         }
-        if (typeof process != 'undefined') {
+        if (typeof process !== 'undefined') {
           _basePath = `${process.cwd()}/`;
         } else {
           _basePath = '';
@@ -189,7 +189,7 @@
         return _p;
       };
     }
-    if (typeof _top.console == 'undefined') {
+    if (typeof _top.console === 'undefined') {
       _top.console = function() {};
       _top.console.prototype.log = function(message) {};
     };
@@ -197,7 +197,7 @@
 
     var domain = (
       function() {
-        return (typeof document != 'undefined' && document.domain != '') ? (document.domain) : ('localhost');
+        return (typeof document !== 'undefined' && document.domain !== '') ? (document.domain) : ('localhost');
       }
     )();
 
@@ -213,7 +213,7 @@
     )();
     var is_phonegap = (
       function() {
-        return (typeof cordova != 'undefined') ? (true) : (false);
+        return (typeof cordova !== 'undefined') ? (true) : (false);
       }
     )();
 
@@ -239,7 +239,7 @@
 
   if (isBrowser) {
     var _fireAsyncLoad = function() {
-      if (document.readyState == "complete") {
+      if (document.readyState === "complete") {
         for (var f in _top._asyncLoad) {
           var fc = _top._asyncLoad[f];
           fc.dispatch();
@@ -322,10 +322,10 @@
         r = (o & 15) << 4 | u >> 2;
         i = (u & 3) << 6 | a;
         t = t + String.fromCharCode(n);
-        if (u != 64) {
+        if (u !== 64) {
           t = t + String.fromCharCode(r)
         }
-        if (a != 64) {
+        if (a !== 64) {
           t = t + String.fromCharCode(i)
         }
       }
@@ -439,11 +439,11 @@
   ComplexStorageCache.prototype.isEmpty = function(object) {
     var r = false;
     switch (true) {
-      case (typeof object == 'undefined'):
-      case (typeof object == 'string' && object == ""):
-      case (typeof object == 'string' && object == "undefined"):
-      case (typeof object == 'numeric' && object == 0):
-      case (object == null):
+      case (typeof object === 'undefined'):
+      case (typeof object === 'string' && object === ""):
+      case (typeof object === 'string' && object === "undefined"):
+      case (typeof object === 'numeric' && object === 0):
+      case (object === null):
         r = true;
         break;
       default:
@@ -513,7 +513,7 @@
         var _tags = document.subelements(tag);
         for (var _t in _tags) {
           var _tt = _tags[_t];
-          if ((typeof _tags[_t] != 'undefined') && _tags[_t].parentNode.tagName == this.parentNode.tagName) {
+          if ((typeof _tags[_t] !== 'undefined') && _tags[_t].parentNode.tagName === this.parentNode.tagName) {
             _oo.push(_Cast(_tt, (new QC_Object())));
           }
         }
@@ -537,7 +537,7 @@
 
     return function(O) {
       // 1. If Type(O) is not Object or Null throw a TypeError exception.
-      if (typeof O != 'object') {
+      if (typeof O !== 'object') {
         throw TypeError('Object prototype may only be an Object or null. The type is ' + typeof(O));
       }
 
@@ -571,12 +571,12 @@
 
   // Object.assign Polyfilling
   // Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
-  if (typeof Object.assign != 'function') {
+  if (typeof Object.assign !== 'function') {
     // Must be writable: true, enumerable: false, configurable: true
     Object.defineProperty(Object, "assign", {
       value: function assign(target, varArgs) { // .length of function is 2
         'use strict';
-        if (target == null) { // TypeError if undefined or null
+        if (target === null) { // TypeError if undefined or null
           throw new TypeError('Cannot convert undefined or null to object');
         }
 
@@ -585,7 +585,7 @@
         for (var index = 1; index < arguments.length; index++) {
           var nextSource = arguments[index];
 
-          if (nextSource != null) { // Skip over if undefined or null
+          if (nextSource !== null) { // Skip over if undefined or null
             for (var nextKey in nextSource) {
               // Avoid bugs when hasOwnProperty is shadowed
               if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
@@ -617,9 +617,9 @@
    */
   var ObjectName = function(o) {
     var ret = '';
-    if (typeof o.constructor == 'function') {
+    if (typeof o.constructor === 'function') {
       ret = o.constructor.name;
-    } else if (typeof o.constructor == 'object') {
+    } else if (typeof o.constructor === 'object') {
       ret = o.constructor.toString().split(' ')[1].replace(']', '');
     }
     return ret;
@@ -633,7 +633,7 @@
    */
   var _Cast = function(obj_source, obj_dest) {
     for (var v in obj_source) {
-      if (typeof obj_source[v] != 'undefined') {
+      if (typeof obj_source[v] !== 'undefined') {
         try {
           obj_dest[v] = obj_source[v];
         } catch (e) {
@@ -652,13 +652,13 @@
    */
   var _CastProps = function(obj_source, obj_dest) {
     for (var v in obj_source) {
-      if (typeof obj_source[v] != 'undefined' && typeof obj_source[v] != 'function') {
+      if (typeof obj_source[v] !== 'undefined' && typeof obj_source[v] !== 'function') {
         try {
           obj_dest[v] = obj_source[v];
         } catch (e) {
 
         }
-      } else if (typeof obj_source[v] == 'function'){
+      } else if (typeof obj_source[v] === 'function'){
         try {
           obj_dest[v] = obj_source[v].bind(obj_dest);
         } catch (e) {
@@ -688,7 +688,7 @@
       (arguments.length > 1) ? (arguments[1]) : ({})
     );
 
-    if (typeof type == 'undefined') {
+    if (typeof type === 'undefined') {
       if (isBrowser) {
         type = HTMLElement; // defaults to HTMLElement type
       } else {
@@ -696,30 +696,30 @@
       }
     } else {
       definition = _Cast(
-        (typeof definition == 'undefined') ? ({}) : (definition),
-        (typeof type['__definition'] != 'undefined') ? (_LegacyCopy(type.__definition)) : ({})
+        (typeof definition === 'undefined') ? ({}) : (definition),
+        (typeof type['__definition'] !== 'undefined') ? (_LegacyCopy(type.__definition)) : ({})
       );
     }
 
     type = (type.hasOwnProperty('prototype')) ? (type.prototype) : (_LegacyCopy(type));
 
-    if (typeof definition != 'undefined' && !definition.hasOwnProperty('__new__')) {
+    if (typeof definition !== 'undefined' && !definition.hasOwnProperty('__new__')) {
       definition['__new__'] = function(properties) {
         _CastProps(properties, this);
       };
       (_protected_code_)(definition['__new__']);
     }
 
-    if (typeof definition != 'undefined' && !definition.hasOwnProperty('css')) {
+    if (typeof definition !== 'undefined' && !definition.hasOwnProperty('css')) {
       definition['css'] = function QC_CSS3(_css) {
-        if (typeof this['body'] != 'undefined' && this['body']['style'] != 'undefined') {
+        if (typeof this['body'] !== 'undefined' && this['body']['style'] !== 'undefined') {
           logger.debug('body style');
           this['body']['style'] = _Cast(_css, this['body']['style']);
         }
       };
       (_protected_code_)(definition['css']);
     }
-    if (typeof definition != 'undefined' && !definition.hasOwnProperty('hierarchy')) {
+    if (typeof definition !== 'undefined' && !definition.hasOwnProperty('hierarchy')) {
       definition['hierarchy'] = function hierarchy() {
         var __classType = function(o_c) {
           return (o_c.hasOwnProperty('__classType')) ? (o_c.__classType) : ((o_c.hasOwnProperty('__definition')) ? (o_c.__definition.__classType) : (ObjectName(o_c)));
@@ -733,15 +733,15 @@
       }
     }
 
-    if (typeof definition != 'undefined' && !definition.hasOwnProperty('append')) {
+    if (typeof definition !== 'undefined' && !definition.hasOwnProperty('append')) {
       definition['append'] = function QC_Append() {
         var child = (arguments.length > 0) ? (arguments[0]) : (this['body']);
-        if (typeof this['body'] != 'undefined') {
+        if (typeof this['body'] !== 'undefined') {
           logger.debug('append element');
           if (arguments.lenght > 0) {
             logger.debug('append to element');
             this['body'].append(child);
-            if (typeof this['childs'] == 'undefined') {
+            if (typeof this['childs'] === 'undefined') {
               this['childs'] = [];
             }
             this['childs'].push(child);
@@ -756,7 +756,7 @@
       (_protected_code_)(definition['append']);
     }
 
-    if (typeof definition != 'undefined' && !definition.hasOwnProperty('attachIn')) {
+    if (typeof definition !== 'undefined' && !definition.hasOwnProperty('attachIn')) {
       definition['attachIn'] = function QC_AttachIn(tag) {
         if (isBrowser) {
           var tags = document.subelements(tag);
@@ -792,11 +792,11 @@
 
   var ClassFactory = function(className) {
     var _classFactory;
-    if (className != null && className.indexOf('.')>-1){
+    if (className !== null && className.indexOf('.')>-1){
       var packageName = className.split('.').slice(0,className.split('.').length-1).join('.');
       var _className = className.split('.').slice(-1).join('');
       var _package = Package(packageName);
-      var packageClasses = (typeof _package != 'undefined')?(_package.filter(classFactory=>{
+      var packageClasses = (typeof _package !== 'undefined')?(_package.filter(classFactory=>{
         return typeof classFactory !== 'undefined'
             && classFactory.hasOwnProperty('__definition')
             && isQCObjects_Class(classFactory)
@@ -805,7 +805,7 @@
       if (packageClasses.length>0){
         _classFactory = packageClasses[0]
       }
-    } else if (className != null && _QC_CLASSES.hasOwnProperty(className)) {
+    } else if (className !== null && _QC_CLASSES.hasOwnProperty(className)) {
       _classFactory = _QC_CLASSES[className];
     }
     return _classFactory;
@@ -814,7 +814,7 @@
 
   if (isBrowser) {
     Element.prototype.append = function QC_Append(child) {
-      if (typeof child.__definition != 'undefined' && typeof child.__definition.__classType != 'undefined' && typeof child.body) {
+      if (typeof child.__definition !== 'undefined' && typeof child.__definition.__classType !== 'undefined' && typeof child.body) {
         this.appendChild(child.body);
       } else {
         this.appendChild(child);
@@ -866,18 +866,18 @@
    */
   var New = function(c, args) {
     var args = (arguments.length > 1) ? (arguments[1]) : ({});
-    Object.__instanceID = (typeof Object.__instanceID == 'undefined' || Object.__instanceID == null) ? (0) : (Object.__instanceID + 1);
+    Object.__instanceID = (typeof Object.__instanceID === 'undefined' || Object.__instanceID === null) ? (0) : (Object.__instanceID + 1);
     __instanceID = Object.__instanceID;
-    var c_new = (typeof c == 'undefined') ? (Object.create((new Object()).constructor.prototype, {})) : (Object.create(c.constructor.prototype, c.__definition));
+    var c_new = (typeof c === 'undefined') ? (Object.create((new Object()).constructor.prototype, {})) : (Object.create(c.constructor.prototype, c.__definition));
     c_new.__definition = _Cast({
       '__instanceID': __instanceID
-    }, (typeof c != 'undefined') ? (c.__definition) : ({}));
+    }, (typeof c !== 'undefined') ? (c.__definition) : ({}));
     c_new['__instanceID'] = __instanceID;
-    if (c_new.hasOwnProperty('definition') && typeof c_new.__definition != 'undefined' && c_new.__definition != null) {
+    if (c_new.hasOwnProperty('definition') && typeof c_new.__definition !== 'undefined' && c_new.__definition !== null) {
       c_new.__definition['__instanceID'] = __instanceID;
     }
     if (c_new.hasOwnProperty('__new__')) {
-      if (typeof c_new != 'undefined' && !c_new.__definition.hasOwnProperty('body')) {
+      if (typeof c_new !== 'undefined' && !c_new.__definition.hasOwnProperty('body')) {
         try {
           if (isBrowser) {
             c_new['body'] = _Cast(c_new['__definition'], _DOMCreateElement(c_new.__definition.__classType));
@@ -965,7 +965,7 @@
       var string = o['string'];
       var key = (o.hasOwnProperty('key')) ? (o['key']) : (null);
       this.__new__(o);
-      key = (key == null) ? (this.__instanceID) : (key);
+      key = (key === null) ? (this.__instanceID) : (key);
       this.last_key = key;
       this.last_string = string;
       this.construct = true;
@@ -1045,7 +1045,7 @@
     _CONFIG_ENC: ClassFactory('_Crypt').encrypt(_DataStringify({}), _secretKey),
     set: function(name, value) {
       // hack to force update basePath from CONFIG
-      if (name == 'basePath') {
+      if (name === 'basePath') {
         basePath = value;
       }
       var _conf = (
@@ -1093,7 +1093,7 @@
   Export(ClassFactory);
 
   var isQCObjects_Object = function (_){
-    return (typeof _ == 'object'
+    return (typeof _ === 'object'
             && _.hasOwnProperty('__classType')
             && _.hasOwnProperty('__instanceID')
             && _.hasOwnProperty('__definition')
@@ -1102,7 +1102,7 @@
   }
 
   var isQCObjects_Class = function (_){
-    return (typeof _ == 'object'
+    return (typeof _ === 'object'
             && (!_.hasOwnProperty('__instanceID'))
             && _.hasOwnProperty('__definition')
             && typeof _.__definition !== 'undefined'
@@ -1118,7 +1118,7 @@
    */
   var Package = function(namespace, classes) {
     if (_QC_PACKAGES.hasOwnProperty(namespace) &&
-      typeof _QC_PACKAGES[namespace] != 'undefined' &&
+      typeof _QC_PACKAGES[namespace] !== 'undefined' &&
       _QC_PACKAGES[namespace].hasOwnProperty('length') &&
       _QC_PACKAGES[namespace].length > 0 &&
       typeof classes !== 'undefined' &&
@@ -1133,8 +1133,8 @@
             classes[_c].__definition.__namespace = namespace;
         }
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
-    } else if (typeof classes != 'undefined'){
-      if (typeof classes == 'object' && classes.hasOwnProperty('length')){
+    } else if (typeof classes !== 'undefined'){
+      if (typeof classes === 'object' && classes.hasOwnProperty('length')){
         for (var _c in classes.filter(
           function (_c1){
             return isQCObjects_Class(_c1)
@@ -1167,9 +1167,9 @@
     var external = false;
     if (arguments.length < 1) {
       return;
-    } else if (arguments.length == 1) {
+    } else if (arguments.length === 1) {
       packagename = arguments[0];
-    } else if (arguments.length == 2) {
+    } else if (arguments.length === 2) {
       packagename = arguments[0];
       ready = arguments[1];
     } else if (arguments.length > 2) {
@@ -1222,7 +1222,7 @@
           s1.type = 'text/javascript';
           s1.async = (ClassFactory('CONFIG').get('asynchronousImportsLoad')) ? (true) : (false);
           s1.onreadystatechange = function() {
-            if (s1.readyState == 'complete') {
+            if (s1.readyState === 'complete') {
               readyImported.call();
             }
           };
@@ -1305,7 +1305,7 @@
     effect: function() {
       var effectArguments = [...arguments].slice(1);
       var effectClass = arguments[0];
-      if ((typeof effectClass).toLowerCase() == 'string') {
+      if ((typeof effectClass).toLowerCase() === 'string') {
         effectClass = ClassFactory(effectClass);
       }
       this.map(function(element) {
@@ -1316,7 +1316,7 @@
       var _o = New(ClassFactory('TagElements'));
       if (isBrowser) {
         for (var _k in this) {
-          if (typeof _k === 'number' && typeof this[_k] != 'function' && this[_k].hasOwnProperty('subelements')) {
+          if (typeof _k === 'number' && typeof this[_k] !== 'function' && this[_k].hasOwnProperty('subelements')) {
             _o.push(this[_k].subelements(elementName));
           }
         }
@@ -1339,7 +1339,7 @@
       var o = document.subelements(tagname);
       var addedKeys = []
       for (var _i = 0; _i < o.length; _i++) {
-        if (typeof innerHTML != 'undefined' && o[_i].hasOwnProperty('innerHTML')) {
+        if (typeof innerHTML !== 'undefined' && o[_i].hasOwnProperty('innerHTML')) {
           o[_i].innerHTML = innerHTML;
         }
         if (addedKeys.indexOf(_i) < 0) {
@@ -1373,7 +1373,7 @@
   var _Ready = function(e) {
     var _execReady = function() {
       for (var _r in _QC_READY_LISTENERS) {
-        if (typeof _QC_READY_LISTENERS[_r] == 'function') {
+        if (typeof _QC_READY_LISTENERS[_r] === 'function') {
           _QC_READY_LISTENERS[_r].call();
           delete _QC_READY_LISTENERS[_r];
         }
@@ -1426,14 +1426,14 @@
     }) {
       var _value;
       var ddoInstance = this;
-      var name = (typeof name == 'undefined') ? (ObjectName(ddoInstance)) : (name);
+      var name = (typeof name === 'undefined') ? (ObjectName(ddoInstance)) : (name);
 
       Object.defineProperty(instance, name, {
         set(val) {
           _value = val;
           logger.debug('value changed ' + name);
           var ret;
-          if (typeof fset !== 'undefined' && typeof fset == 'function') {
+          if (typeof fset !== 'undefined' && typeof fset === 'function') {
             ret = fset(_value);
           } else {
             ret = _value;
@@ -1443,13 +1443,13 @@
         get() {
           logger.debug('returning value ' + name);
           var is_ddo = function(v) {
-            if (typeof v == 'object' && v.hasOwnProperty('value')) {
+            if (typeof v === 'object' && v.hasOwnProperty('value')) {
               return v.value;
             }
             return v;
           }
           var ret;
-          if (typeof fget !== 'undefined' && typeof fget == 'function') {
+          if (typeof fget !== 'undefined' && typeof fget === 'function') {
             ret = fget(is_ddo(_value));
           } else {
             ret = is_ddo(_value);
@@ -1503,10 +1503,10 @@
       var _component = this;
       var _promise = new Promise(function(resolve, reject) {
         switch (true) {
-          case (typeof _component.get('tplsource') != 'undefined' &&
-            _component.get('tplsource') == 'default' &&
-            typeof _component.get('templateURI') != 'undefined' &&
-            _component.get('templateURI') != ""):
+          case (typeof _component.get('tplsource') !== 'undefined' &&
+            _component.get('tplsource') === 'default' &&
+            typeof _component.get('templateURI') !== 'undefined' &&
+            _component.get('templateURI') !== ""):
             _component.set('url', _component.get('basePath') + _component.get('templateURI'));
             componentLoader(_component, false).then(
               function(standardResponse) {
@@ -1516,10 +1516,10 @@
                 reject.call(_promise, standardResponse);
               });
             break;
-          case (typeof _component.get('tplsource') != 'undefined' &&
-            _component.get('tplsource') == "external" &&
-            typeof _component.get('templateURI') != 'undefined' &&
-            _component.get('templateURI') != ""):
+          case (typeof _component.get('tplsource') !== 'undefined' &&
+            _component.get('tplsource') === "external" &&
+            typeof _component.get('templateURI') !== 'undefined' &&
+            _component.get('templateURI') !== ""):
             _component.set('url', _component.get('templateURI'));
             componentLoader(_component, false).then(
               function(standardResponse) {
@@ -1529,8 +1529,8 @@
                 reject.call(_promise, standardResponse);
               });
             break;
-          case (typeof _component.get('tplsource') != 'undefined' &&
-            _component.get('tplsource') == "none"):
+          case (typeof _component.get('tplsource') !== 'undefined' &&
+            _component.get('tplsource') === "none"):
             logger.debug('Component ' + _component.name + ' has specified template-source=none, so no template load was done');
             var standardResponse = {
               request: null,
@@ -1573,7 +1573,7 @@
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 ClassFactory('Component').route();
-                if (typeof e.target.__oldpopstate != 'undefined' && typeof e.target.__oldpopstate == 'function') {
+                if (typeof e.target.__oldpopstate !== 'undefined' && typeof e.target.__oldpopstate === 'function') {
                   e.target.__oldpopstate.call(e.target, e);
                 }
               };
@@ -1587,8 +1587,8 @@
                   var routingWay = ClassFactory('CONFIG').get('routingWay');
                   var routingPath = e.target[routingWay];
                   if (global.get('routingPaths').includes(routingPath) &&
-                    e.target[routingWay] != document.location[routingWay] &&
-                    e.target.href != document.location.href
+                    e.target[routingWay] !== document.location[routingWay] &&
+                    e.target.href !== document.location.href
                   ) {
                     logger.debug('A ROUTING WAS FOUND: ' + routingPath);
                     window.history.pushState({
@@ -1599,7 +1599,7 @@
                   } else {
                     logger.debug('NO ROUTING FOUND FOR: ' + routingPath);
                   }
-                  if (typeof e.target.oldclick != 'undefined' && typeof e.target.oldclick == 'function') {
+                  if (typeof e.target.oldclick !== 'undefined' && typeof e.target.oldclick === 'function') {
                     e.target.oldclick.call(e.target, e);
                   }
                   return _ret_;
@@ -1624,7 +1624,7 @@
           var rc = routingComponents[r];
           rc._reroute_();
           if (rc.hasOwnProperty('subcomponents') &&
-            typeof rc.subcomponents != 'undefined' &&
+            typeof rc.subcomponents !== 'undefined' &&
             rc.subcomponents.length > 0
           ) {
             logger.debug('LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: ' + rc.name);
@@ -1678,7 +1678,7 @@
     _generateRoutingPaths: function(c) {
       if (isBrowser) {
         if (this.validRoutingWays.includes(this.routingWay)) {
-          if (typeof c != 'undefined') {
+          if (typeof c !== 'undefined') {
             this.innerHTML = c.innerHTML;
             this.routingNodes = c.subelements('routing');
             this.routings = [];
@@ -1821,9 +1821,9 @@
     scrollIntoHash: function (){
       if (isBrowser){
         var component = this;
-        if (document.location.hash != ''){
+        if (document.location.hash !== ''){
           var scrollIntoHash = component.body.subelements(document.location.hash);
-          if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView == 'function')){
+          if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView === 'function')){
             scrollIntoHash[0].scrollIntoView(
               ClassFactory('CONFIG').get('scrollIntoHash',{behavior: "auto", block: "center", inline: "center"})
             );
@@ -1840,7 +1840,7 @@
           var lang1=ClassFactory('CONFIG').get('lang','en');
           var lang2 = navigator.language.slice(0, 2);
           var i18n = global.get('i18n');
-          if ((lang1 != lang2) && (typeof i18n == 'object' && i18n.hasOwnProperty('messages'))){
+          if ((lang1 !== lang2) && (typeof i18n === 'object' && i18n.hasOwnProperty('messages'))){
             var callback_i18n = function (){
               var component = this;
               return new Promise(function (resolve, reject){
@@ -1936,11 +1936,11 @@
       var controllerName = controller.routingSelectedAttr('controllerclass');
       if (typeof controllerName !== 'undefined'){
         var _Controller = ClassFactory(controllerName);
-        if (typeof _Controller != 'undefined') {
+        if (typeof _Controller !== 'undefined') {
           component.routingController = New(_Controller, {
             component: component
           }); // Initializes the main controller for the component
-          if (component.routingController.hasOwnProperty('done') && typeof component.routingController.done == 'function') {
+          if (component.routingController.hasOwnProperty('done') && typeof component.routingController.done === 'function') {
             component.routingController.done.call(component.routingController);
           }
         }
@@ -2024,7 +2024,7 @@
    */
   var ComponentURI = function(params) {
     var templateURI = '';
-    if (params['TPL_SOURCE'] == 'default') {
+    if (params['TPL_SOURCE'] === 'default') {
       templateURI = '{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}';
       for (var k in params) {
         var param = params[k];
@@ -2043,8 +2043,8 @@
   var componentLoader = function(component, _async) {
     var _componentLoader = function(component, _async) {
       var _promise = new Promise(function(resolve, reject) {
-        var container = (component.hasOwnProperty('container') && typeof component.container != 'undefined' && component.container != null) ? (component.container) : (component.body);
-        if (container != null) {
+        var container = (component.hasOwnProperty('container') && typeof component.container !== 'undefined' && component.container !== null) ? (component.container) : (component.body);
+        if (container !== null) {
           var feedComponent = function(component) {
             var parsedAssignmentText = component.parsedAssignmentText;
             component.innerHTML = parsedAssignmentText;
@@ -2070,7 +2070,7 @@
               logger.debug('Data received {{DATA}}'.replace('{{DATA}}', _DataStringify(response)));
               logger.debug('CREATING COMPONENT {{NAME}}'.replace('{{NAME}}', component.name));
               component.template = response;
-              if (component.cached && (typeof cache != 'undefined')) {
+              if (component.cached && (typeof cache !== 'undefined')) {
                 cache.save(component.name, component.template);
               }
               feedComponent.call(this, component);
@@ -2083,7 +2083,7 @@
 
             }
           };
-          if (typeof component.template == 'string' && component.template !== ''){
+          if (typeof component.template === 'string' && component.template !== ''){
             // component already has a template it does not need to be reloaded
             feedComponent.call(this, component);
           } else {
@@ -2100,7 +2100,7 @@
               logger.debug('SENDING THE NORMAL REQUEST  ');
               if (is_file) {
                 xhr.send(null);
-                if (xhr.status == 0) {
+                if (xhr.status === 0) {
                   _componentLoaded.call(this);
                 }
               } else {
@@ -2116,7 +2116,7 @@
                   _directLoad.call(this);
                 },
                 'alternate': function(cacheController) {
-                  if (component.method == 'GET') {
+                  if (component.method === 'GET') {
                     component.template = cacheController.cache.getCached(component.cacheIndex);
                     feedComponent.call(this, component);
                   } else {
@@ -2157,7 +2157,7 @@
     };
 
     var _ret_;
-    if (typeof _async != 'undefined' && _async) {
+    if (typeof _async !== 'undefined' && _async) {
       _ret_ = asyncLoad(_componentLoader, arguments);
     } else {
       _ret_ = _componentLoader(component, _async);
@@ -2190,7 +2190,7 @@
               logger.debug('Data received {{DATA}}'.replace('{{DATA}}', _DataStringify(response)));
               logger.debug('CREATING SERVICE {{NAME}}'.replace('{{NAME}}', service.name));
               service.template = response;
-              if (service.cached && (typeof cache != 'undefined')) {
+              if (service.cached && (typeof cache !== 'undefined')) {
                 cache.save(service.name, service.template);
               }
               if (typeof service.done === 'function') {
@@ -2233,7 +2233,7 @@
                 _directLoad.call(this);
               },
               'alternate': function(cacheController) {
-                if (service.method == 'GET') {
+                if (service.method === 'GET') {
                   service.template = cacheController.cache.getCached(service.name);
                   if (typeof service.done === 'function') {
                     var standardResponse = {
@@ -2293,7 +2293,7 @@
               'responseHeaders': null
             };
 
-            if (typeof service.data == 'object' && service.data !== null){
+            if (typeof service.data === 'object' && service.data !== null){
               if (service.useHTTP2){
                 try {
                   logger.debug('Sending data...');
@@ -2349,7 +2349,7 @@
 
     var _ret_;
     if (isBrowser) {
-      if (typeof _async != 'undefined' && _async) {
+      if (typeof _async !== 'undefined' && _async) {
         _ret_ = asyncLoad(_serviceLoaderInBrowser, arguments);
       } else {
         _ret_ = _serviceLoaderInBrowser(service, _async);
@@ -2389,7 +2389,7 @@
           if (isBrowser) {
             _promise = new Promise(function(resolve, reject) {
               if (('serviceWorker' in navigator) &&
-                (typeof ClassFactory('CONFIG').get('serviceWorkerURI') != 'undefined')) {
+                (typeof ClassFactory('CONFIG').get('serviceWorkerURI') !== 'undefined')) {
                 ClassFactory('CONFIG').set('serviceWorkerScope', ClassFactory('CONFIG').get('serviceWorkerScope') ? (ClassFactory('CONFIG').get('serviceWorkerScope')) : ('/'));
                 navigator.serviceWorker.register(ClassFactory('CONFIG').get('serviceWorkerURI'), {
                     scope: ClassFactory('CONFIG').get('serviceWorkerScope')
@@ -2584,11 +2584,11 @@
           var componentDone = function() {
             var viewName = this.body.getAttribute('viewClass');
             var _View = ClassFactory(viewName);
-            if (typeof _View != 'undefined') {
+            if (typeof _View !== 'undefined') {
               this.view = New(_View, {
                 component: this
               }); // Initializes the main view for the component
-              if (this.view.hasOwnProperty('done') && typeof this.view.done == 'function') {
+              if (this.view.hasOwnProperty('done') && typeof this.view.done === 'function') {
                 this.view.done.call(this.view);
               }
             }
@@ -2597,18 +2597,18 @@
               controllerName = 'Controller';
             }
             var _Controller = ClassFactory(controllerName);
-            if (typeof _Controller != 'undefined') {
+            if (typeof _Controller !== 'undefined') {
               this.controller = New(_Controller, {
                 component: this
               }); // Initializes the main controller for the component
-              if (this.controller.hasOwnProperty('done') && typeof this.controller.done == 'function') {
+              if (this.controller.hasOwnProperty('done') && typeof this.controller.done === 'function') {
                 this.controller.done.call(this.controller);
               }
               this.controller.createRoutingController();
             }
             var effectClassName = this.body.getAttribute('effectClass');
             var _Effect = ClassFactory(effectClassName);
-            if (typeof _Effect != 'undefined') {
+            if (typeof _Effect !== 'undefined') {
               this.effect = New(_Effect, {
                 component: this
               });
@@ -2633,11 +2633,11 @@
           };
           (_protected_code_)(componentDone);
 
-          var __cached_not_set = (components[_c].getAttribute('cached') == null) ? (true) : (false);
-          var cached = (components[_c].getAttribute('cached') == 'true') ? (true) : (false);
-          var tplextension = (typeof ClassFactory('CONFIG').get('tplextension') != 'undefined') ? (ClassFactory('CONFIG').get('tplextension')) : ('html');
-          tplextension = (components[_c].getAttribute('tplextension') != null) ? (components[_c].getAttribute('tplextension')) : (tplextension);
-          var tplsource = (components[_c].getAttribute('template-source') == null) ? ('default') : (components[_c].getAttribute('template-source'));
+          var __cached_not_set = (components[_c].getAttribute('cached') === null) ? (true) : (false);
+          var cached = (components[_c].getAttribute('cached') === 'true') ? (true) : (false);
+          var tplextension = (typeof ClassFactory('CONFIG').get('tplextension') !== 'undefined') ? (ClassFactory('CONFIG').get('tplextension')) : ('html');
+          tplextension = (components[_c].getAttribute('tplextension') !== null) ? (components[_c].getAttribute('tplextension')) : (tplextension);
+          var tplsource = (components[_c].getAttribute('template-source') === null) ? ('default') : (components[_c].getAttribute('template-source'));
           var componentURI = ComponentURI({
             'COMPONENTS_BASE_PATH': ClassFactory('CONFIG').get('componentsBasePath'),
             'COMPONENT_NAME': components[_c].getAttribute('name').toString(),
@@ -2653,7 +2653,7 @@
               })
             ]);
           }
-          var _componentClassName = (components[_c].getAttribute('componentClass') != null) ? (components[_c].getAttribute('componentClass')) : ('Component');
+          var _componentClassName = (components[_c].getAttribute('componentClass') !== null) ? (components[_c].getAttribute('componentClass')) : ('Component');
           var __componentClassName = (ClassFactory('CONFIG').get('preserveComponentBodyTag'))?('com.qcobjects.components.'+_componentName+'.ComponentBody'):(_componentClassName);
           var __definition = {
             name: _componentName,
@@ -2665,7 +2665,7 @@
             tplsource: tplsource,
             subcomponents: []
           };
-          if (componentURI == ''){
+          if (componentURI === ''){
             delete __definition.templateURI;
           }
           var newComponent = New(ClassFactory(__componentClassName), __definition);
@@ -2705,7 +2705,7 @@
           }
           if (typeof allow_origins !== 'undefined'){
             // an example of allow_origins is ['https://example.com','http://www.example.com']
-            if (allow_origins =='*' || (typeof microservice.request.headers.origin == 'undefined') || [...allow_origins].indexOf(microservice.request.headers.origin)!== -1){
+            if (allow_origins =='*' || (typeof microservice.request.headers.origin === 'undefined') || [...allow_origins].indexOf(microservice.request.headers.origin)!== -1){
               // for compatibility with all browsers allways return a wildcard when the origin is allowed
               microservice.headers['Access-Control-Allow-Origin'] = '*';
             } else {
@@ -2811,7 +2811,7 @@
         var microservice = this;
         var stream = microservice.stream;
         stream.respond(microservice.headers);
-        if (microservice.body != null) {
+        if (microservice.body !== null) {
           microservice.finishWithBody.call(microservice, stream);
         }
       }
@@ -2846,7 +2846,7 @@
             s.crossOrigin = (context.hasOwnProperty('crossOrigin')) ? (context.crossOrigin) : ('anonymous');
             s.async = context.async;
             s.onreadystatechange = function() {
-              if (this.readyState == 'complete') {
+              if (this.readyState === 'complete') {
                 context.done.call(context);
               }
             };
@@ -2900,7 +2900,7 @@
           s.href = url;
           s.crossOrigin = 'anonymous';
           s.onreadystatechange = function() {
-            if (this.readyState == 'complete') {
+            if (this.readyState === 'complete') {
               context.done.call(context);
             }
           };
@@ -2996,9 +2996,9 @@
           requestAnimationFrame(animate);
         } else {
           // if this is an object with a done method
-          if (typeof this != 'undefined' &&
+          if (typeof this !== 'undefined' &&
             this.hasOwnProperty('done') &&
-            (typeof this.done).toLowerCase() == 'function') {
+            (typeof this.done).toLowerCase() === 'function') {
             this.done.call(this);
           }
         }
@@ -3085,7 +3085,7 @@
 
         intervalInterceptor(Math.round(progress * 100)); // draw it
 
-        if ((timeFraction < 1 || duration == -1) && timer.alive) {
+        if ((timeFraction < 1 || duration === -1) && timer.alive) {
           requestAnimationFrame(thread);
         }
 
@@ -3116,7 +3116,7 @@
       var toggle = this;
       var _promise = new Promise(function(resolve, reject) {
 
-        if (typeof toggle._positive == 'function' && typeof toggle._negative == 'function') {
+        if (typeof toggle._positive === 'function' && typeof toggle._negative === 'function') {
           if (toggle._inverse) {
             toggle._dispatched = (toggle._toggle) ? (toggle._negative.bind(toggle)) : (toggle._positive.bind(toggle));
           } else {
@@ -3197,19 +3197,19 @@
             event.target.dispatchEvent(customEvent);
             var secondaryEventName = 'defaultscroll';
             switch (true) {
-              case (percentY == 0):
+              case (percentY === 0):
                 secondaryEventName = 'percentY0';
                 break;
-              case (percentY == 25):
+              case (percentY === 25):
                 secondaryEventName = 'percentY25';
                 break;
-              case (percentY == 50):
+              case (percentY === 50):
                 secondaryEventName = 'percentY50';
                 break;
-              case (percentY == 75):
+              case (percentY === 75):
                 secondaryEventName = 'percentY75';
                 break;
-              case (percentY == 90):
+              case (percentY === 90):
                 secondaryEventName = 'percentY90';
                 break;
               default:
