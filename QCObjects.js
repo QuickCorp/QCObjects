@@ -25,6 +25,8 @@
 /*eslint no-unused-vars: "off"*/
 /*eslint no-redeclare: "off"*/
 /*eslint no-empty: "off"*/
+/*eslint strict: "off"*/
+/*eslint no-mixed-operators: "off"*/
 "use strict";
 (function() {
   var _protected_code_ = function(_) {
