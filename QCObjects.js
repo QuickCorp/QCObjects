@@ -22,6 +22,9 @@
  * Everyone is permitted to copy and distribute verbatim copies of this
  * license document, but changing it is not allowed.
  */
+/*eslint no-unused-vars: "off"*/
+/*eslint no-redeclare: "off"*/
+/*eslint no-empty: "off"*/
 "use strict";
 (function() {
   var _protected_code_ = function(_) {
@@ -485,6 +488,7 @@
       var opts = Object.defineProperty({}, "passive", {
         get: function() {
           supportsPassive = true;
+          return supportsPassive;
         }
       });
       window.addEventListener("testPassive", null, opts);
@@ -701,16 +705,16 @@
       );
     }
 
-    type = (type.hasOwnProperty("prototype")) ? (type.prototype) : (_LegacyCopy(type));
+    type = (type.hasOwnProperty.call(type,"prototype")) ? (type.prototype) : (_LegacyCopy(type));
 
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty("__new__")) {
+    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"__new__")) {
       definition["__new__"] = function(properties) {
         _CastProps(properties, this);
       };
       (_protected_code_)(definition["__new__"]);
     }
 
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty("css")) {
+    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"css")) {
       definition["css"] = function QC_CSS3(_css) {
         if (typeof this["body"] !== "undefined" && this["body"]["style"] !== "undefined") {
           logger.debug("body style");
@@ -719,21 +723,21 @@
       };
       (_protected_code_)(definition["css"]);
     }
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty("hierarchy")) {
+    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"hierarchy")) {
       definition["hierarchy"] = function hierarchy() {
         var __classType = function(o_c) {
-          return (o_c.hasOwnProperty("__classType")) ? (o_c.__classType) : ((o_c.hasOwnProperty("__definition")) ? (o_c.__definition.__classType) : (ObjectName(o_c)));
+          return (o_c.hasOwnProperty.call(o_c,"__classType")) ? (o_c.__classType) : ((o_c.hasOwnProperty.call(o_c,"__definition")) ? (o_c.__definition.__classType) : (ObjectName(o_c)));
         };
         var __hierarchy = [];
         __hierarchy.push(__classType(this));
-        if (this.hasOwnProperty("__definition")) {
+        if (this.hasOwnProperty.call(this,"__definition")) {
           __hierarchy = __hierarchy.concat(this.__definition.hierarchy.call(this.__definition));
         }
         return __hierarchy;
       };
     }
 
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty("append")) {
+    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"append")) {
       definition["append"] = function QC_Append() {
         var child = (arguments.length > 0) ? (arguments[0]) : (this["body"]);
         if (typeof this["body"] !== "undefined") {
@@ -756,7 +760,7 @@
       (_protected_code_)(definition["append"]);
     }
 
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty("attachIn")) {
+    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"attachIn")) {
       definition["attachIn"] = function QC_AttachIn(tag) {
         if (isBrowser) {
           var tags = document.subelements(tag);
@@ -770,7 +774,7 @@
       (_protected_code_)(definition["attachIn"]);
     }
     // hack to prevent pre-population of __instanceID into the class definition
-    if (definition.hasOwnProperty("__instanceID")){
+    if (definition.hasOwnProperty.call(definition,"__instanceID")){
       delete definition.__instanceID;
     }
     o = Object.create(type, definition);
@@ -798,14 +802,14 @@
       var _package = Package(packageName);
       var packageClasses = (typeof _package !== "undefined")?(_package.filter(classFactory=>{
         return typeof classFactory !== "undefined"
-            && classFactory.hasOwnProperty("__definition")
+            && classFactory.hasOwnProperty.call(classFactory,"__definition")
             && isQCObjects_Class(classFactory)
             && classFactory.__definition.__classType==_className
-            && !classFactory.hasOwnProperty("__instanceID");}).reverse()):([]);
+            && !classFactory.hasOwnProperty.call(classFactory,"__instanceID");}).reverse()):([]);
       if (packageClasses.length>0){
         _classFactory = packageClasses[0];
       }
-    } else if (className !== null && _QC_CLASSES.hasOwnProperty(className)) {
+    } else if (className !== null && _QC_CLASSES.hasOwnProperty.call(_QC_CLASSES,className)) {
       _classFactory = _QC_CLASSES[className];
     }
     return _classFactory;
@@ -873,11 +877,11 @@
       "__instanceID": __instanceID
     }, (typeof c !== "undefined") ? (c.__definition) : ({}));
     c_new["__instanceID"] = __instanceID;
-    if (c_new.hasOwnProperty("definition") && typeof c_new.__definition !== "undefined" && c_new.__definition !== null) {
+    if (c_new.hasOwnProperty.call(c_new,"definition") && typeof c_new.__definition !== "undefined" && c_new.__definition !== null) {
       c_new.__definition["__instanceID"] = __instanceID;
     }
-    if (c_new.hasOwnProperty("__new__")) {
-      if (typeof c_new !== "undefined" && !c_new.__definition.hasOwnProperty("body")) {
+    if (c_new.hasOwnProperty.call(c_new,"__new__")) {
+      if (typeof c_new !== "undefined" && !c_new.__definition.hasOwnProperty.call(c_new.__definition,"body")) {
         try {
           if (isBrowser) {
             c_new["body"] = _Cast(c_new["__definition"], _DOMCreateElement(c_new.__definition.__classType));
@@ -890,11 +894,11 @@
           c_new["body"] = {};
           c_new["body"]["style"] = {};
         }
-      } else if (c_new.__definition.hasOwnProperty("body")) {
+      } else if (c_new.__definition.hasOwnProperty.call(c_new.__definition,"body")) {
         c_new["body"] = c_new.__definition.body;
       }
       c_new.__new__(args);
-      if (c_new.hasOwnProperty("_new_")) {
+      if (c_new.hasOwnProperty.call(c_new,"_new_")) {
         c_new._new_(args);
       }
     }
@@ -911,7 +915,7 @@
         window[f.name] = f;
       } catch (e) {}
     } else if (typeof global !== "undefined") {
-      if (!global.hasOwnProperty(f.name)) {
+      if (!global.hasOwnProperty.call(global,f.name)) {
         global[f.name] = f;
       }
     }
@@ -963,7 +967,7 @@
     construct: false,
     _new_: function(o) {
       var string = o["string"];
-      var key = (o.hasOwnProperty("key")) ? (o["key"]) : (null);
+      var key = (o.hasOwnProperty.call(o,"key")) ? (o["key"]) : (null);
       this.__new__(o);
       key = (key === null) ? (this.__instanceID) : (key);
       this.last_key = key;
@@ -1058,7 +1062,7 @@
 
       _conf[name] = value;
       this._CONFIG_ENC = _CryptObject(_conf);
-      if (this._CONFIG.hasOwnProperty(name)) {
+      if (this._CONFIG.hasOwnProperty.call(this._CONFIG,name)) {
         this._CONFIG[name] = value;
       }
     },
@@ -1094,19 +1098,19 @@
 
   var isQCObjects_Object = function (_){
     return (typeof _ === "object"
-            && _.hasOwnProperty("__classType")
-            && _.hasOwnProperty("__instanceID")
-            && _.hasOwnProperty("__definition")
+            && _.hasOwnProperty.call(_,"__classType")
+            && _.hasOwnProperty.call(_,"__instanceID")
+            && _.hasOwnProperty.call(_,"__definition")
             && typeof _.__definition !== "undefined"
           )?(true):(false);
   };
 
   var isQCObjects_Class = function (_){
     return (typeof _ === "object"
-            && (!_.hasOwnProperty("__instanceID"))
-            && _.hasOwnProperty("__definition")
+            && (!_.hasOwnProperty.call(_,"__instanceID"))
+            && _.hasOwnProperty.call(_,"__definition")
             && typeof _.__definition !== "undefined"
-            && _.__definition.hasOwnProperty("__classType")
+            && _.__definition.hasOwnProperty.call(_,"__classType")
           )?(true):(false);
   };
 
@@ -1117,12 +1121,12 @@
    * @param {Object} classes
    */
   var Package = function(namespace, classes) {
-    if (_QC_PACKAGES.hasOwnProperty(namespace) &&
+    if (_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES,namespace) &&
       typeof _QC_PACKAGES[namespace] !== "undefined" &&
-      _QC_PACKAGES[namespace].hasOwnProperty("length") &&
+      _QC_PACKAGES[namespace].hasOwnProperty.call(_QC_PACKAGES[namespace],"length") &&
       _QC_PACKAGES[namespace].length > 0 &&
       typeof classes !== "undefined" &&
-      classes.hasOwnProperty("length") &&
+      classes.hasOwnProperty.call(classes,"length") &&
       classes.length > 0
     ) {
         for (var _c in classes.filter(
@@ -1134,7 +1138,7 @@
         }
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
     } else if (typeof classes !== "undefined"){
-      if (typeof classes === "object" && classes.hasOwnProperty("length")){
+      if (typeof classes === "object" && classes.hasOwnProperty.call(classes,"length")){
         for (var _c in classes.filter(
           function (_c1){
             return isQCObjects_Class(_c1);
@@ -1147,7 +1151,7 @@
       }
       _QC_PACKAGES[namespace] = classes;
     }
-    return (_QC_PACKAGES.hasOwnProperty(namespace))?(_QC_PACKAGES[namespace]):(undefined);
+    return (_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES,namespace))?(_QC_PACKAGES[namespace]):(undefined);
   };
   Package.prototype.toString = function() {
     return "Package(namespace, classes) { [QCObjects native code] }";
@@ -1217,7 +1221,7 @@
           });
         };
 
-        if (!_QC_PACKAGES.hasOwnProperty(packagename)) {
+        if (!_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES,packagename)) {
           var s1 = _DOMCreateElement("script");
           s1.type = "text/javascript";
           s1.async = (ClassFactory("CONFIG").get("asynchronousImportsLoad")) ? (true) : (false);
@@ -1316,7 +1320,7 @@
       var _o = New(ClassFactory("TagElements"));
       if (isBrowser) {
         for (var _k in this) {
-          if (typeof _k === "number" && typeof this[_k] !== "function" && this[_k].hasOwnProperty("subelements")) {
+          if (typeof _k === "number" && typeof this[_k] !== "function" && this[_k].hasOwnProperty.call(this[_k],"subelements")) {
             _o.push(this[_k].subelements(elementName));
           }
         }
@@ -1339,7 +1343,7 @@
       var o = document.subelements(tagname);
       var addedKeys = [];
       for (var _i = 0; _i < o.length; _i++) {
-        if (typeof innerHTML !== "undefined" && o[_i].hasOwnProperty("innerHTML")) {
+        if (typeof innerHTML !== "undefined" && o[_i].hasOwnProperty.call(o[_i],"innerHTML")) {
           o[_i].innerHTML = innerHTML;
         }
         if (addedKeys.indexOf(_i) < 0) {
@@ -1443,7 +1447,7 @@
         get() {
           logger.debug("returning value " + name);
           var is_ddo = function(v) {
-            if (typeof v === "object" && v.hasOwnProperty("value")) {
+            if (typeof v === "object" && v.hasOwnProperty.call(v,"value")) {
               return v.value;
             }
             return v;
@@ -1617,13 +1621,13 @@
     },
     route: function() {
       var componentClass = this;
-      var isValidInstance = (componentClass.hasOwnProperty("__instanceID") &&
-        componentClass.hasOwnProperty("subcomponents")) ? (true) : (false);
+      var isValidInstance = (componentClass.hasOwnProperty.call(componentClass,"__instanceID") &&
+        componentClass.hasOwnProperty.call(componentClass,"subcomponents")) ? (true) : (false);
       var __route__ = function(routingComponents) {
         for (var r = 0; r < routingComponents.length; r++) {
           var rc = routingComponents[r];
           rc._reroute_();
-          if (rc.hasOwnProperty("subcomponents") &&
+          if (rc.hasOwnProperty.call(rc,"subcomponents") &&
             typeof rc.subcomponents !== "undefined" &&
             rc.subcomponents.length > 0
           ) {
@@ -1632,8 +1636,8 @@
           }
         }
       };
-      if (isValidInstance || global.hasOwnProperty("componentsStack")) {
-        if (isValidInstance && componentClass.hasOwnProperty("name")) {
+      if (isValidInstance || global.hasOwnProperty.call(global,"componentsStack")) {
+        if (isValidInstance && componentClass.hasOwnProperty.call(componentClass,"name")) {
           logger.debug("loading routings for instance" + componentClass.name);
         }
         __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (global.componentsStack));
@@ -1733,7 +1737,7 @@
           logger.debug("[parsedAssignmentText] This property is readonly");
         },
         get() {
-          if (self.hasOwnProperty("templateHandler")) {
+          if (self.hasOwnProperty.call(self,"templateHandler")) {
             var value = self.template;
             var templateHandlerName = self.templateHandler;
             var templateHandlerClass = ClassFactory(self.templateHandler);
@@ -1840,12 +1844,12 @@
           var lang1=ClassFactory("CONFIG").get("lang","en");
           var lang2 = navigator.language.slice(0, 2);
           var i18n = global.get("i18n");
-          if ((lang1 !== lang2) && (typeof i18n === "object" && i18n.hasOwnProperty("messages"))){
+          if ((lang1 !== lang2) && (typeof i18n === "object" && i18n.hasOwnProperty.call(i18n,"messages"))){
             var callback_i18n = function (){
               var component = this;
               return new Promise(function (resolve, reject){
                 var messages = i18n.messages.filter(function (message){
-                  return message.hasOwnProperty(lang1) && message.hasOwnProperty(lang2);
+                  return message.hasOwnProperty.call(message,lang1) && message.hasOwnProperty.call(message,lang2);
                 });
                 component.body.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component")
                 .map(function (element){
@@ -1940,7 +1944,7 @@
           component.routingController = New(_Controller, {
             component: component
           }); // Initializes the main controller for the component
-          if (component.routingController.hasOwnProperty("done") && typeof component.routingController.done === "function") {
+          if (component.routingController.hasOwnProperty.call(component.routingController,"done") && typeof component.routingController.done === "function") {
             component.routingController.done.call(component.routingController);
           }
         }
@@ -1997,7 +2001,7 @@
       logger.debug("***** CONFIG LOADED:");
       logger.debug(result.service.template);
       this.JSONresponse = JSON.parse(result.service.template);
-      if (this.JSONresponse.hasOwnProperty("__encoded__")) {
+      if (this.JSONresponse.hasOwnProperty.call(this.JSONresponse,"__encoded__")) {
         this.JSONresponse = JSON.parse(ClassFactory("_Crypt").decrypt(this.JSONresponse.__encoded__, _secretKey));
       }
       for (var k in this.JSONresponse) {
@@ -2043,7 +2047,7 @@
   var componentLoader = function(component, _async) {
     var _componentLoader = function(component, _async) {
       var _promise = new Promise(function(resolve, reject) {
-        var container = (component.hasOwnProperty("container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
+        var container = (component.hasOwnProperty.call(component,"container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
         if (container !== null) {
           var feedComponent = function(component) {
             var parsedAssignmentText = component.parsedAssignmentText;
@@ -2266,7 +2270,7 @@
           var serviceURL = new URL(service.url);
 
           try {
-            if (service.hasOwnProperty("useHTTP2") && service.useHTTP2) {
+            if (service.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2) {
               logger.debug("using http2");
               var http2 = require("http2");
               var client = http2.connect(serviceURL.origin);
@@ -2322,7 +2326,7 @@
             req.on("end", () => {
               logger.debug("ending call...");
               service.template = dataXML;
-              if (service.hasOwnProperty("useHTTP2") && service.useHTTP2) {
+              if (service.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2) {
                 client.destroy();
               } else {
                 req.destroy();
@@ -2447,7 +2451,7 @@
           for (var _k in _packages){
             if (
               typeof _packages[_k] !== "undefined"
-              && _packages[_k].hasOwnProperty("length")
+              && _packages[_k].hasOwnProperty.call(_packages[_k],"length")
               && _packages[_k].length>0
             ){
               _keys.push(_k);
@@ -2588,7 +2592,7 @@
               this.view = New(_View, {
                 component: this
               }); // Initializes the main view for the component
-              if (this.view.hasOwnProperty("done") && typeof this.view.done === "function") {
+              if (this.view.hasOwnProperty.call(this.view,"done") && typeof this.view.done === "function") {
                 this.view.done.call(this.view);
               }
             }
@@ -2601,7 +2605,7 @@
               this.controller = New(_Controller, {
                 component: this
               }); // Initializes the main controller for the component
-              if (this.controller.hasOwnProperty("done") && typeof this.controller.done === "function") {
+              if (this.controller.hasOwnProperty.call(this.controller,"done") && typeof this.controller.done === "function") {
                 this.controller.done.call(this.controller);
               }
               this.controller.createRoutingController();
@@ -2750,7 +2754,7 @@
           var supportedMethods = {
             "post": microservice.post,
           };
-          if (supportedMethods.hasOwnProperty(requestMethod)) {
+          if (supportedMethods.hasOwnProperty.call(supportedMethods,requestMethod)) {
             supportedMethods[requestMethod].call(microservice, data);
           }
         });
@@ -2767,7 +2771,7 @@
           "trace": microservice.trace,
           "patch": microservice.patch
         };
-        if (supportedMethods.hasOwnProperty(requestMethod)) {
+        if (supportedMethods.hasOwnProperty.call(supportedMethods,requestMethod)) {
           supportedMethods[requestMethod].call(microservice);
         }
 
@@ -2843,7 +2847,7 @@
           (function(s, url, context) {
             s.type = "text/javascript";
             s.src = url;
-            s.crossOrigin = (context.hasOwnProperty("crossOrigin")) ? (context.crossOrigin) : ("anonymous");
+            s.crossOrigin = (context.hasOwnProperty.call(context,"crossOrigin")) ? (context.crossOrigin) : ("anonymous");
             s.async = context.async;
             s.onreadystatechange = function() {
               if (this.readyState === "complete") {
@@ -2997,7 +3001,7 @@
         } else {
           // if this is an object with a done method
           if (typeof this !== "undefined" &&
-            this.hasOwnProperty("done") &&
+            this.hasOwnProperty.call(this,"done") &&
             (typeof this.done).toLowerCase() === "function") {
             this.done.call(this);
           }
@@ -3160,10 +3164,10 @@
   Export(isBrowser);
 
   if (!isBrowser) {
-    if (typeof global !== "undefined" && global.hasOwnProperty("_fireAsyncLoad")) {
+    if (typeof global !== "undefined" && global.hasOwnProperty.call(global,"_fireAsyncLoad")) {
       global._fireAsyncLoad.call(this);
     }
-    if (typeof global !== "undefined" && global.hasOwnProperty("onload")) {
+    if (typeof global !== "undefined" && global.hasOwnProperty.call(global,"onload")) {
       global.onload.call(this);
     }
   }
