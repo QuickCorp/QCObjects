@@ -1861,6 +1861,7 @@
                     var _innerHTML = element.innerHTML;
                     _innerHTML = _innerHTML.replace(new RegExp(`${message[lang1]}`,"g"),message[lang2]);
                     element.innerHTML = _innerHTML;
+                    return null;
                   });
                   return element;
                 });
@@ -3233,6 +3234,7 @@
             event.target.dispatchEvent(secondaryCustomEvent);
 
           });
+          return null;
         });
 
       });
