@@ -89,7 +89,7 @@
     if (isBrowser) {
       _ret_ = document.createElement(elementName);
     } else {
-      _ret_ = new Object();
+      _ret_ = {};
     }
     return _ret_;
   };
@@ -883,12 +883,12 @@
             c_new['body'] = _Cast(c_new['__definition'], _DOMCreateElement(c_new.__definition.__classType));
             c_new['body']['style'] = _Cast(c_new.__definition, c_new['body']['style']);
           } else {
-            c_new['body'] = new Object();
-            c_new['body']['style'] = new Object();
+            c_new['body'] = {};
+            c_new['body']['style'] = {};
           }
         } catch (e) {
-          c_new['body'] = new Object();
-          c_new['body']['style'] = new Object();
+          c_new['body'] = {};
+          c_new['body']['style'] = {};
         }
       } else if (c_new.__definition.hasOwnProperty('body')) {
         c_new['body'] = c_new.__definition.body;
@@ -3188,13 +3188,13 @@
             event.preventDefault();
             var percentY = Math.round(event.target.scrollTop * 100 / event.target.scrollHeight);
             var percentX = Math.round(event.target.scrollLeft * 100 / event.target.scrollWidth);
-            var customEvent = new CustomEvent('scrollpercent', {
+            var scrollPercentEventEvent = new CustomEvent('scrollpercent', {
               detail: {
                 percentX: percentX,
                 percentY: percentY
               }
             });
-            event.target.dispatchEvent(customEvent);
+            event.target.dispatchEvent(scrollPercentEventEvent);
             var secondaryEventName = 'defaultscroll';
             switch (true) {
               case (percentY === 0):
@@ -3215,13 +3215,13 @@
               default:
                 break;
             }
-            var customEvent = new CustomEvent(secondaryEventName, {
+            var secondaryCustomEvent = new CustomEvent(secondaryEventName, {
               detail: {
                 percentX: percentX,
                 percentY: percentY
               }
             });
-            event.target.dispatchEvent(customEvent);
+            event.target.dispatchEvent(secondaryCustomEvent);
 
           });
         });
