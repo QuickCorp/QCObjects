@@ -69,7 +69,6 @@
   },
   "homepage": "https://qcobjects.com",
   "dependencies": {
-    "qcobjects-cli": "latest",
     "qcobjects-sdk": "latest"
   },
   "devDependencies": {
