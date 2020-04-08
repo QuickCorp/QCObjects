@@ -6,7 +6,7 @@
   "license": "LGPL-3.0",
   "scripts": {
     "start": "qcobjects-shell",
-    "test": "jasmine",
+    "test": "npx eslint QCObjects.js && jasmine",
     "preversion": "npm test",
     "version": "npm i --upgrade",
     "sync": "git add . && git commit -am ",
@@ -73,6 +73,7 @@
     "qcobjects-sdk": "latest"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "jasmine": "^3.4.0"
   }
 }
