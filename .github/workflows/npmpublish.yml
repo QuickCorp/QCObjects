@@ -7,7 +7,7 @@ on: push
 
 jobs:
   build:
-    runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
