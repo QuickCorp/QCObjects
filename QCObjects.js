@@ -606,7 +606,24 @@
     });
   }
   var _LegacyCopy = function(obj) {
-    return Object.assign({}, obj);
+    var _ret_;
+    switch (typeof obj) {
+      case "string":
+        _ret_ = obj;
+        break;
+      case "number":
+        _ret_ = obj;
+        break;
+      case "object":
+        _ret_ = Object.assign({}, obj);
+        break;
+      case "function":
+        _ret_ = Object.assign({}, obj);
+        break;
+      default:
+        break;
+    }
+    return _ret_;
   };
 
 
@@ -775,7 +792,7 @@
       (_protected_code_)(definition["attachIn"]);
     }
     // hack to prevent pre-population of __instanceID into the class definition
-    if (definition.hasOwnProperty.call(definition,"__instanceID")){
+    if (typeof definition !== "undefined" && definition.hasOwnProperty.call(definition,"__instanceID")){
       delete definition.__instanceID;
     }
     o = Object.create(type, definition);
@@ -1047,7 +1064,7 @@
       "useLocalSDK": false,
       "basePath": basePath
     },
-    _CONFIG_ENC: ClassFactory("_Crypt").encrypt(_DataStringify({}), _secretKey),
+    _CONFIG_ENC: null,
     set: function(name, value) {
       // hack to force update basePath from CONFIG
       if (name === "basePath") {
@@ -1055,6 +1072,9 @@
       }
       var _conf = (
         function(config) {
+          if (config._CONFIG_ENC === null){
+            config._CONFIG_ENC = ClassFactory("_Crypt").encrypt(_DataStringify({}), _secretKey);
+          }
           var _protectedEnc = config._CONFIG_ENC.valueOf();
           var _protectedConf = config._CONFIG.valueOf();
           return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
@@ -1072,6 +1092,9 @@
       try {
         var _conf = (
           function(config) {
+            if (config._CONFIG_ENC === null){
+              config._CONFIG_ENC = ClassFactory("_Crypt").encrypt(_DataStringify({}), _secretKey);
+            }
             var _protectedEnc = config._CONFIG_ENC.valueOf();
             var _protectedConf = config._CONFIG.valueOf();
             return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
@@ -1568,7 +1591,7 @@
     Cast: function(o) {
       return _Cast(this, o);
     },
-    routingWay: ClassFactory("CONFIG").get("routingWay"),
+    routingWay: null,
     validRoutingWays: ["pathname", "hash", "search"],
     routingNodes: [],
     routings: [],
@@ -1921,7 +1944,7 @@
 
     }
   });
-  ClassFactory("Component")._bindroute.__assigned = false;
+  ClassFactory("Component")._bindroute.__assigned=false;
 
 
   Class("Controller", Object, {
@@ -2910,23 +2933,25 @@
     done: function() {},
     rebuild: function() {
       var context = this;
-      document.getElementsByTagName("head")[0].appendChild(
-        (function(s, url, context) {
-          s.type = "text/css";
-          s.rel = "stylesheet";
-          s.href = url;
-          s.crossOrigin = "anonymous";
-          s.onreadystatechange = function() {
-            if (this.readyState === "complete") {
-              context.done.call(context);
-            }
-          };
-          s.onload = context.done;
-          context.body = s;
-          return s;
-        }).call(this,
-          _DOMCreateElement("link"),
-          (this.external) ? (this.url) : (this.basePath + this.url), context));
+      if (isBrowser){
+        window.document.getElementsByTagName("head")[0].appendChild(
+          (function(s, url, context) {
+            s.type = "text/css";
+            s.rel = "stylesheet";
+            s.href = url;
+            s.crossOrigin = "anonymous";
+            s.onreadystatechange = function() {
+              if (this.readyState === "complete") {
+                context.done.call(context);
+              }
+            };
+            s.onload = context.done;
+            context.body = s;
+            return s;
+          }).call(this,
+            _DOMCreateElement("link"),
+            (this.external) ? (this.url) : (this.basePath + this.url), context));
+      }
     },
     Cast: function(o) {
       return _Cast(this, o);
@@ -3175,6 +3200,7 @@
   Export(Ready);
   Export(ready);
   Export(isBrowser);
+  Export(_methods_);
 
   if (!isBrowser) {
     if (typeof global !== "undefined" && global.hasOwnProperty.call(global,"_fireAsyncLoad")) {
