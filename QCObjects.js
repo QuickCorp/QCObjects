@@ -27,8 +27,8 @@
 /*eslint no-empty: "off"*/
 /*eslint strict: "off"*/
 /*eslint no-mixed-operators: "off"*/
-"use strict";
-(function() {
+(function(_top) {
+  "use strict";
   var _protected_code_ = function(_) {
     var __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function() {
       return "";
@@ -129,7 +129,6 @@
     HTMLDocument.prototype.subelements = _subelements;
     HTMLElement.prototype.subelements = _subelements;
   }
-  var _top;
   if (isBrowser) {
     try {
       _top = (typeof window.top !== "undefined") ? (window.top) : (window);
@@ -3249,4 +3248,6 @@
     }, null);
   }
 
-}).call(null);
+}).call(null,(typeof module === "object" && typeof module.exports === "object")?(module.exports):((typeof global === "object")?(global):(
+  (typeof window === "object")?(window):({})
+)));
