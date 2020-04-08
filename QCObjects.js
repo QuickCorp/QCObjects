@@ -2714,7 +2714,7 @@
           }
           if (typeof allow_origins !== "undefined"){
             // an example of allow_origins is ['https://example.com','http://www.example.com']
-            if (allow_origins =="*" || (typeof microservice.request.headers.origin === "undefined") || [...allow_origins].indexOf(microservice.request.headers.origin)!== -1){
+            if (allow_origins === "*" || (typeof microservice.request.headers.origin === "undefined") || [...allow_origins].indexOf(microservice.request.headers.origin)!== -1){
               // for compatibility with all browsers allways return a wildcard when the origin is allowed
               microservice.headers["Access-Control-Allow-Origin"] = "*";
             } else {
