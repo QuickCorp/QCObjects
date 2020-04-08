@@ -7,7 +7,7 @@
   "scripts": {
     "start": "qcobjects-shell",
     "test": "npx eslint QCObjects.js && jasmine",
-    "preversion": "npm i --upgrade && npm test",
+    "preversion": "npm cache verify && npm test",
     "sync": "git add . && git commit -am ",
     "postversion": "git push && git push --tags "
   },
