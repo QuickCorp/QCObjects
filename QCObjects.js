@@ -1003,14 +1003,14 @@
       return this.last_string;
     },
     encrypt: function(string, key) {
-      var crypt = New(_Crypt, {
+      var crypt = New(ClassFactory('_Crypt'), {
         string: string,
         key: key
       });
       return crypt._encrypt();
     },
     decrypt: function(string, key) {
-      var crypt = New(_Crypt, {
+      var crypt = New(ClassFactory('_Crypt'), {
         string: string,
         key: key
       });
@@ -1085,7 +1085,7 @@
       return _value;
     }
   });
-
+  var CONFIG = ClassFactory('CONFIG');
   Export(CONFIG);
   Export(waitUntil);
   Export(_super_);
@@ -1334,7 +1334,7 @@
    * @param {Object} innerHTML
    */
   var Tag = function(tagname, innerHTML) {
-    var _o = New(TagElements);
+    var _o = New(ClassFactory('TagElements'));
     if (isBrowser) {
       var o = document.subelements(tagname);
       var addedKeys = []
@@ -1563,16 +1563,16 @@
     routingSelected: [],
     _bindroute: function() {
       if (isBrowser) {
-        if (!Component._bindroute.__assigned) {
+        if (!ClassFactory('Component')._bindroute.__assigned) {
           document.addEventListener('componentsloaded', function(e) {
             e.stopImmediatePropagation();
             e.stopPropagation();
-            if (!Component._bindroute.__assigned) {
+            if (!ClassFactory('Component')._bindroute.__assigned) {
 
               _top.onpopstate = function(e) {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                Component.route();
+                ClassFactory('Component').route();
                 if (typeof e.target.__oldpopstate != 'undefined' && typeof e.target.__oldpopstate == 'function') {
                   e.target.__oldpopstate.call(e.target, e);
                 }
@@ -1591,10 +1591,10 @@
                     e.target.href != document.location.href
                   ) {
                     logger.debug('A ROUTING WAS FOUND: ' + routingPath);
-                    history.pushState({
+                    window.history.pushState({
                       href: e.target.href
                     }, e.target.href, e.target.href);
-                    Component.route();
+                    ClassFactory('Component').route();
                     _ret_ = false;
                   } else {
                     logger.debug('NO ROUTING FOUND FOR: ' + routingPath);
@@ -1607,7 +1607,7 @@
               });
 
 
-              Component._bindroute.__assigned = true;
+              ClassFactory('Component')._bindroute.__assigned = true;
             }
           }, captureFalse);
         }
@@ -1905,7 +1905,7 @@
 
     }
   });
-  Component._bindroute.__assigned = false;
+  ClassFactory('Component')._bindroute.__assigned = false;
 
 
   Class('Controller', Object, {
@@ -1969,7 +1969,7 @@
     }
   });
 
-  Class('JSONService', Service, {
+  Class('JSONService', ClassFactory('Service'), {
     method: "GET",
     cached: false,
     headers: {
@@ -1984,7 +1984,7 @@
     }
   });
 
-  Class('ConfigService', JSONService, {
+  Class('ConfigService', ClassFactory('JSONService'), {
     method: "GET",
     cached: false,
     configFileName: 'config.json',
@@ -2001,7 +2001,7 @@
         this.JSONresponse = JSON.parse(ClassFactory('_Crypt').decrypt(this.JSONresponse.__encoded__, _secretKey));
       }
       for (var k in this.JSONresponse) {
-        CONFIG.set(k, this.JSONresponse[k]);
+        ClassFactory('CONFIG').set(k, this.JSONresponse[k]);
       }
       this.configLoaded.call(this);
     },
@@ -2339,10 +2339,9 @@
 
           }
         }).catch(function(e) {
-        console.log(e);
-        logger.debug('Something happened when trying to call the service: ' + service.name);
-        service.fail.call(service, e);
-        reject.call(_promise, e);
+          console.log(e);
+          logger.debug('Something happened when trying to call the service: ' + service.name);
+          service.fail.call(service, e);
       });
       return _promise;
 
@@ -2391,7 +2390,7 @@
             _promise = new Promise(function(resolve, reject) {
               if (('serviceWorker' in navigator) &&
                 (typeof ClassFactory('CONFIG').get('serviceWorkerURI') != 'undefined')) {
-                CONFIG.set('serviceWorkerScope', ClassFactory('CONFIG').get('serviceWorkerScope') ? (ClassFactory('CONFIG').get('serviceWorkerScope')) : ('/'));
+                ClassFactory('CONFIG').set('serviceWorkerScope', ClassFactory('CONFIG').get('serviceWorkerScope') ? (ClassFactory('CONFIG').get('serviceWorkerScope')) : ('/'));
                 navigator.serviceWorker.register(ClassFactory('CONFIG').get('serviceWorkerURI'), {
                     scope: ClassFactory('CONFIG').get('serviceWorkerScope')
                   })
@@ -2417,7 +2416,7 @@
         var _buildComponents = function() {
           if (isBrowser) {
             logger.debug('Starting to bind routes');
-            Component._bindroute.call(Component);
+            ClassFactory('Component')._bindroute.call(ClassFactory('Component'));
             logger.debug('Starting to building components');
             global.componentsStack = document.buildComponents.call(document);
             logger.debug('Initializing the service worker');
@@ -2428,7 +2427,7 @@
           }
         };
         if (ClassFactory('CONFIG').get('useConfigService')) {
-          global.configService = New(ConfigService);
+          global.configService = New(ClassFactory('ConfigService'));
           global.configService.configLoaded = _buildComponents;
           serviceLoader(global.configService);
         } else {
@@ -2520,8 +2519,7 @@
       // use of GLOBAL word is deprecated in node.js
       // this is only for compatibility purpose with old versions of QCObjects in browsers
       Class('GLOBAL', _QC_CLASSES['global']); // case insensitive for compatibility con old versions;
-      GLOBAL = global;
-      Export(GLOBAL);
+      Export(ClassFactory('GLOBAL'));
     }
     Export(global);
 
@@ -2531,7 +2529,7 @@
       (function() {
         var remoteImportsPath = ClassFactory('CONFIG').get('remoteImportsPath');
         var external = (!ClassFactory('CONFIG').get('useLocalSDK')) ? (true) : (false);
-        CONFIG.set('remoteImportsPath', ClassFactory('CONFIG').get('remoteSDKPath'));
+        ClassFactory('CONFIG').set('remoteImportsPath', ClassFactory('CONFIG').get('remoteSDKPath'));
 
         var tryImportingSDK = false;
         var sdkName = 'QCObjects-SDK';
@@ -2552,11 +2550,11 @@
           logger.info('Importing SDK... ' + sdkName);
           Import(sdkName, function() {
             if (external) {
-              logging.debug('QCObjects-SDK.js loaded from remote location');
+              logger.debug('QCObjects-SDK.js loaded from remote location');
             } else {
-              logging.debug('QCObjects-SDK.js loaded from local');
+              logger.debug('QCObjects-SDK.js loaded from local');
             }
-            CONFIG.set('remoteImportsPath', remoteImportsPath);
+            ClassFactory('CONFIG').set('remoteImportsPath', remoteImportsPath);
           }, external);
         } else {
           logger.debug('SDK has not been imported as it is not available at the moment');
@@ -2649,7 +2647,7 @@
           var _componentName = components[_c].getAttribute('name').toString();
           if (ClassFactory('CONFIG').get('preserveComponentBodyTag')) {
             Package('com.qcobjects.components.'+_componentName+'',[
-              Class('ComponentBody', Component, {
+              Class('ComponentBody', ClassFactory('Component'), {
                 name: _componentName,
                 reload: true
               })
@@ -2660,7 +2658,7 @@
           var __definition = {
             name: _componentName,
             data: data,
-            cached: (__cached_not_set) ? (Component.cached) : (cached),
+            cached: (__cached_not_set) ? (ClassFactory('Component').cached) : (cached),
             tplextension: tplextension,
             body: (ClassFactory('CONFIG').get('preserveComponentBodyTag')) ? (_DOMCreateElement('componentBody')):(components[_c]),
             templateURI: componentURI,
@@ -2924,7 +2922,7 @@
 
   Class('ArrayList', Array, []);
   Class('ArrayCollection', Object, {
-    source: New(ArrayList, []),
+    source: New(ClassFactory('ArrayList'), []),
     changed: function(prop, value) {
       logger.debug('VALUE CHANGED');
       logger.debug(prop);
@@ -2945,7 +2943,7 @@
     _new_: function(source) {
       var self = this;
       var _index = 0;
-      self.source = New(ArrayList, source);
+      self.source = New(ClassFactory('ArrayList'), source);
       for (var _k in self.source) {
         if (!isNaN(_k)) {
           logger.debug('binding ' + _k.toString());
@@ -3009,7 +3007,7 @@
     }
   });
 
-  Class('TransitionEffect',Effect,{
+  Class('TransitionEffect',ClassFactory('Effect'),{
     duration:385,
     defaultParams:{
       alphaFrom:0,
@@ -3095,7 +3093,7 @@
     }
   });
 
-  Class('Toggle', InheritClass, {
+  Class('Toggle', ClassFactory('InheritClass'), {
     _toggle: false,
     _inverse: true,
     _positive: null,
@@ -3176,7 +3174,7 @@
         window.onpopstate = function(event) {
           event.stopImmediatePropagation();
           event.stopPropagation();
-          Component.route();
+          ClassFactory('Component').route();
         }
 
         /*
