@@ -192,7 +192,7 @@
     if (typeof _top.console === "undefined") {
       _top.console = function() {};
       _top.console.prototype.log = function(message) {};
-    };
+    }
 
 
     var domain = (
@@ -599,7 +599,7 @@
       writable: true,
       configurable: true
     });
-  };
+  }
   var _LegacyCopy = function(obj) {
     return Object.assign({}, obj);
   };
@@ -762,7 +762,7 @@
           var tags = document.subelements(tag);
           for (var i = 0, j = tags.length; i < j; i++) {
             tags[i].append(this);
-          };
+          }
         } else {
           // not yet implemented.
         }
@@ -1387,7 +1387,7 @@
       }
     } else {
       _execReady.call(_top);
-    };
+    }
   };
 
   if (isBrowser) {
