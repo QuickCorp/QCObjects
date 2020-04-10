@@ -46,5 +46,3 @@ RUN npm ci --save --only=production
 
 # Bundle app source
 COPY --chown=qcobjects:qcobjects . .
-
-CMD [ "npm", "start" ]
