@@ -397,7 +397,7 @@ https://marketplace.visualstudio.com/items?itemName=Quickcorp.QCObjects-vscode
 ## Installing the docker playground:
 
 ```shell
-docker pull -a quickcorp/qcobjects && docker run -it --name qcobjects-playground --rm -it quickcorp/qcobjects
+docker pull -a quickcorp/qcobjects-playground && docker run -it --name qcobjects-playground --rm -it quickcorp/qcobjects-playground
 ```
 
 ![screenshot3](https://qcobjects.dev/doc/img/QCObjects-Docker-Playground.gif)
