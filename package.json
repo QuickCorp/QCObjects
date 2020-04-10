@@ -1,7 +1,7 @@
 {
   "name": "qcobjects",
   "version": "2.1.388",
-  "description": "QCObjects a Quickcorp Objects Library - Cross Browser Javascript Framework for MVC Patterns",
+  "description": "QCObjects is an Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.",
   "main": "QCObjects.js",
   "license": "LGPL-3.0",
   "scripts": {
