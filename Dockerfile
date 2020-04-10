@@ -1,4 +1,4 @@
-FROM node:12.3
+FROM node:latest
 ###
 #  QCObjects  1.0
 #  ________________
