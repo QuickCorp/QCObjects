@@ -2103,13 +2103,26 @@
             component.innerHTML = parsedAssignmentText;
             if (component.shadowed){
               logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", component.name));
-              component.shadowRoot = container.attachShadow({mode: "open"});
-              if (component.reload) {
-                logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-                component.shadowRoot.innerHTML = component.innerHTML;
+              try {
+                component.shadowRoot = container.attachShadow({mode: "open"});
+              } catch (e){
+                try {
+                  logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", component.name));
+                  component.shadowRoot = container.shadowRoot;
+                } catch (e){
+                  logger.debug("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", component.name));
+                }
+              }
+              if (typeof component.shadowRoot !== "undefined" && component.shadowRoot !== null){
+                if (component.reload) {
+                  logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+                  component.shadowRoot.innerHTML = component.innerHTML;
+                } else {
+                  logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+                  component.shadowRoot.innerHTML += component.innerHTML;
+                }
               } else {
-                logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-                component.shadowRoot.innerHTML += component.innerHTML;
+                logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", component.name));
               }
             } else {
               if (component.reload) {
