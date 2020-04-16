@@ -1789,7 +1789,7 @@
 
       Object.defineProperty(self, "shadowRoot", {
         set(value) {
-          if (typeof self.__shadowRoot == 'undefined'){
+          if (typeof self.__shadowRoot == "undefined"){
             self.__shadowRoot = value;
           } else {
             logger.debug("[shadowRoot] This property can only be assigned once!");
