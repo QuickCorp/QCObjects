@@ -1786,6 +1786,19 @@
           return self._parsedAssignmentText;
         }
       });
+
+      Object.defineProperty(self, "shadowRoot", {
+        set(value) {
+          if (typeof self.__shadowRoot == 'undefined'){
+            self.__shadowRoot = value;
+          } else {
+            logger.debug("[shadowRoot] This property can only be assigned once!");
+          }
+        },
+        get() {
+          return self.__shadowRoot;
+        }
+      });
       this.__new__(properties);
 
       if (!this._reroute_()) {
