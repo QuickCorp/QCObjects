@@ -1522,6 +1522,7 @@
     method: "GET",
     data: {},
     reload: false,
+    shadowed:false,
     cached: true,
     done: function() {
       //TODO: default done method
@@ -2087,12 +2088,24 @@
           var feedComponent = function(component) {
             var parsedAssignmentText = component.parsedAssignmentText;
             component.innerHTML = parsedAssignmentText;
-            if (component.reload) {
-              logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-              container.innerHTML = component.innerHTML;
+            if (component.shadowed){
+              logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", component.name));
+              component.shadowRoot = container.attachShadow({mode: "open"});
+              if (component.reload) {
+                logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+                component.shadowRoot.innerHTML = component.innerHTML;
+              } else {
+                logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+                component.shadowRoot.innerHTML += component.innerHTML;
+              }
             } else {
-              logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-              container.innerHTML += component.innerHTML;
+              if (component.reload) {
+                logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+                container.innerHTML = component.innerHTML;
+              } else {
+                logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+                container.innerHTML += component.innerHTML;
+              }
             }
             var standardResponse = {
               "request": xhr,
@@ -2673,6 +2686,8 @@
           };
           (_protected_code_)(componentDone);
 
+          var __shadowed_not_set = (components[_c].getAttribute("shadowed") === null) ? (true) : (false);
+          var shadowed = (components[_c].getAttribute("shadowed") === "true") ? (true) : (false);
           var __cached_not_set = (components[_c].getAttribute("cached") === null) ? (true) : (false);
           var cached = (components[_c].getAttribute("cached") === "true") ? (true) : (false);
           var tplextension = (typeof ClassFactory("CONFIG").get("tplextension") !== "undefined") ? (ClassFactory("CONFIG").get("tplextension")) : ("html");
@@ -2699,6 +2714,7 @@
             name: _componentName,
             data: data,
             cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
+            shadowed: (__shadowed_not_set) ? (ClassFactory("Component").shadowed) : (shadowed),
             tplextension: tplextension,
             body: (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
             templateURI: componentURI,
