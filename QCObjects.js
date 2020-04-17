@@ -2742,15 +2742,13 @@
             cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
             shadowed: (__shadowed_not_set) ? (ClassFactory("Component").shadowed) : (shadowed),
             tplextension: tplextension,
-            body: null,
+            body: (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
             templateURI: componentURI,
             tplsource: tplsource,
             subcomponents: [],
             _new_:function (o){
               if (this.shadowed){
                 o.body = _DOMCreateElement("div");
-              } else {
-                o.body = (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]);
               }
               _super_("Component","_new_").call(this,o);
             }
