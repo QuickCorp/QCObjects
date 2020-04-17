@@ -2104,23 +2104,28 @@
             if (component.shadowed){
               logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", component.name));
               try {
-                component.shadowRoot = container.attachShadow({mode: "open"});
+                logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+                var shadowContainer = _DOMCreateElement("div");
+                shadowContainer.classList.add("shadowHost");
+                component.shadowRoot = shadowContainer.attachShadow({mode: "open"});
               } catch (e){
                 try {
                   logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", component.name));
-                  component.shadowRoot = container.shadowRoot;
+                  component.shadowRoot = shadowContainer.shadowRoot;
                 } catch (e){
                   logger.debug("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", component.name));
                 }
               }
               if (typeof component.shadowRoot !== "undefined" && component.shadowRoot !== null){
                 if (component.reload) {
-                  logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+                  logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
                   component.shadowRoot.innerHTML = component.innerHTML;
                 } else {
-                  logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+                  logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
                   component.shadowRoot.innerHTML += component.innerHTML;
                 }
+                logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", component.name));
+                container.appendChild(shadowContainer);
               } else {
                 logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", component.name));
               }
@@ -2737,14 +2742,13 @@
           var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
           var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?("com.qcobjects.components."+_componentName+".ComponentBody"):(_componentClassName);
           var __shadowed = (__shadowed_not_set) ? (ClassFactory("Component").shadowed) : (shadowed);
-          var __body = (__shadowed)?(_DOMCreateElement("div")):((ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]));
           var __definition = {
             name: _componentName,
             data: data,
             cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
             shadowed: __shadowed,
             tplextension: tplextension,
-            body: __body,
+            body: (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
             templateURI: componentURI,
             tplsource: tplsource,
             subcomponents: []
