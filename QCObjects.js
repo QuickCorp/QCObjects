@@ -2736,22 +2736,18 @@
           }
           var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
           var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?("com.qcobjects.components."+_componentName+".ComponentBody"):(_componentClassName);
+          var __shadowed = (__shadowed_not_set) ? (ClassFactory("Component").shadowed) : (shadowed);
+          var __body = (__shadowed)?(_DOMCreateElement("div")):((ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]));
           var __definition = {
             name: _componentName,
             data: data,
             cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
-            shadowed: (__shadowed_not_set) ? (ClassFactory("Component").shadowed) : (shadowed),
+            shadowed: __shadowed,
             tplextension: tplextension,
-            body: (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
+            body: __body,
             templateURI: componentURI,
             tplsource: tplsource,
-            subcomponents: [],
-            _new_:function (o){
-              if (this.shadowed){
-                o.body = _DOMCreateElement("div");
-              }
-              _super_("Component","_new_").call(this,o);
-            }
+            subcomponents: []
           };
           if (componentURI === ""){
             delete __definition.templateURI;
