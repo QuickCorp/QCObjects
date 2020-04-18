@@ -128,6 +128,9 @@
     Element.prototype.subelements = _subelements;
     HTMLDocument.prototype.subelements = _subelements;
     HTMLElement.prototype.subelements = _subelements;
+    if (typeof ShadowRoot !== "undefined"){
+      ShadowRoot.prototype.subelements = _subelements;
+    }
   }
   if (isBrowser) {
     try {
@@ -843,6 +846,11 @@
       }
     };
 
+    /**
+    * A replacement for direct using of innerHTML
+    * use: [element].render('content') where 'content' is the string corresponding
+    * to the DOM to insert in the element
+    **/
     Element.prototype.render = function QC_Render(content) {
       var _self = this;
       var _appendVDOM = function (_self,content){
@@ -860,6 +868,8 @@
         }catch (e){
           _appendVDOM(_self,content);
         }
+      } else {
+        _appendVDOM(_self,content);
       }
     };
   }
@@ -2111,17 +2121,17 @@
 
               logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
               var tmp_shadowContainer = _DOMCreateElement("div");
-              container.subelements("*[slot]").map(
+              container.subelements("[slot]").map(
                 function (c){
                   if (c.parentElement===container){
                     tmp_shadowContainer.appendChild(c);
                   }
                 });
 
+              logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+              var shadowContainer = _DOMCreateElement("div");
+              shadowContainer.classList.add("shadowHost");
               try {
-                logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-                var shadowContainer = _DOMCreateElement("div");
-                shadowContainer.classList.add("shadowHost");
                 component.shadowRoot = shadowContainer.attachShadow({mode: "open"});
               } catch (e){
                 try {
@@ -2139,11 +2149,15 @@
                   tmp_shadowContainer.innerHTML = component.parseTemplate(tmp_shadowContainer.innerHTML);
                   logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
                   shadowContainer.shadowRoot.innerHTML += component.innerHTML;
-                  logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-                  shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
                 }
+                logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+                shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
                 logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", component.name));
-                container.appendChild(shadowContainer);
+                if (container.subelements(".shadowHost")<1){
+                  container.appendChild(shadowContainer);
+                } else {
+                  logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", component.name));
+                }
               } else {
                 logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", component.name));
               }
@@ -2716,7 +2730,11 @@
               });
               this.effect.apply(this.effect.defaultParams);
             }
-            this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
+            if (this.shadowed && (typeof this.shadowRoot !== "undefined")){
+              this.subcomponents = _buildComponent(this.shadowRoot.subelements(tagFilter));
+            } else {
+              this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
+            }
 
             if (ClassFactory("CONFIG").get("overrideComponentTag")) {
               this.body.outerHTML = this.body.innerHTML;
