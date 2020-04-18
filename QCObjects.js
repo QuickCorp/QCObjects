@@ -1751,7 +1751,7 @@
         var templateInstance = New(templateHandlerClass, {
           template: value
         });
-        _parsedAssignmentText = templateInstance.assign(self.data);
+        _parsedAssignmentText = templateInstance.assign(_self.data);
       } else {
         _parsedAssignmentText = value;
       }
@@ -2138,7 +2138,7 @@
                   logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
                   shadowContainer.shadowRoot.innerHTML += component.innerHTML;
                   logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-                  shadowContainer.innerHTML += component.parseTemplate(tmp_shadowContainer.innerHTML);
+                  shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
                 }
                 logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", component.name));
                 container.appendChild(shadowContainer);
