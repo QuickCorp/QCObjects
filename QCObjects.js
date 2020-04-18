@@ -2111,7 +2111,12 @@
 
               logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
               var tmp_shadowContainer = _DOMCreateElement("div");
-              tmp_shadowContainer = container.innerHTML;
+              container.subelements("*[slot]").map(
+                function (c){
+                  if (c.parentElement===container){
+                    tmp_shadowContainer.appendChild(c);
+                  }
+                });
 
               try {
                 logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
