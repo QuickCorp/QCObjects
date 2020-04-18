@@ -2107,9 +2107,9 @@
                 logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
                 var shadowContainer = _DOMCreateElement("div");
                 shadowContainer.classList.add("shadowHost");
-                container.subelements('*:not(routing)').map(
+                container.subelements("*:not(routing)").map(
                   function (c){
-                    shadowContainer.appendChild(c)
+                    shadowContainer.appendChild(c);
                   });
                 component.shadowRoot = shadowContainer.attachShadow({mode: "open"});
               } catch (e){
