@@ -1741,6 +1741,22 @@
         // not yet implemented.
       }
     },
+    parseTemplate: function (template){
+      var _self = this;
+      var _parsedAssignmentText;
+      if (_self.hasOwnProperty.call(_self,"templateHandler")) {
+        var value = template;
+        var templateHandlerName = _self.templateHandler;
+        var templateHandlerClass = ClassFactory(_self.templateHandler);
+        var templateInstance = New(templateHandlerClass, {
+          template: value
+        });
+        _parsedAssignmentText = templateInstance.assign(self.data);
+      } else {
+        _parsedAssignmentText = value;
+      }
+      return _parsedAssignmentText;
+    },
     _new_: function(properties) {
       this.routingWay = ClassFactory("CONFIG").get("routingWay");
 
@@ -1771,18 +1787,7 @@
           logger.debug("[parsedAssignmentText] This property is readonly");
         },
         get() {
-          if (self.hasOwnProperty.call(self,"templateHandler")) {
-            var value = self.template;
-            var templateHandlerName = self.templateHandler;
-            var templateHandlerClass = ClassFactory(self.templateHandler);
-            var templateInstance = New(templateHandlerClass, {
-              template: value
-            });
-            self._parsedAssignmentText = templateInstance.assign(self.data);
-          } else {
-            self._parsedAssignmentText = value;
-          }
-
+          self._parsedAssignmentText = self.parseTemplate(self.template);
           return self._parsedAssignmentText;
         }
       });
@@ -2103,14 +2108,18 @@
             component.innerHTML = parsedAssignmentText;
             if (component.shadowed){
               logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", component.name));
+
+              logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+              var tmp_shadowContainer = _DOMCreateElement("div");
+              container.subelements("*:not(routing)").map(
+                function (c){
+                  tmp_shadowContainer.appendChild(c);
+                });
+
               try {
                 logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
                 var shadowContainer = _DOMCreateElement("div");
                 shadowContainer.classList.add("shadowHost");
-                container.subelements("*:not(routing)").map(
-                  function (c){
-                    shadowContainer.appendChild(c);
-                  });
                 component.shadowRoot = shadowContainer.attachShadow({mode: "open"});
               } catch (e){
                 try {
@@ -2123,10 +2132,13 @@
               if (typeof component.shadowRoot !== "undefined" && component.shadowRoot !== null){
                 if (component.reload) {
                   logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-                  component.shadowRoot.innerHTML = component.innerHTML;
+                  shadowContainer.shadowRoot.innerHTML = component.innerHTML;
                 } else {
+                  tmp_shadowContainer.innerHTML = component.parseTemplate(tmp_shadowContainer.innerHTML);
                   logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-                  component.shadowRoot.innerHTML += component.innerHTML;
+                  shadowContainer.shadowRoot.innerHTML += component.innerHTML;
+                  logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+                  shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
                 }
                 logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", component.name));
                 container.appendChild(shadowContainer);
