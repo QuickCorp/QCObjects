@@ -14,7 +14,9 @@ With QCObjects devlopers are also able to code front-end and back-end together u
 
 This document is the Main Reference Documentation!
 
-Check out the official page of [QCObjects](https://qcobjects.dev) at https://qcobjects.dev
+This repository and readme is hosted at [https://qcobjects.dev](https://qcobjects.dev)
+
+Check out the official page of [QCObjects](https://qcobjects.com) at https://qcobjects.com
 
 This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to info@quickcorp.cl.
 
@@ -42,10 +44,11 @@ _________________________
 - [Copyright](#copyright)
 - [Demo](#demo)
 	- [PWA Live Demo](#pwa-live-demo)
-	- [Demo Integrating Foundation](#demo-integrating-foundation)
-	- [Demo Integrating Materializecss](#demo-integrating-materializecss)
+	- [Demo Integrating with Foundation](#demo-integrating-with-foundation)
+	- [Demo Integrating with Materializecss](#demo-integrating-with-materializecss)
 	- [Demo Using Raw CSS](#demo-using-raw-css)
-	- [Demo of QCObjects using and manipulating canvas objects](#demo-of-qcobjects-using-and-manipulating-canvas-objects)
+	- [Example of QCObjects using and manipulating canvas objects](#example-of-qcobjects-using-and-manipulating-canvas-objects)
+- [DevBlog](#devblog)
 - [Fork](#fork)
 - [Become a Sponsor](#become-a-sponsor)
 - [Check out the QCObjects SDK](#check-out-the-qcobjects-sdk)
@@ -68,16 +71,16 @@ _________________________
 	- [Using UNPKG CDN](#using-unpkg-cdn)
 - [Reference](#reference)
 	- [Essentials](#essentials)
-		- [QC_Object](#qcobject)
+		- [QC_Object](#qc_object)
 		- [ComplexStorageCache](#complexstoragecache)
 		- [asyncLoad](#asyncload)
 		- [Class](#class)
-		- [QC_Append, append method](#qcappend-append-method)
-		- [The \_super\_ method](#the-super-method)
+		- [QC_Append, append method](#qc_append-append-method)
+		- [The \_super\_ method](#the-%5C_super%5C_-method)
 		- [New](#new)
 		- [InheritClass](#inheritclass)
 		- [ClassFactory](#classfactory)
-		- [\_Crypt](#crypt)
+		- [\_Crypt](#%5C_crypt)
 		- [GLOBAL](#global)
 		- [CONFIG](#config)
 		- [waitUntil](#waituntil)
@@ -111,10 +114,9 @@ _________________________
 		- [Backend routing](#backend-routing)
 		- [The QCObjects Microservice Class and Package](#the-qcobjects-microservice-class-and-package)
 		- [Generating a Self-Signed Certificate with QCObjects](#generating-a-self-signed-certificate-with-qcobjects)
-		- [Working with a Letsencrypt HTTPS certificate, Certbot and QCObjects](#working-with-a-letsencrypt-https-certificate-certbot-and-qcobjects)
 - [Quick Start Guide](#quick-start-guide)
-		- [Quick Start your PWA (Progressive Web App)](#quick-start-your-pwa-progressive-web-app)
-		- [Quick Start your AMP (Accelerated Mobile Page)](#quick-start-your-amp-accelerated-mobile-page)
+	- [Quick Start your PWA (Progressive Web App)](#quick-start-your-pwa-progressive-web-app)
+	- [Quick Start your AMP (Accelerated Mobile Page)](#quick-start-your-amp-accelerated-mobile-page)
 - [Start Coding](#start-coding)
 	- [Step 1: Start creating a main import file and name it like: cl.quickcorp.js. Put it into packages/js/ file directory](#step-1-start-creating-a-main-import-file-and-name-it-like-clquickcorpjs-put-it-into-packagesjs-file-directory)
 	- [Step 2: Then create some services inhereting classes into the file js/packages/cl.quickcorp.services.js :](#step-2-then-create-some-services-inhereting-classes-into-the-file-jspackagesclquickcorpservicesjs-)
@@ -234,12 +236,12 @@ Copyright (c) Jean Machuca and [QuickCorp](https://quickcorp.org) <info@quickcor
 Check out a live demo of pure QCObjects based frontend Progressive Web App here:
 [PWA QCObjects](https://newapp.qcobjects.dev/)
 
-## Demo Integrating Foundation
+## Demo Integrating with Foundation
 
 Check out a demo using Foundation components here:
 [Demo Using Foundation](https://github.com/QuickCorp/quickobjects_sample1foundation)
 
-## Demo Integrating Materializecss
+## Demo Integrating with Materializecss
 
 Check out a demo using MaterializeCSS here:
 [Demo Using Materializecss](https://qln.link)
@@ -249,7 +251,7 @@ Check out a demo using MaterializeCSS here:
 Check out a demo using raw CSS:
 [Demo Using Raw CSS](https://github.com/QuickCorp/qcobjects_profile_browser)
 
-## Demo of QCObjects using and manipulating canvas objects
+## Example of QCObjects using and manipulating canvas objects
 
 The following code shows how QCObjects can manipulate canvas objects directly and inside components
 
@@ -346,6 +348,10 @@ The following code shows how QCObjects can manipulate canvas objects directly an
     </body>
 </html>
 ```
+
+# DevBlog
+--------------
+The [Official DevBlog of QCObjects](https://devblog.qcobjects.org/) is hosted on [Hashnode](https://hashnode.com/). The DevBlog is personally written by Jean Machuca, the author of [QCObjects](https://qcobjects.com) and and he is explaining in detail how are the best practices and giving the best tips and tricks to use the most advanced features of QCObjects.
 
 # Fork
 --------------
