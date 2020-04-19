@@ -1670,13 +1670,17 @@
       var __route__ = function(routingComponents) {
         for (var r = 0; r < routingComponents.length; r++) {
           var rc = routingComponents[r];
-          rc._reroute_();
-          if (rc.hasOwnProperty.call(rc,"subcomponents") &&
-            typeof rc.subcomponents !== "undefined" &&
-            rc.subcomponents.length > 0
-          ) {
-            logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + rc.name);
-            __route__.call(componentClass, rc.subcomponents);
+          if (rc.hasOwnProperty.call(rc,"_reroute_")){
+            rc._reroute_();
+            if (rc.hasOwnProperty.call(rc,"subcomponents") &&
+              typeof rc.subcomponents !== "undefined" &&
+              rc.subcomponents.length > 0
+            ) {
+              logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + rc.name);
+              __route__.call(componentClass, rc.subcomponents);
+            }
+          } else {
+            logger.debug("IT WAS NOT POSSIBLE TO RE-ROUTE: " + rc.name);
           }
         }
       };
