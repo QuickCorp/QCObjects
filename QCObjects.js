@@ -2209,38 +2209,60 @@
           } else {
             var is_file = (component.url.startsWith("file:")) ? (true) : (false);
             var xhr = new XMLHttpRequest();
-            xhr.open(component.method, component.url, (!is_file));
+            if (!is_file){
+              try {
+                xhr.open(component.method, component.url, true);
+              } catch (e){
+                logger.debug("Last try has failed... The component cannot be loaded.");
+              }
+            } else {
+              if ("fetch" in _top){
+                logger.debug("I can use fetch...");
+                logger.debug("It is a file to be loaded, so I will try to use fetch");
+                var _p = fetch (component.url).then(response=>{
+                  logger.debug("I got a response from fetch, so I'll feed the component");
+                  response.text().then(text=>{
+                    component.template=text;
+                    feedComponent.call(this, component);
+                  });
+                });
+              }
+            }
             if (!is_phonegap && !is_file) {
               xhr.setRequestHeader("Content-Type", "text/html");
             }
             if (!is_file) {
               xhr.onload = _componentLoaded;
             }
-            var _directLoad = function() {
+            var _directLoad = function(is_file) {
+              is_file = (typeof is_file === "undefined")?(false):(true);
               logger.debug("SENDING THE NORMAL REQUEST  ");
               if (is_file) {
-                xhr.send(null);
-                if (xhr.status === 0) {
-                  _componentLoaded.call(this);
+                if(!("fetch" in _top)){
+                  logger.debug("I have to try to load the file using xhr...  ");
+                  xhr.send(null);
+                  if (xhr.status === XMLHttpRequest.DONE) {
+                    _componentLoaded.call(this);
+                  }
                 }
               } else {
                 xhr.send(_DataStringify(component.data));
               }
             };
 
-            if (component.cached) {
+            if (component.cached && (!is_file)) {
               logger.debug("USING CACHE FOR COMPONENT: " + component.name);
               var cache = new ComplexStorageCache({
                 "index": component.cacheIndex,
                 "load": function(cacheController) {
-                  _directLoad.call(this);
+                  _directLoad.call(this,is_file);
                 },
                 "alternate": function(cacheController) {
                   if (component.method === "GET") {
                     component.template = cacheController.cache.getCached(component.cacheIndex);
                     feedComponent.call(this, component);
                   } else {
-                    _directLoad.call(this);
+                    _directLoad.call(this,is_file);
                   }
                   return;
                 }
@@ -2248,7 +2270,7 @@
               global.lastCache = cache;
             } else {
               logger.debug("NOT USING CACHE FOR COMPONENT: " + component.name);
-              _directLoad.call(this);
+              _directLoad.call(this,is_file);
             }
 
           }
