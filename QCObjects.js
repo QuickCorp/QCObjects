@@ -1129,6 +1129,7 @@
   Export(_super_);
   Export(ComplexStorageCache);
   Export(ClassFactory);
+  Export(_DOMCreateElement);
 
   var isQCObjects_Object = function (_){
     return (typeof _ === "object"
