@@ -153,6 +153,30 @@
   } else if (typeof global !== "undefined") {
     _top = global;
   }
+
+  var Export = function(f) {
+    if (isBrowser) {
+      try {
+        _top[f.name] = f;
+      } catch (e) {}
+      try {
+        window[f.name] = f;
+      } catch (e) {}
+    } else if (typeof global !== "undefined") {
+      if (!global.hasOwnProperty.call(global,f.name)) {
+        global[f.name] = f;
+      }
+      try {
+        if (!_top.hasOwnProperty.call(_top,f.name)) {
+          _top[f.name] = f;
+        }
+      } catch (e) {}
+    }
+  };
+  Export.prototype.toString = function() {
+    return "Export(function or symbol) { [QCObjects native code] }";
+  };
+
   var basePath = (
     function() {
       var _basePath = "";
@@ -936,21 +960,6 @@
     return "New(QCObjectsClassName, args) { [QCObjects native code] }";
   };
 
-  var Export = function(f) {
-    if (isBrowser) {
-      try {
-        _top[f.name] = f;
-        window[f.name] = f;
-      } catch (e) {}
-    } else if (typeof global !== "undefined") {
-      if (!global.hasOwnProperty.call(global,f.name)) {
-        global[f.name] = f;
-      }
-    }
-  };
-  Export.prototype.toString = function() {
-    return "Export(function or symbol) { [QCObjects native code] }";
-  };
 
   if (!isBrowser) {
     var findPackageNodePath = function(packagename) {
