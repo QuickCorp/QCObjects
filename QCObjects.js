@@ -2211,6 +2211,7 @@
             var xhr = new XMLHttpRequest();
             if (!is_file){
               try {
+                logger.debug("Calling the url of component in async mode.");
                 xhr.open(component.method, component.url, true);
               } catch (e){
                 logger.debug("Last try has failed... The component cannot be loaded.");
@@ -2235,7 +2236,7 @@
               xhr.onload = _componentLoaded;
             }
             var _directLoad = function(is_file) {
-              is_file = (typeof is_file === "undefined")?(false):(true);
+              is_file = (typeof is_file === "undefined" || !is_file)?(false):(true);
               logger.debug("SENDING THE NORMAL REQUEST  ");
               if (is_file) {
                 if(!("fetch" in _top)){
@@ -2246,6 +2247,7 @@
                   }
                 }
               } else {
+                logger.debug("Trying to send the data to the component...  ");
                 xhr.send(_DataStringify(component.data));
               }
             };
