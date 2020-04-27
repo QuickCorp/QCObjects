@@ -1862,7 +1862,8 @@
     lazyLoadImages: function (){
       if (isBrowser){
         var component = this;
-        var _imgLazyLoaded = [...component.body.subelements("img[lazy-src]")];
+        var _componentRoot = (component.shadowed)?(component.shadowRoot):(component.body);
+        var _imgLazyLoaded = [..._componentRoot.subelements("img[lazy-src]")];
         var _lazyLoadImages = function(image) {
           image.setAttribute("src", image.getAttribute("lazy-src"));
           image.onload = () => {
