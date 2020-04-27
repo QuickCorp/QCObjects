@@ -2790,6 +2790,8 @@
           tplextension = (components[_c].getAttribute("tplextension") !== null) ? (components[_c].getAttribute("tplextension")) : (tplextension);
           var tplsource = (components[_c].getAttribute("template-source") === null) ? ("default") : (components[_c].getAttribute("template-source"));
           var _componentName = components[_c].getAttribute("name");
+          var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
+          var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?("com.qcobjects.components."+_componentName+".ComponentBody"):(_componentClassName);
           _componentName = (_componentName !== null)?(_componentName):(
             (ClassFactory(__componentClassName).hasOwnProperty.call(ClassFactory(__componentClassName),"name")
               )?(
@@ -2811,8 +2813,6 @@
               })
             ]);
           }
-          var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
-          var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?("com.qcobjects.components."+_componentName+".ComponentBody"):(_componentClassName);
           var __shadowed = (__shadowed_not_set) ? (ClassFactory("Component").shadowed) : (shadowed);
           var __definition = {
             name: _componentName,
