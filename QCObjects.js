@@ -2750,7 +2750,9 @@
               if (this.controller.hasOwnProperty.call(this.controller,"done") && typeof this.controller.done === "function") {
                 this.controller.done.call(this.controller);
               }
-              this.controller.createRoutingController();
+              if (this.controller.hasOwnProperty.call(this.controller,"createRoutingController")){
+                this.controller.createRoutingController.call(this.controller);
+              }
             }
             var effectClassName = this.body.getAttribute("effectClass");
             var _Effect = ClassFactory(effectClassName);
