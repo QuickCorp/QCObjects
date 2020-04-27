@@ -2789,13 +2789,13 @@
           var tplextension = (typeof ClassFactory("CONFIG").get("tplextension") !== "undefined") ? (ClassFactory("CONFIG").get("tplextension")) : ("html");
           tplextension = (components[_c].getAttribute("tplextension") !== null) ? (components[_c].getAttribute("tplextension")) : (tplextension);
           var tplsource = (components[_c].getAttribute("template-source") === null) ? ("default") : (components[_c].getAttribute("template-source"));
+          var _componentName = components[_c].getAttribute("name");
           var componentURI = ComponentURI({
             "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
-            "COMPONENT_NAME": components[_c].getAttribute("name").toString(),
+            "COMPONENT_NAME": _componentName,
             "TPLEXTENSION": tplextension,
             "TPL_SOURCE": tplsource
           });
-          var _componentName = components[_c].getAttribute("name").toString();
           if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
             Package("com.qcobjects.components."+_componentName+"",[
               Class("ComponentBody", ClassFactory("Component"), {
@@ -2818,7 +2818,14 @@
             tplsource: tplsource,
             subcomponents: []
           };
+          if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null){
+            /* this allows to use the original property defined
+            in the component definition if it is not present in the tag */
+            delete __definition.name;
+          }
           if (componentURI === ""){
+            /* this allows to use the original property defined
+            in the component definition if it is not present in the tag */
             delete __definition.templateURI;
           }
           var newComponent = New(ClassFactory(__componentClassName), __definition);
