@@ -2790,12 +2790,17 @@
           tplextension = (components[_c].getAttribute("tplextension") !== null) ? (components[_c].getAttribute("tplextension")) : (tplextension);
           var tplsource = (components[_c].getAttribute("template-source") === null) ? ("default") : (components[_c].getAttribute("template-source"));
           var _componentName = components[_c].getAttribute("name");
-          var componentURI = ComponentURI({
-            "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
-            "COMPONENT_NAME": _componentName,
-            "TPLEXTENSION": tplextension,
-            "TPL_SOURCE": tplsource
-          });
+          var componentURI;
+          if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null){
+            componentURI = "";
+          } else {
+            componentURI = ComponentURI({
+              "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
+              "COMPONENT_NAME": _componentName,
+              "TPLEXTENSION": tplextension,
+              "TPL_SOURCE": tplsource
+            });
+          }
           if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
             Package("com.qcobjects.components."+_componentName+"",[
               Class("ComponentBody", ClassFactory("Component"), {
