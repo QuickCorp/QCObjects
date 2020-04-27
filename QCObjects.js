@@ -2813,7 +2813,8 @@
               })
             ]);
           }
-          var __shadowed = (__shadowed_not_set) ? (ClassFactory("Component").shadowed) : (shadowed);
+          var __classDefinition = ClassFactory(__componentClassName);
+          var __shadowed = (__shadowed_not_set) ? (__classDefinition.shadowed || ClassFactory("Component").shadowed) : (shadowed);
           var __definition = {
             name: _componentName,
             data: data,
@@ -2835,7 +2836,7 @@
             in the component definition if it is not present in the tag */
             delete __definition.templateURI;
           }
-          var newComponent = New(ClassFactory(__componentClassName), __definition);
+          var newComponent = New(__classDefinition, __definition);
 
           if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
             components[_c].append(newComponent);
