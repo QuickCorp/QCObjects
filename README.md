@@ -69,6 +69,7 @@ _________________________
 	- [Using the CDN minified version code from jsDelivr CDN](#using-the-cdn-minified-version-code-from-jsdelivr-cdn)
 	- [Using the latest non-minified version from jsDelivr CDN](#using-the-latest-non-minified-version-from-jsdelivr-cdn)
 	- [Using UNPKG CDN](#using-unpkg-cdn)
+	- [Using CDNJS](#using-cdnjs)
 - [Reference](#reference)
 	- [Essentials](#essentials)
 		- [QC_Object](#qc_object)
@@ -502,6 +503,25 @@ A Private Image lets you build a new AMI by installing AWS Marketplace software 
 <script src="https://unpkg.com/qcobjects@latest/QCObjects.js"></script>
 ```
 
+## Using CDNJS
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/[VERSION]/QCObjects.js"></script>
+```
+
+Where [VERSION] is the corresponding latest version using numeric notation, example: to use version 2.1.420:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.js"></script>
+```
+
+You don't need to minify QCObjects, but if you still want to use the minified code, you can do this:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.min.js"></script>
+```
+
+Again, Change 2.1.420 to the number of the version that you want to use.
 
 
 # Reference
