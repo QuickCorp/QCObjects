@@ -56,6 +56,7 @@ npm install -g qcobjects-cli
 npm install -g qcobjects
 
 ln -sf $(npm bin)/qco* /usr/local/bin
+ln -sf ~/.npm-packages/bin/qco* /usr/local/bin
 
 clear
 echo "Welcome to... "
