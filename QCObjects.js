@@ -2409,20 +2409,25 @@
       var _promise = new Promise(
         function(resolve, reject) {
           var serviceURL = new URL(service.url);
+          var req;
+          service.useHTTP2 = service.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2;
 
           try {
-            if (service.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2) {
+            var requestOptions;
+            if (service.useHTTP2) {
               logger.debug("using http2");
               var http2 = require("http2");
               var client = http2.connect(serviceURL.origin);
-              var req = client.request({
+              requestOptions = Object.assign({
                 ":method": service.method,
                 ":path": serviceURL.pathname
-              });
+              }, service.options);
+              requestOptions = Object.assign(requestOptions,service.headers);
+              req = client.request(requestOptions);
               req.setEncoding("utf8");
             } else {
               var request = require("request");
-              var requestOptions = Object.assign({
+              requestOptions = Object.assign({
                 "url": service.url,
                 headers: service.headers
               }, service.options);
@@ -2462,8 +2467,11 @@
             req.on("data", (chunk) => {
               logger.debug("receiving data...");
               // do something with the data
-              dataXML += chunk.toString();
+              dataXML += ""+ chunk.toString();
             });
+            if (service.useHTTP2){
+              req.resume();
+            }
             req.on("end", () => {
               logger.debug("ending call...");
               service.template = dataXML;
@@ -2475,7 +2483,9 @@
               service.done.call(service, standardResponse);
               resolve.call(_promise, standardResponse);
             });
-
+            if (service.useHTTP2){
+              req.end();
+            }
 
           } catch (e) {
             logger.debug(e);
