@@ -1831,31 +1831,34 @@
       //This method set the selected routing and makes the switch to the templateURI
       var rc = this;
       var _rebuilt = false;
-      if (rc.validRoutingWays.includes(rc.routingWay)) {
-        rc.routingPath = document.location[rc.routingWay];
-        rc.routingSelected = rc.routings.filter(function(routing) {
-          return (new RegExp(routing.path, "g")).test(rc.routingPath);
-        }).reverse();
-        for (var r = 0; r < rc.routingSelected.length; r++) {
-          var routing = rc.routingSelected[r];
-          var componentURI = ComponentURI({
-            "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
-            "COMPONENT_NAME": routing.name.toString(),
-            "TPLEXTENSION": rc.tplextension,
-            "TPL_SOURCE": "default" //here is always default in order to get the right uri
-          });
-          rc.templateURI = componentURI;
+      if (isBrowser){
+        if (rc.validRoutingWays.includes(rc.routingWay)) {
+          rc.routingPath = document.location[rc.routingWay];
+          rc.routingSelected = rc.routings.filter(function(routing) {
+            return (new RegExp(routing.path, "g")).test(rc.routingPath);
+          }).reverse();
+          for (var r = 0; r < rc.routingSelected.length; r++) {
+            var routing = rc.routingSelected[r];
+            var componentURI = ComponentURI({
+              "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
+              "COMPONENT_NAME": routing.name.toString(),
+              "TPLEXTENSION": rc.tplextension,
+              "TPL_SOURCE": "default" //here is always default in order to get the right uri
+            });
+            rc.templateURI = componentURI;
+          }
+          if (rc.routingSelected.length > 0) {
+            rc.template = "";
+            rc.body.innerHTML = "";
+            rc.rebuild().then(function() {
+              // not yet implemented.
+            }).catch(function(standardResponse) {
+              logger.debug("Component not rebuilt");
+            });
+            _rebuilt = true;
+          }
         }
-        if (rc.routingSelected.length > 0) {
-          rc.template = "";
-          rc.body.innerHTML = "";
-          rc.rebuild().then(function() {
-            // not yet implemented.
-          }).catch(function(standardResponse) {
-            logger.debug("Component not rebuilt");
-          });
-          _rebuilt = true;
-        }
+
       }
       return _rebuilt;
     },
