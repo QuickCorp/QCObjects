@@ -1763,6 +1763,42 @@ let my3dmatrix = ArrayList.matrix3d(3,range(0,1));
   ]
 ]
 ```
+### Array.sum
+
+Sums the elements of an array.
+
+```javascript
+let s = [1,2,3].sum()
+// s = 6
+```
+
+### Array.avg
+
+Computes the average value of the elements in the Array
+
+```javascript
+let average = [10,5].avg()
+// average = 7.5
+```
+
+### Array.min
+
+Returns the min value from the elements of an Array.
+
+```javascript
+let minValue = [1,2,3].min()
+// minValue = 1
+```
+
+
+### Array.max
+
+Returns the max value from the elements of an Array
+
+```javascript
+let maxValue = [1,2,3].max()
+// maxValue = 3
+```
 
 ## SDK
 
