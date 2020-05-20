@@ -66,7 +66,17 @@
         "ArrayList",
         "ArrayCollection",
         "Effect",
-        "Timer"
+        "Timer",
+        "sum",
+        "avg",
+        "table",
+        "max",
+        "min",
+        "range",
+        "matrix",
+        "matrix2d",
+        "matrix3d",
+        "unique"
       ];
       var _ret_;
       if (_protected_symbols.includes(this.name)) {
@@ -247,19 +257,17 @@
   if (isBrowser) {
     var _fireAsyncLoad = function() {
       if (document.readyState === "complete") {
-        for (var f in _top._asyncLoad) {
-          var fc = _top._asyncLoad[f];
-          fc.dispatch();
-        }
+        _top._asyncLoad.map(function (fc){
+          fc.dispatch.call(fc);
+        });
       }
     };
     document.onreadystatechange = _fireAsyncLoad;
   } else if (typeof global !== "undefined") {
     global._fireAsyncLoad = function() {
-      for (var f in _top._asyncLoad) {
-        var fc = _top._asyncLoad[f];
-        fc.dispatch();
-      }
+      _top._asyncLoad.map(function (fc){
+        fc.dispatch.call(fc);
+      });
     };
   }
 
@@ -519,12 +527,11 @@
       var _oo = [];
       if (isBrowser) {
         var _tags = document.subelements(tag);
-        for (var _t in _tags) {
-          var _tt = _tags[_t];
+        _tags.map(function (_tt,_t){
           if ((typeof _tags[_t] !== "undefined") && _tags[_t].parentNode.tagName === this.parentNode.tagName) {
             _oo.push(_Cast(_tt, (new QC_Object())));
           }
-        }
+        });
       } else {
         //not implemented yet.
       }
@@ -1164,23 +1171,23 @@
       classes.hasOwnProperty.call(classes,"length") &&
       classes.length > 0
     ) {
-        for (var _c in classes.filter(
+        classes.filter(
           function (_c1){
             return isQCObjects_Class(_c1);
           }
-        )){
-            classes[_c].__definition.__namespace = namespace;
-        }
+        ).map(function (_class_){
+          _class_.__definition.__namespace = namespace;
+        });
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
     } else if (typeof classes !== "undefined"){
       if (typeof classes === "object" && classes.hasOwnProperty.call(classes,"length")){
-        for (var _c in classes.filter(
+        classes.filter(
           function (_c1){
             return isQCObjects_Class(_c1);
           }
-        )){
-            classes[_c].__definition.__namespace = namespace;
-        }
+        ).map(function (_class_){
+          _class_.__definition.__namespace = namespace;
+        });
       } else if (isQCObjects_Class(classes)) {
         classes.__definition.__namespace = namespace;
       }
@@ -1243,9 +1250,9 @@
         var readyImported = function(e) {
           _QC_PACKAGES_IMPORTED.push(ready);
           if (allPackagesImported()) {
-            for (var _r in _QC_PACKAGES_IMPORTED) {
-              _QC_READY_LISTENERS.push(_QC_PACKAGES_IMPORTED[_r]);
-            }
+            _QC_PACKAGES_IMPORTED.map(function (_imported_){
+              _QC_READY_LISTENERS.push(_imported_);
+            });
           }
           if (isBrowser && ClassFactory("CONFIG").get("removePackageScriptAfterLoading")){
             e.target.remove();
@@ -1419,12 +1426,12 @@
    */
   var _Ready = function(e) {
     var _execReady = function() {
-      for (var _r in _QC_READY_LISTENERS) {
-        if (typeof _QC_READY_LISTENERS[_r] === "function") {
-          _QC_READY_LISTENERS[_r].call();
+      _QC_READY_LISTENERS.map(function (_ready_listener_,_r){
+        if (typeof _ready_listener_ === "function") {
+          _ready_listener_.call();
           delete _QC_READY_LISTENERS[_r];
         }
-      }
+      });
     };
     if (ClassFactory("CONFIG").get("delayForReady") > 0) {
       if (isBrowser) {
@@ -1485,7 +1492,7 @@
           } else {
             ret = _value;
           }
-          return ret;
+          return;
         },
         get() {
           logger.debug("returning value " + name);
@@ -2625,14 +2632,19 @@
       },
       get(){
         return global.PackagesNameList.map(function (packagename) {
-          return {
-            packageName:packagename,
-            classesList:Package(packagename).filter(function (_packageClass) {
-                return isQCObjects_Class(_packageClass);
-              }
-            )
-          };
-         });
+          let _classesList = Package(packagename);
+          let _ret_;
+          if (_classesList){
+            _ret_ = {
+              packageName:packagename,
+              classesList:_classesList.filter(function (_packageClass) {
+                  return isQCObjects_Class(_packageClass);
+                }
+              )
+            };
+          }
+          return _ret_;
+        }).filter(function (_p){return typeof _p !== "undefined";});
       }
     });
 
@@ -2737,9 +2749,9 @@
           }).map(function(a) {
             return a.split("-")[1];
           });
-          for (var attribute in attributenames) {
-            data[attributenames[attribute]] = components[_c].getAttribute("data-" + attributenames[attribute]);
-          }
+          attributenames.map(function (_attribute_name_){
+            data[_attribute_name_] = components[_c].getAttribute("data-" + _attribute_name_);
+          });
           var componentDone = function() {
             var viewName = this.body.getAttribute("viewClass");
             var _View = ClassFactory(viewName);
@@ -3118,12 +3130,16 @@
   Array.unique = function (a){
     return a.unique();
   };
+  (_protected_code_)(Array.unique);
+  (_protected_code_)(Array.prototype.unique);
   Array.prototype.table = function() {
     console.table(this);
   };
   Array.table = function (a){
     return a.table();
   };
+  (_protected_code_)(Array.table);
+  (_protected_code_)(Array.prototype.table);
   Array.prototype.sum = function() {
     return this.reduce(function(prev, current) {
       return __to_number(prev) + __to_number(current);
@@ -3132,6 +3148,8 @@
   Array.sum = function (a){
     return a.sum();
   };
+  (_protected_code_)(Array.sum);
+  (_protected_code_)(Array.prototype.sum);
   Array.prototype.avg = function() {
     return (this.length<1)?(0):(this.reduce(function(prev, current) {
       return ((__to_number(prev) + __to_number(current)) / 2);
@@ -3140,6 +3158,8 @@
   Array.avg = function (a){
     return a.avg();
   };
+  (_protected_code_)(Array.avg);
+  (_protected_code_)(Array.prototype.avg);
   Array.prototype.min = function() {
     return this.reduce(function(prev, current) {
       return ( __to_number(prev)<=__to_number(current) ) ? (prev):(current);
@@ -3148,6 +3168,8 @@
   Array.min = function (a){
     return a.min();
   };
+  (_protected_code_)(Array.min);
+  (_protected_code_)(Array.prototype.min);
   Array.prototype.max = function() {
     return this.reduce(function(prev, current) {
       return ( __to_number(prev)>=__to_number(current) ) ? (prev):(current);
@@ -3156,6 +3178,8 @@
   Array.max = function (a){
     return a.max();
   };
+  (_protected_code_)(Array.max);
+  (_protected_code_)(Array.prototype.max);
   Array.prototype.sortBy = function (propName, sortAsc = true){
     var sort_function = (sortAsc)?(
       function (prev, current) { return current[propName] < prev[propName] ? 1 : -1;}
@@ -3167,23 +3191,28 @@
   Array.sortBy = function (a, propName, sortAsc = true){
     return a.sortBy(propName, sortAsc);
   };
+  (_protected_code_)(Array.sortBy);
+  (_protected_code_)(Array.prototype.sortBy);
 
   Array.matrix = function (_length, _fillValue = 0){
     var x_func = function (x){return _fillValue;};
     return Array.from({length:_length},x_func);
   };
+  (_protected_code_)(Array.matrix);
 
   Array.matrix2d = function (_length, _fillValue = 0){
     var y_func = function (y){return _fillValue;};
     var x_func = function (x){return Array.from({length:_length},y_func);};
     return Array.from({length:_length},x_func);
   };
+  (_protected_code_)(Array.matrix2d);
 
   Array.matrix3d = function (_length, _fillValue = 0){
     var y_func = function (y){return Array.from({length:_length},function (){return _fillValue;});};
     var x_func = function (x){return Array.from({length:_length},y_func);};
     return Array.from({length:_length},x_func);
   };
+  (_protected_code_)(Array.matrix3d);
 
   _top.range = function (start, stop=0, step=1) {
     if (stop===0 || typeof stop === "undefined"){
@@ -3192,6 +3221,8 @@
     }
     return Array.from({ length: (stop - start) / step + 1}, function (_, i) {return start + (i * step);});
   };
+  (_protected_code_)(_top.range);
+
 
   /**
   * End of array math functions
@@ -3202,6 +3233,10 @@
   ClassFactory("ArrayList").matrix = Array.matrix;
   ClassFactory("ArrayList").matrix2d = Array.matrix2d;
   ClassFactory("ArrayList").matrix3d = Array.matrix3d;
+  (_protected_code_)(ClassFactory("ArrayList").matrix);
+  (_protected_code_)(ClassFactory("ArrayList").matrix2d);
+  (_protected_code_)(ClassFactory("ArrayList").matrix3d);
+
   Class("ArrayCollection", Object, {
     source: New(ClassFactory("ArrayList"), []),
     changed: function(prop, value) {
@@ -3315,18 +3350,18 @@
                       radiusTo,
                       scaleFrom,
                       scaleTo}){
+      var _transition_ = this;
       logger.info("EXECUTING TransitionEffect  ");
-      if (this.fitToHeight){
-        this.component.body.height = this.component.body.offsetParent.scrollHeight;
+      if (_transition_.fitToHeight){
+        _transition_.component.body.height = _transition_.component.body.offsetParent.scrollHeight;
       }
-      if (this.fitToWidth){
-        this.component.body.width = this.component.body.offsetParent.scrollWidth;
+      if (_transition_.fitToWidth){
+        _transition_.component.body.width = _transition_.component.body.offsetParent.scrollWidth;
       }
-      this.component.body.style.display = "block";
-      for (var eff in this.effects){
-        var effectClassName = this.effects[eff];
+      _transition_.component.body.style.display = "block";
+      _transition_.effects.map(function (effectClassName,eff){
         var effectClassMethod = _super_(effectClassName,"apply");
-        var args = [this.component.body].concat(Object.values(
+        var args = [_transition_.component.body].concat(Object.values(
           {
             alphaFrom,
             alphaTo,
@@ -3338,8 +3373,8 @@
             scaleTo
           }
         ));
-        effectClassMethod.apply(this,args);
-      }
+        effectClassMethod.apply(_transition_,args);
+      });
     }
   });
 
