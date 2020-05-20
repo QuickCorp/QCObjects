@@ -3110,57 +3110,57 @@
   * Array math functions
   */
   var __to_number = function(value) {
-    return (isNaN(value)) ? (new Number(0)) : (new Number(value))
+    return (isNaN(value)) ? (new Number(0)) : (new Number(value));
   };
   Array.prototype.unique = function() {
     return this.filter(function (value, index, self) { return self.indexOf(value) === index;});
   };
   Array.unique = function (a){
     return a.unique();
-  }
+  };
   Array.prototype.table = function() {
-    console.table(this)
+    console.table(this);
   };
   Array.table = function (a){
     return a.table();
   };
   Array.prototype.sum = function() {
     return this.reduce(function(prev, current) {
-      return __to_number(prev) + __to_number(current)
-    },0)
+      return __to_number(prev) + __to_number(current);
+    },0);
   };
   Array.sum = function (a){
     return a.sum();
   };
   Array.prototype.avg = function() {
     return (this.length<1)?(0):(this.reduce(function(prev, current) {
-      return ((__to_number(prev) + __to_number(current)) / 2)
-    }))
+      return ((__to_number(prev) + __to_number(current)) / 2);
+    }));
   };
   Array.avg = function (a){
     return a.avg();
-  }
+  };
   Array.prototype.min = function() {
     return this.reduce(function(prev, current) {
-      return ( __to_number(prev)<=__to_number(current) ) ? (prev):(current)
-    },Infinity)
+      return ( __to_number(prev)<=__to_number(current) ) ? (prev):(current);
+    },Infinity);
   };
   Array.min = function (a){
     return a.min();
   };
   Array.prototype.max = function() {
     return this.reduce(function(prev, current) {
-      return ( __to_number(prev)>=__to_number(current) ) ? (prev):(current)
-    },0)
+      return ( __to_number(prev)>=__to_number(current) ) ? (prev):(current);
+    },0);
   };
   Array.max = function (a){
     return a.max();
   };
   Array.prototype.sortBy = function (propName, sortAsc = true){
     var sort_function = (sortAsc)?(
-      function (prev, current) { return current[propName] < prev[propName] ? 1 : -1}
+      function (prev, current) { return current[propName] < prev[propName] ? 1 : -1;}
     ):(
-      function (prev, current) { return current[propName] > prev[propName] ? 1 : -1}
+      function (prev, current) { return current[propName] > prev[propName] ? 1 : -1;}
     );
     return this.sort(sort_function);
   };
@@ -3169,19 +3169,19 @@
   };
 
   Array.matrix = function (_length, _fillValue = 0){
-    var x_func = function (x){return _fillValue};
+    var x_func = function (x){return _fillValue;};
     return Array.from({length:_length},x_func);
   };
 
   Array.matrix2d = function (_length, _fillValue = 0){
-    var y_func = function (y){return _fillValue};
-    var x_func = function (x){return Array.from({length:_length},y_func)};
+    var y_func = function (y){return _fillValue;};
+    var x_func = function (x){return Array.from({length:_length},y_func);};
     return Array.from({length:_length},x_func);
   };
 
   Array.matrix3d = function (_length, _fillValue = 0){
-    var y_func = function (y){return Array.from({length:_length},function (){return _fillValue})};
-    var x_func = function (x){return Array.from({length:_length},y_func)};
+    var y_func = function (y){return Array.from({length:_length},function (){return _fillValue;});};
+    var x_func = function (x){return Array.from({length:_length},y_func);};
     return Array.from({length:_length},x_func);
   };
 
@@ -3190,7 +3190,7 @@
       stop = start;
       start = 0;
     }
-    return Array.from({ length: (stop - start) / step + 1}, function (_, i) {return start + (i * step)});
+    return Array.from({ length: (stop - start) / step + 1}, function (_, i) {return start + (i * step);});
   };
 
   /**
