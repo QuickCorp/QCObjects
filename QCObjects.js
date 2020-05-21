@@ -1107,6 +1107,8 @@
             obj[_k] = this.process(obj[_k]);
           }
         }
+      } else if (typeof obj === "string"){
+        obj = this.process(obj);
       }
       return obj;
     }
