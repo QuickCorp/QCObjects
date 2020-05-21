@@ -960,7 +960,7 @@ You have an environment variable called **SERVICE_URL** that stores a url of a s
 }
 ```
 
-The **$SERVICE_HOST** and **$SERVICE_PORT** processors does not exist. To define them, you must use:
+The **$SERVICE_HOST** and **$SERVICE_PORT** processors do not exist. To define them, you must use:
 
 ```javascript
 // execute the next code in your init.js file or before to load the CONFIG settings
