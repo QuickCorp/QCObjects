@@ -1089,12 +1089,12 @@
       if (typeof template === "string"){
         let processorHandler = this;
         Object.keys(processorHandler.processors).map(function (funcName){
-          [...template.matchAll(new RegExp('^\\$'+funcName+'\\((.*)\\).*$',"g"))].map(
+          [...template.matchAll(new RegExp("^\\$"+funcName+"\\((.*)\\).*$","g"))].map(
             function (procesorMatch){
               template = template.replace(procesorMatch[0],processorHandler.execute.call(processorHandler, funcName, procesorMatch[1]));
             }
-          )
-        })
+          );
+        });
       }
       return template;
     }
