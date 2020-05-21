@@ -1064,6 +1064,43 @@
     return JSON.parse(ClassFactory("_Crypt").decrypt(s, _secretKey));
   };
 
+  Class("Processor", {
+    processors: {
+      "config": function (arg){
+        return CONFIG.get(arg,"");
+      },
+      "ENV": function(arg) {
+        return (typeof process !== "undefined")?(process.env[arg]):("");
+      },
+      "global": function (arg){
+        return (typeof global !== "undefined")?(global[arg]):("");
+      }
+    },
+    setProcessor: function (_proc_){
+      if (typeof _proc_ === "function" && _proc_.name !== ""){
+        this.processors[_proc_.name] = _proc_;
+      }
+    },
+    execute: function (processorName, args){
+      let processorHandler = this;
+      return processorHandler.processors[processorName].apply(processorHandler, args.split(","));
+    },
+    process: function(template) {
+      if (typeof template === "string"){
+        let processorHandler = this;
+        Object.keys(processorHandler.processors).map(function (funcName){
+          [...template.matchAll(new RegExp('^\\$'+funcName+'\\((.*)\\).*$',"g"))].map(
+            function (procesorMatch){
+              template = template.replace(procesorMatch[0],processorHandler.execute.call(processorHandler, funcName, procesorMatch[1]));
+            }
+          )
+        })
+      }
+      return template;
+    }
+  });
+
+
   Class("CONFIG", Object, {
     _CONFIG: {
       "relativeImportPath": "",
@@ -1127,7 +1164,7 @@
         logger.debug("No config value for: "+name);
         _value = _default;
       }
-      return _value;
+      return ClassFactory("Processor").process.call(ClassFactory("Processor"),_value);
     }
   });
   var CONFIG = ClassFactory("CONFIG");
