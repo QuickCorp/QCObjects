@@ -901,6 +901,103 @@ There is also a way to use an encrypted config.json file in order to protect you
 
 To encrypt your json file go to https://config.qcobjects.dev, put your domain and the config.json content. The tool will encrypt your json and you can copy the encrypted content to insert it in your config.json file. QCObjects will know the data is encrypted and the process to decode the data will be transparent for you.
 
+#### Dynamic CONFIG Settings
+
+Sometimes you will need to set a value from a source that isn't static, like the ENV vars or another custom source of dynamic data. To get a value using CONFIG from a dynamic source you have to use a processor. There are common processors predefined like $ENV (only available on CLI, Collab and Node) and $config (available on all environments).
+
+Processors are called as a meta value either into the config.json file or in the CONFIG Class.
+
+```json
+// file: config.json
+{
+	"domain":"localhost",
+	"env1":"$ENV(ENV1)",
+	"customSettings":{
+		"value1":"$config(domain)"
+	}
+}
+```
+
+```javascript
+let value1 = CONFIG.get("customSettings").value1;
+// value1 = "localhost";
+
+let env1 = CONFIG.get("env1");
+//env1 = (environment variable ENV1)
+```
+
+```javascript
+// sets the key "api_key" of the CONFIG settings to a dynamic processor $ENV that recovers the value of API_KEY from the environment variables
+CONFIG.set("api_key","$ENV(API_KEY)");
+
+let api_key = CONFIG.get("api_key");
+// api_key will contain the value of the system API_KEY environment var
+// ($ENV processor returns a valid value only on Node.js , QCObjects CLI and QCObjects Collab engine)
+```
+
+### Processor
+
+Static Class that used to set custom processors for CONFIG.
+
+#### Usage:
+
+```javascript
+Processor.setProcessor(processor)
+```
+
+Where **processor** is a named function that receives the arguments of the processor
+
+#### Example:
+
+You have an environment variable called **SERVICE_URL** that stores a url of a service. You have to use that value in your config settings in the **serviceURL** value but you also need to set the **host** and the **port** settings using the parsed value of that url. To parse the value of SERVICE_URL environment variable on-demand and fill up the corresponding settings in your config.json, Your config.json file will look like this:
+
+```json
+// file: config.json
+{
+	"serviceURL":"$ENV(SERVICE_URL)",
+	"host":"$SERVICE_HOST(SERVICE_URL)",
+	"port":"$SERVICE_PORT(SERVICE_URL)"
+}
+```
+
+The **$SERVICE_HOST** and **$SERVICE_PORT** processors does not exist. To define them, you must use:
+
+```javascript
+// execute the next code in your init.js file or before to load the CONFIG settings
+
+let SERVICE_HOST = function (arg){
+	var processorHandler = this; // to make this always works, do not use arrow functions to define your
+	let serviceURL = new URL(processorHandler.processors.ENV(arg));
+	return serviceURL.host;
+}
+let SERVICE_PORT = function (){
+	var processorHandler = this; // to make this always works, do not use arrow functions to define your
+	let serviceURL = new URL(processorHandler.processors.ENV(arg));
+	return serviceURL.port;
+}
+
+Processor.setProcessor(SERVICE_HOST);
+Processor.setProcessor(SERVICE_PORT);
+```
+
+Then you only need to set your environment variable SERVICE_URL in your shell
+
+```shell
+# for Unix/Linux systems
+export SERVICE_URL="https://example.com:443/path-to-a-resource/"
+```
+
+and your dynamic settings will be dynamically loaded like this:
+
+```json
+{
+	"serviceURL":"https://example.com:443/path-to-a-resource/",
+	"host":"example.com",
+	"port":"443"
+}
+```
+
+And you get the corresponding values using **CONFIG.get(value)**
 
 ### waitUntil
 waitUntil is a helper just in case you are in trouble trying to run a code before a condition is true. The code inside waitUntil will be executed once.
