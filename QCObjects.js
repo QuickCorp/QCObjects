@@ -1097,6 +1097,18 @@
         });
       }
       return template;
+    },
+    processObject: function (obj){
+      if (typeof obj === "object"){
+        for (var _k in obj){
+          if (typeof obj[_k] === "object" && !obj[_k].hasOwnProperty.call(obj[_k],"call")){
+            obj[_k] = this.processObject(obj);
+          } else if (typeof obj[_k] === "string"){
+            obj[_k] = this.process(obj[_k]);
+          }
+        }
+      }
+      return obj;
     }
   });
 
@@ -1164,7 +1176,7 @@
         logger.debug("No config value for: "+name);
         _value = _default;
       }
-      return ClassFactory("Processor").process.call(ClassFactory("Processor"),_value);
+      return ClassFactory("Processor").processObject.call(ClassFactory("Processor"),_value);
     }
   });
   var CONFIG = ClassFactory("CONFIG");
