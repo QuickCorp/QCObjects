@@ -987,7 +987,7 @@ Then you only need to set your environment variable SERVICE_URL in your shell
 export SERVICE_URL="https://example.com:443/path-to-a-resource/"
 ```
 
-and your dynamic settings will be dynamically loaded like this:
+and your settings will be dynamically loaded like this:
 
 ```json
 {
