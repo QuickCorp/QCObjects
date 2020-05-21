@@ -970,7 +970,7 @@ let SERVICE_HOST = function (arg){
 	let serviceURL = new URL(processorHandler.processors.ENV(arg));
 	return serviceURL.host;
 }
-let SERVICE_PORT = function (){
+let SERVICE_PORT = function (arg){
 	var processorHandler = this; // to make this always works, do not use arrow functions to define your
 	let serviceURL = new URL(processorHandler.processors.ENV(arg));
 	return serviceURL.port;
