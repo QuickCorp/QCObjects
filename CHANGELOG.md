@@ -1,6 +1,6 @@
 # Changelog 
 
-This is an automatic Changelog history of versions generated using the command: **qcobjects v-changelog > CHANGELOG**
+This is an automatic Changelog history of versions generated using the command: **qcobjects v-changelog > CHANGELOG.md**
 
 ## Version1 -> Version1.1
 
@@ -154,5 +154,6 @@ This is an automatic Changelog history of versions generated using the command: 
 	- version script
 ## v2 -> v2.2
 
+	- Inclussion of CHANGELOG file
 	- New Version
 	- Synced Versions from git and npm
