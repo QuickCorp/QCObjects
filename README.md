@@ -2435,25 +2435,204 @@ Tag('component[name=comp1]').map(componentBody => MoveYInFromTop.apply(component
 
 #### org.quickcorp.tools.effects.RotateX
 
+Rotates an object in X axis.
+
+##### Usage:
+```javascript
+RotateX.apply(element, angleFrom, angleTo)
+```
+
+**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+
+##### Example:
+```javascript
+// the next line will rotate in X axis the div called #id from 180 degrees to 240 degrees
+Tag('div#id').map(div => RotateX.apply(div, 180, 240));
+```
+
+
 #### org.quickcorp.tools.effects.RotateY
+
+Rotates an object in Y axis.
+
+##### Usage:
+```javascript
+RotateY.apply(element, angleFrom, angleTo)
+```
+
+**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+
+##### Example:
+```javascript
+// the next line will rotate in Y axis the div called #id from 0 degrees to 270 degrees
+Tag('div#id').map(div => RotateY.apply(div, 0, 270));
+```
 
 #### org.quickcorp.tools.effects.RotateZ
 
+Rotates an object in Z axis.
+
+##### Usage:
+```javascript
+RotateZ.apply(element, angleFrom, angleTo)
+```
+
+**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+
+##### Example:
+```javascript
+// the next line will rotate in Z axis the div called #id from 0 degrees to 60 degrees
+Tag('div#id').map(div => RotateZ.apply(div, 0, 60));
+```
+
+
+
 #### org.quickcorp.tools.effects.Rotate
+
+Rotates an object in X, Y, Z axes. All axes will rotate in paralell at the same time producing a 3d visual effect perception.
+
+##### Usage:
+```javascript
+Rotate.apply(element, angleFrom, angleTo)
+```
+
+**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+
+##### Example:
+```javascript
+// the next line will rotate in X, Y and Z axes the div called #id form 0 to 270 degrees
+Tag('div#id').map(div => Rotate.apply(div, 0, 270));
+```
 
 #### org.quickcorp.tools.effects.Fade
 
+Produces a fade effect by lowering the opacity of the element.
+
+##### Usage:
+
+```javascript
+Fade.apply(element, alphaFrom, alphaTo)
+```
+
+**alphaFrom** and **alphaTo** are numbers between 0 (zero) and 1.
+
+```javascript
+// the following line will fade a <b class="header"> element from 0.5 (mid visibility) to 1 (full visibility)
+Tag('b.header').map(header=>Fade.apply(header, 0.5, 1))
+```
+
 #### org.quickcorp.tools.effects.Radius
+
+Rounds the corner of an element
+
+##### Usage:
+```javascript
+Radius.apply(element, radiusFrom, radiusTo)
+```
+
+**radiusFrom** and **radiusTo** are numeric values.
+
+##### Example:
+```javascript
+// the next line will round the corners of every image in the document
+Tag('img').map(element => Radius.apply(element, 0, 100))
+```
 
 #### org.quickcorp.tools.effects.Resize
 
+##### Usage:
+```javascript
+Resize.apply(element, scaleFrom, scaleTo)
+```
+
+**scaleFrom** and **scaleTo** are numeric values.
+A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+
+##### Example:
+
+```javascript
+// the next line will make a zoom-out effect on every image in the document
+Tag('img').map(element => Resize.apply(element, 2,0))
+
+// the next line will make a zoom-in effect on every image in the document
+Tag('img').map(element => Resize.apply(element, 0,1))
+
+// the next line will make a zoom-in-out effect on every image in the document
+Tag('img').map(element => Resize.apply(element, 2,1))
+```
+
 #### org.quickcorp.tools.effects.WipeLeft
 
+Makes a Wipe effect from Left side to the origin of the element.
+
+##### Usage:
+```javascript
+WipeLeft.apply(element, scaleFrom, scaleTo)
+```
+
+**scaleFrom** and **scaleTo** are numeric values.
+A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+
+##### Example
+
+```javascript
+Tag('img').map(element => WipeLeft.apply(element,0,1))
+```
+
 #### org.quickcorp.tools.effects.WipeRight
+Makes a Wipe effect from right side to the origin of the element.
+
+##### Usage:
+```javascript
+WipeRight.apply(element, scaleFrom, scaleTo)
+```
+
+**scaleFrom** and **scaleTo** are numeric values.
+A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+
+##### Example
+
+```javascript
+Tag('img').map(element => WipeRight.apply(element,0,1))
+```
+
 
 #### org.quickcorp.tools.effects.WipeUp
 
+Makes a Wipe effect from down to up the origin of the element.
+
+##### Usage:
+```javascript
+WipeUp.apply(element, scaleFrom, scaleTo)
+```
+
+**scaleFrom** and **scaleTo** are numeric values.
+A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+
+##### Example
+
+```javascript
+Tag('img').map(element => WipeUp.apply(element,0,1))
+```
+
 #### org.quickcorp.tools.effects.WipeDown
+
+Makes a Wipe effect from up to down the origin of the element.
+
+##### Usage:
+```javascript
+WipeDown.apply(element, scaleFrom, scaleTo)
+```
+
+**scaleFrom** and **scaleTo** are numeric values.
+A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+
+##### Example
+
+```javascript
+Tag('img').map(element => WipeDown.apply(element,0,1))
+```
+
 
 ### SDK Misc Tools
 
@@ -2463,11 +2642,51 @@ Tag('component[name=comp1]').map(componentBody => MoveYInFromTop.apply(component
 
 ### SDK Views
 
+Below are a set of pre-defined views for common use.
+
 #### org.quickcorp.views.GridView
+
+A generic GridView definition for use with grids.
 
 ### SDK i18n messages
 
+The QCObjects i18n engine allows you to define custom messages . Learn more in this article in the DevBlog called [i18n Internationalisation for your Progressive Web Apps](https://devblog.qcobjects.org/i18n-internationalisation-for-your-progressive-web-apps-ck90h4qz301ca7vs1ue7joopu)
+
 #### org.quickcorp.i18n_messages.i18n_messages
+
+Used to call the i18n engine.
+
+##### Usage:
+```javascript
+  Class('i18n_messages_<custom lang>', i18n_messages,{
+		...
+	})
+```
+
+##### Example
+```javascript
+'use strict';
+// file: js/packages/org.quickcorp.i18n_messages.es.js
+Package('org.quickcorp.i18n_messages.es', [
+  Class('i18n_messages_es', i18n_messages, {
+    messages: [
+       // ... your custom language dictionary is here
+      {
+         "en":"This is a paragraph",
+         "es":"Esto es un párrafo"
+      },
+      {
+         "en":"Welcome to my new app",
+         "es":"Bienvenido a mi nueva app"
+      }
+    ]
+  }),
+  {
+		// the next line generates an instance of the i18n engine and attaches it automatically in the package
+    _i18n_messages_es: New(i18n_messages_es)
+  }
+]);
+```
 
 ## The QCObjects HTTP2 Built-In Server
 
