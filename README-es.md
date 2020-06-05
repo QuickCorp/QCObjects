@@ -6,7 +6,7 @@
 
 # QCObjects
 ------------------------------------
-Bienvenido a [QCObjects](https://qcobjects.dev). An Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.
+Bienvenido a [QCObjects](https://qcobjects.dev). Un framework Open Source que empodera a los full-stack developers para hacer micro-servicios y micro-frontends dentro de una arquitectura N-Tier.
 
 With QCObjects devlopers are also able to code front-end and back-end together using a common syntax in pure JavaScript. It is cross-browser, cross-platform and cross-frame.
 
