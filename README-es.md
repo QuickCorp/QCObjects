@@ -6,9 +6,9 @@
 
 # QCObjects
 ------------------------------------
-Bienvenido a [QCObjects](https://qcobjects.dev). An Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.
+Bienvenido a [QCObjects](https://qcobjects.dev). Un framework Open Source que empodera a los full-stack developers para hacer micro-servicios y micro-frontends dentro de una arquitectura N-Tier.
 
-With QCObjects devlopers are also able to code front-end and back-end together using a common syntax in pure JavaScript. It is cross-browser, cross-platform and cross-frame.
+Con QCObjects los desarrolladores están habilitados para programar front-end y back-end en conjunto usando una sintaxis común in pure JavaScript. It is cross-browser, cross-platform and cross-frame.
 
 [QCObjects is being featured by British Herald as today, the most advanced framework for modern software development.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
 
@@ -165,23 +165,23 @@ _________________________
 
 # Principals
 
-Here are the principals with QCObjects was made with:
+AquÍ estan Las directrices con lo que QCObjects fue hecho:
 
-0. You should type in JavaScript to code a JavaScript application.
-1. Everything is an object.
-2. Every object has a definition.
-3. On the front-end side, any object can be stacked into the DOM or Virtual-DOM without the need to re-declare its definition.
-4. Every object has a body.
-5. A class should be the main definition of an object.
-6. A class should be easy typed as an object itself.
-7. Your code should be easily organised into packages.
-8. Your code should be possible to easily scafold your applications into a clean architecture.
-9. A component is an entity that has an object representation, and a tag declaration. The content of a component should be possible to be filled up remotely and locally. As a component is an object, it has a body as well, and the body of the component normally is an stacked instance of a DOM element.
-10. A component can be attached to the DOM or detached from it without affecting its functionality.
-11. A service call can be extended to scafold its functionality.
-12. You should be able to import a package remotely.
-13. You should be able to scafold your code and also controlling your savings on the server side by not doing unnecessary calls to remote sources. You should not need to repeat yourself coding this kind of controls.
-14. You should be able to code your N-Tier application in a single language or syntax.
+0. Debera escribir en JavaScript para codificar una aplicacion JavaScript.
+1. Todo es un objeto.
+2. Cada objeto tine una definicion.
+3. En la interfaz, cualquier objeto puede ir apilao en el DOM o en el Virtual-DOM sin necesidad de redeclarar sus definiciones.
+4. Cada objeto tiene un cuerpo.
+5. La clase deberia ser la definicion principal de un objeto.
+6. La clase deberia ser facilmente escrita como un objeto.
+7. Tu Código deberia estar facilmente organizado en paquetes.
+8. Deberia ser posible escalar sus aplicaciones a una arquitectura limpia.
+9. Un componente es una entidad que tine un objeto como representacion. El contenido de un componente deberia ser possible rellenarlo remotamente como localmente. Como objeto el componente tiene cuerpo Tambien y el cuerpo del componente es normalmente una instancia apilada del DOM element.
+10. Un componente puede ser adjunto al DOM o separado del el sin afectar a su funcionalidad.
+11. Un servicio de llamada puede ser extendido a escalar su funcionalidad.
+12. Deberias ser capaz de importar un paquete remotamente.
+13. Deberias poder escalar tu codigo y Tambien controlar tus cambios en el servidor sin hacer llamadas innecesarias a fuentes remotas. No deberias necesitar codificar este tipos de controles usted mismo.
+14. Deberias ser capaz de codificar tu aplicacion N-Tier en un solo lenguage o sintaxis.
 15. You should be able to apply any template you want to a component, it doesn't matter the what syntax or language the template was written with.
 16. If an HTML tag is already represented by a DOM object instance, you should not need to duplicate this instance definition in order to render its contents.
 17. Your HTML main page should be clean. But you should be able to bind what controls the tag behaviour without affecting the HTML syntax.
@@ -193,6 +193,7 @@ Here are the principals with QCObjects was made with:
 23. You should be able to apply simultaneous visual effects and animations in an easy way to any DOM element instance.
 24. You should be able to control the visual effects and animations either from CSS or JavaScript without affecting the performance.
 25. You should be able to control the behaviour of your code Into-the-box and out-of-the-box and survive doing it.
+
 
 # Main features
 
