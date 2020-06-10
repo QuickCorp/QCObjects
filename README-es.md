@@ -218,7 +218,7 @@ To prevent Render-blocking resources, QCObjects has implemented the [Package](#P
 
 ## On-Demand Resources Load
 
-With a dynamic components driven architecture, QCObjects is rendering every visual resource that is inside of a component only when the component is building itself, and every component is connected to a tree called global.componentsStack that is actually pointing to every component instance and its subcomponents. Every time a component is rebuilt, visual resources are dynamically reloaded on-demand in the most efficient way, so you can forget all the nasty code that you were needing to controll the resource loading process with other frameworks.
+Con la arquitectura orientada a los componentes dinamicos, QCObjects renderiza cada recurso visual que esta dentro de un componente, solo cuando el componente se esta construyendo y cada componente esta conectado a un arbol llamado global.componentsStack ese es el que realmente esta apuntando a cada instancia de componente y sus a sus sub componentes. Cada vez que un componete es re-hecho, los recursos visuales estan dinamicamente recargados bajo demanda de la manera mas eficiente, asi que puedes olvidar esos horribles codigos donde necesitabas controlar el proceso de recarga de los recursos con otros frameworks.
 
 ## Lazy-loading of images in components (use lazy-src instead of src attribute in img tag)
 
