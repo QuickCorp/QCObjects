@@ -197,18 +197,18 @@ AquÍ estan Las directrices con lo que QCObjects fue hecho:
 # Main features
 
 
-- Built-In y plantillas personalizadas para Progressive Web Apps (PWA) y Accelerated Mobile Pages (AMP)  	
+- Plantillas Built-In personalizadas para Progressive Web Apps (PWA) y Accelerated Mobile Pages (AMP)  	
 - Efectos UI revolucionarios.
-- Avance de Backend micro-services.
-- La simplicidad de un maravilloso plano de diseño
-- Herramientas CLI completamente utilizables.
-- Objects & Components driven architecture 
+- Backend de micro-servicios avanzados.
+- La simplicidad de un maravilloso diseño de layouts.
+- Herramientas CLI completamente re-utilizables.
+- Arquitectura orientada a componentes y objetos 
 - Front-end y back-end juntos en un entorno Full-Stack 
-- Rutina recursiva para componentes.
-- Built-In nested components management 
+- Routing recursivo para componentes.
+- Administración de componentes anidados Built-In 
 - Patron MCV completamente integrado (Model, View, Controller)
 - Objetos de datos dinamicos
-- Conceptos basaos en la arquitectura N-Tier
+- Conceptos basados en la arquitectura N-Tier
 
 # Progressive Web Apps (PWA) Adopted Features
 
