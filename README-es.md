@@ -222,17 +222,17 @@ Con la arquitectura orientada a los componentes dinamicos, QCObjects renderiza c
 
 ## Lazy-loading of images in components (use lazy-src instead of src attribute in img tag)
 
-Since the version 2.1.251, QCObjects provide an easy way to lazy load the images, using the latest standard for browsers.
+Desde la versión 2.1.251, QCObjects te otorga una forma facil para el Lazy load de imagenes, usando el ultima estandar para los buscadores.
 
 ```html
 <img src="img/preloader.svg" lazy-src="img/myrealimage.png"/>
 ```
 
-In the above code, a preloader (light-weight) image is used to be loaded in the first instance, and a **lazy-src** attribute is used to set the real image to show after lazy loading process. QCObjects will load all the **<img>** declared tags inside a component in lazy mode if they have a lazy-src attribute, after the component is rebuilt or loaded. Also, QCObjects will use the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (when available) to determine whether the lazy-src or src image is visually useful to be showed.
+En lo anterior, una imagen (ligera) precargada, es usada para ser cargada en la primera instancia y un atributo **lazy-src** es usado para cargar la imagen real despues del proceso Lazy load. QCObjects cargara todos las **<img>** etiquetas declaradas dentro de un componente en el  lazy mode si tiene un atributo lazy-src, despues que un componente es rearmado o cargado. Tambien, QCObjects usara [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (Cuando este disponible) to determine whether the para determinar ya sea si el lazy-src o la imagen src son visualmente utiles para ser mostradas.
 
-The effect of lazy loading is only high visible on the first time the PWA is loaded. The next time, the speed of loading will be significantly increased making more difficult to the human eye to see the result. However this feature makes a lot of difference in terms of user experience when the internet connection has low speed issues or the images are extremely large. This feature is a part of the recommended features for PWAs writen by [Mozzila Developers Network](https://developer.mozilla.org/) in an article about Progressive loading. You can read that article [here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Loading)
+El efecto del Lazy loading es altamente visible solo si la primera vez el PWA es cargado. La proxima vez, la velocidad de carga aumentara significativamente haciendo dificil para el ojo humano ver el resultado. Sin embargo esta caracteristica hara mucho ladiferencia en terminos de experiencia de usuario,si existen problemas de conexion o las imagenes son muy grandes esta caracteristica es parte de las recomendadas por os escritores de PWA por [Mozzila Developers Network](https://developer.mozilla.org/) un articulo sobre Loadig progresivo. puedes leer el articulo [here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Loading)
 
-If you don't want to use lazy loading for images, you can always keep the normal way of loading by not adding the **lazy-src** attribute to the **<img>** tag and using the traditional **src**.
+Si no quieres usar lazy loading para las imagenes, siempre puedes mantener la forma usual de carga no añadiendo el atributo **lazy-src**  a la etiqueta **<img>** y usando el tradicional **src**.
 
 
 # Cross Browser Javascript Framework for MVC Patterns
