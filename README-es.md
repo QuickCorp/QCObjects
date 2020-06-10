@@ -182,34 +182,33 @@ AquÍ estan Las directrices con lo que QCObjects fue hecho:
 12. Deberias ser capaz de importar un paquete remotamente.
 13. Deberias poder escalar tu codigo y Tambien controlar tus cambios en el servidor sin hacer llamadas innecesarias a fuentes remotas. No deberias necesitar codificar este tipos de controles usted mismo.
 14. Deberias ser capaz de codificar tu aplicacion N-Tier en un solo lenguage o sintaxis.
-15. You should be able to apply any template you want to a component, it doesn't matter the what syntax or language the template was written with.
-16. If an HTML tag is already represented by a DOM object instance, you should not need to duplicate this instance definition in order to render its contents.
-17. Your HTML main page should be clean. But you should be able to bind what controls the tag behaviour without affecting the HTML syntax.
-18. The order of execution of your code should be easily understandable and readable from the code, and the rendering process of every component should have and execution control in as many layers you need.
-19. A layered pattern (like MVC or MVCC) should be present for every component. It doesn't matter if you define every layer or not.
-20. The behaviour of a component should not be determined by its rendering process.
-21. It is necessary a components stack that splits the DOM into a subjacent tree of attached elements. So now it exists and it is called The QCObjects Nested Components Stack.
-22. You should be able to extend a component instance. But you should be able to control its dynamic behaviour without affecting its initial declaration.
-23. You should be able to apply simultaneous visual effects and animations in an easy way to any DOM element instance.
-24. You should be able to control the visual effects and animations either from CSS or JavaScript without affecting the performance.
-25. You should be able to control the behaviour of your code Into-the-box and out-of-the-box and survive doing it.
-
+15. Deberias ser capaz de aplicar cualquier plantilla que quieras a un componente, no importa la sintaxis o el idioma en el que esta escrito.
+16. Si una etiqueta HTML esta ya representada por una instancia de objeto DOM, no deberias necesitar diplicar la definicoin de la instancia para representar su contenido.
+17. Tu pagina principal HTML deberia estar limpia, pero deberias poder enlazar lo que controla el comportamiento de la etiqueta sin afectar el sintaxis del HTML.
+18. El orden de ejecucion de tu codigo debe ser facil de entender y leer desde el codigo y el proceso de renderizado de cada componente deberia tener y ejecutar control en cuantas capas necesites.
+19.Un patron en capas(como el MVC o MVCC) deberia estar presente para cada componente. No importa si defines cada capa o no.
+20. El comportamiento de un componente no debe estar determinado por su proceso de renderizado
+21. Es necesario que la pila de componentes se divida en el DOM hacia un arbol subjasente de elementos adjuntos.Entonces ahora existe y se llama Pila anidada de componentes de QCObject.  
+22. Deberias ser capaz de extender una istancia de componente. Pero deberas ser capaz de controlar su comportamiento dinamico sin afectar a la declaracion inicial.
+23. Deberias ser capaz de aplicar efectos visuales y animaciones simultaneas de una manera facil a una istancia de elemento DOM.
+24. Deberias ser capaz de controlar los efectos visuales y animaciones de CSS como JavaScript sin afectar a su desempeño.
+25.Deberias ser capaz de controlar el comportamiento de tu codigo Into-the-box y out-of-the-box y sobrevivir haciendolo.
 
 # Main features
 
 
-- Built-In & custom templates for Progressive Web Apps (PWA) and Accelerated Mobile Pages (AMP)
-- Revolutionary UI Effects
-- Breakthrough backend micro-services
-- The simplicity of a wonderful layout design
-- Fully usable CLI tools
-- Objects & Components driven architecture
-- Front-end and back-end together in a full-stack environment
-- Recursive routing for components
-- Built-In nested components management
-- Fully integrated MVC pattern (Model, View, Controller)
-- Dynamic Data Objects
-- Based on N-Tier Architecture concepts
+- Plantillas Built-In personalizadas para Progressive Web Apps (PWA) y Accelerated Mobile Pages (AMP)  	
+- Efectos UI revolucionarios.
+- Backend de micro-servicios avanzados.
+- La simplicidad de un maravilloso diseño de layouts.
+- Herramientas CLI completamente re-utilizables.
+- Arquitectura orientada a componentes y objetos 
+- Front-end y back-end juntos en un entorno Full-Stack 
+- Routing recursivo para componentes.
+- Administración de componentes anidados Built-In 
+- Patron MCV completamente integrado (Model, View, Controller)
+- Objetos de datos dinamicos
+- Conceptos basados en la arquitectura N-Tier
 
 # Progressive Web Apps (PWA) Adopted Features
 
