@@ -262,27 +262,27 @@ Copyright (c) Jean Machuca and [QuickCorp](https://quickcorp.org) <info@quickcor
 
 ## PWA Live Demo
 
-Check out a live demo of pure QCObjects based frontend Progressive Web App here:
+Mira esta demo en vivo de pure QCObjects basado en aplicación web fronted aquí:
 [PWA QCObjects](https://newapp.qcobjects.dev/)
 
 ## Demo Integrating with Foundation
 
-Check out a demo using Foundation components here:
+A continuación, una demostración en vivo usando componentes de Foundation aquí:
 [Demo Using Foundation](https://github.com/QuickCorp/quickobjects_sample1foundation)
 
 ## Demo Integrating with Materializecss
 
-Check out a demo using MaterializeCSS here:
+Revisa la demostración usando  MaterializeCSS aquí:
 [Demo Using Materializecss](https://qln.link)
 
 ## Demo Using Raw CSS
 
-Check out a demo using raw CSS:
+revisa esta demo usando raw CSS aquí: 
 [Demo Using Raw CSS](https://github.com/QuickCorp/qcobjects_profile_browser)
 
 ## Example of QCObjects using and manipulating canvas objects
 
-The following code shows how QCObjects can manipulate canvas objects directly and inside components
+A continuación el código muestra como QCObjects puede manipular un objeto de lienzo directamente y dentro de componentes
 
 ```html
 <!DOCTYPE html>
@@ -380,11 +380,11 @@ The following code shows how QCObjects can manipulate canvas objects directly an
 
 # DevBlog
 --------------
-The [Official DevBlog of QCObjects](https://devblog.qcobjects.org/) is hosted on [Hashnode](https://hashnode.com/). The DevBlog is personally written by Jean Machuca, the author of [QCObjects](https://qcobjects.com) and and he is explaining in detail how are the best practices and giving the best tips and tricks to use the most advanced features of QCObjects.
+el [Official DevBlog of QCObjects](https://devblog.qcobjects.org/) esta alojado en [Hashnode](https://hashnode.com/). El DevBlog esta personalmente escrito por Jean Machuca, el autor de [QCObjects](https://qcobjects.com) Y el esta explicando en detalle como son las mejores pacticas y dando los mejores tips y trucos para usar las mas avanzadas caracteristicas de QCObjects.
 
 # Fork
 --------------
-Please fork this project or make a link to this project into your README.md file. Read the LICENSE.txt file before you use this code.
+Por favor has Fork a este projecto o crea un link a este projecto en to archivo README.md. Lee el archivo LICENSE.txt antes de usar este codigo.
 
 # Become a Sponsor
 ------------------
