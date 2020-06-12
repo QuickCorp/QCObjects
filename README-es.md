@@ -477,13 +477,13 @@ qcobjects create mynewproject --pwa
 
 ## QCObjects Multi-Cloud Installation
 
-QCObjects is natively supported by the most famous cloud providers. In most of them, you can install it and set everything up and running in just one step.
+QCObjects es nativamente soportado por los mas famosos proveedores de nubes. Puedes instalar la mayoria de ellos, preparar y correr todo en un solo paso.
 
 ### DigitalOcean One-Click Droplet
 
-If you want to forget apt-get and the config guide. Go straight to deploying your project using a preconfigured 1-Click App including QCObjects CLI, QCObjects-SDK and QCObjects HTTP2 Built-In Server, then spin it up on a Droplet VM or a Kubernetes cluster in 60 seconds or less.
+Si quieres olvidar apt-get y de configurar la guia, ve directo a desplegar tu proyecto usando una preconfigurada app 1-click incluyendo QCObjects CLI, QCObjects-SDK y QCObjects HTTP2 servidor Built-in. Luego giralo a Droplet VM o a Kubernetes cluster en 60 segundos o menos.
 
-[Create Your Own QCObjects DigitalOcean Droplet here](https://marketplace.digitalocean.com/apps/qcobjects)
+[Crea tu propio Droplet de QCObjects DigitalOcean Aquí](https://marketplace.digitalocean.com/apps/qcobjects)
 
 ### AWS Amazon Machine Images (AMI)
 
