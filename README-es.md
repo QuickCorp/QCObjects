@@ -388,21 +388,21 @@ Por favor has Fork a este projecto o crea un link a este projecto en to archivo 
 
 # Become a Sponsor
 ------------------
-If you want to become a sponsor for this wonderful project you can do it [here](https://sponsorsignup.qcobjects.dev/)
+Si quieres volverte sponsor de este maravilloso projecto puedes hacerlo [aquí](https://sponsorsignup.qcobjects.dev/)
 
 # Check out the QCObjects SDK
 ----------------------------
-You can check out the [QCObjects SDK](https://sdk.qcobjects.dev/) and follow the examples to make your own featured components
+Puedes revisar[QCObjects SDK](https://sdk.qcobjects.dev/) y seguir los ejemplos para hacer tus propios componentes destacados.
 
 
 # Donate
 --------------
 
-If you like this code please [DONATE](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
+si te gustó este codigo por favor [DONA](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
 
  [![paypal](https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)
 
- [![Become a Patreon ](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/join/qcobjects?)
+ [![vuelvete patreon ](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/join/qcobjects?)
 
 
 # Installing
@@ -438,18 +438,16 @@ docker pull -a quickcorp/qcobjects-playground && docker run -it --name qcobjects
 ![screenshot3](https://qcobjects.dev/doc/img/QCObjects-Docker-Playground.gif)
 
 ## One-Step Installation Script for Ubuntu 18.x
-
-WARNING: Do this only in a fresh|blank|brandnew installation of Ubuntu 18.x, don't do it into an existing production environment. You will be asked for sudo grant permission.
-
+ATENCION: Haz esto solo en una instalacion de Ubuntu 18.x fresca/vacia/actual. No lo haga en un ambienteexistente de produccion.
+ Se te pedira permiso sudo grant.
 
 ```shell
 curl -L https://qcobjects.dev/install_qcobjects_ubuntu18x.sh |sh
 ```
-
-WARNING: I'm not responsible for damaging your infrastructure by using an automated installation script into an unsafe network. Make sure all your repos and scripts are under HTTPS with a valid certificate. For better safe results I recommended you to download the script, edit it for your special needs and then execute it in your machine as local.
+ATENCION: No somos responsables de el daño en la infrastructura por usar una instalacion automatizada de script en una network insegura. Asegurate de que tus repos y scripts estan bajo HTTPS con su certificado valido. Para mejores resultados te recomendamos descargar el script, editarlo para tus necesidades especiales y despues ejecutalo en tu maquina local.
 
 ## One-Step Installation Script for macOS
-Tested on macOS Catalina 10.15.3
+Probado en macOS Catalina 10.15.3
 
 ```shell
 curl -L https://qcobjects.dev/install_qcobjects_macOS.sh | zsh
@@ -457,18 +455,18 @@ curl -L https://qcobjects.dev/install_qcobjects_macOS.sh | zsh
 
 ## Install and test QCObjects on Microsoft Windows OS
 
-1.- Install the latest version of NodeJS for Windows from [here](https://nodejs.org/)
-2.- From cmd install qcobjects-cli using npm
+1.- Instala la ultima version de NodeJS para Windows[Aquí](https://nodejs.org/)
+2.- Desde el cmd instala qcobjects-cli usando npm 
 
 ```powershell
 npm i qcobjects-cli -g
 ```
-3.- Create a directory for your project
+3.- Crea un directorio de para tu projecto
 
 ```powershell
 md mynewproject && cd mynewproject
 ```
-4.- Create a new QCObjects Progressive Web Application
+4.- Crea una nueva aplicacion web progresiva de QCObjects
 
 ```powershell
 qcobjects create mynewproject --pwa
