@@ -487,15 +487,15 @@ Si quieres olvidar apt-get y de configurar la guia, ve directo a desplegar tu pr
 
 ### AWS Amazon Machine Images (AMI)
 
-An Amazon Machine Image (AMI) provides the information required to launch an instance. You must specify an AMI when you launch an instance. You can launch multiple instances from a single AMI when you need multiple instances with the same configuration. You can use different AMIs to launch instances when you need instances with different configurations.
+un Amazon Machine Image (AMI)  otorga informacion requerida para lanzar una instancia.  tienes que especificar un AMI  cuando quieras lanzar un instancia. Puedes lanzar multiples instancias para un solo AMI cuando necesites multiples instancias con la misma configuracion. Puedes usar diferentes AMIs para lanzar instancias cuando necesites instancias con diferentes configuraciones.
 
-An AMI includes the following:
+un AMI incluye lo siguiente:
 
-- One or more EBS snapshots, or, for instance-store-backed AMIs, a template for the root volume of the instance (for example, an operating system, an application server, and applications).
-- Launch permissions that control which AWS accounts can use the AMI to launch instances.
-- A block device mapping that specifies the volumes to attach to the instance when it's launched.
+- uno o mas EBS snapshots, o, para instance-store-backed AMIs, una plantilla para la raiz volumen de la instancia(por ejemplo, un sistema operativo, un servidor de aplicaciones y aplicaciones).
+- Lanza permisos que controla que cuenta AWS puede usar el AMI para lanzar instancias.
+- A block device mapping that specifies the volumes to attach to the instance when it's launched. Un bloqueo de dispositivos mapping que especifica los volumenes adjuntos a la instancia cuando es lanzada.
 
-[Start building your QCObjects AMI here](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
+[empieza construyendo QCObjects AMI aquí](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
 
 ### Amazon Web Services AWS PIB (Private Amazon Machine Image)
 
