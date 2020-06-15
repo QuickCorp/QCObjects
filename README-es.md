@@ -553,16 +553,15 @@ Again, Change 2.1.420 to the number of the version that you want to use.
 # Reference
 ------------
 
-## Essentials
-Here are the essentials symbols and concepts of [QCObjects](https://qcobjects.dev) Reference
+Aqui estan los simbolos y conceptos esenciales de [QCObjects](https://qcobjects.dev) Reference
 
 ### QC_Object
 
-Basic Type of all elements
+Tipos basicos de todos los elementos
 
 ### ComplexStorageCache
 
-With **ComplexStorageCache** you can handle a cache for any object and save it in the local storage.
+Con **ComplexStorageCache** puedes manejar el cache de cualquier objetp y subirlo en el storage local.
 
 #### Usage:
 ```javascript
@@ -603,7 +602,7 @@ console.log(dataObjectCopyFromCache); // will show the very same object value th
 
 ### asyncLoad
 
-The **asyncLoad** function loads a code once in async mode. This is useful to asure some initial process don't replicate its execution and aren't loaded after sensitive code.
+La funcion **asyncLoad** carga el codicp una vez en el modo asyc. Esto es util para asegurar que el proceso inicial no replica la ejecucion y no es recargado despues de un codigo sensitive.
 
 #### Usage:
 ```javascript
@@ -632,7 +631,7 @@ doSomething(1,2); // the code of doSomething will be executed once after the res
 
 This is NOT the class definition of ECMAScript 2015 (see [class ECMAScript 2015](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) for reference).
 
-Class is a special function to help you to declare a class in an easier and compatible way. It works cross-browser, and I hope ECMA could adopt something like that in the future. To let javascript not to be confuse about this, [QCObjects](https://qcobjects.dev) uses "Class" not "class" (note the Camel Case).
+Clase es una funcion especias que te ayuda a declarar la clase de una manera mas facil y compatible. Funciona con cross-browser, y esperamos que ECMA pueda adoptar algo similar en el futuro. Para no dejar al Javascript confuso sobre esto, [QCObjects](https://qcobjects.dev) usa "Class" no "class" (note the Camel Case).
 
 #### Usage:
 
