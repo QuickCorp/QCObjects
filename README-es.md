@@ -553,7 +553,7 @@ Again, Change 2.1.420 to the number of the version that you want to use.
 # Reference
 ------------
 
-Aqui estan los simbolos y conceptos esenciales de [QCObjects](https://qcobjects.dev) Reference
+Aqui estan los simbolos y conceptos esenciales de referencia [QCObjects](https://qcobjects.dev) 
 
 ### QC_Object
 
@@ -561,7 +561,7 @@ Tipos basicos de todos los elementos
 
 ### ComplexStorageCache
 
-Con **ComplexStorageCache** puedes manejar el cache de cualquier objetp y subirlo en el storage local.
+Con **ComplexStorageCache** puedes manejar el cache de cualquier objeto y subirlo en el storage local.
 
 #### Usage:
 ```javascript
@@ -602,7 +602,7 @@ console.log(dataObjectCopyFromCache); // will show the very same object value th
 
 ### asyncLoad
 
-La funcion **asyncLoad** carga el codicp una vez en el modo asyc. Esto es util para asegurar que el proceso inicial no replica la ejecucion y no es recargado despues de un codigo sensitive.
+La funcion **asyncLoad** carga el codigo una vez en el modo asyc. Esto es util para asegurar que el proceso inicial no replica la ejecucion y no es recargado despues de un codigo sensible.
 
 #### Usage:
 ```javascript
@@ -629,7 +629,7 @@ doSomething(1,2); // the code of doSomething will be executed once after the res
 
 ### Class
 
-This is NOT the class definition of ECMAScript 2015 (see [class ECMAScript 2015](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) for reference).
+Esto NO es una clase de definicion de ECMAScript 2015 (mira [clase ECMAScript 2015](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) for reference).
 
 Clase es una funcion especias que te ayuda a declarar la clase de una manera mas facil y compatible. Funciona con cross-browser, y esperamos que ECMA pueda adoptar algo similar en el futuro. Para no dejar al Javascript confuso sobre esto, [QCObjects](https://qcobjects.dev) usa "Class" no "class" (note the Camel Case).
 
@@ -638,7 +638,7 @@ Clase es una funcion especias que te ayuda a declarar la clase de una manera mas
 ```javascript
 Class('MyClassName',MyClassDefinition);
 ```
-Where **MyClassDefinition** is an object with a QCObjects  **prototype**
+donde **MyClassDefinition** es un objeto junto a el **prototype** de QCObjects 
 
 #### Example:
 ```javascript
@@ -668,7 +668,7 @@ console.log(newObject.classMethod2()); // this will show "some value"
 
 ### QC_Append, append method
 
-This is a special method inserted to make your life easier when you want to dynamically manipulate the **DOM**. You can insert even a **Component**, a **QCObjects** Object or a **DOM** Element inside another **HTMLElement**.
+Este es un metodo especial que hara tu vida mas facil cuando quieras manipular el **DOM** dinamicamente. Puedes insertar un componente incluso **Component**, a un objeto **QCObjects** o a el elemento **DOM** dentro de otro **HTMLElement**.
 
 ##### Usage:
 ```javascript
@@ -696,7 +696,7 @@ document.body.append(canvas1);
 
 ### The \_super\_ method
 
-When you extend a QCObjects class from another one, you can use \_super\_ method to get an instance from the main class definition.
+Cuando extiendes una clase QCObject desde otra , puedes usar \_super\_ metodo para tener una instancia desde la definicion de la clase central. 
 
 #### Usage:
 ```javascript
@@ -736,7 +736,7 @@ console.log(newObject.classMethod2()); // this will show the number 1
 
 ### New
 
-Creates an object instance of a QCObjects class definition.
+ Crea una instancia de objeto de una definicion de clase de QCObject.
 
 #### Usage:
 
@@ -744,7 +744,7 @@ Creates an object instance of a QCObjects class definition.
 let objectInstance = New(QCObjectsClassName, properties);
 // where properties is a single object with the property values
 ```
-NOTE: In the properties object you can use single values or getter as well but they will be executed once.
+NOTA: En las propiedades del objeto puedes usar un solo valor o un captador tambien pero, solo se ejecutaran una vez.
 
 #### Example:
 
@@ -762,7 +762,7 @@ console.log(objectInstance.randomNumber); // it will show console.log(objectInst
 
 
 ### InheritClass
-A single common used QCObjects class definition.
+Una sola definicion de clase comun QCObjects es utilizada.
 
 ### ClassFactory
 Use **ClassFactory** to get the Class declaration factory instance of a QCObjects Class
@@ -827,7 +827,7 @@ console.log(MyClass == ClassFactory('org.quickcorp.package2.MyClass'))
 console.log(ClassFactory('org.quickcorp.package1.MyClass') == ClassFactory('org.quickcorp.package2.MyClass'))
 ```
 
-The above examples are intentionally done to explain and show how the scope of the Class definitions in QCObjects is protected and handled and it is reflected in the use of ClassFactory.
+The above examples are intentionally done to explain and show how the scope of the Class definitions in QCObjects is protected and handled and it is reflected in the use of ClassFactory. 
 
 So you are gonna want to use ClassFactory when you need complete control over the scope when extending Classes
 
