@@ -765,10 +765,10 @@ console.log(objectInstance.randomNumber); // it will show console.log(objectInst
 Una sola definicion de clase comun QCObjects es utilizada.
 
 ### ClassFactory
-Use **ClassFactory** to get the Class declaration factory instance of a QCObjects Class
-You can get either a Class factory from a Package or from the Class queue stack
+usa la **ClassFactory** para tener una declaracion de clase de fabrica para la clase 
+Tambien puedes usar la clase de fabrica desde un paquete o desde la fila apilada.
 
-To retreive the ClassFactory from the Class queue stack you can simply use the name of a Class as calling directly in the code.
+Para recuperrar la clase de fabrica de la clase fila apilada simplemente usa el nombre de la clase llamandola directamente en el codigo.
 
 #### Example:
 
@@ -827,9 +827,9 @@ console.log(MyClass == ClassFactory('org.quickcorp.package2.MyClass'))
 console.log(ClassFactory('org.quickcorp.package1.MyClass') == ClassFactory('org.quickcorp.package2.MyClass'))
 ```
 
-The above examples are intentionally done to explain and show how the scope of the Class definitions in QCObjects is protected and handled and it is reflected in the use of ClassFactory. 
+Los ejemplos anteriores estan intencionalmente hechos para explicar y mostrar como el alcance de la definicion de clase en QCObjects es protejida, llevada y reflejada en una ClassFactory.
 
-So you are gonna want to use ClassFactory when you need complete control over the scope when extending Classes
+Asi quevas a querer usar la ClassFactory cuando necesites completar un control sobre el alcance cuando se extienden las Clases.
 
 **Example**
 
@@ -888,7 +888,7 @@ With \_Crypt you can encode serializable objects by a passphrase
 
 ### GLOBAL
 
-**GLOBAL** is a special QCObjects class to reach the global scope. It has a set and a get method to help you to manage the internal GLOBAL properties.
+**GLOBAL** es una clase especial de QCObject para conseguir alzance global. Tiene un conjunto y consigue un metodo que te ayude a manejar propiedades internas Globales. 
 
 #### Example:
 
@@ -922,15 +922,15 @@ CONFIG.set('useConfigService',true); // using config.json for custom settings co
 
 #### Usage from an encrypted config.json:
 
-There is also a way to use an encrypted config.json file in order to protect your settings robots that can steal unprotected data from your web application (like API keys web crawlers).
+Tambien existe una forma de usar el archivo encriptado config.json con el fin de protejer tus ajustes, robots que pueden robar tu data no protegida desde la aplicacion web  (como las llaves de arrastre API) 
 
-To encrypt your json file go to https://config.qcobjects.dev, put your domain and the config.json content. The tool will encrypt your json and you can copy the encrypted content to insert it in your config.json file. QCObjects will know the data is encrypted and the process to decode the data will be transparent for you.
+El archivo encriptado json va en  https://config.qcobjects.dev, pon tu configuracion dominantes y tu contenido config.json. La herramienta encriptara tu json y podras copiar el cotenido incriptado para insertarlo en tu archivo config.json. QCObjects sabra si la data esta encriptada y tu proceso para decodificar la data sera mas transparente para ti.
 
 #### Dynamic CONFIG Settings
 
-Sometimes you will need to set a value from a source that isn't static, like the ENV vars or another custom source of dynamic data. To get a value using CONFIG from a dynamic source you have to use a processor. There are common processors predefined like $ENV (only available on CLI, Collab and Node) and $config (available on all environments).
-
-Processors are called as a meta value either into the config.json file or in the CONFIG Class.
+ A veces necesitaras establecer el valor de la fuente que no sea estatica, como el ENV vars o otras fuentes personalizadas de data dinamica. Para tener valor usando CONFIG de una fuente dinamica tienes que usar un procesador. Existen procesadores comunes predefinidos como $ENV (solo si esta disponible en CLI, Collab o Node) y $config (disponible en todos los ambientes). 
+ 
+Los procesadore son llamados como una meta de valor ya sea en el config.json o en la Clase CONFIG.
 
 ```json
 // file: config.json
@@ -974,9 +974,8 @@ Where **processor** is a named function that receives the arguments of the proce
 
 #### Example:
 
-You have an environment variable called **SERVICE_URL** that stores a url of a service. You have to use that value in your config settings in the **serviceURL** value but you also need to set the **host** and the **port** settings using the parsed value of that url. To parse the value of SERVICE_URL environment variable on-demand and fill up the corresponding settings in your config.json, Your config.json file will look like this:
-
-```json
+Tienes que usar ese valor en tus ajustes de configuracion en el valor **serviceURL** pero tambien necesitas configurar el **host** y los ajustes de **port** usando el valor analizado de esa url. Para analizar el valor de el ambiente SERVICE_URL la variable bajo demanda y rellenarlo con los ajustes de configuracion en tu config.json, tu config.json se vera algo asi:
+ ```json
 // file: config.json
 {
 	"serviceURL":"$ENV(SERVICE_URL)",
@@ -985,7 +984,7 @@ You have an environment variable called **SERVICE_URL** that stores a url of a s
 }
 ```
 
-The **$SERVICE_HOST** and **$SERVICE_PORT** processors don't exist. To define them, you must use:
+El **$SERVICE_HOST** y el **$SERVICE_PORT** procesadores no existen . Para definirlos tienes que usar:
 
 ```javascript
 // execute the next code in your init.js file or before to load the CONFIG settings
@@ -1022,12 +1021,12 @@ and your settings will be dynamically loaded like this:
 }
 ```
 
-And you get the corresponding values using **CONFIG.get(value)**
+Y consige tus valores correspondientes en  **CONFIG.get(value)**
 
 ### waitUntil
-waitUntil is a helper just in case you are in trouble trying to run a code before a condition is true. The code inside waitUntil will be executed once.
+waitUntil es un ayudante solo en caso de que estes en problemas tratando de correr el codigo antes de que la condicion sea real.El codigo dentro del waitUntil sera ejecutado una vez.
 
-NOTE: This is useful in some cases but an excessive use is not recommended.
+NOTE: Esto es util en algunos casos pero no es recomendado para uso exesivo.
 
 #### Usage:
 ```javascript
