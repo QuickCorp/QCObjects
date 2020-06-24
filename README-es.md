@@ -899,7 +899,7 @@ var globalProperty1 = GLOBAL.get('globalProperty1');
 
 ### CONFIG
 
-CONFIG is a smart class that manages the global settings of your application. You can get the properties either from a config.json or from the memory previously saved by a set() call.
+CONFIG is una clase inteligente que maneja los ajustes generales de tu aplicacion. Puedes tener las propiedades ya sea desde config.json o desde la memoria previaente guardado en la llamada set().
 
 #### Usage from memory:
 
@@ -914,12 +914,12 @@ var someSettingProperty = CONFIG.get('someSettingProperty');
 
 #### Usage from config.json:
 
-1.- You need to indicate first that you are using a config.json file by setting the "useConfigService" value to true
+1.- Necesitas indicar primero que estas usando el archivo config.jso midiante el ajuste "useConfigService" el valor para la verdad.
+
 ```javascript
 CONFIG.set('useConfigService',true); // using config.json for custom settings config
 ```
-2.- Once you have set the value above QCObjects will know and look to the next CONFIG settings into the file config.json in the basePath folder of your application.
-
+2.-Una vez lo peparaste el valor anterior QCObjects lo sabra y mirara el siguiente ajuste dentro del archivo config.json en la carpeta basePath de tu aplicacion.
 #### Usage from an encrypted config.json:
 
 Tambien existe una forma de usar el archivo encriptado config.json con el fin de protejer tus ajustes, robots que pueden robar tu data no protegida desde la aplicacion web  (como las llaves de arrastre API) 
@@ -962,7 +962,7 @@ let api_key = CONFIG.get("api_key");
 
 ### Processor
 
-Static Class that used to set custom processors for CONFIG.
+La clase estatica que usa para establecer el procesador personalizado para CONFIG.
 
 #### Usage:
 
@@ -1047,13 +1047,13 @@ waitUntil(()=>{
 
 
 ### Package
-Defines a QCObjects package and returns it.
+Define el paquete de QCObjects y regresalo.
 
 #### Usage:
 ```javascript
 Package('packageName',[packageContent]);
 ```
-Where packageContent is an array of QCObjects Classes. If you only pass the packageName param you will get the previously declared package content.
+Donde packageContent es una gama de clases de QCObjects. Si solo pasas el packageName param conseguiras el contenido declarado anteriormente.
 
 #### Example (1):
 ```javascript
@@ -1074,23 +1074,23 @@ let mainPackage = Package('org.quickcorp.main'); // this will return the previou
 // This is useful for code introspection
 ```
 
-The packages loading technique present in QCObjects is promise based and also scope oriented. You can ask if a package is loaded simply calling the Package() function passing a package name as an argument.
+La tecnica de carga de paquetes presente en QCObjects esta basada en una promesa y orientada al alcance. Puedes preguntar si un paquete fue cargado simplemente llamando la funcion Packege() pasando el nombre del paquete a un argumento.
 
 
 ### Import
-Imports a package from another JS file
+Importa un paquete desde otro archivo JS.
 
 #### Usage:
 ```javascript
 Import (packagename,[ready],[external]);
 ```
-Where packagename is the name of the package, ready is a function that will be executed after the package is loaded, and external is a boolean value that indicates if the JS file is in the same origin or it is from another external resource.
+Donde el packagename es el nombre del paquete, listo es una funcion que podra ser ejecutada despues de que el paquete es cargado y el externo es un valor bolean que indica si el archivo JS esta en el mismo origen o esta desde otro recurso externo.
 
 #### Example (1):
 ```javascript
 Import('org.quickcorp.main');
 ```
-The above code will try to import a JS fila named 'org.quickcorp.main.js' from the path specified in the **relativeImportPath** settings value present in your **CONFIG**. Inside the JS file you have to define a package by using Package('org.quickcorp.main',[Class1, Class2...])
+El codigo anterior intentara importar un archivo JS llamado 'org.quickcorp.main.js' desde un camino specifico en el valor de ajuste  **relativeImportPath** presente en tu **CONFIG**. Dentro del archivo tienes que definir el paquete mediante el uso del paquete  ('org.quickcorp.main',[Class1, Class2...])
 
 #### Example (2):
 ```javascript
@@ -1098,9 +1098,9 @@ Import('org.quickcorp.main',function (){
   console.log('remote import is loaded');
 },true);
 ```
-The above code this time is trying to load the same package but using an external path defined by the **remoteImportsPath** setting present in your **CONFIG**
+El codigo anterior esta vez esta tratando de cargar en el mismo paquete usando el camino externo mediante el **remoteImportsPath** ajustes presentes en tu **CONFIG**
 
-NOTE: In both examples above you have not use or specify the ".js" extension. This it's used by default and can't be changed by security reasons.
+NOTE: En los dos ejemplos anteriores no necitas usar o especificar la extension ".js".Esto esta usado por defecto y no puede ser cambiado por razones de seguridad.
 
 ### Export
 Put a symbol (var or function) in the global scope.
