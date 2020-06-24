@@ -1103,7 +1103,7 @@ El codigo anterior esta vez esta tratando de cargar en el mismo paquete usando e
 NOTE: En los dos ejemplos anteriores no necitas usar o especificar la extension ".js".Esto esta usado por defecto y no puede ser cambiado por razones de seguridad.
 
 ### Export
-Put a symbol (var or function) in the global scope.
+Pon un simbolo(barra o funcion) en el alcance global.
 
 #### Usage:
 
@@ -1128,7 +1128,7 @@ someFunction('this works');
 
 ### Cast
 
-Use the Cast method of any DOM element to get the properties of another type of object. This is useful to transform an object type to another giving more flexibility in your code.
+Usa el metodo Cast de cualquier elemento DOM para obtener las propiedades de otro tipo de objeto. Esto es util para trasformar un tipo objeto a otro otorgandole mas flexibilidad a tu codigo.
 
 #### Usage:
 
@@ -1136,8 +1136,7 @@ Use the Cast method of any DOM element to get the properties of another type of 
 let resultObject = [element or QCObjects type].Cast(objectToCastFrom);
 ```
 
-Where objectToCastFrom is an object to get the properties from and put it into the result object returned by Cast.
-
+Donde objectToCastFrom es un objeto para obtener propiedades desde y poner el objeto resultante regresado por el cast.
 #### Example:
 
 ```javascript
@@ -1149,11 +1148,10 @@ Class('MyOwnClass',{
 let obj = document.createElement('div').Cast(MyOwnClass);
 ```
 
-The above code will create a DOM object and Cast it to MyOwnClass. Because of MyOwnClass is a QCObjects type class, obj will now have a prop1 and prop2 properties, and will now be a QCObjects object instance with a body property that is a div element.
+El codigo anterior creara un objeto DOM y lo emetira a MyOwnClass. Gracias a que MyOwnClass es un tipo clase de QCObject el ofjeto ahora tendra propiedades prop1 y prop2 y ahora sera una instacia de objeto QCObject con una propiedad del cuerpo que es un elemento div.
 
 ### Tag
-
-Tag is a useful function to select any DOM element using selectors. Tag will always return a list of elements, that you can map, sort, and filter as any other list.
+Etiquetar es una funcion util para selecionar cualquier elemento DOM usando selectores. Etiquetar siempre regresa a la lista de elementos que puedas mapear, ordenar y filtrar como cualquier otra lista.
 
 #### Usage:
 
@@ -1187,10 +1185,10 @@ Where selector is a DOM query selector.
 </html>
 ```
 
-In the above code, a paragraph element was created inside a div with a css class named myselector by html, and then is  modified dynamically using the QCObjects Tag function. If you are familiar with query selector frameworks like JQuery, you will love this one.
+En el codigo anterior el elemento parrafo fue creado dentro de un div con una clase css llamada myselector mediante html y luego es modificada dinamicamente usando la funcion etiqueta de QCObject. Si estas familiarizado con un framework selector query te encantara este.
 
 ### Ready
-Assign a function to run after everything is done by QCObjects and after the window.onload event. Use it to prevent 'undefined' DOM objects error.
+Asigna una funcion para correr despues de que todo esta hecho mediante QCObject y despues del evento window.onload. Usalo para prevenir un error de objeto DOM 'indefinido'.
 
 #### Usage:
 ```javascript
@@ -1198,31 +1196,31 @@ Ready(()=>{
   // My init code here!
 });
 ```
-Note that if you define dynamic components by using a HTML "component" tag, the dynamic content load will not trigger Ready events. To catch code everytime a dynamic component is loaded, use a Controller done method instead.
+Tenga encuenta que si define los componentes dinamicos mediante el uso de una etiqueta "componente" en HTML, el contenido dinamico no activara eventos listos. Para atrapar el codigo cada vez que se carga un componente dinamico usa un metodo decontroladr hecho en su lugar.
 
-You will use Ready implementation mostly when you want to implement QCObjects in conjunction with another framework that needs it.
+Usaras implementacion lista principalmente cuando quieras implementar QCObjects en conjunto con otro framework que lo necesite. 
 
 ### Component Class
-A QCObjects class type for components.
+Un tipo clase de QCObject por componentes.
 
 #### Properties
 
 **[Component].domain**
-Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
+Regresa una cadena con el dominio de tu aplicacion. Se establece automaticamente por QCObjects al momento de cargar.
 
 **[Component].basePath**
-Returns a string with the base path url of your application. It is automatically set by QCObjects at the load time.
+Regresa una cadena con un camino url base de tu aplicacion. Se establece automaticamente por QCObjects al momento de cargar.
 
-NOTE: If you want to change the components base path, you have to use _CONFIG.set('componentsBasePath','new path relative to the domain')_ in your init code.
+NOTA: Si quieres cambiar los componentes en base a un camino, tienes que usar _CONFIG.set('componentsBasePath','new path relative to the domain')_ en tu unidad de codigo.
 
 **[Component].templateURI**
-Is a string representing the component template URI relative to the domain. When is set, the component will load a template and append the inner content into the body childs as a part of the DOM. To set this property, it is recommended to use the ComponentURI helper function.
+Una cadena esta representando un componente plantilla URI relativo al dominio. Cuando este listo, el componente sera cargado a la plantilla y lo agregara al contenido interno dentro del cuerpo childs como parte del DOM. Para establecer esta propiedad es recomendado usar la funcion ayudante ComponentURI.
 
 **[Component].tplsource**
 Is a string representing the source where the template will be loaded. It can be "default" or "none". A value of "default" will tell QCObjects to load the template from the templateURI content. A value of "none" will tell QCObjects not to load a template from anywhere.
 
 **[Component].url**
-Is a string representing the entire url of the component. It is automatically set by QCObjects when the component is instantiated.
+Es una cadena representando una url completa de un componente. Es automaticamente establecido por QCObjects cuando un componente es instanciado.
 
 **[Component].name**
 Is a string representing the name of a component. The name of a component can be any alphanumeric value that identifies the component type. It will be internally used by ComponentURI to build a normalised component template URI.
