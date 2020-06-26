@@ -1214,55 +1214,55 @@ Regresa una cadena con un camino url base de tu aplicacion. Se establece automat
 NOTA: Si quieres cambiar los componentes en base a un camino, tienes que usar _CONFIG.set('componentsBasePath','new path relative to the domain')_ en tu unidad de codigo.
 
 **[Component].templateURI**
-Una cadena esta representando un componente plantilla URI relativo al dominio. Cuando este listo, el componente sera cargado a la plantilla y lo agregara al contenido interno dentro del cuerpo childs como parte del DOM. Para establecer esta propiedad es recomendado usar la funcion ayudante ComponentURI.
+Es una cadena  representando un componente plantilla URI relativo al dominio. Cuando este listo, el componente sera cargado a la plantilla y lo agregara al contenido interno dentro del cuerpo childs como parte del DOM. Para establecer esta propiedad es recomendado usar la funcion ayudante ComponentURI.
 
 **[Component].tplsource**
-Is a string representing the source where the template will be loaded. It can be "default" or "none". A value of "default" will tell QCObjects to load the template from the templateURI content. A value of "none" will tell QCObjects not to load a template from anywhere.
+Es la cadena representando a la fuente donde el template sera cargado. Puede ser "default" o "none". El valor "default" le dira a QCOBject que cargue el template desde el contenido templateURI. El valor "none" le dira a QCObject que no cargue el template desde ningun lado.
 
 **[Component].url**
 Es una cadena representando una url completa de un componente. Es automaticamente establecido por QCObjects cuando un componente es instanciado.
 
 **[Component].name**
-Is a string representing the name of a component. The name of a component can be any alphanumeric value that identifies the component type. It will be internally used by ComponentURI to build a normalised component template URI.
+Es una cadena que representa el nombre de un componente. El nombre de un componente puede ser cualquier valor alphanumerico que identifique un tipo de componente. Sera internamente utilizado mediante ComponentURI para contruir un tempalte URI normalizado.
 
 **[Component].method**
-Is a string representing a HTTP or HTTPS method. By default, every component is set to use the "GET" method. In the most of cases, you don't need to change this property.
+Es una cadena que representa a un metodo HTTP o HTTPS. Por defecto cada componente esta configurad para usar el metodo "GET". En la mayoria de los casos no necesitas cambiar esta propiedad.
 
 **[Component].data**
-Is an object representing the data of the component. When QCObjects loads a template, it will get every property of data object and bind it to a template label representing the same property inside the template content between double brakets (example: {{prop1}} in the template content will represent data.prop1 in the component instance).
-NOTE: To refresh the data bindings it is needed to rebuild the component (see the use of [Component].rebuild() method for more details ).
+Es un objeto que representa los datos del componente. Cuando QCObject carga un template este conseguira cada propiedad de los datos y la atará al nivel de template representado por la misma propiedad dentro del contenido del template entre los brackets dobles, ejemplo:  (example: {{prop1}} in the template content will represent data.prop1 in the component instance). 
+NOTA: Para refrescar los enlaces de datos para recostruir el component (mira el uso de [Component].rebuild() para mas detalles ). 
 
 **[Component].reload**
 Is a boolean value that tells QCObjects when to force reload the content of a component from the template or not. If its value is true, the template content will be replacing the current DOM childs of the component body element. If its value is false, the template content will be added after the las component body child.
 
 **[Component].cached**
-Is a boolean value that tells QCObjects if the component needs to be cached or not. When a component is cached, the template content loaded from templateURI will be loaded once. You can set this property either as a static property of the Component Class to set the default value for every next component object instance, or setting the individual value of the property in every component definition. In a world where the performance matters, to give more flexibility to the cache behaviour is needed more than ever.
+Es un valor booleado el que le dice a QCObject si el componjente necesita ser atrapado o no. Cuando el componente es atrapado, el contenido del template es cargado desde templateURI sera cargado una sola vez. Puedes configurar esta propiedad incluso como una propiedad estatica de un componente de clase para configurarlo como un valor predeterminado para cada siguiente componente instancia de objeto o configurarlo de manera individual el valor de la propiedad en cada definicion de componente. En un mundo donde el desempeño cuenta, para darle mas flexibilidad al comportamiento del cache es necesitado mas que nunca.
 
 **[Component].routingWay**
-Returns a string representing the routing way. Its value can be "hash", "pathname" or "search".
-NOTE: To change the routingWay of every component it is recommended to use CONFIG.set('routingWay','value of a valid routing way') in your init code.
+Regresa un cadena representando la forma de enrutamiento. Un valor puede ser  "hash", "pathname" o "search".
+NOTA: Para cambiar el routingWay de cada componente es recomendado usar CONFIG.set('routingWay','value of a valid routing way')en tu unidad de codigo.
 
 **[Component].validRoutingWays**
-Returns a list representing the valid routing ways.  QCObjects uses this to internally validate the routingWay which was used to build the component routings.
+Regresa a la lista que representa la forma de enrutamiento. QCObject usa esto internamente para validar el routingWay el cual usa para construir los enrutamientos de componente.
 
 **[Component].routingNodes**
-Returns a NodeList object representing the list of nodes that were loaded by the component routing builder.
+Regresa al objeto NodeList representando la lista de nodes que fueron cargados por el creador de enrutamientos. 
 
 **[Component].routings**
-Returns a list with the component routings built when the component was instantiated.
+Regresa a la lista con los componentes complicados cuando el componente fue instanciado.
 
 **[Component].routingPath**
-Returns a string representing the current routing path
+Regresa una cadena que representa el camino del enrutamiento actual. 
 
 **[Component].routingSelected**
-Returns an object representing the current routing of the component
+Regresa un objeto que representa el componente de enrutamiento actual.
 
 **[Component].subcomponents**
 Returns a list of components that are childs of the component instance.
 
 **[Component].body**
-Is a DOM element representing the body of the component.
-NOTE: Every time a component body is set, it will trigger the routings builder for this component.
+Es un elemento DOM que representa el cuerpo del componente 
+NOTA:Cada vez que un cuerpo es configurado, sera activado el generador de rutas para este componente.
 
 #### Methods
 **[Component].set('prop',value)**
