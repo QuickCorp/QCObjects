@@ -214,7 +214,7 @@ AquÍ estan Las directrices con lo que QCObjects fue hecho:
 
 ## Prevent Render-blocking resources
 
-To prevent Render-blocking resources, QCObjects has implemented the [Package](#Package) factory function.
+para prevenir los recursos Render-blocking , QCObjects ha implementado la funcion de fabrica [paquete](#Package) 
 
 ## On-Demand Resources Load
 
@@ -250,7 +250,7 @@ Si no quieres usar lazy loading para las imagenes, siempre puedes mantener la fo
 # ECMA-262 Specification
 --------------------------
 See
-[ECMAScript® 2020 Language Specification](https://tc39.github.io/ecma262/#sec-intro) for reference
+[ECMAScript® 2020 Language Specification](https://tc39.github.io/ecma262/#sec-intro) como referencia.
 
 # Copyright
 -----------
@@ -535,19 +535,19 @@ Imagen privada que te permite construir un nuevo AMI instalando un software AWS 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/[VERSION]/QCObjects.js"></script>
 ```
 
-Where [VERSION] is the corresponding latest version using numeric notation, example: to use version 2.1.420:
+donde [VERSION] corresponde a la ultima version usando notaciones numericas , ejemplo: to use version 2.1.420:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.js"></script>
 ```
 
-You don't need to minify QCObjects, but if you still want to use the minified code, you can do this:
+No necesitas minificar QCObjects, pero si aun quieres usar el codigo minificado puedes hacer esto:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.min.js"></script>
 ```
 
-Again, Change 2.1.420 to the number of the version that you want to use.
+otra vez cambia 2.1.420 al numero de la version que quieras usar. 
 
 
 # Reference
@@ -1159,7 +1159,7 @@ Etiquetar es una funcion util para selecionar cualquier elemento DOM usando sele
 var listOfElements = Tag(selector);
 ```
 
-Where selector is a DOM query selector.
+donde el selector es un DOM selector de respuestas.
 
 #### Example:
 
@@ -1233,7 +1233,7 @@ Es un objeto que representa los datos del componente. Cuando QCObject carga un t
 NOTA: Para refrescar los enlaces de datos para recostruir el component (mira el uso de [Component].rebuild() para mas detalles ). 
 
 **[Component].reload**
-Is a boolean value that tells QCObjects when to force reload the content of a component from the template or not. If its value is true, the template content will be replacing the current DOM childs of the component body element. If its value is false, the template content will be added after the las component body child.
+Es un valor boolean el que dice cuando qcobjects es obligado a recargar el contenido de un componente en el template o no. Si el valor es sierto, el contenido del template sera remplazado por los actuales hijos DOM del elemento cuerpo. Si este valor es falso, el contenido del template sera añadido despues de los hijos del componente cuerpo.
 
 **[Component].cached**
 Es un valor booleado el que le dice a QCObject si el componjente necesita ser atrapado o no. Cuando el componente es atrapado, el contenido del template es cargado desde templateURI sera cargado una sola vez. Puedes configurar esta propiedad incluso como una propiedad estatica de un componente de clase para configurarlo como un valor predeterminado para cada siguiente componente instancia de objeto o configurarlo de manera individual el valor de la propiedad en cada definicion de componente. En un mundo donde el desempeño cuenta, para darle mas flexibilidad al comportamiento del cache es necesitado mas que nunca.
@@ -1258,7 +1258,7 @@ Regresa una cadena que representa el camino del enrutamiento actual.
 Regresa un objeto que representa el componente de enrutamiento actual.
 
 **[Component].subcomponents**
-Returns a list of components that are childs of the component instance.
+Regresa a la lista e componentes que son hijos de las instancias de componentes.
 
 **[Component].body**
 Es un elemento DOM que representa el cuerpo del componente 
@@ -1266,37 +1266,37 @@ NOTA:Cada vez que un cuerpo es configurado, sera activado el generador de rutas 
 
 #### Methods
 **[Component].set('prop',value)**
-Sets a value for a component property.
+Establece un valor para una propiedad de componente.
 
 **[Component].get('prop')**
-Returns the value of a component property
+Devuelve el valor de una propiedad componente
 
 **[Component].rebuild()**
-Rebuilds the component. It will force a call for the componentLoader with this component when it's needed.
+Recostruye un componente. Forzará una llamada para el cargador de componentes con este componente cuando sea necesario.
 
 **[Component].Cast(ClassName or ComponentClassName)**
-Returns the cast of a component definition into another one. This is useful to dynamically merge components definitions.
+Devuelve el reparto de una definición de componente en otra. Esto es útil para combinar dinámicamente definiciones de componentes.
 
 **[Component].route()**
-Forces the component routings builder to reload the routings of the component. This will result in a rebuild call when it's needed.
+Fuerza al generador de rutas de componentes a recargar las rutas del componente. Esto resultara en una recrostruccion de llamada cuando sea necesario.
 
 **[Component].fullscreen()**
-Puts the component in fullscreen mode.
+Pone el componente en modo de pantalla completa.
 
 **[Component].closefullscreen()**
-Closes the fullscreen mode.
+Cierra el modo de pantalla completa.
 
 **[Component].css(css object)**
-Sets the css properties for the component.
+Establece las propiedades del css para el componente.
 
 **[Component].append(component or QCObjects object)**
-Appends a component as a child of the current component body
+Agrega un componente como hijo del cuerpo del componente actual
 
 **[Component].attachIn(selector)**
-Attaches a current component body to any element in the given selector.
+Adjunta un cuerpo de componente actual a cualquier elemento en el selector dado.
 
 ### Component HTML Tag
-Is a HTML tag representation of a component instance. Every declaration of a `<component></component>` tag will generate a related instance of a QCObjects component. While a component tag is not an instance itself, you can even define some instance properties by setting the related tag attribute when it is available.
+Una etiqueta HTML es una representacion de una instancia de componente. Cada declaracion de una etiqueta `<component></component>`generara una instancia relacionada a un componente QCObjects. Mientras una etiqueta de componente no es una instancia por si misma, incluso puedes definir algunas propiedades de instancia configurando el atributo de etiqueta relacionado cuando esté disponible.
 
 #### Available attributes
 Below is a list of the available attributes for a component tag
