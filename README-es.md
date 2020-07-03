@@ -165,34 +165,34 @@ _________________________
 
 # Principals
 
-AquÍ estan Las directrices con lo que QCObjects fue hecho:
+Aquí están Las directrices con lo que QCObjects fue hecho:
 
-0. Debera escribir en JavaScript para codificar una aplicacion JavaScript.
+0. Deberá escribir en JavaScript para codificar una aplicación JavaScript.
 1. Todo es un objeto.
-2. Cada objeto tine una definicion.
-3. En la interfaz, cualquier objeto puede ir apilao en el DOM o en el Virtual-DOM sin necesidad de redeclarar sus definiciones.
+2. Cada objeto tiene una definición.
+3. En la interfaz, cualquier objeto puede ir apilado en el DOM o en el Virtual-DOM sin necesidad de redeclarar sus definiciones.
 4. Cada objeto tiene un cuerpo.
-5. La clase deberia ser la definicion principal de un objeto.
-6. La clase deberia ser facilmente escrita como un objeto.
-7. Tu Código deberia estar facilmente organizado en paquetes.
-8. Deberia ser posible escalar sus aplicaciones a una arquitectura limpia.
-9. Un componente es una entidad que tine un objeto como representacion. El contenido de un componente deberia ser possible rellenarlo remotamente como localmente. Como objeto el componente tiene cuerpo Tambien y el cuerpo del componente es normalmente una instancia apilada del DOM element.
+5. La clase debería ser la definición principal de un objeto.
+6. La clase debería ser fácilmente escrita como un objeto.
+7. Tu Código debería estar fácilmente organizado en paquetes.
+8. Debería ser posible escalar sus aplicaciones a una arquitectura limpia.
+9. Un componente es una entidad que tiene un objeto como representación. El contenido de un componente debería ser posible rellenarlo remotamente como localmente. Como objeto el componente tiene cuerpo También y el cuerpo del componente es normalmente una instancia apilada del DOM element.
 10. Un componente puede ser adjunto al DOM o separado del el sin afectar a su funcionalidad.
 11. Un servicio de llamada puede ser extendido a escalar su funcionalidad.
-12. Deberias ser capaz de importar un paquete remotamente.
-13. Deberias poder escalar tu codigo y Tambien controlar tus cambios en el servidor sin hacer llamadas innecesarias a fuentes remotas. No deberias necesitar codificar este tipos de controles usted mismo.
-14. Deberias ser capaz de codificar tu aplicacion N-Tier en un solo lenguage o sintaxis.
-15. Deberias ser capaz de aplicar cualquier plantilla que quieras a un componente, no importa la sintaxis o el idioma en el que esta escrito.
-16. Si una etiqueta HTML esta ya representada por una instancia de objeto DOM, no deberias necesitar diplicar la definicoin de la instancia para representar su contenido.
-17. Tu pagina principal HTML deberia estar limpia, pero deberias poder enlazar lo que controla el comportamiento de la etiqueta sin afectar el sintaxis del HTML.
-18. El orden de ejecucion de tu codigo debe ser facil de entender y leer desde el codigo y el proceso de renderizado de cada componente deberia tener y ejecutar control en cuantas capas necesites.
-19.Un patron en capas(como el MVC o MVCC) deberia estar presente para cada componente. No importa si defines cada capa o no.
+12. Deberías ser capaz de importar un paquete remotamente.
+13. Deberías poder escalar tu código y también controlar tus cambios en el servidor sin hacer llamadas innecesarias a fuentes remotas. No deberías necesitar codificar estos tipos de controles usted mismo.
+14. Deberías ser capaz de codificar tu aplicación N-Tier en un solo lenguaje o sintaxis.
+15. Deberías ser capaz de aplicar cualquier plantilla que quieras a un componente, no importa la sintaxis o el idioma en el que esta escrito.
+16. Si una etiqueta HTML esta ya representada por una instancia de objeto DOM, no deberías necesitar duplicar la defunción de la instancia para representar su contenido.
+17. Tu pagina principal HTML debería estar limpia, pero deberías poder enlazar lo que controla el comportamiento de la etiqueta sin afectar la sintaxis del HTML.
+18. El orden de ejecución de tu código debe ser fácil de entender y leer desde el codigo y el proceso de renderizado de cada componente debería tener y ejecutar control en cuantas capas necesites.
+19.Un patrón en capas(como el MVC o MVCC) debería estar presente para cada componente. No importa si defines cada capa o no.
 20. El comportamiento de un componente no debe estar determinado por su proceso de renderizado
-21. Es necesario que la pila de componentes se divida en el DOM hacia un arbol subjasente de elementos adjuntos.Entonces ahora existe y se llama Pila anidada de componentes de QCObject.  
-22. Deberias ser capaz de extender una istancia de componente. Pero deberas ser capaz de controlar su comportamiento dinamico sin afectar a la declaracion inicial.
-23. Deberias ser capaz de aplicar efectos visuales y animaciones simultaneas de una manera facil a una istancia de elemento DOM.
-24. Deberias ser capaz de controlar los efectos visuales y animaciones de CSS como JavaScript sin afectar a su desempeño.
-25.Deberias ser capaz de controlar el comportamiento de tu codigo Into-the-box y out-of-the-box y sobrevivir haciendolo.
+21. Es necesario que la pila de componentes se divida en el DOM hacia un árbol subyacente de elementos adjuntos.Entonces ahora existe y se llama Pila anidada de componentes de QCObject.  
+22. Deberías ser capaz de extender una instancia de componente. Pero deberás ser capaz de controlar su comportamiento dinámico sin afectar a la declaración inicial.
+23. Deberías ser capaz de aplicar efectos visuales y animaciones simultaneas de una manera facil a una instancia de elemento DOM.
+24. Deberías ser capaz de controlar los efectos visuales y animaciones de CSS como JavaScript sin afectar a su desempeño.
+25.Deberías ser capaz de controlar el comportamiento de tu código Into-the-box y out-of-the-box y sobrevivir haciéndolo.
 
 # Main features
 
@@ -214,31 +214,30 @@ AquÍ estan Las directrices con lo que QCObjects fue hecho:
 
 ## Prevent Render-blocking resources
 
-para prevenir los recursos Render-blocking , QCObjects ha implementado la funcion de fabrica [paquete](#Package) 
+Para prevenir los recursos Render-blocking , QCObjects ha implementado la función de fabrica [paquete](#Package) 
 
 ## On-Demand Resources Load
 
-Con la arquitectura orientada a los componentes dinamicos, QCObjects renderiza cada recurso visual que esta dentro de un componente, solo cuando el componente se esta construyendo y cada componente esta conectado a un arbol llamado global.componentsStack ese es el que realmente esta apuntando a cada instancia de componente y sus a sus sub componentes. Cada vez que un componete es re-hecho, los recursos visuales estan dinamicamente recargados bajo demanda de la manera mas eficiente, asi que puedes olvidar esos horribles codigos donde necesitabas controlar el proceso de recarga de los recursos con otros frameworks.
+Con la arquitectura orientada a los componentes dinámicos, QCObjects renderiza cada recurso visual que esta dentro de un componente, solo cuando el componente se esta construyendo y cada componente esta conectado a un árbol llamado global.componentsStack ese es el que realmente esta apuntando a cada instancia de componente y sus a sus sub componentes. Cada vez que un componente es re-hecho, los recursos visuales están dinámicamente recargados bajo demanda de la manera mas eficiente, así que puedes olvidar esos horribles códigos donde necesitabas controlar el proceso de recarga de los recursos con otros frameworks.
 
 ## Lazy-loading of images in components (use lazy-src instead of src attribute in img tag)
 
-Desde la versión 2.1.251, QCObjects te otorga una forma facil para el Lazy load de imagenes, usando el ultima estandar para los buscadores.
+Desde la versión 2.1.251, QCObjects te otorga una forma fácil para el Lazy load de imágenes, usando el ultima estándar para los buscadores.
 
 ```html
 <img src="img/preloader.svg" lazy-src="img/myrealimage.png"/>
 ```
+En lo anterior, una imagen (ligera) precargada, es usada para ser cargada en la primera instancia y un atributo **lazy-src** es usado para cargar la imagen real después del proceso Lazy load. QCObjects cargara todos las **<img>** etiquetas declaradas dentro de un componente en el lazy mode si tiene un atributo lazy-src, después que un componente es rearmado o cargado. También, QCObjects usara [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (Cuando este disponible)  para determinar ya sea si el lazy-src o la imagen src son visualmente útiles para ser mostradas.
 
-En lo anterior, una imagen (ligera) precargada, es usada para ser cargada en la primera instancia y un atributo **lazy-src** es usado para cargar la imagen real despues del proceso Lazy load. QCObjects cargara todos las **<img>** etiquetas declaradas dentro de un componente en el  lazy mode si tiene un atributo lazy-src, despues que un componente es rearmado o cargado. Tambien, QCObjects usara [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (Cuando este disponible) to determine whether the para determinar ya sea si el lazy-src o la imagen src son visualmente utiles para ser mostradas.
+El efecto del Lazy loading es altamente visible solo si la primera vez el PWA es cargado. La próxima vez, la velocidad de carga aumentara significativamente haciendo difícil para el ojo humano ver el resultado. Sin embargo esta característica hará mucho la diferencia en términos de experiencia de usuario, si existen problemas de conexión o las imágenes son muy grandes esta característica es parte de las recomendadas por os escritores de PWA por [Mozzila Developers Network](https://developer.mozilla.org/) un articulo sobre Loadig progresivo. Puedes leer el articulo [here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Loading)
 
-El efecto del Lazy loading es altamente visible solo si la primera vez el PWA es cargado. La proxima vez, la velocidad de carga aumentara significativamente haciendo dificil para el ojo humano ver el resultado. Sin embargo esta caracteristica hara mucho ladiferencia en terminos de experiencia de usuario,si existen problemas de conexion o las imagenes son muy grandes esta caracteristica es parte de las recomendadas por os escritores de PWA por [Mozzila Developers Network](https://developer.mozilla.org/) un articulo sobre Loadig progresivo. puedes leer el articulo [here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Loading)
-
-Si no quieres usar lazy loading para las imagenes, siempre puedes mantener la forma usual de carga no añadiendo el atributo **lazy-src**  a la etiqueta **<img>** y usando el tradicional **src**.
+Si no quieres usar lazy loading para las imágenes, siempre puedes mantener la forma usual de carga no añadiendo el atributo **lazy-src**  a la etiqueta **<img>** y usando el tradicional **src**.
 
 
 # Cross Browser Javascript Framework for MVC Patterns
 ----------------------------------------
 
-[QCObjects](https://qcobjects.dev)Es un framework de Javascript diseñado para hacer todo mas fácil sobre la implementación de los MVC patters en el alcace de pure Javascript . No necesitas utilizar un typescript ni ningún transpiler para que corra. [QCObjects](https://qcobjects.dev). Corre directamente en el buscador y usa pure javascrpt sin ningúna dependencia de código extra. Puedes crear tus propios componentes expresados en objetos nativos reales de Javascript o  objetos nativos DOM extendidos para usarlos a tu manera. Puedes también usar QCObjects](https://qcobjects.dev) En conjunto con CSS3 frameworks como [Foundation] (https://foundation.zurb.com), [Bootstrap] (https://getbootstrap.com) Y frameworks de mobil javascript como [PhoneGap] (https://phonegap.com) and OnsenUI (https://onsen.io)
+[QCObjects](https://qcobjects.dev)Es un framework de Javascript diseñado para hacer todo mas fácil sobre la implementación de los MVC patters en el alcance de pure Javascript. No necesitas utilizar un typescript ni ningún transpiler para que corra. [QCObjects](https://qcobjects.dev). Corre directamente en el buscador y usa pure javascrpt sin ninguna dependencia de código extra. Puedes crear tus propios componentes expresados en objetos nativos reales de Javascript o  objetos nativos DOM extendidos para usarlos a tu manera. Puedes también usar QCObjects](https://qcobjects.dev) En conjunto con CSS3 frameworks como [Foundation] (https://foundation.zurb.com), [Bootstrap] (https://getbootstrap.com) Y frameworks de mobil javascript como [PhoneGap] (https://phonegap.com) y OnsenUI (https://onsen.io)
 
 ![screenshot](https://qcobjects.dev/doc/img/components.gif)
 
