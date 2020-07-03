@@ -227,7 +227,7 @@ Desde la versión 2.1.251, QCObjects te otorga una forma fácil para el Lazy loa
 ```html
 <img src="img/preloader.svg" lazy-src="img/myrealimage.png"/>
 ```
-En lo anterior, una imagen (ligera) precargada, es usada para ser cargada en la primera instancia y un atributo **lazy-src** es usado para cargar la imagen real después del proceso Lazy load. QCObjects cargara todos las **<img>** etiquetas declaradas dentro de un componente en el lazy mode si tiene un atributo lazy-src, después que un componente es rearmado o cargado. También, QCObjects usara [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (Cuando este disponible)  para determinar ya sea si el lazy-src o la imagen src son visualmente útiles para ser mostradas.
+En lo anterior, una imagen (ligera) precargada, es usada para ser cargada en la primera instancia y un atributo **lazy-src** es usado para cargar la imagen real después del proceso Lazy load. QCObjects cargara todos las **<img>** etiquetas declaradas dentro de un componente en el lazy mode si tiene un atributo lazy-src, después que un componente es rearmado o cargado. También, QCObjects usara [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (Cuando este disponible) para determinar ya sea si el lazy-src o la imagen src son visualmente útiles para ser mostradas.
 
 El efecto del Lazy loading es altamente visible solo si la primera vez el PWA es cargado. La próxima vez, la velocidad de carga aumentara significativamente haciendo difícil para el ojo humano ver el resultado. Sin embargo esta característica hará mucho la diferencia en términos de experiencia de usuario, si existen problemas de conexión o las imágenes son muy grandes esta característica es parte de las recomendadas por os escritores de PWA por [Mozzila Developers Network](https://developer.mozilla.org/) un articulo sobre Loadig progresivo. Puedes leer el articulo [here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Loading)
 
@@ -276,7 +276,7 @@ Revisa la demostración usando  MaterializeCSS aquí:
 
 ## Demo Using Raw CSS
 
-revisa esta demo usando raw CSS aquí: 
+Revisa esta demo usando raw CSS aquí: 
 [Demo Using Raw CSS](https://github.com/QuickCorp/qcobjects_profile_browser)
 
 ## Example of QCObjects using and manipulating canvas objects
@@ -379,15 +379,15 @@ A continuación el código muestra como QCObjects puede manipular un objeto de l
 
 # DevBlog
 --------------
-el [Official DevBlog of QCObjects](https://devblog.qcobjects.org/) esta alojado en [Hashnode](https://hashnode.com/). El DevBlog esta personalmente escrito por Jean Machuca, el autor de [QCObjects](https://qcobjects.com) Y el esta explicando en detalle como son las mejores pacticas y dando los mejores tips y trucos para usar las mas avanzadas caracteristicas de QCObjects.
+el [Official DevBlog of QCObjects](https://devblog.qcobjects.org/) esta alojado en [Hashnode](https://hashnode.com/). El DevBlog esta personalmente escrito por Jean Machuca, el autor de [QCObjects](https://qcobjects.com) Y el esta explicando en detalle como son las mejores practicas y dando los mejores tips y trucos para usar las mas avanzadas características de QCObjects.
 
 # Fork
 --------------
-Por favor has Fork a este projecto o crea un link a este projecto en to archivo README.md. Lee el archivo LICENSE.txt antes de usar este codigo.
+Por favor has Fork a este projecto o crea un link a este proyecto en to archivo README.md. Lee el archivo LICENSE.txt antes de usar este código.
 
 # Become a Sponsor
 ------------------
-Si quieres volverte sponsor de este maravilloso projecto puedes hacerlo [aquí](https://sponsorsignup.qcobjects.dev/)
+Si quieres volverte sponsor de este maravilloso proyecto puedes hacerlo [aquí](https://sponsorsignup.qcobjects.dev/)
 
 # Check out the QCObjects SDK
 ----------------------------
@@ -397,7 +397,7 @@ Puedes revisar[QCObjects SDK](https://sdk.qcobjects.dev/) y seguir los ejemplos 
 # Donate
 --------------
 
-si te gustó este codigo por favor [DONA](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
+si te gustó este código por favor [DONA](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
 
  [![paypal](https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)
 
@@ -437,13 +437,13 @@ docker pull -a quickcorp/qcobjects-playground && docker run -it --name qcobjects
 ![screenshot3](https://qcobjects.dev/doc/img/QCObjects-Docker-Playground.gif)
 
 ## One-Step Installation Script for Ubuntu 18.x
-ATENCION: Haz esto solo en una instalacion de Ubuntu 18.x fresca/vacia/actual. No lo haga en un ambienteexistente de produccion.
+ATENCIÓN: Haz esto solo en una instalación de Ubuntu 18.x fresca/vacia/actual. No lo haga en un ambiente existente de producción.
  Se te pedira permiso sudo grant.
 
 ```shell
 curl -L https://qcobjects.dev/install_qcobjects_ubuntu18x.sh |sh
 ```
-ATENCION: No somos responsables de el daño en la infrastructura por usar una instalacion automatizada de script en una network insegura. Asegurate de que tus repos y scripts estan bajo HTTPS con su certificado valido. Para mejores resultados te recomendamos descargar el script, editarlo para tus necesidades especiales y despues ejecutalo en tu maquina local.
+ATENCIÓN: No somos responsables de el daño en la infraestructura por usar una instalación automatizada de script en una network insegura. Asegúrate de que tus repos y scripts están bajo HTTPS con su certificado valido. Para mejores resultados te recomendamos descargar el script, editarlo para tus necesidades especiales y después ejecútalo en tu maquina local.
 
 ## One-Step Installation Script for macOS
 Probado en macOS Catalina 10.15.3
@@ -454,18 +454,19 @@ curl -L https://qcobjects.dev/install_qcobjects_macOS.sh | zsh
 
 ## Install and test QCObjects on Microsoft Windows OS
 
-1.- Instala la ultima version de NodeJS para Windows[Aquí](https://nodejs.org/)
+1.- Instala la ultima versión de NodeJS para Windows[Aquí](https://nodejs.org/)
 2.- Desde el cmd instala qcobjects-cli usando npm 
+
 
 ```powershell
 npm i qcobjects-cli -g
 ```
-3.- Crea un directorio de para tu projecto
+3.- Crea un directorio de para tu proyecto
 
 ```powershell
 md mynewproject && cd mynewproject
 ```
-4.- Crea una nueva aplicacion web progresiva de QCObjects
+4.- Crea una nueva aplicación web progresiva de QCObjects
 
 ```powershell
 qcobjects create mynewproject --pwa
@@ -476,30 +477,30 @@ qcobjects create mynewproject --pwa
 
 ## QCObjects Multi-Cloud Installation
 
-QCObjects es nativamente soportado por los mas famosos proveedores de nubes. Puedes instalar la mayoria de ellos, preparar y correr todo en un solo paso.
+QCObjects es nativamente soportado por los mas famosos proveedores de nubes. Puedes instalar la mayoría de ellos, preparar y correr todo en un solo paso.
 
 ### DigitalOcean One-Click Droplet
 
-Si quieres olvidar apt-get y de configurar la guia, ve directo a desplegar tu proyecto usando una preconfigurada app 1-click incluyendo QCObjects CLI, QCObjects-SDK y QCObjects HTTP2 servidor Built-in. Luego giralo a Droplet VM o a Kubernetes cluster en 60 segundos o menos.
+Si quieres olvidar apt-get y de configurar la guía, ve directo a desplegar tu proyecto usando una preconfigurada app 1-click incluyendo QCObjects CLI, QCObjects-SDK y QCObjects HTTP2 servidor Built-in. Luego giralo a Droplet VM o a Kubernetes cluster en 60 segundos o menos.
 
 [Crea tu propio Droplet de QCObjects DigitalOcean Aquí](https://marketplace.digitalocean.com/apps/qcobjects)
 
 ### AWS Amazon Machine Images (AMI)
 
-un Amazon Machine Image (AMI)  otorga informacion requerida para lanzar una instancia.  tienes que especificar un AMI  cuando quieras lanzar un instancia. Puedes lanzar multiples instancias para un solo AMI cuando necesites multiples instancias con la misma configuracion. Puedes usar diferentes AMIs para lanzar instancias cuando necesites instancias con diferentes configuraciones.
+Un Amazon Machine Image (AMI) otorga información requerida para lanzar una instancia.  Tienes que especificar un AMI cuando quieras lanzar una instancia. Puedes lanzar múltiples instancias para un solo AMI cuando necesites múltiples instancias con la misma configuración. Puedes usar diferentes AMIs para lanzar instancias cuando necesites instancias con diferentes configuraciones.
 
-un AMI incluye lo siguiente:
+Un AMI incluye lo siguiente:
 
-- uno o mas EBS snapshots, o, para instance-store-backed AMIs, una plantilla para la raiz volumen de la instancia(por ejemplo, un sistema operativo, un servidor de aplicaciones y aplicaciones).
+- uno o mas EBS snapshots, o, para instance-store-backed AMIs, una plantilla para la raíz volumen de la instancia(por ejemplo, un sistema operativo, un servidor de aplicaciones y aplicaciones).
 - Lanza permisos que controla que cuenta AWS puede usar el AMI para lanzar instancias.
-- A block device mapping that specifies the volumes to attach to the instance when it's launched. Un bloqueo de dispositivos mapping que especifica los volumenes adjuntos a la instancia cuando es lanzada.
+- A block device mapping that specifies the volumes to attach to the instance when it's launched. Un bloqueo de dispositivos mapping que especifica los volúmenes adjuntos a la instancia cuando es lanzada.
 
 [empieza construyendo QCObjects AMI aquí](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
 
 ### Amazon Web Services AWS PIB (Private Amazon Machine Image)
 
 
-Imagen privada que te permite construir un nuevo AMI instalando un software AWS Market place en una imagen que tu elijas del AMI disponiblesen tu cuenta AWS, esto permite que conocer a mejores especificaciones internas para seguridad, gestiones y cumplimientos.  Como con los Marketplace AWS AMIs estandar, cada imagen privada se compremetera a subscripcion por el producto instalado y tiene uso de software facturado via AWS Marketplace.
+Imagen privada que te permite construir un nuevo AMI instalando un software AWS Market place en una imagen que tu elijas del AMI disponibles en tu cuenta AWS, esto permite que conocer a mejores especificaciones internas para seguridad, gestiones y cumplimientos.  Como con los Marketplace AWS AMIs estándar, cada imagen privada se comprometera a subscripción por el producto instalado y tiene uso de software facturado vía AWS Marketplace.
 
 [Empieza creando tu QCObjects Amazon Private Image aquí](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
 
@@ -534,7 +535,7 @@ Imagen privada que te permite construir un nuevo AMI instalando un software AWS 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/[VERSION]/QCObjects.js"></script>
 ```
 
-donde [VERSION] corresponde a la ultima version usando notaciones numericas , ejemplo: to use version 2.1.420:
+Donde [VERSIÓN] corresponde a la ultima versión usando notaciones numericas, ejemplo: to use version 2.1.420:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.js"></script>
@@ -546,17 +547,17 @@ No necesitas minificar QCObjects, pero si aun quieres usar el codigo minificado 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.min.js"></script>
 ```
 
-otra vez cambia 2.1.420 al numero de la version que quieras usar. 
+Otra vez cambia 2.1.420 al numero de la versión que quieras usar. 
 
 
 # Reference
 ------------
 
-Aqui estan los simbolos y conceptos esenciales de referencia [QCObjects](https://qcobjects.dev) 
+Aquí están los símbolos y conceptos esenciales de referencia [QCObjects](https://qcobjects.dev) 
 
 ### QC_Object
 
-Tipos basicos de todos los elementos
+Tipos básicos de todos los elementos
 
 ### ComplexStorageCache
 
@@ -601,7 +602,7 @@ console.log(dataObjectCopyFromCache); // will show the very same object value th
 
 ### asyncLoad
 
-La funcion **asyncLoad** carga el codigo una vez en el modo asyc. Esto es util para asegurar que el proceso inicial no replica la ejecucion y no es recargado despues de un codigo sensible.
+La función **asyncLoad** carga el código una vez en el modo asyc. Esto es útil para asegurar que el proceso inicial no replica la ejecución y no es recargado después de un código sensible.
 
 #### Usage:
 ```javascript
@@ -628,16 +629,17 @@ doSomething(1,2); // the code of doSomething will be executed once after the res
 
 ### Class
 
-Esto NO es una clase de definicion de ECMAScript 2015 (mira [clase ECMAScript 2015](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) for reference).
+Esto NO es una clase de definición de ECMAScript 2015 (mira [clase ECMAScript 2015](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) for reference).
 
-Clase es una funcion especias que te ayuda a declarar la clase de una manera mas facil y compatible. Funciona con cross-browser, y esperamos que ECMA pueda adoptar algo similar en el futuro. Para no dejar al Javascript confuso sobre esto, [QCObjects](https://qcobjects.dev) usa "Class" no "class" (note the Camel Case).
+Clase es una función especias que te ayuda a declarar la clase de una manera mas fácil y compatible. Funciona con cross-browser, y esperamos que ECMA pueda adoptar algo similar en el futuro. Para no dejar al Javascript confuso sobre esto, [QCObjects](https://qcobjects.dev) usa "Class" no "class" (note the Camel Case).
+
 
 #### Usage:
 
 ```javascript
 Class('MyClassName',MyClassDefinition);
 ```
-donde **MyClassDefinition** es un objeto junto a el **prototype** de QCObjects 
+Donde **MyClassDefinition** es un objeto junto a el **prototype** de QCObjects 
 
 #### Example:
 ```javascript
@@ -667,7 +669,7 @@ console.log(newObject.classMethod2()); // this will show "some value"
 
 ### QC_Append, append method
 
-Este es un metodo especial que hara tu vida mas facil cuando quieras manipular el **DOM** dinamicamente. Puedes insertar un componente incluso **Component**, a un objeto **QCObjects** o a el elemento **DOM** dentro de otro **HTMLElement**.
+Este es un método especial que hará tu vida mas fácil cuando quieras manipular el **DOM** dinámicamente. Puedes insertar un componente incluso **Component**, a un objeto **QCObjects** o a el elemento **DOM** dentro de otro **HTMLElement**.
 
 ##### Usage:
 ```javascript
@@ -695,7 +697,7 @@ document.body.append(canvas1);
 
 ### The \_super\_ method
 
-Cuando extiendes una clase QCObject desde otra , puedes usar \_super\_ metodo para tener una instancia desde la definicion de la clase central. 
+Cuando extiendes una clase QCObject desde otra, puedes usar \_super\_ metodo para tener una instancia desde la definición de la clase central. 
 
 #### Usage:
 ```javascript
@@ -735,7 +737,7 @@ console.log(newObject.classMethod2()); // this will show the number 1
 
 ### New
 
- Crea una instancia de objeto de una definicion de clase de QCObject.
+ Crea una instancia de objeto de una definición de clase de QCObject.
 
 #### Usage:
 
@@ -743,7 +745,7 @@ console.log(newObject.classMethod2()); // this will show the number 1
 let objectInstance = New(QCObjectsClassName, properties);
 // where properties is a single object with the property values
 ```
-NOTA: En las propiedades del objeto puedes usar un solo valor o un captador tambien pero, solo se ejecutaran una vez.
+NOTA: En las propiedades del objeto puedes usar un solo valor o un captador también pero, solo se ejecutaran una vez.
 
 #### Example:
 
@@ -761,13 +763,13 @@ console.log(objectInstance.randomNumber); // it will show console.log(objectInst
 
 
 ### InheritClass
-Una sola definicion de clase comun QCObjects es utilizada.
+Una sola definición de clase común QCObjects es utilizada.
 
 ### ClassFactory
-usa la **ClassFactory** para tener una declaracion de clase de fabrica para la clase 
-Tambien puedes usar la clase de fabrica desde un paquete o desde la fila apilada.
+Usa la **ClassFactory** para tener una declaración de clase de fabrica para la clase 
+También puedes usar la clase de fabrica desde un paquete o desde la fila apilada.
 
-Para recuperrar la clase de fabrica de la clase fila apilada simplemente usa el nombre de la clase llamandola directamente en el codigo.
+Para recuperar la clase de fabrica de la clase fila apilada simplemente usa el nombre de la clase llamándola directamente en el código.
 
 #### Example:
 
@@ -826,9 +828,9 @@ console.log(MyClass == ClassFactory('org.quickcorp.package2.MyClass'))
 console.log(ClassFactory('org.quickcorp.package1.MyClass') == ClassFactory('org.quickcorp.package2.MyClass'))
 ```
 
-Los ejemplos anteriores estan intencionalmente hechos para explicar y mostrar como el alcance de la definicion de clase en QCObjects es protejida, llevada y reflejada en una ClassFactory.
+Los ejemplos anteriores están intencionalmente hechos para explicar y mostrar como el alcance de la definición de clase en QCObjects es protejida, llevada y reflejada en una ClassFactory.
 
-Asi quevas a querer usar la ClassFactory cuando necesites completar un control sobre el alcance cuando se extienden las Clases.
+Así que vas a querer usar la ClassFactory cuando necesites completar un control sobre el alcance cuando se extienden las Clases.
 
 **Example**
 
@@ -887,7 +889,7 @@ With \_Crypt you can encode serializable objects by a passphrase
 
 ### GLOBAL
 
-**GLOBAL** es una clase especial de QCObject para conseguir alzance global. Tiene un conjunto y consigue un metodo que te ayude a manejar propiedades internas Globales. 
+**GLOBAL** es una clase especial de QCObject para conseguir alancé global. Tiene un conjunto y consigue un método que te ayude a manejar propiedades internas Globales. 
 
 #### Example:
 
@@ -898,38 +900,39 @@ var globalProperty1 = GLOBAL.get('globalProperty1');
 
 ### CONFIG
 
-CONFIG is una clase inteligente que maneja los ajustes generales de tu aplicacion. Puedes tener las propiedades ya sea desde config.json o desde la memoria previaente guardado en la llamada set().
+CONFIG es una clase inteligente que maneja los ajustes generales de tu aplicación. Puedes tener las propiedades ya sea desde config.json o desde la memoria previamente guardado en la llamada set().
 
 #### Usage from memory:
 
-1.- In your initial code set the CONFIG initial values:
+1.- En su código inicial, configura los valores iniciales de CONFIG:
 ```javascript
 CONFIG.set('someSettingProperty','some initial value');
 ```
-2.- Then you can access it from anywhere in your code by using the get method:
+2.- Luego puede acceder a él desde cualquier parte de su código utilizando el método get:
 ```javascript
 var someSettingProperty = CONFIG.get('someSettingProperty');
 ```
 
 #### Usage from config.json:
 
-1.- Necesitas indicar primero que estas usando el archivo config.jso midiante el ajuste "useConfigService" el valor para la verdad.
+1.- Necesitas indicar primero que estas usando el archivo config.jso mediante el ajuste "useConfigService" el valor para la verdad.
 
 ```javascript
 CONFIG.set('useConfigService',true); // using config.json for custom settings config
 ```
-2.-Una vez lo peparaste el valor anterior QCObjects lo sabra y mirara el siguiente ajuste dentro del archivo config.json en la carpeta basePath de tu aplicacion.
+2.-Una vez  peparaste el valor anterior QCObjects lo sabra y mirara el siguiente ajuste dentro del archivo config.json en la carpeta basePath de tu aplicación.
+
 #### Usage from an encrypted config.json:
 
-Tambien existe una forma de usar el archivo encriptado config.json con el fin de protejer tus ajustes, robots que pueden robar tu data no protegida desde la aplicacion web  (como las llaves de arrastre API) 
+También existe una forma de usar el archivo encriptado config.json con el fin de proteger tus ajustes, robots que pueden robar tu data no protegida desde la aplicación web (como las llaves de arrastre API) 
 
-El archivo encriptado json va en  https://config.qcobjects.dev, pon tu configuracion dominantes y tu contenido config.json. La herramienta encriptara tu json y podras copiar el cotenido incriptado para insertarlo en tu archivo config.json. QCObjects sabra si la data esta encriptada y tu proceso para decodificar la data sera mas transparente para ti.
+El archivo encriptado json va en https://config.qcobjects.dev, pon tu configuración dominantes y tu contenido config.json. La herramienta encriptará tu json y podrás copiar el contenido incriptado para insertarlo en tu archivo config.json. QCObjects sabrá si la data esta encriptada y tu proceso para decodificar la data sera mas transparente para ti.
 
 #### Dynamic CONFIG Settings
 
- A veces necesitaras establecer el valor de la fuente que no sea estatica, como el ENV vars o otras fuentes personalizadas de data dinamica. Para tener valor usando CONFIG de una fuente dinamica tienes que usar un procesador. Existen procesadores comunes predefinidos como $ENV (solo si esta disponible en CLI, Collab o Node) y $config (disponible en todos los ambientes). 
+ A veces necesitaras establecer el valor de la fuente que no sea estática, como el ENV vars u otras fuentes personalizadas de data dinámica. Para tener valor usando CONFIG de una fuente dinámica tienes que usar un procesador. Existen procesadores comunes predefinidos como $ENV (solo si esta disponible en CLI, Collab o Node) y $config (disponible en todos los ambientes). 
  
-Los procesadore son llamados como una meta de valor ya sea en el config.json o en la Clase CONFIG.
+Los procesadores son llamados como una meta de valor ya sea en el config.json o en la Clase CONFIG.
 
 ```json
 // file: config.json
@@ -969,11 +972,11 @@ La clase estatica que usa para establecer el procesador personalizado para CONFI
 Processor.setProcessor(processor)
 ```
 
-Where **processor** is a named function that receives the arguments of the processor
+Donde **processor** es el nombre de la función que recibe el argumento del procesador
 
 #### Example:
 
-Tienes que usar ese valor en tus ajustes de configuracion en el valor **serviceURL** pero tambien necesitas configurar el **host** y los ajustes de **port** usando el valor analizado de esa url. Para analizar el valor de el ambiente SERVICE_URL la variable bajo demanda y rellenarlo con los ajustes de configuracion en tu config.json, tu config.json se vera algo asi:
+Tienes que usar ese valor en tus ajustes de configuración en el valor **serviceURL** pero también necesitas configurar el **host** y los ajustes de **port** usando el valor analizado de esa url. Para analizar el valor de el ambiente SERVICE_URL la variable bajo demanda y rellenarlo con los ajustes de configuración en tu config.json, tu config.json se vera algo así:
  ```json
 // file: config.json
 {
@@ -983,7 +986,7 @@ Tienes que usar ese valor en tus ajustes de configuracion en el valor **serviceU
 }
 ```
 
-El **$SERVICE_HOST** y el **$SERVICE_PORT** procesadores no existen . Para definirlos tienes que usar:
+El **$SERVICE_HOST** y el **$SERVICE_PORT** procesadores no existen. Para definirlos tienes que usar:
 
 ```javascript
 // execute the next code in your init.js file or before to load the CONFIG settings
@@ -1003,14 +1006,14 @@ Processor.setProcessor(SERVICE_HOST);
 Processor.setProcessor(SERVICE_PORT);
 ```
 
-Then you only need to set your environment variable SERVICE_URL in your shell
+Entonces solo necesita establecer su variable de entorno SERVICE_URL en su shell 
 
 ```shell
 # for Unix/Linux systems
 export SERVICE_URL="https://example.com:443/path-to-a-resource/"
 ```
 
-and your settings will be dynamically loaded like this:
+y su configuración se cargará dinámicamente de esta manera:
 
 ```json
 {
@@ -1020,12 +1023,12 @@ and your settings will be dynamically loaded like this:
 }
 ```
 
-Y consige tus valores correspondientes en  **CONFIG.get(value)**
+Y consigue tus valores correspondientes en **CONFIG.get(value)**
 
 ### waitUntil
-waitUntil es un ayudante solo en caso de que estes en problemas tratando de correr el codigo antes de que la condicion sea real.El codigo dentro del waitUntil sera ejecutado una vez.
+waitUntil es un ayudante solo en caso de que estés en problemas tratando de correr el código antes de que la condición sea real.El código dentro del waitUntil sera ejecutado una vez.
 
-NOTE: Esto es util en algunos casos pero no es recomendado para uso exesivo.
+NOTA: Esto es útil en algunos casos pero no es recomendado para uso excesivo.
 
 #### Usage:
 ```javascript
@@ -1046,13 +1049,14 @@ waitUntil(()=>{
 
 
 ### Package
-Define el paquete de QCObjects y regresalo.
+Define el paquete de QCObjects y regrésalo.
 
 #### Usage:
 ```javascript
 Package('packageName',[packageContent]);
 ```
-Donde packageContent es una gama de clases de QCObjects. Si solo pasas el packageName param conseguiras el contenido declarado anteriormente.
+Donde packageContent es una gama de clases de QCObjects. Si solo pasas el packageName param conseguirás el contenido declarado anteriormente.
+
 
 #### Example (1):
 ```javascript
@@ -1073,9 +1077,9 @@ let mainPackage = Package('org.quickcorp.main'); // this will return the previou
 // This is useful for code introspection
 ```
 
-La tecnica de carga de paquetes presente en QCObjects esta basada en una promesa y orientada al alcance. Puedes preguntar si un paquete fue cargado simplemente llamando la funcion Packege() pasando el nombre del paquete a un argumento.
+La técnica de carga de paquetes presente en QCObjects esta basada en una promesa y orientada al alcance. Puedes preguntar si un paquete fue cargado simplemente llamando la función Packege() pasando el nombre del paquete a un argumento.
 
-
+-----------------
 ### Import
 Importa un paquete desde otro archivo JS.
 
