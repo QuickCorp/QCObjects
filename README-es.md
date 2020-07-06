@@ -1079,7 +1079,7 @@ let mainPackage = Package('org.quickcorp.main'); // this will return the previou
 
 La técnica de carga de paquetes presente en QCObjects esta basada en una promesa y orientada al alcance. Puedes preguntar si un paquete fue cargado simplemente llamando la función Packege() pasando el nombre del paquete a un argumento.
 
------------------
+
 ### Import
 Importa un paquete desde otro archivo JS.
 
@@ -1087,13 +1087,13 @@ Importa un paquete desde otro archivo JS.
 ```javascript
 Import (packagename,[ready],[external]);
 ```
-Donde el packagename es el nombre del paquete, listo es una funcion que podra ser ejecutada despues de que el paquete es cargado y el externo es un valor bolean que indica si el archivo JS esta en el mismo origen o esta desde otro recurso externo.
+Donde el packagename es el nombre del paquete, listo es una función que podrá ser ejecutada después de que el paquete es cargado y el externo es un valor bolean que indica si el archivo JS esta en el mismo origen o esta desde otro recurso externo.
 
 #### Example (1):
 ```javascript
 Import('org.quickcorp.main');
 ```
-El codigo anterior intentara importar un archivo JS llamado 'org.quickcorp.main.js' desde un camino specifico en el valor de ajuste  **relativeImportPath** presente en tu **CONFIG**. Dentro del archivo tienes que definir el paquete mediante el uso del paquete  ('org.quickcorp.main',[Class1, Class2...])
+El código anterior intentara importar un archivo JS llamado 'org.quickcorp.main.js' desde un camino especifico en el valor de ajuste  **relativeImportPath** presente en tu **CONFIG**. Dentro del archivo tienes que definir el paquete mediante el uso del paquete ('org.quickcorp.main',[Class1, Class2...])
 
 #### Example (2):
 ```javascript
@@ -1101,12 +1101,12 @@ Import('org.quickcorp.main',function (){
   console.log('remote import is loaded');
 },true);
 ```
-El codigo anterior esta vez esta tratando de cargar en el mismo paquete usando el camino externo mediante el **remoteImportsPath** ajustes presentes en tu **CONFIG**
+El código anterior esta vez esta tratando de cargar en el mismo paquete usando el camino externo mediante el **remoteImportsPath** ajustes presentes en tu **CONFIG**
 
-NOTE: En los dos ejemplos anteriores no necitas usar o especificar la extension ".js".Esto esta usado por defecto y no puede ser cambiado por razones de seguridad.
+NOTA: En los dos ejemplos anteriores no necesitas usar o especificar la extensión ".js". Esto esta usado por defecto y no puede ser cambiado por razones de seguridad.
 
 ### Export
-Pon un simbolo(barra o funcion) en el alcance global.
+Pon un símbolo(barra o función) en el alcance global.
 
 #### Usage:
 
@@ -1131,7 +1131,7 @@ someFunction('this works');
 
 ### Cast
 
-Usa el metodo Cast de cualquier elemento DOM para obtener las propiedades de otro tipo de objeto. Esto es util para trasformar un tipo objeto a otro otorgandole mas flexibilidad a tu codigo.
+Usa el método Cast de cualquier elemento DOM para obtener las propiedades de otro tipo de objeto. Esto es útil para trasformar un tipo objeto a otro otorgándole mas flexibilidad a tu código.
 
 #### Usage:
 
@@ -1151,10 +1151,10 @@ Class('MyOwnClass',{
 let obj = document.createElement('div').Cast(MyOwnClass);
 ```
 
-El codigo anterior creara un objeto DOM y lo emetira a MyOwnClass. Gracias a que MyOwnClass es un tipo clase de QCObject el ofjeto ahora tendra propiedades prop1 y prop2 y ahora sera una instacia de objeto QCObject con una propiedad del cuerpo que es un elemento div.
+El código anterior creara un objeto DOM y lo emitirá a MyOwnClass. Gracias a que MyOwnClass es un tipo clase de QCObject el objeto ahora tendrá propiedades prop1 y prop2 y ahora sera una instancia de objeto QCObject con una propiedad del cuerpo que es un elemento div.
 
 ### Tag
-Etiquetar es una funcion util para selecionar cualquier elemento DOM usando selectores. Etiquetar siempre regresa a la lista de elementos que puedas mapear, ordenar y filtrar como cualquier otra lista.
+Etiquetar es una función útil para seleccionar cualquier elemento DOM usando selectores. Etiquetar siempre regresa a la lista de elementos que puedas mapear, ordenar y filtrar como cualquier otra lista.
 
 #### Usage:
 
@@ -1162,7 +1162,7 @@ Etiquetar es una funcion util para selecionar cualquier elemento DOM usando sele
 var listOfElements = Tag(selector);
 ```
 
-donde el selector es un DOM selector de respuestas.
+Donde el selector es un DOM selector de respuestas.
 
 #### Example:
 
@@ -1188,10 +1188,10 @@ donde el selector es un DOM selector de respuestas.
 </html>
 ```
 
-En el codigo anterior el elemento parrafo fue creado dentro de un div con una clase css llamada myselector mediante html y luego es modificada dinamicamente usando la funcion etiqueta de QCObject. Si estas familiarizado con un framework selector query te encantara este.
+En el código anterior el elemento párrafo fue creado dentro de un div con una clase css llamada myselector mediante html y luego es modificada dinámicamente usando la función etiqueta de QCObject. Si estas familiarizado con un framework selector query te encantara este.
 
 ### Ready
-Asigna una funcion para correr despues de que todo esta hecho mediante QCObject y despues del evento window.onload. Usalo para prevenir un error de objeto DOM 'indefinido'.
+Asigna una función para correr después de que todo esta hecho mediante QCObject y después del evento window.onload. Úsalo para prevenir un error de objeto DOM 'indefinido'.
 
 #### Usage:
 ```javascript
@@ -1199,9 +1199,9 @@ Ready(()=>{
   // My init code here!
 });
 ```
-Tenga encuenta que si define los componentes dinamicos mediante el uso de una etiqueta "componente" en HTML, el contenido dinamico no activara eventos listos. Para atrapar el codigo cada vez que se carga un componente dinamico usa un metodo decontroladr hecho en su lugar.
+Tenga en cuenta que si define los componentes dinámicos mediante el uso de una etiqueta "componente" en HTML, el contenido dinámico no activara eventos listos. Para atrapar el código cada vez que se carga un componente dinámico usa un método decontrolado hecho en su lugar.
 
-Usaras implementacion lista principalmente cuando quieras implementar QCObjects en conjunto con otro framework que lo necesite. 
+Usaras implementación lista principalmente cuando quieras implementar QCObjects en conjunto con otro framework que lo necesite. 
 
 ### Component Class
 Un tipo clase de QCObject por componentes.
@@ -1209,41 +1209,41 @@ Un tipo clase de QCObject por componentes.
 #### Properties
 
 **[Component].domain**
-Regresa una cadena con el dominio de tu aplicacion. Se establece automaticamente por QCObjects al momento de cargar.
+Regresa una cadena con el dominio de tu aplicación. Se establece automáticamente por QCObjects al momento de cargar.
 
 **[Component].basePath**
-Regresa una cadena con un camino url base de tu aplicacion. Se establece automaticamente por QCObjects al momento de cargar.
+Regresa una cadena con un camino url base de tu aplicación. Se establece automáticamente por QCObjects al momento de cargar.
 
-NOTA: Si quieres cambiar los componentes en base a un camino, tienes que usar _CONFIG.set('componentsBasePath','new path relative to the domain')_ en tu unidad de codigo.
+NOTA: Si quieres cambiar los componentes con base en un camino, tienes que usar _CONFIG.set('componentsBasePath','new path relative to the domain')_ en tu unidad de código.
 
 **[Component].templateURI**
-Es una cadena  representando un componente plantilla URI relativo al dominio. Cuando este listo, el componente sera cargado a la plantilla y lo agregara al contenido interno dentro del cuerpo childs como parte del DOM. Para establecer esta propiedad es recomendado usar la funcion ayudante ComponentURI.
+Es una cadena representando un componente plantilla URI relativo al dominio. Cuando este listo, el componente sera cargado a la plantilla y lo agregara al contenido interno dentro del cuerpo childs como parte del DOM. Para establecer esta propiedad es recomendado usar la función ayudante ComponentURI.
 
 **[Component].tplsource**
-Es la cadena representando a la fuente donde el template sera cargado. Puede ser "default" o "none". El valor "default" le dira a QCOBject que cargue el template desde el contenido templateURI. El valor "none" le dira a QCObject que no cargue el template desde ningun lado.
+Es la cadena representando a la fuente donde el template sera cargado. Puede ser "default" o "none". El valor "default" le dirá a QCOBject que cargue el template desde el contenido templateURI. El valor "none" le dirá a QCObject que no cargue el template desde ningún lado.
 
 **[Component].url**
-Es una cadena representando una url completa de un componente. Es automaticamente establecido por QCObjects cuando un componente es instanciado.
+Es una cadena representando una url completa de un componente. Es automáticamente establecido por QCObjects cuando un componente es instanciado.
 
 **[Component].name**
-Es una cadena que representa el nombre de un componente. El nombre de un componente puede ser cualquier valor alphanumerico que identifique un tipo de componente. Sera internamente utilizado mediante ComponentURI para contruir un tempalte URI normalizado.
+Es una cadena que representa el nombre de un componente. El nombre de un componente puede ser cualquier valor alphanumerico que identifique un tipo de componente. Sera internamente utilizado mediante ComponentURI para construir un tempalte URI normalizado.
 
 **[Component].method**
-Es una cadena que representa a un metodo HTTP o HTTPS. Por defecto cada componente esta configurad para usar el metodo "GET". En la mayoria de los casos no necesitas cambiar esta propiedad.
+Es una cadena que representa a un método HTTP o HTTPS. Por defecto cada componente esta configurad para usar el método "GET". En la mayoría de los casos no necesitas cambiar esta propiedad.
 
 **[Component].data**
-Es un objeto que representa los datos del componente. Cuando QCObject carga un template este conseguira cada propiedad de los datos y la atará al nivel de template representado por la misma propiedad dentro del contenido del template entre los brackets dobles, ejemplo:  (example: {{prop1}} in the template content will represent data.prop1 in the component instance). 
-NOTA: Para refrescar los enlaces de datos para recostruir el component (mira el uso de [Component].rebuild() para mas detalles ). 
+Es un objeto que representa los datos del componente. Cuando QCObject carga un template este conseguirá cada propiedad de los datos y la atará al nivel de template representado por la misma propiedad dentro del contenido del template entre los brackets dobles, ejemplo:  (example: {{prop1}} in the template content will represent data.prop1 in the component instance). 
+NOTA: Para refrescar los enlaces de datos para reconstruir el component (mira el uso de [Component].rebuild() para mas detalles ). 
 
 **[Component].reload**
-Es un valor boolean el que dice cuando qcobjects es obligado a recargar el contenido de un componente en el template o no. Si el valor es sierto, el contenido del template sera remplazado por los actuales hijos DOM del elemento cuerpo. Si este valor es falso, el contenido del template sera añadido despues de los hijos del componente cuerpo.
+Es un valor boolean el que dice cuando qcobjects es obligado a recargar el contenido de un componente en el template o no. Si el valor es cierto, el contenido del template sera remplazado por los actuales hijos DOM del elemento cuerpo. Si este valor es falso, el contenido del template sera añadido después de los hijos del componente cuerpo.
 
 **[Component].cached**
-Es un valor booleado el que le dice a QCObject si el componjente necesita ser atrapado o no. Cuando el componente es atrapado, el contenido del template es cargado desde templateURI sera cargado una sola vez. Puedes configurar esta propiedad incluso como una propiedad estatica de un componente de clase para configurarlo como un valor predeterminado para cada siguiente componente instancia de objeto o configurarlo de manera individual el valor de la propiedad en cada definicion de componente. En un mundo donde el desempeño cuenta, para darle mas flexibilidad al comportamiento del cache es necesitado mas que nunca.
+Es un valor booleado el que le dice a QCObject si el componente necesita ser atrapado o no. Cuando el componente es atrapado, el contenido del template es cargado desde templateURI sera cargado una sola vez. Puedes configurar esta propiedad incluso como una propiedad estática de un componente de clase para configurarlo como un valor predeterminado para cada siguiente componente instancia de objeto o configurarlo de manera individual el valor de la propiedad en cada definición de componente. En un mundo donde el desempeño cuenta, para darle mas flexibilidad al comportamiento del cache es necesitado mas que nunca.
 
 **[Component].routingWay**
-Regresa un cadena representando la forma de enrutamiento. Un valor puede ser  "hash", "pathname" o "search".
-NOTA: Para cambiar el routingWay de cada componente es recomendado usar CONFIG.set('routingWay','value of a valid routing way')en tu unidad de codigo.
+Regresa una cadena representando la forma de enrutamiento. Un valor puede ser "hash", "pathname" o "search".
+NOTA: Para cambiar el routingWay de cada componente es recomendado usar CONFIG.set('routingWay','value of a valid routing way')en tu unidad de código.
 
 **[Component].validRoutingWays**
 Regresa a la lista que representa la forma de enrutamiento. QCObject usa esto internamente para validar el routingWay el cual usa para construir los enrutamientos de componente.
@@ -1261,7 +1261,7 @@ Regresa una cadena que representa el camino del enrutamiento actual.
 Regresa un objeto que representa el componente de enrutamiento actual.
 
 **[Component].subcomponents**
-Regresa a la lista e componentes que son hijos de las instancias de componentes.
+Regresa a la lista de componentes que son childs de las instancias de componentes.
 
 **[Component].body**
 Es un elemento DOM que representa el cuerpo del componente 
@@ -1275,13 +1275,13 @@ Establece un valor para una propiedad de componente.
 Devuelve el valor de una propiedad componente
 
 **[Component].rebuild()**
-Recostruye un componente. Forzará una llamada para el cargador de componentes con este componente cuando sea necesario.
+Reconstruye un componente. Forzará una llamada para el cargador de componentes con este componente cuando sea necesario.
 
 **[Component].Cast(ClassName or ComponentClassName)**
 Devuelve el reparto de una definición de componente en otra. Esto es útil para combinar dinámicamente definiciones de componentes.
 
 **[Component].route()**
-Fuerza al generador de rutas de componentes a recargar las rutas del componente. Esto resultara en una recrostruccion de llamada cuando sea necesario.
+Fuerza al generador de rutas de componentes a recargar las rutas del componente. Esto resultara en una reconstrucción de llamada cuando sea necesario.
 
 **[Component].fullscreen()**
 Pone el componente en modo de pantalla completa.
@@ -1299,14 +1299,14 @@ Agrega un componente como hijo del cuerpo del componente actual
 Adjunta un cuerpo de componente actual a cualquier elemento en el selector dado.
 
 ### Component HTML Tag
-Una etiqueta HTML es una representacion de una instancia de componente. Cada declaracion de una etiqueta `<component></component>`generara una instancia relacionada a un componente QCObjects. Mientras una etiqueta de componente no es una instancia por si misma, incluso puedes definir algunas propiedades de instancia configurando el atributo de etiqueta relacionado cuando esté disponible.
+Una etiqueta HTML es una representación de una instancia de componente. Cada declaración de una etiqueta `<component></component>`generara una instancia relacionada con un componente QCObjects. Mientras una etiqueta de componente no es una instancia por si misma, incluso puedes definir algunas propiedades de instancia configurando el atributo de etiqueta relacionado cuando esté disponible.
 
 #### Available attributes
-Below is a list of the available attributes for a component tag
+A continuación se muestra una lista de los atributos disponibles para una etiqueta de componente
 
 ##### The name Attribute
 **`<component name>`**
-Sets the name of the related component instance built by QCObjects.
+Establece el nombre de la instancia de componente relacionada creada por QCObjects.
 
 ###### Usage:
 ```html
