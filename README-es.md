@@ -12,21 +12,21 @@ Con QCObjects los desarrolladores están habilitados para programar front-end y 
 
 [QCObjects is being featured by British Herald as today, the most advanced framework for modern software development.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
 
-This document is the Main Reference Documentation!
+Este documento es la documentacion referencial principal!
 
-This repository and readme is hosted at [https://qcobjects.dev](https://qcobjects.dev)
+Este repositorio y archivo léame está alojado en [https://qcobjects.dev](https://qcobjects.dev)
 
-Check out the official page of [QCObjects](https://qcobjects.com) at https://qcobjects.com
+Echa un vistazo a la página oficial de [QCObjects](https://qcobjects.com) at https://qcobjects.com
 
-This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to info@quickcorp.cl.
+Este proyecto se adhiere al Pacto Colaborador[code of conduct](CODE_OF_CONDUCT.md). Al participar, se espera que respete este código. Por favor reportar algún comportamiento inaceptable a info@quickcorp.cl.
 
 **Contributors are welcome!**
 
-You can contribute to [QCObjects](https://qcobjects.dev) following the set of guidelines expressed in the file [CONTRIBUTING.md](CONTRIBUTING.md)
+Puedes contribuir a [QCObjects](https://qcobjects.dev) siguiendo el conjunto de pautas expresadas en el archivo [CONTRIBUTING.md](CONTRIBUTING.md)
 
 # QCObjects Explainer Video
 
-For those who have no time to read all of this today, here is a small video that explains what QCObjects is and what can be done with it.
+Para todos los que no tengan tiempo de leer esto hoy, aquí hay un pequeño video que explica que es QCObject y que puedes hacer con el.
 
 [![QCObjects Explainer Video](http://img.youtube.com/vi/D0rftABPGvQ/0.jpg)](http://www.youtube.com/watch?v=D0rftABPGvQ "QCObjects Explainer Video")
 
@@ -1331,20 +1331,20 @@ Establece el nombre de la instancia de componente relacionada creada por QCObjec
 
 ##### The cached Attribute
 **`<component cached>`**
-Sets the cached property if the related instance of a component.
+Establece la propiedad en caché si la instancia relacionada de un componente.
 
-NOTE: Only a value of "true" can be set in order to tell QCObjects that the component template content has to be cached. Any other value will be interpreted as false.
-
-###### Usage:
+NOTA: Solo se puede establecer un valor de "verdadero" para indicar a QCObjects que el contenido de la plantilla del componente debe almacenarse en caché. Cualquier otro valor sera interpretado como falso.
+ 
+ ###### Usage:
 ```html
 <component name="name_of_component" cached="true"></component>
 ```
 
 ##### The data property tag declaration
  **`<component data-property1 data-property2 ...>`**
-Sets a static value of a property for the data object in the component instance.
+Configura un valor estatico de las propiedades de los datos en una instancia de componente.
 
-NOTE: Data property tag declaration was thought with the purpose to give some simple way to mocking a dynamic component with template assignments. Don't use it thinking it is a bidirectional way data binding. While you can get a bidirectional way behaviour accesing a data object from a component instance, it is not the same for the component tag. Data property declaration in component tags is only one way data binding because of components tree architecture.
+NOTA: Data property tag declaration was thought with the purpose to give some simple way to mocking a dynamic component with template assignments. Don't use it thinking it is a bidirectional way data binding. While you can get a bidirectional way behaviour accesing a data object from a component instance, it is not the same for the component tag. Data property declaration in component tags is only one way data binding because of components tree architecture.
 
 ##### The controllerClass Attribute
 **`<component controllerClass>`**
