@@ -1344,11 +1344,11 @@ NOTA: Solo se puede establecer un valor de "verdadero" para indicar a QCObjects 
  **`<component data-property1 data-property2 ...>`**
 Configura un valor estatico de las propiedades de los datos en una instancia de componente.
 
-NOTA: Data property tag declaration was thought with the purpose to give some simple way to mocking a dynamic component with template assignments. Don't use it thinking it is a bidirectional way data binding. While you can get a bidirectional way behaviour accesing a data object from a component instance, it is not the same for the component tag. Data property declaration in component tags is only one way data binding because of components tree architecture.
+NOTA: La declaración de la etiqueta de propiedad de datos se pensó con el propósito de dar una forma simple de hacer mocking de un componente dinámico con asignaciones de Template. No lo uses pensando que es una forma bidireccional de datos. Mientras puedas tener un comportamiento de forma bidireccional accediendo a los objetos de datos desde una instancia de componente, no es lo mismo que la etiqueta de componente. La declaración de propiedad de datos en una etiqueta de componente es solo una forma de unión de datos debido a los componentes de arquitectura de árbol.
 
 ##### The controllerClass Attribute
 **`<component controllerClass>`**
-Defines a custom Controller Class for the component instance
+Define un controlador de clase personalizado desde una instancia de componente.
 
 ###### Usage:
 ```html
@@ -1358,7 +1358,7 @@ Defines a custom Controller Class for the component instance
 
 ##### The viewClass Attribute
  **`<component viewClass>`**
-Defines a custom View Class for the component instance
+Define una vista de clase personalizada para la instancia del componente
 
 ###### Usage:
 ```html
@@ -1368,7 +1368,7 @@ Defines a custom View Class for the component instance
 
 ##### The componentClass Attribute
 **`<component componentClass>`**
-Defines a custom Component Class for the component instance
+Define un componente de clase personalizado para la instancia de un componente.
 
 ###### Usage:
 ```html
@@ -1377,7 +1377,7 @@ Defines a custom Component Class for the component instance
 
 ##### The effecClass Attribute
 **`<component effectClass>`**
-Defines a custom Effect Class for the component instance
+Define un efecto de clase personalizado para la instancia del componente
 
 ###### Usage:
 ```html
@@ -1386,7 +1386,7 @@ Defines a custom Effect Class for the component instance
 
 ##### The template-source Attribute
 **`<component template-source>`**
-Sets the tplsource property of the related instance of a component. Possible values are "none" or "default".
+Establece el tplsource de una propiedad relacionada con una instancia de un componente Posiblemente los valores son "none" o"default".
 
 ###### Usage:
 ```html
@@ -1395,7 +1395,7 @@ Sets the tplsource property of the related instance of a component. Possible val
 
 ##### The tplextension Attribute
 **`<component tplextension>`**
-Sets the tplextension property of the related instance of a component. Possible values are any file extension. Default value is "html"
+Establece la propiedad de tplextension relacionada con una instancia de un componente. Posibles valores son cualquier archivo de extensión. El valor por defecto es "html"
 
 ###### Usage:
 ```html
@@ -1404,7 +1404,7 @@ Sets the tplextension property of the related instance of a component. Possible 
 
 
 #### ComponentURI
-Is a helper function to let you define the templateURI for a component in a normalised way.
+Es una función ayudante la que te deja definir el templateURI por un componente en una forma normalizada
 
 ##### Example:
 ```javascript
@@ -1420,14 +1420,14 @@ console.log(templateURI); // this will show something like "templates/components
 
 
 #### componentLoader
-Loads a component instance in a low level, and appends the component template content to the component body. In the most of cases you won't need to call componentLoader in order to load a component. This is automatically called by QCObjects when it's needed. componentLoader returns a promise that is resolved when the component load is done and rejected when the component load was failed.
+Carga una instancia de componente en un nivel bajo y agrega el tempalte del componente a el cuerpo del componente. En la mayoría de los casos no necesitara llamar al componentLoader con el fin de cargar un componente. Esto es automáticamente llamado por QCObjects cuando sea necesario. ComponentLoader regresa una promesa que es resuelta cuando el componente se ha cargado y rechazado cuando el componente fallo.
 
 ##### Usage:
 ```javascript
  [Promise] componentLoader(componentInstance,load_async)
 ```
 
-Where componentInstance is a component instance created by _`New(ComponentDefinitionClass)`_
+Donde componentInstance es una instancia de componente creada por _`New(ComponentDefinitionClass)`_
 
 ##### Example:
 ```javascript
