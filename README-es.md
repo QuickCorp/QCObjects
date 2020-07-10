@@ -870,7 +870,7 @@ console.log(New(MyExtendedClass).sourceProp)
 ```
 
 ### \_Crypt
-With \_Crypt you can encode serializable objects by a passphrase
+con \_Crypt puedes codificar en serie objetos a passphrase 
 
 #### Example (1):
 
@@ -1444,7 +1444,8 @@ componentLoader(componentInstance,load_async).then(
 
 
 #### buildComponents
-Rebuilds every component that is a child element of the DOM element who owns the method. In the most of cases, you won't need to call buildComponents in order to build or rebuild every component in the DOM. This is automatically called by QCObjects when it's needed.
+Reconstruye cada componente que sea un elemento child del elemento DOM, quien posee el método. En la mayoría de los casos no necesitaras llamar a builcomponents con la intención de construir o reconstruir todos los componentes del DOM. Esto es automáticamente llamado por QCObjects cuando es necesario. 
+
 
 ##### Usage:
 ```javascript
@@ -1458,55 +1459,54 @@ document.buildComponents()
 
 
 ### Controller
-A built-in QCObjects Class to define a controller
+Una clase QCObject built-in para definir un contorlador.
 
 ### View
-A built-in QCObjects View to define a view
+Una vista QCObject built in para definir una vista.
 
 ### VO
-A built-in QCObjects Class to define a value object
+Una clase QCObject built-in para definir un valor de objeto.
 
 
 ### Service
-A QCObjects class type for services.
+Un tipo clase QCObject para servicio.
 
 
 #### Properties
 
 **[Service].domain**
-Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
+Regresa a una cadena que domina tu aplicación.Es automáticamente configurado por QCObject a la hora de carga.
 
 **[Service].basePath**
-Returns a string with the base path url of your application. It is automatically set by QCObjects at the load time.
+Regresa a la cadena con un camino base url para tu aplicación. Es automáticamente configurado por QCObject a la hora de carga.
 
 **[Service].url**
-Is a string representing the entire url of the service. It can be absolute or relative to the basePath when it applies. It can be also an external url.
+Una cadena representa el url completo del servicio. Puede ser absoluto o relativo para el basepath cuando es aplicado. Puede ser también un url externo.
 
-NOTE: To load a service of an external resource you need to specify the external parameter to true using serviceLoader.
+NOTA: Para cargar un servicio de un recurso externo necesitaras expecificar el parámetro al verdadero usando serviceLoader.
 
 **[Service].name**
-Is a string representing the name of a component. The name of a service can be any alphanumeric value that identifies the service instance. It isn't a unique ID but only a descriptive name.
+Una cadena representando el nombre de un componente. El nombre de un servicio puede ser de cualquier valor alphanumerico que identifique la instancia del servicio. No es un ID único pero solo un nombre descriptivo. 
 
 **[Service].method**
-Is a string representing a HTTP or HTTPS method. Possible values are: "GET", "POST", "PUT", ... any other that is accepted by REST services calls.
+Una cadena representando a un metodo HTTP o a HTTPS. Los posibles valores son :"GET", "POST", "PUT", ... cualquier otro sera aceptado mediante servicios de llamadas REST.
 
 **[Service].data**
-Is an object representing the data of the service. When QCObjects loads a service. It receives the response and interpretes it as a  template. So once a service response is obtained, it will get every property of data object and bind it to a template label representing the same property inside the template content between double brakets (example: {{prop1}} in the template content will represent data.prop1 in the service instance).
-
+Es un objeto representando al servicio de datos. Cuando QCObjects carga el servicio recibe una respuesta y lo interpreta como un template. Así que una vez la respuesta del servicio es obtenida, Tomara cualquier propiedad de un objeto de datos y lo atara a una etiqueta template representando la misma propiedad dentro del contenido entre los brackets dobles(Ejemplo: {{prop1}}en el contenido de la plantilla se representará data.prop1 en la instancia de servicio).
 
 **[Service].cached**
-Is a boolean value that tells QCObjects if the service response needs to be cached or not. When a service is cached, the template content loaded from the service url will be loaded only once. You have to set this value to false for every Service instance you define in order to asure the service is loaded from the resource but not the storage cache.
+Es un servicio boolean el que le dice a QCObjects si la respuesta necesita ser cacheada o no. Cuando el servicio es cacheado el contenido plantilla cargara desde el servicio url que sera cargado de una vez. Necesitas configurar el valor falso para cada instancia de servicio defines para asegurar la carga del servicio desde el recurso pero, no del almacenamiento caché.
 
 #### Methods
 **[Service].set('prop',value)**
-Sets a value for a service property.
+Establece un valor para una propiedad de servicio.
 
 **[Service].get('prop')**
-Returns the value of a service property
+Devuelve el valor de una propiedad de servicio
 
 
 ### serviceLoader
-Loads a service instance and returns a promise that is resolved when the service has a successful response load and is rejected when it fails loading the response.
+Carga una instancia de servicio y regresa a la promesa que es resuelta cuando los servicios han respondido exitosamente a la carga y rechazados cuando falla la respuesta de carga.
 
 #### Usage:
 ```javascript
