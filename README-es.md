@@ -12,21 +12,21 @@ Con QCObjects los desarrolladores están habilitados para programar front-end y 
 
 [QCObjects is being featured by British Herald as today, the most advanced framework for modern software development.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
 
-This document is the Main Reference Documentation!
+Este documento es la documentacion referencial principal!
 
-This repository and readme is hosted at [https://qcobjects.dev](https://qcobjects.dev)
+Este repositorio y archivo léame está alojado en [https://qcobjects.dev](https://qcobjects.dev)
 
-Check out the official page of [QCObjects](https://qcobjects.com) at https://qcobjects.com
+Echa un vistazo a la página oficial de [QCObjects](https://qcobjects.com) at https://qcobjects.com
 
-This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to info@quickcorp.cl.
+Este proyecto se adhiere al Pacto Colaborador[code of conduct](CODE_OF_CONDUCT.md). Al participar, se espera que respete este código. Por favor reportar algún comportamiento inaceptable a info@quickcorp.cl.
 
 **Contributors are welcome!**
 
-You can contribute to [QCObjects](https://qcobjects.dev) following the set of guidelines expressed in the file [CONTRIBUTING.md](CONTRIBUTING.md)
+Puedes contribuir a [QCObjects](https://qcobjects.dev) siguiendo el conjunto de pautas expresadas en el archivo [CONTRIBUTING.md](CONTRIBUTING.md)
 
 # QCObjects Explainer Video
 
-For those who have no time to read all of this today, here is a small video that explains what QCObjects is and what can be done with it.
+Para todos los que no tengan tiempo de leer esto hoy, aquí hay un pequeño video que explica que es QCObject y que puedes hacer con el.
 
 [![QCObjects Explainer Video](http://img.youtube.com/vi/D0rftABPGvQ/0.jpg)](http://www.youtube.com/watch?v=D0rftABPGvQ "QCObjects Explainer Video")
 
@@ -165,34 +165,34 @@ _________________________
 
 # Principals
 
-AquÍ estan Las directrices con lo que QCObjects fue hecho:
+Aquí están Las directrices con lo que QCObjects fue hecho:
 
-0. Debera escribir en JavaScript para codificar una aplicacion JavaScript.
+0. Deberá escribir en JavaScript para codificar una aplicación JavaScript.
 1. Todo es un objeto.
-2. Cada objeto tine una definicion.
-3. En la interfaz, cualquier objeto puede ir apilao en el DOM o en el Virtual-DOM sin necesidad de redeclarar sus definiciones.
+2. Cada objeto tiene una definición.
+3. En la interfaz, cualquier objeto puede ir apilado en el DOM o en el Virtual-DOM sin necesidad de redeclarar sus definiciones.
 4. Cada objeto tiene un cuerpo.
-5. La clase deberia ser la definicion principal de un objeto.
-6. La clase deberia ser facilmente escrita como un objeto.
-7. Tu Código deberia estar facilmente organizado en paquetes.
-8. Deberia ser posible escalar sus aplicaciones a una arquitectura limpia.
-9. Un componente es una entidad que tine un objeto como representacion. El contenido de un componente deberia ser possible rellenarlo remotamente como localmente. Como objeto el componente tiene cuerpo Tambien y el cuerpo del componente es normalmente una instancia apilada del DOM element.
+5. La clase debería ser la definición principal de un objeto.
+6. La clase debería ser fácilmente escrita como un objeto.
+7. Tu Código debería estar fácilmente organizado en paquetes.
+8. Debería ser posible escalar sus aplicaciones a una arquitectura limpia.
+9. Un componente es una entidad que tiene un objeto como representación. El contenido de un componente debería ser posible rellenarlo remotamente como localmente. Como objeto el componente tiene cuerpo También y el cuerpo del componente es normalmente una instancia apilada del DOM element.
 10. Un componente puede ser adjunto al DOM o separado del el sin afectar a su funcionalidad.
 11. Un servicio de llamada puede ser extendido a escalar su funcionalidad.
-12. Deberias ser capaz de importar un paquete remotamente.
-13. Deberias poder escalar tu codigo y Tambien controlar tus cambios en el servidor sin hacer llamadas innecesarias a fuentes remotas. No deberias necesitar codificar este tipos de controles usted mismo.
-14. Deberias ser capaz de codificar tu aplicacion N-Tier en un solo lenguage o sintaxis.
-15. Deberias ser capaz de aplicar cualquier plantilla que quieras a un componente, no importa la sintaxis o el idioma en el que esta escrito.
-16. Si una etiqueta HTML esta ya representada por una instancia de objeto DOM, no deberias necesitar diplicar la definicoin de la instancia para representar su contenido.
-17. Tu pagina principal HTML deberia estar limpia, pero deberias poder enlazar lo que controla el comportamiento de la etiqueta sin afectar el sintaxis del HTML.
-18. El orden de ejecucion de tu codigo debe ser facil de entender y leer desde el codigo y el proceso de renderizado de cada componente deberia tener y ejecutar control en cuantas capas necesites.
-19.Un patron en capas(como el MVC o MVCC) deberia estar presente para cada componente. No importa si defines cada capa o no.
+12. Deberías ser capaz de importar un paquete remotamente.
+13. Deberías poder escalar tu código y también controlar tus cambios en el servidor sin hacer llamadas innecesarias a fuentes remotas. No deberías necesitar codificar estos tipos de controles usted mismo.
+14. Deberías ser capaz de codificar tu aplicación N-Tier en un solo lenguaje o sintaxis.
+15. Deberías ser capaz de aplicar cualquier plantilla que quieras a un componente, no importa la sintaxis o el idioma en el que esta escrito.
+16. Si una etiqueta HTML esta ya representada por una instancia de objeto DOM, no deberías necesitar duplicar la defunción de la instancia para representar su contenido.
+17. Tu pagina principal HTML debería estar limpia, pero deberías poder enlazar lo que controla el comportamiento de la etiqueta sin afectar la sintaxis del HTML.
+18. El orden de ejecución de tu código debe ser fácil de entender y leer desde el codigo y el proceso de renderizado de cada componente debería tener y ejecutar control en cuantas capas necesites.
+19.Un patrón en capas(como el MVC o MVCC) debería estar presente para cada componente. No importa si defines cada capa o no.
 20. El comportamiento de un componente no debe estar determinado por su proceso de renderizado
-21. Es necesario que la pila de componentes se divida en el DOM hacia un arbol subjasente de elementos adjuntos.Entonces ahora existe y se llama Pila anidada de componentes de QCObject.  
-22. Deberias ser capaz de extender una istancia de componente. Pero deberas ser capaz de controlar su comportamiento dinamico sin afectar a la declaracion inicial.
-23. Deberias ser capaz de aplicar efectos visuales y animaciones simultaneas de una manera facil a una istancia de elemento DOM.
-24. Deberias ser capaz de controlar los efectos visuales y animaciones de CSS como JavaScript sin afectar a su desempeño.
-25.Deberias ser capaz de controlar el comportamiento de tu codigo Into-the-box y out-of-the-box y sobrevivir haciendolo.
+21. Es necesario que la pila de componentes se divida en el DOM hacia un árbol subyacente de elementos adjuntos.Entonces ahora existe y se llama Pila anidada de componentes de QCObject.  
+22. Deberías ser capaz de extender una instancia de componente. Pero deberás ser capaz de controlar su comportamiento dinámico sin afectar a la declaración inicial.
+23. Deberías ser capaz de aplicar efectos visuales y animaciones simultaneas de una manera facil a una instancia de elemento DOM.
+24. Deberías ser capaz de controlar los efectos visuales y animaciones de CSS como JavaScript sin afectar a su desempeño.
+25.Deberías ser capaz de controlar el comportamiento de tu código Into-the-box y out-of-the-box y sobrevivir haciéndolo.
 
 # Main features
 
@@ -214,31 +214,30 @@ AquÍ estan Las directrices con lo que QCObjects fue hecho:
 
 ## Prevent Render-blocking resources
 
-To prevent Render-blocking resources, QCObjects has implemented the [Package](#Package) factory function.
+Para prevenir los recursos Render-blocking , QCObjects ha implementado la función de fabrica [paquete](#Package) 
 
 ## On-Demand Resources Load
 
-Con la arquitectura orientada a los componentes dinamicos, QCObjects renderiza cada recurso visual que esta dentro de un componente, solo cuando el componente se esta construyendo y cada componente esta conectado a un arbol llamado global.componentsStack ese es el que realmente esta apuntando a cada instancia de componente y sus a sus sub componentes. Cada vez que un componete es re-hecho, los recursos visuales estan dinamicamente recargados bajo demanda de la manera mas eficiente, asi que puedes olvidar esos horribles codigos donde necesitabas controlar el proceso de recarga de los recursos con otros frameworks.
+Con la arquitectura orientada a los componentes dinámicos, QCObjects renderiza cada recurso visual que esta dentro de un componente, solo cuando el componente se esta construyendo y cada componente esta conectado a un árbol llamado global.componentsStack ese es el que realmente esta apuntando a cada instancia de componente y sus a sus sub componentes. Cada vez que un componente es re-hecho, los recursos visuales están dinámicamente recargados bajo demanda de la manera mas eficiente, así que puedes olvidar esos horribles códigos donde necesitabas controlar el proceso de recarga de los recursos con otros frameworks.
 
 ## Lazy-loading of images in components (use lazy-src instead of src attribute in img tag)
 
-Desde la versión 2.1.251, QCObjects te otorga una forma facil para el Lazy load de imagenes, usando el ultima estandar para los buscadores.
+Desde la versión 2.1.251, QCObjects te otorga una forma fácil para el Lazy load de imágenes, usando el ultima estándar para los buscadores.
 
 ```html
 <img src="img/preloader.svg" lazy-src="img/myrealimage.png"/>
 ```
+En lo anterior, una imagen (ligera) precargada, es usada para ser cargada en la primera instancia y un atributo **lazy-src** es usado para cargar la imagen real después del proceso Lazy load. QCObjects cargara todos las **<img>** etiquetas declaradas dentro de un componente en el lazy mode si tiene un atributo lazy-src, después que un componente es rearmado o cargado. También, QCObjects usara [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (Cuando este disponible) para determinar ya sea si el lazy-src o la imagen src son visualmente útiles para ser mostradas.
 
-En lo anterior, una imagen (ligera) precargada, es usada para ser cargada en la primera instancia y un atributo **lazy-src** es usado para cargar la imagen real despues del proceso Lazy load. QCObjects cargara todos las **<img>** etiquetas declaradas dentro de un componente en el  lazy mode si tiene un atributo lazy-src, despues que un componente es rearmado o cargado. Tambien, QCObjects usara [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (Cuando este disponible) to determine whether the para determinar ya sea si el lazy-src o la imagen src son visualmente utiles para ser mostradas.
+El efecto del Lazy loading es altamente visible solo si la primera vez el PWA es cargado. La próxima vez, la velocidad de carga aumentara significativamente haciendo difícil para el ojo humano ver el resultado. Sin embargo esta característica hará mucho la diferencia en términos de experiencia de usuario, si existen problemas de conexión o las imágenes son muy grandes esta característica es parte de las recomendadas por os escritores de PWA por [Mozzila Developers Network](https://developer.mozilla.org/) un articulo sobre Loadig progresivo. Puedes leer el articulo [here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Loading)
 
-El efecto del Lazy loading es altamente visible solo si la primera vez el PWA es cargado. La proxima vez, la velocidad de carga aumentara significativamente haciendo dificil para el ojo humano ver el resultado. Sin embargo esta caracteristica hara mucho ladiferencia en terminos de experiencia de usuario,si existen problemas de conexion o las imagenes son muy grandes esta caracteristica es parte de las recomendadas por os escritores de PWA por [Mozzila Developers Network](https://developer.mozilla.org/) un articulo sobre Loadig progresivo. puedes leer el articulo [here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Loading)
-
-Si no quieres usar lazy loading para las imagenes, siempre puedes mantener la forma usual de carga no añadiendo el atributo **lazy-src**  a la etiqueta **<img>** y usando el tradicional **src**.
+Si no quieres usar lazy loading para las imágenes, siempre puedes mantener la forma usual de carga no añadiendo el atributo **lazy-src**  a la etiqueta **<img>** y usando el tradicional **src**.
 
 
 # Cross Browser Javascript Framework for MVC Patterns
 ----------------------------------------
 
-[QCObjects](https://qcobjects.dev)Es un framework de Javascript diseñado para hacer todo mas fácil sobre la implementación de los MVC patters en el alcace de pure Javascript . No necesitas utilizar un typescript ni ningún transpiler para que corra. [QCObjects](https://qcobjects.dev). Corre directamente en el buscador y usa pure javascrpt sin ningúna dependencia de código extra. Puedes crear tus propios componentes expresados en objetos nativos reales de Javascript o  objetos nativos DOM extendidos para usarlos a tu manera. Puedes también usar QCObjects](https://qcobjects.dev) En conjunto con CSS3 frameworks como [Foundation] (https://foundation.zurb.com), [Bootstrap] (https://getbootstrap.com) Y frameworks de mobil javascript como [PhoneGap] (https://phonegap.com) and OnsenUI (https://onsen.io)
+[QCObjects](https://qcobjects.dev)Es un framework de Javascript diseñado para hacer todo mas fácil sobre la implementación de los MVC patters en el alcance de pure Javascript. No necesitas utilizar un typescript ni ningún transpiler para que corra. [QCObjects](https://qcobjects.dev). Corre directamente en el buscador y usa pure javascrpt sin ninguna dependencia de código extra. Puedes crear tus propios componentes expresados en objetos nativos reales de Javascript o  objetos nativos DOM extendidos para usarlos a tu manera. Puedes también usar QCObjects](https://qcobjects.dev) En conjunto con CSS3 frameworks como [Foundation] (https://foundation.zurb.com), [Bootstrap] (https://getbootstrap.com) Y frameworks de mobil javascript como [PhoneGap] (https://phonegap.com) y OnsenUI (https://onsen.io)
 
 ![screenshot](https://qcobjects.dev/doc/img/components.gif)
 
@@ -250,7 +249,7 @@ Si no quieres usar lazy loading para las imagenes, siempre puedes mantener la fo
 # ECMA-262 Specification
 --------------------------
 See
-[ECMAScript® 2020 Language Specification](https://tc39.github.io/ecma262/#sec-intro) for reference
+[ECMAScript® 2020 Language Specification](https://tc39.github.io/ecma262/#sec-intro) como referencia.
 
 # Copyright
 -----------
@@ -277,7 +276,7 @@ Revisa la demostración usando  MaterializeCSS aquí:
 
 ## Demo Using Raw CSS
 
-revisa esta demo usando raw CSS aquí: 
+Revisa esta demo usando raw CSS aquí: 
 [Demo Using Raw CSS](https://github.com/QuickCorp/qcobjects_profile_browser)
 
 ## Example of QCObjects using and manipulating canvas objects
@@ -380,15 +379,15 @@ A continuación el código muestra como QCObjects puede manipular un objeto de l
 
 # DevBlog
 --------------
-el [Official DevBlog of QCObjects](https://devblog.qcobjects.org/) esta alojado en [Hashnode](https://hashnode.com/). El DevBlog esta personalmente escrito por Jean Machuca, el autor de [QCObjects](https://qcobjects.com) Y el esta explicando en detalle como son las mejores pacticas y dando los mejores tips y trucos para usar las mas avanzadas caracteristicas de QCObjects.
+el [Official DevBlog of QCObjects](https://devblog.qcobjects.org/) esta alojado en [Hashnode](https://hashnode.com/). El DevBlog esta personalmente escrito por Jean Machuca, el autor de [QCObjects](https://qcobjects.com) Y el esta explicando en detalle como son las mejores practicas y dando los mejores tips y trucos para usar las mas avanzadas características de QCObjects.
 
 # Fork
 --------------
-Por favor has Fork a este projecto o crea un link a este projecto en to archivo README.md. Lee el archivo LICENSE.txt antes de usar este codigo.
+Por favor has Fork a este projecto o crea un link a este proyecto en to archivo README.md. Lee el archivo LICENSE.txt antes de usar este código.
 
 # Become a Sponsor
 ------------------
-Si quieres volverte sponsor de este maravilloso projecto puedes hacerlo [aquí](https://sponsorsignup.qcobjects.dev/)
+Si quieres volverte sponsor de este maravilloso proyecto puedes hacerlo [aquí](https://sponsorsignup.qcobjects.dev/)
 
 # Check out the QCObjects SDK
 ----------------------------
@@ -398,7 +397,7 @@ Puedes revisar[QCObjects SDK](https://sdk.qcobjects.dev/) y seguir los ejemplos 
 # Donate
 --------------
 
-si te gustó este codigo por favor [DONA](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
+si te gustó este código por favor [DONA](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
 
  [![paypal](https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)
 
@@ -438,13 +437,13 @@ docker pull -a quickcorp/qcobjects-playground && docker run -it --name qcobjects
 ![screenshot3](https://qcobjects.dev/doc/img/QCObjects-Docker-Playground.gif)
 
 ## One-Step Installation Script for Ubuntu 18.x
-ATENCION: Haz esto solo en una instalacion de Ubuntu 18.x fresca/vacia/actual. No lo haga en un ambienteexistente de produccion.
+ATENCIÓN: Haz esto solo en una instalación de Ubuntu 18.x fresca/vacia/actual. No lo haga en un ambiente existente de producción.
  Se te pedira permiso sudo grant.
 
 ```shell
 curl -L https://qcobjects.dev/install_qcobjects_ubuntu18x.sh |sh
 ```
-ATENCION: No somos responsables de el daño en la infrastructura por usar una instalacion automatizada de script en una network insegura. Asegurate de que tus repos y scripts estan bajo HTTPS con su certificado valido. Para mejores resultados te recomendamos descargar el script, editarlo para tus necesidades especiales y despues ejecutalo en tu maquina local.
+ATENCIÓN: No somos responsables de el daño en la infraestructura por usar una instalación automatizada de script en una network insegura. Asegúrate de que tus repos y scripts están bajo HTTPS con su certificado valido. Para mejores resultados te recomendamos descargar el script, editarlo para tus necesidades especiales y después ejecútalo en tu maquina local.
 
 ## One-Step Installation Script for macOS
 Probado en macOS Catalina 10.15.3
@@ -455,18 +454,19 @@ curl -L https://qcobjects.dev/install_qcobjects_macOS.sh | zsh
 
 ## Install and test QCObjects on Microsoft Windows OS
 
-1.- Instala la ultima version de NodeJS para Windows[Aquí](https://nodejs.org/)
+1.- Instala la ultima versión de NodeJS para Windows[Aquí](https://nodejs.org/)
 2.- Desde el cmd instala qcobjects-cli usando npm 
+
 
 ```powershell
 npm i qcobjects-cli -g
 ```
-3.- Crea un directorio de para tu projecto
+3.- Crea un directorio de para tu proyecto
 
 ```powershell
 md mynewproject && cd mynewproject
 ```
-4.- Crea una nueva aplicacion web progresiva de QCObjects
+4.- Crea una nueva aplicación web progresiva de QCObjects
 
 ```powershell
 qcobjects create mynewproject --pwa
@@ -477,30 +477,30 @@ qcobjects create mynewproject --pwa
 
 ## QCObjects Multi-Cloud Installation
 
-QCObjects es nativamente soportado por los mas famosos proveedores de nubes. Puedes instalar la mayoria de ellos, preparar y correr todo en un solo paso.
+QCObjects es nativamente soportado por los mas famosos proveedores de nubes. Puedes instalar la mayoría de ellos, preparar y correr todo en un solo paso.
 
 ### DigitalOcean One-Click Droplet
 
-Si quieres olvidar apt-get y de configurar la guia, ve directo a desplegar tu proyecto usando una preconfigurada app 1-click incluyendo QCObjects CLI, QCObjects-SDK y QCObjects HTTP2 servidor Built-in. Luego giralo a Droplet VM o a Kubernetes cluster en 60 segundos o menos.
+Si quieres olvidar apt-get y de configurar la guía, ve directo a desplegar tu proyecto usando una preconfigurada app 1-click incluyendo QCObjects CLI, QCObjects-SDK y QCObjects HTTP2 servidor Built-in. Luego giralo a Droplet VM o a Kubernetes cluster en 60 segundos o menos.
 
 [Crea tu propio Droplet de QCObjects DigitalOcean Aquí](https://marketplace.digitalocean.com/apps/qcobjects)
 
 ### AWS Amazon Machine Images (AMI)
 
-un Amazon Machine Image (AMI)  otorga informacion requerida para lanzar una instancia.  tienes que especificar un AMI  cuando quieras lanzar un instancia. Puedes lanzar multiples instancias para un solo AMI cuando necesites multiples instancias con la misma configuracion. Puedes usar diferentes AMIs para lanzar instancias cuando necesites instancias con diferentes configuraciones.
+Un Amazon Machine Image (AMI) otorga información requerida para lanzar una instancia.  Tienes que especificar un AMI cuando quieras lanzar una instancia. Puedes lanzar múltiples instancias para un solo AMI cuando necesites múltiples instancias con la misma configuración. Puedes usar diferentes AMIs para lanzar instancias cuando necesites instancias con diferentes configuraciones.
 
-un AMI incluye lo siguiente:
+Un AMI incluye lo siguiente:
 
-- uno o mas EBS snapshots, o, para instance-store-backed AMIs, una plantilla para la raiz volumen de la instancia(por ejemplo, un sistema operativo, un servidor de aplicaciones y aplicaciones).
+- uno o mas EBS snapshots, o, para instance-store-backed AMIs, una plantilla para la raíz volumen de la instancia(por ejemplo, un sistema operativo, un servidor de aplicaciones y aplicaciones).
 - Lanza permisos que controla que cuenta AWS puede usar el AMI para lanzar instancias.
-- A block device mapping that specifies the volumes to attach to the instance when it's launched. Un bloqueo de dispositivos mapping que especifica los volumenes adjuntos a la instancia cuando es lanzada.
+- A block device mapping that specifies the volumes to attach to the instance when it's launched. Un bloqueo de dispositivos mapping que especifica los volúmenes adjuntos a la instancia cuando es lanzada.
 
 [empieza construyendo QCObjects AMI aquí](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
 
 ### Amazon Web Services AWS PIB (Private Amazon Machine Image)
 
 
-Imagen privada que te permite construir un nuevo AMI instalando un software AWS Market place en una imagen que tu elijas del AMI disponiblesen tu cuenta AWS, esto permite que conocer a mejores especificaciones internas para seguridad, gestiones y cumplimientos.  Como con los Marketplace AWS AMIs estandar, cada imagen privada se compremetera a subscripcion por el producto instalado y tiene uso de software facturado via AWS Marketplace.
+Imagen privada que te permite construir un nuevo AMI instalando un software AWS Market place en una imagen que tu elijas del AMI disponibles en tu cuenta AWS, esto permite que conocer a mejores especificaciones internas para seguridad, gestiones y cumplimientos.  Como con los Marketplace AWS AMIs estándar, cada imagen privada se comprometera a subscripción por el producto instalado y tiene uso de software facturado vía AWS Marketplace.
 
 [Empieza creando tu QCObjects Amazon Private Image aquí](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
 
@@ -535,29 +535,29 @@ Imagen privada que te permite construir un nuevo AMI instalando un software AWS 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/[VERSION]/QCObjects.js"></script>
 ```
 
-Where [VERSION] is the corresponding latest version using numeric notation, example: to use version 2.1.420:
+Donde [VERSIÓN] corresponde a la ultima versión usando notaciones numericas, ejemplo: to use version 2.1.420:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.js"></script>
 ```
 
-You don't need to minify QCObjects, but if you still want to use the minified code, you can do this:
+No necesitas minificar QCObjects, pero si aun quieres usar el codigo minificado puedes hacer esto:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.min.js"></script>
 ```
 
-Again, Change 2.1.420 to the number of the version that you want to use.
+Otra vez cambia 2.1.420 al numero de la versión que quieras usar. 
 
 
 # Reference
 ------------
 
-Aqui estan los simbolos y conceptos esenciales de referencia [QCObjects](https://qcobjects.dev) 
+Aquí están los símbolos y conceptos esenciales de referencia [QCObjects](https://qcobjects.dev) 
 
 ### QC_Object
 
-Tipos basicos de todos los elementos
+Tipos básicos de todos los elementos
 
 ### ComplexStorageCache
 
@@ -602,7 +602,7 @@ console.log(dataObjectCopyFromCache); // will show the very same object value th
 
 ### asyncLoad
 
-La funcion **asyncLoad** carga el codigo una vez en el modo asyc. Esto es util para asegurar que el proceso inicial no replica la ejecucion y no es recargado despues de un codigo sensible.
+La función **asyncLoad** carga el código una vez en el modo asyc. Esto es útil para asegurar que el proceso inicial no replica la ejecución y no es recargado después de un código sensible.
 
 #### Usage:
 ```javascript
@@ -629,16 +629,17 @@ doSomething(1,2); // the code of doSomething will be executed once after the res
 
 ### Class
 
-Esto NO es una clase de definicion de ECMAScript 2015 (mira [clase ECMAScript 2015](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) for reference).
+Esto NO es una clase de definición de ECMAScript 2015 (mira [clase ECMAScript 2015](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) for reference).
 
-Clase es una funcion especias que te ayuda a declarar la clase de una manera mas facil y compatible. Funciona con cross-browser, y esperamos que ECMA pueda adoptar algo similar en el futuro. Para no dejar al Javascript confuso sobre esto, [QCObjects](https://qcobjects.dev) usa "Class" no "class" (note the Camel Case).
+Clase es una función especias que te ayuda a declarar la clase de una manera mas fácil y compatible. Funciona con cross-browser, y esperamos que ECMA pueda adoptar algo similar en el futuro. Para no dejar al Javascript confuso sobre esto, [QCObjects](https://qcobjects.dev) usa "Class" no "class" (note the Camel Case).
+
 
 #### Usage:
 
 ```javascript
 Class('MyClassName',MyClassDefinition);
 ```
-donde **MyClassDefinition** es un objeto junto a el **prototype** de QCObjects 
+Donde **MyClassDefinition** es un objeto junto a el **prototype** de QCObjects 
 
 #### Example:
 ```javascript
@@ -668,7 +669,7 @@ console.log(newObject.classMethod2()); // this will show "some value"
 
 ### QC_Append, append method
 
-Este es un metodo especial que hara tu vida mas facil cuando quieras manipular el **DOM** dinamicamente. Puedes insertar un componente incluso **Component**, a un objeto **QCObjects** o a el elemento **DOM** dentro de otro **HTMLElement**.
+Este es un método especial que hará tu vida mas fácil cuando quieras manipular el **DOM** dinámicamente. Puedes insertar un componente incluso **Component**, a un objeto **QCObjects** o a el elemento **DOM** dentro de otro **HTMLElement**.
 
 ##### Usage:
 ```javascript
@@ -696,7 +697,7 @@ document.body.append(canvas1);
 
 ### The \_super\_ method
 
-Cuando extiendes una clase QCObject desde otra , puedes usar \_super\_ metodo para tener una instancia desde la definicion de la clase central. 
+Cuando extiendes una clase QCObject desde otra, puedes usar \_super\_ metodo para tener una instancia desde la definición de la clase central. 
 
 #### Usage:
 ```javascript
@@ -736,7 +737,7 @@ console.log(newObject.classMethod2()); // this will show the number 1
 
 ### New
 
- Crea una instancia de objeto de una definicion de clase de QCObject.
+ Crea una instancia de objeto de una definición de clase de QCObject.
 
 #### Usage:
 
@@ -744,7 +745,7 @@ console.log(newObject.classMethod2()); // this will show the number 1
 let objectInstance = New(QCObjectsClassName, properties);
 // where properties is a single object with the property values
 ```
-NOTA: En las propiedades del objeto puedes usar un solo valor o un captador tambien pero, solo se ejecutaran una vez.
+NOTA: En las propiedades del objeto puedes usar un solo valor o un captador también pero, solo se ejecutaran una vez.
 
 #### Example:
 
@@ -762,13 +763,13 @@ console.log(objectInstance.randomNumber); // it will show console.log(objectInst
 
 
 ### InheritClass
-Una sola definicion de clase comun QCObjects es utilizada.
+Una sola definición de clase común QCObjects es utilizada.
 
 ### ClassFactory
-usa la **ClassFactory** para tener una declaracion de clase de fabrica para la clase 
-Tambien puedes usar la clase de fabrica desde un paquete o desde la fila apilada.
+Usa la **ClassFactory** para tener una declaración de clase de fabrica para la clase 
+También puedes usar la clase de fabrica desde un paquete o desde la fila apilada.
 
-Para recuperrar la clase de fabrica de la clase fila apilada simplemente usa el nombre de la clase llamandola directamente en el codigo.
+Para recuperar la clase de fabrica de la clase fila apilada simplemente usa el nombre de la clase llamándola directamente en el código.
 
 #### Example:
 
@@ -827,9 +828,9 @@ console.log(MyClass == ClassFactory('org.quickcorp.package2.MyClass'))
 console.log(ClassFactory('org.quickcorp.package1.MyClass') == ClassFactory('org.quickcorp.package2.MyClass'))
 ```
 
-Los ejemplos anteriores estan intencionalmente hechos para explicar y mostrar como el alcance de la definicion de clase en QCObjects es protejida, llevada y reflejada en una ClassFactory.
+Los ejemplos anteriores están intencionalmente hechos para explicar y mostrar como el alcance de la definición de clase en QCObjects es protejida, llevada y reflejada en una ClassFactory.
 
-Asi quevas a querer usar la ClassFactory cuando necesites completar un control sobre el alcance cuando se extienden las Clases.
+Así que vas a querer usar la ClassFactory cuando necesites completar un control sobre el alcance cuando se extienden las Clases.
 
 **Example**
 
@@ -888,7 +889,7 @@ With \_Crypt you can encode serializable objects by a passphrase
 
 ### GLOBAL
 
-**GLOBAL** es una clase especial de QCObject para conseguir alzance global. Tiene un conjunto y consigue un metodo que te ayude a manejar propiedades internas Globales. 
+**GLOBAL** es una clase especial de QCObject para conseguir alancé global. Tiene un conjunto y consigue un método que te ayude a manejar propiedades internas Globales. 
 
 #### Example:
 
@@ -899,38 +900,39 @@ var globalProperty1 = GLOBAL.get('globalProperty1');
 
 ### CONFIG
 
-CONFIG is una clase inteligente que maneja los ajustes generales de tu aplicacion. Puedes tener las propiedades ya sea desde config.json o desde la memoria previaente guardado en la llamada set().
+CONFIG es una clase inteligente que maneja los ajustes generales de tu aplicación. Puedes tener las propiedades ya sea desde config.json o desde la memoria previamente guardado en la llamada set().
 
 #### Usage from memory:
 
-1.- In your initial code set the CONFIG initial values:
+1.- En su código inicial, configura los valores iniciales de CONFIG:
 ```javascript
 CONFIG.set('someSettingProperty','some initial value');
 ```
-2.- Then you can access it from anywhere in your code by using the get method:
+2.- Luego puede acceder a él desde cualquier parte de su código utilizando el método get:
 ```javascript
 var someSettingProperty = CONFIG.get('someSettingProperty');
 ```
 
 #### Usage from config.json:
 
-1.- Necesitas indicar primero que estas usando el archivo config.jso midiante el ajuste "useConfigService" el valor para la verdad.
+1.- Necesitas indicar primero que estas usando el archivo config.jso mediante el ajuste "useConfigService" el valor para la verdad.
 
 ```javascript
 CONFIG.set('useConfigService',true); // using config.json for custom settings config
 ```
-2.-Una vez lo peparaste el valor anterior QCObjects lo sabra y mirara el siguiente ajuste dentro del archivo config.json en la carpeta basePath de tu aplicacion.
+2.-Una vez  peparaste el valor anterior QCObjects lo sabra y mirara el siguiente ajuste dentro del archivo config.json en la carpeta basePath de tu aplicación.
+
 #### Usage from an encrypted config.json:
 
-Tambien existe una forma de usar el archivo encriptado config.json con el fin de protejer tus ajustes, robots que pueden robar tu data no protegida desde la aplicacion web  (como las llaves de arrastre API) 
+También existe una forma de usar el archivo encriptado config.json con el fin de proteger tus ajustes, robots que pueden robar tu data no protegida desde la aplicación web (como las llaves de arrastre API) 
 
-El archivo encriptado json va en  https://config.qcobjects.dev, pon tu configuracion dominantes y tu contenido config.json. La herramienta encriptara tu json y podras copiar el cotenido incriptado para insertarlo en tu archivo config.json. QCObjects sabra si la data esta encriptada y tu proceso para decodificar la data sera mas transparente para ti.
+El archivo encriptado json va en https://config.qcobjects.dev, pon tu configuración dominantes y tu contenido config.json. La herramienta encriptará tu json y podrás copiar el contenido incriptado para insertarlo en tu archivo config.json. QCObjects sabrá si la data esta encriptada y tu proceso para decodificar la data sera mas transparente para ti.
 
 #### Dynamic CONFIG Settings
 
- A veces necesitaras establecer el valor de la fuente que no sea estatica, como el ENV vars o otras fuentes personalizadas de data dinamica. Para tener valor usando CONFIG de una fuente dinamica tienes que usar un procesador. Existen procesadores comunes predefinidos como $ENV (solo si esta disponible en CLI, Collab o Node) y $config (disponible en todos los ambientes). 
+ A veces necesitaras establecer el valor de la fuente que no sea estática, como el ENV vars u otras fuentes personalizadas de data dinámica. Para tener valor usando CONFIG de una fuente dinámica tienes que usar un procesador. Existen procesadores comunes predefinidos como $ENV (solo si esta disponible en CLI, Collab o Node) y $config (disponible en todos los ambientes). 
  
-Los procesadore son llamados como una meta de valor ya sea en el config.json o en la Clase CONFIG.
+Los procesadores son llamados como una meta de valor ya sea en el config.json o en la Clase CONFIG.
 
 ```json
 // file: config.json
@@ -970,11 +972,11 @@ La clase estatica que usa para establecer el procesador personalizado para CONFI
 Processor.setProcessor(processor)
 ```
 
-Where **processor** is a named function that receives the arguments of the processor
+Donde **processor** es el nombre de la función que recibe el argumento del procesador
 
 #### Example:
 
-Tienes que usar ese valor en tus ajustes de configuracion en el valor **serviceURL** pero tambien necesitas configurar el **host** y los ajustes de **port** usando el valor analizado de esa url. Para analizar el valor de el ambiente SERVICE_URL la variable bajo demanda y rellenarlo con los ajustes de configuracion en tu config.json, tu config.json se vera algo asi:
+Tienes que usar ese valor en tus ajustes de configuración en el valor **serviceURL** pero también necesitas configurar el **host** y los ajustes de **port** usando el valor analizado de esa url. Para analizar el valor de el ambiente SERVICE_URL la variable bajo demanda y rellenarlo con los ajustes de configuración en tu config.json, tu config.json se vera algo así:
  ```json
 // file: config.json
 {
@@ -984,7 +986,7 @@ Tienes que usar ese valor en tus ajustes de configuracion en el valor **serviceU
 }
 ```
 
-El **$SERVICE_HOST** y el **$SERVICE_PORT** procesadores no existen . Para definirlos tienes que usar:
+El **$SERVICE_HOST** y el **$SERVICE_PORT** procesadores no existen. Para definirlos tienes que usar:
 
 ```javascript
 // execute the next code in your init.js file or before to load the CONFIG settings
@@ -1004,14 +1006,14 @@ Processor.setProcessor(SERVICE_HOST);
 Processor.setProcessor(SERVICE_PORT);
 ```
 
-Then you only need to set your environment variable SERVICE_URL in your shell
+Entonces solo necesita establecer su variable de entorno SERVICE_URL en su shell 
 
 ```shell
 # for Unix/Linux systems
 export SERVICE_URL="https://example.com:443/path-to-a-resource/"
 ```
 
-and your settings will be dynamically loaded like this:
+y su configuración se cargará dinámicamente de esta manera:
 
 ```json
 {
@@ -1021,12 +1023,12 @@ and your settings will be dynamically loaded like this:
 }
 ```
 
-Y consige tus valores correspondientes en  **CONFIG.get(value)**
+Y consigue tus valores correspondientes en **CONFIG.get(value)**
 
 ### waitUntil
-waitUntil es un ayudante solo en caso de que estes en problemas tratando de correr el codigo antes de que la condicion sea real.El codigo dentro del waitUntil sera ejecutado una vez.
+waitUntil es un ayudante solo en caso de que estés en problemas tratando de correr el código antes de que la condición sea real.El código dentro del waitUntil sera ejecutado una vez.
 
-NOTE: Esto es util en algunos casos pero no es recomendado para uso exesivo.
+NOTA: Esto es útil en algunos casos pero no es recomendado para uso excesivo.
 
 #### Usage:
 ```javascript
@@ -1047,13 +1049,14 @@ waitUntil(()=>{
 
 
 ### Package
-Define el paquete de QCObjects y regresalo.
+Define el paquete de QCObjects y regrésalo.
 
 #### Usage:
 ```javascript
 Package('packageName',[packageContent]);
 ```
-Donde packageContent es una gama de clases de QCObjects. Si solo pasas el packageName param conseguiras el contenido declarado anteriormente.
+Donde packageContent es una gama de clases de QCObjects. Si solo pasas el packageName param conseguirás el contenido declarado anteriormente.
+
 
 #### Example (1):
 ```javascript
@@ -1074,7 +1077,7 @@ let mainPackage = Package('org.quickcorp.main'); // this will return the previou
 // This is useful for code introspection
 ```
 
-La tecnica de carga de paquetes presente en QCObjects esta basada en una promesa y orientada al alcance. Puedes preguntar si un paquete fue cargado simplemente llamando la funcion Packege() pasando el nombre del paquete a un argumento.
+La técnica de carga de paquetes presente en QCObjects esta basada en una promesa y orientada al alcance. Puedes preguntar si un paquete fue cargado simplemente llamando la función Packege() pasando el nombre del paquete a un argumento.
 
 
 ### Import
@@ -1084,13 +1087,13 @@ Importa un paquete desde otro archivo JS.
 ```javascript
 Import (packagename,[ready],[external]);
 ```
-Donde el packagename es el nombre del paquete, listo es una funcion que podra ser ejecutada despues de que el paquete es cargado y el externo es un valor bolean que indica si el archivo JS esta en el mismo origen o esta desde otro recurso externo.
+Donde el packagename es el nombre del paquete, listo es una función que podrá ser ejecutada después de que el paquete es cargado y el externo es un valor bolean que indica si el archivo JS esta en el mismo origen o esta desde otro recurso externo.
 
 #### Example (1):
 ```javascript
 Import('org.quickcorp.main');
 ```
-El codigo anterior intentara importar un archivo JS llamado 'org.quickcorp.main.js' desde un camino specifico en el valor de ajuste  **relativeImportPath** presente en tu **CONFIG**. Dentro del archivo tienes que definir el paquete mediante el uso del paquete  ('org.quickcorp.main',[Class1, Class2...])
+El código anterior intentara importar un archivo JS llamado 'org.quickcorp.main.js' desde un camino especifico en el valor de ajuste  **relativeImportPath** presente en tu **CONFIG**. Dentro del archivo tienes que definir el paquete mediante el uso del paquete ('org.quickcorp.main',[Class1, Class2...])
 
 #### Example (2):
 ```javascript
@@ -1098,12 +1101,12 @@ Import('org.quickcorp.main',function (){
   console.log('remote import is loaded');
 },true);
 ```
-El codigo anterior esta vez esta tratando de cargar en el mismo paquete usando el camino externo mediante el **remoteImportsPath** ajustes presentes en tu **CONFIG**
+El código anterior esta vez esta tratando de cargar en el mismo paquete usando el camino externo mediante el **remoteImportsPath** ajustes presentes en tu **CONFIG**
 
-NOTE: En los dos ejemplos anteriores no necitas usar o especificar la extension ".js".Esto esta usado por defecto y no puede ser cambiado por razones de seguridad.
+NOTA: En los dos ejemplos anteriores no necesitas usar o especificar la extensión ".js". Esto esta usado por defecto y no puede ser cambiado por razones de seguridad.
 
 ### Export
-Pon un simbolo(barra o funcion) en el alcance global.
+Pon un símbolo(barra o función) en el alcance global.
 
 #### Usage:
 
@@ -1128,7 +1131,7 @@ someFunction('this works');
 
 ### Cast
 
-Usa el metodo Cast de cualquier elemento DOM para obtener las propiedades de otro tipo de objeto. Esto es util para trasformar un tipo objeto a otro otorgandole mas flexibilidad a tu codigo.
+Usa el método Cast de cualquier elemento DOM para obtener las propiedades de otro tipo de objeto. Esto es útil para trasformar un tipo objeto a otro otorgándole mas flexibilidad a tu código.
 
 #### Usage:
 
@@ -1148,10 +1151,10 @@ Class('MyOwnClass',{
 let obj = document.createElement('div').Cast(MyOwnClass);
 ```
 
-El codigo anterior creara un objeto DOM y lo emetira a MyOwnClass. Gracias a que MyOwnClass es un tipo clase de QCObject el ofjeto ahora tendra propiedades prop1 y prop2 y ahora sera una instacia de objeto QCObject con una propiedad del cuerpo que es un elemento div.
+El código anterior creara un objeto DOM y lo emitirá a MyOwnClass. Gracias a que MyOwnClass es un tipo clase de QCObject el objeto ahora tendrá propiedades prop1 y prop2 y ahora sera una instancia de objeto QCObject con una propiedad del cuerpo que es un elemento div.
 
 ### Tag
-Etiquetar es una funcion util para selecionar cualquier elemento DOM usando selectores. Etiquetar siempre regresa a la lista de elementos que puedas mapear, ordenar y filtrar como cualquier otra lista.
+Etiquetar es una función útil para seleccionar cualquier elemento DOM usando selectores. Etiquetar siempre regresa a la lista de elementos que puedas mapear, ordenar y filtrar como cualquier otra lista.
 
 #### Usage:
 
@@ -1159,7 +1162,7 @@ Etiquetar es una funcion util para selecionar cualquier elemento DOM usando sele
 var listOfElements = Tag(selector);
 ```
 
-Where selector is a DOM query selector.
+Donde el selector es un DOM selector de respuestas.
 
 #### Example:
 
@@ -1185,10 +1188,10 @@ Where selector is a DOM query selector.
 </html>
 ```
 
-En el codigo anterior el elemento parrafo fue creado dentro de un div con una clase css llamada myselector mediante html y luego es modificada dinamicamente usando la funcion etiqueta de QCObject. Si estas familiarizado con un framework selector query te encantara este.
+En el código anterior el elemento párrafo fue creado dentro de un div con una clase css llamada myselector mediante html y luego es modificada dinámicamente usando la función etiqueta de QCObject. Si estas familiarizado con un framework selector query te encantara este.
 
 ### Ready
-Asigna una funcion para correr despues de que todo esta hecho mediante QCObject y despues del evento window.onload. Usalo para prevenir un error de objeto DOM 'indefinido'.
+Asigna una función para correr después de que todo esta hecho mediante QCObject y después del evento window.onload. Úsalo para prevenir un error de objeto DOM 'indefinido'.
 
 #### Usage:
 ```javascript
@@ -1196,9 +1199,9 @@ Ready(()=>{
   // My init code here!
 });
 ```
-Tenga encuenta que si define los componentes dinamicos mediante el uso de una etiqueta "componente" en HTML, el contenido dinamico no activara eventos listos. Para atrapar el codigo cada vez que se carga un componente dinamico usa un metodo decontroladr hecho en su lugar.
+Tenga en cuenta que si define los componentes dinámicos mediante el uso de una etiqueta "componente" en HTML, el contenido dinámico no activara eventos listos. Para atrapar el código cada vez que se carga un componente dinámico usa un método decontrolado hecho en su lugar.
 
-Usaras implementacion lista principalmente cuando quieras implementar QCObjects en conjunto con otro framework que lo necesite. 
+Usaras implementación lista principalmente cuando quieras implementar QCObjects en conjunto con otro framework que lo necesite. 
 
 ### Component Class
 Un tipo clase de QCObject por componentes.
@@ -1206,41 +1209,41 @@ Un tipo clase de QCObject por componentes.
 #### Properties
 
 **[Component].domain**
-Regresa una cadena con el dominio de tu aplicacion. Se establece automaticamente por QCObjects al momento de cargar.
+Regresa una cadena con el dominio de tu aplicación. Se establece automáticamente por QCObjects al momento de cargar.
 
 **[Component].basePath**
-Regresa una cadena con un camino url base de tu aplicacion. Se establece automaticamente por QCObjects al momento de cargar.
+Regresa una cadena con un camino url base de tu aplicación. Se establece automáticamente por QCObjects al momento de cargar.
 
-NOTA: Si quieres cambiar los componentes en base a un camino, tienes que usar _CONFIG.set('componentsBasePath','new path relative to the domain')_ en tu unidad de codigo.
+NOTA: Si quieres cambiar los componentes con base en un camino, tienes que usar _CONFIG.set('componentsBasePath','new path relative to the domain')_ en tu unidad de código.
 
 **[Component].templateURI**
-Es una cadena  representando un componente plantilla URI relativo al dominio. Cuando este listo, el componente sera cargado a la plantilla y lo agregara al contenido interno dentro del cuerpo childs como parte del DOM. Para establecer esta propiedad es recomendado usar la funcion ayudante ComponentURI.
+Es una cadena representando un componente plantilla URI relativo al dominio. Cuando este listo, el componente sera cargado a la plantilla y lo agregara al contenido interno dentro del cuerpo childs como parte del DOM. Para establecer esta propiedad es recomendado usar la función ayudante ComponentURI.
 
 **[Component].tplsource**
-Es la cadena representando a la fuente donde el template sera cargado. Puede ser "default" o "none". El valor "default" le dira a QCOBject que cargue el template desde el contenido templateURI. El valor "none" le dira a QCObject que no cargue el template desde ningun lado.
+Es la cadena representando a la fuente donde el template sera cargado. Puede ser "default" o "none". El valor "default" le dirá a QCOBject que cargue el template desde el contenido templateURI. El valor "none" le dirá a QCObject que no cargue el template desde ningún lado.
 
 **[Component].url**
-Es una cadena representando una url completa de un componente. Es automaticamente establecido por QCObjects cuando un componente es instanciado.
+Es una cadena representando una url completa de un componente. Es automáticamente establecido por QCObjects cuando un componente es instanciado.
 
 **[Component].name**
-Es una cadena que representa el nombre de un componente. El nombre de un componente puede ser cualquier valor alphanumerico que identifique un tipo de componente. Sera internamente utilizado mediante ComponentURI para contruir un tempalte URI normalizado.
+Es una cadena que representa el nombre de un componente. El nombre de un componente puede ser cualquier valor alphanumerico que identifique un tipo de componente. Sera internamente utilizado mediante ComponentURI para construir un tempalte URI normalizado.
 
 **[Component].method**
-Es una cadena que representa a un metodo HTTP o HTTPS. Por defecto cada componente esta configurad para usar el metodo "GET". En la mayoria de los casos no necesitas cambiar esta propiedad.
+Es una cadena que representa a un método HTTP o HTTPS. Por defecto cada componente esta configurad para usar el método "GET". En la mayoría de los casos no necesitas cambiar esta propiedad.
 
 **[Component].data**
-Es un objeto que representa los datos del componente. Cuando QCObject carga un template este conseguira cada propiedad de los datos y la atará al nivel de template representado por la misma propiedad dentro del contenido del template entre los brackets dobles, ejemplo:  (example: {{prop1}} in the template content will represent data.prop1 in the component instance). 
-NOTA: Para refrescar los enlaces de datos para recostruir el component (mira el uso de [Component].rebuild() para mas detalles ). 
+Es un objeto que representa los datos del componente. Cuando QCObject carga un template este conseguirá cada propiedad de los datos y la atará al nivel de template representado por la misma propiedad dentro del contenido del template entre los brackets dobles, ejemplo:  (example: {{prop1}} in the template content will represent data.prop1 in the component instance). 
+NOTA: Para refrescar los enlaces de datos para reconstruir el component (mira el uso de [Component].rebuild() para mas detalles ). 
 
 **[Component].reload**
-Is a boolean value that tells QCObjects when to force reload the content of a component from the template or not. If its value is true, the template content will be replacing the current DOM childs of the component body element. If its value is false, the template content will be added after the las component body child.
+Es un valor boolean el que dice cuando qcobjects es obligado a recargar el contenido de un componente en el template o no. Si el valor es cierto, el contenido del template sera remplazado por los actuales hijos DOM del elemento cuerpo. Si este valor es falso, el contenido del template sera añadido después de los hijos del componente cuerpo.
 
 **[Component].cached**
-Es un valor booleado el que le dice a QCObject si el componjente necesita ser atrapado o no. Cuando el componente es atrapado, el contenido del template es cargado desde templateURI sera cargado una sola vez. Puedes configurar esta propiedad incluso como una propiedad estatica de un componente de clase para configurarlo como un valor predeterminado para cada siguiente componente instancia de objeto o configurarlo de manera individual el valor de la propiedad en cada definicion de componente. En un mundo donde el desempeño cuenta, para darle mas flexibilidad al comportamiento del cache es necesitado mas que nunca.
+Es un valor booleado el que le dice a QCObject si el componente necesita ser atrapado o no. Cuando el componente es atrapado, el contenido del template es cargado desde templateURI sera cargado una sola vez. Puedes configurar esta propiedad incluso como una propiedad estática de un componente de clase para configurarlo como un valor predeterminado para cada siguiente componente instancia de objeto o configurarlo de manera individual el valor de la propiedad en cada definición de componente. En un mundo donde el desempeño cuenta, para darle mas flexibilidad al comportamiento del cache es necesitado mas que nunca.
 
 **[Component].routingWay**
-Regresa un cadena representando la forma de enrutamiento. Un valor puede ser  "hash", "pathname" o "search".
-NOTA: Para cambiar el routingWay de cada componente es recomendado usar CONFIG.set('routingWay','value of a valid routing way')en tu unidad de codigo.
+Regresa una cadena representando la forma de enrutamiento. Un valor puede ser "hash", "pathname" o "search".
+NOTA: Para cambiar el routingWay de cada componente es recomendado usar CONFIG.set('routingWay','value of a valid routing way')en tu unidad de código.
 
 **[Component].validRoutingWays**
 Regresa a la lista que representa la forma de enrutamiento. QCObject usa esto internamente para validar el routingWay el cual usa para construir los enrutamientos de componente.
@@ -1258,7 +1261,7 @@ Regresa una cadena que representa el camino del enrutamiento actual.
 Regresa un objeto que representa el componente de enrutamiento actual.
 
 **[Component].subcomponents**
-Returns a list of components that are childs of the component instance.
+Regresa a la lista de componentes que son childs de las instancias de componentes.
 
 **[Component].body**
 Es un elemento DOM que representa el cuerpo del componente 
@@ -1266,44 +1269,44 @@ NOTA:Cada vez que un cuerpo es configurado, sera activado el generador de rutas 
 
 #### Methods
 **[Component].set('prop',value)**
-Sets a value for a component property.
+Establece un valor para una propiedad de componente.
 
 **[Component].get('prop')**
-Returns the value of a component property
+Devuelve el valor de una propiedad componente
 
 **[Component].rebuild()**
-Rebuilds the component. It will force a call for the componentLoader with this component when it's needed.
+Reconstruye un componente. Forzará una llamada para el cargador de componentes con este componente cuando sea necesario.
 
 **[Component].Cast(ClassName or ComponentClassName)**
-Returns the cast of a component definition into another one. This is useful to dynamically merge components definitions.
+Devuelve el reparto de una definición de componente en otra. Esto es útil para combinar dinámicamente definiciones de componentes.
 
 **[Component].route()**
-Forces the component routings builder to reload the routings of the component. This will result in a rebuild call when it's needed.
+Fuerza al generador de rutas de componentes a recargar las rutas del componente. Esto resultara en una reconstrucción de llamada cuando sea necesario.
 
 **[Component].fullscreen()**
-Puts the component in fullscreen mode.
+Pone el componente en modo de pantalla completa.
 
 **[Component].closefullscreen()**
-Closes the fullscreen mode.
+Cierra el modo de pantalla completa.
 
 **[Component].css(css object)**
-Sets the css properties for the component.
+Establece las propiedades del css para el componente.
 
 **[Component].append(component or QCObjects object)**
-Appends a component as a child of the current component body
+Agrega un componente como hijo del cuerpo del componente actual
 
 **[Component].attachIn(selector)**
-Attaches a current component body to any element in the given selector.
+Adjunta un cuerpo de componente actual a cualquier elemento en el selector dado.
 
 ### Component HTML Tag
-Is a HTML tag representation of a component instance. Every declaration of a `<component></component>` tag will generate a related instance of a QCObjects component. While a component tag is not an instance itself, you can even define some instance properties by setting the related tag attribute when it is available.
+Una etiqueta HTML es una representación de una instancia de componente. Cada declaración de una etiqueta `<component></component>`generara una instancia relacionada con un componente QCObjects. Mientras una etiqueta de componente no es una instancia por si misma, incluso puedes definir algunas propiedades de instancia configurando el atributo de etiqueta relacionado cuando esté disponible.
 
 #### Available attributes
-Below is a list of the available attributes for a component tag
+A continuación se muestra una lista de los atributos disponibles para una etiqueta de componente
 
 ##### The name Attribute
 **`<component name>`**
-Sets the name of the related component instance built by QCObjects.
+Establece el nombre de la instancia de componente relacionada creada por QCObjects.
 
 ###### Usage:
 ```html
@@ -1328,24 +1331,24 @@ Sets the name of the related component instance built by QCObjects.
 
 ##### The cached Attribute
 **`<component cached>`**
-Sets the cached property if the related instance of a component.
+Establece la propiedad en caché si la instancia relacionada de un componente.
 
-NOTE: Only a value of "true" can be set in order to tell QCObjects that the component template content has to be cached. Any other value will be interpreted as false.
-
-###### Usage:
+NOTA: Solo se puede establecer un valor de "verdadero" para indicar a QCObjects que el contenido de la plantilla del componente debe almacenarse en caché. Cualquier otro valor sera interpretado como falso.
+ 
+ ###### Usage:
 ```html
 <component name="name_of_component" cached="true"></component>
 ```
 
 ##### The data property tag declaration
  **`<component data-property1 data-property2 ...>`**
-Sets a static value of a property for the data object in the component instance.
+Configura un valor estatico de las propiedades de los datos en una instancia de componente.
 
-NOTE: Data property tag declaration was thought with the purpose to give some simple way to mocking a dynamic component with template assignments. Don't use it thinking it is a bidirectional way data binding. While you can get a bidirectional way behaviour accesing a data object from a component instance, it is not the same for the component tag. Data property declaration in component tags is only one way data binding because of components tree architecture.
+NOTA: La declaración de la etiqueta de propiedad de datos se pensó con el propósito de dar una forma simple de hacer mocking de un componente dinámico con asignaciones de Template. No lo uses pensando que es una forma bidireccional de datos. Mientras puedas tener un comportamiento de forma bidireccional accediendo a los objetos de datos desde una instancia de componente, no es lo mismo que la etiqueta de componente. La declaración de propiedad de datos en una etiqueta de componente es solo una forma de unión de datos debido a los componentes de arquitectura de árbol.
 
 ##### The controllerClass Attribute
 **`<component controllerClass>`**
-Defines a custom Controller Class for the component instance
+Define un controlador de clase personalizado desde una instancia de componente.
 
 ###### Usage:
 ```html
@@ -1355,7 +1358,7 @@ Defines a custom Controller Class for the component instance
 
 ##### The viewClass Attribute
  **`<component viewClass>`**
-Defines a custom View Class for the component instance
+Define una vista de clase personalizada para la instancia del componente
 
 ###### Usage:
 ```html
@@ -1365,7 +1368,7 @@ Defines a custom View Class for the component instance
 
 ##### The componentClass Attribute
 **`<component componentClass>`**
-Defines a custom Component Class for the component instance
+Define un componente de clase personalizado para la instancia de un componente.
 
 ###### Usage:
 ```html
@@ -1374,7 +1377,7 @@ Defines a custom Component Class for the component instance
 
 ##### The effecClass Attribute
 **`<component effectClass>`**
-Defines a custom Effect Class for the component instance
+Define un efecto de clase personalizado para la instancia del componente
 
 ###### Usage:
 ```html
@@ -1383,7 +1386,7 @@ Defines a custom Effect Class for the component instance
 
 ##### The template-source Attribute
 **`<component template-source>`**
-Sets the tplsource property of the related instance of a component. Possible values are "none" or "default".
+Establece el tplsource de una propiedad relacionada con una instancia de un componente Posiblemente los valores son "none" o"default".
 
 ###### Usage:
 ```html
@@ -1392,7 +1395,7 @@ Sets the tplsource property of the related instance of a component. Possible val
 
 ##### The tplextension Attribute
 **`<component tplextension>`**
-Sets the tplextension property of the related instance of a component. Possible values are any file extension. Default value is "html"
+Establece la propiedad de tplextension relacionada con una instancia de un componente. Posibles valores son cualquier archivo de extensión. El valor por defecto es "html"
 
 ###### Usage:
 ```html
@@ -1401,7 +1404,7 @@ Sets the tplextension property of the related instance of a component. Possible 
 
 
 #### ComponentURI
-Is a helper function to let you define the templateURI for a component in a normalised way.
+Es una función ayudante la que te deja definir el templateURI por un componente en una forma normalizada
 
 ##### Example:
 ```javascript
@@ -1417,14 +1420,14 @@ console.log(templateURI); // this will show something like "templates/components
 
 
 #### componentLoader
-Loads a component instance in a low level, and appends the component template content to the component body. In the most of cases you won't need to call componentLoader in order to load a component. This is automatically called by QCObjects when it's needed. componentLoader returns a promise that is resolved when the component load is done and rejected when the component load was failed.
+Carga una instancia de componente en un nivel bajo y agrega el tempalte del componente a el cuerpo del componente. En la mayoría de los casos no necesitara llamar al componentLoader con el fin de cargar un componente. Esto es automáticamente llamado por QCObjects cuando sea necesario. ComponentLoader regresa una promesa que es resuelta cuando el componente se ha cargado y rechazado cuando el componente fallo.
 
 ##### Usage:
 ```javascript
  [Promise] componentLoader(componentInstance,load_async)
 ```
 
-Where componentInstance is a component instance created by _`New(ComponentDefinitionClass)`_
+Donde componentInstance es una instancia de componente creada por _`New(ComponentDefinitionClass)`_
 
 ##### Example:
 ```javascript
