@@ -1486,7 +1486,7 @@ Una cadena representa el url completo del servicio. Puede ser absoluto o relativ
 NOTA: Para cargar un servicio de un recurso externo necesitaras expecificar el parámetro al verdadero usando serviceLoader.
 
 **[Service].name**
-Una cadena representando el nombre de un componente. El nombre de un servicio puede ser de cualquier valor alphanumerico que identifique la instancia del servicio. No es un ID único pero solo un nombre descriptivo. 
+Una cadena representando el nombre de un componente. El nombre de un servicio puede ser de cualquier valor alphanumerico que identifique la instancia del servicio. No es una identificación única, sino solo un nombre descriptivo. 
 
 **[Service].method**
 Una cadena representando a un metodo HTTP o a HTTPS. Los posibles valores son :"GET", "POST", "PUT", ... cualquier otro sera aceptado mediante servicios de llamadas REST.
@@ -1544,40 +1544,39 @@ var service = serviceLoader(New(MyTestService,{
 
 
 ### JSONService
-Is a built-in definition for a JSON Service Class
+Es la definición Buil-in para un servicio de clase JSON
 
 #### Properties
 
 **[JSONService].domain**
-Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
+Regresa una cadena con la que domina tu aplicación. Es automáticamente configurada por QCObject a la hora de carga.
 
 **[JSONService].basePath**
-Returns a string with the base path url of your application. It is automatically set by QCObjects at the load time.
+Regresa una cadena con camino url base de tu aplicación. Es automáticamente configurada por QCObject a la hora de carga.
 
 **[JSONService].url**
-Is a string representing the entire url of the service. It can be absolute or relative to the basePath when it applies. It can be also an external url.
+Una cadena completa representando a todo el servicio url. Puede ser absoluto o relativo al basePath cuando es aplicado. Puede ser tambien un url externo.
 
-NOTE: To load a service of an external resource you need to specify the external parameter to true using serviceLoader.
+NOTA: Para cargar un srvicio de un recurso interno necesitas especificar el parametro externo para verdaderamente usar el serviceLoader. 
 
 **[JSONService].name**
-Is a string representing the name of a component. The name of a service can be any alphanumeric value that identifies the service instance. It isn't a unique ID but only a descriptive name.
+Es una cadena representando un componente. El nombre del servicio puede ser cualquier valor alphanumerico que identifique el servicio de instancia. No es una identificación única, sino solo un nombre descriptivo.
 
 **[JSONService].method**
-Is a string representing a HTTP or HTTPS method. Possible values are: "GET", "POST", "PUT", ... any other that is accepted by REST services calls.
+Es una cadena representando el metodo HTTP o HTTPS. Los posible valores son:"GET", "POST", "PUT", ... cualquier otro sera aceptado mediante servicios de llamadas REST.
 
 **[JSONService].data**
-Is an object representing the data of the service. When QCObjects loads a service. It receives the response and interpretes it as a  template. So once a service response is obtained, it will get every property of data object and bind it to a template label representing the same property inside the template content between double brakets (example: {{prop1}} in the template content will represent data.prop1 in the service instance).
+Es un objeto representando al servicio de datos. Cuando QCObjects carga el servicio recibe una respuesta y lo interpreta como un template. Así que una vez la respuesta del servicio es obtenida, Tomara cualquier propiedad de un objeto de datos y lo atara a una etiqueta template representando la misma propiedad dentro del contenido entre los brackets dobles(Ejemplo: {{prop1}}en el contenido de la plantilla se representará data.prop1 en la instancia de servicio).
 
 
 **[JSONService].cached**
-Is a boolean value that tells QCObjects if the service response needs to be cached or not. When a service is cached, the template content loaded from the service url will be loaded only once. You have to set this value to false for every Service instance you define in order to asure the service is loaded from the resource but not the storage cache.
-
+Es un servicio boolean el que le dice a QCObjects si la respuesta necesita ser cacheada o no. Cuando el servicio es cacheado el contenido plantilla cargara desde el servicio url que sera cargado solo una vez. Necesitas configurar el valor falso para cada instancia de servicio defines para asegurar la carga del servicio desde el recurso pero, no del almacenamiento caché.
 #### Methods
 **[JSONService].set('prop',value)**
-Sets a value for a service property.
+Configura el Valor para una propiedad de servicio.
 
 **[JSONService].get('prop')**
-Returns the value of a service property
+Regresa el valor de una propiedad de servicio.
 
 #### Example:
 ```javascript
@@ -1609,7 +1608,7 @@ var service = serviceLoader(New(MyTestJSONService,{
 ```
 
 ### ConfigService
-Is a built-in Class definition to load the CONFIG settings from a config.json file
+Es una definicion de clase Buil-in que carga los ajustes CONFIG desde un archivo config.json
 
 #### Example:
 ```javascript
@@ -1620,8 +1619,7 @@ CONFIG.set('useConfigService',true); // using config.json for custom settings co
 
 
 ### SourceJS
-
-Use SourceJS as a static Class that is helping you to load external JS dependencies. This is commonly used to load libraries that are external and that not follow the QCObjects packages syntax.
+Usa SourseJS como una clase estática que esta ayudándote a cargar dependencias JS externas. Esto es comúnmente usado para cargar librerías externas y que no siga el paquete sintaxis de QCObjet.
 
 #### Example:
 ```javascript
@@ -1642,7 +1640,7 @@ Class("MyNewController",Controller,{
 
 ### SourceCSS
 
-A static Class that is used to load an external CSS resource.
+Una clase estatica que es usada para cargar recursos CSS externos.
 
 ```javascript
 Class("MyNewController",Controller,{
@@ -1663,7 +1661,7 @@ Class("MyNewController",Controller,{
 
 ### ArrayList
 
-A Class definition used to manage lists
+Una definición de clase usada para manejar listas
 
 ```javascript
 let myvar = New(ArrayList,[1,2,3]);
@@ -1671,7 +1669,7 @@ let myvar = New(ArrayList,[1,2,3]);
 
 ### ArrayCollection
 
-An extended definition for advanced handling of collections
+Una definicion extendida para manejo avanzado de colecciones
 
 ```javascript
 let collection = New(ArrayCollection, {source:[0,1,2]});
