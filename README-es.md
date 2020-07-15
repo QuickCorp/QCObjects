@@ -1677,8 +1677,8 @@ let collection = New(ArrayCollection, {source:[0,1,2]});
 
 ### [ArrayList or Array].unique
 
-Filters an Array or an ArrayList object to obtain only unique elements.
-NOTE: It only filters a single value sequence.
+Filters an Array or an ArrayList object to obtain only unique elements. Filtra un objeto Array o ArrayList para obtener solo elementos únicos.
+NOTA: Solo filtra una secuencia de valor único.
 
 ```javascript
 let my_unique_list = [0,1,2,1,2].unique()
@@ -1687,7 +1687,7 @@ let my_unique_list = [0,1,2,1,2].unique()
 
 ### [ArrayList or Array].table
 
-This is intended for shell scripts use only. It shows a table of the values in the list.
+Esto esta destinado para solo el uso de shell script. Muestra una tabla de valores en una lista.
 
 ```javsascript
 ["a","b","c","d"].table()
@@ -1704,7 +1704,7 @@ This is intended for shell scripts use only. It shows a table of the values in t
 
 ### [ArrayList or Array].sort
 
-Sorts the elements of the array or list.
+Ordena los elementos del array o lista.
 
 ```javascript
 let my_sorted_array = [3,3,4,0,2,1].sort()
@@ -1719,7 +1719,8 @@ let my_sorted_list = New(ArrayList,{source:[3,3,4,0,2,1]}).source.sort()
 
 ### [ArrayList or Array].sortBy
 
-Sorts a list of objects by a property value.
+Ordena una lista de objetos por un valor de propiedad.
+
 
 ```javascript
 let my_ordered_list = [
@@ -1737,10 +1738,10 @@ let my_ordered_list = [
 
 ### [ArrayList or Array].matrix
 
-Generates a matrix in one dimension.
+Genera una matriz en una dimension.
 
 #### Usage
-**[].matrix (length, [value])** Where **length** is the number of elements and the optional **value** is the value of each element, it can be any value of any type.
+**[].matrix (length, [value])** Donde **length** es un numero de elementos y el **value**opcional es un valor en cada elemento, puede ser cualquier valor de cualquier tipo.
 
 ```javascript
 let matrix = Array.matrix(10);
@@ -1778,7 +1779,7 @@ let c = ArrayList.matrix(10,{a,b})
 
 ### [ArrayList or Array].matrix2d
 
-Creates a 2D matrix.
+Crea una matriz 2D.
 
 ```javsascript
 let matrix2d = ArrayList.matrix2d(2,1);
@@ -1787,7 +1788,7 @@ let matrix2d = ArrayList.matrix2d(2,1);
 
 ### [ArrayList or Array].matrix3d
 
-Creates a 3D matrix.
+Crea una matriz 3D
 
 ```javascript
 let matrix3d = ArrayList.matrix3d(3,"a");
@@ -1801,7 +1802,8 @@ let matrix3d = ArrayList.matrix3d(3,"a");
 
 ### range
 
-Python like function to create a range list. You can use it in conjunction with ArrayList.matrix, ArrayList.matrix2d and ArrayList.matrix3d to generate complex matrix ranges.
+A Python le gusta la funcion de crear una lista de rango. Puedes usarla en conjunto con ArrayList.matrix, ArrayList.matrix2d y ArrayList.matrix3d para generar rangos complejos de matriz.
+
 #### Usage
 
 range(length) or range(initialIndex, finalIndex)
@@ -1885,7 +1887,7 @@ let my3dmatrix = ArrayList.matrix3d(3,range(0,1));
 ```
 ### Array.sum
 
-Sums the elements of an array.
+Suma los elementos de una matriz.
 
 ```javascript
 let s = [1,2,3].sum()
@@ -1894,7 +1896,7 @@ let s = [1,2,3].sum()
 
 ### Array.avg
 
-Computes the average value of the elements in the Array
+Calcula el valor promedio de los elementos en el Array
 
 ```javascript
 let average = [10,5].avg()
@@ -1903,7 +1905,7 @@ let average = [10,5].avg()
 
 ### Array.min
 
-Returns the min value from the elements of an Array.
+Devuelve el valor mínimo de los elementos de un Array.
 
 ```javascript
 let minValue = [1,2,3].min()
@@ -1913,7 +1915,7 @@ let minValue = [1,2,3].min()
 
 ### Array.max
 
-Returns the max value from the elements of an Array
+Devuelve el valor máximo de los elementos de unArray
 
 ```javascript
 let maxValue = [1,2,3].max()
@@ -1926,7 +1928,7 @@ let maxValue = [1,2,3].max()
 
 #### org.quickcorp.components.ShadowedComponent
 
-**ShadowedComponent** Class is a custom component class designed to allow you to create a component using the Shadow DOM of browsers. Read more about Shadowed Components on [this article on Hackernoon] (https://www.hackernoon.com/shadowed-components-and-qcobjects-kd703yld).
+la Clase **ShadowedComponent** es un componente personlizado diseñado para permitirte crear un componente usando el Shadow DOM de un buscador. Lee mas sobre los componentes Shadow en [Este articulo en Hackernoon] (https://www.hackernoon.com/shadowed-components-and-qcobjects-kd703yld).
 
 ##### Usage:
 
@@ -1936,13 +1938,13 @@ let maxValue = [1,2,3].max()
 
 #### org.quickcorp.components.FormField
 
-**FormField** is a Class for **QCObjects** custom components that allows you to inject a Form Field generic behavior to your components. It has a reverse data-binding feature to detect the values of the DOM fields inside your form and assign them to the data values of your component. By this way, you don't loose performance making an old-fashioned two-way data binding based on observables. To implement this advanced behavior. You only need to do the following:
+**FormField** es una clase par los componentes personalizados**QCObjects** que te permiten que le permite inyectar un comportamiento genérico de campo de formulario a sus componentes. Tiene una característica inversa data-binding para detectar valores de los campos DOM dentro de tu formulario y asignarlos a los valores de datos de tu componente. De esta forma no perderás el desempeño creando un data binig bidireccional a la antigua basado en observables. Para implementar este comportamiento avanzado, necesitas hacer lo siguiente:
 
-1.- Assign a **data-field** attribute to the DOM tag inside the component body, with the corresponding field name in your data object.
+1.- Asigna un atributo **data-field** a la etiqueta DOM dentro del cuerpo del componente con el nombre del campo correspondiente en tu objeto de datos.
 
-2.- To your **component tag**, assign **FormField** in the **componentClass** attribute.
+2.- A tu **component tag**, asígnale **FormField** en el atributo **componentClass**.
 
-3.- To recover the data of the form inside your component, just use the componentInstance.data object. Every property of the componentInstance.data object will be linked by the binding events with the value properties on every DOM object of the form that has a data-field assigned.
+3.-Para recuperar los datos del formulario dentro de tu componente solo tienen que usar el componentInstance.data .  Cada propiedad del objeto componentInstance.data sera unido por los eventos bindig con ls propiedades del valor en cada objeto DOM del formulario que ha sido asignado al data-field.
 
 ##### Usage:
 
