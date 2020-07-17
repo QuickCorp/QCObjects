@@ -870,7 +870,7 @@ console.log(New(MyExtendedClass).sourceProp)
 ```
 
 ### \_Crypt
-With \_Crypt you can encode serializable objects by a passphrase
+con \_Crypt puedes codificar en serie objetos a passphrase 
 
 #### Example (1):
 
@@ -1444,7 +1444,8 @@ componentLoader(componentInstance,load_async).then(
 
 
 #### buildComponents
-Rebuilds every component that is a child element of the DOM element who owns the method. In the most of cases, you won't need to call buildComponents in order to build or rebuild every component in the DOM. This is automatically called by QCObjects when it's needed.
+Reconstruye cada componente que sea un elemento child del elemento DOM, quien posee el método. En la mayoría de los casos no necesitaras llamar a builcomponents con la intención de construir o reconstruir todos los componentes del DOM. Esto es automáticamente llamado por QCObjects cuando es necesario. 
+
 
 ##### Usage:
 ```javascript
@@ -1458,55 +1459,54 @@ document.buildComponents()
 
 
 ### Controller
-A built-in QCObjects Class to define a controller
+Una clase QCObject built-in para definir un contorlador.
 
 ### View
-A built-in QCObjects View to define a view
+Una vista QCObject built in para definir una vista.
 
 ### VO
-A built-in QCObjects Class to define a value object
+Una clase QCObject built-in para definir un valor de objeto.
 
 
 ### Service
-A QCObjects class type for services.
+Un tipo clase QCObject para servicio.
 
 
 #### Properties
 
 **[Service].domain**
-Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
+Regresa a una cadena que domina tu aplicación.Es automáticamente configurado por QCObject a la hora de carga.
 
 **[Service].basePath**
-Returns a string with the base path url of your application. It is automatically set by QCObjects at the load time.
+Regresa a la cadena con un camino base url para tu aplicación. Es automáticamente configurado por QCObject a la hora de carga.
 
 **[Service].url**
-Is a string representing the entire url of the service. It can be absolute or relative to the basePath when it applies. It can be also an external url.
+Una cadena representa el url completo del servicio. Puede ser absoluto o relativo para el basepath cuando es aplicado. Puede ser también un url externo.
 
-NOTE: To load a service of an external resource you need to specify the external parameter to true using serviceLoader.
+NOTA: Para cargar un servicio de un recurso externo necesitaras expecificar el parámetro al verdadero usando serviceLoader.
 
 **[Service].name**
-Is a string representing the name of a component. The name of a service can be any alphanumeric value that identifies the service instance. It isn't a unique ID but only a descriptive name.
+Una cadena representando el nombre de un componente. El nombre de un servicio puede ser de cualquier valor alphanumerico que identifique la instancia del servicio. No es una identificación única, sino solo un nombre descriptivo. 
 
 **[Service].method**
-Is a string representing a HTTP or HTTPS method. Possible values are: "GET", "POST", "PUT", ... any other that is accepted by REST services calls.
+Una cadena representando a un metodo HTTP o a HTTPS. Los posibles valores son :"GET", "POST", "PUT", ... cualquier otro sera aceptado mediante servicios de llamadas REST.
 
 **[Service].data**
-Is an object representing the data of the service. When QCObjects loads a service. It receives the response and interpretes it as a  template. So once a service response is obtained, it will get every property of data object and bind it to a template label representing the same property inside the template content between double brakets (example: {{prop1}} in the template content will represent data.prop1 in the service instance).
-
+Es un objeto representando al servicio de datos. Cuando QCObjects carga el servicio recibe una respuesta y lo interpreta como un template. Así que una vez la respuesta del servicio es obtenida, Tomara cualquier propiedad de un objeto de datos y lo atara a una etiqueta template representando la misma propiedad dentro del contenido entre los brackets dobles(Ejemplo: {{prop1}}en el contenido de la plantilla se representará data.prop1 en la instancia de servicio).
 
 **[Service].cached**
-Is a boolean value that tells QCObjects if the service response needs to be cached or not. When a service is cached, the template content loaded from the service url will be loaded only once. You have to set this value to false for every Service instance you define in order to asure the service is loaded from the resource but not the storage cache.
+Es un servicio boolean el que le dice a QCObjects si la respuesta necesita ser cacheada o no. Cuando el servicio es cacheado el contenido plantilla cargara desde el servicio url que sera cargado de una vez. Necesitas configurar el valor falso para cada instancia de servicio defines para asegurar la carga del servicio desde el recurso pero, no del almacenamiento caché.
 
 #### Methods
 **[Service].set('prop',value)**
-Sets a value for a service property.
+Establece un valor para una propiedad de servicio.
 
 **[Service].get('prop')**
-Returns the value of a service property
+Devuelve el valor de una propiedad de servicio
 
 
 ### serviceLoader
-Loads a service instance and returns a promise that is resolved when the service has a successful response load and is rejected when it fails loading the response.
+Carga una instancia de servicio y regresa a la promesa que es resuelta cuando los servicios han respondido exitosamente a la carga y rechazados cuando falla la respuesta de carga.
 
 #### Usage:
 ```javascript
@@ -1544,40 +1544,39 @@ var service = serviceLoader(New(MyTestService,{
 
 
 ### JSONService
-Is a built-in definition for a JSON Service Class
+Es la definición Buil-in para un servicio de clase JSON
 
 #### Properties
 
 **[JSONService].domain**
-Returns a string with the domain of your application. It is automatically set by QCObjects at the load time.
+Regresa una cadena con la que domina tu aplicación. Es automáticamente configurada por QCObject a la hora de carga.
 
 **[JSONService].basePath**
-Returns a string with the base path url of your application. It is automatically set by QCObjects at the load time.
+Regresa una cadena con camino url base de tu aplicación. Es automáticamente configurada por QCObject a la hora de carga.
 
 **[JSONService].url**
-Is a string representing the entire url of the service. It can be absolute or relative to the basePath when it applies. It can be also an external url.
+Una cadena completa representando a todo el servicio url. Puede ser absoluto o relativo al basePath cuando es aplicado. Puede ser tambien un url externo.
 
-NOTE: To load a service of an external resource you need to specify the external parameter to true using serviceLoader.
+NOTA: Para cargar un srvicio de un recurso interno necesitas especificar el parametro externo para verdaderamente usar el serviceLoader. 
 
 **[JSONService].name**
-Is a string representing the name of a component. The name of a service can be any alphanumeric value that identifies the service instance. It isn't a unique ID but only a descriptive name.
+Es una cadena representando un componente. El nombre del servicio puede ser cualquier valor alphanumerico que identifique el servicio de instancia. No es una identificación única, sino solo un nombre descriptivo.
 
 **[JSONService].method**
-Is a string representing a HTTP or HTTPS method. Possible values are: "GET", "POST", "PUT", ... any other that is accepted by REST services calls.
+Es una cadena representando el metodo HTTP o HTTPS. Los posible valores son:"GET", "POST", "PUT", ... cualquier otro sera aceptado mediante servicios de llamadas REST.
 
 **[JSONService].data**
-Is an object representing the data of the service. When QCObjects loads a service. It receives the response and interpretes it as a  template. So once a service response is obtained, it will get every property of data object and bind it to a template label representing the same property inside the template content between double brakets (example: {{prop1}} in the template content will represent data.prop1 in the service instance).
+Es un objeto representando al servicio de datos. Cuando QCObjects carga el servicio recibe una respuesta y lo interpreta como un template. Así que una vez la respuesta del servicio es obtenida, Tomara cualquier propiedad de un objeto de datos y lo atara a una etiqueta template representando la misma propiedad dentro del contenido entre los brackets dobles(Ejemplo: {{prop1}}en el contenido de la plantilla se representará data.prop1 en la instancia de servicio).
 
 
 **[JSONService].cached**
-Is a boolean value that tells QCObjects if the service response needs to be cached or not. When a service is cached, the template content loaded from the service url will be loaded only once. You have to set this value to false for every Service instance you define in order to asure the service is loaded from the resource but not the storage cache.
-
+Es un servicio boolean el que le dice a QCObjects si la respuesta necesita ser cacheada o no. Cuando el servicio es cacheado el contenido plantilla cargara desde el servicio url que sera cargado solo una vez. Necesitas configurar el valor falso para cada instancia de servicio defines para asegurar la carga del servicio desde el recurso pero, no del almacenamiento caché.
 #### Methods
 **[JSONService].set('prop',value)**
-Sets a value for a service property.
+Configura el Valor para una propiedad de servicio.
 
 **[JSONService].get('prop')**
-Returns the value of a service property
+Regresa el valor de una propiedad de servicio.
 
 #### Example:
 ```javascript
@@ -1609,7 +1608,7 @@ var service = serviceLoader(New(MyTestJSONService,{
 ```
 
 ### ConfigService
-Is a built-in Class definition to load the CONFIG settings from a config.json file
+Es una definicion de clase Buil-in que carga los ajustes CONFIG desde un archivo config.json
 
 #### Example:
 ```javascript
@@ -1620,8 +1619,7 @@ CONFIG.set('useConfigService',true); // using config.json for custom settings co
 
 
 ### SourceJS
-
-Use SourceJS as a static Class that is helping you to load external JS dependencies. This is commonly used to load libraries that are external and that not follow the QCObjects packages syntax.
+Usa SourseJS como una clase estática que esta ayudándote a cargar dependencias JS externas. Esto es comúnmente usado para cargar librerías externas y que no siga el paquete sintaxis de QCObjet.
 
 #### Example:
 ```javascript
@@ -1642,7 +1640,7 @@ Class("MyNewController",Controller,{
 
 ### SourceCSS
 
-A static Class that is used to load an external CSS resource.
+Una clase estatica que es usada para cargar recursos CSS externos.
 
 ```javascript
 Class("MyNewController",Controller,{
@@ -1663,7 +1661,7 @@ Class("MyNewController",Controller,{
 
 ### ArrayList
 
-A Class definition used to manage lists
+Una definición de clase usada para manejar listas
 
 ```javascript
 let myvar = New(ArrayList,[1,2,3]);
@@ -1671,7 +1669,7 @@ let myvar = New(ArrayList,[1,2,3]);
 
 ### ArrayCollection
 
-An extended definition for advanced handling of collections
+Una definicion extendida para manejo avanzado de colecciones
 
 ```javascript
 let collection = New(ArrayCollection, {source:[0,1,2]});
@@ -1679,8 +1677,8 @@ let collection = New(ArrayCollection, {source:[0,1,2]});
 
 ### [ArrayList or Array].unique
 
-Filters an Array or an ArrayList object to obtain only unique elements.
-NOTE: It only filters a single value sequence.
+Filters an Array or an ArrayList object to obtain only unique elements. Filtra un objeto Array o ArrayList para obtener solo elementos únicos.
+NOTA: Solo filtra una secuencia de valor único.
 
 ```javascript
 let my_unique_list = [0,1,2,1,2].unique()
@@ -1689,7 +1687,7 @@ let my_unique_list = [0,1,2,1,2].unique()
 
 ### [ArrayList or Array].table
 
-This is intended for shell scripts use only. It shows a table of the values in the list.
+Esto esta destinado para solo el uso de shell script. Muestra una tabla de valores en una lista.
 
 ```javsascript
 ["a","b","c","d"].table()
@@ -1706,7 +1704,7 @@ This is intended for shell scripts use only. It shows a table of the values in t
 
 ### [ArrayList or Array].sort
 
-Sorts the elements of the array or list.
+Ordena los elementos del array o lista.
 
 ```javascript
 let my_sorted_array = [3,3,4,0,2,1].sort()
@@ -1721,7 +1719,8 @@ let my_sorted_list = New(ArrayList,{source:[3,3,4,0,2,1]}).source.sort()
 
 ### [ArrayList or Array].sortBy
 
-Sorts a list of objects by a property value.
+Ordena una lista de objetos por un valor de propiedad.
+
 
 ```javascript
 let my_ordered_list = [
@@ -1739,10 +1738,10 @@ let my_ordered_list = [
 
 ### [ArrayList or Array].matrix
 
-Generates a matrix in one dimension.
+Genera una matriz en una dimension.
 
 #### Usage
-**[].matrix (length, [value])** Where **length** is the number of elements and the optional **value** is the value of each element, it can be any value of any type.
+**[].matrix (length, [value])** Donde **length** es un numero de elementos y el **value**opcional es un valor en cada elemento, puede ser cualquier valor de cualquier tipo.
 
 ```javascript
 let matrix = Array.matrix(10);
@@ -1780,7 +1779,7 @@ let c = ArrayList.matrix(10,{a,b})
 
 ### [ArrayList or Array].matrix2d
 
-Creates a 2D matrix.
+Crea una matriz 2D.
 
 ```javsascript
 let matrix2d = ArrayList.matrix2d(2,1);
@@ -1789,7 +1788,7 @@ let matrix2d = ArrayList.matrix2d(2,1);
 
 ### [ArrayList or Array].matrix3d
 
-Creates a 3D matrix.
+Crea una matriz 3D
 
 ```javascript
 let matrix3d = ArrayList.matrix3d(3,"a");
@@ -1803,7 +1802,8 @@ let matrix3d = ArrayList.matrix3d(3,"a");
 
 ### range
 
-Python like function to create a range list. You can use it in conjunction with ArrayList.matrix, ArrayList.matrix2d and ArrayList.matrix3d to generate complex matrix ranges.
+A Python le gusta la funcion de crear una lista de rango. Puedes usarla en conjunto con ArrayList.matrix, ArrayList.matrix2d y ArrayList.matrix3d para generar rangos complejos de matriz.
+
 #### Usage
 
 range(length) or range(initialIndex, finalIndex)
@@ -1887,7 +1887,7 @@ let my3dmatrix = ArrayList.matrix3d(3,range(0,1));
 ```
 ### Array.sum
 
-Sums the elements of an array.
+Suma los elementos de una matriz.
 
 ```javascript
 let s = [1,2,3].sum()
@@ -1896,7 +1896,7 @@ let s = [1,2,3].sum()
 
 ### Array.avg
 
-Computes the average value of the elements in the Array
+Calcula el valor promedio de los elementos en el Array
 
 ```javascript
 let average = [10,5].avg()
@@ -1905,7 +1905,7 @@ let average = [10,5].avg()
 
 ### Array.min
 
-Returns the min value from the elements of an Array.
+Devuelve el valor mínimo de los elementos de un Array.
 
 ```javascript
 let minValue = [1,2,3].min()
@@ -1915,7 +1915,7 @@ let minValue = [1,2,3].min()
 
 ### Array.max
 
-Returns the max value from the elements of an Array
+Devuelve el valor máximo de los elementos de unArray
 
 ```javascript
 let maxValue = [1,2,3].max()
@@ -1928,7 +1928,7 @@ let maxValue = [1,2,3].max()
 
 #### org.quickcorp.components.ShadowedComponent
 
-**ShadowedComponent** Class is a custom component class designed to allow you to create a component using the Shadow DOM of browsers. Read more about Shadowed Components on [this article on Hackernoon] (https://www.hackernoon.com/shadowed-components-and-qcobjects-kd703yld).
+la Clase **ShadowedComponent** es un componente personlizado diseñado para permitirte crear un componente usando el Shadow DOM de un buscador. Lee mas sobre los componentes Shadow en [Este articulo en Hackernoon] (https://www.hackernoon.com/shadowed-components-and-qcobjects-kd703yld).
 
 ##### Usage:
 
@@ -1938,13 +1938,13 @@ let maxValue = [1,2,3].max()
 
 #### org.quickcorp.components.FormField
 
-**FormField** is a Class for **QCObjects** custom components that allows you to inject a Form Field generic behavior to your components. It has a reverse data-binding feature to detect the values of the DOM fields inside your form and assign them to the data values of your component. By this way, you don't loose performance making an old-fashioned two-way data binding based on observables. To implement this advanced behavior. You only need to do the following:
+**FormField** es una clase par los componentes personalizados**QCObjects** que te permiten que le permite inyectar un comportamiento genérico de campo de formulario a sus componentes. Tiene una característica inversa data-binding para detectar valores de los campos DOM dentro de tu formulario y asignarlos a los valores de datos de tu componente. De esta forma no perderás el desempeño creando un data binig bidireccional a la antigua basado en observables. Para implementar este comportamiento avanzado, necesitas hacer lo siguiente:
 
-1.- Assign a **data-field** attribute to the DOM tag inside the component body, with the corresponding field name in your data object.
+1.- Asigna un atributo **data-field** a la etiqueta DOM dentro del cuerpo del componente con el nombre del campo correspondiente en tu objeto de datos.
 
-2.- To your **component tag**, assign **FormField** in the **componentClass** attribute.
+2.- A tu **component tag**, asígnale **FormField** en el atributo **componentClass**.
 
-3.- To recover the data of the form inside your component, just use the componentInstance.data object. Every property of the componentInstance.data object will be linked by the binding events with the value properties on every DOM object of the form that has a data-field assigned.
+3.-Para recuperar los datos del formulario dentro de tu componente solo tienen que usar el componentInstance.data .  Cada propiedad del objeto componentInstance.data sera unido por los eventos bindig con ls propiedades del valor en cada objeto DOM del formulario que ha sido asignado al data-field.
 
 ##### Usage:
 
