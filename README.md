@@ -28,7 +28,7 @@ You can contribute to [QCObjects](https://qcobjects.dev) following the set of gu
 
 For those who have no time to read all of this today, here is a small video that explains what QCObjects is and what can be done with it.
 
-[![QCObjects Explainer Video](http://img.youtube.com/vi/D0rftABPGvQ/0.jpg)](http://www.youtube.com/watch?v=D0rftABPGvQ "QCObjects Explainer Video")
+[![QCObjects Explainer Video](https://img.youtube.com/vi/D0rftABPGvQ/0.jpg)](https://www.youtube.com/watch?v=D0rftABPGvQ "QCObjects Explainer Video")
 
 _________________________
 # Table of Contents
@@ -2746,7 +2746,7 @@ QCObjects was designed to work into a professional environment. There are many w
 The benefits of a Multitier or N-Tier architecture are scalability and reliability of the systems that are demanding higger impact and performance. To go deep into this concepts would unnecessary enlarge this reference document but you can read more about this concepts in the following external links (only for reference and study):
 
 - [Miltitier Architecture](https://en.m.wikipedia.org/wiki/Multitier_architecture)
-- [3 Tier Architecture](http://www.tonymarston.net/php-mysql/3-tier-architecture.html)
+- [3 Tier Architecture](https://www.tonymarston.net/php-mysql/3-tier-architecture.html)
 - [Milti Tier Application](https://www.techopedia.com/definition/23599/multi-tier-application)
 - [N Tier Architecture System Concepts and Tips](https://www.guru99.com/n-tier-architecture-system-concepts-tips.html)
 
