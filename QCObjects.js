@@ -1687,12 +1687,12 @@
                 a.oldclick = a.onclick;
                 a.onclick = function(e) {
                   var _ret_ = true;
-                  if (!global.get("routingPaths")) {
-                    global.set("routingPaths", []);
+                  if (!_top.global.get("routingPaths")) {
+                    _top.global.set("routingPaths", []);
                   }
                   var routingWay = ClassFactory("CONFIG").get("routingWay");
                   var routingPath = e.target[routingWay];
-                  if (global.get("routingPaths").includes(routingPath) &&
+                  if (_top.global.get("routingPaths").includes(routingPath) &&
                     e.target[routingWay] !== document.location[routingWay] &&
                     e.target.href !== document.location.href
                   ) {
@@ -1801,11 +1801,11 @@
                 routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
               }
               this.routings.push(routing);
-              if (!global.get("routingPaths")) {
-                global.set("routingPaths", []);
+              if (!_top.global.get("routingPaths")) {
+                _top.global.set("routingPaths", []);
               }
-              if (!global.get("routingPaths").includes(routing.path)) {
-                global.get("routingPaths").push(routing.path);
+              if (!_top.global.get("routingPaths").includes(routing.path)) {
+                _top.global.get("routingPaths").push(routing.path);
               }
             }
           }
@@ -1973,7 +1973,7 @@
           var component = this;
           var lang1=ClassFactory("CONFIG").get("lang","en");
           var lang2 = navigator.language.slice(0, 2);
-          var i18n = global.get("i18n");
+          var i18n = _top.global.get("i18n");
           if ((lang1 !== lang2) && (typeof i18n === "object" && i18n.hasOwnProperty.call(i18n,"messages"))){
             var callback_i18n = function (){
               var component = this;

@@ -28,7 +28,7 @@ You can contribute to [QCObjects](https://qcobjects.dev) following the set of gu
 
 For those who have no time to read all of this today, here is a small video that explains what QCObjects is and what can be done with it.
 
-[![QCObjects Explainer Video](http://img.youtube.com/vi/D0rftABPGvQ/0.jpg)](http://www.youtube.com/watch?v=D0rftABPGvQ "QCObjects Explainer Video")
+[![QCObjects Explainer Video](https://img.youtube.com/vi/D0rftABPGvQ/0.jpg)](https://www.youtube.com/watch?v=D0rftABPGvQ "QCObjects Explainer Video")
 
 _________________________
 # Table of Contents
@@ -91,7 +91,6 @@ _________________________
 		- [GLOBAL](#global)
 		- [CONFIG](#config)
 		- [Processor](#processor)
-- [for Unix/Linux systems](#for-unixlinux-systems)
 		- [waitUntil](#waituntil)
 		- [Package](#package)
 		- [Import](#import)
@@ -1010,8 +1009,9 @@ Processor.setProcessor(SERVICE_PORT);
 
 Then you only need to set your environment variable SERVICE_URL in your shell
 
+This is only for Unix/Linux systems
+
 ```shell
-# for Unix/Linux systems
 export SERVICE_URL="https://example.com:443/path-to-a-resource/"
 ```
 
@@ -1660,7 +1660,43 @@ Class("MyNewController",Controller,{
 ```
 
 ### Effect
+
+**Effect** is a super class to define custom effects.
+
+#### Example:
+
+```javascript
+Class('CustomFade',Effect,{
+	duration:500, // milliseconds of duration
+	apply: function (){
+		// You need the following line to apply a Fade effect in runtime
+		_super_('Fade','apply').apply(this,arguments);
+	}
+})
+```
+
+
 ### Timer
+
+**Timer** is a special implementation of **requestAnimationFrame** to emulate the creation of thread instances, so you can handle runtime paralell processing in a little bit more efficient way.
+
+NOTE: As it is currently depending in requestAnimationFrame availability it only works on modern browsers.
+
+#### Example:
+
+```javascript
+Timer.thread({
+		duration:300, // duration in milliseconds
+		timing(timeFraction,elapsed){
+			return timeFraction; // you can change this line to return a custom math function for timing
+		},
+		intervalInterceptor(progress){
+			if (progress>=100){
+				// do whatever you want here
+			}
+		}
+});
+```
 
 ## List and Math Functions
 
@@ -1990,7 +2026,7 @@ Inside of the body of your component, when it is a **FormField** component, ever
 
 #### org.quickcorp.components.ButtonField
 
-**ButtonField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between ButtonField and FormField is that ButtonField has a **<button>** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**ButtonField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between ButtonField and FormField is that ButtonField has a **```<button>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
 
 ##### Usage:
 
@@ -2011,7 +2047,7 @@ Inside of the body of your component, when it is a **FormField** component, ever
 
 #### org.quickcorp.components.TextField
 
-**ButtonField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between InputField and FormField is that ButtonField has a **<textarea>** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**ButtonField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between InputField and FormField is that ButtonField has a **```<textarea>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
 
 ##### Usage:
 
@@ -2022,7 +2058,7 @@ Inside of the body of your component, when it is a **FormField** component, ever
 
 #### org.quickcorp.components.EmailField
 
-**EmailField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between ButtonField and FormField is that ButtonField has a **<input>** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**EmailField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between ButtonField and FormField is that ButtonField has a **```<input>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
 
 ##### Usage:
 
@@ -2746,7 +2782,7 @@ QCObjects was designed to work into a professional environment. There are many w
 The benefits of a Multitier or N-Tier architecture are scalability and reliability of the systems that are demanding higger impact and performance. To go deep into this concepts would unnecessary enlarge this reference document but you can read more about this concepts in the following external links (only for reference and study):
 
 - [Miltitier Architecture](https://en.m.wikipedia.org/wiki/Multitier_architecture)
-- [3 Tier Architecture](http://www.tonymarston.net/php-mysql/3-tier-architecture.html)
+- [3 Tier Architecture](https://www.tonymarston.net/php-mysql/3-tier-architecture.html)
 - [Milti Tier Application](https://www.techopedia.com/definition/23599/multi-tier-application)
 - [N Tier Architecture System Concepts and Tips](https://www.guru99.com/n-tier-architecture-system-concepts-tips.html)
 
@@ -3070,19 +3106,19 @@ Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into 
 
 ## Options
 
- *  -V, --version                output the version number
- *  -h, --help                   output usage information
+   -V, --version                output the version number
+   -h, --help                   output usage information
 
 ## Commands
 
- *  **create** [options] <appname>   Creates an app with <appname>
- *  **publish** [options] <appname>  Publishes an app with <appname>
- *  **generate-sw** <appname>        Generates the service worker  <appname>
- *  **launch** <appname>             Launches the application
+   **create** [options] ```<appname>```   Creates an app with ```<appname>```
+   **publish** [options] ```<appname>```  Publishes an app with ```<appname>```
+   **generate-sw** ```<appname>```        Generates the service worker  ```<appname>```
+   **launch** ```<appname>```             Launches the application
 
 ## Use:
- *  $ qcobjects-cli [command] --help
- *  For detailed information of a command
+   $ qcobjects-cli [command] --help
+   For detailed information of a command
 
 # ALPHA RISE Startup
 --------------------------
