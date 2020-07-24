@@ -1703,7 +1703,7 @@ let myvar = New(ArrayList,[1,2,3]);
 
 ### ArrayCollection
 
-Una definicion extendida para manejo avanzado de colecciones
+Una definición extendida para manejo avanzado de colecciones
 
 ```javascript
 let collection = New(ArrayCollection, {source:[0,1,2]});
@@ -1711,7 +1711,7 @@ let collection = New(ArrayCollection, {source:[0,1,2]});
 
 ### [ArrayList or Array].unique
 
-Filters an Array or an ArrayList object to obtain only unique elements. Filtra un objeto Array o ArrayList para obtener solo elementos únicos.
+Filtra un objeto Array o ArrayList para obtener solo elementos únicos.
 NOTA: Solo filtra una secuencia de valor único.
 
 ```javascript
@@ -1772,7 +1772,7 @@ let my_ordered_list = [
 
 ### [ArrayList or Array].matrix
 
-Genera una matriz en una dimension.
+Genera una matriz en una dimensión.
 
 #### Uso
 **[].matrix (length, [value])** Donde **length** es un numero de elementos y el **value**opcional es un valor en cada elemento, puede ser cualquier valor de cualquier tipo.
@@ -1836,13 +1836,13 @@ let matrix3d = ArrayList.matrix3d(3,"a");
 
 ### range
 
-A Python le gusta la funcion de crear una lista de rango. Puedes usarla en conjunto con ArrayList.matrix, ArrayList.matrix2d y ArrayList.matrix3d para generar rangos complejos de matriz.
+A Python le gusta la función de crear una lista de rango. Puedes usarla en conjunto con ArrayList.matrix, ArrayList.matrix2d y ArrayList.matrix3d para generar rangos complejos de matriz.
 
 #### Uso
 
-range(length) or range(initialIndex, finalIndex)
-range() without any params returns an empty list
-range(0) returns a list with one element with value 0
+rango (longitud) o rango (initialIndex, finalIndex)
+range () sin ningún parámetro devuelve una lista vacía
+range (0) devuelve una lista con un elemento con valor 0
 
 
 ```javascript
@@ -1962,7 +1962,8 @@ let maxValue = [1,2,3].max()
 
 #### org.quickcorp.components.ShadowedComponent
 
-la Clase **ShadowedComponent** es un componente personlizado diseñado para permitirte crear un componente usando el Shadow DOM de un buscador. Lee mas sobre los componentes Shadow en [Este articulo en Hackernoon] (https://www.hackernoon.com/shadowed-components-and-qcobjects-kd703yld).
+la Clase **ShadowedComponent** es un componente personalizado diseñado para permitirte crear un componente usando el Shadow DOM de un buscador. Lee mas sobre los componentes Shadow en [Este articulo en Hackernoon]
+ (https://www.hackernoon.com/shadowed-components-and-qcobjects-kd703yld).
 
 ##### Uso:
 
@@ -1996,32 +1997,30 @@ la Clase **ShadowedComponent** es un componente personlizado diseñado para perm
 <input data-field="name" type="text" placeholder="Enter Your Name" name="name" required>
 ```
 
-**data-field="name"** will be matched with **this.data.name** inside the component class and will be updated everytime a data binding event is triggered. The same will happen to **data-field="email"** and so on.
+**data-field="name"** será emparejado con  **this.data.name** dentro de la clase de componente y se actualizará cada vez que se active un evento de enlace de datos. Lo mismo pasa con **data-field="email"** y así.
 
 ##### FormField.executeBindings():
 
-The method **executeBindings** of FormField component will find the **data-field** attribute values and match them with the corresponding **data** fields in the component instance.
+ El método **executeBindings** del componente FormField donde encontraras los valores de atributo **data-field** y emparejaras con ellos los correspondientes archivos **data** en una instancia de componente.
 
 ##### Data Binding Event Change:
 
-Inside of the body of your component, when it is a **FormField** component, every time the DOM dispatches a "change" event, it will trigger the executeBindings method of your component.
+Dentro del cuerpo de su componente, cuando es un componente **FormField** cada vez que el DOM envía un evento de "cambio", activará el método executeBindings de su componente.
 
 ##### Data Binding Event Blur:
 
-Inside of the body of your component, when it is a **FormField** component, every time the DOM dispatches a "Blur" event, it will trigger the executeBindings method of your component.
+Dentro del cuerpo de su componente, cuando es un componente **FormField** cada vez que el DOM envía un evento "Blur", activará el método executeBindings de su componente.
 
 ##### Data Binding Event Focus:
 
-Inside of the body of your component, when it is a **FormField** component, every time the DOM dispatches a "Focus" event, it will trigger the executeBindings method of your component.
-
+Dentro del cuerpo de su componente, cuando es un componente**FormField** cada vez que el DOM envía un evento "Focus", activará el método executeBindings de su componente.
 ##### Data Binding Event Keydown:
 
-Inside of the body of your component, when it is a **FormField** component, every time the DOM dispatches a "Keydown" event, it will trigger the executeBindings method of your component.
-
+Dentro del cuerpo de su componente, cuando es un componente **FormField** cada vez que el DOM envía un evento "Keydown", activará el método executeBindings de su componente.
 
 #### org.quickcorp.components.ButtonField
 
-**ButtonField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between ButtonField and FormField is that ButtonField has a **```<button>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**ButtonField** es una subdefinición de **FormField** que es comunmete usando para casi el mismo proposito del FormField.La principal diferencia entre ButtonField y FormField es que ButtonField tiene un elemento DOM ** `` `<button>` `` ** como el cuerpo del componente por defecto. Y FormField no tiene un cuerpo predefinido.
 
 ##### Uso:
 
