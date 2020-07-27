@@ -26,7 +26,7 @@ Puedes contribuir a [QCObjects](https://qcobjects.dev) siguiendo el conjunto de 
 
 # Video Explicativo de QCObjects
 
-Para todos los que no tengan tiempo de leer esto hoy, aquí hay un pequeño video que explica que es QCObject y que puedes hacer con el.
+Para todos los que no tengan tiempo de leer esto hoy, aquí hay un pequeño video que explica que es QCObjects y que puedes hacer con el.
 
 [![QCObjects Explainer Video](https://img.youtube.com/vi/D0rftABPGvQ/0.jpg)](https://www.youtube.com/watch?v=D0rftABPGvQ "QCObjects Explainer Video")
 
@@ -395,7 +395,7 @@ Puedes revisar[QCObjects SDK](https://sdk.qcobjects.dev/) y seguir los ejemplos 
 # Donar
 --------------
 
-si te gustó este código por favor [DONA](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
+Si te gustó este código por favor [DONA](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
 
  [![paypal](https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)
 
@@ -489,11 +489,11 @@ Un Amazon Machine Image (AMI) otorga información requerida para lanzar una inst
 
 Un AMI incluye lo siguiente:
 
-- uno o mas EBS snapshots, o, para instance-store-backed AMIs, una plantilla para la raíz volumen de la instancia(por ejemplo, un sistema operativo, un servidor de aplicaciones y aplicaciones).
+- Uno o mas EBS snapshots, o, para instance-store-backed AMIs, una plantilla para la raíz volumen de la instancia(por ejemplo, un sistema operativo, un servidor de aplicaciones y aplicaciones).
 - Lanza permisos que controla que cuenta AWS puede usar el AMI para lanzar instancias.
-- A block device mapping that specifies the volumes to attach to the instance when it's launched. Un bloqueo de dispositivos mapping que especifica los volúmenes adjuntos a la instancia cuando es lanzada.
+- Un bloqueo de dispositivos mapping que especifica los volúmenes adjuntos a la instancia cuando es lanzada.
 
-[empieza construyendo QCObjects AMI aquí](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
+[Empieza construyendo QCObjects AMI aquí](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
 
 ### Amazon Web Services AWS PIB (Private Amazon Machine Image)
 
@@ -539,7 +539,7 @@ Donde [VERSIÓN] corresponde a la ultima versión usando notaciones numericas, e
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.js"></script>
 ```
 
-No necesitas minificar QCObjects, pero si aun quieres usar el codigo minificado puedes hacer esto:
+No necesitas minificar QCObjects, pero si aún quieres usar el codigo minificado puedes hacer esto:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.min.js"></script>
@@ -735,7 +735,7 @@ console.log(newObject.classMethod2()); // this will show the number 1
 
 ### New
 
- Crea una instancia de objeto de una definición de clase de QCObject.
+Crea una instancia de objeto de una definición de clase de QCObject.
 
 #### Uso:
 
@@ -764,8 +764,8 @@ console.log(objectInstance.randomNumber); // it will show console.log(objectInst
 Una sola definición de clase común QCObjects es utilizada.
 
 ### ClassFactory
-Usa la **ClassFactory** para tener una declaración de clase de fabrica para la clase
-También puedes usar la clase de fabrica desde un paquete o desde la fila apilada.
+Usa la **ClassFactory** para tener una declaración de clase de fabrica para la clase,
+también puedes usar la clase de fabrica desde un paquete o desde la fila apilada.
 
 Para recuperar la clase de fabrica de la clase fila apilada simplemente usa el nombre de la clase llamándola directamente en el código.
 
@@ -868,7 +868,7 @@ console.log(New(MyExtendedClass).sourceProp)
 ```
 
 ### \_Crypt
-con \_Crypt puedes codificar en serie objetos a passphrase
+Con \_Crypt puedes codificar en serie objetos a passphrase
 
 #### Ejemplo (1):
 
@@ -928,7 +928,7 @@ El archivo encriptado json va en https://config.qcobjects.dev, pon tu configurac
 
 #### Propiedades dinámicas de CONFIG
 
- A veces necesitaras establecer el valor de la fuente que no sea estática, como el ENV vars u otras fuentes personalizadas de data dinámica. Para tener valor usando CONFIG de una fuente dinámica tienes que usar un procesador. Existen procesadores comunes predefinidos como $ENV (solo si esta disponible en CLI, Collab o Node) y $config (disponible en todos los ambientes).
+A veces necesitaras establecer el valor de la fuente que no sea estática, como el ENV vars u otras fuentes personalizadas de data dinámica. Para tener valor usando CONFIG de una fuente dinámica tienes que usar un procesador. Existen procesadores comunes predefinidos como $ENV (solo si esta disponible en CLI, Collab o Node) y $config (disponible en todos los ambientes).
 
 Los procesadores son llamados como una meta de valor ya sea en el config.json o en la Clase CONFIG.
 
@@ -1006,12 +1006,12 @@ Processor.setProcessor(SERVICE_PORT);
 
 Entonces solo necesita establecer su variable de entorno SERVICE_URL en su shell
 
-The following is for Unix/Linux systems
+Lo siguiente es para los sistemas operativos de Unix/Linux :
 ```shell
 export SERVICE_URL="https://example.com:443/path-to-a-resource/"
 ```
 
-y su configuración se cargará dinámicamente de esta manera:
+Y su configuración se cargará dinámicamente de esta manera:
 
 ```json
 {
@@ -1024,7 +1024,7 @@ y su configuración se cargará dinámicamente de esta manera:
 Y consigue tus valores correspondientes en **CONFIG.get(value)**
 
 ### waitUntil
-waitUntil es un ayudante solo en caso de que estés en problemas tratando de correr el código antes de que la condición sea real.El código dentro del waitUntil sera ejecutado una vez.
+WaitUntil es un ayudante solo en caso de que estés en problemas tratando de correr el código antes de que la condición sea real. El código dentro del waitUntil sera ejecutado una vez.
 
 NOTA: Esto es útil en algunos casos pero no es recomendado para uso excesivo.
 
@@ -1457,26 +1457,26 @@ document.buildComponents()
 
 
 ### Controller
-Una clase QCObject built-in para definir un contorlador.
+Una clase QCObjects built-in para definir un contorlador.
 
 ### View
-Una vista QCObject built in para definir una vista.
+Una vista QCObjects built in para definir una vista.
 
 ### VO
-Una clase QCObject built-in para definir un valor de objeto.
+Una clase QCObjects built-in para definir un valor de objeto.
 
 
 ### Service
-Un tipo clase QCObject para servicio.
+Un tipo clase QCObjects para servicio.
 
 
 #### Propiedades
 
 **[Service].domain**
-Regresa a una cadena que domina tu aplicación.Es automáticamente configurado por QCObject a la hora de carga.
+Regresa a una cadena que domina tu aplicación.Es automáticamente configurado por QCObjects a la hora de carga.
 
 **[Service].basePath**
-Regresa a la cadena con un camino base url para tu aplicación. Es automáticamente configurado por QCObject a la hora de carga.
+Regresa a la cadena con un camino base url para tu aplicación. Es automáticamente configurado por QCObjects a la hora de carga.
 
 **[Service].url**
 Una cadena representa el url completo del servicio. Puede ser absoluto o relativo para el basepath cuando es aplicado. Puede ser también un url externo.
@@ -1547,10 +1547,10 @@ Es la definición Buil-in para un servicio de clase JSON
 #### Propiedades
 
 **[JSONService].domain**
-Regresa una cadena con la que domina tu aplicación. Es automáticamente configurada por QCObject a la hora de carga.
+Regresa una cadena con la que domina tu aplicación. Es automáticamente configurada por QCObjects a la hora de carga.
 
 **[JSONService].basePath**
-Regresa una cadena con camino url base de tu aplicación. Es automáticamente configurada por QCObject a la hora de carga.
+Regresa una cadena con camino url base de tu aplicación. Es automáticamente configurada por QCObjects a la hora de carga.
 
 **[JSONService].url**
 Una cadena completa representando a todo el servicio url. Puede ser absoluto o relativo al basePath cuando es aplicado. Puede ser tambien un url externo.
@@ -1561,7 +1561,7 @@ NOTA: Para cargar un srvicio de un recurso interno necesitas especificar el para
 Es una cadena representando un componente. El nombre del servicio puede ser cualquier valor alphanumerico que identifique el servicio de instancia. No es una identificación única, sino solo un nombre descriptivo.
 
 **[JSONService].method**
-Es una cadena representando el metodo HTTP o HTTPS. Los posible valores son:"GET", "POST", "PUT", ... cualquier otro sera aceptado mediante servicios de llamadas REST.
+Es una cadena representando el metodo HTTP o HTTPS. Los posible valores son:"GET", "POST", "PUT", ... Cualquier otro sera aceptado mediante servicios de llamadas REST.
 
 **[JSONService].data**
 Es un objeto representando al servicio de datos. Cuando QCObjects carga el servicio recibe una respuesta y lo interpreta como un template. Así que una vez la respuesta del servicio es obtenida, Tomara cualquier propiedad de un objeto de datos y lo atara a una etiqueta template representando la misma propiedad dentro del contenido entre los brackets dobles(Ejemplo: {{prop1}}en el contenido de la plantilla se representará data.prop1 en la instancia de servicio).
@@ -1673,7 +1673,7 @@ Class('CustomFade',Effect,{
 
 **Timer** es una implementación especial de **requestAnimationFrame** para emular la creación de instancias de hilo, así puedes manejar runtime paralell processing en una manera un poquito más eficiente.
 
-NOTE: Como depende de la dispoinibilidad de requestAnimationFrame solo funciona en browsers modernos.
+NOTA: Como depende de la dispoinibilidad de requestAnimationFrame solo funciona en browsers modernos.
 
 #### Ejemplo:
 
@@ -1775,7 +1775,7 @@ let my_ordered_list = [
 Genera una matriz en una dimensión.
 
 #### Uso
-**[].matrix (length, [value])** Donde **length** es un numero de elementos y el **value**opcional es un valor en cada elemento, puede ser cualquier valor de cualquier tipo.
+**[].matrix (length, [value])** Donde **length** es un numero de elementos y el **value** opcional es un valor en cada elemento, puede ser cualquier valor de cualquier tipo.
 
 ```javascript
 let matrix = Array.matrix(10);
@@ -1962,7 +1962,7 @@ let maxValue = [1,2,3].max()
 
 #### org.quickcorp.components.ShadowedComponent
 
-la Clase **ShadowedComponent** es un componente personalizado diseñado para permitirte crear un componente usando el Shadow DOM de un buscador. Lee mas sobre los componentes Shadow en [Este articulo en Hackernoon]
+La Clase **ShadowedComponent** es un componente personalizado diseñado para permitirte crear un componente usando el Shadow DOM de un buscador. Lee mas sobre los componentes Shadow en [Este articulo en Hackernoon]
  (https://www.hackernoon.com/shadowed-components-and-qcobjects-kd703yld).
 
 ##### Uso:
@@ -1979,7 +1979,7 @@ la Clase **ShadowedComponent** es un componente personalizado diseñado para per
 
 2.- A tu **component tag**, asígnale **FormField** en el atributo **componentClass**.
 
-3.-Para recuperar los datos del formulario dentro de tu componente solo tienen que usar el componentInstance.data .  Cada propiedad del objeto componentInstance.data sera unido por los eventos bindig con ls propiedades del valor en cada objeto DOM del formulario que ha sido asignado al data-field.
+3.- Para recuperar los datos del formulario dentro de tu componente solo tienen que usar el componentInstance.data .  Cada propiedad del objeto componentInstance.data sera unido por los eventos bindig con ls propiedades del valor en cada objeto DOM del formulario que ha sido asignado al data-field.
 
 ##### Uso:
 
@@ -2030,7 +2030,7 @@ Dentro del cuerpo de su componente, cuando es un componente **FormField** cada v
 
 #### org.quickcorp.components.InputField
 
-**InputField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between InputField and FormField is that InputField has a **```<input>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**InputField** es una subdefinición de **FormField**, que es comunmete usando para casi el mismo proposito del FormField. La principal diferencia entre InputField y FormField es que InputField tiene un elemento DOM **```<input>```** como el cuerpo del componente por defecto. Y FormField no tiene un cuerpo predefinido.
 
 ##### Uso:
 
@@ -2041,7 +2041,7 @@ Dentro del cuerpo de su componente, cuando es un componente **FormField** cada v
 
 #### org.quickcorp.components.TextField
 
-**ButtonField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between InputField and FormField is that ButtonField has a **```<textarea>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**ButtonField** es una subdefinición de **FormField**, que es comunmete usando para casi el mismo proposito del FormField. La principal diferencia entre InputField, ButtonField y FormField es que ButtonField tiene un elemento DOM **```<textarea>```** como el cuerpo del componente por defecto. Y FormField no tiene un cuerpo predefinido.
 
 ##### Uso:
 
@@ -2052,7 +2052,7 @@ Dentro del cuerpo de su componente, cuando es un componente **FormField** cada v
 
 #### org.quickcorp.components.EmailField
 
-**EmailField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between ButtonField and FormField is that ButtonField has a **```<input>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**EmailField** es una subdefinición de **FormField**, que es comunmete usando para casi el mismo proposito del FormField. La principal diferencia entre ButtonField y FormField es que ButtonField tiene un elemento DOM **```<input>```** como el cuerpo del componente por defecto. Y FormField no tiene un cuerpo predefinido.
 
 ##### Uso:
 
@@ -2062,7 +2062,7 @@ Dentro del cuerpo de su componente, cuando es un componente **FormField** cada v
 
 #### org.quickcorp.components.GridComponent
 
-GridComponent has a predefined name assigned to the value "grid", so be aware of it when you use this component class. Also, GridComponent is intended to be used in conjunction with GridController to expand its behavior to a CSS Grid.
+GridComponent tiene un nombre predefinido asignado al valor "grid", así que tenlo en cuenta cuando uses esta clase de componente. Tambien  GridComponent está diseñado para usarse junto con GridController para expandir su comportamiento a una cuadrícula CSS.
 
 ##### Uso:
 
@@ -2082,9 +2082,9 @@ GridComponent has a predefined name assigned to the value "grid", so be aware of
 </controller>
 ```
 
-The above example will draw a css grid of two columns and two rows and place the subcomponents into it.
+El ejemplo anterior dibujará una cuadrícula css de dos columnas y dos filas y colocará los subcomponentes en ella.
 
-Don't forget this file:
+No olvides este archivo:
 ```html
 <!-- file: grid.tpl.html, you can use the grid template either to draw the grid itself or to draw a loading information -->
 <p>Loading grid...</p>
@@ -2096,7 +2096,7 @@ Don't forget this file:
 
 #### org.quickcorp.components.SwaggerUIComponent
 
-It is used to inject a swagger-ui DOM needed to the Swagger UI API. Learn more in this article of QCObjects DevBlog called [Working with Swagger UI as a QCObjects Component](https://devblog.qcobjects.org/working-with-swagger-ui-as-a-qcobjects-component-ck6xzoqkg05indfs1i4rxq72e)
+Se usa para inyectar un DOM swagger-ui necesario para la Swagger UI API. Obtenga más información en este artículo de QCObjects DevBlog llamado [Working with Swagger UI as a QCObjects Component](https://devblog.qcobjects.org/working-with-swagger-ui-as-a-qcobjects-component-ck6xzoqkg05indfs1i4rxq72e)
 
 ##### Uso:
 ```html
@@ -2105,7 +2105,7 @@ It is used to inject a swagger-ui DOM needed to the Swagger UI API. Learn more i
 
 #### org.quickcorp.components.splashscreen.VideoSplashScreenComponent
 
-A powerful component definition to allow you create an awesome Video Splash Screen for your progressive web app.
+Una potente definición de componente que le permite crear una impresionante pantalla de bienvenida de video para su aplicación web progresiva.
 
 ##### Ejemplo:
 ```html
