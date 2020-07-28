@@ -10,7 +10,7 @@ Bienvenido a [QCObjects](https://qcobjects.dev). Un framework Open Source que em
 
 Con QCObjects los desarrolladores están habilitados para programar front-end y back-end en conjunto usando una sintaxis común in pure JavaScript. It is cross-browser, cross-platform and cross-frame.
 
-[QCObjects is being featured by British Herald as today, the most advanced framework for modern software development.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
+[QCObjects ha sido presentado por British Herald como el marco más avanzado para el desarrollo de software moderno.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
 
 Este documento es la documentacion referencial principal!
 
@@ -265,7 +265,7 @@ Mira esta demo en vivo de pure QCObjects basado en aplicación web fronted aquí
 ## Demo Integrada con Foundation
 
 A continuación, una demostración en vivo usando componentes de Foundation aquí:
-[Demo Using Foundation](https://github.com/QuickCorp/quickobjects_sample1foundation)
+[Demo usando Foundation](https://github.com/QuickCorp/quickobjects_sample1foundation)
 
 ## Demo Integrada con Materializecss
 
@@ -2126,12 +2126,13 @@ Una potente definición de componente que le permite crear una impresionante pan
 
 #### org.quickcorp.controllers.GridController
 
-**GridController** is intended to be used in conjunction with **GridComponent** to allow you to create a CSS grid to place subcomponents. More info in [org.quickcorp.components.GridComponent](#org.quickcorp.components.GridComponent)
+**GridController** está destinado a ser utilizado junto con **GridComponent** para permitir crear una cuadricula CSS para colocar los subcompnentes. Más información [org.quickcorp.components.GridComponent](#org.quickcorp.components.GridComponent)
 
 #### org.quickcorp.controllers.DataGridController
 
-**DataGridController** will take the data of your component and map a set of subcomponents to fill it up.
-This is commonly used to render a dynamic list of components. It used a **subcomponentClass** attribute value in the **component** tag to determine what component definition to use to build and render every sub-component. The data on every sub-component will be filled up with the value of the element mapped to the sub-component.
+**DataGridController** tomará los datos de su componente y asignará un conjunto de subcomponentes para completarlo.
+Esto se usa comúnmente para renderizar una lista dinámica de componentes. Es usando un valor de atributo **subcomponentClass** en la etiqueta **component** para determinar que definición de componente usar para construir y renderizar cada subcomponente. Los datos en cada subcomponente seran completados con el valor de un elemento mapeado a un subcomponente. 
+
 
 ##### Uso:
 
@@ -2142,10 +2143,10 @@ This is commonly used to render a dynamic list of components. It used a **subcom
 
 ##### Ejemplo:
 
-Suppose you have to render a list of profiles. Every profile has a profile picture, a name and an email.
-You want to use a card to represent every profile in the list.
+Supón que tienes que representar una lista de perfiles. Cada perfil tiene una foto de perfil, un nombre y un correo electrónico.
+Deseas usar una tarjeta(card) para representar cada perfil de la lista.
 
-So you define a CardComponent to render the picture, the name and email of an element in the list.
+Así que defines un CardComponent para renderizar la foto, el nombre y el email en un elemento en la lista. 
 
 ```javascript
 Class("CardComponent",Component,{
@@ -2165,7 +2166,7 @@ Class("CardComponent",Component,{
 <p>{{email}}</p>
 ```
 
-Then, you have to place a component to generate the list of cards.
+Luego, debes colocar un componente para generar la lista de tarjetas(cards).
 
 ```html
 <component name="loading_list" componentClass="MyListComponent" controllerClass="DataGridController"
@@ -2178,7 +2179,7 @@ subcomponentClass="CardComponent">
 <p>Loading list...</p>
 ```
 
-Last, you have to define MyListComponent to assign the dynamic data of the list.
+Por último, debes  definir MyListComponent para asignar los datos dinámicos de la lista.
 
 ```javascript
 Class("MyListComponent",Component,{
@@ -2202,13 +2203,13 @@ Class("MyListComponent",Component,{
 })
 ```
 
-The resulting component will be a list of **CardComponent** with the data of every profile mapped into them by **DataGridController**.
+El componente resultante sera una lista de **CardComponent** con los datos de cada perfil dentro de ellos mediante **DataGridController**.
 
 #### org.quickcorp.controllers.ModalController
 
 #### org.quickcorp.controllers.FormValidations
 
-**FormValidations** is used to handle default validations for the **FormController**
+**FormValidations** se utiliza para manejar validaciones predeterminadas para **FormController**
 
 #### Uso:
 
@@ -2216,35 +2217,35 @@ The resulting component will be a list of **CardComponent** with the data of eve
 FormValidations.getDefault(validationName)
 ```
 
-Where **validationName** is the name of the validation present in the **validations** property of the **FormController**
+Donde **validationName** es el nombre de la validación presente en la propiedad **validations** del **FormController**
 
 #### org.quickcorp.controllers.FormController
 
-The FormController definition is intended to help you to handle dynamic forms. By using the normalised syntax of the FormController definition, you don't have to code the complexity of the logic of a submit form, as it is atomised here in three steps.
+La definicion FormController esta destinado a ayudarte a manejar formas dinamicas. Mediante el uso de la sintaxis normalizada de la definicion FormController, no tienes que codificar la complejidad de la lógica de un formulario de envío, ya que se atomiza aquí en tres pasos.
 
-- Assign a serviceClass
-- Define the formSettings
-- Asign or code the field validations
+- Asigna una serviceClass
+- define los formSettings
+- Asignar código qr las validaciones de campo
 
 ##### [FormController].serviceClass
 
-It is the string name of the Class definition. FormController will load this class using the ClassFactory helper function, so the name can be a complete package name plus definition.
+Es el nombre de cadena de la definición de clase. FormController cargará esta clase usando la función auxiliar ClassFactory, por lo que el nombre puede ser un nombre completo del paquete más una definición.
 
 ##### [FormController].formSettings
 
-It is an object with the special properties of the form. The default settings are: backRouting:'#', loadingRouting:'#loading', nextRouting:'#signupsuccessful'. These settings are meant to handle the flow behavior of the form.
+Es un objeto con las propiedades especiales del formulario. La configuración predeterminada es: backRouting:'#', loadingRouting:'#loading', nextRouting:'#signupsuccessful'. Estas configuraciones están destinadas a manejar el comportamiento de flujo del formulario.
 
-**loadingRouting** is the name of the routing that will be triggered while the **serviceClass** is beign called until the service loader returns a response.
+**loadingRouting** es el nombre de la ruta que se activará mientras **serviceClass** comience a llamar hasta ue el servicio de recarga regrese la respuesta.
 
-**backRouting** is the name of the routing that will be triggered if the call for the **serviceClass** fails.
+**backRouting** es el nombre del enrutamiento que se activará si falla la llamada a **serviceClass**.
 
-**nextRouting** is the name of the routing that will be triggered when the call for the **serviceClass** finishes OK.
+**nextRouting** es el nombre del enrutamiento que se activará cuando la llamada para **serviceClass** finalice bien.
 
 ##### [FormController].validations
 
-It is an object with the helper functions that you want to define to validate every form field. When you define a validation function for a field, FormController will ask if the execution of that function returns true before to submit the form.
+Es un objeto con las funciones de ayuda que queres para definir validando cada campo de formulario. Cuando defines una funcion de validadion para un campo, FormController te preguntara si la ejecución de esa función regresa verdadera antes de enviar el formulario.
 
-To define validations for the fields of the form, you just need to add them as a part of the validations property.
+Para definir validaciones para los campos del formulario, solo necesitas agregarlas como parte de la propiedad de validaciones.
 
 ##### Uso:
 
