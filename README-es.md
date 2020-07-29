@@ -2221,7 +2221,7 @@ Donde **validationName** es el nombre de la validación presente en la propiedad
 
 #### org.quickcorp.controllers.FormController
 
-La definicion FormController esta destinado a ayudarte a manejar formas dinamicas. Mediante el uso de la sintaxis normalizada de la definicion FormController, no tienes que codificar la complejidad de la lógica de un formulario de envío, ya que se atomiza aquí en tres pasos.
+La definición FormController esta destinado a ayudarte a manejar formas dinámicas. Mediante el uso de la sintaxis normalizada de la definición FormController, no tienes que codificar la complejidad de la lógica de un formulario de envío, ya que se atomiza aquí en tres pasos.
 
 - Asigna una serviceClass
 - define los formSettings
@@ -2243,7 +2243,7 @@ Es un objeto con las propiedades especiales del formulario. La configuración pr
 
 ##### [FormController].validations
 
-Es un objeto con las funciones de ayuda que queres para definir validando cada campo de formulario. Cuando defines una funcion de validadion para un campo, FormController te preguntara si la ejecución de esa función regresa verdadera antes de enviar el formulario.
+Es un objeto con las funciones de ayuda que quieres para definir validando cada campo de formulario. Cuando defines una función de validación para un campo, FormController te preguntara si la ejecución de esa función regresa verdadera antes de enviar el formulario.
 
 Para definir validaciones para los campos del formulario, solo necesitas agregarlas como parte de la propiedad de validaciones.
 
@@ -2260,7 +2260,7 @@ Para definir validaciones para los campos del formulario, solo necesitas agregar
 	}
 ```
 
-You can also use **FormValidations.getDefault** for simplicity.
+Tambien puede usar **FormValidations.getDefault** por simplicidad.
 
 ```javascript
 	// Let's say you have a form field called "name"
@@ -2275,8 +2275,8 @@ You can also use **FormValidations.getDefault** for simplicity.
 
 ##### [FormController].formSaveTouchHandler
 
-This method is internally used by FormController to call the serviceClass as a submit action.
-It will be binded to any click or touch event of any element inside the form that has a CSS ".submit" class assigned.
+Este metodo esta internamente usado mediante FormController para llamar al  serviceClass como una acción de envío.
+Se vinculará a cualquier evento de clic o toque de cualquier elemento dentro del formulario que tenga asignada una clase CSS ".submit".
 
 Ejemplo:
 
@@ -2284,11 +2284,11 @@ Ejemplo:
 <button class="submit"><p>Send</p></button>
 ```
 
-When the click or touch event of the above button is triggered, FormController will call the service defined in **serviceClass**, this action will be done by **formSaveTouchHandler**. If you like to change this behavior just override this method in your custom controller.
+Cuando el clic o el toque del anterior botón se active, FormController llamara al servicio definido en **serviceClass**, esta acción se hará por **formSaveTouchHandler**. Si desea cambiar este comportamiento, simplemente anule este método en su controlador personalizado.
 
 ##### A complete example of FormController
 
-Below is a complete example of a definition for a Signup Form using FormController.
+A continuación se muestra un ejemplo completo de una definición para un Formulario de registro utilizando FormController.
 
 ```javascript
 // First, define a service class that will be called on submit.
@@ -2398,7 +2398,7 @@ Class('SignupFormController',Controller,{
 
 #### org.quickcorp.controllers.SwaggerUIController
 
-It is used to inject a swagger-ui DOM needed to the Swagger UI API. Learn more in this article of QCObjects DevBlog called [Working with Swagger UI as a QCObjects Component](https://devblog.qcobjects.org/working-with-swagger-ui-as-a-qcobjects-component-ck6xzoqkg05indfs1i4rxq72e)
+Es usado para inyectar un swagger-ui DOM necesario para el Swagger UI API. Aprende mas en este articulo de QCObjects DevBlog llamado [Working with Swagger UI as a QCObjects Component](https://devblog.qcobjects.org/working-with-swagger-ui-as-a-qcobjects-component-ck6xzoqkg05indfs1i4rxq72e)
 
 ##### Uso:
 ```html
@@ -2408,12 +2408,11 @@ It is used to inject a swagger-ui DOM needed to the Swagger UI API. Learn more i
 
 ### SDK Effects
 
-QCObjects has an **Effect** definition to handle and produce new effects and transitions for the components.
-Below are some custom effect definitions that will help you to build amazing visual features to your components. To improve the performance, effects are changing CSS internally to apply the effect in a smart way. And all the effects engine is based on the **requestAnimationFrame** definition, read more [here](https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#animation-frames)
+QCObjects tiene una definicion  **Effect**  para manejar y producir nuevos efectos y transiciones para los componentes. A continuación hay algunas definiciones de efectos personalizadas que te ayudaran a construir sorprendentes características visuales para tus componentes. Para mejorar el rendimiento, los efectos están cambiando CSS internamente para aplicar el efecto de manera inteligente. Y todo el motor de efectos se basa en la definición **requestAnimationFrame**, lee mas sobre esto [aquí](https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#animation-frames)
 
 #### org.quickcorp.tools.effects.Move
 
-Moves a DOM object from one position to another.
+Mueve el objeto DOM de una posicion a otra.
 
 ##### Uso:
 
@@ -2430,7 +2429,7 @@ Tag('img').map(img => Move.apply(img,0,0,10,10))
 
 #### org.quickcorp.tools.effects.MoveXInFromRight
 
-Moves an element from the right side in X axis to the original position of the object.
+Mueve un elemento desde el lado derecho en el eje X a la posición original del objeto.
 
 ##### Uso:
 
@@ -2447,7 +2446,7 @@ Tag('canvas').map(canvas => MoveXInFromRight.apply(canvas));
 
 #### org.quickcorp.tools.effects.MoveXInFromLeft
 
-Moves an element from the left side in X axis to the original position of the object.
+Mueve un elemento desde el lado izquierdo en el eje X a la posición original del objeto.
 
 ##### Uso:
 
@@ -2464,7 +2463,7 @@ Tag('canvas').map(canvas => MoveXInFromLeft.apply(canvas));
 
 #### org.quickcorp.tools.effects.MoveYInFromBottom
 
-Moves an object of the DOM from bottom to its original position using Y axis.
+Mueve un objeto del DOM desde abajo a su posición original usando el eje Y.
 
 ##### Uso:
 ```javascript
@@ -2479,7 +2478,7 @@ Tag('component[name=comp1]').map(componentBody => MoveYInFromBottom.apply(compon
 
 #### org.quickcorp.tools.effects.MoveYInFromTop
 
-Moves an object of the DOM from top to its original position using Y axis.
+Mueve un objeto del DOM de arriba a su posición original usando el eje Y.
 
 ##### Uso:
 ```javascript
@@ -2494,14 +2493,14 @@ Tag('component[name=comp1]').map(componentBody => MoveYInFromTop.apply(component
 
 #### org.quickcorp.tools.effects.RotateX
 
-Rotates an object in X axis.
+Rota un objeto en el eje X.
 
 ##### Uso:
 ```javascript
 RotateX.apply(element, angleFrom, angleTo)
 ```
 
-**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+**angleFrom** y **angleTo** representan un valor de ángulo expresado en grados, comenzando desde 0 (cero) a 360.
 
 ##### Ejemplo:
 ```javascript
@@ -2512,14 +2511,14 @@ Tag('div#id').map(div => RotateX.apply(div, 180, 240));
 
 #### org.quickcorp.tools.effects.RotateY
 
-Rotates an object in Y axis.
+Rota un objeto en el eje Y.
 
 ##### Uso:
 ```javascript
 RotateY.apply(element, angleFrom, angleTo)
 ```
 
-**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+**angleFrom** y **angleTo** representan un valor de ángulo expresado en grados, comenzando desde 0 (cero) a 360.
 
 ##### Ejemplo:
 ```javascript
@@ -2529,14 +2528,14 @@ Tag('div#id').map(div => RotateY.apply(div, 0, 270));
 
 #### org.quickcorp.tools.effects.RotateZ
 
-Rotates an object in Z axis.
+Rota un objeto en el eje Z.
 
 ##### Uso:
 ```javascript
 RotateZ.apply(element, angleFrom, angleTo)
 ```
 
-**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+**angleFrom** y **angleTo** representan un valor de ángulo expresado en grados, comenzando desde 0 (cero) a 360.
 
 ##### Ejemplo:
 ```javascript
@@ -2548,14 +2547,14 @@ Tag('div#id').map(div => RotateZ.apply(div, 0, 60));
 
 #### org.quickcorp.tools.effects.Rotate
 
-Rotates an object in X, Y, Z axes. All axes will rotate in paralell at the same time producing a 3d visual effect perception.
+Rota un objeto en los ejes X, Y, Z. Todos los ejes rotarán en paralelo al mismo tiempo produciendo una percepción de efectos visuales en 3D.
 
 ##### Uso:
 ```javascript
 Rotate.apply(element, angleFrom, angleTo)
 ```
 
-**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+**angleFrom** y **angleTo** representan un valor de ángulo expresado en grados, comenzando desde 0 (cero) a 360.
 
 ##### Ejemplo:
 ```javascript
@@ -2565,7 +2564,7 @@ Tag('div#id').map(div => Rotate.apply(div, 0, 270));
 
 #### org.quickcorp.tools.effects.Fade
 
-Produces a fade effect by lowering the opacity of the element.
+Produce un efecto de desvanecimiento al reducir la opacidad del elemento.
 
 ##### Uso:
 
@@ -2573,7 +2572,7 @@ Produces a fade effect by lowering the opacity of the element.
 Fade.apply(element, alphaFrom, alphaTo)
 ```
 
-**alphaFrom** and **alphaTo** are numbers between 0 (zero) and 1.
+**alphaFrom** y **alphaTo** son numeros entre 0 (cero) y 1.
 
 ```javascript
 // the following line will fade a <b class="header"> element from 0.5 (mid visibility) to 1 (full visibility)
@@ -2582,14 +2581,14 @@ Tag('b.header').map(header=>Fade.apply(header, 0.5, 1))
 
 #### org.quickcorp.tools.effects.Radius
 
-Rounds the corner of an element
+Redondea la esquina de un elemento.
 
 ##### Uso:
 ```javascript
 Radius.apply(element, radiusFrom, radiusTo)
 ```
 
-**radiusFrom** and **radiusTo** are numeric values.
+**radiusFrom** y **radiusTo** son valores numéricos.
 
 ##### Ejemplo:
 ```javascript
@@ -2604,8 +2603,8 @@ Tag('img').map(element => Radius.apply(element, 0, 100))
 Resize.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+**scaleFrom** y **scaleTo** son valores numericos
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 
 ##### Ejemplo:
 
