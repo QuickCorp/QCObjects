@@ -2621,15 +2621,15 @@ Tag('img').map(element => Resize.apply(element, 2,1))
 
 #### org.quickcorp.tools.effects.WipeLeft
 
-Makes a Wipe effect from Left side to the origin of the element.
+Hace un efecto de limpieza desde el lado izquierdo al origen del elemento.
 
 ##### Uso:
 ```javascript
 WipeLeft.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+**scaleFrom** y **scaleTo** son valores numericos.
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 
 ##### Ejemplo
 
@@ -2638,15 +2638,15 @@ Tag('img').map(element => WipeLeft.apply(element,0,1))
 ```
 
 #### org.quickcorp.tools.effects.WipeRight
-Makes a Wipe effect from right side to the origin of the element.
+Hace un efecto de limpieza desde el lado derecho hasta el origen del elemento.
 
 ##### Uso:
 ```javascript
 WipeRight.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+**scaleFrom** y **scaleTo** son valores numericos
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 
 ##### Ejemplo
 
@@ -2657,16 +2657,15 @@ Tag('img').map(element => WipeRight.apply(element,0,1))
 
 #### org.quickcorp.tools.effects.WipeUp
 
-Makes a Wipe effect from down to up the origin of the element.
+Realiza un efecto de limpieza de abajo hacia arriba en el origen del elemento.
 
 ##### Uso:
 ```javascript
 WipeUp.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
-
+**scaleFrom** y **scaleTo** son valores numericos.
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 ##### Ejemplo
 
 ```javascript
@@ -2675,15 +2674,15 @@ Tag('img').map(element => WipeUp.apply(element,0,1))
 
 #### org.quickcorp.tools.effects.WipeDown
 
-Makes a Wipe effect from up to down the origin of the element.
+Realiza un efecto de limpieza de arriba a abajo en el origen del elemento.
 
 ##### Uso:
 ```javascript
 WipeDown.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+**scaleFrom** y **scaleTo** son valores numéricos.
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 
 ##### Ejemplo
 
@@ -2700,19 +2699,19 @@ Tag('img').map(element => WipeDown.apply(element,0,1))
 
 ### SDK Views
 
-Below are a set of pre-defined views for common use.
+A continuación hay un conjunto de vistas predefinidas para uso común.
 
 #### org.quickcorp.views.GridView
 
-A generic GridView definition for use with grids.
+Una definion generica GridView para usar con cuadriculas.
 
 ### SDK i18n messages
 
-The QCObjects i18n engine allows you to define custom messages . Learn more in this article in the DevBlog called [i18n Internationalisation for your Progressive Web Apps](https://devblog.qcobjects.org/i18n-internationalisation-for-your-progressive-web-apps-ck90h4qz301ca7vs1ue7joopu)
+El motor QCObjects i18n le permite definir mensajes personalizados. Obtenga más información en este artículo en el DevBlog llamado [i18n Internationalisation for your Progressive Web Apps](https://devblog.qcobjects.org/i18n-internationalisation-for-your-progressive-web-apps-ck90h4qz301ca7vs1ue7joopu)
 
 #### org.quickcorp.i18n_messages.i18n_messages
 
-Used to call the i18n engine.
+Utlizado para llamar al motor i18n.
 
 ##### Uso:
 ```javascript
@@ -2748,53 +2747,51 @@ Package('org.quickcorp.i18n_messages.es', [
 
 ## The QCObjects HTTP2 Built-In Server
 
-The QCObjects HTTP2 Built-In Server will help you to test your application
-in a local environment before to deploy to a production environment.
-For production environment it is recommended to use QCObjects HTTP2 Built-In Server under Ubuntu 18.x or newer and NodeJS 12.x or newer.
+El servidor HTTP2 Built-In de QCObjects te ayudara a probar tu aplicacion en un entorno local antes de implementarlo en un entorno de producción.
+Para el entorno de producción, se recomienda utilizar el servidor QCObjects HTTP2 Built-In en Ubuntu 18.x o el mas nuevo y NodeJS 12.x o mas actual.
 
 ### Start serving your files with QCObjects
 
-To start using the QCObjects HTTP2 Built-In Server, you just go to your project path and execute the following command line in your bash shell:
+Para comenzar a utilizar el servior de QCObjects HTTP2 Built-In,solo necesitas ir a la ruta del proyecto y ejecutar la ssiguiente liniea de comandos en tu bash shell:
 
 ```shell
 > qcobjects launch mynewapp
 ```
 
-or
+o
 
 ```
 > qcobjects-server
 ```
 
-It will start serving the files inside the folder you are present, unsing a built-in HTTP2 Server with the default configuration settings.
-
+Comenzara a servir los archivos dentro de la carpeta donde estas, usando el servidor built-in HTTP2 Server cin la configuracion predeterminada. 
 
 ### Principals of an N-Tier or Multitier architecture
 
-QCObjects was designed to work into a professional environment. There are many ways and paradigms to use when you define your software architecture. One recommended is using a Multitier or N-Tier architecture.
+QCObjects fue diseñado para trabajar en un entorno profesional. Hay muchas formas y paradigmas para usar cuando define su arquitectura de software. Se recomienda  es usar una arquitectura Multitier o N-Tier.
 
-The benefits of a Multitier or N-Tier architecture are scalability and reliability of the systems that are demanding higger impact and performance. To go deep into this concepts would unnecessary enlarge this reference document but you can read more about this concepts in the following external links (only for reference and study):
+Los beneficios de la arquitectura  Multitier o N-Tier son la escalabilidad y confiabilidad de los sistemas que exigen un mayor impacto y rendimiento. Para profundizar en estos conceptos sería innecesario ampliar este documento de referencia, pero puede leer más sobre estos conceptos en los siguientes enlaces externos(solo para referencia y estudio):
 
-- [Miltitier Architecture](https://en.m.wikipedia.org/wiki/Multitier_architecture)
-- [3 Tier Architecture](https://www.tonymarston.net/php-mysql/3-tier-architecture.html)
-- [Milti Tier Application](https://www.techopedia.com/definition/23599/multi-tier-application)
-- [N Tier Architecture System Concepts and Tips](https://www.guru99.com/n-tier-architecture-system-concepts-tips.html)
+- [Arquitectura Miltitier ](https://en.m.wikipedia.org/wiki/Multitier_architecture)
+- [Arquitectura 3 Tier ](https://www.tonymarston.net/php-mysql/3-tier-architecture.html)
+- [Aplicacion Milti Tier ](https://www.techopedia.com/definition/23599/multi-tier-application)
+- [Conceptos del sistema de arquitectura N Tier y Tips](https://www.guru99.com/n-tier-architecture-system-concepts-tips.html)
 
 
 ### Micro-services Principals
 
-The main goal of a microservice is that you can compact a fragment of backend functionality in a piece of code that can be called remotely from another backend or frontend terminal. Basically you can split a high level backend service into a multiple small micro-services that can complete the task. There are thousands of good examples of this kind of pattern adoption. You can read more about this concept in the following external links (only for reference and study):
+El objetivo principal de un microservicio es que puede compactar un fragmento de funcionalidad de back-end en un código que se puede llamar de forma remota desde otro terminal de back-end o frontend. Básicamente, puedes dividir un servicio de back-end de alto nivel en múltiples microservicios pequeños que pueden completar la tarea. Hay miles de buenos ejemplos de este tipo de adopción de patrones. Puede leer más sobre este concepto en los siguientes enlaces externos (solo para referencia y estudio):
 
 - [Microservice Patterns](https://microservices.io)
 - [Microservices on Wikipedia](https://en.wikipedia.org/wiki/Microservices)
 
-With QCObjects you can code your microservices in a way more fancy, clean and quick.
+Con QCObjects puedes codificar sus microservicios de una manera más elegante, limpia y rápida.
 
 ### Backend settings in config.json
 
-You can also use config.json in the backend side to make some tunning and custom settings for backend, specially useful for making the microservice routes.
+También puedes usar config.json en el lado del backend para hacer algunos ajustes y configuraciones personalizadas para el backend, especialmente útil para hacer las rutas de microservicio.
 
-Below is an example of a customised config.json file including the backend settings:
+A continuación se muestra un ejemplo de un archivo config.json personalizado que incluye la configuración del back-end:
 
 ```json
 {
