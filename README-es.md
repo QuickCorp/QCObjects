@@ -2817,8 +2817,8 @@ A continuación se muestra un ejemplo de un archivo config.json personalizado qu
 
 ### Backend routing
 
-Inside your config.json file you can set the backend routes for your microservices.
-For every microservice route, a path and a microservice package string is required.
+Dentro de su archivo config.json puede establecer las rutas de back-end para sus microservicios.
+Para cada ruta de microservicio, se requiere una ruta y una cadena de paquete de microservicio.
 
 ```json
 {
@@ -2833,14 +2833,14 @@ For every microservice route, a path and a microservice package string is requir
 }
 ```
 
-When you set up the backend routes, the QCObjects HTTP2 Built-In Server will know how to handle the calls for every path defined. For every other path that is undefined by the backend routes settings, the server will handle the call with the default behavior, that is using a static file as response if it exists.
-With that in mind you can use QCObjects either to manage and serve static files or dynamically served files when you need it.
-
+Cuando configuras las rutas de back-end, el servidor  QCObjects HTTP2 Built-In  sabra como manejar las llaadas de cada ruta definida. Para cada otra ruta que este indefinida mediante los ajustes del Back-end, el servidor se manejara para llamar al comportamiento por defecto que está usando un archivo estático como respuesta si existe.
+ Con eso en mente puedes usar QCObjects tanto para administar y servir archivos estaticos o servicios servidos dinamicamente cuando lo necesites. 
+ 
 ### The QCObjects Microservice Class and Package
 
-When you set up a backend route definition, you need to specify a microservice package. This microservice package is a QCObjects definition of a package with a Microservice class extended from a BackendMicroservice class already defined by QCObjects.
+cuando configuras la definicion de ruta bakend, necesitas especificar un paquete de microdervicio.Este paquete de microservicio es una definicion de QCObjects de un paquete con una clase microservicio extendida desde la clase BackendMicroservice ya definida por QCObjects.
 
-Below is an example of a microservice package definition, writen in the file org.quickcorp.backend.signup.js
+A continuación se muestra un ejemplo de una definición de paquete de microservicio, escrita en el archivo org.quickcorp.backend.signup.js
 
 ```javascript
 'use strict';
@@ -2870,11 +2870,11 @@ Package('cl.quickcorp.backend.signup',[
 ]);
 ```
 
-The above microservice is saving a file with the data received from a post request, and answering a jsonrpc 2.0 standard output. Read more about JSON RPC 2.0 Specification [here](https://www.jsonrpc.org/specification)
+El microservicio anterior está guardando un archivo con los datos recibidos de una solicitud posterior y respondiendo a una salida estándar jsonrpc 2.0. Lee sobre estas especificaciones  JSON RPC 2.0 [Aquí](https://www.jsonrpc.org/specification)
 
-QCObjects HTTP2 Built-In Server will make a call to the post() method of the Microservice class definition only when a post request is made to the right path defined into the config.json referencing the name of the package as the initial indexing point of reference.
+El servidor QCObjects HTTP2 Built-In hara una llamada al metodo post() de la definicion de clase Microservice solo cuadose realiza una solicitud posterior en la ruta correcta definida en config.json que hace referencia al nombre del paquete como el punto de referencia de indexación inicial.
 
-In order to allow QCObjects understand and execute your microservies in the right way, inside a microservice package, a Microservice class definition is required, and also the Microservice class definition must to extend the BackendMicroservice class that is a part of QCObjects built-in classes.
+Para permitir que QCObjects entienda y ejecute sus microservicios de la manera correcta dentro de un paquete de microservicios, una definicion de clase Microservice es requerida y tambine la definicion de clase  Microservice tiene que extender la clase BackendMicroservice que es parte de las clases built-in de QCObjects.
 
 
 ### Generating a Self-Signed Certificate with QCObjects
@@ -3096,10 +3096,10 @@ Import('cl.quickcorp'); // this will import your main file: cl.quickcorp.js into
 
 ## Commands
 
-   **create** [options] ```<appname>```   Creates an app with ```<appname>```
-   **publish** [options] ```<appname>```  Publishes an app with ```<appname>```
-   **generate-sw** ```<appname>```        Generates the service worker  ```<appname>```
-   **launch** ```<appname>```             Launches the application
+   **create** [options] ```<appname>``` Crea una aplicación con ```<appname>```
+   **publish** [options] ```<appname>```  Publica una aplicación con ```<appname>```
+   **generate-sw** ```<appname>```        Genera el trabajador de servicio  ```<appname>```
+   **launch** ```<appname>```             Inicia la aplicación.
 
 ## Use:
    $ qcobjects-cli [command] --help
@@ -3109,6 +3109,6 @@ Import('cl.quickcorp'); // this will import your main file: cl.quickcorp.js into
 --------------------------
 ![alpha](https://qcobjects.dev/doc/img/ALPHA-RISE.png)
 
-[QCObjects](https://qcobjects.dev) was invited to exhibit as an ALPHA Startup in the RISE Conf Hong Kong 2019. RISE attracts the most dynamic startups from around the world. We'll be showing how [QCObjects](https://qcobjects.dev) is making a real Global Impact to the JavaScript developers life transforming the way for coding.
+[QCObjects](https://qcobjects.dev) fue invitado a exponer como ALPHA Startup en RISE Conf Hong Kong 2019. RISE atrae a las startups más dinámicas de todo el mundo. Estaremos mostrando como [QCObjects](https://qcobjects.dev) está teniendo un verdadero impacto global en la vida de los desarrolladores de JavaScript transformando el camino para la codificación.
 
-If you want to find out more about RISE event check out their website [https://riseconf.com](https://riseconf.com)
+Si desea obtener más información sobre el evento RISE, visite su sitio web [https://riseconf.com](https://riseconf.com)
