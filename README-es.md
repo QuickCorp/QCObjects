@@ -10,7 +10,7 @@ Bienvenido a [QCObjects](https://qcobjects.dev). Un framework Open Source que em
 
 Con QCObjects los desarrolladores están habilitados para programar front-end y back-end en conjunto usando una sintaxis común in pure JavaScript. It is cross-browser, cross-platform and cross-frame.
 
-[QCObjects is being featured by British Herald as today, the most advanced framework for modern software development.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
+[QCObjects ha sido presentado por British Herald como el marco más avanzado para el desarrollo de software moderno.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
 
 Este documento es la documentacion referencial principal!
 
@@ -26,7 +26,7 @@ Puedes contribuir a [QCObjects](https://qcobjects.dev) siguiendo el conjunto de 
 
 # Video Explicativo de QCObjects
 
-Para todos los que no tengan tiempo de leer esto hoy, aquí hay un pequeño video que explica que es QCObject y que puedes hacer con el.
+Para todos los que no tengan tiempo de leer esto hoy, aquí hay un pequeño video que explica que es QCObjects y que puedes hacer con el.
 
 [![QCObjects Explainer Video](https://img.youtube.com/vi/D0rftABPGvQ/0.jpg)](https://www.youtube.com/watch?v=D0rftABPGvQ "QCObjects Explainer Video")
 
@@ -265,7 +265,7 @@ Mira esta demo en vivo de pure QCObjects basado en aplicación web fronted aquí
 ## Demo Integrada con Foundation
 
 A continuación, una demostración en vivo usando componentes de Foundation aquí:
-[Demo Using Foundation](https://github.com/QuickCorp/quickobjects_sample1foundation)
+[Demo usando Foundation](https://github.com/QuickCorp/quickobjects_sample1foundation)
 
 ## Demo Integrada con Materializecss
 
@@ -395,7 +395,7 @@ Puedes revisar[QCObjects SDK](https://sdk.qcobjects.dev/) y seguir los ejemplos 
 # Donar
 --------------
 
-si te gustó este código por favor [DONA](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
+Si te gustó este código por favor [DONA](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)!
 
  [![paypal](https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUTDBUQHCS4PU&source=url)
 
@@ -489,11 +489,11 @@ Un Amazon Machine Image (AMI) otorga información requerida para lanzar una inst
 
 Un AMI incluye lo siguiente:
 
-- uno o mas EBS snapshots, o, para instance-store-backed AMIs, una plantilla para la raíz volumen de la instancia(por ejemplo, un sistema operativo, un servidor de aplicaciones y aplicaciones).
+- Uno o mas EBS snapshots, o, para instance-store-backed AMIs, una plantilla para la raíz volumen de la instancia(por ejemplo, un sistema operativo, un servidor de aplicaciones y aplicaciones).
 - Lanza permisos que controla que cuenta AWS puede usar el AMI para lanzar instancias.
-- A block device mapping that specifies the volumes to attach to the instance when it's launched. Un bloqueo de dispositivos mapping que especifica los volúmenes adjuntos a la instancia cuando es lanzada.
+- Un bloqueo de dispositivos mapping que especifica los volúmenes adjuntos a la instancia cuando es lanzada.
 
-[empieza construyendo QCObjects AMI aquí](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
+[Empieza construyendo QCObjects AMI aquí](https://aws.amazon.com/marketplace/pp/B07YZRH7VB)
 
 ### Amazon Web Services AWS PIB (Private Amazon Machine Image)
 
@@ -539,7 +539,7 @@ Donde [VERSIÓN] corresponde a la ultima versión usando notaciones numericas, e
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.js"></script>
 ```
 
-No necesitas minificar QCObjects, pero si aun quieres usar el codigo minificado puedes hacer esto:
+No necesitas minificar QCObjects, pero si aún quieres usar el codigo minificado puedes hacer esto:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qcobjects/2.1.420/QCObjects.min.js"></script>
@@ -735,7 +735,7 @@ console.log(newObject.classMethod2()); // this will show the number 1
 
 ### New
 
- Crea una instancia de objeto de una definición de clase de QCObject.
+Crea una instancia de objeto de una definición de clase de QCObject.
 
 #### Uso:
 
@@ -764,8 +764,8 @@ console.log(objectInstance.randomNumber); // it will show console.log(objectInst
 Una sola definición de clase común QCObjects es utilizada.
 
 ### ClassFactory
-Usa la **ClassFactory** para tener una declaración de clase de fabrica para la clase
-También puedes usar la clase de fabrica desde un paquete o desde la fila apilada.
+Usa la **ClassFactory** para tener una declaración de clase de fabrica para la clase,
+también puedes usar la clase de fabrica desde un paquete o desde la fila apilada.
 
 Para recuperar la clase de fabrica de la clase fila apilada simplemente usa el nombre de la clase llamándola directamente en el código.
 
@@ -868,7 +868,7 @@ console.log(New(MyExtendedClass).sourceProp)
 ```
 
 ### \_Crypt
-con \_Crypt puedes codificar en serie objetos a passphrase
+Con \_Crypt puedes codificar en serie objetos a passphrase
 
 #### Ejemplo (1):
 
@@ -928,7 +928,7 @@ El archivo encriptado json va en https://config.qcobjects.dev, pon tu configurac
 
 #### Propiedades dinámicas de CONFIG
 
- A veces necesitaras establecer el valor de la fuente que no sea estática, como el ENV vars u otras fuentes personalizadas de data dinámica. Para tener valor usando CONFIG de una fuente dinámica tienes que usar un procesador. Existen procesadores comunes predefinidos como $ENV (solo si esta disponible en CLI, Collab o Node) y $config (disponible en todos los ambientes).
+A veces necesitaras establecer el valor de la fuente que no sea estática, como el ENV vars u otras fuentes personalizadas de data dinámica. Para tener valor usando CONFIG de una fuente dinámica tienes que usar un procesador. Existen procesadores comunes predefinidos como $ENV (solo si esta disponible en CLI, Collab o Node) y $config (disponible en todos los ambientes).
 
 Los procesadores son llamados como una meta de valor ya sea en el config.json o en la Clase CONFIG.
 
@@ -1006,12 +1006,12 @@ Processor.setProcessor(SERVICE_PORT);
 
 Entonces solo necesita establecer su variable de entorno SERVICE_URL en su shell
 
-The following is for Unix/Linux systems
+Lo siguiente es para los sistemas operativos de Unix/Linux :
 ```shell
 export SERVICE_URL="https://example.com:443/path-to-a-resource/"
 ```
 
-y su configuración se cargará dinámicamente de esta manera:
+Y su configuración se cargará dinámicamente de esta manera:
 
 ```json
 {
@@ -1024,7 +1024,7 @@ y su configuración se cargará dinámicamente de esta manera:
 Y consigue tus valores correspondientes en **CONFIG.get(value)**
 
 ### waitUntil
-waitUntil es un ayudante solo en caso de que estés en problemas tratando de correr el código antes de que la condición sea real.El código dentro del waitUntil sera ejecutado una vez.
+WaitUntil es un ayudante solo en caso de que estés en problemas tratando de correr el código antes de que la condición sea real. El código dentro del waitUntil sera ejecutado una vez.
 
 NOTA: Esto es útil en algunos casos pero no es recomendado para uso excesivo.
 
@@ -1457,26 +1457,26 @@ document.buildComponents()
 
 
 ### Controller
-Una clase QCObject built-in para definir un contorlador.
+Una clase QCObjects built-in para definir un contorlador.
 
 ### View
-Una vista QCObject built in para definir una vista.
+Una vista QCObjects built in para definir una vista.
 
 ### VO
-Una clase QCObject built-in para definir un valor de objeto.
+Una clase QCObjects built-in para definir un valor de objeto.
 
 
 ### Service
-Un tipo clase QCObject para servicio.
+Un tipo clase QCObjects para servicio.
 
 
 #### Propiedades
 
 **[Service].domain**
-Regresa a una cadena que domina tu aplicación.Es automáticamente configurado por QCObject a la hora de carga.
+Regresa a una cadena que domina tu aplicación.Es automáticamente configurado por QCObjects a la hora de carga.
 
 **[Service].basePath**
-Regresa a la cadena con un camino base url para tu aplicación. Es automáticamente configurado por QCObject a la hora de carga.
+Regresa a la cadena con un camino base url para tu aplicación. Es automáticamente configurado por QCObjects a la hora de carga.
 
 **[Service].url**
 Una cadena representa el url completo del servicio. Puede ser absoluto o relativo para el basepath cuando es aplicado. Puede ser también un url externo.
@@ -1547,10 +1547,10 @@ Es la definición Buil-in para un servicio de clase JSON
 #### Propiedades
 
 **[JSONService].domain**
-Regresa una cadena con la que domina tu aplicación. Es automáticamente configurada por QCObject a la hora de carga.
+Regresa una cadena con la que domina tu aplicación. Es automáticamente configurada por QCObjects a la hora de carga.
 
 **[JSONService].basePath**
-Regresa una cadena con camino url base de tu aplicación. Es automáticamente configurada por QCObject a la hora de carga.
+Regresa una cadena con camino url base de tu aplicación. Es automáticamente configurada por QCObjects a la hora de carga.
 
 **[JSONService].url**
 Una cadena completa representando a todo el servicio url. Puede ser absoluto o relativo al basePath cuando es aplicado. Puede ser tambien un url externo.
@@ -1561,7 +1561,7 @@ NOTA: Para cargar un srvicio de un recurso interno necesitas especificar el para
 Es una cadena representando un componente. El nombre del servicio puede ser cualquier valor alphanumerico que identifique el servicio de instancia. No es una identificación única, sino solo un nombre descriptivo.
 
 **[JSONService].method**
-Es una cadena representando el metodo HTTP o HTTPS. Los posible valores son:"GET", "POST", "PUT", ... cualquier otro sera aceptado mediante servicios de llamadas REST.
+Es una cadena representando el metodo HTTP o HTTPS. Los posible valores son:"GET", "POST", "PUT", ... Cualquier otro sera aceptado mediante servicios de llamadas REST.
 
 **[JSONService].data**
 Es un objeto representando al servicio de datos. Cuando QCObjects carga el servicio recibe una respuesta y lo interpreta como un template. Así que una vez la respuesta del servicio es obtenida, Tomara cualquier propiedad de un objeto de datos y lo atara a una etiqueta template representando la misma propiedad dentro del contenido entre los brackets dobles(Ejemplo: {{prop1}}en el contenido de la plantilla se representará data.prop1 en la instancia de servicio).
@@ -1673,7 +1673,7 @@ Class('CustomFade',Effect,{
 
 **Timer** es una implementación especial de **requestAnimationFrame** para emular la creación de instancias de hilo, así puedes manejar runtime paralell processing en una manera un poquito más eficiente.
 
-NOTE: Como depende de la dispoinibilidad de requestAnimationFrame solo funciona en browsers modernos.
+NOTA: Como depende de la dispoinibilidad de requestAnimationFrame solo funciona en browsers modernos.
 
 #### Ejemplo:
 
@@ -1775,7 +1775,7 @@ let my_ordered_list = [
 Genera una matriz en una dimensión.
 
 #### Uso
-**[].matrix (length, [value])** Donde **length** es un numero de elementos y el **value**opcional es un valor en cada elemento, puede ser cualquier valor de cualquier tipo.
+**[].matrix (length, [value])** Donde **length** es un numero de elementos y el **value** opcional es un valor en cada elemento, puede ser cualquier valor de cualquier tipo.
 
 ```javascript
 let matrix = Array.matrix(10);
@@ -1962,7 +1962,7 @@ let maxValue = [1,2,3].max()
 
 #### org.quickcorp.components.ShadowedComponent
 
-la Clase **ShadowedComponent** es un componente personalizado diseñado para permitirte crear un componente usando el Shadow DOM de un buscador. Lee mas sobre los componentes Shadow en [Este articulo en Hackernoon]
+La Clase **ShadowedComponent** es un componente personalizado diseñado para permitirte crear un componente usando el Shadow DOM de un buscador. Lee mas sobre los componentes Shadow en [Este articulo en Hackernoon]
  (https://www.hackernoon.com/shadowed-components-and-qcobjects-kd703yld).
 
 ##### Uso:
@@ -1979,7 +1979,7 @@ la Clase **ShadowedComponent** es un componente personalizado diseñado para per
 
 2.- A tu **component tag**, asígnale **FormField** en el atributo **componentClass**.
 
-3.-Para recuperar los datos del formulario dentro de tu componente solo tienen que usar el componentInstance.data .  Cada propiedad del objeto componentInstance.data sera unido por los eventos bindig con ls propiedades del valor en cada objeto DOM del formulario que ha sido asignado al data-field.
+3.- Para recuperar los datos del formulario dentro de tu componente solo tienen que usar el componentInstance.data .  Cada propiedad del objeto componentInstance.data sera unido por los eventos bindig con ls propiedades del valor en cada objeto DOM del formulario que ha sido asignado al data-field.
 
 ##### Uso:
 
@@ -2030,7 +2030,7 @@ Dentro del cuerpo de su componente, cuando es un componente **FormField** cada v
 
 #### org.quickcorp.components.InputField
 
-**InputField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between InputField and FormField is that InputField has a **```<input>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**InputField** es una subdefinición de **FormField**, que es comunmete usando para casi el mismo proposito del FormField. La principal diferencia entre InputField y FormField es que InputField tiene un elemento DOM **```<input>```** como el cuerpo del componente por defecto. Y FormField no tiene un cuerpo predefinido.
 
 ##### Uso:
 
@@ -2041,7 +2041,7 @@ Dentro del cuerpo de su componente, cuando es un componente **FormField** cada v
 
 #### org.quickcorp.components.TextField
 
-**ButtonField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between InputField and FormField is that ButtonField has a **```<textarea>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**ButtonField** es una subdefinición de **FormField**, que es comunmete usando para casi el mismo proposito del FormField. La principal diferencia entre InputField, ButtonField y FormField es que ButtonField tiene un elemento DOM **```<textarea>```** como el cuerpo del componente por defecto. Y FormField no tiene un cuerpo predefinido.
 
 ##### Uso:
 
@@ -2052,7 +2052,7 @@ Dentro del cuerpo de su componente, cuando es un componente **FormField** cada v
 
 #### org.quickcorp.components.EmailField
 
-**EmailField** is a sub-definition of **FormField**, that is commonly used for almost the same purpose of FormField. The main difference between ButtonField and FormField is that ButtonField has a **```<input>```** DOM element as the body of the component by default. And FormField hasn't a pre-defined body.
+**EmailField** es una subdefinición de **FormField**, que es comunmete usando para casi el mismo proposito del FormField. La principal diferencia entre ButtonField y FormField es que ButtonField tiene un elemento DOM **```<input>```** como el cuerpo del componente por defecto. Y FormField no tiene un cuerpo predefinido.
 
 ##### Uso:
 
@@ -2062,7 +2062,7 @@ Dentro del cuerpo de su componente, cuando es un componente **FormField** cada v
 
 #### org.quickcorp.components.GridComponent
 
-GridComponent has a predefined name assigned to the value "grid", so be aware of it when you use this component class. Also, GridComponent is intended to be used in conjunction with GridController to expand its behavior to a CSS Grid.
+GridComponent tiene un nombre predefinido asignado al valor "grid", así que tenlo en cuenta cuando uses esta clase de componente. Tambien  GridComponent está diseñado para usarse junto con GridController para expandir su comportamiento a una cuadrícula CSS.
 
 ##### Uso:
 
@@ -2082,9 +2082,9 @@ GridComponent has a predefined name assigned to the value "grid", so be aware of
 </controller>
 ```
 
-The above example will draw a css grid of two columns and two rows and place the subcomponents into it.
+El ejemplo anterior dibujará una cuadrícula css de dos columnas y dos filas y colocará los subcomponentes en ella.
 
-Don't forget this file:
+No olvides este archivo:
 ```html
 <!-- file: grid.tpl.html, you can use the grid template either to draw the grid itself or to draw a loading information -->
 <p>Loading grid...</p>
@@ -2096,7 +2096,7 @@ Don't forget this file:
 
 #### org.quickcorp.components.SwaggerUIComponent
 
-It is used to inject a swagger-ui DOM needed to the Swagger UI API. Learn more in this article of QCObjects DevBlog called [Working with Swagger UI as a QCObjects Component](https://devblog.qcobjects.org/working-with-swagger-ui-as-a-qcobjects-component-ck6xzoqkg05indfs1i4rxq72e)
+Se usa para inyectar un DOM swagger-ui necesario para la Swagger UI API. Obtenga más información en este artículo de QCObjects DevBlog llamado [Working with Swagger UI as a QCObjects Component](https://devblog.qcobjects.org/working-with-swagger-ui-as-a-qcobjects-component-ck6xzoqkg05indfs1i4rxq72e)
 
 ##### Uso:
 ```html
@@ -2105,7 +2105,7 @@ It is used to inject a swagger-ui DOM needed to the Swagger UI API. Learn more i
 
 #### org.quickcorp.components.splashscreen.VideoSplashScreenComponent
 
-A powerful component definition to allow you create an awesome Video Splash Screen for your progressive web app.
+Una potente definición de componente que le permite crear una impresionante pantalla de bienvenida de video para su aplicación web progresiva.
 
 ##### Ejemplo:
 ```html
@@ -2126,12 +2126,13 @@ A powerful component definition to allow you create an awesome Video Splash Scre
 
 #### org.quickcorp.controllers.GridController
 
-**GridController** is intended to be used in conjunction with **GridComponent** to allow you to create a CSS grid to place subcomponents. More info in [org.quickcorp.components.GridComponent](#org.quickcorp.components.GridComponent)
+**GridController** está destinado a ser utilizado junto con **GridComponent** para permitir crear una cuadricula CSS para colocar los subcompnentes. Más información [org.quickcorp.components.GridComponent](#org.quickcorp.components.GridComponent)
 
 #### org.quickcorp.controllers.DataGridController
 
-**DataGridController** will take the data of your component and map a set of subcomponents to fill it up.
-This is commonly used to render a dynamic list of components. It used a **subcomponentClass** attribute value in the **component** tag to determine what component definition to use to build and render every sub-component. The data on every sub-component will be filled up with the value of the element mapped to the sub-component.
+**DataGridController** tomará los datos de su componente y asignará un conjunto de subcomponentes para completarlo.
+Esto se usa comúnmente para renderizar una lista dinámica de componentes. Es usando un valor de atributo **subcomponentClass** en la etiqueta **component** para determinar que definición de componente usar para construir y renderizar cada subcomponente. Los datos en cada subcomponente seran completados con el valor de un elemento mapeado a un subcomponente. 
+
 
 ##### Uso:
 
@@ -2142,10 +2143,10 @@ This is commonly used to render a dynamic list of components. It used a **subcom
 
 ##### Ejemplo:
 
-Suppose you have to render a list of profiles. Every profile has a profile picture, a name and an email.
-You want to use a card to represent every profile in the list.
+Supón que tienes que representar una lista de perfiles. Cada perfil tiene una foto de perfil, un nombre y un correo electrónico.
+Deseas usar una tarjeta(card) para representar cada perfil de la lista.
 
-So you define a CardComponent to render the picture, the name and email of an element in the list.
+Así que defines un CardComponent para renderizar la foto, el nombre y el email en un elemento en la lista. 
 
 ```javascript
 Class("CardComponent",Component,{
@@ -2165,7 +2166,7 @@ Class("CardComponent",Component,{
 <p>{{email}}</p>
 ```
 
-Then, you have to place a component to generate the list of cards.
+Luego, debes colocar un componente para generar la lista de tarjetas(cards).
 
 ```html
 <component name="loading_list" componentClass="MyListComponent" controllerClass="DataGridController"
@@ -2178,7 +2179,7 @@ subcomponentClass="CardComponent">
 <p>Loading list...</p>
 ```
 
-Last, you have to define MyListComponent to assign the dynamic data of the list.
+Por último, debes  definir MyListComponent para asignar los datos dinámicos de la lista.
 
 ```javascript
 Class("MyListComponent",Component,{
@@ -2202,13 +2203,13 @@ Class("MyListComponent",Component,{
 })
 ```
 
-The resulting component will be a list of **CardComponent** with the data of every profile mapped into them by **DataGridController**.
+El componente resultante sera una lista de **CardComponent** con los datos de cada perfil dentro de ellos mediante **DataGridController**.
 
 #### org.quickcorp.controllers.ModalController
 
 #### org.quickcorp.controllers.FormValidations
 
-**FormValidations** is used to handle default validations for the **FormController**
+**FormValidations** se utiliza para manejar validaciones predeterminadas para **FormController**
 
 #### Uso:
 
@@ -2216,35 +2217,35 @@ The resulting component will be a list of **CardComponent** with the data of eve
 FormValidations.getDefault(validationName)
 ```
 
-Where **validationName** is the name of the validation present in the **validations** property of the **FormController**
+Donde **validationName** es el nombre de la validación presente en la propiedad **validations** del **FormController**
 
 #### org.quickcorp.controllers.FormController
 
-The FormController definition is intended to help you to handle dynamic forms. By using the normalised syntax of the FormController definition, you don't have to code the complexity of the logic of a submit form, as it is atomised here in three steps.
+La definición FormController esta destinado a ayudarte a manejar formas dinámicas. Mediante el uso de la sintaxis normalizada de la definición FormController, no tienes que codificar la complejidad de la lógica de un formulario de envío, ya que se atomiza aquí en tres pasos.
 
-- Assign a serviceClass
-- Define the formSettings
-- Asign or code the field validations
+- Asigna una serviceClass
+- define los formSettings
+- Asignar código qr las validaciones de campo
 
 ##### [FormController].serviceClass
 
-It is the string name of the Class definition. FormController will load this class using the ClassFactory helper function, so the name can be a complete package name plus definition.
+Es el nombre de cadena de la definición de clase. FormController cargará esta clase usando la función auxiliar ClassFactory, por lo que el nombre puede ser un nombre completo del paquete más una definición.
 
 ##### [FormController].formSettings
 
-It is an object with the special properties of the form. The default settings are: backRouting:'#', loadingRouting:'#loading', nextRouting:'#signupsuccessful'. These settings are meant to handle the flow behavior of the form.
+Es un objeto con las propiedades especiales del formulario. La configuración predeterminada es: backRouting:'#', loadingRouting:'#loading', nextRouting:'#signupsuccessful'. Estas configuraciones están destinadas a manejar el comportamiento de flujo del formulario.
 
-**loadingRouting** is the name of the routing that will be triggered while the **serviceClass** is beign called until the service loader returns a response.
+**loadingRouting** es el nombre de la ruta que se activará mientras **serviceClass** comience a llamar hasta ue el servicio de recarga regrese la respuesta.
 
-**backRouting** is the name of the routing that will be triggered if the call for the **serviceClass** fails.
+**backRouting** es el nombre del enrutamiento que se activará si falla la llamada a **serviceClass**.
 
-**nextRouting** is the name of the routing that will be triggered when the call for the **serviceClass** finishes OK.
+**nextRouting** es el nombre del enrutamiento que se activará cuando la llamada para **serviceClass** finalice bien.
 
 ##### [FormController].validations
 
-It is an object with the helper functions that you want to define to validate every form field. When you define a validation function for a field, FormController will ask if the execution of that function returns true before to submit the form.
+Es un objeto con las funciones de ayuda que quieres para definir validando cada campo de formulario. Cuando defines una función de validación para un campo, FormController te preguntara si la ejecución de esa función regresa verdadera antes de enviar el formulario.
 
-To define validations for the fields of the form, you just need to add them as a part of the validations property.
+Para definir validaciones para los campos del formulario, solo necesitas agregarlas como parte de la propiedad de validaciones.
 
 ##### Uso:
 
@@ -2259,7 +2260,7 @@ To define validations for the fields of the form, you just need to add them as a
 	}
 ```
 
-You can also use **FormValidations.getDefault** for simplicity.
+Tambien puede usar **FormValidations.getDefault** por simplicidad.
 
 ```javascript
 	// Let's say you have a form field called "name"
@@ -2274,8 +2275,8 @@ You can also use **FormValidations.getDefault** for simplicity.
 
 ##### [FormController].formSaveTouchHandler
 
-This method is internally used by FormController to call the serviceClass as a submit action.
-It will be binded to any click or touch event of any element inside the form that has a CSS ".submit" class assigned.
+Este metodo esta internamente usado mediante FormController para llamar al  serviceClass como una acción de envío.
+Se vinculará a cualquier evento de clic o toque de cualquier elemento dentro del formulario que tenga asignada una clase CSS ".submit".
 
 Ejemplo:
 
@@ -2283,11 +2284,11 @@ Ejemplo:
 <button class="submit"><p>Send</p></button>
 ```
 
-When the click or touch event of the above button is triggered, FormController will call the service defined in **serviceClass**, this action will be done by **formSaveTouchHandler**. If you like to change this behavior just override this method in your custom controller.
+Cuando el clic o el toque del anterior botón se active, FormController llamara al servicio definido en **serviceClass**, esta acción se hará por **formSaveTouchHandler**. Si desea cambiar este comportamiento, simplemente anule este método en su controlador personalizado.
 
 ##### A complete example of FormController
 
-Below is a complete example of a definition for a Signup Form using FormController.
+A continuación se muestra un ejemplo completo de una definición para un Formulario de registro utilizando FormController.
 
 ```javascript
 // First, define a service class that will be called on submit.
@@ -2397,7 +2398,7 @@ Class('SignupFormController',Controller,{
 
 #### org.quickcorp.controllers.SwaggerUIController
 
-It is used to inject a swagger-ui DOM needed to the Swagger UI API. Learn more in this article of QCObjects DevBlog called [Working with Swagger UI as a QCObjects Component](https://devblog.qcobjects.org/working-with-swagger-ui-as-a-qcobjects-component-ck6xzoqkg05indfs1i4rxq72e)
+Es usado para inyectar un swagger-ui DOM necesario para el Swagger UI API. Aprende mas en este articulo de QCObjects DevBlog llamado [Working with Swagger UI as a QCObjects Component](https://devblog.qcobjects.org/working-with-swagger-ui-as-a-qcobjects-component-ck6xzoqkg05indfs1i4rxq72e)
 
 ##### Uso:
 ```html
@@ -2407,12 +2408,11 @@ It is used to inject a swagger-ui DOM needed to the Swagger UI API. Learn more i
 
 ### SDK Effects
 
-QCObjects has an **Effect** definition to handle and produce new effects and transitions for the components.
-Below are some custom effect definitions that will help you to build amazing visual features to your components. To improve the performance, effects are changing CSS internally to apply the effect in a smart way. And all the effects engine is based on the **requestAnimationFrame** definition, read more [here](https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#animation-frames)
+QCObjects tiene una definicion  **Effect**  para manejar y producir nuevos efectos y transiciones para los componentes. A continuación hay algunas definiciones de efectos personalizadas que te ayudaran a construir sorprendentes características visuales para tus componentes. Para mejorar el rendimiento, los efectos están cambiando CSS internamente para aplicar el efecto de manera inteligente. Y todo el motor de efectos se basa en la definición **requestAnimationFrame**, lee mas sobre esto [aquí](https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#animation-frames)
 
 #### org.quickcorp.tools.effects.Move
 
-Moves a DOM object from one position to another.
+Mueve el objeto DOM de una posicion a otra.
 
 ##### Uso:
 
@@ -2429,7 +2429,7 @@ Tag('img').map(img => Move.apply(img,0,0,10,10))
 
 #### org.quickcorp.tools.effects.MoveXInFromRight
 
-Moves an element from the right side in X axis to the original position of the object.
+Mueve un elemento desde el lado derecho en el eje X a la posición original del objeto.
 
 ##### Uso:
 
@@ -2446,7 +2446,7 @@ Tag('canvas').map(canvas => MoveXInFromRight.apply(canvas));
 
 #### org.quickcorp.tools.effects.MoveXInFromLeft
 
-Moves an element from the left side in X axis to the original position of the object.
+Mueve un elemento desde el lado izquierdo en el eje X a la posición original del objeto.
 
 ##### Uso:
 
@@ -2463,7 +2463,7 @@ Tag('canvas').map(canvas => MoveXInFromLeft.apply(canvas));
 
 #### org.quickcorp.tools.effects.MoveYInFromBottom
 
-Moves an object of the DOM from bottom to its original position using Y axis.
+Mueve un objeto del DOM desde abajo a su posición original usando el eje Y.
 
 ##### Uso:
 ```javascript
@@ -2478,7 +2478,7 @@ Tag('component[name=comp1]').map(componentBody => MoveYInFromBottom.apply(compon
 
 #### org.quickcorp.tools.effects.MoveYInFromTop
 
-Moves an object of the DOM from top to its original position using Y axis.
+Mueve un objeto del DOM de arriba a su posición original usando el eje Y.
 
 ##### Uso:
 ```javascript
@@ -2493,14 +2493,14 @@ Tag('component[name=comp1]').map(componentBody => MoveYInFromTop.apply(component
 
 #### org.quickcorp.tools.effects.RotateX
 
-Rotates an object in X axis.
+Rota un objeto en el eje X.
 
 ##### Uso:
 ```javascript
 RotateX.apply(element, angleFrom, angleTo)
 ```
 
-**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+**angleFrom** y **angleTo** representan un valor de ángulo expresado en grados, comenzando desde 0 (cero) a 360.
 
 ##### Ejemplo:
 ```javascript
@@ -2511,14 +2511,14 @@ Tag('div#id').map(div => RotateX.apply(div, 180, 240));
 
 #### org.quickcorp.tools.effects.RotateY
 
-Rotates an object in Y axis.
+Rota un objeto en el eje Y.
 
 ##### Uso:
 ```javascript
 RotateY.apply(element, angleFrom, angleTo)
 ```
 
-**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+**angleFrom** y **angleTo** representan un valor de ángulo expresado en grados, comenzando desde 0 (cero) a 360.
 
 ##### Ejemplo:
 ```javascript
@@ -2528,14 +2528,14 @@ Tag('div#id').map(div => RotateY.apply(div, 0, 270));
 
 #### org.quickcorp.tools.effects.RotateZ
 
-Rotates an object in Z axis.
+Rota un objeto en el eje Z.
 
 ##### Uso:
 ```javascript
 RotateZ.apply(element, angleFrom, angleTo)
 ```
 
-**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+**angleFrom** y **angleTo** representan un valor de ángulo expresado en grados, comenzando desde 0 (cero) a 360.
 
 ##### Ejemplo:
 ```javascript
@@ -2547,14 +2547,14 @@ Tag('div#id').map(div => RotateZ.apply(div, 0, 60));
 
 #### org.quickcorp.tools.effects.Rotate
 
-Rotates an object in X, Y, Z axes. All axes will rotate in paralell at the same time producing a 3d visual effect perception.
+Rota un objeto en los ejes X, Y, Z. Todos los ejes rotarán en paralelo al mismo tiempo produciendo una percepción de efectos visuales en 3D.
 
 ##### Uso:
 ```javascript
 Rotate.apply(element, angleFrom, angleTo)
 ```
 
-**angleFrom** and **angleTo** represent an angle value expressed in degrees, starting from 0 (zero) to 360.
+**angleFrom** y **angleTo** representan un valor de ángulo expresado en grados, comenzando desde 0 (cero) a 360.
 
 ##### Ejemplo:
 ```javascript
@@ -2564,7 +2564,7 @@ Tag('div#id').map(div => Rotate.apply(div, 0, 270));
 
 #### org.quickcorp.tools.effects.Fade
 
-Produces a fade effect by lowering the opacity of the element.
+Produce un efecto de desvanecimiento al reducir la opacidad del elemento.
 
 ##### Uso:
 
@@ -2572,7 +2572,7 @@ Produces a fade effect by lowering the opacity of the element.
 Fade.apply(element, alphaFrom, alphaTo)
 ```
 
-**alphaFrom** and **alphaTo** are numbers between 0 (zero) and 1.
+**alphaFrom** y **alphaTo** son numeros entre 0 (cero) y 1.
 
 ```javascript
 // the following line will fade a <b class="header"> element from 0.5 (mid visibility) to 1 (full visibility)
@@ -2581,14 +2581,14 @@ Tag('b.header').map(header=>Fade.apply(header, 0.5, 1))
 
 #### org.quickcorp.tools.effects.Radius
 
-Rounds the corner of an element
+Redondea la esquina de un elemento.
 
 ##### Uso:
 ```javascript
 Radius.apply(element, radiusFrom, radiusTo)
 ```
 
-**radiusFrom** and **radiusTo** are numeric values.
+**radiusFrom** y **radiusTo** son valores numéricos.
 
 ##### Ejemplo:
 ```javascript
@@ -2603,8 +2603,8 @@ Tag('img').map(element => Radius.apply(element, 0, 100))
 Resize.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+**scaleFrom** y **scaleTo** son valores numericos
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 
 ##### Ejemplo:
 
@@ -2621,15 +2621,15 @@ Tag('img').map(element => Resize.apply(element, 2,1))
 
 #### org.quickcorp.tools.effects.WipeLeft
 
-Makes a Wipe effect from Left side to the origin of the element.
+Hace un efecto de limpieza desde el lado izquierdo al origen del elemento.
 
 ##### Uso:
 ```javascript
 WipeLeft.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+**scaleFrom** y **scaleTo** son valores numericos.
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 
 ##### Ejemplo
 
@@ -2638,15 +2638,15 @@ Tag('img').map(element => WipeLeft.apply(element,0,1))
 ```
 
 #### org.quickcorp.tools.effects.WipeRight
-Makes a Wipe effect from right side to the origin of the element.
+Hace un efecto de limpieza desde el lado derecho hasta el origen del elemento.
 
 ##### Uso:
 ```javascript
 WipeRight.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+**scaleFrom** y **scaleTo** son valores numericos
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 
 ##### Ejemplo
 
@@ -2657,16 +2657,15 @@ Tag('img').map(element => WipeRight.apply(element,0,1))
 
 #### org.quickcorp.tools.effects.WipeUp
 
-Makes a Wipe effect from down to up the origin of the element.
+Realiza un efecto de limpieza de abajo hacia arriba en el origen del elemento.
 
 ##### Uso:
 ```javascript
 WipeUp.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
-
+**scaleFrom** y **scaleTo** son valores numericos.
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 ##### Ejemplo
 
 ```javascript
@@ -2675,15 +2674,15 @@ Tag('img').map(element => WipeUp.apply(element,0,1))
 
 #### org.quickcorp.tools.effects.WipeDown
 
-Makes a Wipe effect from up to down the origin of the element.
+Realiza un efecto de limpieza de arriba a abajo en el origen del elemento.
 
 ##### Uso:
 ```javascript
 WipeDown.apply(element, scaleFrom, scaleTo)
 ```
 
-**scaleFrom** and **scaleTo** are numeric values.
-A value of 1 is regular size, a value of 2 is double size, a value between 0 and 1 is a small scale.
+**scaleFrom** y **scaleTo** son valores numéricos.
+Un valor de 1 es tamaño normal, un valor de 2 es tamaño doble, un valor entre 0 y 1 es una escala pequeña.
 
 ##### Ejemplo
 
@@ -2700,19 +2699,19 @@ Tag('img').map(element => WipeDown.apply(element,0,1))
 
 ### SDK Views
 
-Below are a set of pre-defined views for common use.
+A continuación hay un conjunto de vistas predefinidas para uso común.
 
 #### org.quickcorp.views.GridView
 
-A generic GridView definition for use with grids.
+Una definion generica GridView para usar con cuadriculas.
 
 ### SDK i18n messages
 
-The QCObjects i18n engine allows you to define custom messages . Learn more in this article in the DevBlog called [i18n Internationalisation for your Progressive Web Apps](https://devblog.qcobjects.org/i18n-internationalisation-for-your-progressive-web-apps-ck90h4qz301ca7vs1ue7joopu)
+El motor QCObjects i18n le permite definir mensajes personalizados. Obtenga más información en este artículo en el DevBlog llamado [i18n Internationalisation for your Progressive Web Apps](https://devblog.qcobjects.org/i18n-internationalisation-for-your-progressive-web-apps-ck90h4qz301ca7vs1ue7joopu)
 
 #### org.quickcorp.i18n_messages.i18n_messages
 
-Used to call the i18n engine.
+Utlizado para llamar al motor i18n.
 
 ##### Uso:
 ```javascript
@@ -2748,53 +2747,51 @@ Package('org.quickcorp.i18n_messages.es', [
 
 ## The QCObjects HTTP2 Built-In Server
 
-The QCObjects HTTP2 Built-In Server will help you to test your application
-in a local environment before to deploy to a production environment.
-For production environment it is recommended to use QCObjects HTTP2 Built-In Server under Ubuntu 18.x or newer and NodeJS 12.x or newer.
+El servidor HTTP2 Built-In de QCObjects te ayudara a probar tu aplicacion en un entorno local antes de implementarlo en un entorno de producción.
+Para el entorno de producción, se recomienda utilizar el servidor QCObjects HTTP2 Built-In en Ubuntu 18.x o el mas nuevo y NodeJS 12.x o mas actual.
 
 ### Start serving your files with QCObjects
 
-To start using the QCObjects HTTP2 Built-In Server, you just go to your project path and execute the following command line in your bash shell:
+Para comenzar a utilizar el servior de QCObjects HTTP2 Built-In,solo necesitas ir a la ruta del proyecto y ejecutar la ssiguiente liniea de comandos en tu bash shell:
 
 ```shell
 > qcobjects launch mynewapp
 ```
 
-or
+o
 
 ```
 > qcobjects-server
 ```
 
-It will start serving the files inside the folder you are present, unsing a built-in HTTP2 Server with the default configuration settings.
-
+Comenzara a servir los archivos dentro de la carpeta donde estas, usando el servidor built-in HTTP2 Server cin la configuracion predeterminada. 
 
 ### Principals of an N-Tier or Multitier architecture
 
-QCObjects was designed to work into a professional environment. There are many ways and paradigms to use when you define your software architecture. One recommended is using a Multitier or N-Tier architecture.
+QCObjects fue diseñado para trabajar en un entorno profesional. Hay muchas formas y paradigmas para usar cuando define su arquitectura de software. Se recomienda  es usar una arquitectura Multitier o N-Tier.
 
-The benefits of a Multitier or N-Tier architecture are scalability and reliability of the systems that are demanding higger impact and performance. To go deep into this concepts would unnecessary enlarge this reference document but you can read more about this concepts in the following external links (only for reference and study):
+Los beneficios de la arquitectura  Multitier o N-Tier son la escalabilidad y confiabilidad de los sistemas que exigen un mayor impacto y rendimiento. Para profundizar en estos conceptos sería innecesario ampliar este documento de referencia, pero puede leer más sobre estos conceptos en los siguientes enlaces externos(solo para referencia y estudio):
 
-- [Miltitier Architecture](https://en.m.wikipedia.org/wiki/Multitier_architecture)
-- [3 Tier Architecture](https://www.tonymarston.net/php-mysql/3-tier-architecture.html)
-- [Milti Tier Application](https://www.techopedia.com/definition/23599/multi-tier-application)
-- [N Tier Architecture System Concepts and Tips](https://www.guru99.com/n-tier-architecture-system-concepts-tips.html)
+- [Arquitectura Miltitier ](https://en.m.wikipedia.org/wiki/Multitier_architecture)
+- [Arquitectura 3 Tier ](https://www.tonymarston.net/php-mysql/3-tier-architecture.html)
+- [Aplicacion Milti Tier ](https://www.techopedia.com/definition/23599/multi-tier-application)
+- [Conceptos del sistema de arquitectura N Tier y Tips](https://www.guru99.com/n-tier-architecture-system-concepts-tips.html)
 
 
 ### Micro-services Principals
 
-The main goal of a microservice is that you can compact a fragment of backend functionality in a piece of code that can be called remotely from another backend or frontend terminal. Basically you can split a high level backend service into a multiple small micro-services that can complete the task. There are thousands of good examples of this kind of pattern adoption. You can read more about this concept in the following external links (only for reference and study):
+El objetivo principal de un microservicio es que puede compactar un fragmento de funcionalidad de back-end en un código que se puede llamar de forma remota desde otro terminal de back-end o frontend. Básicamente, puedes dividir un servicio de back-end de alto nivel en múltiples microservicios pequeños que pueden completar la tarea. Hay miles de buenos ejemplos de este tipo de adopción de patrones. Puede leer más sobre este concepto en los siguientes enlaces externos (solo para referencia y estudio):
 
 - [Microservice Patterns](https://microservices.io)
 - [Microservices on Wikipedia](https://en.wikipedia.org/wiki/Microservices)
 
-With QCObjects you can code your microservices in a way more fancy, clean and quick.
+Con QCObjects puedes codificar sus microservicios de una manera más elegante, limpia y rápida.
 
 ### Backend settings in config.json
 
-You can also use config.json in the backend side to make some tunning and custom settings for backend, specially useful for making the microservice routes.
+También puedes usar config.json en el lado del backend para hacer algunos ajustes y configuraciones personalizadas para el backend, especialmente útil para hacer las rutas de microservicio.
 
-Below is an example of a customised config.json file including the backend settings:
+A continuación se muestra un ejemplo de un archivo config.json personalizado que incluye la configuración del back-end:
 
 ```json
 {
@@ -2820,8 +2817,8 @@ Below is an example of a customised config.json file including the backend setti
 
 ### Backend routing
 
-Inside your config.json file you can set the backend routes for your microservices.
-For every microservice route, a path and a microservice package string is required.
+Dentro de su archivo config.json puede establecer las rutas de back-end para sus microservicios.
+Para cada ruta de microservicio, se requiere una ruta y una cadena de paquete de microservicio.
 
 ```json
 {
@@ -2836,14 +2833,14 @@ For every microservice route, a path and a microservice package string is requir
 }
 ```
 
-When you set up the backend routes, the QCObjects HTTP2 Built-In Server will know how to handle the calls for every path defined. For every other path that is undefined by the backend routes settings, the server will handle the call with the default behavior, that is using a static file as response if it exists.
-With that in mind you can use QCObjects either to manage and serve static files or dynamically served files when you need it.
-
+Cuando configuras las rutas de back-end, el servidor  QCObjects HTTP2 Built-In  sabra como manejar las llaadas de cada ruta definida. Para cada otra ruta que este indefinida mediante los ajustes del Back-end, el servidor se manejara para llamar al comportamiento por defecto que está usando un archivo estático como respuesta si existe.
+ Con eso en mente puedes usar QCObjects tanto para administar y servir archivos estaticos o servicios servidos dinamicamente cuando lo necesites. 
+ 
 ### The QCObjects Microservice Class and Package
 
-When you set up a backend route definition, you need to specify a microservice package. This microservice package is a QCObjects definition of a package with a Microservice class extended from a BackendMicroservice class already defined by QCObjects.
+cuando configuras la definicion de ruta bakend, necesitas especificar un paquete de microdervicio.Este paquete de microservicio es una definicion de QCObjects de un paquete con una clase microservicio extendida desde la clase BackendMicroservice ya definida por QCObjects.
 
-Below is an example of a microservice package definition, writen in the file org.quickcorp.backend.signup.js
+A continuación se muestra un ejemplo de una definición de paquete de microservicio, escrita en el archivo org.quickcorp.backend.signup.js
 
 ```javascript
 'use strict';
@@ -2873,11 +2870,11 @@ Package('cl.quickcorp.backend.signup',[
 ]);
 ```
 
-The above microservice is saving a file with the data received from a post request, and answering a jsonrpc 2.0 standard output. Read more about JSON RPC 2.0 Specification [here](https://www.jsonrpc.org/specification)
+El microservicio anterior está guardando un archivo con los datos recibidos de una solicitud posterior y respondiendo a una salida estándar jsonrpc 2.0. Lee sobre estas especificaciones  JSON RPC 2.0 [Aquí](https://www.jsonrpc.org/specification)
 
-QCObjects HTTP2 Built-In Server will make a call to the post() method of the Microservice class definition only when a post request is made to the right path defined into the config.json referencing the name of the package as the initial indexing point of reference.
+El servidor QCObjects HTTP2 Built-In hara una llamada al metodo post() de la definicion de clase Microservice solo cuadose realiza una solicitud posterior en la ruta correcta definida en config.json que hace referencia al nombre del paquete como el punto de referencia de indexación inicial.
 
-In order to allow QCObjects understand and execute your microservies in the right way, inside a microservice package, a Microservice class definition is required, and also the Microservice class definition must to extend the BackendMicroservice class that is a part of QCObjects built-in classes.
+Para permitir que QCObjects entienda y ejecute sus microservicios de la manera correcta dentro de un paquete de microservicios, una definicion de clase Microservice es requerida y tambine la definicion de clase  Microservice tiene que extender la clase BackendMicroservice que es parte de las clases built-in de QCObjects.
 
 
 ### Generating a Self-Signed Certificate with QCObjects
@@ -3099,10 +3096,10 @@ Import('cl.quickcorp'); // this will import your main file: cl.quickcorp.js into
 
 ## Commands
 
-   **create** [options] ```<appname>```   Creates an app with ```<appname>```
-   **publish** [options] ```<appname>```  Publishes an app with ```<appname>```
-   **generate-sw** ```<appname>```        Generates the service worker  ```<appname>```
-   **launch** ```<appname>```             Launches the application
+   **create** [options] ```<appname>``` Crea una aplicación con ```<appname>```
+   **publish** [options] ```<appname>```  Publica una aplicación con ```<appname>```
+   **generate-sw** ```<appname>```        Genera el trabajador de servicio  ```<appname>```
+   **launch** ```<appname>```             Inicia la aplicación.
 
 ## Use:
    $ qcobjects-cli [command] --help
@@ -3112,6 +3109,6 @@ Import('cl.quickcorp'); // this will import your main file: cl.quickcorp.js into
 --------------------------
 ![alpha](https://qcobjects.dev/doc/img/ALPHA-RISE.png)
 
-[QCObjects](https://qcobjects.dev) was invited to exhibit as an ALPHA Startup in the RISE Conf Hong Kong 2019. RISE attracts the most dynamic startups from around the world. We'll be showing how [QCObjects](https://qcobjects.dev) is making a real Global Impact to the JavaScript developers life transforming the way for coding.
+[QCObjects](https://qcobjects.dev) fue invitado a exponer como ALPHA Startup en RISE Conf Hong Kong 2019. RISE atrae a las startups más dinámicas de todo el mundo. Estaremos mostrando como [QCObjects](https://qcobjects.dev) está teniendo un verdadero impacto global en la vida de los desarrolladores de JavaScript transformando el camino para la codificación.
 
-If you want to find out more about RISE event check out their website [https://riseconf.com](https://riseconf.com)
+Si desea obtener más información sobre el evento RISE, visite su sitio web [https://riseconf.com](https://riseconf.com)
