@@ -21,5 +21,5 @@ Package('cl.quickcorp.model',[
 			controller.dependencies.push(New(SourceJS,{external:false,url:'doc/js/prism-okaidia.js',done:function(){}}));
 			controller.dependencies.push(New(SourceCSS,{external:false,url:'doc/css/prism-okaidia.css',done:function(){}}));
 		}
-	}),
+	})
 ]);
