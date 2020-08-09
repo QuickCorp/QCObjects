@@ -74,6 +74,15 @@
 
     <!-- MAIN CONTENT -->
     <main>
+      <component name="download-button" shadowed=true controllerClass="DownloadButtonController">
+        <routing path="#download" name="blank"></routing>
+        <routing path="^(?!#download).*$" name="download-button"></routing>
+      </component>
+      <component name="download" controllerClass="DownloadButtonController">
+        <routing path="#download" name="download"></routing>
+        <routing path="^(?!#download).*$" name="blank"></routing>
+      </component>
+
       <component name="blank" effectClass="MainTransitionEffect">
         <routing path="#academy" name="academy"></routing>
         <routing path="^(?!#academy).*$" name="blank"></routing>
@@ -86,6 +95,7 @@
         <routing path="#essentials" name="../../../README" ></routing>
         <routing path="#author" name="../../../AUTHOR" ></routing>
         <routing path="#academy" name="blank" ></routing>
+        <routing path="#download" name="blank" ></routing>
       </component>
     </main>
     <!-- FOOTER  -->
