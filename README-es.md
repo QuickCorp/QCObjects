@@ -2131,7 +2131,7 @@ Una potente definición de componente que le permite crear una impresionante pan
 #### org.quickcorp.controllers.DataGridController
 
 **DataGridController** tomará los datos de su componente y asignará un conjunto de subcomponentes para completarlo.
-Esto se usa comúnmente para renderizar una lista dinámica de componentes. Es usando un valor de atributo **subcomponentClass** en la etiqueta **component** para determinar que definición de componente usar para construir y renderizar cada subcomponente. Los datos en cada subcomponente seran completados con el valor de un elemento mapeado a un subcomponente. 
+Esto se usa comúnmente para renderizar una lista dinámica de componentes. Es usando un valor de atributo **subcomponentClass** en la etiqueta **component** para determinar que definición de componente usar para construir y renderizar cada subcomponente. Los datos en cada subcomponente seran completados con el valor de un elemento mapeado a un subcomponente.
 
 
 ##### Uso:
@@ -2146,7 +2146,7 @@ Esto se usa comúnmente para renderizar una lista dinámica de componentes. Es u
 Supón que tienes que representar una lista de perfiles. Cada perfil tiene una foto de perfil, un nombre y un correo electrónico.
 Deseas usar una tarjeta(card) para representar cada perfil de la lista.
 
-Así que defines un CardComponent para renderizar la foto, el nombre y el email en un elemento en la lista. 
+Así que defines un CardComponent para renderizar la foto, el nombre y el email en un elemento en la lista.
 
 ```javascript
 Class("CardComponent",Component,{
@@ -2764,7 +2764,7 @@ o
 > qcobjects-server
 ```
 
-Comenzara a servir los archivos dentro de la carpeta donde estas, usando el servidor built-in HTTP2 Server cin la configuracion predeterminada. 
+Comenzara a servir los archivos dentro de la carpeta donde estas, usando el servidor built-in HTTP2 Server cin la configuracion predeterminada.
 
 ### Principals of an N-Tier or Multitier architecture
 
@@ -2834,8 +2834,8 @@ Para cada ruta de microservicio, se requiere una ruta y una cadena de paquete de
 ```
 
 Cuando configuras las rutas de back-end, el servidor  QCObjects HTTP2 Built-In  sabra como manejar las llaadas de cada ruta definida. Para cada otra ruta que este indefinida mediante los ajustes del Back-end, el servidor se manejara para llamar al comportamiento por defecto que está usando un archivo estático como respuesta si existe.
- Con eso en mente puedes usar QCObjects tanto para administar y servir archivos estaticos o servicios servidos dinamicamente cuando lo necesites. 
- 
+ Con eso en mente puedes usar QCObjects tanto para administar y servir archivos estaticos o servicios servidos dinamicamente cuando lo necesites.
+
 ### The QCObjects Microservice Class and Package
 
 cuando configuras la definicion de ruta bakend, necesitas especificar un paquete de microdervicio.Este paquete de microservicio es una definicion de QCObjects de un paquete con una clase microservicio extendida desde la clase BackendMicroservice ya definida por QCObjects.
@@ -3104,11 +3104,3 @@ Import('cl.quickcorp'); // this will import your main file: cl.quickcorp.js into
 ## Use:
    $ qcobjects-cli [command] --help
    For detailed information of a command
-
-# ALPHA RISE Startup
---------------------------
-![alpha](https://qcobjects.dev/doc/img/ALPHA-RISE.png)
-
-[QCObjects](https://qcobjects.dev) fue invitado a exponer como ALPHA Startup en RISE Conf Hong Kong 2019. RISE atrae a las startups más dinámicas de todo el mundo. Estaremos mostrando como [QCObjects](https://qcobjects.dev) está teniendo un verdadero impacto global en la vida de los desarrolladores de JavaScript transformando el camino para la codificación.
-
-Si desea obtener más información sobre el evento RISE, visite su sitio web [https://riseconf.com](https://riseconf.com)
