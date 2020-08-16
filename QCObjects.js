@@ -1727,7 +1727,7 @@
       var isValidInstance = (componentClass.hasOwnProperty.call(componentClass,"__instanceID") &&
         componentClass.hasOwnProperty.call(componentClass,"subcomponents")) ? (true) : (false);
       var __route__ = function(routingComponents) {
-        for (var r = 0; r < routingComponents.length; r++) {
+        routingComponents.map(function (rc, r){
           var rc = routingComponents[r];
           if (rc.hasOwnProperty.call(rc,"_reroute_")){
             rc._reroute_();
@@ -1741,7 +1741,7 @@
           } else {
             logger.debug("IT WAS NOT POSSIBLE TO RE-ROUTE: " + rc.name);
           }
-        }
+        });
       };
       if (isValidInstance || global.hasOwnProperty.call(global,"componentsStack")) {
         if (isValidInstance && componentClass.hasOwnProperty.call(componentClass,"name")) {
