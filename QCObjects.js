@@ -1841,7 +1841,7 @@
         if (_self.hasOwnProperty.call(_self,"assignRoutingParams") && _self.assignRoutingParams){
           try {
             selfData = Object.assign(selfData,self.routingParams);
-          }catch {
+          }catch (e){
             logger.debug("[parseTemplate] it was not possible to assign the routing params to the template");
           }
         }
