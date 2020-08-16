@@ -1579,9 +1579,15 @@
     }
   });
 
+  var __routing_params__ = function (routing, routingPath){
+    let standardRoutingPath = routing.path.replace(/{(.*?)}/g,"(?<$1>.*)"); //allowing {param}
+    return {...[...routingPath.matchAll((new RegExp( standardRoutingPath ,"g")))][0]["groups"]};
+  };
+
   var __valid_routings__ = function (routings, routingPath){
     return routings.filter(function(routing) {
-      return (new RegExp(routing.path, "g")).test(routingPath);
+      var standardRoutingPath = routing.path.replace(/{(.*?)}/g,"(?<$1>.*)");
+      return (new RegExp(standardRoutingPath, "g")).test(routingPath);
     }).reverse();
   };
   var __valid_routing_way__ = function (validRoutingWays, routingWay){
@@ -1675,7 +1681,6 @@
     routingNodes: [],
     routings: [],
     routingPath: "",
-    routingSelected: [],
     _bindroute: function() {
       if (isBrowser) {
         if (!ClassFactory("Component")._bindroute.__assigned) {
@@ -1894,6 +1899,19 @@
           return __valid_routings__(this.routings,this.routingPath);
         }
       });
+
+      Object.defineProperty(self, "routingParams",{
+        set(value){
+          logger.debug("[routingParams] This is a read-only property of the component");
+        },
+        get(){
+          var component = this;
+          return [{}].concat(component.routingSelected.map(function (routing){
+            return __routing_params__(routing,component.routingPath);
+          })).reduce(function (accumulator, colData, index){return Object.assign(accumulator, colData)});
+        }
+      });
+
       this.__new__(properties);
 
       if (!this._reroute_()) {
