@@ -1837,7 +1837,15 @@
         var templateInstance = New(templateHandlerClass, {
           template: value
         });
-        _parsedAssignmentText = templateInstance.assign(_self.data);
+        var selfData = _self.data;
+        if (_self.hasOwnProperty.call(_self,"assignRoutingParams") && _self.assignRoutingParams){
+          try {
+            selfData = Object.assign(selfData,self.routingParams);
+          }catch {
+            logger.debug("[parseTemplate] it was not possible to assign the routing params to the template");
+          }
+        }
+        _parsedAssignmentText = templateInstance.assign(selfData);
       } else {
         _parsedAssignmentText = value;
       }
