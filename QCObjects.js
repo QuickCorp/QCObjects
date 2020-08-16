@@ -1799,28 +1799,28 @@
         // noy yet implemented.
       }
     },
-    _generateRoutingPaths: function(c) {
+    _generateRoutingPaths: function(componentBody) {
+      var component = this;
       if (isBrowser) {
-        if (__valid_routing_way__(this.validRoutingWays, this.routingWay)) {
-          if (typeof c !== "undefined") {
-            this.innerHTML = c.innerHTML;
-            this.routingNodes = c.subelements("routing");
-            this.routings = [];
-            for (var r = 0; r < this.routingNodes.length; r++) {
-              var routingNode = this.routingNodes[r];
+        if (__valid_routing_way__(component.validRoutingWays, component.routingWay)) {
+          if (typeof componentBody !== "undefined") {
+            component.innerHTML = componentBody.innerHTML;
+            component.routingNodes = componentBody.subelements("routing");
+            component.routings = [];
+            component.routingNodes.map(function (routingNode, r){
               var attributeNames = routingNode.getAttributeNames();
               var routing = {};
-              for (var a = 0; a < attributeNames.length; a++) {
+              attributeNames.map(function (attributeName, a){
                 routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
-              }
-              this.routings.push(routing);
+              });
+              component.routings.push(routing);
               if (!_top.global.get("routingPaths")) {
                 _top.global.set("routingPaths", []);
               }
               if (!_top.global.get("routingPaths").includes(routing.path)) {
                 _top.global.get("routingPaths").push(routing.path);
               }
-            }
+            });
           }
         }
       } else {
