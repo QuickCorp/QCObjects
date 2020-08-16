@@ -1908,7 +1908,7 @@
           var component = this;
           return [{}].concat(component.routingSelected.map(function (routing){
             return __routing_params__(routing,component.routingPath);
-          })).reduce(function (accumulator, colData, index){return Object.assign(accumulator, colData)});
+          })).reduce(function (accumulator, colData, index){return Object.assign(accumulator, colData);});
         }
       });
 
