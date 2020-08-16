@@ -1582,7 +1582,7 @@
   var __valid_routings__ = function (routings, routingPath){
     return routings.filter(function(routing) {
       return (new RegExp(routing.path, "g")).test(routingPath);
-    }).reverse()
+    }).reverse();
   };
   var __valid_routing_way__ = function (validRoutingWays, routingWay){
     return validRoutingWays.includes(routingWay);
