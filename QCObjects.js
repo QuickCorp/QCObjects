@@ -1579,6 +1579,15 @@
     }
   });
 
+  var __valid_routings__ = function (routings, routingPath){
+    return routings.filter(function(routing) {
+      return (new RegExp(routing.path, "g")).test(routingPath);
+    }).reverse()
+  };
+  var __valid_routing_way__ = function (validRoutingWays, routingWay){
+    return validRoutingWays.includes(routingWay);
+  };
+
   _top.__oldpopstate = _top.onpopstate;
   Class("Component", Object, {
     domain: domain,
@@ -1728,7 +1737,6 @@
         componentClass.hasOwnProperty.call(componentClass,"subcomponents")) ? (true) : (false);
       var __route__ = function(routingComponents) {
         routingComponents.map(function (rc, r){
-          var rc = routingComponents[r];
           if (rc.hasOwnProperty.call(rc,"_reroute_")){
             rc._reroute_();
             if (rc.hasOwnProperty.call(rc,"subcomponents") &&
@@ -1788,7 +1796,7 @@
     },
     _generateRoutingPaths: function(c) {
       if (isBrowser) {
-        if (this.validRoutingWays.includes(this.routingWay)) {
+        if (__valid_routing_way__(this.validRoutingWays, this.routingWay)) {
           if (typeof c !== "undefined") {
             this.innerHTML = c.innerHTML;
             this.routingNodes = c.subelements("routing");
@@ -1877,6 +1885,15 @@
           return self.__shadowRoot;
         }
       });
+
+      Object.defineProperty(self, "routingSelected",{
+        set(value){
+          logger.debug("[routingSelected] This is a read-only property of the component");
+        },
+        get(){
+          return __valid_routings__(this.routings,this.routingPath);
+        }
+      });
       this.__new__(properties);
 
       if (!this._reroute_()) {
@@ -1890,13 +1907,9 @@
       var rc = this;
       var _rebuilt = false;
       if (isBrowser){
-        if (rc.validRoutingWays.includes(rc.routingWay)) {
+        if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay)) {
           rc.routingPath = document.location[rc.routingWay];
-          rc.routingSelected = rc.routings.filter(function(routing) {
-            return (new RegExp(routing.path, "g")).test(rc.routingPath);
-          }).reverse();
-          for (var r = 0; r < rc.routingSelected.length; r++) {
-            var routing = rc.routingSelected[r];
+          rc.routingSelected.map(function (routing, r){
             var componentURI = ComponentURI({
               "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
               "COMPONENT_NAME": routing.name.toString(),
@@ -1904,7 +1917,7 @@
               "TPL_SOURCE": "default" //here is always default in order to get the right uri
             });
             rc.templateURI = componentURI;
-          }
+          });
           if (rc.routingSelected.length > 0) {
             rc.template = "";
             rc.body.innerHTML = "";
