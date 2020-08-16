@@ -1956,7 +1956,8 @@
       if (isBrowser){
         var component = this;
         if (document.location.hash !== ""){
-          var scrollIntoHash = component.body.subelements(document.location.hash);
+          var _componentRoot = (component.shadowed)?(component.shadowRoot):(component.body);
+          var scrollIntoHash = _componentRoot.subelements(document.location.hash);
           if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView === "function")){
             scrollIntoHash[0].scrollIntoView(
               ClassFactory("CONFIG").get("scrollIntoHash",{behavior: "auto", block: "center", inline: "center"})
@@ -1971,6 +1972,7 @@
       if (isBrowser){
         if (ClassFactory("CONFIG").get("use_i18n")){
           var component = this;
+          var _componentRoot = (component.shadowed)?(component.shadowRoot):(component.body);
           var lang1=ClassFactory("CONFIG").get("lang","en");
           var lang2 = navigator.language.slice(0, 2);
           var i18n = _top.global.get("i18n");
@@ -1981,7 +1983,7 @@
                 var messages = i18n.messages.filter(function (message){
                   return message.hasOwnProperty.call(message,lang1) && message.hasOwnProperty.call(message,lang2);
                 });
-                component.body.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component")
+                _componentRoot.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component")
                 .map(function (element){
                   messages.map(function (message){
                     var _innerHTML = element.innerHTML;
