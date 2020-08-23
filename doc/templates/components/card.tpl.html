@@ -1,0 +1,14 @@
+<style>
+  @import url("./css/components/card.css");
+</style>
+
+<div class="card">
+  <slot id="slot-logo" name="logo"><img src="img/placeholder.svg" alt="Avatar" style="width:100%"></slot>
+  <div class="container">
+    <h4>
+      <slot id="slot-card-title" name="card_title"></slot>
+    </h4>
+    <slot id="slot-card-description" name="card_description"></slot>
+    <slot id="slot-card-button" name="card-button" ></slot>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<component name="signup-form" shadowed="true">
+  <h1 slot="title">Ask for a QCObjects Enterprise License</h1>
+  <p slot="subtitle">Please fill up this form to ask for a quote.</p>
+  <label slot="field-control" id="name_label" required for="name"><b>&#x1F9D1; Full Name</b></label>
+  <input slot="field-control" type="text" pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" title="Please write your full name" placeholder="Full Name" name="name" data-field="name" aria-labelledby="name_label" required>
+  <label slot="field-control" id="email_label" for="email"><b>&#x1F4E7; Email</b></label>
+  <input slot="field-control" type="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" title="Please write a right email address" placeholder="Enter Email" name="email" data-field="email" aria-labelledby="email_label" required>
+  <label slot="field-control" for="comment" id="comment_label"><b>&#x1F4DD; Comment</b></label>
+  <textarea slot="field-control" name="comment" title="Please write a comment" rows="10" cols="100" data-field="comment" aria-labelledby="comment_label"></textarea>
+  <p slot="field-control">By submitting this form you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+</component>

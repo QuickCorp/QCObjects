@@ -1,0 +1,81 @@
+<style>
+  /*
+  * Main Layout Styles
+  */
+  @import url('https://sdk.qcobjects.dev/css/basic-layout.css');
+  @import url('doc/css/index.css');
+  @import url('doc/css/github-style.css');
+  @import url('doc/css/snippet.css');
+
+
+  /* uncomment the next line to apply a theme */
+  /* @import url('css/theme/cyan/style.css'); */
+</style>
+
+<header>
+  <component name="header" shadowed="true" controllerClass="HeaderController" effectClass="MainTransitionEffect"></component>
+</header>
+<aside>
+  <nav>
+    <span class="topnav">
+      <component name="topmenu">
+          <routing path="#page1" name="blank"></routing>
+          <routing path="#page2" name="blank"></routing>
+          <routing path="#page3" name="blank"></routing>
+          <routing path="#signup" name="blank"></routing>
+          <routing path="#signin" name="blank"></routing>
+          <routing path="#" name="topmenu"></routing>
+          <routing path="" name="topmenu"></routing>
+      </component>
+    </span>
+    <button  aria-label="nav button" role="button" tabindex="-1" class="navbtn" onclick="global.sideNavController.toggle()"></button>
+    <component name="nav" controllerClass="SideNavController"></component>
+  </nav>
+</aside>
+<main role="main">
+  <section>
+      <component name="download-button" shadowed=true controllerClass="DownloadButtonController">
+        <routing path="#download" name="blank"></routing>
+        <routing path="^(?!#download).*$" name="download-button"></routing>
+      </component>
+      <component name="download" controllerClass="DownloadButtonController">
+        <routing path="#download" name="download"></routing>
+        <routing path="^(?!#download).*$" name="blank"></routing>
+      </component>
+  </section>
+  <section>
+      <component name="blank" effectClass="MainTransitionEffect">
+        <routing path="#academy" name="academy"></routing>
+        <routing path="^(?!#academy).*$" name="blank"></routing>
+      </component>
+  </section>
+  <section>
+    <component name="blank" effectclass="MainTransitionEffect" >
+      <routing path="#CONTRIBUTING" name="blank"></routing>
+      <routing path="#contributing" name="blank"></routing>
+      <routing path="#CODE_OF_CONDUCT" name="blank"></routing>
+      <routing path="#code_of_conduct" name="blank"></routing>
+      <routing path="#essentials" name="blank"></routing>
+      <routing path="#thanksvideo" name="thanksvideo" ></routing>
+      <routing path="#author" name="blank" ></routing>
+      <routing path="#academy" name="blank" ></routing>
+    </component>
+  </section>
+  <section>
+      <component name="../../../README" class="doc" cached="false" tplextension="md" controllerClass="MarkdownController"
+      componentClass="MarkdownComponent" effectClass="MainTransitionEffect">
+        <routing path="#CONTRIBUTING" name="../../../CONTRIBUTING"></routing>
+        <routing path="#contributing" name="../../../CONTRIBUTING"></routing>
+        <routing path="#CODE_OF_CONDUCT" name="../../../CODE_OF_CONDUCT"></routing>
+        <routing path="#code_of_conduct" name="../../../CODE_OF_CONDUCT"></routing>
+        <routing path="#essentials" name="../../../README" ></routing>
+        <routing path="#qcobjects" name="../../../README" ></routing>
+        <routing path="#author" name="../../../AUTHOR" ></routing>
+        <routing path="#academy" name="blank" ></routing>
+        <routing path="#download" name="blank" ></routing>
+      </component>
+  </section>
+</main>
+<footer>
+  <component name="footer"  effectClass="MainTransitionEffect"></component>
+</footer>
