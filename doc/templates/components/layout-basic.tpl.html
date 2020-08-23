@@ -34,14 +34,11 @@
 </aside>
 <main role="main">
   <section>
-      <component name="download-button" shadowed=true controllerClass="DownloadButtonController">
-        <routing path="#download" name="blank"></routing>
-        <routing path="^(?!#download).*$" name="download-button"></routing>
-      </component>
-      <component name="download" controllerClass="DownloadButtonController">
-        <routing path="#download" name="download"></routing>
-        <routing path="^(?!#download).*$" name="blank"></routing>
-      </component>
+    <component name="download" controllerClass="DownloadButtonController">
+      <routing path="#download" name="download"></routing>
+      <routing path="^(?!#download).*$" name="blank"></routing>
+    </component>
+
   </section>
   <section>
       <component name="blank" effectClass="MainTransitionEffect">
