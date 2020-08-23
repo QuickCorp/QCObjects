@@ -1,0 +1,15 @@
+<style>
+@import url('doc/css/components/hero/hero-call-to-action.css');
+@import url('doc/css/components/floating-object-effect.css');
+</style>
+<div class="container">
+  <div class="hero__content">
+    <h1>C&oacute;digo Elegante, Limpio y R&aacute;pido</h1>
+    <p><b>QCObjects</b> es el framework de nueva generaci&oacute;n para desarrollo de software moderno.</p>
+    <component name="download-button" shadowed=true controllerClass="DownloadButtonController">
+      <routing path="#download" name="blank"></routing>
+      <routing path="^(?!#download).*$" name="download-button"></routing>
+    </component>
+  </div>
+  <img class="floating-object" src="doc/img/qco2.png" alt="pwa academy">
+</div>

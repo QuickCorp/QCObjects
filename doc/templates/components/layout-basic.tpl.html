@@ -13,7 +13,12 @@
 </style>
 
 <header>
-  <component name="header" shadowed="true" controllerClass="HeaderController" effectClass="MainTransitionEffect"></component>
+  <component name="header" shadowed="true" controllerClass="HeaderController" effectClass="MainTransitionEffect">
+    <routing path="^#/es-ES$" name="header-es" ></routing>
+    <routing path="^#/es$" name="header-es" ></routing>
+    <routing path="^#/en$" name="header" ></routing>
+    <routing path="^#/en-US$" name="header" ></routing>
+  </component>
 </header>
 <aside>
   <nav>

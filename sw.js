@@ -23,7 +23,7 @@
  * license document, but changing it is not allowed.
 */
 "use strict";
-const version = "0.0.1";
+const version = "0.0.2";
 const appName = "qcobjects";
 const cacheName = `qcobjects-app-${appName}-${version}`;
 const start_url = "/?homescreen=1";
@@ -133,6 +133,7 @@ self.addEventListener('install', e => {
 	"doc/templates/components/footer2.tpl.html",
 	"doc/templates/components/grid.tpl.html",
 	"doc/templates/components/header.tpl.html",
+  "doc/templates/components/header-es.tpl.html",
 	"doc/templates/components/hero/hero-call-to-action.tpl.html",
 	"doc/templates/components/hero/hero-overlay.tpl.html",
 	"doc/templates/components/hero/hero-two-column-form.tpl.html",
