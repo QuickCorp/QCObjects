@@ -1,0 +1,13 @@
+/* Insert here your custom CSS */
+
+
+/* GRID */
+component[name=grid]{
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 30% 30% 30%;
+    padding: 5%;
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+    height:80%;
+  }

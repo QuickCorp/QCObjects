@@ -1,0 +1,129 @@
+  <style>
+
+    /* FORM ELEMENTS FOR SIGNUP*/
+
+    /* Full-width input fields */
+    ::slotted(input:not([type=checkbox]):not([type=radio])) {
+      width: 80%;
+      padding: 15px;
+      margin: 5px 0 22px 0;
+      display: inline-block;
+      border: none;
+      background: #f1f1f1;
+      -webkit-user-select: text;
+      border-radius: 27px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+
+      /* prevent copy paste, to allow, change 'none' to 'text' */
+    }
+
+    /* Full-width input fields */
+    ::slotted(label) {
+      width: 80%;
+      padding: 15px;
+      margin: 5px 0 22px 0;
+      display: inline-block;
+      border: none;
+    }
+
+
+    ::slotted(textarea) {
+      width: 80%;
+      border: none;
+      padding: 2.5%;
+      background: #f1f1f1;
+      border-radius: 27px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+      outline: none;
+    }
+
+    #field_control::slotted(input:not([type=checkbox]):not([type=radio])):focus {
+      background-color: #ddd;
+    }
+
+    #field_control::slotted(input:not([type=checkbox]):not([type=radio])):focus:invalid {
+      border: 1px solid red;
+    }
+
+    hr {
+      border: 1px solid #f1f1f1;
+      margin-bottom: 25px;
+      width: 100% !important;
+    }
+
+    /* Set a style for all buttons */
+    ::slotted(button) {
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.9;
+    }
+
+    ::slotted(button):hover {
+      opacity: 1;
+    }
+
+    /* Extra styles for the cancel button */
+    ::slotted(input:not([type=checkbox]):not([type=radio])) .cancelbtn {
+      padding: 14px 20px;
+      background-color: #f44336;
+    }
+
+
+
+    /* Float cancel and signup buttons and add an equal width */
+    component[name=footer] .cancelbtn,
+    component[name=footer] .signupbtn {
+      float: left;
+      width: 45%;
+      margin: .5%;
+    }
+
+    /* Add padding to container elements */
+    .container {
+      padding: 20px;
+      width: 87% !important;
+      height: 100%;
+    }
+
+    /* Clear floats */
+    .clearfix::after,
+    component[name=footer] .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    /* Change styles for cancel button and signup button on extra small screens */
+    @media screen and (max-width: 300px) {
+
+      .cancelbtn,
+      .signupbtn {
+        width: 100%;
+      }
+    }
+
+    /* END FORM ELEMENTS */
+
+
+
+  </style>
+
+  <form action="#" style="border:1px solid #ccc;border-radius:20px">
+    <div class="container">
+      <slot name="title">
+        <h1>Signup Form</h1>
+      </slot>
+      <slot name="subtitle">
+        <p>Please fill up this form to ask for a quote.</p>
+      </slot>
+      <hr />
+      <slot id="field_control" name="field-control">
+      </slot>
+      <hr />
+      <slot name="submit_button"></slot>
+    </div>
+  </form>

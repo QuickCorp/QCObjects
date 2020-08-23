@@ -1,0 +1,163 @@
+/*!
+ * QCObjects SDK @VERSION
+ * https://sdk.qcobjects.com
+ *
+ *
+ * QCObjects SDK is a part of QCObjects
+ *
+ * Cross Browser Javascript Framework for MVC Patterns
+ * QuickCorp/QCObjects is licensed under the
+ * GNU Lesser General Public License v3.0
+ * [LICENSE] (https://github.com/QuickCorp/QCObjects/blob/master/LICENSE.txt)
+ *
+ * Permissions of this copyleft license are conditioned on making available
+ * complete source code of licensed works and modifications under the same
+ * license or the GNU GPLv3. Copyright and license notices must be preserved.
+ * Contributors provide an express grant of patent rights. However, a larger
+ * work using the licensed work through interfaces provided by the licensed
+ * work may be distributed under different terms and without source code for
+ * the larger work.
+ *
+ * Copyright (C) 2015 Jean Machuca,<correojean@gmail.com>
+ *
+ * Everyone is permitted to copy and distribute verbatim copies of this
+ * license document, but changing it is not allowed.
+ */
+
+:root{
+  --box-shadow: 0 1px 3px 0 rgba(0,0,0,.25);
+	--card-shadow:rgba(228, 228, 234, 0.22) 0px 22px 25px 0px, rgba(228, 228, 234, 0.5) 0px 9px 23px 0px;
+	--card-shadow-hover: rgba(228, 228, 234, 0.56) 0px 22px 32px 0px, rgba(228, 228, 234, 0.64) 0px 9px 28px 0px;
+	--transition:all 0.3s ease-in-out;
+	--font: 'Source Code Pro', monospace;
+	--font2: 'Source Sans Pro', monospace;
+	--sidebar: 250px;
+	--hover:rgba(216,216,233,.2);
+	--title:#394963;
+	--text:#7f8897;
+	--grey:#e7e7e7;
+	--headerHeight:70px;
+	--primary:#6e61ff;
+	--secondary:#3bdef2;
+	--text-inverse:#fff;
+	--gradient1: linear-gradient(45deg, #D176FF, #9F6BFF);
+	--gradient1: linear-gradient(45deg, #28f4f5, #84abf3);
+	--gradient2: linear-gradient(45deg, #ffffff, #a165ff);
+	--primary-shadow: rgba(101, 219, 255, 0.21);
+	--circle:rgba(36, 188, 211, 0.03);
+}
+
+@import url("../fonts/stylesheet.css");
+
+html{
+	scroll-behavior: smooth;
+}
+body{
+	overflow-x: hidden;
+	margin:0px;
+	position: absolute;
+    width: 100vw;
+
+}
+main{
+	    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+h1, h2, h3, h4, h5, h6{
+	color:var(--title);
+	font-weight:700;
+}
+h2, h3{
+	margin-bottom:0px;
+}
+h1{
+    font-family: var(--font2);
+    max-width: 600px;
+    color: var(--title);
+    margin-bottom: 0px;
+    max-width: 450px;
+}
+h2{
+	margin-top:0px;
+}
+p{
+	font-family:var(--font2);
+}
+p *{
+	font-family:var(--font2);
+}
+*{
+	font-family:var(--font);
+	color:var(--text);
+}
+
+
+button:not(.navbtn),{
+	padding: 10px 20px 10px 20px;
+    border: 0px;
+    outline: 0px;
+    border-radius: 2px;
+    background: var(--primary);
+    cursor: pointer;
+    color: var(--text-inverse);
+    box-shadow: 0 10px 30px var(--primary-shadow);
+    transition: var(--transition);
+    -webkit-transition: var(--transition);
+    font-family: var(--font2);
+	position:relative;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button:not(.navbtn):hover{
+	filter:brightness(0.9);
+	-webkit-transform: scale(.9);
+    transform: scale(.9);
+}
+
+header{
+	z-index:10;
+	transition:var(--transition);
+	-webkit-transition:var(--transition);
+	justify-content:center;
+	align-items:center;
+}
+
+
+
+@keyframes circle-ripple {
+  from {
+    opacity: 1;
+    transform: scale3d(1,1,1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale3d(3,3,1);
+  }
+}
+a{
+	text-decoration:none;
+	color:var(--primary);
+	position:relative;
+	display:inline-block;
+}
+a:after {
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: var(--primary);
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+
+a:hover:after {
+  width: 100%;
+  left: 0;
+}

@@ -1,0 +1,26 @@
+<!--?xml version="1.0" standalone="no"?-->
+
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="300.000000pt" height="300.000000pt" viewBox="0 0 300.000000 300.000000" preserveAspectRatio="xMidYMid meet" style="">
+<metadata>
+Created by potrace 1.15, written by Peter Selinger 2001-2017
+</metadata>
+<g stroke-width="32" transform="translate(10,300) scale(0.100000,-0.100000)" fill="none" stroke="#111111">
+<path d="M719 2357 c-18 -12 -44 -38 -56 -56 l-23 -34 0 -782 0 -782 23 -34
+c12 -18 38 -44 56 -56 l34 -23 762 0 762 0 34 23 c18 12 44 38 56 56 l23 34 0
+782 0 782 -23 34 c-12 18 -38 44 -56 56 l-34 23 -762 0 -762 0 -34 -23z " class="XrNZszsk_0"></path>
+<path d="M1380 2032 l-11 -68 -45 -17 -45 -16 -48 34 c-27 19 -53 35 -58 35
+-19 0 -188 -169 -177 -177 5 -4 25 -29 43 -55 l33 -46 -17 -45 -17 -45 -66 -8
+-67 -9 -3 -127 -3 -126 70 -12 c70 -12 70 -12 86 -55 l17 -43 -42 -56 c-24
+-31 -41 -58 -39 -59 3 -1 44 -40 91 -86 l87 -84 55 38 c54 37 57 38 95 26 48
+-14 52 -20 66 -96 l11 -60 124 0 125 0 10 60 c13 75 17 82 66 96 38 12 41 11
+95 -26 l55 -38 89 88 88 88 -40 54 c-41 53 -41 54 -28 94 15 45 30 55 103 64
+l48 6 -3 127 -3 127 -55 8 c-66 11 -73 16 -90 66 -12 38 -12 41 21 83 18 24
+38 46 43 50 5 3 -33 47 -84 96 l-94 90 -56 -40 -56 -39 -40 18 c-21 9 -40 18
+-42 19 -2 1 -8 31 -14 68 l-11 66 -128 0 -127 0 -12 -68z m282 -181 c115 -44
+214 -153 239 -266 20 -89 8 -199 -30 -277 -31 -63 -32 -68 -16 -84 9 -9 24
+-28 32 -41 15 -23 15 -26 -8 -49 l-25 -25 -42 31 -43 31 -73 -36 c-205 -102
+-443 -21 -539 183 -29 61 -32 76 -32 167 0 88 3 107 27 157 31 66 105 149 163
+183 97 58 235 68 347 26z" class="XrNZszsk_1"></path>
+
+</g>
+<style data-made-with="vivus-instant">.XrNZszsk_0{stroke-dasharray:6823 6825;stroke-dashoffset:6824;animation:XrNZszsk_draw_0 1600ms ease-in-out 0ms infinite,XrNZszsk_fade 1600ms linear 0ms infinite;}.XrNZszsk_1{stroke-dasharray:7536 7538;stroke-dashoffset:7537;animation:XrNZszsk_draw_1 1600ms ease-in-out 0ms infinite,XrNZszsk_fade 1600ms linear 0ms infinite;}@keyframes XrNZszsk_draw{100%{stroke-dashoffset:0;}}@keyframes XrNZszsk_fade{0%{stroke-opacity:1;}62.5%{stroke-opacity:1;}100%{stroke-opacity:0;}}@keyframes XrNZszsk_draw_0{6.25%{stroke-dashoffset: 6824}35.416666666666664%{ stroke-dashoffset: 0;}100%{ stroke-dashoffset: 0;}}@keyframes XrNZszsk_draw_1{20.833333333333336%{stroke-dashoffset: 7537}50%{ stroke-dashoffset: 0;}100%{ stroke-dashoffset: 0;}}</style></svg>

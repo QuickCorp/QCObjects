@@ -1,4 +1,5 @@
 'use strict';
+Import ('https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min',()=>{},true);
 Package('cl.quickcorp.tools',[
   Class('MarkdownTemplateHandler',DefaultTemplateHandler,{
     replaceLinksForRouting:function(template){
