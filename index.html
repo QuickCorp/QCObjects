@@ -1,147 +1,40 @@
-<!DOCTYPE html>
-<html lang="en-US">
+<!doctype html>
+<html class="no-js" lang="en">
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+   <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: https://ssl.gstatic.com; img-src * 'self' data:; child-src *; style-src * 'self' 'unsafe-inline' 'unsafe-eval'; script-src * 'self' 'unsafe-inline' 'unsafe-eval'; connect-src * 'self' 'unsafe-inline' 'unsafe-eval';media-src *">
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+  <title>QCObjects | Cross Browser Javascript Framework for MVC Patterns</title>
+  <meta name="keywords" content="ROUTING,TOOLBAR,MEDIA,IMAGE,LAYOUT,BUTTON,server,view,mvvm,node,quickcorp,javascript,pure,mvc,objects,microfrontend,micro-frontend,architecture,component,components,pure,framework,javascript-framework,mvc-pattern,demo,html,first-timers-only,microfrontends,microservices,microfrontend,component-architecture,cli,tool,nodejs,cloud,multicloud,multi-cloud,aws,server,digitalocean,hosting,architecture,n-tier,multitier,multi-tier">
+  <meta name="generator" content="Jekyll v3.8.5" />
+  <meta property="og:title" content="QCObjects" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="description" content="Cross Browser Javascript Framework for MVC Patterns" />
+  <meta property="og:description" content="Cross Browser Javascript Framework for MVC Patterns" />
+  <link rel="canonical" href="https://qcobjects.dev/" />
+  <meta property="og:url" content="https://qcobjects.dev/" />
+  <meta property="og:site_name" content="QCObjects" />
 
-<!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>QCObjects | Cross Browser Javascript Framework for MVC Patterns</title>
-<meta name="keywords" content="ROUTING,TOOLBAR,MEDIA,IMAGE,LAYOUT,BUTTON,server,view,mvvm,node,quickcorp,javascript,pure,mvc,objects,microfrontend,micro-frontend,architecture,component,components,pure,framework,javascript-framework,mvc-pattern,demo,html,first-timers-only,microfrontends,microservices,microfrontend,component-architecture,cli,tool,nodejs,cloud,multicloud,multi-cloud,aws,server,digitalocean,hosting,architecture,n-tier,multitier,multi-tier">
-<meta name="generator" content="Jekyll v3.8.5" />
-<meta property="og:title" content="QCObjects" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="Cross Browser Javascript Framework for MVC Patterns" />
-<meta property="og:description" content="Cross Browser Javascript Framework for MVC Patterns" />
-<link rel="canonical" href="https://qcobjects.dev/" />
-<meta property="og:url" content="https://qcobjects.dev/" />
-<meta property="og:site_name" content="QCObjects" />
-<script type="application/ld+json">
-{"@type":"WebSite","url":"https://qcobjects.dev/","name":"QCObjects","headline":"QCObjects","description":"Cross Browser Javascript Framework for MVC Patterns","@context":"http://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
-<script type="text/javascript" src="QCObjects.js"></script>
-<link rel="stylesheet" type="text/css" href="https://sdk.qcobjects.dev/css/basic-layout.css"/>
-<link rel="stylesheet" type="text/css" href="doc/css/index.css"/>
-<component name="pwa" controllerClass="PWAController"></component>
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-  </head>
+  <script type="application/ld+json">
+  {"@type":"WebSite","url":"https://qcobjects.dev/","name":"QCObjects","headline":"QCObjects","description":"Cross Browser Javascript Framework for MVC Patterns","@context":"http://schema.org"}</script>
+  <!-- End Jekyll SEO tag -->
+  <script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
+  <component name="pwa" controllerClass="PWAController"></component>
 
-  <body>
-    <noscript>
-      <!-- anchor linking to external file -->
-      <p>This page needs JavaScript because it uses QCObjects (https://qcobjects.com)</p>
-    </noscript>
-    <style>
-    body {background:none}
-    </style>
+</head>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/QuickCorp/QCObjects">View on GitHub</a>
-          <!-- Place this tag where you want the button to render. -->
+<body  >
+  <noscript>
+    <!-- anchor linking to external file -->
+    <p>This page needs JavaScript because it uses QCObjects (https://qcobjects.com)</p>
+  </noscript>
+  <component name="layout-basic" shadowed=true cached=true controllerClass="MainController">
+  </component>
+<script type="text/javascript" src="doc/js/init.js"></script>
 
-          <h1 id="project_title"><a style="color:white" href="#">QCObjects</a></h1>
-          <h2 id="project_tagline" class="typewriter-text">To code fancy, clean and quick</h2><br/>
-          <div style="display: inline-grid;grid-auto-flow: column;grid-column-gap: 20px;">
-            <a href="#essentials" style="color:white">Reference</a>
-            <a href="#CODE_OF_CONDUCT" style="color:white">Code Of Conduct</a>
-            <a href="#CONTRIBUTING" style="color:white">Contributing</a>
-            <a href="#thanksvideo" style="color:white">Thanks Video</a>
-            <a href="#author" style="color:white">Author</a>
-            <a href="#academy" style="color:white">Academy</a>
-            <a href="https://devblog.qcobjects.org" style="color:white">DevBlog</a>
-          </div>
-          <div style="display: inline-grid;grid-auto-flow: column;grid-column-gap: 20px;">
-            <a class="github-button" href="https://github.com/Quickcorp/QCObjects" data-size="large" data-show-count="true" aria-label="Star Quickcorp/QCObjects on GitHub">Star</a>
-            <a href="https://www.patreon.com/bePatron?u=21083697" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
-          </div>
-        </header>
-    </div>
+</body>
 
-    <component name="blank" effectclass="MainTransitionEffect" >
-      <routing path="#CONTRIBUTING" name="blank"></routing>
-      <routing path="#contributing" name="blank"></routing>
-      <routing path="#CODE_OF_CONDUCT" name="blank"></routing>
-      <routing path="#code_of_conduct" name="blank"></routing>
-      <routing path="#essentials" name="blank"></routing>
-      <routing path="#thanksvideo" name="thanksvideo" ></routing>
-      <routing path="#author" name="blank" ></routing>
-      <routing path="#academy" name="blank" ></routing>
-    </component>
-    <a href="https://www.producthunt.com/posts/qcobjects?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-qcobjects" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=167109&theme=dark" alt="QCObjects - To code fancy, clean and quick | Product Hunt Embed" style="box-shadow: none;border:none;width: 250px; height: 54px;" width="250px" height="54px" /></a>
-
-    <!-- MAIN CONTENT -->
-    <main>
-      <component name="download-button" shadowed=true controllerClass="DownloadButtonController">
-        <routing path="#download" name="blank"></routing>
-        <routing path="^(?!#download).*$" name="download-button"></routing>
-      </component>
-      <component name="download" controllerClass="DownloadButtonController">
-        <routing path="#download" name="download"></routing>
-        <routing path="^(?!#download).*$" name="blank"></routing>
-      </component>
-
-      <component name="blank" effectClass="MainTransitionEffect">
-        <routing path="#academy" name="academy"></routing>
-        <routing path="^(?!#academy).*$" name="blank"></routing>
-      </component>
-      <component name="../../../README" class="doc" cached="false" tplextension="md" controllerClass="MarkdownController"  componentClass="MarkdownComponent" effectClass="MainTransitionEffect">
-        <routing path="#CONTRIBUTING" name="../../../CONTRIBUTING"></routing>
-        <routing path="#contributing" name="../../../CONTRIBUTING"></routing>
-        <routing path="#CODE_OF_CONDUCT" name="../../../CODE_OF_CONDUCT"></routing>
-        <routing path="#code_of_conduct" name="../../../CODE_OF_CONDUCT"></routing>
-        <routing path="#essentials" name="../../../README" ></routing>
-        <routing path="#author" name="../../../AUTHOR" ></routing>
-        <routing path="#academy" name="blank" ></routing>
-        <routing path="#download" name="blank" ></routing>
-      </component>
-    </main>
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-
-        <p class="copyright">This website is dynamically generated using <a href="https://github.com/QuickCorp/QCObjects">QCObjects</a> and <a href="https://github.com/showdownjs/showdown">ShowdownJS</a>
-        and it is maintained by <a href="https://github.com/QuickCorp">QuickCorp</a></p>
-
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-<script type="text/javascript">
-  logger.debugEnabled=true;
-  Component.cached=false;
-
-
-  CONFIG.set('relativeImportPath', 'doc/js/');
-  CONFIG.set('componentsBasePath', 'doc/templates/components/');
-  CONFIG.set('delayForReady', 1); // delay to wait before executing the first ready event, it includes imports
-  CONFIG.set('preserveComponentBodyTag', false); // don't use <componentBody></componentBody> tag
-  CONFIG.set('useConfigService', false); // Load settings from config.json
-  CONFIG.set('routingWay','hash');
-  CONFIG.set('useSDK',true);
-  CONFIG.set('useLocalSDK',false);
-  CONFIG.set('asynchronousImportsLoad',true);
-  CONFIG.set('tplextension','tpl.html');
-  CONFIG.set('serviceWorkerURI','/sw.js');
-
-  Import ('cl.quickcorp');
-  Ready(function() {
-    function forceClearCache(){
-      var cacheStorage = new ComplexStorageCache({
-                                  index:'index',
-                                  load:(cacheController)=>{},
-                                  alternate: (cacheController)=>{}
-                                });
-      cacheStorage.clear();
-    }
-    forceClearCache(); // force clear cache on startup
-
-  });
-
-</script>
-
-  </body>
 </html>

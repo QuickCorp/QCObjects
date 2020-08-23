@@ -1,0 +1,49 @@
+/* NAV */
+  nav > component {
+      background-color: #111;
+    }
+    
+    nav > component a {
+      font-size: 15px;
+      color: #ecffc7;
+    }
+    
+    nav > component a:hover {
+      color: #f1f1f1;
+    }
+  
+    nav details {
+      background-color: #222;
+    }
+  
+    nav {color: white;}
+  
+  
+  
+  nav {
+      text-align: justify;
+  }
+  
+  nav > button.navbtn{
+    background-color: #111;
+    color: white;
+  }
+  
+  nav > span.topnav {
+    background-color: #111;
+  }
+    
+  /* HEADER */
+  header{
+    padding-top: 80px;
+  }
+  header div {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+  }
+  
+  /* FOOTER */
+  footer{  
+    background: #fff7f7;
+  }
+  
+  

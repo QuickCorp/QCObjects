@@ -1,0 +1,50 @@
+/* NAV */
+  nav > component {
+      background-color: rgb(106, 229, 245);
+    }
+    
+    nav > component a {
+      font-size: 15px;
+      color: #28197e;
+    }
+    
+    nav > component a:hover {
+      color: #4aa7dd;
+    }
+  
+    nav details {
+      background-color: rgb(90, 201, 216);
+    }
+  
+    nav {color: white;}
+  
+  
+  
+  nav {
+      text-align: justify;
+  }
+  
+  nav > button.navbtn{
+    background-color: rgb(106, 229, 245);
+    color: white;
+  }
+  
+  nav > span.topnav {
+    background-color: rgb(106, 229, 245);
+  }
+    
+  /* HEADER */
+  header{
+    padding-top: 80px;
+  }
+  header div {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+  }
+  
+  /* FOOTER */
+  footer{  
+    background: rgb(106, 229, 245);
+    color: #fff;
+  }
+  
+  
