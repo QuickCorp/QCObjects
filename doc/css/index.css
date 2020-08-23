@@ -1,5 +1,25 @@
-@import url("./theme.css");
-@import url("./snippet.css");
+@charset "UTF-8";
+/* CSS Document */
+
+/* CSS Document for Desktop Imports */
+@import url("./desktop/index.css") ( orientation:landscape) and (min-width:460px);
+@import url("./desktop/index.css") (aspect-ratio: 16/9) and (min-width:460px);
+@import url("./desktop/index.css") (aspect-ratio: 16/10) and (min-width:460px);
+@import url("./desktop/index.css") (aspect-ratio: 8/5) and (min-width:460px);
+@import url("./desktop/index.css") (aspect-ratio: 4/3) and (min-width:460px);
+@import url("./desktop/index.css") (aspect-ratio: 3/2) and (min-width:460px);
+
+/* CSS Document for Mobile Imports */
+@import url("./mobile/index.css") (orientation:portrait);
+@import url("./mobile/index.css") (max-width:460px);
+@import url("./mobile/index.css") (aspect-ratio: 9/16);
+@import url("./mobile/index.css") (aspect-ratio: 10/16);
+@import url("./mobile/index.css") (aspect-ratio: 5/8);
+@import url("./mobile/index.css") (aspect-ratio: 3/4);
+@import url("./mobile/index.css") (aspect-ratio: 2/3);
+
+@import url("./modern-base.css");
+
 @viewport{
     zoom: 1.0;
     width: extend-to-zoom;
@@ -34,7 +54,7 @@ body {
 html,body {
   -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
   -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-/*  -webkit-user-select: none;    */              /* prevent copy paste, to allow, change 'none' to 'text' */
+  -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
   height:100%;
   margin:0px;
   padding:0px;
@@ -51,54 +71,361 @@ main {
   padding-bottom: 20%;
 }
 
-@keyframes typing {
-    from {
-        width: 0%
-    }
-    to {
-        width: 100%
-    }
+
+
+#installer {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 40px;
+  text-align: center;
+  transition: opacity 300ms ease-in-out;
+  z-index:9999;
 }
 
-@keyframes blink {
-    from, to {
-        border-color: transparent
-    }
-    50% {
-        border-color: white;
-    }
+#installer.available {
+  opacity: 1;
 }
 
-.typewriter-text {
-    display: inline-block !important;
-    overflow: hidden !important;
-    letter-spacing: 2px !important;
-    animation: typing 5s steps(30, end), blink .75s step-end infinite !important;
-    white-space: nowrap !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    border-right: 4px solid orange !important;
-    box-sizing: border-box !important;
-    line-height: normal !important;
-    text-align: left !important;
-    color: white !important;
+#installer .button {
+  border: white 1px solid;
+  margin:10px;
+  padding: 10px;
+  color: white;
+  background-color: transparent;
 }
 
-code {
-  -webkit-user-select: text;                 /* prevent copy paste, to allow, change 'none' to 'text' */
+.gridlines * {
+  border: 1px green dotted;
+}
+
+/* FOCUS */
+* summary:focus,
+* a:focus,
+* button:focus {
+  outline: none;
+}
+
+/* NAV */
+nav {
+  float: left;
+  width: 0;
+  top: 0;
+  bottom: 0;
+  height: auto;
+  padding: 20px;
+}
+nav > component {
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+  left: 0;
+  right: 0;
+  bottom:10%;
+  overflow-y: auto;
+	background-color: #111;
+	transition: 0.5s;
+	padding-top: 60px;
+  padding-bottom: 20%;
+  }
+
+  nav > component a {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 15px;
+	color: #ecffc7;
+	display: block;
+	transition: 0.3s;
+  }
+
+  nav > component a:hover {
+	color: #f1f1f1;
+  }
+
+  nav summary{
+    list-style: none;
+    border:none;
+    white-space: nowrap;
+  }
+  nav summary::-webkit-details-marker {
+    display: none;
+  }
+  nav details {
+    padding: 15px;
+    background-color: #222;
+    margin-bottom: 3px;
+  }
+
+  nav summary:before {
+    content: url('/img/Q_web.svg'); /* the icon for list in sidebar */
+    color: #e5f59d;
+    margin-right: 20px;
+
+  }
+
+	nav {color: white;}
+
+
+
+nav {
+	text-align: justify;
+	z-index: 9;
+}
+
+nav > button.navbtn{
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  top:0;
+  left:0;
+  position:fixed;
+}
+nav > button.navbtn:after { content:'\2630'; }
+
+nav > component > span.closebtn {
+  position: fixed;
+  display: none;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+nav > component > span.closebtn:after{content: "\00d7";}
+
+
+nav .navcontent{
+  padding-top: 20px;
 
 }
 
-
-:root {
-  --color-bg: #ffffff;
+nav, article {
+  width: 100%;
+  height: auto;
+  position: relative;
 }
 
-body {
-  background-color: var(--color-bg) !important;
+/* END NAV */
+
+/* TOPNAV */
+nav > span.topnav {
+  width:100%;
+  top:0;
+  left:0;
+  position: fixed;
+  height:70px;
+  background-color: #111;
+  overflow: hidden;
 }
 
-[data-theme="dark"] {
-  --color-bg: #000000;
-  color:white !important;
+nav .topnav a {
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  color:white;
 }
+
+nav .topnav a:hover {
+  background-color: rgb(49, 45, 45);
+}
+
+
+nav .topnav .login-container {
+  float: right;
+}
+
+input, textarea {
+  -webkit-user-select: text;  /* to allow copy paste on input and textarea */
+}
+
+nav .topnav input[type=text],nav .topnav input[type=password] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+  width:120px;
+}
+
+nav .topnav .login-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background-color: #555;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+nav .topnav .login-container button:hover {
+  background-color: rgb(230, 255, 230);
+}
+nav form {
+  display:grid;
+  grid-gap: 15px;
+  grid-auto-flow: column;
+  margin:0 auto;
+}
+/* END TOPNAV */
+
+
+/* HEADER */
+header{
+  padding-top: 80px;
+  background-color: #ffffff;
+  background-size: contain;
+}
+header div {
+/*    box-shadow: 0 2px 8px rgba(0, 0, 0, .25);*/
+    padding: 0;
+    margin: 0;
+    border-radius: 7px;
+}
+header div img {
+  padding: 5%;
+}
+
+/* FOOTER */
+footer{
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background: #111111;
+  z-index: 10;
+}
+footer p {color:white;}
+
+/* END FOOTER */
+
+/* BUTTONS */
+button:not(.navbtn), input {
+  border-radius: 27px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+  outline: none;
+
+}
+
+button:not(.navbtn){
+  border: solid #FFFFFF !important;
+  border-left: 3px !important;
+  border-right: 3px !important;
+  border-radius: 7px !important;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  font-size:12px;
+  padding: 18px 18px 18px 18px;
+  text-decoration:none;
+  display:inline-block;
+  font-weight:bold;
+  color: #FFFFFF;
+  background-color: #111;
+}
+
+button:not(.navbtn):hover{
+  background-color: #333;
+}
+
+
+/* END BUTTONS */
+
+/* FORM ELEMENTS FOR SIGNUP*/
+
+/* Full-width input fields */
+component[name=signup] input[type=text],
+component[name=signup] input[type=password] {
+  width: 80%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+component[name=signup] input[type=checkbox]{
+  margin-left: 20px;
+}
+
+component[name=signup] input[type=text]:focus,
+component[name=signup] input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+component[name=signup] hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+  width:100% !important;
+}
+
+/* Set a style for all buttons */
+component[name=signup] button {
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+component[name=signup] button:hover {
+  opacity:1;
+}
+
+/* Extra styles for the cancel button */
+component[name=signup] .cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+component[name=footer] .cancelbtn,
+component[name=footer] .signupbtn {
+  float: left;
+  width: 45%;
+  margin: .5%;
+}
+
+/* Add padding to container elements */
+component[name=signup] .container {
+  padding: 20px;
+  width: 87% !important;
+  height:100%;
+}
+
+/* Clear floats */
+component[name=signup] .clearfix::after,
+component[name=footer] .clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  component[name=signup] .cancelbtn,component[name=signup] .signupbtn {
+     width: 100%;
+  }
+}
+/* END FORM ELEMENTS */
+
+
+/* lazy loading images blurry */
+img[data-src] {
+  filter: blur(0.2em);
+}
+
+img:not([data-src]) {
+  filter: blur(0em);
+  transition: filter 0.5s;
+}
+/* end lazy loading images blurry */

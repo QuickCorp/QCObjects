@@ -1,0 +1,22 @@
+/* Insert here your custom CSS */
+nav > span.topnav{
+    padding-left: 70px !important;
+}
+nav .topnav .login-container {
+    float: none !important;
+    width: auto;
+    left: 45% !important;
+    height: auto;
+    position: absolute !important;
+}
+
+.topnav a.createaccountlink1 {
+    display: none !important;
+}
+.topnav a.createaccountlink2 {
+    display: block !important;
+}
+
+nav form {
+    width:100% !important;
+}

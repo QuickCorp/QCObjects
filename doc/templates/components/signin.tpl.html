@@ -1,0 +1,34 @@
+<header>
+  <component name="header">
+    <routing path="#signup" name="blank"></routing>
+    <routing path="#page1" name="blank"></routing>
+    <routing path="#page2" name="blank"></routing>
+  </component>
+</header>
+<aside>
+  <nav>
+    <span class="topnav">
+      <component name="login">
+          <routing path="#page1" name="blank"></routing>
+          <routing path="#page2" name="blank"></routing>
+          <routing path="#signin" name="blank"></routing>
+          <routing path="#" name="login"></routing>
+          <routing path="" name="login"></routing>
+      </component>
+    </span>
+    <button class="navbtn" onclick="GLOBAL.sideNavController.toggle()"></button>
+    <component name="nav" controllerClass="SideNavController"></component>
+  </nav>
+</aside>
+<main role= “main”>
+  <section>
+    <component name="contentblock">
+        <routing path="#signin" name="login2"></routing>
+      </component>
+  </section>
+</main>
+<footer>
+  <component name="footer">
+    <routing path="#signin" name="footer2"></routing>
+</component>
+</footer>

@@ -1,0 +1,32 @@
+/* Insert here your custom CSS */
+
+/* LOGIN 2 FORM */
+
+component[name=loginform].login2 input[type=text],
+component[name=loginform].login2 input[type=password] {
+  width: 30%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+  margin: 7px;
+}
+
+component[name=loginform].login2 input[type=text]:focus,
+component[name=loginform].login2 input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+component[name=loginform].login2 form{
+    width: 70% !important;
+    margin:0 auto;
+    grid-auto-flow: column;
+  }
+
+  component[name=loginform].login2 form breakline{
+    display: block;
+  }
+  
+/* END LOGIN 2 FORM */

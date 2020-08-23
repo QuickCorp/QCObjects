@@ -1,0 +1,118 @@
+@import url('../morph-shape-effect.css');
+
+div.container {
+  transform: translate(0, 0);
+  display: grid;
+  grid-template-areas: "hero";
+  place-items: center;
+  height: 60vh;
+  min-height: 600px;
+  background-color: rgba(37, 135, 165, 0.2);
+  overflow: hidden;
+  margin: -30px;
+}
+
+div.container::before {
+  transform: translate(0, 0);
+  content: "";
+  grid-area: hero;
+  place-self: start;
+  width: 50vmin;
+  height: 50vmin;
+  animation: morph 8s ease-in-out infinite;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  transition: all 1s ease-in-out;
+
+  background-color: rgba(12, 138, 177, 0.3);
+}
+
+div.container::after {
+  transform: translate(0, 0);
+  content: "";
+  grid-area: hero;
+  place-self: end;
+  width: 30vmin;
+  height: 60vmin;
+  animation: morph 8s ease-in-out infinite;
+  border-radius: 100% 53% 58% 68% / 99% 0% 75% 0%;
+  transition: all 1s ease-in-out;
+
+  background-color: rgba(42, 140, 231, 0.2);
+}
+
+div.container>* {
+  grid-area: hero;
+}
+
+div.container img {
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+div.container .hero__content {
+  z-index: 1;
+  text-align: center;
+  color: #fff;
+  min-width: 30ch;
+  padding: 1rem;
+}
+
+div.container .hero__content h1 {
+  font-size: 3rem;
+  font-weight: 500;
+  margin: 0 0 1rem;
+}
+
+div.container .hero__content p {
+  font-size: 1.75rem;
+}
+
+.button {
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: -webkit-inline-box;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  align-self: start;
+  background-color: rgb(19, 220, 255);
+  color: #f9fffd;
+  border-radius: 8px;
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3);
+  padding: 0.25em 0.75em;
+  min-width: 10ch;
+  min-height: 44px;
+  text-align: center;
+  line-height: 1.1;
+  -webkit-transition: 220ms all ease-in-out;
+  transition: 220ms all ease-in-out;
+}
+
+.button:hover,
+.button:active {
+  background-color: #2b20ce94;
+}
+
+.button:focus {
+  outline-style: solid;
+  outline-color: transparent;
+  box-shadow: 0 0 0 4px #86dfc3;
+}
+
+:host > * {
+  box-sizing: border-box;
+}
+
+button {
+  box-sizing: content;
+}
+
+div.morph-shape{
+  background-color:rgba(1,1,1,0.6);
+}
