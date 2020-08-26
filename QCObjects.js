@@ -1998,13 +1998,13 @@
           var _componentRoot = (component.shadowed)?(component.shadowRoot):(component.body);
           _componentRoot.subelements(document.location.hash).map(
             function (element){
-              if (typeof element.scrollIntoView === "function")){
+              if (typeof element.scrollIntoView === "function"){
                 element.scrollIntoView(
                   ClassFactory("CONFIG").get("scrollIntoHash",{behavior: "auto", block: "top", inline: "top"})
                 );
               }
             }
-          )
+          );
         }
       } else {
         // not yet implemented

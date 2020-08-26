@@ -6,7 +6,7 @@
   "license": "LGPL-3.0",
   "scripts": {
     "start": "qcobjects-shell",
-    "test": "npx eslint QCObjects.js && jasmine",
+    "test": "npx eslint --fix QCObjects.js && jasmine",
     "preversion": "npm cache verify && npm test",
     "sync": "git add . && git commit -am ",
     "postversion": "git push && git push --tags "
