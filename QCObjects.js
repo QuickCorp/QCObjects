@@ -1996,12 +1996,15 @@
         var component = this;
         if (document.location.hash !== ""){
           var _componentRoot = (component.shadowed)?(component.shadowRoot):(component.body);
-          var scrollIntoHash = _componentRoot.subelements(document.location.hash);
-          if (scrollIntoHash.length>0 && (typeof scrollIntoHash[0].scrollIntoView === "function")){
-            scrollIntoHash[0].scrollIntoView(
-              ClassFactory("CONFIG").get("scrollIntoHash",{behavior: "auto", block: "center", inline: "center"})
-            );
-          }
+          _componentRoot.subelements(document.location.hash).map(
+            function (element){
+              if (typeof element.scrollIntoView === "function")){
+                element.scrollIntoView(
+                  ClassFactory("CONFIG").get("scrollIntoHash",{behavior: "auto", block: "top", inline: "top"})
+                );
+              }
+            }
+          )
         }
       } else {
         // not yet implemented
