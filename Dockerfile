@@ -71,9 +71,7 @@ RUN chmod +w /home/qcobjects/projects/mynewapp/
 COPY bin/install/ubuntu18/etc/qcobjects/config.json.template /etc/qcobjects/config.json
 RUN (cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-createcert)
 RUN (cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save)
-RUN (cd /home/qcobjects/projects/mynewapp && qcobjects create --pwa mynewapp)
-RUN systemctl daemon-reload
-RUN systemctl enable qcobjects
+RUN (cd /home/qcobjects/projects/mynewapp && (echo "\n" | (qcobjects create --pwa megamarcastore 2>&1 >/dev/null)))
 
 RUN clear
 RUN echo "Welcome to... "
@@ -121,4 +119,4 @@ RUN npm ci --save --only=production
 # Bundle app source
 COPY --chown=qcobjects:qcobjects . .
 
-CMD ["service", "qcobjects", "start"]
+CMD ["qcobjects", "launch", "mynewapp"]
