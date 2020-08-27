@@ -73,7 +73,6 @@ RUN (cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-createc
 RUN (cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save)
 RUN (cd /home/qcobjects/projects/mynewapp && (echo "\n" | (qcobjects create --pwa megamarcastore 2>&1 >/dev/null)))
 
-RUN clear
 RUN echo "Welcome to... "
 RUN echo ""
 RUN echo " .d88888b.  .d8888b.  .d88888b. 888       d8b                888"
