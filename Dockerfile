@@ -53,7 +53,7 @@ RUN npm install -g qcobjects-sdk --only=production
 RUN npm install -g qcobjects-cli --only=production
 
 # QCObjects Service
-COPY bin/install/ubuntu18/systemd/qcobjects.service /etc/systemd/system/qcobjects.service
+COPY bin/install/ubuntu18/systemd/system/qcobjects.service /etc/systemd/system/qcobjects.service
 # End QCObjects Service
 
 RUN mkdir -p /etc/letsencrypt/live/
