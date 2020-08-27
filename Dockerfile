@@ -30,6 +30,23 @@ LABEL vendor2="QCObjects"
 LABEL org.quickcorp.qcobjects.release-date="2019-06-01"
 LABEL org.quickcorp.qcobjects.version.is-production=""
 
+# Install Openssl
+USER root
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      openssl \
+    && apt-get clean
+# End Install Openssl
+
+# Installation of certbot
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+RUN apt-get -y install software-properties-common
+RUN sed -i "/^# deb.*universe/ s/^# //" /etc/apt/sources.list
+RUN add-apt-repository ppa:certbot/certbot
+RUN apt-get -y install certbot
+# End Installation of certbot
+
 RUN npm install -g jasmine --only=production
 RUN npm install -g qcobjects-sdk --only=production
 RUN npm install -g qcobjects-cli --only=production
