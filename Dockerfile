@@ -53,6 +53,7 @@ RUN npm install -g qcobjects-sdk --only=production
 RUN npm install -g qcobjects-cli --only=production
 
 # QCObjects Service
+RUN apt-get -y install --reinstall systemd
 COPY bin/install/ubuntu18/etc/systemd/system/qcobjects.service /etc/systemd/system/qcobjects.service
 # End QCObjects Service
 
@@ -71,8 +72,8 @@ COPY bin/install/ubuntu18/etc/qcobjects/config.json.template /etc/qcobjects/conf
 RUN (cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-createcert)
 RUN (cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save)
 RUN (cd /home/qcobjects/projects/mynewapp && qcobjects create --pwa mynewapp)
-RUN /usr/bin/systemctl daemon-reload
-RUN /usr/bin/systemctl enable qcobjects
+RUN systemctl daemon-reload
+RUN systemctl enable qcobjects
 
 RUN clear
 RUN echo "Welcome to... "
