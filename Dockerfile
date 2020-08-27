@@ -64,6 +64,8 @@ RUN chmod 777 /etc/letsencrypt/live/mynewapp.qcobjects.com/
 RUN groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects
 RUN mkdir -p /home/qcobjects && chown -R qcobjects:qcobjects /home/qcobjects
 
+RUN mkdir -p /etc/qcobjects/
+COPY bin/install/ubuntu18/etc/qcobjects/config.json.template /etc/qcobjects/config.json
 RUN (cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-createcert)
 RUN (cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save)
 RUN (cd /home/qcobjects/projects/mynewapp && qcobjects create --pwa mynewapp)
