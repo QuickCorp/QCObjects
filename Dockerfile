@@ -65,6 +65,8 @@ RUN groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects
 RUN mkdir -p /home/qcobjects && chown -R qcobjects:qcobjects /home/qcobjects
 
 RUN mkdir -p /etc/qcobjects/
+RUN mkdir -p /home/qcobjects/projects/mynewapp/
+RUN chmod +w /home/qcobjects/projects/mynewapp/
 COPY bin/install/ubuntu18/etc/qcobjects/config.json.template /etc/qcobjects/config.json
 RUN (cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-createcert)
 RUN (cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save)
