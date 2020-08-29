@@ -2060,7 +2060,7 @@
         /*
         * BEGIN use i18n translation
         */
-        __component_helpers__.push(Component.i18n_translate.bind(component));
+        __component_helpers__.push(component.i18n_translate.bind(component));
         /*
         * END use i18n translation
         */
@@ -2068,7 +2068,7 @@
         /*
         * BEGIN component scrollIntoHash
         */
-        __component_helpers__.push(Component.scrollIntoHash.bind(component));
+        __component_helpers__.push(component.scrollIntoHash.bind(component));
         /*
         * END component scrollIntoHash
         */
@@ -2077,7 +2077,7 @@
          * BEGIN component images lazy-load
          */
 
-         __component_helpers__.push(Component.lazyLoadImages.bind(component));
+         __component_helpers__.push(component.lazyLoadImages.bind(component));
 
         /*
          * END component images lazy-load
