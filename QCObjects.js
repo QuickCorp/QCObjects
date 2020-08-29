@@ -2089,7 +2089,7 @@
            function (_component_helper_){
              _component_helper_();
            }
-         )
+         );
 
       } else {
         // not yet implemented
