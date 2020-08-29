@@ -2048,13 +2048,19 @@
         // not yet implemented
       }
     },
+    _componentHelpers:[],
+    addComponentHelper: function (componentHelper){
+      var component = this;
+      component._componentHelpers.push(componentHelper);
+    },
     runComponentHelpers: function() {
       if (isBrowser){
         var component = this;
+        var __component_helpers__ = [];
         /*
         * BEGIN use i18n translation
         */
-        component.i18n_translate();
+        __component_helpers__.push(Component.i18n_translate.bind(component));
         /*
         * END use i18n translation
         */
@@ -2062,8 +2068,7 @@
         /*
         * BEGIN component scrollIntoHash
         */
-
-        component.scrollIntoHash();
+        __component_helpers__.push(Component.scrollIntoHash.bind(component));
         /*
         * END component scrollIntoHash
         */
@@ -2072,11 +2077,19 @@
          * BEGIN component images lazy-load
          */
 
-         component.lazyLoadImages();
+         __component_helpers__.push(Component.lazyLoadImages.bind(component));
 
         /*
          * END component images lazy-load
          */
+
+         __component_helpers__ = __component_helpers__.concat(component._componentHelpers);
+
+         __component_helpers__.map(
+           function (_component_helper_){
+             _component_helper_();
+           }
+         )
 
       } else {
         // not yet implemented
