@@ -1100,13 +1100,15 @@
     },
     processObject: function (obj){
       if (typeof obj === "object"){
-        for (var _k in obj){
-          if (typeof obj[_k] === "object" && !obj[_k].hasOwnProperty.call(obj[_k],"call")){
-            obj[_k] = this.processObject(obj);
-          } else if (typeof obj[_k] === "string"){
-            obj[_k] = this.process(obj[_k]);
+        Object.keys(obj).map(
+          function (_k){
+            if (typeof obj[_k] === "object" && !obj[_k].hasOwnProperty.call(obj[_k],"call")){
+              obj[_k] = this.processObject(obj[_k]);
+            } else if (typeof obj[_k] === "string"){
+              obj[_k] = this.process(obj[_k]);
+            }
           }
-        }
+        );
       } else if (typeof obj === "string"){
         obj = this.process(obj);
       }
