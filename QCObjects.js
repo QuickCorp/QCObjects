@@ -1099,18 +1099,19 @@
       return template;
     },
     processObject: function (obj){
+      let __instance__ = this;
       if (typeof obj === "object"){
         Object.keys(obj).map(
           function (_k){
             if (typeof obj[_k] === "object" && !obj[_k].hasOwnProperty.call(obj[_k],"call")){
-              obj[_k] = this.processObject(obj[_k]);
+              obj[_k] = __instance__.processObject(obj[_k]);
             } else if (typeof obj[_k] === "string"){
-              obj[_k] = this.process(obj[_k]);
+              obj[_k] = __instance__.process(obj[_k]);
             }
           }
         );
       } else if (typeof obj === "string"){
-        obj = this.process(obj);
+        obj = __instance__.process(obj);
       }
       return obj;
     }
