@@ -1623,6 +1623,64 @@
     get: function(name) {
       return this[name];
     },
+    feedComponent: function (){
+      var component = this;
+      var container = (component.hasOwnProperty.call(component,"container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
+      var parsedAssignmentText = component.parsedAssignmentText;
+      component.innerHTML = parsedAssignmentText;
+      if (component.shadowed){
+        logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", component.name));
+        logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+        var tmp_shadowContainer = _DOMCreateElement("div");
+        container.subelements("[slot]").map(
+          function (c){
+            if (c.parentElement===container){
+              tmp_shadowContainer.appendChild(c);
+            }
+          });
+        logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+        var shadowContainer = _DOMCreateElement("div");
+        shadowContainer.classList.add("shadowHost");
+        try {
+          component.shadowRoot = shadowContainer.attachShadow({mode: "open"});
+        } catch (e){
+          try {
+            logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", component.name));
+            component.shadowRoot = shadowContainer.shadowRoot;
+          } catch (e){
+            logger.debug("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", component.name));
+          }
+        }
+        if (typeof component.shadowRoot !== "undefined" && component.shadowRoot !== null){
+          if (component.reload) {
+            logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+            shadowContainer.shadowRoot.innerHTML = component.innerHTML;
+          } else {
+            tmp_shadowContainer.innerHTML = component.parseTemplate(tmp_shadowContainer.innerHTML);
+            logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+            shadowContainer.shadowRoot.innerHTML += component.innerHTML;
+          }
+          logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+          shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
+          logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", component.name));
+          if (container.subelements(".shadowHost")<1){
+            container.appendChild(shadowContainer);
+          } else {
+            logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", component.name));
+          }
+        } else {
+          logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", component.name));
+        }
+      } else {
+        if (component.reload) {
+          logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+          container.innerHTML = component.innerHTML;
+        } else {
+          logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+          container.innerHTML += component.innerHTML;
+        }
+      }
+    },
     rebuild: function() {
       var _component = this;
       var _promise = new Promise(function(resolve, reject) {
@@ -1652,6 +1710,19 @@
               function(standardResponse) {
                 reject.call(_promise, standardResponse);
               });
+            break;
+          case (typeof _component.get("tplsource") !== "undefined" &&
+            _component.get("tplsource") === "inline"):
+            logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
+            _component.feedComponent();
+            var standardResponse = {
+              request: null,
+              component: _component
+            };
+            if (typeof _component.done === "function") {
+              _component.done.call(_component, standardResponse);
+            }
+            resolve(_promise, standardResponse);
             break;
           case (typeof _component.get("tplsource") !== "undefined" &&
             _component.get("tplsource") === "none"):
@@ -2241,62 +2312,7 @@
         var container = (component.hasOwnProperty.call(component,"container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
         if (container !== null) {
           var feedComponent = function(component) {
-            var parsedAssignmentText = component.parsedAssignmentText;
-            component.innerHTML = parsedAssignmentText;
-            if (component.shadowed){
-              logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", component.name));
-
-              logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-              var tmp_shadowContainer = _DOMCreateElement("div");
-              container.subelements("[slot]").map(
-                function (c){
-                  if (c.parentElement===container){
-                    tmp_shadowContainer.appendChild(c);
-                  }
-                });
-
-              logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-              var shadowContainer = _DOMCreateElement("div");
-              shadowContainer.classList.add("shadowHost");
-              try {
-                component.shadowRoot = shadowContainer.attachShadow({mode: "open"});
-              } catch (e){
-                try {
-                  logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", component.name));
-                  component.shadowRoot = shadowContainer.shadowRoot;
-                } catch (e){
-                  logger.debug("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", component.name));
-                }
-              }
-              if (typeof component.shadowRoot !== "undefined" && component.shadowRoot !== null){
-                if (component.reload) {
-                  logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-                  shadowContainer.shadowRoot.innerHTML = component.innerHTML;
-                } else {
-                  tmp_shadowContainer.innerHTML = component.parseTemplate(tmp_shadowContainer.innerHTML);
-                  logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-                  shadowContainer.shadowRoot.innerHTML += component.innerHTML;
-                }
-                logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-                shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
-                logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", component.name));
-                if (container.subelements(".shadowHost")<1){
-                  container.appendChild(shadowContainer);
-                } else {
-                  logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", component.name));
-                }
-              } else {
-                logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", component.name));
-              }
-            } else {
-              if (component.reload) {
-                logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-                container.innerHTML = component.innerHTML;
-              } else {
-                logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-                container.innerHTML += component.innerHTML;
-              }
-            }
+            component.feedComponent();
             var standardResponse = {
               "request": xhr,
               "component": component
