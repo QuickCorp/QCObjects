@@ -1624,13 +1624,13 @@
       return this[name];
     },
     feedComponent: function (){
-      var component = this;
-      var container = (component.hasOwnProperty.call(component,"container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
-      var parsedAssignmentText = component.parsedAssignmentText;
-      component.innerHTML = parsedAssignmentText;
-      if (component.shadowed){
-        logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", component.name));
-        logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+      var _component_ = this;
+      var container = (_component_.hasOwnProperty.call(_component_,"container") && typeof _component_.container !== "undefined" && _component_.container !== null) ? (_component_.container) : (_component_.body);
+      var parsedAssignmentText = _component_.parsedAssignmentText;
+      _component_.innerHTML = parsedAssignmentText;
+      if (_component_.shadowed){
+        logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", _component_.name));
+        logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
         var tmp_shadowContainer = _DOMCreateElement("div");
         container.subelements("[slot]").map(
           function (c){
@@ -1638,46 +1638,46 @@
               tmp_shadowContainer.appendChild(c);
             }
           });
-        logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+        logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
         var shadowContainer = _DOMCreateElement("div");
         shadowContainer.classList.add("shadowHost");
         try {
-          component.shadowRoot = shadowContainer.attachShadow({mode: "open"});
+          _component_.shadowRoot = shadowContainer.attachShadow({mode: "open"});
         } catch (e){
           try {
-            logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", component.name));
-            component.shadowRoot = shadowContainer.shadowRoot;
+            logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", _component_.name));
+            _component_.shadowRoot = shadowContainer.shadowRoot;
           } catch (e){
-            logger.debug("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", component.name));
+            logger.debug("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
           }
         }
-        if (typeof component.shadowRoot !== "undefined" && component.shadowRoot !== null){
-          if (component.reload) {
-            logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-            shadowContainer.shadowRoot.innerHTML = component.innerHTML;
+        if (typeof _component_.shadowRoot !== "undefined" && _component_.shadowRoot !== null){
+          if (_component_.reload) {
+            logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+            shadowContainer.shadowRoot.innerHTML = _component_.innerHTML;
           } else {
-            tmp_shadowContainer.innerHTML = component.parseTemplate(tmp_shadowContainer.innerHTML);
-            logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-            shadowContainer.shadowRoot.innerHTML += component.innerHTML;
+            tmp_shadowContainer.innerHTML = _component_.parseTemplate(tmp_shadowContainer.innerHTML);
+            logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
+            shadowContainer.shadowRoot.innerHTML += _component_.innerHTML;
           }
-          logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
+          logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
           shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
-          logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", component.name));
+          logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", _component_.name));
           if (container.subelements(".shadowHost")<1){
             container.appendChild(shadowContainer);
           } else {
-            logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", component.name));
+            logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
           }
         } else {
-          logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", component.name));
+          logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));
         }
       } else {
-        if (component.reload) {
-          logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
-          container.innerHTML = component.innerHTML;
+        if (_component_.reload) {
+          logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+          container.innerHTML = _component_.innerHTML;
         } else {
-          logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", component.name));
-          container.innerHTML += component.innerHTML;
+          logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
+          container.innerHTML += _component_.innerHTML;
         }
       }
     },
@@ -2311,7 +2311,7 @@
       var _promise = new Promise(function(resolve, reject) {
         var container = (component.hasOwnProperty.call(component,"container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
         if (container !== null) {
-          var feedComponent = function(component) {
+          var _feedComponent_ = function(component) {
             component.feedComponent();
             var standardResponse = {
               "request": xhr,
@@ -2331,7 +2331,7 @@
               if (component.cached && (typeof cache !== "undefined")) {
                 cache.save(component.name, component.template);
               }
-              feedComponent.call(this, component);
+              _feedComponent_.call(this, component);
             } else {
               var standardResponse = {
                 "request": xhr,
@@ -2343,7 +2343,7 @@
           };
           if (typeof component.template === "string" && component.template !== ""){
             // component already has a template it does not need to be reloaded
-            feedComponent.call(this, component);
+            _feedComponent_.call(this, component);
           } else {
             var is_file = (component.url.startsWith("file:")) ? (true) : (false);
             var xhr = new XMLHttpRequest();
@@ -2362,7 +2362,7 @@
                   logger.debug("I got a response from fetch, so I'll feed the component");
                   response.text().then(text=>{
                     component.template=text;
-                    feedComponent.call(this, component);
+                    _feedComponent_.call(this, component);
                   });
                 });
               }
@@ -2400,7 +2400,7 @@
                 "alternate": function(cacheController) {
                   if (component.method === "GET") {
                     component.template = cacheController.cache.getCached(component.cacheIndex);
-                    feedComponent.call(this, component);
+                    _feedComponent_.call(this, component);
                   } else {
                     _directLoad.call(this,is_file);
                   }
