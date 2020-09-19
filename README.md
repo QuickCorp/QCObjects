@@ -10,7 +10,7 @@ Welcome to [QCObjects](https://qcobjects.dev). An Open-source framework that emp
 
 With QCObjects devlopers are also able to code front-end and back-end together using a common syntax in pure JavaScript. It is cross-browser, cross-platform and cross-frame.
 
-Install it, make a textfield or a navigation home functionality, all in just one step.
+Install it, make a textfield or a navigate home functionality, all in just one step.
 
 [QCObjects is being featured by British Herald as today, the most advanced framework for modern software development.](https://britishherald.com/qcobjects-the-first-world-class-tech-framework-made-in-south-america-is-meant-to-make-developers-happier-while-they-code/)
 
