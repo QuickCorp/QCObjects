@@ -2865,7 +2865,7 @@
 
   if (isBrowser) {
     Element.prototype.buildComponents = function(rebuildObjects = false) {
-      var tagFilter = (rebuildObjects) ? ("component:not([loaded])") : ("component");
+      var tagFilter = (!rebuildObjects) ? ("component:not([loaded])") : ("component");
       var d = this;
       var _buildComponent = function(components) {
         var componentsBuiltWith = [];
