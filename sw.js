@@ -23,9 +23,10 @@
  * license document, but changing it is not allowed.
 */
 "use strict";
-const version = "0.0.3";
+const version = "2.2.545";
 const appName = "qcobjects";
-const cacheName = `qcobjects-app-${appName}-${version}`;
+const cacheSufix = (Math.round(Date.now()/(1000*3600))).toString(); // 1 hour
+const cacheName = `qcobjects-app-${appName}-${version}-${cacheSufix}`;
 const start_url = "/?homescreen=1";
 caches.delete(cacheName); // force to reload cache for the first time the sw is loaded
 self.addEventListener('install', e => {
