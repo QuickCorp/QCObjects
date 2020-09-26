@@ -167,7 +167,7 @@
     function() {
       var _basePath = "";
       if (isBrowser) {
-        var baseURI = _top.document.baseURI.split("/");
+        var baseURI = _top.document.baseURI.split("?")[0].split("/");
         baseURI.pop();
         _basePath = baseURI.join("/") + "/";
       } else {
