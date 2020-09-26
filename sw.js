@@ -166,7 +166,7 @@ self.addEventListener('install', e => {
 	"doc/templates/components/signupsuccessful.tpl.html",
 	"doc/templates/components/signupsuccessfulfooter.tpl.html",
 	"doc/templates/components/snippet.tpl.html",
-	"doc/templates/components/thanksvideo.tpl.html",
+	"doc/templates/components/video_testimonials.tpl.html",
 	"doc/templates/components/topmenu.tpl.html",
 	"doc/test_service_response.html",
 	"favicon.ico",
