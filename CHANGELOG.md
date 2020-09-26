@@ -154,6 +154,44 @@ This is an automatic Changelog history of versions generated using the command: 
 	- version script
 ## v2 -> v2.2
 
+	- Added Spanish README file README-es.md
 	- Inclussion of CHANGELOG file
+	- Install OpenSSL & Certbot for Dockerfile
+	- Install QCObjects Service in Docker
 	- New Version
-	- Synced Versions from git and npm
+	- README-es.md
+	- README.md change references to http by https links
+	- README.md including Effect and Timer explanation
+	- README.pdf
+	- README.pdf && README-es.pdf
+	- __valid_routings__ refactor
+	- addComponentHelper
+	- dev website 2020 shadowed components appbar
+	- download button for website 2020 docs
+	- download button in webpage qcobjects.dev
+	- fix basePath
+	- fix css modern
+	- fix html
+	- fix processObject CONFIG
+	- fix reload behaviour
+	- fix routingPaths global setting to be right pointed in scope using _top
+	- header blank for some routes
+	- i18n & scrollIntoHash for shadowed components
+	- including keywords in readme
+	- inline template source for components
+	- internal renaming conventions
+	- keywords
+	- mapping scrollIntoHash
+	- maskable icon attribute for manifest
+	- optimizing the routingPath generation algorithm
+	- optional assign routingParams values to template
+	- page description
+	- page title
+	- replacing for by map in the routing of components
+	- routingParams for components in frontend
+	- sitemap
+	- spanish language button for website 2020 docs
+	- sw cache for 1 hour
+	- sw files for website 2020 docs
+	- video & testimonials
+	- website2020 powershell
