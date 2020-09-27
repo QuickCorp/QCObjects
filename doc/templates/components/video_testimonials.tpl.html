@@ -1,12 +1,29 @@
 <style>
-.grid {padding-bottom: 100px;}
+.grid {padding-bottom: 100px;    display: grid;
+  justify-items:stretch;
+  width: 70% !important; margin: 0 auto;
+    grid-template-rows: auto;}
 component[name=grid]{
+  width:100% !important;
   grid-template-rows: auto;
+  justify-items:stretch;
+  align-items: stretch;
+  margin: 0 auto !important;
+}
+@media screen and  ( orientation:landscape) and (min-width:460px),
+@media screen and  (aspect-ratio: 16/9) and (min-width:460px),
+@media screen and  (aspect-ratio: 16/10) and (min-width:460px),
+@media screen and (aspect-ratio: 8/5) and (min-width:460px),
+@media screen and  (aspect-ratio: 4/3) and (min-width:460px),
+@media screen and  (aspect-ratio: 3/2) and (min-width:460px){
+  .grid {
+    grid-template-rows: 35% 65%;
+  }
 }
 </style>
 <div class="grid">
+  <component shadowed=true name="shadowed-youtube-video" data-youtube_id="D0rftABPGvQ"></component>
   <component name="grid" template-source="none">
-    <component shadowed=true name="shadowed-youtube-video" data-youtube_id="D0rftABPGvQ"></component>
     <component shadowed=true name="shadowed-youtube-video" data-youtube_id="8sxv4xa9FYc"></component>
     <component shadowed=true name="shadowed-wistia-video" data-url="https://fast.wistia.net/embed/iframe/ji48f97lli?videoFoam=true"></component>
     <component shadowed=true name="shadowed-youtube-video" data-youtube_id="P8NeVu3r-MI"></component>
