@@ -26,6 +26,10 @@ This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDU
 
 You can contribute to [QCObjects](https://qcobjects.dev) following the set of guidelines expressed in the file [CONTRIBUTING.md](CONTRIBUTING.md)
 
+# The meaning of the name QCObjects (Do not forget the Q)
+
+Often, some people is confusing **QCObjects** name with **CObjects** (perhaps some day it changes, who knows...) but the Q has an important meaning: It means Quick! What the complete name QCObjects does mean is **Quick Components and Objects**, and that is why the Q, C, O letters are capitalized.
+
 # QCObjects Explainer Video
 
 For those who have no time to read all of this today, here is a small video that explains what QCObjects is and what can be done with it.
