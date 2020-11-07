@@ -2963,7 +2963,7 @@
             "TPL_SOURCE": tplsource
           });
           if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
-            Package("com.qcobjects.components."+_componentName+"",[
+            Package((_componentName !== "")?("com.qcobjects.components."+_componentName+""):("com.qcobjects.components"),[
               Class("ComponentBody", ClassFactory("Component"), {
                 name: _componentName,
                 reload: true
