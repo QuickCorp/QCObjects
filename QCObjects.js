@@ -2969,7 +2969,7 @@
             ]);
           }
           var __classDefinition = ClassFactory(__componentClassName);
-          var __shadowed = (__shadowed_not_set) ? (__classDefinition.shadowed || ClassFactory("Component").shadowed) : (shadowed);
+          var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
           var __definition = {
             name: _componentName,
             data: data,
