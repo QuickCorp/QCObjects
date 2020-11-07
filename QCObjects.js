@@ -2966,6 +2966,8 @@
             Package((_componentName !== "")?("com.qcobjects.components."+_componentName+""):("com.qcobjects.components"),[
               Class("ComponentBody", ClassFactory("Component"), {
                 name: _componentName,
+                tplsource:tplsource,
+                tplextension:tplextension,
                 reload: true
               })
             ]);
