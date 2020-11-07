@@ -2946,7 +2946,9 @@
           var tplsource = (components[_c].getAttribute("template-source") === null) ? ("default") : (components[_c].getAttribute("template-source"));
           var _componentName = components[_c].getAttribute("name");
           var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
-          var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?("com.qcobjects.components."+_componentName+".ComponentBody"):(_componentClassName);
+          var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?(
+            (_componentName !== null)?("com.qcobjects.components."+_componentName+".ComponentBody"):("com.qcobjects.components.ComponentBody")
+          ):(_componentClassName);
           _componentName = (_componentName !== null)?(_componentName):(
             (ClassFactory(__componentClassName) && ClassFactory(__componentClassName).hasOwnProperty.call(ClassFactory(__componentClassName),"name")
               )?(
