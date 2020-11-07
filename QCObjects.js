@@ -2948,7 +2948,7 @@
           var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
           var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?("com.qcobjects.components."+_componentName+".ComponentBody"):(_componentClassName);
           _componentName = (_componentName !== null)?(_componentName):(
-            (ClassFactory(__componentClassName).hasOwnProperty.call(ClassFactory(__componentClassName),"name")
+            (ClassFactory(__componentClassName) && ClassFactory(__componentClassName).hasOwnProperty.call(ClassFactory(__componentClassName),"name")
               )?(
                 ClassFactory(__componentClassName).name
               ):("")
