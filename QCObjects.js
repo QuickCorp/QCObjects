@@ -1127,7 +1127,7 @@
       "removePackageScriptAfterLoading":true,
       "componentsBasePath": "",
       "delayForReady": 0,
-      "preserveComponentBodyTag": true,
+      "preserveComponentBodyTag": false,
       "overrideComponentTag": false,
       "useConfigService": false,
       "routingWay": "hash",
