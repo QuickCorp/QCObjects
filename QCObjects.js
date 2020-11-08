@@ -3353,6 +3353,9 @@
     return Array.from({ length: (stop - start) / step + 1}, function (_, i) {return start + (i * step);});
   };
   (_protected_code_)(_top.range);
+  
+  String.prototype.list = function () { var __instance=this; return range(0,__instance.length-1).map( function (i) {return __instance[i]}) };
+  (_protected_code_)(String.prototype.list);
 
 
   /**
