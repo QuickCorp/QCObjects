@@ -521,22 +521,19 @@
   /**
    * Basic Type of all elements
    */
-  var QC_Object = function() {};
-  QC_Object.prototype = {
-    find: function(tag) {
-      var _oo = [];
-      if (isBrowser) {
-        var _tags = document.subelements(tag);
-        _tags.map(function (_tt,_t){
-          if ((typeof _tags[_t] !== "undefined") && _tags[_t].parentNode.tagName === this.parentNode.tagName) {
-            _oo.push(_Cast(_tt, (new QC_Object())));
-          }
-        });
-      } else {
-        //not implemented yet.
-      }
-      return _oo;
+  Object.prototype.find = function(tag) {
+    var _oo = [];
+    if (isBrowser) {
+      var _tags = document.subelements(tag);
+      _tags.map(function (_tt,_t){
+        if ((typeof _tags[_t] !== "undefined") && _tags[_t].parentNode.tagName === this.parentNode.tagName) {
+          _oo.push(_Cast(_tt, (new Object())));
+        }
+      });
+    } else {
+      //not implemented yet.
     }
+    return _oo;
   };
 
   /**
@@ -545,7 +542,7 @@
   var __instanceID;
   // Adaptation of Production steps of ECMA-262, Edition 5, 15.2.3.5
   // Reference: http://es5.github.io/#x15.2.3.5
-  Object.create = (function() {
+  var _Object_Create = (function() {
 
     // make a safe reference to Object.prototype.hasOwnProperty
     var hasOwn = Object.prototype.hasOwnProperty;
@@ -560,9 +557,10 @@
       //		expression new Object() where Object is the standard built-in
       //		constructor with that name
       // 3. Set the [[Prototype]] internal property of obj to O.
-      QC_Object.prototype = O;
-      var obj = new QC_Object();
-      QC_Object.prototype = null;
+      var QCObjects = function() {};
+      QCObjects.prototype = O;
+      var obj = new QCObjects();
+
       // Let's not keep a stray reference to O...
 
       // 4. If the argument Properties is present and not undefined, add
@@ -805,7 +803,7 @@
     if (typeof definition !== "undefined" && definition.hasOwnProperty.call(definition,"__instanceID")){
       delete definition.__instanceID;
     }
-    o = Object.create(type, definition);
+    o = _Object_Create(type, definition);
     o["__definition"] = definition;
     o["__definition"]["__classType"] = name;
     _QC_CLASSES[name] = o;
@@ -907,7 +905,7 @@
     var args = (arguments.length > 1) ? (arguments[1]) : ({});
     Object.__instanceID = (typeof Object.__instanceID === "undefined" || Object.__instanceID === null) ? (0) : (Object.__instanceID + 1);
     __instanceID = Object.__instanceID;
-    var c_new = (typeof c === "undefined") ? (Object.create(({}).constructor.prototype, {})) : (Object.create(c.constructor.prototype, c.__definition));
+    var c_new = (typeof c === "undefined") ? (_Object_Create(({}).constructor.prototype, {})) : (_Object_Create(c.constructor.prototype, c.__definition));
     c_new.__definition = _Cast({
       "__instanceID": __instanceID
     }, (typeof c !== "undefined") ? (c.__definition) : ({}));
