@@ -71,7 +71,7 @@ RUN chmod +w /home/qcobjects/projects/mynewapp/
 COPY bin/install/ubuntu18/etc/qcobjects/config.json.template /etc/qcobjects/config.json
 RUN (cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-createcert)
 RUN (cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save)
-RUN (cd /home/qcobjects/projects/mynewapp && (echo "\n" | (qcobjects create --pwa megamarcastore 2>&1 >/dev/null)))
+RUN (cd /home/qcobjects/projects/mynewapp && (qcobjects-createcert && echo "\n" | (qcobjects create --pwa app 2>&1 >/dev/null)))
 
 RUN echo "Welcome to... "
 RUN echo ""
