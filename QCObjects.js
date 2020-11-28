@@ -2737,6 +2737,7 @@
           for (var _k in _packages){
             if (
               typeof _packages[_k] !== "undefined"
+              && typeof _packages[_k] !== "function"
               && _packages[_k].hasOwnProperty.call(_packages[_k],"length")
               && _packages[_k].length>0
             ){
