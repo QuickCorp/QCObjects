@@ -2462,7 +2462,13 @@
           var xhrasync = true; // always async because xhr sync is deprecated
           xhr.open(service.method, service.url, xhrasync);
           for (var header in service.headers) {
-            xhr.setRequestHeader(header, service.headers[header]);
+            try {
+              if (typeof service.headers[header] !== "function"){
+                xhr.setRequestHeader(header, service.headers[header]);
+              }
+            } catch (e){
+              logger.debug("Something went wrong when assign the header "+header);
+            }
           }
           xhr.onload = function() {
             if (xhr.status === 200) {
