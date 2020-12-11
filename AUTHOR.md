@@ -17,3 +17,7 @@ QCObjects was introduced to the world's market in July of 2019 in the RISE Confe
 Now, almost anyone in the world can use QCObjects to develop almost any kind of end to end solutions, and they can quick start in just one step.
 
 Jean's dream is to become QCObjects into the next-generation tool for software development
+
+You want to know more about Jean? Meet him in person here in a [video chat](https://superpeer.com/qcobjects)
+
+
