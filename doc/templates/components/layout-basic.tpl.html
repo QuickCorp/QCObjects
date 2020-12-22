@@ -55,7 +55,11 @@
       </component>
   </section>
   <section>
-    <component shadowed=true name="shadowed-youtube-video" data-youtube_id="D0rftABPGvQ"></component>
+    <component shadowed=true name="blank" data-youtube_id="D0rftABPGvQ">
+      <routing path="#" name="shadowed-youtube-video"></routing>
+      <routing path="" name="shadowed-youtube-video"></routing>
+      <routing path="^/$" name="shadowed-youtube-video"></routing>
+    </component>
   </section>
   <section>
     <component name="blank" effectclass="MainTransitionEffect" >
