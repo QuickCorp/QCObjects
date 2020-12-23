@@ -521,20 +521,18 @@
   /**
    * Basic Type of all elements
    */
-  Object.prototype.find = function(tag) {
-    var _oo = [];
-    if (isBrowser) {
-      var _tags = document.subelements(tag);
-      _tags.map(function (_tt,_t){
-        if ((typeof _tags[_t] !== "undefined") && _tags[_t].parentNode.tagName === this.parentNode.tagName) {
-          _oo.push(_Cast(_tt, (new Object())));
-        }
-      });
-    } else {
-      //not implemented yet.
-    }
-    return _oo;
-  };
+   if (isBrowser){
+     Element.prototype.find = function(tag) {
+       var _oo = [];
+       var _tags = document.subelements(tag);
+       _tags.map(function (_tt,_t){
+         if ((typeof _tags[_t] !== "undefined") && _tags[_t].parentNode.tagName === this.parentNode.tagName) {
+           _oo.push(_Cast(_tt, (new Object())));
+         }
+       });
+       return _oo;
+     };
+   }
 
   /**
    * Primary instance ID of all objects
