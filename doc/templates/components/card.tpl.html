@@ -1,14 +1,8 @@
-<style>
-  @import url("./css/components/card.css");
-</style>
+<component name="shadowed-card" shadowed="true" data-title="{{title}}"
+data-description="{{description}}" data-image="{{image}}">
 
-<div class="card">
-  <slot id="slot-logo" name="logo"><img src="img/placeholder.svg" alt="Avatar" style="width:100%"></slot>
-  <div class="container">
-    <h4>
-      <slot id="slot-card-title" name="card_title"></slot>
-    </h4>
-    <slot id="slot-card-description" name="card_description"></slot>
-    <slot id="slot-card-button" name="card-button" ></slot>
-  </div>
-</div>
+  <img slot="logo" src="doc/img/{{image}}" alt="Avatar" style="width:100%">
+  <b slot="card_title">{{title}}</b>
+  <div slot="card_description">{{description}}</div>
+
+</component>
