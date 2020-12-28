@@ -53,6 +53,17 @@ CONFIG.set('github_buttons_uri','https://buttons.github.io/buttons');
 Component.cached=true;
 
 /**
+ * Set custom processors
+ */
+var snippet = function (arg){
+  return `
+  <component shadowed="true" name="code-snippet" data-content="&gt; ${arg}">
+  </component>
+`;
+}
+Processor.setProcessor(snippet);
+
+/**
  * Main import sentence.
  */
 
