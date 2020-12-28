@@ -1113,7 +1113,6 @@
     }
   });
 
-
   Class("CONFIG", Object, {
     _CONFIG: {
       "relativeImportPath": "",
@@ -1571,8 +1570,11 @@
     template: "",
     assign: function(data) {
       var parsedAssignmentText = this.template;
+      var _value;
       for (var k in data) {
-        parsedAssignmentText = parsedAssignmentText.replace((new RegExp("{{" + k + "}}", "g")), data[k]);
+        _value = data[k];
+        _value = ClassFactory("Processor").processObject.call(ClassFactory("Processor"),_value);
+        parsedAssignmentText = parsedAssignmentText.replace((new RegExp("{{" + k + "}}", "g")), _value);
       }
       return parsedAssignmentText;
     }
