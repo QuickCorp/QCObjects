@@ -21,6 +21,7 @@
     <routing path="^#$" name="header" ></routing>
     <routing path="^$" name="header" ></routing>
     <routing path="^#download$" name="blank" ></routing>
+    <routing path="^#showcase$" name="blank" ></routing>
   </component>
 </header>
 <aside>
@@ -56,8 +57,9 @@
   </section>
   <section>
     <component shadowed=true name="blank" data-youtube_id="FVI_WChlvSo">
-      <routing path="#" name="shadowed-youtube-video"></routing>
-      <routing path="" name="shadowed-youtube-video"></routing>
+      <routing path="^#showcase$" name="blank"></routing>
+      <routing path="^#$" name="shadowed-youtube-video"></routing>
+      <routing path="^$" name="shadowed-youtube-video"></routing>
       <routing path="^/$" name="shadowed-youtube-video"></routing>
     </component>
   </section>
@@ -71,6 +73,7 @@
       <routing path="#video_testimonials" name="video_testimonials" ></routing>
       <routing path="#author" name="blank" ></routing>
       <routing path="#academy" name="blank" ></routing>
+      <routing path="#showcase" name="app-showcase" ></routing>
     </component>
   </section>
   <section>
@@ -99,6 +102,7 @@
       <routing path="#/es-AR" name="../../../README-es" ></routing>
       <routing path="#/en" name="../../../README" ></routing>
       <routing path="#/en-US" name="../../../README" ></routing>
+      <routing path="^#showcase$" name="blank"></routing>
     </component>
   </section>
 </main>

@@ -119,6 +119,8 @@ self.addEventListener('install', e => {
 	"doc/js/init.js",
 	"doc/js/installer.js",
 	"doc/js/prism-okaidia.js",
+  "doc/templates/components/app-showcase.tpl.html",
+  "doc/templates/components/shadowed-card.tpl.html",
 	"doc/templates/components/academy.tpl.html",
 	"doc/templates/components/article1.tpl.html",
 	"doc/templates/components/article2.tpl.html",
