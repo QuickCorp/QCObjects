@@ -2011,7 +2011,7 @@
             var componentURI = ComponentURI({
               "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
               "COMPONENT_NAME": routing.name.toString(),
-              "TPLEXTENSION": rc.tplextension,
+              "TPLEXTENSION": (routing.hasOwnProperty.call(routing,"tplextension")) ? (routing.tplextension) : (rc.tplextension),
               "TPL_SOURCE": "default" //here is always default in order to get the right uri
             });
             rc.templateURI = componentURI;
