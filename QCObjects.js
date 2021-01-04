@@ -1812,8 +1812,8 @@
       var componentClass = this;
       var isValidInstance = (componentClass.hasOwnProperty.call(componentClass,"__instanceID") &&
         componentClass.hasOwnProperty.call(componentClass,"subcomponents")) ? (true) : (false);
-      var __route__ = function(routingComponents) {
-        routingComponents.map(function (rc, r){
+      var __route__ = function(componentList) {
+        componentList.map(function (rc, r){
           if (rc.hasOwnProperty.call(rc,"_reroute_")){
             rc._reroute_();
             if (rc.hasOwnProperty.call(rc,"subcomponents") &&
