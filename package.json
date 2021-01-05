@@ -1,0 +1,83 @@
+{
+  "name": "qcobjects",
+  "version": "2.2.630",
+  "description": "QCObjects is an Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.",
+  "main": "QCObjects.js",
+  "license": "LGPL-3.0",
+  "scripts": {
+    "start": "qcobjects-shell",
+    "test": "npx eslint --fix QCObjects.js && jasmine",
+    "preversion": "npm cache verify && npm test",
+    "sync": "git add . && git commit -am ",
+    "postversion": "git push && git push --tags "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuickGroup/QCObjects.git"
+  },
+  "keywords": [
+    "qcobjects",
+    "cobjects",
+    "learn javascript",
+    "javascript",
+    "learn to code",
+    "qco",
+    "ROUTING",
+    "TOOLBAR",
+    "MEDIA",
+    "IMAGE",
+    "LAYOUT",
+    "BUTTON",
+    "server",
+    "view",
+    "mvvm",
+    "node",
+    "quickcorp",
+    "javascript",
+    "pure",
+    "mvc",
+    "objects",
+    "microfrontend",
+    "micro-frontend",
+    "architecture",
+    "component",
+    "components",
+    "pure",
+    "framework",
+    "javascript-framework",
+    "mvc-pattern",
+    "demo",
+    "html",
+    "first-timers-only",
+    "microfrontends",
+    "microservices",
+    "microfrontend",
+    "component-architecture",
+    "cli",
+    "tool",
+    "nodejs",
+    "cloud",
+    "multicloud",
+    "multi-cloud",
+    "aws",
+    "server",
+    "digitalocean",
+    "hosting",
+    "architecture",
+    "n-tier",
+    "multitier",
+    "multi-tier"
+  ],
+  "author": "Jean Machuca <correojean@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/QuickGroup/QCObjects/issues"
+  },
+  "homepage": "https://qcobjects.com",
+  "dependencies": {
+    "qcobjects-sdk": "latest"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "jasmine": "^3.5.0"
+  }
+}
