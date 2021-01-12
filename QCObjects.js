@@ -2869,6 +2869,7 @@
   }, null);
 
   if (isBrowser) {
+
     Element.prototype.buildComponents = function(rebuildObjects = false) {
       var tagFilter = (!rebuildObjects) ? ("component:not([loaded])") : ("component");
       var d = this;
@@ -3015,6 +3016,51 @@
     };
     HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
     HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
+    var $ComponentWidget = class extends HTMLElement {
+      constructor() {
+        super();
+        const componentWidget = this;
+        const componentName = componentWidget.nodeName.toLowerCase();
+        const componentBody = _DOMCreateElement("component");
+        componentBody.setAttribute("name",componentName);
+        if (this.hasAttribute("shadowed")){
+          componentBody.setAttribute("shadowed","true");
+        }
+        if (this.hasAttribute("componentClass")){
+          componentBody.setAttribute("componentClass",this.getAttribute("componentClass"));
+        }
+        if (this.hasAttribute("controllerClass")){
+          componentBody.setAttribute("controllerClass",this.getAttribute("controllerClass"));
+        }
+        if (this.hasAttribute("viewClass")){
+          componentBody.setAttribute("viewClass",this.getAttribute("viewClass"));
+        }
+        if (this.hasAttribute("tplextension")){
+          componentBody.setAttribute("tplextension",this.getAttribute("tplextension"));
+        }
+        if (this.hasAttribute("template-source")){
+          componentBody.setAttribute("template-source",this.getAttribute("template-source"));
+        }
+        if (this.hasAttribute("data")){
+          componentBody.setAttribute("data",this.getAttribute("data"));
+        }
+        var data_attributenames = componentWidget.getAttributeNames().filter(function(a) {
+          return a.startsWith("data-");
+        }).map(function(a) {
+          return a.split("-")[1];
+        });
+        data_attributenames.map(function (_attribute_name_){
+          component.body.setAttribute("data-" + _attribute_name_, componentWidget.getAttribute("data-" + _attribute_name_));
+        });
+
+        componentWidget.append(componentBody);
+      }
+    };
+    Export($ComponentWidget);
+    var CreateWidget = function (widgetName){
+      customElements.define(widgetName,$ComponentWidget);
+    };
+    Export(CreateWidget);
 
   } else {
     // not yet implemented.
