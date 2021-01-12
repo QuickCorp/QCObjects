@@ -3016,33 +3016,45 @@
     };
     HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
     HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
-    var $ComponentWidget = class extends HTMLElement {
+    var _ComponentWidget_ = class extends HTMLElement {
       constructor() {
         super();
         const componentWidget = this;
         const componentName = componentWidget.nodeName.toLowerCase();
         const componentBody = _DOMCreateElement("component");
         componentBody.setAttribute("name",componentName);
-        if (this.hasAttribute("shadowed")){
+        if (componentWidget.hasAttribute("shadowed") && componentWidget.getAttribute("shadowed") === "false"){
+          componentBody.setAttribute("shadowed","false");
+          componentWidget.removeAttribute("shadowed");
+        } else {
           componentBody.setAttribute("shadowed","true");
+          if (componentWidget.hasAttribute("shadowed")){
+            componentWidget.removeAttribute("shadowed");
+          }
         }
-        if (this.hasAttribute("componentClass")){
-          componentBody.setAttribute("componentClass",this.getAttribute("componentClass"));
+        if (componentWidget.hasAttribute("componentClass")){
+          componentBody.setAttribute("componentClass",componentWidget.getAttribute("componentClass"));
+          componentWidget.removeAttribute("componentClass");
         }
-        if (this.hasAttribute("controllerClass")){
-          componentBody.setAttribute("controllerClass",this.getAttribute("controllerClass"));
+        if (componentWidget.hasAttribute("controllerClass")){
+          componentBody.setAttribute("controllerClass",componentWidget.getAttribute("controllerClass"));
+          componentWidget.removeAttribute("controllerClass");
         }
-        if (this.hasAttribute("viewClass")){
-          componentBody.setAttribute("viewClass",this.getAttribute("viewClass"));
+        if (componentWidget.hasAttribute("viewClass")){
+          componentBody.setAttribute("viewClass",componentWidget.getAttribute("viewClass"));
+          componentWidget.removeAttribute("viewClass");
         }
-        if (this.hasAttribute("tplextension")){
-          componentBody.setAttribute("tplextension",this.getAttribute("tplextension"));
+        if (componentWidget.hasAttribute("tplextension")){
+          componentBody.setAttribute("tplextension",componentWidget.getAttribute("tplextension"));
+          componentWidget.removeAttribute("tplextension");
         }
-        if (this.hasAttribute("template-source")){
-          componentBody.setAttribute("template-source",this.getAttribute("template-source"));
+        if (componentWidget.hasAttribute("template-source")){
+          componentBody.setAttribute("template-source",componentWidget.getAttribute("template-source"));
+          componentWidget.removeAttribute("template-source");
         }
-        if (this.hasAttribute("data")){
-          componentBody.setAttribute("data",this.getAttribute("data"));
+        if (componentWidget.hasAttribute("data")){
+          componentBody.setAttribute("data",componentWidget.getAttribute("data"));
+          componentWidget.removeAttribute("data");
         }
         var data_attributenames = componentWidget.getAttributeNames().filter(function(a) {
           return a.startsWith("data-");
@@ -3050,17 +3062,29 @@
           return a.split("-")[1];
         });
         data_attributenames.map(function (_attribute_name_){
-          component.body.setAttribute("data-" + _attribute_name_, componentWidget.getAttribute("data-" + _attribute_name_));
+          componentBody.setAttribute("data-" + _attribute_name_, componentWidget.getAttribute("data-" + _attribute_name_));
+          componentWidget.removeAttribute("data-" + _attribute_name_);
+        });
+        [...componentWidget.children].map(function (element){
+          componentBody.appendChild(element.cloneNode(true));
+          element.remove();
         });
 
         componentWidget.append(componentBody);
       }
     };
-    Export($ComponentWidget);
-    var CreateWidget = function (widgetName){
-      customElements.define(widgetName,$ComponentWidget);
+    Export(_ComponentWidget_);
+    var RegisterWidget = function (widgetName){
+      customElements.define(widgetName,_ComponentWidget_);
     };
-    Export(CreateWidget);
+    var RegisterWidgets = function (){
+      var widgetList = [...arguments].slice(1);
+      widgetList.filter(function (widgetName){return typeof widgetName  === "string"}).map(function (widgetName){
+        RegisterWidget(widgetName);
+      });
+    };
+    Export(RegisterWidget);
+    Export(RegisterWidgets);
 
   } else {
     // not yet implemented.
