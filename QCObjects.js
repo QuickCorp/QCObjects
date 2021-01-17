@@ -1576,6 +1576,7 @@
         _value = ClassFactory("Processor").processObject.call(ClassFactory("Processor"),_value);
         parsedAssignmentText = parsedAssignmentText.replace((new RegExp("{{" + k + "}}", "g")), _value);
       }
+      parsedAssignmentText = ClassFactory("Processor").processObject.call(ClassFactory("Processor"),parsedAssignmentText);
       return parsedAssignmentText;
     }
   });
@@ -3079,7 +3080,7 @@
     };
     var RegisterWidgets = function (){
       var widgetList = [...arguments].slice(1);
-      widgetList.filter(function (widgetName){return typeof widgetName  === "string"}).map(function (widgetName){
+      widgetList.filter(function (widgetName){return typeof widgetName  === "string";}).map(function (widgetName){
         RegisterWidget(widgetName);
       });
     };
