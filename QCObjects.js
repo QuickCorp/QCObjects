@@ -1085,9 +1085,10 @@
       if (typeof template === "string"){
         let processorHandler = this;
         Object.keys(processorHandler.processors).map(function (funcName){
-          [...template.matchAll(new RegExp("^\\$"+funcName+"\\((.*)\\).*$","g"))].map(
+          [...template.matchAll(new RegExp("\\$"+funcName+"\\((.*)\\).*","g"))].map(
             function (procesorMatch){
-              template = template.replace(procesorMatch[0],processorHandler.execute.call(processorHandler, funcName, procesorMatch[1]));
+              var match0 = `$${funcName}(${procesorMatch[1]})`;
+              template = template.replace(match0,processorHandler.execute.call(processorHandler, funcName, procesorMatch[1]));
             }
           );
         });
@@ -3226,6 +3227,8 @@
     domain: domain,
     basePath: basePath,
     body: _DOMCreateElement("script"),
+    type: "text/javascript",
+    containerTag: "body",
     url: "",
     data: {},
     async: false,
@@ -3242,9 +3245,9 @@
     rebuild: function() {
       var context = this;
       try {
-        document.getElementsByTagName("body")[0].appendChild(
+        document.getElementsByTagName(context.containerTag)[0].appendChild(
           (function(s, url, context) {
-            s.type = "text/javascript";
+            s.type = context.type;
             s.src = url;
             s.crossOrigin = (context.hasOwnProperty.call(context,"crossOrigin")) ? (context.crossOrigin) : ("anonymous");
             s.async = context.async;
