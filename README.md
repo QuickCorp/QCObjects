@@ -298,7 +298,7 @@ The following code shows how QCObjects can manipulate canvas objects directly an
 <html>
     <head>
     	<title>Demo</title>
-    	<script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
+    	<script type="text/javascript" src="https://cdn.qcobjects.dev/QCObjects.js"></script>
     	<script type="text/javascript">
     		var canvas1,canvas2,canvas3,container;
         CONFIG.set('relativeImportPath','src/');
@@ -519,7 +519,7 @@ A Private Image lets you build a new AMI by installing AWS Marketplace software 
 ## Using the development version code in the straight way into HTML5:
 
 ```html
-<script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
+<script type="text/javascript" src="https://cdn.qcobjects.dev/QCObjects.js"></script>
 ```
 
 ## Using the CDN minified version code from jsDelivr CDN
@@ -1184,7 +1184,7 @@ Where selector is a DOM query selector.
 <html>
     <head>
     	<title>Demo</title>
-    	<script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
+    	<script type="text/javascript" src="https://cdn.qcobjects.dev/QCObjects.js"></script>
     </head>
     <body>
     <div class="myselector">
@@ -1333,7 +1333,7 @@ Sets the name of the related component instance built by QCObjects.
 <html>
     <head>
     	<title>Demo</title>
-    	<script type="text/javascript" src="https://qcobjects.dev/QCObjects.js"></script>
+    	<script type="text/javascript" src="https://cdn.qcobjects.dev/QCObjects.js"></script>
     </head>
     <body>
       <!-- this will load the contents of ./templates/main[.tplextension] file -->
