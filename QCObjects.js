@@ -1085,9 +1085,10 @@
       if (typeof template === "string"){
         let processorHandler = this;
         Object.keys(processorHandler.processors).map(function (funcName){
-          [...template.matchAll(new RegExp("^\\$"+funcName+"\\((.*)\\).*$","g"))].map(
+          [...template.matchAll(new RegExp("\\$"+funcName+"\\((.*)\\).*","g"))].map(
             function (procesorMatch){
-              template = template.replace(procesorMatch[0],processorHandler.execute.call(processorHandler, funcName, procesorMatch[1]));
+              var match0 = `$${funcName}(${procesorMatch[1]})`;
+              template = template.replace(match0,processorHandler.execute.call(processorHandler, funcName, procesorMatch[1]));
             }
           );
         });
@@ -1576,6 +1577,7 @@
         _value = ClassFactory("Processor").processObject.call(ClassFactory("Processor"),_value);
         parsedAssignmentText = parsedAssignmentText.replace((new RegExp("{{" + k + "}}", "g")), _value);
       }
+      parsedAssignmentText = ClassFactory("Processor").processObject.call(ClassFactory("Processor"),parsedAssignmentText);
       return parsedAssignmentText;
     }
   });
@@ -2869,6 +2871,7 @@
   }, null);
 
   if (isBrowser) {
+
     Element.prototype.buildComponents = function(rebuildObjects = false) {
       var tagFilter = (!rebuildObjects) ? ("component:not([loaded])") : ("component");
       var d = this;
@@ -3015,6 +3018,75 @@
     };
     HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
     HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
+    var _ComponentWidget_ = class extends HTMLElement {
+      constructor() {
+        super();
+        const componentWidget = this;
+        const componentName = componentWidget.nodeName.toLowerCase();
+        const componentBody = _DOMCreateElement("component");
+        componentBody.setAttribute("name",componentName);
+        if (componentWidget.hasAttribute("shadowed") && componentWidget.getAttribute("shadowed") === "false"){
+          componentBody.setAttribute("shadowed","false");
+          componentWidget.removeAttribute("shadowed");
+        } else {
+          componentBody.setAttribute("shadowed","true");
+          if (componentWidget.hasAttribute("shadowed")){
+            componentWidget.removeAttribute("shadowed");
+          }
+        }
+        if (componentWidget.hasAttribute("componentClass")){
+          componentBody.setAttribute("componentClass",componentWidget.getAttribute("componentClass"));
+          componentWidget.removeAttribute("componentClass");
+        }
+        if (componentWidget.hasAttribute("controllerClass")){
+          componentBody.setAttribute("controllerClass",componentWidget.getAttribute("controllerClass"));
+          componentWidget.removeAttribute("controllerClass");
+        }
+        if (componentWidget.hasAttribute("viewClass")){
+          componentBody.setAttribute("viewClass",componentWidget.getAttribute("viewClass"));
+          componentWidget.removeAttribute("viewClass");
+        }
+        if (componentWidget.hasAttribute("tplextension")){
+          componentBody.setAttribute("tplextension",componentWidget.getAttribute("tplextension"));
+          componentWidget.removeAttribute("tplextension");
+        }
+        if (componentWidget.hasAttribute("template-source")){
+          componentBody.setAttribute("template-source",componentWidget.getAttribute("template-source"));
+          componentWidget.removeAttribute("template-source");
+        }
+        if (componentWidget.hasAttribute("data")){
+          componentBody.setAttribute("data",componentWidget.getAttribute("data"));
+          componentWidget.removeAttribute("data");
+        }
+        var data_attributenames = componentWidget.getAttributeNames().filter(function(a) {
+          return a.startsWith("data-");
+        }).map(function(a) {
+          return a.split("-")[1];
+        });
+        data_attributenames.map(function (_attribute_name_){
+          componentBody.setAttribute("data-" + _attribute_name_, componentWidget.getAttribute("data-" + _attribute_name_));
+          componentWidget.removeAttribute("data-" + _attribute_name_);
+        });
+        [...componentWidget.children].map(function (element){
+          componentBody.appendChild(element.cloneNode(true));
+          element.remove();
+        });
+
+        componentWidget.append(componentBody);
+      }
+    };
+    Export(_ComponentWidget_);
+    var RegisterWidget = function (widgetName){
+      customElements.define(widgetName,_ComponentWidget_);
+    };
+    var RegisterWidgets = function (){
+      var widgetList = [...arguments].slice(1);
+      widgetList.filter(function (widgetName){return typeof widgetName  === "string";}).map(function (widgetName){
+        RegisterWidget(widgetName);
+      });
+    };
+    Export(RegisterWidget);
+    Export(RegisterWidgets);
 
   } else {
     // not yet implemented.
@@ -3155,6 +3227,8 @@
     domain: domain,
     basePath: basePath,
     body: _DOMCreateElement("script"),
+    type: "text/javascript",
+    containerTag: "body",
     url: "",
     data: {},
     async: false,
@@ -3171,9 +3245,9 @@
     rebuild: function() {
       var context = this;
       try {
-        document.getElementsByTagName("body")[0].appendChild(
+        document.getElementsByTagName(context.containerTag)[0].appendChild(
           (function(s, url, context) {
-            s.type = "text/javascript";
+            s.type = context.type;
             s.src = url;
             s.crossOrigin = (context.hasOwnProperty.call(context,"crossOrigin")) ? (context.crossOrigin) : ("anonymous");
             s.async = context.async;
