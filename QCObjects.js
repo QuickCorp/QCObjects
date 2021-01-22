@@ -1,5 +1,5 @@
 /**
- * QCObjects  1.0
+ * QCObjects  2.3
  * ________________
  *
  * Author: Jean Machuca <correojean@gmail.com>
