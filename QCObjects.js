@@ -2572,9 +2572,9 @@
               var request = require("request");
               requestOptions = Object.assign({
                 "url": service.url,
-                headers: service.headers
+                "headers": service.headers
               }, service.options);
-              var req = request[service.method.toLowerCase()](service.url);
+              var req = request[service.method.toLowerCase()](requestOptions);
             }
 
             logger.debug("LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service.data)).replace("{{URL}}", service.url));
@@ -2599,7 +2599,8 @@
             }
 
             dataXML = "";
-            req.on("response", (responseHeaders,flags) => {
+            req.on("response", (response,flags) => {
+              var responseHeaders = response.headers;
               logger.debug("receiving response...");
               standardResponse.responseHeaders = responseHeaders;
               for (const name in responseHeaders) {
