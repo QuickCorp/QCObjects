@@ -254,6 +254,7 @@ QCObjects in installable in your computer, it comes with a CLI Tool and commands
 # Dynamic Components Architecture
 
 ![qcobjects components layout](https://qcobjects.dev/doc/img/QCObjects-Components-Layout.gif)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FQuickCorp%2FQCObjects.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FQuickCorp%2FQCObjects?ref=badge_shield)
 
 
 # ECMA-262 Specification
@@ -3129,3 +3130,7 @@ Import('cl.quickcorp'); # this will import your main file: cl.quickcorp.js into 
 ## Use:
    $ qcobjects-cli [command] --help
    For detailed information of a command
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FQuickCorp%2FQCObjects.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FQuickCorp%2FQCObjects?ref=badge_large)
