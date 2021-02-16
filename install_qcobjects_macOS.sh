@@ -22,4 +22,4 @@
 # license document, but changing it is not allowed.#
 #
 #global
-curl -L https://qcobjects.dev/bin/install/macOS/install_qcobjects.sh | sudo zsh
+curl -L https://cdn.qcobjects.dev/bin/install/macOS/install_qcobjects.sh | sudo zsh
