@@ -3088,6 +3088,45 @@
     Export(RegisterWidget);
     Export(RegisterWidgets);
 
+    // Set Processors
+
+    let layout = function (layoutname, cssfile){
+      /*
+      * Layout processor
+      * @usage
+      *        $layout(<layoutname>, <cssfile>)
+      * Where layoutname can be "portrait" or "landscape" without quotes
+      * cssfile is the uri for the css file to import
+      */
+
+      var layout_portrait = `
+      /* CSS Document for Mobile Imports */
+      @import url("${cssfile}") (orientation:portrait);
+      @import url("${cssfile}") (max-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 9/16);
+      @import url("${cssfile}") (aspect-ratio: 10/16);
+      @import url("${cssfile}") (aspect-ratio: 5/8);
+      @import url("${cssfile}") (aspect-ratio: 3/4);
+      @import url("${cssfile}") (aspect-ratio: 2/3);
+      `;
+      var layout_landscape = `
+      @import url("${cssfile}") (orientation:landscape) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 16/9) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 16/10) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 8/5) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 4/3) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 3/2) and (min-width:460px);
+      `;
+      var layout_code = {
+        "landscape":layout_landscape,
+        "portrait":layout_portrait
+      };
+
+      return (layout_code.hasOwnProperty.call(layout_code, layoutname))?(layout_code[layoutname]):("");
+    };
+
+    ClassFactory("Processor").setProcessor(layout);
+
   } else {
     // not yet implemented.
   }
