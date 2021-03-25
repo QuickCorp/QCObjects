@@ -1621,61 +1621,77 @@
     },
     feedComponent: function (){
       var _component_ = this;
-      var container = (_component_.hasOwnProperty.call(_component_,"container") && typeof _component_.container !== "undefined" && _component_.container !== null) ? (_component_.container) : (_component_.body);
-      var parsedAssignmentText = _component_.parsedAssignmentText;
-      _component_.innerHTML = parsedAssignmentText;
-      if (_component_.shadowed){
-        logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", _component_.name));
-        logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-        var tmp_shadowContainer = _DOMCreateElement("div");
-        container.subelements("[slot]").map(
-          function (c){
-            if (c.parentElement===container){
-              tmp_shadowContainer.appendChild(c);
-            }
-          });
-        logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-        var shadowContainer = _DOMCreateElement("div");
-        shadowContainer.classList.add("shadowHost");
-        try {
-          _component_.shadowRoot = shadowContainer.attachShadow({mode: "open"});
-        } catch (e){
+      var _feedComponent_InBrowser = function (_component_){
+        var container = (_component_.hasOwnProperty.call(_component_,"container") && typeof _component_.container !== "undefined" && _component_.container !== null) ? (_component_.container) : (_component_.body);
+        var parsedAssignmentText = _component_.parsedAssignmentText;
+        _component_.innerHTML = parsedAssignmentText;
+        if (_component_.shadowed){
+          logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", _component_.name));
+          logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+          var tmp_shadowContainer = _DOMCreateElement("div");
+          container.subelements("[slot]").map(
+            function (c){
+              if (c.parentElement===container){
+                tmp_shadowContainer.appendChild(c);
+              }
+            });
+          logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+          var shadowContainer = _DOMCreateElement("div");
+          shadowContainer.classList.add("shadowHost");
           try {
-            logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", _component_.name));
-            _component_.shadowRoot = shadowContainer.shadowRoot;
+            _component_.shadowRoot = shadowContainer.attachShadow({mode: "open"});
           } catch (e){
-            logger.debug("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
+            try {
+              logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", _component_.name));
+              _component_.shadowRoot = shadowContainer.shadowRoot;
+            } catch (e){
+              logger.debug("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
+            }
           }
-        }
-        if (typeof _component_.shadowRoot !== "undefined" && _component_.shadowRoot !== null){
+          if (typeof _component_.shadowRoot !== "undefined" && _component_.shadowRoot !== null){
+            if (_component_.reload) {
+              logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+              shadowContainer.shadowRoot.innerHTML = _component_.innerHTML;
+            } else {
+              tmp_shadowContainer.innerHTML = _component_.parseTemplate(tmp_shadowContainer.innerHTML);
+              logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
+              shadowContainer.shadowRoot.innerHTML += _component_.innerHTML;
+            }
+            logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
+            shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
+            logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", _component_.name));
+            if (container.subelements(".shadowHost")<1){
+              container.appendChild(shadowContainer);
+            } else {
+              logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
+            }
+          } else {
+            logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));
+          }
+        } else {
           if (_component_.reload) {
-            logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-            shadowContainer.shadowRoot.innerHTML = _component_.innerHTML;
+            logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+            container.innerHTML = _component_.innerHTML;
           } else {
-            tmp_shadowContainer.innerHTML = _component_.parseTemplate(tmp_shadowContainer.innerHTML);
-            logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
-            shadowContainer.shadowRoot.innerHTML += _component_.innerHTML;
+            logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
+            container.innerHTML += _component_.innerHTML;
           }
-          logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
-          shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
-          logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", _component_.name));
-          if (container.subelements(".shadowHost")<1){
-            container.appendChild(shadowContainer);
-          } else {
-            logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
-          }
-        } else {
-          logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));
         }
+
+      };
+
+      var _feedComponent_InNode = function (_component_){
+        var parsedAssignmentText = _component_.parsedAssignmentText;
+        _component_.innerHTML = parsedAssignmentText;
+      };
+
+      var _ret_;
+      if (isBrowser){
+        _ret_ = _feedComponent_InBrowser(_component_);
       } else {
-        if (_component_.reload) {
-          logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-          container.innerHTML = _component_.innerHTML;
-        } else {
-          logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
-          container.innerHTML += _component_.innerHTML;
-        }
+        _ret_ = _feedComponent_InNode(_component_);
       }
+      return _ret_;
     },
     rebuild: function() {
       var _component = this;
@@ -2447,7 +2463,7 @@
 
           var _componentLoaded = function(err, responseText) {
             if (!err) {
-              var response = responseText;
+              var response = responseText.toString();
               logger.debug("Data received {{DATA}}".replace("{{DATA}}", _DataStringify(response)));
               logger.debug("CREATING COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
               component.template = response;
