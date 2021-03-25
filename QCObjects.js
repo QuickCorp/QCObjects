@@ -480,7 +480,7 @@
     return this.getItem(cachedObjectID);
   };
   ComplexStorageCache.prototype.clear = function() {
-    Object.keys(localStorage).filter ( function (k) {return k.startsWith("cachedObject_");} ).map ( function (c) {localStorage.removeItem(c)});
+    Object.keys(localStorage).filter ( function (k) {return k.startsWith("cachedObject_");} ).map ( function (c) {localStorage.removeItem(c);});
   };
 
   /**
