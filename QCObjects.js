@@ -2303,7 +2303,7 @@
    * @param component a Component object
    */
   var componentLoader = function(component, _async) {
-    var _componentLoader = function(component, _async) {
+    var _componentLoaderInBrowser = function(component, _async) {
       var _promise = new Promise(function(resolve, reject) {
         var container = (component.hasOwnProperty.call(component,"container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
         if (container !== null) {
@@ -2433,12 +2433,101 @@
       });
       return _promise;
     };
+    var _componentLoaderInNode = function(component, _async) {
+      var _promise = new Promise(function(resolve, reject) {
+          var _feedComponent_ = function(component) {
+            component.feedComponent();
+            var standardResponse = {
+              "request": null,
+              "component": component
+            };
+            resolve.call(_promise, standardResponse);
+          };
+          logger.debug("LOADING COMPONENT DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(component.data)).replace("{{URL}}", component.url));
+
+          var _componentLoaded = function(err, responseText) {
+            if (!err) {
+              var response = responseText;
+              logger.debug("Data received {{DATA}}".replace("{{DATA}}", _DataStringify(response)));
+              logger.debug("CREATING COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
+              component.template = response;
+              if (component.cached && (typeof cache !== "undefined")) {
+                cache.save(component.name, component.template);
+              }
+              _feedComponent_.call(this, component);
+            } else {
+              var standardResponse = {
+                "request": null,
+                "component": component
+              };
+              reject.call(_promise, standardResponse);
+            }
+          };
+          if (typeof component.template === "string" && component.template !== ""){
+            // component already has a template it does not need to be reloaded
+            _feedComponent_.call(this, component);
+          } else {
+            logger.debug("Loading the component as a local file in server...");
+            var _directLoad = function(is_file) {
+              const fs = require("fs");
+              logger.debug("SENDING THE NORMAL REQUEST  ");
+              fs.readFile(component.url, _componentLoaded);
+            };
+
+            if (component.cached ) {
+              logger.debug("USING CACHE FOR COMPONENT: " + component.name);
+              var cache = new ComplexStorageCache({
+                "index": component.cacheIndex,
+                "load": function(cacheController) {
+                  _directLoad.call(this);
+                },
+                "alternate": function(cacheController) {
+                  if (component.method === "GET") {
+                    component.template = cacheController.cache.getCached(component.cacheIndex);
+                    _feedComponent_.call(this, component);
+                  } else {
+                    _directLoad.call(this);
+                  }
+                  return;
+                }
+              });
+              global.lastCache = cache;
+            } else {
+              logger.debug("NOT USING CACHE FOR COMPONENT: " + component.name);
+              _directLoad.call(this);
+            }
+
+          }
+
+          return;
+      });
+      _promise.then(function(standardResponse) {
+        var _ret_;
+        if (typeof component.done === "function") {
+          _ret_ = component.done.call(component, standardResponse);
+        }
+        return Promise.resolve(_ret_);
+      }, function(standardResponse) {
+        var _ret_;
+        if (typeof component.fail === "function") {
+          _ret_ = component.fail.call(component, standardResponse);
+        }
+        return Promise.reject(_ret_);
+      }).catch(function(e) {
+        logger.debug("Something wrong loading the component");
+      });
+      return _promise;
+    };
 
     var _ret_;
-    if (typeof _async !== "undefined" && _async) {
-      _ret_ = asyncLoad(_componentLoader, arguments);
+    if (isBrowser){
+      if (typeof _async !== "undefined" && _async) {
+        _ret_ = asyncLoad(_componentLoaderInBrowser, arguments);
+      } else {
+        _ret_ = _componentLoaderInBrowser(component, _async);
+      }
     } else {
-      _ret_ = _componentLoader(component, _async);
+      _ret_ = _componentLoaderInNode(component, _async);
     }
     return _ret_;
   };
