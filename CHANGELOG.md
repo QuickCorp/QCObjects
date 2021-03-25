@@ -159,39 +159,66 @@ This is an automatic Changelog history of versions generated using the command: 
 	- Install OpenSSL & Certbot for Dockerfile
 	- Install QCObjects Service in Docker
 	- New Version
+	- README QCObjects name meaning
 	- README-es.md
 	- README.md change references to http by https links
 	- README.md including Effect and Timer explanation
 	- README.pdf
 	- README.pdf && README-es.pdf
+	- Template Processors for DefaultTemplateHandler
+	- Version v2.3 release
 	- __valid_routings__ refactor
 	- addComponentHelper
+	- change of the behaviour in object creation
+	- code snippet
+	- deploy to netlify
 	- dev website 2020 shadowed components appbar
+	- doc examples apps
 	- download button for website 2020 docs
 	- download button in webpage qcobjects.dev
+	- download direct link from github
+	- examples
+	- fix Maximum call stack size exceeded
 	- fix basePath
 	- fix css modern
 	- fix html
 	- fix processObject CONFIG
 	- fix reload behaviour
 	- fix routingPaths global setting to be right pointed in scope using _top
+	- gtag
 	- header blank for some routes
 	- i18n & scrollIntoHash for shadowed components
 	- including keywords in readme
 	- inline template source for components
+	- internal naming conventions
 	- internal renaming conventions
 	- keywords
+	- link for docs
+	- list function for strings
 	- mapping scrollIntoHash
 	- maskable icon attribute for manifest
 	- optimizing the routingPath generation algorithm
 	- optional assign routingParams values to template
 	- page description
 	- page title
+	- preventing undefined name
 	- replacing for by map in the routing of components
 	- routingParams for components in frontend
+	- shadowed code snippet card
 	- sitemap
 	- spanish language button for website 2020 docs
+	- splash screen app template
 	- sw cache for 1 hour
 	- sw files for website 2020 docs
+	- tags
+	- tpl extension in routings
+	- translating find method from Object to Element
 	- video & testimonials
+	- video comercial
 	- website2020 powershell
+## v2 -> v2.3
+
+	- Version v2.3 release
+	- fix serviceLoader in backend headers
+	- layout portrait & landscape processor
+	- v2.3 release
