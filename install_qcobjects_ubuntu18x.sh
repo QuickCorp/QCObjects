@@ -22,4 +22,4 @@
 # license document, but changing it is not allowed.#
 #
 #global
-sudo su -c "sh <(wget -qO-  https://qcobjects.dev/bin/install/ubuntu18/install_qcobjects.sh)" root
+sudo su -c "sh <(wget -qO-  https://cdn.qcobjects.dev/bin/install/ubuntu18/install_qcobjects.sh)" root

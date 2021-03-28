@@ -1,5 +1,5 @@
 /**
- * QCObjects  1.0
+ * QCObjects  2.3
  * ________________
  *
  * Author: Jean Machuca <correojean@gmail.com>
@@ -480,11 +480,7 @@
     return this.getItem(cachedObjectID);
   };
   ComplexStorageCache.prototype.clear = function() {
-    for (var c in localStorage) {
-      if (c.startsWith("cachedObject_")) {
-        localStorage.removeItem(c);
-      }
-    }
+    Object.keys(localStorage).filter ( function (k) {return k.startsWith("cachedObject_");} ).map ( function (c) {localStorage.removeItem(c);});
   };
 
   /**

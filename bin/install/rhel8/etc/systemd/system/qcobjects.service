@@ -1,0 +1,21 @@
+[Unit]
+Description=QCObjects HTTP2 Server
+After=network.target auditd.service
+
+[Service]
+WorkingDirectory=/etc/qcobjects
+ExecStart=/usr/local/bin/qcobjects-server &
+ExecReload=/usr/local/bin/qcobjects-server &
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=simple
+RuntimeDirectory=qcobjectsd
+RuntimeDirectoryMode=0755
+TimeoutSec=infinity
+
+
+[Install]
+WantedBy=multi-user.target
+Alias=qcobjects.service
