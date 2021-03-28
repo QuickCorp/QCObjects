@@ -1,7 +1,7 @@
-#!/bin/zsh
-# QCObjects macOS Installer Script
+#!/bin/bash
+# QCObjects Ubuntu Installer Script
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-#Created On: February, 12, 2020
+#Created On: September, 5, 2019
 #@author: Jean Machuca <correojean@gmail.com> @jeanmachuca
 #
 # QuickCorp/QCObjects is licensed under the
@@ -22,4 +22,4 @@
 # license document, but changing it is not allowed.#
 #
 #global
-curl -L https://cdn.qcobjects.dev/bin/install/macOS/install_qcobjects.sh | sudo zsh
+sudo su -c "curl -lL https://cdn.qcobjects.dev/bin/install/rhel8/install_qcobjects.sh | sh" root
