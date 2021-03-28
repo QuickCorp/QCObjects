@@ -2656,28 +2656,8 @@
           var req;
           service.useHTTP2 = service.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2;
 
-          try {
-            var requestOptions;
-            if (service.useHTTP2) {
-              logger.debug("using http2");
-              var http2 = require("http2");
-              var client = http2.connect(serviceURL.origin);
-              requestOptions = Object.assign({
-                ":method": service.method,
-                ":path": serviceURL.pathname
-              }, service.options);
-              requestOptions = Object.assign(requestOptions,service.headers);
-              req = client.request(requestOptions);
-              req.setEncoding("utf8");
-            } else {
-              var request = require("request");
-              requestOptions = Object.assign({
-                "url": service.url,
-                "headers": service.headers
-              }, service.options);
-              var req = request[service.method.toLowerCase()](requestOptions);
-            }
 
+          var captureEvents = function (req){
             logger.debug("LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service.data)).replace("{{URL}}", service.url));
             var dataXML;
             var standardResponse = {
@@ -2700,19 +2680,21 @@
             }
 
             dataXML = "";
-            req.on("response", (response,flags) => {
-              var responseHeaders = response.headers;
+            req.on("response", (responseHeaders,flags) => {
               logger.debug("receiving response...");
               standardResponse.responseHeaders = responseHeaders;
+              /*
               for (const name in responseHeaders) {
                 logger.debug(`${name}: ${responseHeaders[name]}`);
               }
+              */
               dataXML = "";
             });
             req.on("data", (chunk) => {
               logger.debug("receiving data...");
               // do something with the data
               dataXML += ""+ chunk.toString();
+              service.template = dataXML;
             });
             if (service.useHTTP2){
               req.resume();
@@ -2731,6 +2713,53 @@
             if (service.useHTTP2){
               req.end();
             }
+
+          }
+
+          try {
+            var requestOptions;
+            if (service.useHTTP2) {
+              logger.debug("using http2");
+              var http2 = require("http2");
+              var client = http2.connect(serviceURL.origin);
+              requestOptions = Object.assign({
+                ":method": service.method,
+                ":path": serviceURL.pathname
+              }, service.options);
+              requestOptions = Object.assign(requestOptions,service.headers);
+              req = client.request(requestOptions);
+              req.setEncoding("utf8");
+              captureEvents(req);
+            } else {
+              if (serviceURL.protocol === "http:"){
+                var http = require("http");
+                var request = http.request;
+                requestOptions = Object.assign({
+                  "url": service.url,
+                  headers: service.headers
+                }, service.options);
+                var req = request(service.url);
+                captureEvents(req);
+              } else if (serviceURL.protocol === "https:"){
+                var https = require("https");
+                requestOptions = Object.assign({
+                  hostname: serviceURL.hostname,
+                  port: serviceURL.port,
+                  path: serviceURL.pathname,
+                  method: service.method,
+                  headers: service.headers
+                }, service.options);
+                var _req_ = https.request(requestOptions, function (req){
+                  captureEvents(req);
+                });
+                _req_.end();
+              } else {
+                var e = "Protocol not supported: "+serviceURL.protocol;
+                logger.debug(e);
+                throw new Error (e);
+              }
+            }
+
 
           } catch (e) {
             logger.debug(e);
