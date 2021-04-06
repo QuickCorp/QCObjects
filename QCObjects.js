@@ -2714,7 +2714,7 @@
               req.end();
             }
 
-          }
+          };
 
           try {
             var requestOptions;
