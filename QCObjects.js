@@ -1311,7 +1311,7 @@
 
         if (!_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES,packagename)) {
           var s1 = _DOMCreateElement("script");
-          s1.type = "text/javascript";
+          s1.type = ClassFactory("CONFIG").get("sourceType", "text/javascript");
           s1.async = (ClassFactory("CONFIG").get("asynchronousImportsLoad")) ? (true) : (false);
           s1.onreadystatechange = function() {
             if (s1.readyState === "complete") {
