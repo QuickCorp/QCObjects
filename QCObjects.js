@@ -1566,14 +1566,15 @@
   Class("DefaultTemplateHandler", Object, {
     template: "",
     assign: function(data) {
+      var processorHandler = this.component.processorHandler;
       var parsedAssignmentText = this.template;
       var _value;
       for (var k in data) {
         _value = data[k];
-        _value = ClassFactory("Processor").processObject.call(ClassFactory("Processor"),_value);
+        _value = ClassFactory("Processor").processObject.call(processorHandler,_value);
         parsedAssignmentText = parsedAssignmentText.replace((new RegExp("{{" + k + "}}", "g")), _value);
       }
-      parsedAssignmentText = ClassFactory("Processor").processObject.call(ClassFactory("Processor"),parsedAssignmentText);
+      parsedAssignmentText = ClassFactory("Processor").processObject.call(processorHandler,parsedAssignmentText);
       return parsedAssignmentText;
     }
   });
@@ -1599,6 +1600,7 @@
     basePath: basePath,
     templateURI: "",
     templateHandler: "DefaultTemplateHandler",
+    processorHandler: null,
     tplsource: "default",
     url: "",
     name: "",
@@ -1921,6 +1923,7 @@
         var templateHandlerName = _self.templateHandler;
         var templateHandlerClass = ClassFactory(_self.templateHandler);
         var templateInstance = New(templateHandlerClass, {
+          component: _self,
           template: value
         });
         var selfData = _self.data;
@@ -1941,6 +1944,11 @@
       this.routingWay = ClassFactory("CONFIG").get("routingWay");
 
       var self = this;
+
+      self.processorHandler = New(ClassFactory("Processor"),{
+        component: self
+      });
+
       Object.defineProperty(self, "body", {
         set(value) {
           self._body = value;
