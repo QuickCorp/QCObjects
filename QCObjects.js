@@ -3919,7 +3919,6 @@
                var secondaryEventName = "defaultscroll";
                var __valid_scrolls__ = [0, 5, 10, 25, 50, 75, 90, 95, 100];
                __valid_scrolls__.filter(function (p) { return p===percentY}).map (function (pY){
-                   console.log(percentY);
                  secondaryEventName = "percentY"+percentY.toString();
                  var secondaryCustomEvent = new CustomEvent(secondaryEventName, {
                    detail: {
