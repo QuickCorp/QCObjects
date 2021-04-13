@@ -3228,43 +3228,77 @@
     Export(RegisterWidgets);
 
     // Set Processors
+    (function (_top){
 
-    let layout = function (layoutname, cssfile){
-      /*
-      * Layout processor
-      * @usage
-      *        $layout(<layoutname>, <cssfile>)
-      * Where layoutname can be "portrait" or "landscape" without quotes
-      * cssfile is the uri for the css file to import
-      */
+      let mapper = function (componentName, valueName) {
+        /*
+        * Mapper processor
+        * @usage
+        *        $mapper(<componentName>,<valueName>)
+        *
+        * Where componentName is the name of the component (same value as in attribute tag name) without quotes
+        * and valueName is the name of the variable that contains the value to map, it can be either a property of
+        * the component instance, the data object or a global value
+        */
 
-      var layout_portrait = `
-      /* CSS Document for Mobile Imports */
-      @import url("${cssfile}") (orientation:portrait);
-      @import url("${cssfile}") (max-width:460px);
-      @import url("${cssfile}") (aspect-ratio: 9/16);
-      @import url("${cssfile}") (aspect-ratio: 10/16);
-      @import url("${cssfile}") (aspect-ratio: 5/8);
-      @import url("${cssfile}") (aspect-ratio: 3/4);
-      @import url("${cssfile}") (aspect-ratio: 2/3);
-      `;
-      var layout_landscape = `
-      @import url("${cssfile}") (orientation:landscape) and (min-width:460px);
-      @import url("${cssfile}") (aspect-ratio: 16/9) and (min-width:460px);
-      @import url("${cssfile}") (aspect-ratio: 16/10) and (min-width:460px);
-      @import url("${cssfile}") (aspect-ratio: 8/5) and (min-width:460px);
-      @import url("${cssfile}") (aspect-ratio: 4/3) and (min-width:460px);
-      @import url("${cssfile}") (aspect-ratio: 3/2) and (min-width:460px);
-      `;
-      var layout_code = {
-        "landscape":layout_landscape,
-        "portrait":layout_portrait
+
+        let globalValue = global.get(valueName);
+        let componentValue = this.component.get(valueName);
+        let dataValue = this.component.data[valueName];
+        let list = (typeof dataValue !== "undefined")?( dataValue ):( (typeof componentValue !== "undefined")?( componentValue ):( globalValue ) );
+        let listItems = "";
+        if (typeof list !== "undefined" && typeof list["map"] !== "undefined"){
+          listItems = list.map ( function (element) {
+            let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${element[k].toString()}"`).join("");
+            return `<component name="${componentName}" ${dataItems} ></component>`;
+          }).join("");
+        } else {
+          logger.debug(`${componentName}.${valueName} does not have a map property`);
+        }
+        return listItems;
+      };
+      ClassFactory("Processor").setProcessor(mapper);
+
+      let layout = function (layoutname, cssfile){
+        /*
+        * Layout processor
+        * @usage
+        *        $layout(<layoutname>, <cssfile>)
+        * Where layoutname can be "portrait" or "landscape" without quotes
+        * cssfile is the uri for the css file to import
+        */
+
+        var layout_portrait = `
+        /* CSS Document for Mobile Imports */
+        @import url("${cssfile}") (orientation:portrait);
+        @import url("${cssfile}") (max-width:460px);
+        @import url("${cssfile}") (aspect-ratio: 9/16);
+        @import url("${cssfile}") (aspect-ratio: 10/16);
+        @import url("${cssfile}") (aspect-ratio: 5/8);
+        @import url("${cssfile}") (aspect-ratio: 3/4);
+        @import url("${cssfile}") (aspect-ratio: 2/3);
+        `;
+        var layout_landscape = `
+        @import url("${cssfile}") (orientation:landscape) and (min-width:460px);
+        @import url("${cssfile}") (aspect-ratio: 16/9) and (min-width:460px);
+        @import url("${cssfile}") (aspect-ratio: 16/10) and (min-width:460px);
+        @import url("${cssfile}") (aspect-ratio: 8/5) and (min-width:460px);
+        @import url("${cssfile}") (aspect-ratio: 4/3) and (min-width:460px);
+        @import url("${cssfile}") (aspect-ratio: 3/2) and (min-width:460px);
+        `;
+        var layout_code = {
+          "landscape":layout_landscape,
+          "portrait":layout_portrait
+        };
+
+        return (layout_code.hasOwnProperty.call(layout_code, layoutname))?(layout_code[layoutname]):("");
       };
 
-      return (layout_code.hasOwnProperty.call(layout_code, layoutname))?(layout_code[layoutname]):("");
-    };
+      ClassFactory("Processor").setProcessor(layout);
 
-    ClassFactory("Processor").setProcessor(layout);
+
+    })(_top);
+
 
   } else {
     // not yet implemented.
@@ -3918,7 +3952,7 @@
                event.target.dispatchEvent(scrollPercentEventEvent);
                var secondaryEventName = "defaultscroll";
                var __valid_scrolls__ = [0, 5, 10, 25, 50, 75, 90, 95, 100];
-               __valid_scrolls__.filter(function (p) { return p===percentY}).map (function (pY){
+               __valid_scrolls__.filter(function (p) { return p===percentY;}).map (function (pY){
                  secondaryEventName = "percentY"+percentY.toString();
                  var secondaryCustomEvent = new CustomEvent(secondaryEventName, {
                    detail: {
@@ -3927,11 +3961,11 @@
                    }
                  });
                  event.target.dispatchEvent(secondaryCustomEvent);
-               })
+               });
 
            }
 
-           document.addEventListener('scroll', function(event) {
+           document.addEventListener("scroll", function(event) {
 
              if (!ticking) {
                requestAnimationFrame(function() {
