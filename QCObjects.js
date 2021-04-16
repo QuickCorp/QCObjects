@@ -3185,6 +3185,10 @@
           componentBody.setAttribute("viewClass",componentWidget.getAttribute("viewClass"));
           componentWidget.removeAttribute("viewClass");
         }
+        if (componentWidget.hasAttribute("serviceClass")){
+          componentBody.setAttribute("serviceClass",componentWidget.getAttribute("serviceClass"));
+          componentWidget.removeAttribute("serviceClass");
+        }
         if (componentWidget.hasAttribute("tplextension")){
           componentBody.setAttribute("tplextension",componentWidget.getAttribute("tplextension"));
           componentWidget.removeAttribute("tplextension");
