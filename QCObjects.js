@@ -3163,44 +3163,18 @@
         const componentWidget = this;
         const componentName = componentWidget.nodeName.toLowerCase();
         const componentBody = _DOMCreateElement("component");
+        const __enabled__atributes__ = ["shadowed","componentClass", "controllerClass", "viewClass", "serviceClass", "effectClass", "tplextension", "template-source", "data"];
         componentBody.setAttribute("name",componentName);
-        if (componentWidget.hasAttribute("shadowed") && componentWidget.getAttribute("shadowed") === "false"){
-          componentBody.setAttribute("shadowed","false");
-          componentWidget.removeAttribute("shadowed");
-        } else {
+
+        if (!componentWidget.hasAttribute("shadowed")) {
           componentBody.setAttribute("shadowed","true");
-          if (componentWidget.hasAttribute("shadowed")){
-            componentWidget.removeAttribute("shadowed");
+        }
+        __enabled__atributes__.map (function (attributeName){
+          if (componentWidget.hasAttribute(attributeName)){
+            componentBody.setAttribute(attributeName,componentWidget.getAttribute(attributeName));
+            componentWidget.removeAttribute(attributeName);
           }
-        }
-        if (componentWidget.hasAttribute("componentClass")){
-          componentBody.setAttribute("componentClass",componentWidget.getAttribute("componentClass"));
-          componentWidget.removeAttribute("componentClass");
-        }
-        if (componentWidget.hasAttribute("controllerClass")){
-          componentBody.setAttribute("controllerClass",componentWidget.getAttribute("controllerClass"));
-          componentWidget.removeAttribute("controllerClass");
-        }
-        if (componentWidget.hasAttribute("viewClass")){
-          componentBody.setAttribute("viewClass",componentWidget.getAttribute("viewClass"));
-          componentWidget.removeAttribute("viewClass");
-        }
-        if (componentWidget.hasAttribute("serviceClass")){
-          componentBody.setAttribute("serviceClass",componentWidget.getAttribute("serviceClass"));
-          componentWidget.removeAttribute("serviceClass");
-        }
-        if (componentWidget.hasAttribute("tplextension")){
-          componentBody.setAttribute("tplextension",componentWidget.getAttribute("tplextension"));
-          componentWidget.removeAttribute("tplextension");
-        }
-        if (componentWidget.hasAttribute("template-source")){
-          componentBody.setAttribute("template-source",componentWidget.getAttribute("template-source"));
-          componentWidget.removeAttribute("template-source");
-        }
-        if (componentWidget.hasAttribute("data")){
-          componentBody.setAttribute("data",componentWidget.getAttribute("data"));
-          componentWidget.removeAttribute("data");
-        }
+        });
         var data_attributenames = componentWidget.getAttributeNames().filter(function(a) {
           return a.startsWith("data-");
         }).map(function(a) {
