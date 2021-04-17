@@ -3018,8 +3018,7 @@
       var tagFilter = (!rebuildObjects) ? ("component:not([loaded])") : ("component");
       var d = this;
       var _buildComponent = function(components) {
-        var componentsBuiltWith = [];
-        components.map (function (_component_, _c){
+        var componentsBuiltWith = components.map (function (_component_, _c){
             _component_ = components[_c];
             var data = {};
             var attributenames = components[_c].getAttributeNames().filter(function(a) {
@@ -3155,8 +3154,10 @@
               var _ret_;
               _ret_ = componentDone.call(newComponent, standardResponse);
               return Promise.resolve(_ret_);
+            }).catch(function(e) {
+              logger.debug("Something wrong rendering the component "+newComponent.name);
             });
-            componentsBuiltWith.push(newComponent);
+            return newComponent;
         });
         return componentsBuiltWith;
       };
