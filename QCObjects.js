@@ -1621,6 +1621,7 @@
     get: function(name) {
       return this[name];
     },
+    __promise__: null,
     feedComponent: function (){
       var _component_ = this;
       var _feedComponent_InBrowser = function (_component_){
@@ -2328,7 +2329,8 @@
    */
   var componentLoader = function(component, _async) {
     var _componentLoaderInBrowser = function(component, _async) {
-      var _promise = new Promise(function(resolve, reject) {
+      component.__promise__ = new Promise(function(resolve, reject) {
+        var _promise = component.__promise__;
         var container = (component.hasOwnProperty.call(component,"container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
         if (container !== null) {
           var _feedComponent_ = function(component) {
@@ -2458,7 +2460,8 @@
       return _promise;
     };
     var _componentLoaderInNode = function(component, _async) {
-      var _promise = new Promise(function(resolve, reject) {
+      component.__promise__ = new Promise(function(resolve, reject) {
+          var _promise = component.__promise__;
           var _feedComponent_ = function(component) {
             component.feedComponent();
             var standardResponse = {
@@ -3016,140 +3019,145 @@
       var d = this;
       var _buildComponent = function(components) {
         var componentsBuiltWith = [];
-        for (var _c = 0; _c < components.length; _c++) {
-          var data = {};
-          var attributenames = components[_c].getAttributeNames().filter(function(a) {
-            return a.startsWith("data-");
-          }).map(function(a) {
-            return a.split("-")[1];
-          });
-          attributenames.map(function (_attribute_name_){
-            data[_attribute_name_] = components[_c].getAttribute("data-" + _attribute_name_);
-          });
-          var componentDone = function() {
-            var viewName = this.body.getAttribute("viewClass");
-            var _View = ClassFactory(viewName);
-            if (typeof _View !== "undefined") {
-              this.view = New(_View, {
-                component: this
-              }); // Initializes the main view for the component
-              if (this.view.hasOwnProperty.call(this.view,"done") && typeof this.view.done === "function") {
-                this.view.done.call(this.view);
-              }
-            }
-            var controllerName = this.body.getAttribute("controllerClass");
-            if (!controllerName){
-              controllerName = "Controller";
-            }
-            var _Controller = ClassFactory(controllerName);
-            if (typeof _Controller !== "undefined") {
-              this.controller = New(_Controller, {
-                component: this
-              }); // Initializes the main controller for the component
-              if (this.controller.hasOwnProperty.call(this.controller,"done") && typeof this.controller.done === "function") {
-                this.controller.done.call(this.controller);
-              }
-              if (this.controller.hasOwnProperty.call(this.controller,"createRoutingController")){
-                this.controller.createRoutingController.call(this.controller);
-              }
-            }
-            var effectClassName = this.body.getAttribute("effectClass");
-            var _Effect = ClassFactory(effectClassName);
-            if (typeof _Effect !== "undefined") {
-              this.effect = New(_Effect, {
-                component: this
-              });
-              this.effect.apply(this.effect.defaultParams);
-            }
-            if (this.shadowed && (typeof this.shadowRoot !== "undefined")){
-              this.subcomponents = _buildComponent(this.shadowRoot.subelements(tagFilter));
-            } else {
-              this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
-            }
-
-            if (ClassFactory("CONFIG").get("overrideComponentTag")) {
-              this.body.outerHTML = this.body.innerHTML;
-            }
-            this.body.setAttribute("loaded", true);
-
-            this.runComponentHelpers();
-
-            if ((Tag("component[loaded=true]").length * 100 / Tag("component:not([template-source=none])").length) >= 100) {
-              d.dispatchEvent(new CustomEvent("componentsloaded", {
-                detail: {
-                  lastComponent: this
+        components.map (function (_component_, _c){
+            _component_ = components[_c];
+            var data = {};
+            var attributenames = components[_c].getAttributeNames().filter(function(a) {
+              return a.startsWith("data-");
+            }).map(function(a) {
+              return a.split("-")[1];
+            });
+            attributenames.map(function (_attribute_name_){
+              data[_attribute_name_] = components[_c].getAttribute("data-" + _attribute_name_);
+            });
+            var componentDone = function() {
+              var viewName = this.body.getAttribute("viewClass");
+              var _View = ClassFactory(viewName);
+              if (typeof _View !== "undefined") {
+                this.view = New(_View, {
+                  component: this
+                }); // Initializes the main view for the component
+                if (this.view.hasOwnProperty.call(this.view,"done") && typeof this.view.done === "function") {
+                  this.view.done.call(this.view);
                 }
-              }));
+              }
+              var controllerName = this.body.getAttribute("controllerClass");
+              if (!controllerName){
+                controllerName = "Controller";
+              }
+              var _Controller = ClassFactory(controllerName);
+              if (typeof _Controller !== "undefined") {
+                this.controller = New(_Controller, {
+                  component: this
+                }); // Initializes the main controller for the component
+                if (this.controller.hasOwnProperty.call(this.controller,"done") && typeof this.controller.done === "function") {
+                  this.controller.done.call(this.controller);
+                }
+                if (this.controller.hasOwnProperty.call(this.controller,"createRoutingController")){
+                  this.controller.createRoutingController.call(this.controller);
+                }
+              }
+              var effectClassName = this.body.getAttribute("effectClass");
+              var _Effect = ClassFactory(effectClassName);
+              if (typeof _Effect !== "undefined") {
+                this.effect = New(_Effect, {
+                  component: this
+                });
+                this.effect.apply(this.effect.defaultParams);
+              }
+              if (this.shadowed && (typeof this.shadowRoot !== "undefined")){
+                this.subcomponents = _buildComponent(this.shadowRoot.subelements(tagFilter));
+              } else {
+                this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
+              }
+
+              if (ClassFactory("CONFIG").get("overrideComponentTag")) {
+                this.body.outerHTML = this.body.innerHTML;
+              }
+              this.body.setAttribute("loaded", true);
+
+              this.runComponentHelpers();
+
+              if ((Tag("component[loaded=true]").length * 100 / Tag("component:not([template-source=none])").length) >= 100) {
+                d.dispatchEvent(new CustomEvent("componentsloaded", {
+                  detail: {
+                    lastComponent: this
+                  }
+                }));
+              }
+            };
+            (_protected_code_)(componentDone);
+
+            var __shadowed_not_set = (components[_c].getAttribute("shadowed") === null) ? (true) : (false);
+            var shadowed = (components[_c].getAttribute("shadowed") === "true") ? (true) : (false);
+            var __cached_not_set = (components[_c].getAttribute("cached") === null) ? (true) : (false);
+            var cached = (components[_c].getAttribute("cached") === "true") ? (true) : (false);
+            var tplextension = (typeof ClassFactory("CONFIG").get("tplextension") !== "undefined") ? (ClassFactory("CONFIG").get("tplextension")) : ("html");
+            tplextension = (components[_c].getAttribute("tplextension") !== null) ? (components[_c].getAttribute("tplextension")) : (tplextension);
+            var tplsource = (components[_c].getAttribute("template-source") === null) ? ("default") : (components[_c].getAttribute("template-source"));
+            var _componentName = components[_c].getAttribute("name");
+            var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
+            var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?(
+              (_componentName !== null)?("com.qcobjects.components."+_componentName+".ComponentBody"):("com.qcobjects.components.ComponentBody")
+            ):(_componentClassName);
+            _componentName = (_componentName !== null)?(_componentName):(
+              (ClassFactory(__componentClassName) && ClassFactory(__componentClassName).hasOwnProperty.call(ClassFactory(__componentClassName),"name")
+                )?(
+                  ClassFactory(__componentClassName).name
+                ):("")
+              );
+            var componentURI;
+            componentURI = ComponentURI({
+              "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
+              "COMPONENT_NAME": _componentName,
+              "TPLEXTENSION": tplextension,
+              "TPL_SOURCE": tplsource
+            });
+            if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
+              Package((_componentName !== "")?("com.qcobjects.components."+_componentName+""):("com.qcobjects.components"),[
+                Class("ComponentBody", ClassFactory("Component"), {
+                  name: _componentName,
+                  tplsource:tplsource,
+                  tplextension:tplextension,
+                  reload: true
+                })
+              ]);
             }
-          };
-          (_protected_code_)(componentDone);
+            var __classDefinition = ClassFactory(__componentClassName);
+            var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
+            var __definition = {
+              name: _componentName,
+              data: data,
+              cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
+              shadowed: __shadowed,
+              tplextension: tplextension,
+              body: (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
+              templateURI: componentURI,
+              tplsource: tplsource,
+              subcomponents: []
+            };
+            if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null){
+              /* this allows to use the original property defined
+              in the component definition if it is not present in the tag */
+              delete __definition.name;
+            }
+            if (componentURI === ""){
+              /* this allows to use the original property defined
+              in the component definition if it is not present in the tag */
+              delete __definition.templateURI;
+            }
+            var newComponent = New(__classDefinition, __definition);
 
-          var __shadowed_not_set = (components[_c].getAttribute("shadowed") === null) ? (true) : (false);
-          var shadowed = (components[_c].getAttribute("shadowed") === "true") ? (true) : (false);
-          var __cached_not_set = (components[_c].getAttribute("cached") === null) ? (true) : (false);
-          var cached = (components[_c].getAttribute("cached") === "true") ? (true) : (false);
-          var tplextension = (typeof ClassFactory("CONFIG").get("tplextension") !== "undefined") ? (ClassFactory("CONFIG").get("tplextension")) : ("html");
-          tplextension = (components[_c].getAttribute("tplextension") !== null) ? (components[_c].getAttribute("tplextension")) : (tplextension);
-          var tplsource = (components[_c].getAttribute("template-source") === null) ? ("default") : (components[_c].getAttribute("template-source"));
-          var _componentName = components[_c].getAttribute("name");
-          var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
-          var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?(
-            (_componentName !== null)?("com.qcobjects.components."+_componentName+".ComponentBody"):("com.qcobjects.components.ComponentBody")
-          ):(_componentClassName);
-          _componentName = (_componentName !== null)?(_componentName):(
-            (ClassFactory(__componentClassName) && ClassFactory(__componentClassName).hasOwnProperty.call(ClassFactory(__componentClassName),"name")
-              )?(
-                ClassFactory(__componentClassName).name
-              ):("")
-            );
-          var componentURI;
-          componentURI = ComponentURI({
-            "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
-            "COMPONENT_NAME": _componentName,
-            "TPLEXTENSION": tplextension,
-            "TPL_SOURCE": tplsource
-          });
-          if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
-            Package((_componentName !== "")?("com.qcobjects.components."+_componentName+""):("com.qcobjects.components"),[
-              Class("ComponentBody", ClassFactory("Component"), {
-                name: _componentName,
-                tplsource:tplsource,
-                tplextension:tplextension,
-                reload: true
-              })
-            ]);
-          }
-          var __classDefinition = ClassFactory(__componentClassName);
-          var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
-          var __definition = {
-            name: _componentName,
-            data: data,
-            cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
-            shadowed: __shadowed,
-            tplextension: tplextension,
-            body: (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
-            templateURI: componentURI,
-            tplsource: tplsource,
-            subcomponents: []
-          };
-          if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null){
-            /* this allows to use the original property defined
-            in the component definition if it is not present in the tag */
-            delete __definition.name;
-          }
-          if (componentURI === ""){
-            /* this allows to use the original property defined
-            in the component definition if it is not present in the tag */
-            delete __definition.templateURI;
-          }
-          var newComponent = New(__classDefinition, __definition);
-
-          if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
-            components[_c].append(newComponent);
-          }
-          newComponent.done = componentDone;
-          componentsBuiltWith.push(newComponent);
-        }
+            if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
+              components[_c].append(newComponent);
+            }
+            newComponent.__promise__.then(function(standardResponse) {
+              var _ret_;
+              _ret_ = componentDone.call(newComponent, standardResponse);
+              return Promise.resolve(_ret_);
+            });
+            componentsBuiltWith.push(newComponent);
+        });
         return componentsBuiltWith;
       };
       var components = d.subelements(tagFilter);
