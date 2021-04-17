@@ -2442,7 +2442,7 @@
           logger.debug("CONTAINER DOESNT EXIST");
         }
       });
-      _promise.then(function(standardResponse) {
+      component.__promise__.then(function(standardResponse) {
         var _ret_;
         if (typeof component.done === "function") {
           _ret_ = component.done.call(component, standardResponse);
@@ -2457,7 +2457,7 @@
       }).catch(function(e) {
         logger.debug("Something wrong loading the component");
       });
-      return _promise;
+      return component.__promise__;
     };
     var _componentLoaderInNode = function(component, _async) {
       component.__promise__ = new Promise(function(resolve, reject) {
@@ -2528,7 +2528,7 @@
 
           return;
       });
-      _promise.then(function(standardResponse) {
+      component.__promise__.then(function(standardResponse) {
         var _ret_;
         if (typeof component.done === "function") {
           _ret_ = component.done.call(component, standardResponse);
@@ -2543,7 +2543,7 @@
       }).catch(function(e) {
         logger.debug("Something wrong loading the component");
       });
-      return _promise;
+      return component.__promise__;
     };
 
     var _ret_;
