@@ -3150,13 +3150,7 @@
             if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
               components[_c].append(newComponent);
             }
-            newComponent.__promise__.then(function(standardResponse) {
-              var _ret_;
-              _ret_ = componentDone.call(newComponent, standardResponse);
-              return Promise.resolve(_ret_);
-            }).catch(function(e) {
-              logger.debug("Something wrong rendering the component "+newComponent.name);
-            });
+            newComponent.done = componentDone.bind(newComponent);
             return newComponent;
         });
         return componentsBuiltWith;
