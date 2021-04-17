@@ -3150,7 +3150,7 @@
             if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
               components[_c].append(newComponent);
             }
-            newComponent.done = componentDone.bind(newComponent);
+            newComponent.done = componentDone;
             return newComponent;
         });
         return componentsBuiltWith;
