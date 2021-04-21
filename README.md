@@ -76,6 +76,7 @@ _________________________
 	- [Installing the docker playground:](#installing-the-docker-playground)
 	- [One-Step Installation Script for Ubuntu 18.x](#one-step-installation-script-for-ubuntu-18x)
 	- [One-Step Installation Script for RHEL8](#one-step-installation-script-for-rhel8)
+	- [One-Step Installation Script for Raspberry PI Raspbian 9](#one-step-installation-script-for-raspberry-pi-raspbian-9)
 	- [One-Step Installation Script for macOS](#one-step-installation-script-for-macos)
 	- [Install and test QCObjects on Microsoft Windows OS](#install-and-test-qcobjects-on-microsoft-windows-os)
 	- [QCObjects Multi-Cloud Installation](#qcobjects-multi-cloud-installation)
@@ -167,6 +168,7 @@ _________________________
 	- [Options](#options)
 	- [Commands](#commands)
 	- [Use:](#use)
+	- [License](#license)
 
 <!-- /TOC -->
 
