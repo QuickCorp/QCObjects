@@ -1,5 +1,5 @@
 #!/bin/bash
-# QCObjects Ubuntu Installer Script
+# QCObjects Raspberry PI Raspbian 9 Installer Script
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 #Created On: September, 5, 2019
 #@author: Jean Machuca <correojean@gmail.com> @jeanmachuca
@@ -22,4 +22,4 @@
 # license document, but changing it is not allowed.#
 #
 #global
-sudo su -c "curl -lL https://cdn.qcobjects.dev/bin/install/rhel8/install_qcobjects.sh | sh" root
+sudo su -c "curl -lL https://cdn.qcobjects.dev/bin/install/raspberrypi_raspbian9/install_qcobjects.sh | sh" root

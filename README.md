@@ -468,7 +468,14 @@ WARNING: I'm not responsible for damaging your infrastructure by using an automa
 curl -L https://cdn.qcobjects.dev/install_qcobjects_rhel8.sh |sh
 ```
 
+## One-Step Installation Script for Raspberry PI Raspbian 9
+
+```shell
+su -c "curl -L https://cdn.qcobjects.dev/install_qcobjects_raspbian9.sh |sh" root
+```
+
 ## One-Step Installation Script for macOS
+
 Tested on macOS Catalina 10.15.3
 
 ```shell
