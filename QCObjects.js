@@ -109,7 +109,7 @@
           matches.push(match);
       });
       return matches;
-  }
+  };
   if (typeof String.prototype.matchAll === "undefined"){
       String.prototype.matchAll = String.prototype.__mAll__;
   }
@@ -3734,8 +3734,9 @@
           requestAnimationFrame(animate);
         } else {
           // if this is an object with a done method
-          if (typeof this !== "undefined" &&
-            this.hasOwnProperty.call(this,"done") &&
+          if (typeof this !== "undefined"
+            && this !== null 
+            && this.hasOwnProperty.call(this,"done") &&
             (typeof this.done).toLowerCase() === "function") {
             this.done.call(this);
           }
