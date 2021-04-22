@@ -98,6 +98,22 @@
     return _m;
   };
 
+  String.prototype.__mAll__ = function (regex) {
+      // This is an alternative to old browsers that dont support String.prototype.matchAll
+      // https://github.com/tc39/proposal-string-matchall
+      var matches = [];
+      this.replace(regex, function () {
+          var match = Array.prototype.slice.call(arguments, 0, -2);
+          match.input = arguments[arguments.length - 1];
+          match.index = arguments[arguments.length - 2];
+          matches.push(match);
+      });
+      return matches;
+  }
+  if (typeof String.prototype.matchAll === "undefined"){
+      String.prototype.matchAll = String.prototype.__mAll__;
+  }
+
   var isBrowser = typeof window !== "undefined" && typeof window.self !== "undefined" && window === window.self;
   var _DOMCreateElement = function(elementName) {
     var _ret_;
