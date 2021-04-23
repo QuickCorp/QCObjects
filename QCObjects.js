@@ -3213,7 +3213,7 @@
     };
     Export(_ComponentWidget_);
     var RegisterWidget = function (widgetName){
-      customElements.define(widgetName,_ComponentWidget_);
+      customElements.define(widgetName,class extends _ComponentWidget_ {});
     };
     var RegisterWidgets = function (){
       var widgetList = [...arguments].slice(1);
@@ -3735,7 +3735,7 @@
         } else {
           // if this is an object with a done method
           if (typeof this !== "undefined"
-            && this !== null 
+            && this !== null
             && this.hasOwnProperty.call(this,"done") &&
             (typeof this.done).toLowerCase() === "function") {
             this.done.call(this);
