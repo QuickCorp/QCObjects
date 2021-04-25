@@ -3194,11 +3194,9 @@
               return newComponent;
             };
             var newComponent;
-            console.log("loading component service");
             if (typeof __serviceClass !== "undefined"
                 && (typeof __enable_service_class__ !== "undefined"
                 && __enable_service_class__ === true)){
-                  console.log("loading service loader");
               logger.info("Loading service "+_serviceClassName);
               var serviceInstance = New(__serviceClass, {
                 data: data
