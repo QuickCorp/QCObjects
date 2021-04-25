@@ -3234,7 +3234,7 @@
         const componentWidget = this;
         const componentName = componentWidget.nodeName.toLowerCase();
         const componentBody = _DOMCreateElement("component");
-        const __enabled__atributes__ = ["splashscreen","response-to","shadowed","componentClass", "controllerClass", "viewClass", "serviceClass", "effectClass", "tplextension", "template-source", "data"];
+        const __enabled__atributes__ = ["cached","splashscreen","response-to","shadowed","componentClass", "controllerClass", "viewClass", "serviceClass", "effectClass", "tplextension", "template-source", "data"];
         componentBody.setAttribute("name",componentName);
 
         if (!componentWidget.hasAttribute("shadowed")) {
