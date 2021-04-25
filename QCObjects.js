@@ -3268,7 +3268,7 @@
       customElements.define(widgetName,class extends _ComponentWidget_ {});
     };
     var RegisterWidgets = function (){
-      var widgetList = [...arguments].slice(1);
+      var widgetList = [...arguments];
       widgetList.filter(function (widgetName){return typeof widgetName  === "string";}).map(function (widgetName){
         RegisterWidget(widgetName);
       });
