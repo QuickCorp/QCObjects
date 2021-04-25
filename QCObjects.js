@@ -3196,7 +3196,9 @@
             var newComponent;
             if (typeof __serviceClass !== "undefined"
                 && (typeof __enable_service_class__ !== "undefined"
-                && __enable_service_class__ === true)){
+                && __enable_service_class__ === true)
+                && (_response_to_data_ || _response_to_template_)
+              ){
               logger.info("Loading service "+_serviceClassName);
               var serviceInstance = New(__serviceClass, {
                 data: data
