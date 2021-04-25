@@ -3112,6 +3112,14 @@
             var tplsource = (components[_c].getAttribute("template-source") === null) ? ("default") : (components[_c].getAttribute("template-source"));
             var _componentName = components[_c].getAttribute("name");
             var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
+            var _serviceClassName = (components[_c].getAttribute("serviceClass") !== null) ? (components[_c].getAttribute("serviceClass")) : (null);
+            /* __enable_service_class__ = true by default */
+            var __enable_service_class__ = (
+              (components[_c].hasOwnProperty.call(components[_c], "enableServiceClass") && components[_c].enableServiceClass)
+              || (!components[_c].hasOwnProperty.call(components[_c], "enableServiceClass"))
+            ) ? (true) : (false);
+            var _response_to_data_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "data") ? (true) : (false);
+            var _response_to_template_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "template") ? (true) : (false);
             var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?(
               (_componentName !== null)?("com.qcobjects.components."+_componentName+".ComponentBody"):("com.qcobjects.components.ComponentBody")
             ):(_componentClassName);
@@ -3139,34 +3147,80 @@
               ]);
             }
             var __classDefinition = ClassFactory(__componentClassName);
-            var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
-            var __definition = {
-              name: _componentName,
-              data: data,
-              cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
-              shadowed: __shadowed,
-              tplextension: tplextension,
-              body: (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
-              templateURI: componentURI,
-              tplsource: tplsource,
-              subcomponents: []
-            };
-            if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null){
-              /* this allows to use the original property defined
-              in the component definition if it is not present in the tag */
-              delete __definition.name;
+            var __serviceClass = ClassFactory(_serviceClassName);
+            if (!_response_to_data_ && __classDefinition && __classDefinition.hasOwnProperty.call(__classDefinition, "responseTo")){
+              _response_to_data_ = (__classDefinition.responseTo === "data")?(true):(false);
+            } else if (!_response_to_data_ && ClassFactory("Component").hasOwnProperty.call(ClassFactory("Component"), "responseTo")){
+              _response_to_data_ = (ClassFactory("Component").responseTo === "data")?(true):(false);
             }
-            if (componentURI === ""){
-              /* this allows to use the original property defined
-              in the component definition if it is not present in the tag */
-              delete __definition.templateURI;
+            if (!_response_to_template_ && __classDefinition && __classDefinition.hasOwnProperty.call(__classDefinition, "responseTo")){
+              _response_to_template_ = (__classDefinition.responseTo === "template")?(true):(false);
+            } else if (!_response_to_template_ && ClassFactory("Component").hasOwnProperty.call(ClassFactory("Component"), "responseTo")){
+              _response_to_template_ = (ClassFactory("Component").responseTo === "template")?(true):(false);
             }
-            var newComponent = New(__classDefinition, __definition);
 
-            if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
-              components[_c].append(newComponent);
+            var __create_component_instance_ = function (data, serviceResponse) {
+              var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
+              var __definition = {
+                name: _componentName,
+                data: data,
+                cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
+                shadowed: __shadowed,
+                tplextension: tplextension,
+                body: (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
+                templateURI: componentURI,
+                tplsource: tplsource,
+                subcomponents: []
+              };
+              if (_response_to_template_){
+                __definition.template = serviceResponse;
+              }
+              if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null){
+                /* this allows to use the original property defined
+                in the component definition if it is not present in the tag */
+                delete __definition.name;
+              }
+              if (componentURI === ""){
+                /* this allows to use the original property defined
+                in the component definition if it is not present in the tag */
+                delete __definition.templateURI;
+              }
+              var newComponent = New(__classDefinition, __definition);
+
+              if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
+                components[_c].append(newComponent);
+              }
+              newComponent.done = componentDone;
+              return newComponent;
+            };
+            var newComponent;
+            console.log("loading component service");
+            if (typeof __serviceClass !== "undefined"
+                && (typeof __enable_service_class__ !== "undefined"
+                && __enable_service_class__ === true)){
+                  console.log("loading service loader");
+              logger.info("Loading service "+_serviceClassName);
+              var serviceInstance = New(__serviceClass, {
+                data: data
+              });
+              serviceLoader(serviceInstance).then(function ({request, service}){
+                var serviceResponse = service.template;
+                if (_response_to_data_){
+                  if (typeof data === "object" && typeof serviceResponse === "object"){
+                    data = Object.assign(data, serviceResponse);
+                  } else {
+                    data = serviceResponse;
+                  }
+                }
+                newComponent = __create_component_instance_.call(this, data, serviceResponse);
+                newComponent.serviceInstance = serviceInstance;
+                newComponent.serviceData = data;
+              }).catch (function (e){
+                logger.debug("Something went wroing while trying to load the service "+_serviceClassName);
+              });
+            } else {
+              newComponent = __create_component_instance_.call(this, data, null);
             }
-            newComponent.done = componentDone;
             return newComponent;
         });
         return componentsBuiltWith;
@@ -3221,6 +3275,8 @@
         RegisterWidget(widgetName);
       });
     };
+    (_protected_code_)(RegisterWidget);
+    (_protected_code_)(RegisterWidgets);
     Export(RegisterWidget);
     Export(RegisterWidgets);
 
