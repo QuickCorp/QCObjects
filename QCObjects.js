@@ -1847,7 +1847,8 @@
         componentClass.hasOwnProperty.call(componentClass,"subcomponents")) ? (true) : (false);
       var __route__ = function(componentList) {
         componentList.map(function (rc, r){
-          if (rc.hasOwnProperty.call(rc,"_reroute_")){
+          if (typeof rc !== "undefined"
+            && rc.hasOwnProperty.call(rc,"_reroute_")){
             rc._reroute_();
             if (rc.hasOwnProperty.call(rc,"subcomponents") &&
               typeof rc.subcomponents !== "undefined" &&
@@ -1856,7 +1857,7 @@
               logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + rc.name);
               __route__.call(componentClass, rc.subcomponents);
             }
-          } else {
+          } else if (typeof rc !== "undefined"){
             logger.debug("IT WAS NOT POSSIBLE TO RE-ROUTE: " + rc.name);
           }
         });
