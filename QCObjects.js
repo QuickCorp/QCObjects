@@ -734,10 +734,9 @@
   var Class = function(name, type, definition) {
     var o;
     var name = arguments[0];
-    if (__is__forbidden_name__(name)){
+    if (__is__forbidden_name__.call(this, name)){
       throw new Error(`${name} is not an allowed word in the name of a class`);
-      return;
-    };
+    }
     if (isBrowser) {
       var type = (arguments.length > 2) ? (arguments[1]) : (HTMLElement);
     } else {
