@@ -35,6 +35,9 @@
     });
     _.prototype.toString = function() {
       var _protected_symbols = ["ComplexStorageCache",
+        "css",
+        "append",
+        "attachIn",
         "debug",
         "info",
         "warn",
@@ -710,6 +713,18 @@
   };
 
   /**
+   * Internal use to determine the forbidden names for classes
+   * Reserved words
+   *
+   * @param {String} name
+   * @param {Object} type
+   * @param {Object} definition
+   */
+  var __is__forbidden_name__ = function (){
+    return (["__proto__", "prototype", "Object", "Map", "defineProperty", "indexOf", "toString", "__instanceID"].indexOf(arguments[0])!== -1)?(true):(false);
+  };
+
+  /**
    * Creates new object class  of another object
    *
    * @param {String} name
@@ -719,6 +734,10 @@
   var Class = function(name, type, definition) {
     var o;
     var name = arguments[0];
+    if (__is__forbidden_name__(name)){
+      throw new Error(`${name} is not an allowed word in the name of a class`);
+      return;
+    };
     if (isBrowser) {
       var type = (arguments.length > 2) ? (arguments[1]) : (HTMLElement);
     } else {
@@ -747,7 +766,6 @@
       definition["__new__"] = function(properties) {
         _CastProps(properties, this);
       };
-      (_protected_code_)(definition["__new__"]);
     }
 
     if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"css")) {
@@ -757,7 +775,6 @@
           this["body"]["style"] = _Cast(_css, this["body"]["style"]);
         }
       };
-      (_protected_code_)(definition["css"]);
     }
     if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"hierarchy")) {
       definition["hierarchy"] = function hierarchy() {
@@ -793,7 +810,6 @@
           }
         }
       };
-      (_protected_code_)(definition["append"]);
     }
 
     if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"attachIn")) {
@@ -807,7 +823,6 @@
           // not yet implemented.
         }
       };
-      (_protected_code_)(definition["attachIn"]);
     }
     // hack to prevent pre-population of __instanceID into the class definition
     if (typeof definition !== "undefined" && definition.hasOwnProperty.call(definition,"__instanceID")){
@@ -913,8 +928,7 @@
    */
   var New = function(c, args) {
     var args = (arguments.length > 1) ? (arguments[1]) : ({});
-    Object.__instanceID = (typeof Object.__instanceID === "undefined" || Object.__instanceID === null) ? (0) : (Object.__instanceID + 1);
-    __instanceID = Object.__instanceID;
+    __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
     var c_new = (typeof c === "undefined") ? (_Object_Create(({}).constructor.prototype, {})) : (_Object_Create(c.constructor.prototype, c.__definition));
     c_new.__definition = _Cast({
       "__instanceID": __instanceID
@@ -2210,7 +2224,7 @@
     }
   });
   ClassFactory("Component")._bindroute.__assigned=false;
-
+  (_methods_)(ClassFactory("Component")).map(function (__c__){(_protected_code_)(__c__);});
 
   Class("Controller", Object, {
     dependencies: [],
@@ -3102,7 +3116,6 @@
                 }));
               }
             };
-            (_protected_code_)(componentDone);
 
             var __shadowed_not_set = (components[_c].getAttribute("shadowed") === null) ? (true) : (false);
             var shadowed = (components[_c].getAttribute("shadowed") === "true") ? (true) : (false);
@@ -4038,6 +4051,9 @@
     }, null);
   }
 
+/* Freezing Object && Object.prototype to prevent prototype pollution risks */
+Object.freeze(Object.prototype);
+Object.freeze(Object);
 }).call(null,(typeof module === "object" && typeof module.exports === "object")?(module.exports = global):((typeof global === "object")?(global):(
   (typeof window === "object")?(window):({})
 )));
