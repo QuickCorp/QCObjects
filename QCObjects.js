@@ -4052,13 +4052,18 @@
   }
 
   /* Freezing Object && Object.prototype to prevent prototype pollution risks */
-  (function (){
-    if (CONFIG.get("secureObjects", true)){
-      Object.freeze(Object.prototype);
-      Object.freeze(Object);
-    }
-  })();
-  
+  (function (isBrowser){
+      var __freeze__ = function (){
+        Object.freeze(Object.prototype);
+        Object.freeze(Object);
+      }
+      if (isBrowser && CONFIG.get("secureObjects", true)){
+        window.addEventListener("DOMContentLoaded", __freeze__);
+      } else if (CONFIG.get("secureObjects", true)) {
+        __freeze__();
+      }
+  })(isBrowser);
+
 }).call(null,(typeof module === "object" && typeof module.exports === "object")?(module.exports = global):((typeof global === "object")?(global):(
   (typeof window === "object")?(window):({})
 )));
