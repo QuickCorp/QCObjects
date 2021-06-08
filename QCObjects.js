@@ -4050,9 +4050,14 @@
     }, null);
   }
 
-/* Freezing Object && Object.prototype to prevent prototype pollution risks */
-Object.freeze(Object.prototype);
-Object.freeze(Object);
+  /* Freezing Object && Object.prototype to prevent prototype pollution risks */
+  (function (){
+    if (CONFIG.get("secureObjects", true)){
+      Object.freeze(Object.prototype);
+      Object.freeze(Object);
+    }
+  })();
+  
 }).call(null,(typeof module === "object" && typeof module.exports === "object")?(module.exports = global):((typeof global === "object")?(global):(
   (typeof window === "object")?(window):({})
 )));
