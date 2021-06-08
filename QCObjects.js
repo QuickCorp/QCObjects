@@ -4058,7 +4058,9 @@
         Object.freeze(Object);
       }
       if (isBrowser && CONFIG.get("secureObjects", true)){
-        window.addEventListener("DOMContentLoaded", __freeze__);
+        Ready(function (){
+          __freeze__();
+        });
       } else if (CONFIG.get("secureObjects", true)) {
         __freeze__();
       }
