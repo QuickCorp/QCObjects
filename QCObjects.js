@@ -3362,6 +3362,37 @@
 
       ClassFactory("Processor").setProcessor(layout);
 
+      let component = function () {
+        /*
+        * component processor
+        * @usage
+        *        $component(name=<name>, componentClass=<componentClass>, ...)
+        * Returns a component tag declaration like:
+        * <component name=<name> ...></component>
+        */
+        let arg = [...arguments].map(function (a){ return {[a.split("=")[0]]:a.split("=")[1]}}).reduce(function (k1, k2) {return Object.assign(k1, k2)});
+        let attrs = [...Object.keys(arg)].map(function (a) {return `${a}=${arg[a]}`}).join(" ");
+        return `<component ${attrs}></component>`;
+      };
+
+      ClassFactory("Processor").setProcessor(component);
+
+      let repeat = function (length, text) {
+        /*
+        * Repeat processor
+        * @usage
+        *        $repeat(<length>, <text>)
+        * Where length is the number of occurrences of text
+        */
+        return range(length).map(
+          function (index) {
+            return text.replace("{{index}}",index.toString());
+          }
+        ).join("");
+      };
+
+      ClassFactory("Processor").setProcessor(repeat);
+
 
     })(_top);
 
