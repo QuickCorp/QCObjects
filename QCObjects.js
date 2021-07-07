@@ -3949,8 +3949,8 @@
       * Returns a component tag declaration like:
       * <component name=<name> ...></component>
       */
-      let arg = [...arguments].map(function (a){ return {[a.split("=")[0]]:a.split("=")[1]}}).reduce(function (k1, k2) {return Object.assign(k1, k2)});
-      let attrs = [...Object.keys(arg)].map(function (a) {return `${a}=${arg[a]}`}).join(" ");
+      let arg = [...arguments].map(function (a){ return {[a.split("=")[0]]:a.split("=")[1]};}).reduce(function (k1, k2) {return Object.assign(k1, k2);});
+      let attrs = [...Object.keys(arg)].map(function (a) {return `${a}=${arg[a]}`;}).join(" ");
       return `<component ${attrs}></component>`;
     };
 
