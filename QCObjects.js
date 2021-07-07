@@ -4086,11 +4086,11 @@
         Object.freeze(Object.prototype);
         Object.freeze(Object);
       };
-      if (isBrowser && CONFIG.get("secureObjects", true)){
+      if (isBrowser && CONFIG.get("secureObjects", false)){
         Ready(function (){
           __freeze__();
         });
-      } else if (CONFIG.get("secureObjects", true)) {
+      } else if (CONFIG.get("secureObjects", false)) {
         __freeze__();
       }
   })(isBrowser);
