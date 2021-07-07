@@ -3293,110 +3293,6 @@
     Export(RegisterWidget);
     Export(RegisterWidgets);
 
-    // Set Processors
-    (function (_top){
-
-      let mapper = function (componentName, valueName) {
-        /*
-        * Mapper processor
-        * @usage
-        *        $mapper(<componentName>,<valueName>)
-        *
-        * Where componentName is the name of the component (same value as in attribute tag name) without quotes
-        * and valueName is the name of the variable that contains the value to map, it can be either a property of
-        * the component instance, the data object or a global value
-        */
-
-
-        let globalValue = global.get(valueName);
-        let componentValue = this.component.get(valueName);
-        let dataValue = this.component.data[valueName];
-        let list = (typeof dataValue !== "undefined")?( dataValue ):( (typeof componentValue !== "undefined")?( componentValue ):( globalValue ) );
-        let listItems = "";
-        if (typeof list !== "undefined" && typeof list["map"] !== "undefined"){
-          listItems = list.map ( function (element) {
-            let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${element[k].toString()}"`).join("");
-            return `<component name="${componentName}" ${dataItems} ></component>`;
-          }).join("");
-        } else {
-          logger.debug(`${componentName}.${valueName} does not have a map property`);
-        }
-        return listItems;
-      };
-      ClassFactory("Processor").setProcessor(mapper);
-
-      let layout = function (layoutname, cssfile){
-        /*
-        * Layout processor
-        * @usage
-        *        $layout(<layoutname>, <cssfile>)
-        * Where layoutname can be "portrait" or "landscape" without quotes
-        * cssfile is the uri for the css file to import
-        */
-
-        var layout_portrait = `
-        /* CSS Document for Mobile Imports */
-        @import url("${cssfile}") (orientation:portrait);
-        @import url("${cssfile}") (max-width:460px);
-        @import url("${cssfile}") (aspect-ratio: 9/16);
-        @import url("${cssfile}") (aspect-ratio: 10/16);
-        @import url("${cssfile}") (aspect-ratio: 5/8);
-        @import url("${cssfile}") (aspect-ratio: 3/4);
-        @import url("${cssfile}") (aspect-ratio: 2/3);
-        `;
-        var layout_landscape = `
-        @import url("${cssfile}") (orientation:landscape) and (min-width:460px);
-        @import url("${cssfile}") (aspect-ratio: 16/9) and (min-width:460px);
-        @import url("${cssfile}") (aspect-ratio: 16/10) and (min-width:460px);
-        @import url("${cssfile}") (aspect-ratio: 8/5) and (min-width:460px);
-        @import url("${cssfile}") (aspect-ratio: 4/3) and (min-width:460px);
-        @import url("${cssfile}") (aspect-ratio: 3/2) and (min-width:460px);
-        `;
-        var layout_code = {
-          "landscape":layout_landscape,
-          "portrait":layout_portrait
-        };
-
-        return (layout_code.hasOwnProperty.call(layout_code, layoutname))?(layout_code[layoutname]):("");
-      };
-
-      ClassFactory("Processor").setProcessor(layout);
-
-      let component = function () {
-        /*
-        * component processor
-        * @usage
-        *        $component(name=<name>, componentClass=<componentClass>, ...)
-        * Returns a component tag declaration like:
-        * <component name=<name> ...></component>
-        */
-        let arg = [...arguments].map(function (a){ return {[a.split("=")[0]]:a.split("=")[1]};}).reduce(function (k1, k2) {return Object.assign(k1, k2);});
-        let attrs = [...Object.keys(arg)].map(function (a) {return `${a}=${arg[a]}`;}).join(" ");
-        return `<component ${attrs}></component>`;
-      };
-
-      ClassFactory("Processor").setProcessor(component);
-
-      let repeat = function (length, text) {
-        /*
-        * Repeat processor
-        * @usage
-        *        $repeat(<length>, <text>)
-        * Where length is the number of occurrences of text
-        */
-        return range(length).map(
-          function (index) {
-            return text.replace("{{index}}",index.toString());
-          }
-        ).join("");
-      };
-
-      ClassFactory("Processor").setProcessor(repeat);
-
-
-    })(_top);
-
-
   } else {
     // not yet implemented.
   }
@@ -3975,6 +3871,110 @@
       return _promise;
     }
   });
+
+  // Set Processors
+  (function (_top){
+
+    let mapper = function (componentName, valueName) {
+      /*
+      * Mapper processor
+      * @usage
+      *        $mapper(<componentName>,<valueName>)
+      *
+      * Where componentName is the name of the component (same value as in attribute tag name) without quotes
+      * and valueName is the name of the variable that contains the value to map, it can be either a property of
+      * the component instance, the data object or a global value
+      */
+
+
+      let globalValue = global.get(valueName);
+      let componentValue = this.component.get(valueName);
+      let dataValue = this.component.data[valueName];
+      let list = (typeof dataValue !== "undefined")?( dataValue ):( (typeof componentValue !== "undefined")?( componentValue ):( globalValue ) );
+      let listItems = "";
+      if (typeof list !== "undefined" && typeof list["map"] !== "undefined"){
+        listItems = list.map ( function (element) {
+          let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${element[k].toString()}"`).join("");
+          return `<component name="${componentName}" ${dataItems} ></component>`;
+        }).join("");
+      } else {
+        logger.debug(`${componentName}.${valueName} does not have a map property`);
+      }
+      return listItems;
+    };
+    ClassFactory("Processor").setProcessor(mapper);
+
+    let layout = function (layoutname, cssfile){
+      /*
+      * Layout processor
+      * @usage
+      *        $layout(<layoutname>, <cssfile>)
+      * Where layoutname can be "portrait" or "landscape" without quotes
+      * cssfile is the uri for the css file to import
+      */
+
+      var layout_portrait = `
+      /* CSS Document for Mobile Imports */
+      @import url("${cssfile}") (orientation:portrait);
+      @import url("${cssfile}") (max-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 9/16);
+      @import url("${cssfile}") (aspect-ratio: 10/16);
+      @import url("${cssfile}") (aspect-ratio: 5/8);
+      @import url("${cssfile}") (aspect-ratio: 3/4);
+      @import url("${cssfile}") (aspect-ratio: 2/3);
+      `;
+      var layout_landscape = `
+      @import url("${cssfile}") (orientation:landscape) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 16/9) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 16/10) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 8/5) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 4/3) and (min-width:460px);
+      @import url("${cssfile}") (aspect-ratio: 3/2) and (min-width:460px);
+      `;
+      var layout_code = {
+        "landscape":layout_landscape,
+        "portrait":layout_portrait
+      };
+
+      return (layout_code.hasOwnProperty.call(layout_code, layoutname))?(layout_code[layoutname]):("");
+    };
+
+    ClassFactory("Processor").setProcessor(layout);
+
+    let component = function () {
+      /*
+      * component processor
+      * @usage
+      *        $component(name=<name>, componentClass=<componentClass>, ...)
+      * Returns a component tag declaration like:
+      * <component name=<name> ...></component>
+      */
+      let arg = [...arguments].map(function (a){ return {[a.split("=")[0]]:a.split("=")[1]}}).reduce(function (k1, k2) {return Object.assign(k1, k2)});
+      let attrs = [...Object.keys(arg)].map(function (a) {return `${a}=${arg[a]}`}).join(" ");
+      return `<component ${attrs}></component>`;
+    };
+
+    ClassFactory("Processor").setProcessor(component);
+
+    let repeat = function (length, text) {
+      /*
+      * Repeat processor
+      * @usage
+      *        $repeat(<length>, <text>)
+      * Where length is the number of occurrences of text
+      */
+      return range(length).map(
+        function (index) {
+          return text.replace("{{index}}",index.toString());
+        }
+      ).join("");
+    };
+
+    ClassFactory("Processor").setProcessor(repeat);
+
+
+  })(_top);
+  
 
   /**
    * Load every component tag declared in the body
