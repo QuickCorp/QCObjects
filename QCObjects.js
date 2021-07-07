@@ -3963,7 +3963,7 @@
       *        $repeat(<length>, <text>)
       * Where length is the number of occurrences of text
       */
-      return range(length).map(
+      return _top.range(length).map(
         function (index) {
           return text.replace("{{index}}",index.toString());
         }
@@ -3972,9 +3972,8 @@
 
     ClassFactory("Processor").setProcessor(repeat);
 
-
   })(_top);
-  
+
 
   /**
    * Load every component tag declared in the body
