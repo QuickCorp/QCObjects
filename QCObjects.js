@@ -3416,12 +3416,21 @@
           logger.debug("Something wrong writing the response for microservice" + e.toString());
         }
       },
-      done: function() {
+      done: function () {
+        logger.debugEnabled = true;
         var microservice = this;
         var stream = microservice.stream;
-        stream.respond(microservice.headers);
+        try {
+          stream.respond(microservice.headers);
+        } catch (e){
+          logger.debug(e.toString());
+        }
         if (microservice.body !== null) {
-          microservice.finishWithBody.call(microservice, stream);
+          try {
+            microservice.finishWithBody.call(microservice, stream);
+          } catch (e){
+            logger.debug(e.toString());
+          }
         }
       }
     });
@@ -3949,8 +3958,8 @@
       * Returns a component tag declaration like:
       * <component name=<name> ...></component>
       */
-      let arg = [...arguments].map(function (a){ return {[a.split("=")[0]]:a.split("=")[1]}}).reduce(function (k1, k2) {return Object.assign(k1, k2)});
-      let attrs = [...Object.keys(arg)].map(function (a) {return `${a}=${arg[a]}`}).join(" ");
+      let arg = [...arguments].map(function (a){ return {[a.split("=")[0]]:a.split("=")[1]};}).reduce(function (k1, k2) {return Object.assign(k1, k2);});
+      let attrs = [...Object.keys(arg)].map(function (a) {return `${a}=${arg[a]}`;}).join(" ");
       return `<component ${attrs}></component>`;
     };
 
