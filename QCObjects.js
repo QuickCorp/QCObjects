@@ -3650,6 +3650,23 @@
   String.prototype.list = function () { var __instance=this; return _top.range(0,__instance.length-1).map( function (i) {return __instance[i];}); };
   (_protected_code_)(String.prototype.list);
 
+  _top.getDocumentLayout = function () {
+    var h = (w, h) => {
+      return w>h ? "landscape": null;
+    };
+    var v = (w, h) => {
+      return h>w ? "portrait": null;
+    };
+    var square = (w, h) => {
+      return w===h ? "square": null;
+    };
+    return [
+      h(document.documentElement.clientWidth,document.documentElement.clientHeight),
+      v(document.documentElement.clientWidth,document.documentElement.clientHeight),
+      square(document.documentElement.clientWidth,document.documentElement.clientHeight)
+    ].filter(e=>e!==null).pop();
+  };
+
 
   /**
   * End of array math functions
