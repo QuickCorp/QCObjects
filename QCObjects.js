@@ -1595,13 +1595,19 @@
   Class("DefaultTemplateHandler", Object, {
     template: "",
     assign: function(data) {
-      var processorHandler = this.component.processorHandler;
-      var parsedAssignmentText = this.template;
-      var _value;
-      for (var k in data) {
-        _value = data[k];
-        _value = ClassFactory("Processor").processObject.call(processorHandler,_value);
-        parsedAssignmentText = parsedAssignmentText.replace((new RegExp("{{" + k + "}}", "g")), _value);
+      var templateInstance = this;
+      var processorHandler = templateInstance.component.processorHandler;
+      var parsedAssignmentText = templateInstance.template;
+      if (typeof data === "object"){
+        [...Object.keys(data)].map(function (k){
+          var _value = data[k];
+          if (typeof _value === "string" || typeof _value === "number" || (!isNaN(_value))){
+            _value = ClassFactory("Processor").processObject.call(processorHandler,_value);
+            parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
+          }
+        });
+      } else {
+        logger.debug (`${templateInstance.component.name}.data is not an object`);
       }
       parsedAssignmentText = ClassFactory("Processor").processObject.call(processorHandler,parsedAssignmentText);
       return parsedAssignmentText;
