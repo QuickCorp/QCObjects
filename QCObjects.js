@@ -1603,7 +1603,7 @@
           var _value = data[k];
           if (typeof _value === "string" || typeof _value === "number" || (!isNaN(_value))){
             _value = ClassFactory("Processor").processObject.call(processorHandler,_value);
-            parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`\{\{${k}\}\}`, "g")), _value);
+            parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
           }
         });
       } else {
