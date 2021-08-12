@@ -79,7 +79,9 @@
         "matrix",
         "matrix2d",
         "matrix3d",
-        "unique"
+        "unique",
+        "uniqueId",
+        "shortCode"
       ];
       var _ret_;
       if (_protected_symbols.includes(this.name)) {
@@ -1085,6 +1087,15 @@
     return JSON.parse(ClassFactory("_Crypt").decrypt(s, _secretKey));
   };
 
+  var shortCode = function () {
+    var length = 1000;
+    var code1 = _Crypt.encrypt((Math.random()*len).toString().replace(".", ""), (new Date()).getTime().toString());
+    var code2 = _Crypt.encrypt((Math.random()*len).toString().replace(".", ""), (new Date((new Date()).getTime() - 1000*1000)).getTime().toString());
+    var shortCode = code2.list().map((o1, index)=> {return code1.list()[index] === o1 ? null: o1}).filter(c=>c!==null).join("");
+    return shortCode;
+  };
+  var uniqueId = shortCode;
+
   Class("Processor", {
     processors: {
       "config": function (arg){
@@ -1212,6 +1223,7 @@
   Export(ComplexStorageCache);
   Export(ClassFactory);
   Export(_DOMCreateElement);
+  Export (shortCode);
 
   var isQCObjects_Object = function (_){
     return (typeof _ === "object"
