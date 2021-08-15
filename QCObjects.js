@@ -488,7 +488,7 @@
     return r;
   };
   ComplexStorageCache.prototype.getID = function(object) {
-    var cachedObjectID = "cachedObject_" + Base64.encode(_DataStringify(object).replace(",", "_").replace("{", "_").replace("}", "_"));
+    var cachedObjectID = "cachedObject_" + Base64.encode(_DataStringify(object).replace(/\{|\}|,/g, "_"));
     return cachedObjectID;
   };
   ComplexStorageCache.prototype.save = function(object, cachedNewResponse) {
@@ -665,7 +665,7 @@
     if (typeof o.constructor === "function") {
       ret = o.constructor.name;
     } else if (typeof o.constructor === "object") {
-      ret = o.constructor.toString().split(" ")[1].replace("]", "");
+      ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
     }
     return ret;
   };
