@@ -665,7 +665,7 @@
     if (typeof o.constructor === "function") {
       ret = o.constructor.name;
     } else if (typeof o.constructor === "object") {
-      ret = o.constructor.toString().split(" ")[1].replace("]", "");
+      ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
     }
     return ret;
   };
