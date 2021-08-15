@@ -488,7 +488,7 @@
     return r;
   };
   ComplexStorageCache.prototype.getID = function(object) {
-    var cachedObjectID = "cachedObject_" + Base64.encode(_DataStringify(object).replace(",", "_").replace("{", "_").replace("}", "_"));
+    var cachedObjectID = "cachedObject_" + Base64.encode(_DataStringify(object).replace(/\{|\}|,/g, "_"));
     return cachedObjectID;
   };
   ComplexStorageCache.prototype.save = function(object, cachedNewResponse) {
