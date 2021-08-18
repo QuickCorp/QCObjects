@@ -437,23 +437,23 @@
       _waitUntil(func, exp);
     }, 1);
   };
+  if (typeof localStorage === "undefined"){
+    /* Polyfill for localStorage */
+    var localStorage = {
+      getItem (name) {
+        return (Object.hasOwnProperty.call(this, name))?(this[name]):(null);
+      },
+      setItem (name, value) {
+        this[name] = value;
+      },
+      removeItem (name) {
+        delete this[name];
+      }
+    };
+    /* end Polyfill for localStorage */
+  }
   var ComplexStorageCache = function(params) {
     var object, load, alternate;
-    if (typeof localStorage === "undefined"){
-      /* Polyfill for localStorage */
-      var localStorage = {
-        getItem (name) {
-          return (Object.hasOwnProperty.call(this, name))?(this[name]):(null);
-        },
-        setItem (name, value) {
-          this[name] = value;
-        },
-        removeItem (name) {
-          delete this[name];
-        }
-      };
-      /* end Polyfill for localStorage */
-    }
     object = params.index;
     load = params.load;
     alternate = params.alternate;
