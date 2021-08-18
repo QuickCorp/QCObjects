@@ -120,38 +120,6 @@
       String.prototype.matchAll = String.prototype.__mAll__;
   }
 
-  /**
-  * Polyfill basics
-  */
-
-  if (typeof btoa === "undefined" && typeof Buffer !== "undefined"){
-    var btoa = function (s) {
-      return Buffer.from(s, "ascii").toString("base64");
-    }
-  }
-  if (typeof atob === "undefined" && typeof Buffer !== "undefined"){
-    var atob = function (s) {
-      return Buffer.from(s, "base64").toString("ascii");
-    }
-  }
-  if (typeof localStorage === "undefined"){
-    var localStorage = {
-      getItem (name) {
-        return (Object.hasOwnProperty.call(this, name))?(this[name]):(null);
-      },
-      setItem (name, value) {
-        this[name] = value;
-      },
-      removeItem (name) {
-        delete this[name];
-      }
-    }
-  }
-
-  /**
-  * End Polyfill basics
-  */
-
   var isBrowser = typeof window !== "undefined" && typeof window.self !== "undefined" && window === window.self;
   var _DOMCreateElement = function(elementName) {
     var _ret_;
@@ -471,6 +439,21 @@
   };
   var ComplexStorageCache = function(params) {
     var object, load, alternate;
+    if (typeof localStorage === "undefined"){
+      /* Polyfill for localStorage */
+      var localStorage = {
+        getItem (name) {
+          return (Object.hasOwnProperty.call(this, name))?(this[name]):(null);
+        },
+        setItem (name, value) {
+          this[name] = value;
+        },
+        removeItem (name) {
+          delete this[name];
+        }
+      };
+      /* end Polyfill for localStorage */
+    }
     object = params.index;
     load = params.load;
     alternate = params.alternate;
