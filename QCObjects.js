@@ -81,7 +81,8 @@
         "matrix3d",
         "unique",
         "uniqueId",
-        "shortCode"
+        "shortCode",
+        "NamespaceRef"
       ];
       var _ret_;
       if (_protected_symbols.includes(this.name)) {
@@ -438,6 +439,21 @@
   };
   var ComplexStorageCache = function(params) {
     var object, load, alternate;
+    if (typeof localStorage === "undefined"){
+      /* Polyfill for localStorage */
+      var localStorage = {
+        getItem (name) {
+          return (Object.hasOwnProperty.call(this, name))?(this[name]):(null);
+        },
+        setItem (name, value) {
+          this[name] = value;
+        },
+        removeItem (name) {
+          delete this[name];
+        }
+      };
+      /* end Polyfill for localStorage */
+    }
     object = params.index;
     load = params.load;
     alternate = params.alternate;
@@ -1284,6 +1300,18 @@
   };
   Package.prototype.toString = function() {
     return "Package(namespace, classes) { [QCObjects native code] }";
+  };
+
+  /**
+  * Declare Namespace
+  *
+  * @param {String} packageName
+  * @param {Object} package
+  */
+  var NamespaceRef = function (namespace){
+    let package = Package(namespace);
+    let classes = package.filter(c=>isQCObjects_Class(c)).map(c=>{return {[c.__definition.__classType]:c}}).reduce ((a, b)=> Object.assign(a, b));
+    return namespace.split(".").map(c=>{return {[c]:classes}}).reverse().reduce ( (a, b) => {b[Object.keys(b)]=a;return b;} );
   };
 
 
@@ -2854,6 +2882,7 @@
   Export(_DataStringify);
   Export(isQCObjects_Class);
   Export(isQCObjects_Object);
+  Export(NamespaceRef);
 
   asyncLoad(function() {
 
