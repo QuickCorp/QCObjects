@@ -2188,7 +2188,7 @@
     },
     applyTransitionEffect: function (effectClassName) {
       var _Effect = ClassFactory(effectClassName);
-      if (typeof _Effect !== "undefined" && is_a("TransitionEffect")) {
+      if (typeof _Effect !== "undefined" && is_a(_Effect, "TransitionEffect")) {
         this.effect = New(_Effect, {
           component: this
         });
