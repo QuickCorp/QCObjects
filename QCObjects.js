@@ -644,20 +644,25 @@
       configurable: true
     });
   }
+
+  var __is_raw_class__ = function (o_c) {
+    return (typeof obj === "function" && obj.toString().startsWith("class"))?(true):(false);
+  };
+
   var _LegacyCopy = function(obj) {
     var _ret_;
-    switch (typeof obj) {
-      case "string":
+    switch (true) {
+      case typeof obj === "string":
         _ret_ = obj;
         break;
-      case "number":
+      case typeof obj === "number":
         _ret_ = obj;
         break;
-      case "object":
+      case typeof obj === "object":
         _ret_ = Object.assign({}, obj);
         break;
-      case "function":
-        _ret_ = Object.assign({}, obj);
+      case __is_raw_class__(obj):
+        _ret_ = class extends obj {};
         break;
       default:
         break;
@@ -676,15 +681,17 @@
    *
    * @param Object or function
    */
-  var ObjectName = function(o) {
-    var ret = "";
-    if (typeof o.constructor === "function") {
-      ret = o.constructor.name;
-    } else if (typeof o.constructor === "object") {
-      ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
-    }
-    return ret;
-  };
+   var ObjectName = function(o) {
+     var ret = "";
+     if (typeof o === "function" && Object.hasOwnProperty.call(o, "name")){
+       ret = o.name;
+     } else if (typeof o.constructor === "function") {
+       ret = o.constructor.name;
+     } else if (typeof o.constructor === "object") {
+       ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
+     }
+     return ret;
+   };
 
   /**
    * Casts an object to another object class type
@@ -763,6 +770,19 @@
     || typeof obj === typeName)?(true):(false);
   };
 
+  var QCObjects = class {
+    constructor ({..._o_}) {
+      var Properties = Object(_o_);
+      for (var prop in Properties) {
+        if (prop !== "name"){
+          if (Object.hasOwnProperty.call(Properties, prop)) {
+            this[prop] = Properties[prop];
+          }
+        }
+      }
+    }
+  };
+
   /**
    * Creates new object class  of another object
    *
@@ -770,35 +790,30 @@
    * @param {Object} type
    * @param {Object} definition
    */
-  var Class = function(name, type, definition) {
-    var o;
+  var Class = function() {
     var name = arguments[0];
     if (__is__forbidden_name__.call(this, name)){
       throw new Error(`${name} is not an allowed word in the name of a class`);
     }
-    if (isBrowser) {
-      var type = (arguments.length > 2) ? (arguments[1]) : (HTMLElement);
-    } else {
-      var type = (arguments.length > 2) ? (arguments[1]) : (Object);
+    var __allow_override__ = true;
+
+    if ( (! __allow_override__) && (Object.keys(_QC_CLASSES).includes (name) || Object.keys(_top).includes(name ) )) {
+      throw new Error(`${name} has already been defined. Override is not allowed.`);
     }
+
+    let __default_type__ = (isBrowser)?(HTMLElement):(Object);
+
+    var type = (arguments.length > 2 && typeof arguments[1] !== "undefined") ? (arguments[1]) : (__default_type__);
+    type = (type.hasOwnProperty.call(type,"prototype")) ? (type.prototype) : (_LegacyCopy(type));
+
     var definition = (arguments.length > 2) ? (arguments[2]) : (
-      (arguments.length > 1) ? (arguments[1]) : ({})
+      (arguments.length > 1 && typeof arguments[1] !== "undefined") ? (arguments[1]) : ({})
     );
 
-    if (typeof type === "undefined") {
-      if (isBrowser) {
-        type = HTMLElement; // defaults to HTMLElement type
-      } else {
-        type = Object;
-      }
-    } else {
-      definition = _Cast(
-        (typeof definition === "undefined") ? ({}) : (definition),
-        (typeof type["__definition"] !== "undefined") ? (_LegacyCopy(type.__definition)) : ({})
-      );
-    }
-
-    type = (type.hasOwnProperty.call(type,"prototype")) ? (type.prototype) : (_LegacyCopy(type));
+    definition = _Cast(
+      definition,
+      (typeof type["__definition"] !== "undefined") ? (_LegacyCopy(type.__definition)) : ({})
+    );
 
     if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"__new__")) {
       definition["__new__"] = function(properties) {
@@ -867,6 +882,7 @@
     if (typeof definition !== "undefined" && definition.hasOwnProperty.call(definition,"__instanceID")){
       delete definition.__instanceID;
     }
+    var o;
     o = _Object_Create(type, definition);
     o["__definition"] = definition;
     o["__definition"]["__classType"] = name;
@@ -892,19 +908,18 @@
       var _package = Package(packageName);
       var packageClasses = (typeof _package !== "undefined")?(_package.filter(classFactory=>{
         return typeof classFactory !== "undefined"
-            && classFactory.hasOwnProperty.call(classFactory,"__definition")
+            && Object.hasOwnProperty.call(classFactory,"__definition")
             && isQCObjects_Class(classFactory)
             && classFactory.__definition.__classType===_className
-            && !classFactory.hasOwnProperty.call(classFactory,"__instanceID");}).reverse()):([]);
+            && !Object.hasOwnProperty.call(classFactory,"__instanceID");}).reverse()):([]);
       if (packageClasses.length>0){
         _classFactory = packageClasses[0];
       }
-    } else if (className !== null && _QC_CLASSES.hasOwnProperty.call(_QC_CLASSES,className)) {
+    } else if (className !== null && Object.hasOwnProperty.call(_QC_CLASSES,className)) {
       _classFactory = _QC_CLASSES[className];
     }
     return _classFactory;
   };
-
 
   if (isBrowser) {
     Element.prototype.append = function QC_Append(child) {
@@ -1694,7 +1709,8 @@
   };
 
   _top.__oldpopstate = _top.onpopstate;
-  Class("Component", Object, {
+  Class("Component",class Component extends QCObjects {},
+  {
     domain: domain,
     basePath: basePath,
     templateURI: "",
