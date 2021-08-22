@@ -743,6 +743,27 @@
   };
 
   /**
+  * Determine the type of the Object for any QCObjects Object
+  *
+  * @param {Object} object
+  */
+  var __getType__ = function __getType__(o_c) {
+    return (o_c.hasOwnProperty.call(o_c,"__classType")) ? (o_c.__classType) : ((o_c.hasOwnProperty.call(o_c,"__definition")) ? (o_c.__definition.__classType) : (ObjectName(o_c)));
+  };
+
+  /**
+  * Returns if a class or object is from a determinated type
+  * @param {Object} object
+  * @param {String} typeName
+  */
+  var is_a = function is_a(obj, typeName) {
+    return (((isQCObjects_Class(obj) || isQCObjects_Object(obj)) && (obj.hierarchy().includes(typeName)))
+    || __getType__(obj) === typeName
+    || ObjectName(obj) === typeName
+    || typeof obj === typeName)?(true):(false);
+  };
+
+  /**
    * Creates new object class  of another object
    *
    * @param {String} name
@@ -793,10 +814,11 @@
         }
       };
     }
+
     if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"hierarchy")) {
       definition["hierarchy"] = function hierarchy() {
         var __classType = function(o_c) {
-          return (o_c.hasOwnProperty.call(o_c,"__classType")) ? (o_c.__classType) : ((o_c.hasOwnProperty.call(o_c,"__definition")) ? (o_c.__definition.__classType) : (ObjectName(o_c)));
+          return __getType__.call(this, o_c);
         };
         var __hierarchy = [];
         __hierarchy.push(__classType(this));
@@ -1239,7 +1261,9 @@
   Export(ComplexStorageCache);
   Export(ClassFactory);
   Export(_DOMCreateElement);
-  Export (shortCode);
+  Export(shortCode);
+  Export(__getType__);
+  Export(is_a);
 
   var isQCObjects_Object = function (_){
     return (typeof _ === "object"
@@ -2157,6 +2181,42 @@
           _imgLazyLoaded.map(_lazyLoadImages);
         }
 
+      } else {
+        // not yet implemented
+      }
+      return null;
+    },
+    applyTransitionEffect: function (effectClassName) {
+      var _Effect = ClassFactory();
+      if (typeof _Effect !== "undefined" && is_a("TransitionEffect")) {
+        this.effect = New(_Effect, {
+          component: this
+        });
+        this.effect.apply(this.effect.defaultParams);
+      } else {
+        logger.debug(`${__getType__(_Effect)} is not a TransitionEffect`);
+      }
+    },
+    applyObserveTransitionEffect: function (effectClassName) {
+      if (isBrowser){
+        var component = this;
+        var _componentRoot = (component.shadowed)?(component.shadowRoot):(component.body);
+        var _applyEffect_ = function(element) {
+          component.applyTransitionEffect(effectClassName);
+        };
+        if ("IntersectionObserver" in window) {
+          var observer = new IntersectionObserver((items, observer) => {
+            items.forEach((item) => {
+              if (item.isIntersecting) {
+                _applyEffect_(item.target);
+                observer.unobserve(item.target);
+              }
+            });
+          });
+          observer.observe(_componentRoot);
+        } else {
+          _applyEffect_(_componentRoot);
+        }
       } else {
         // not yet implemented
       }
@@ -3134,12 +3194,12 @@
                 }
               }
               var effectClassName = this.body.getAttribute("effectClass");
-              var _Effect = ClassFactory(effectClassName);
-              if (typeof _Effect !== "undefined") {
-                this.effect = New(_Effect, {
-                  component: this
-                });
-                this.effect.apply(this.effect.defaultParams);
+              var applyEffectTo = this.body.getAttribute("apply-effect-to");
+              applyEffectTo = (applyEffectTo !== null)?(applyEffectTo):("load");
+              if (effectClassName !== null && applyEffectTo === "observe"){
+                this.applyObserveTransitionEffect(effectClassName);
+              } else if (effectClassName !== null && applyEffectTo === "load"){
+                this.applyTransitionEffect(effectClassName);
               }
               if (this.shadowed && (typeof this.shadowRoot !== "undefined")){
                 this.subcomponents = _buildComponent(this.shadowRoot.subelements(tagFilter));
