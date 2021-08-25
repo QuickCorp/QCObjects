@@ -757,10 +757,11 @@
   * @param {String} typeName
   */
   var is_a = function is_a(obj, typeName) {
-    return (((isQCObjects_Class(obj) || isQCObjects_Object(obj)) && (obj.hierarchy().includes(typeName)))
+    return (typeof obj !== "undefined" && obj !== null &&
+    (((isQCObjects_Class(obj) || isQCObjects_Object(obj)) && (obj.hierarchy().includes(typeName)))
     || __getType__(obj) === typeName
     || ObjectName(obj) === typeName
-    || typeof obj === typeName)?(true):(false);
+    || typeof obj === typeName))?(true):(false);
   };
 
   /**
@@ -3154,7 +3155,7 @@
     Element.prototype.buildComponents = function(rebuildObjects = false) {
       var tagFilter = (!rebuildObjects) ? ("component:not([loaded])") : ("component");
       var d = this;
-      var _buildComponent = function(components) {
+      var _buildComponent = function(components, __parent__) {
         var componentsBuiltWith = components.map (function (_component_, _c){
             _component_ = components[_c];
             var data = {};
@@ -3202,9 +3203,9 @@
                 this.applyTransitionEffect(effectClassName);
               }
               if (this.shadowed && (typeof this.shadowRoot !== "undefined")){
-                this.subcomponents = _buildComponent(this.shadowRoot.subelements(tagFilter));
+                this.subcomponents = _buildComponent(this.shadowRoot.subelements(tagFilter), this);
               } else {
-                this.subcomponents = _buildComponent(this.body.subelements(tagFilter));
+                this.subcomponents = _buildComponent(this.body.subelements(tagFilter), this);
               }
 
               if (ClassFactory("CONFIG").get("overrideComponentTag")) {
@@ -3282,6 +3283,7 @@
             var __create_component_instance_ = function (data, serviceResponse) {
               var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
               var __definition = {
+                __parent__:__parent__,
                 name: _componentName,
                 data: data,
                 cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
@@ -3346,7 +3348,7 @@
         return componentsBuiltWith;
       };
       var components = d.subelements(tagFilter);
-      return _buildComponent(components);
+      return _buildComponent(components, null);
     };
     HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
     HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
