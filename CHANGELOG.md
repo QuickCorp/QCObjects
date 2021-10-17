@@ -218,7 +218,20 @@ This is an automatic Changelog history of versions generated using the command: 
 	- website2020 powershell
 ## v2 -> v2.3
 
+	- Allow to register multiple widgets
+	- Performance improvement for rendering process
+	- Security improvements
 	- Version v2.3 release
+	- componentLoader support for node
 	- fix serviceLoader in backend headers
+	- freezing Object now is optional
+	- full compatibility with top-level await
+	- improving BackendMicroservice performance
 	- layout portrait & landscape processor
+	- new getDocumentLayout function, improved performance of BackendMicroservice, secureObjects is now false by default
+	- secureObjects default value to false prevent conflicts with ESLint
+	- serviceClass and response-to attributes to allow components load a service instance atomatically if needed
+	- shortCode & uniqueId helpers to create unique identifiers
+	- support for RHEL8 & Raspberry PI Raspbian 9
+	- use of request npm module has been deprecated and replaced by http https respectively
 	- v2.3 release
