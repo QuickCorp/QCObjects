@@ -2378,6 +2378,7 @@
   });
 
   Class("Service", Object, {
+    kind: "rest", /* it can be rest, mockup, local */
     domain: domain,
     basePath: basePath,
     url: "",
@@ -2924,15 +2925,65 @@
 
     };
 
+    var _serviceLoaderMockup = function(service, _async) {
+      var _promise = new Promise(
+        function(resolve, reject) {
+          logger.debug(`Calling mockup service ${service.name} ...`);
+          var standardResponse = {
+            "request": null,
+            "service": service,
+            "responseHeaders": service.responseHeaders
+          };
+          if (typeof service.mockup === "function") {
+            service.mockup.call(service, standardResponse);
+          } else {
+            service.done.call(service, standardResponse);
+          }
+          resolve.call(_promise, standardResponse);
+        });
+      return _promise;
+    };
+    var _serviceLoaderLocal = function(service, _async) {
+      var _promise = new Promise (
+        function (resolve, reject) {
+          logger.debug(`Calling local service ${service.name} ...`);
+          var standardResponse = {
+            "request": null,
+            "service": service,
+            "responseHeaders": service.responseHeaders
+          };
+          if (typeof service.local === "function") {
+            service.local.call(service, standardResponse);
+          } else {
+            service.done.call(service, standardResponse);
+          }
+          resolve.call(_promise, standardResponse);
+        });
+      return _promise;
+    };
+
     var _ret_;
-    if (isBrowser) {
-      if (typeof _async !== "undefined" && _async) {
-        _ret_ = asyncLoad(_serviceLoaderInBrowser, arguments);
-      } else {
-        _ret_ = _serviceLoaderInBrowser(service, _async);
-      }
-    } else {
-      _ret_ = _serviceLoaderInNode(service, _async);
+    switch (service.kind) {
+      case "rest":
+        if (isBrowser) {
+          if (typeof _async !== "undefined" && _async) {
+            _ret_ = asyncLoad(_serviceLoaderInBrowser, arguments);
+          } else {
+            _ret_ = _serviceLoaderInBrowser(service, _async);
+          }
+        } else {
+          _ret_ = _serviceLoaderInNode(service, _async);
+        }
+        break;
+      case "mockup":
+        _ret_ = _serviceLoaderMockup(service, _async);
+        break;
+      case "local":
+        _ret_ = _serviceLoaderLocal(service, _async);
+        break;
+      default:
+        logger.debug(`The value of the kind property of the service ${service.name} is not valid`);
+        break;
     }
     return _ret_;
   };
