@@ -1757,8 +1757,7 @@
   };
 
   _top.__oldpopstate = _top.onpopstate;
-  Class("Component", Object, 
-  {
+  Class("Component", Object, {
     domain: domain,
     basePath: basePath,
     templateURI: "",
@@ -2441,6 +2440,7 @@
   });
 
   Class("Service", Object, {
+    kind: "rest", /* it can be rest, mockup, local */
     domain: domain,
     basePath: basePath,
     url: "",
