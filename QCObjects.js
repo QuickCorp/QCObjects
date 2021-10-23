@@ -847,6 +847,12 @@
             writable: false
           });
         }
+        if (!self.__classType) { 
+          Object.defineProperty(self, "__classType", {
+            value: name,
+            writable: false
+          });
+        }
         var definition = _QC_CLASSES[name]["__definition"];
 
         Object.keys(definition).filter(function (k){
