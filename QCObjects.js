@@ -646,7 +646,7 @@
   }
 
   var __is_raw_class__ = function (o_c) {
-    return (typeof obj === "function" && obj.toString().startsWith("class"))?(true):(false);
+    return (typeof o_c === "function" && o_c.toString().startsWith("class"))?(true):(false);
   };
 
   var _LegacyCopy = function(obj) {
@@ -771,19 +771,6 @@
     || typeof obj === typeName))?(true):(false);
   };
 
-  var QCObjects = class {
-    constructor ({..._o_}) {
-      var Properties = Object(_o_);
-      for (var prop in Properties) {
-        if (prop !== "name"){
-          if (Object.hasOwnProperty.call(Properties, prop)) {
-            this[prop] = Properties[prop];
-          }
-        }
-      }
-    }
-  };
-
   /**
    * Creates new object class  of another object
    *
@@ -791,67 +778,144 @@
    * @param {Object} type
    * @param {Object} definition
    */
-  var Class = function() {
-    var name = arguments[0];
+  var Class = function () {
+    var _types_ = {};
+    var name, type, definition;
+
+    switch (arguments.length) {
+      case 0:
+        return class {};
+      case 1:
+        name = arguments[0];
+        type = class {};
+        definition = {};
+        break;
+      case 2:
+        name = arguments[0];
+        type = arguments[1];
+        definition = {};
+        break;
+      case 3:
+        name = arguments[0];
+        type = arguments[1];
+        definition = arguments[2];
+        break;
+      default:
+        break;
+    }
+
+    if (typeof type === "object") {
+      definition = type;
+      type = class {};
+    }
+
     if (__is__forbidden_name__.call(this, name)){
       throw new Error(`${name} is not an allowed word in the name of a class`);
     }
-    var __allow_override__ = true;
 
-    if ( (! __allow_override__) && (Object.keys(_QC_CLASSES).includes (name) || Object.keys(_top).includes(name ) )) {
-      throw new Error(`${name} has already been defined. Override is not allowed.`);
+    if (typeof type["__definition"] !== "undefined") {
+      definition = Object.assign(definition, _LegacyCopy(type.__definition));
     }
+    _types_[type.name] = type;
 
-    let __default_type__ = (isBrowser)?(HTMLElement):(Object);
+    _QC_CLASSES[name] = class extends _types_[type.name] {
 
-    var type = (arguments.length > 2 && typeof arguments[1] !== "undefined") ? (arguments[1]) : (__default_type__);
-    type = (type.hasOwnProperty.call(type,"prototype")) ? (type.prototype) : (_LegacyCopy(type));
+      constructor () {
+        var _o_;
+        if (arguments.length > 0) {
+          _o_ = {...arguments[0]};
+        } else {
+          _o_ = {};
+        }
+        super({..._o_});
+        var Properties = Object(_o_);
+        for (var prop in Properties) {
+          if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
+            if (Object.hasOwnProperty.call(Properties, prop)) {
+              this[prop] = Properties[prop];
+            }
+          } else {
+            throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
+          }
+        }
 
-    var definition = (arguments.length > 2) ? (arguments[2]) : (
-      (arguments.length > 1 && typeof arguments[1] !== "undefined") ? (arguments[1]) : ({})
-    );
+        var self = this;
+        __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
+        if (!self.__instanceID) {
+          Object.defineProperty(self, "__instanceID", {
+            value: __instanceID,
+            writable: false
+          });
+        }
+        var definition = _QC_CLASSES[name]["__definition"];
 
-    definition = _Cast(
-      definition,
-      (typeof type["__definition"] !== "undefined") ? (_LegacyCopy(type.__definition)) : ({})
-    );
+        Object.keys(definition).filter(function (k){
+          return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "__new__", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
+        }).forEach(function(key) {
+          self[key] = definition[key];
+        });
 
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"__new__")) {
-      definition["__new__"] = function(properties) {
-        _CastProps(properties, this);
-      };
-    }
+        if (Object.hasOwnProperty.call(this,"__new__")) {
+          if ( !Object.__definition.hasOwnProperty.call(this.__definition,"body")) {
+            try {
+              if (isBrowser) {
+                this["body"] = _Cast(this["__definition"], _DOMCreateElement(this.__definition.__classType));
+                this["body"]["style"] = _Cast(this.__definition, this["body"]["style"]);
+              } else {
+                this["body"] = {};
+                this["body"]["style"] = {};
+              }
+            } catch (e) {
+              this["body"] = {};
+              this["body"]["style"] = {};
+            }
+          } else if (this.__definition.hasOwnProperty.call(this.__definition,"body")) {
+            this["body"] = this.__definition.body;
+          }
+          this.__new__({..._o_});
+          if (this.hasOwnProperty.call(this,"_new_")) {
+            this._new_({..._o_});
+          }
+        }
+    
+      }
 
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"css")) {
-      definition["css"] = function QC_CSS3(_css) {
+      get body () {
+        return (typeof this["__body__"] !== "undefined")?(this["__body__"]):(null);
+      }
+
+      set body (value) {
+        this["__body__"] = value;
+      }
+
+      __new__ (..._o_) {
+        _CastProps(_o_, this);
+      }      
+
+      css (_css) {
         if (typeof this["body"] !== "undefined" && this["body"]["style"] !== "undefined") {
           logger.debug("body style");
           this["body"]["style"] = _Cast(_css, this["body"]["style"]);
         }
-      };
-    }
+        return this["body"]["style"];
+      }
 
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"hierarchy")) {
-      definition["hierarchy"] = function hierarchy() {
+      hierarchy () {
         var __classType = function(o_c) {
           return __getType__.call(this, o_c);
         };
         var __hierarchy = [];
         __hierarchy.push(__classType(this));
-        if (this.hasOwnProperty.call(this,"__definition")) {
+        if (Object.hasOwnProperty.call(this,"__definition")) {
           __hierarchy = __hierarchy.concat(this.__definition.hierarchy.call(this.__definition));
         }
         return __hierarchy;
-      };
-    }
+      }
 
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"append")) {
-      definition["append"] = function QC_Append() {
-        var child = (arguments.length > 0) ? (arguments[0]) : (this["body"]);
+      append (child) {
+        var child = (typeof child === "undefined") ? (this["body"]) : (child);
         if (typeof this["body"] !== "undefined") {
-          logger.debug("append element");
           if (arguments.lenght > 0) {
-            logger.debug("append to element");
             this["body"].append(child);
             if (typeof this["childs"] === "undefined") {
               this["childs"] = [];
@@ -859,38 +923,44 @@
             this["childs"].push(child);
           } else {
             if (isBrowser) {
-              logger.debug("append to body");
               document.body.append(child);
             }
           }
         }
-      };
-    }
+      }
 
-    if (typeof definition !== "undefined" && !definition.hasOwnProperty.call(definition,"attachIn")) {
-      definition["attachIn"] = function QC_AttachIn(tag) {
+      attachIn (tag) {
         if (isBrowser) {
           var tags = document.subelements(tag);
           for (var i = 0, j = tags.length; i < j; i++) {
             tags[i].append(this);
           }
         } else {
-          // not yet implemented.
+          throw new Error("attachIn not yet implemented for non browser platforms");
         }
-      };
+      }
+
+    };
+
+    if (typeof definition === "undefined" || definition === null) {
+      definition = {};
+    } else {
+      definition = _LegacyCopy(definition);
     }
-    // hack to prevent pre-population of __instanceID into the class definition
-    if (typeof definition !== "undefined" && definition.hasOwnProperty.call(definition,"__instanceID")){
-      delete definition.__instanceID;
-    }
-    var o;
-    o = _Object_Create(type, definition);
-    o["__definition"] = definition;
-    o["__definition"]["__classType"] = name;
-    _QC_CLASSES[name] = o;
+
+    Object.keys(definition).filter(function (k){
+      return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "__new__", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
+    }).forEach(function(key) {
+      _QC_CLASSES[name][key] = definition[key];
+    });
+
+    _QC_CLASSES[name]["__definition"] = definition;
+    _QC_CLASSES[name]["__definition"]["__classType"] = name;
     _top[name] = _QC_CLASSES[name];
+  
     return _top[name];
   };
+
   Class.prototype.toString = function() {
     return "Class(name, type, definition) { [QCObjects native code] }";
   };
@@ -912,7 +982,7 @@
             && Object.hasOwnProperty.call(classFactory,"__definition")
             && isQCObjects_Class(classFactory)
             && classFactory.__definition.__classType===_className
-            && !Object.hasOwnProperty.call(classFactory,"__instanceID");}).reverse()):([]);
+            && !!classFactory.__instanceID;}).reverse()):([]);
       if (packageClasses.length>0){
         _classFactory = packageClasses[0];
       }
@@ -981,41 +1051,12 @@
    * @param {QC_Object} o
    * @param {Object} args
    */
-  var New = function(c, args) {
+
+  var New = function(__class__, args) {
     var args = (arguments.length > 1) ? (arguments[1]) : ({});
-    __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
-    var c_new = (typeof c === "undefined") ? (_Object_Create(({}).constructor.prototype, {})) : (_Object_Create(c.constructor.prototype, c.__definition));
-    c_new.__definition = _Cast({
-      "__instanceID": __instanceID
-    }, (typeof c !== "undefined") ? (c.__definition) : ({}));
-    c_new["__instanceID"] = __instanceID;
-    if (c_new.hasOwnProperty.call(c_new,"definition") && typeof c_new.__definition !== "undefined" && c_new.__definition !== null) {
-      c_new.__definition["__instanceID"] = __instanceID;
-    }
-    if (c_new.hasOwnProperty.call(c_new,"__new__")) {
-      if (typeof c_new !== "undefined" && !c_new.__definition.hasOwnProperty.call(c_new.__definition,"body")) {
-        try {
-          if (isBrowser) {
-            c_new["body"] = _Cast(c_new["__definition"], _DOMCreateElement(c_new.__definition.__classType));
-            c_new["body"]["style"] = _Cast(c_new.__definition, c_new["body"]["style"]);
-          } else {
-            c_new["body"] = {};
-            c_new["body"]["style"] = {};
-          }
-        } catch (e) {
-          c_new["body"] = {};
-          c_new["body"]["style"] = {};
-        }
-      } else if (c_new.__definition.hasOwnProperty.call(c_new.__definition,"body")) {
-        c_new["body"] = c_new.__definition.body;
-      }
-      c_new.__new__(args);
-      if (c_new.hasOwnProperty.call(c_new,"_new_")) {
-        c_new._new_(args);
-      }
-    }
-    return c_new;
+    return (typeof __class__ === "undefined") ? (new Object()) : (new __class__({...args}));
   };
+
   New.prototype.toString = function() {
     return "New(QCObjectsClassName, args) { [QCObjects native code] }";
   };
@@ -1284,7 +1325,7 @@
   var isQCObjects_Object = function (_){
     return (typeof _ === "object"
             && _.hasOwnProperty.call(_,"__classType")
-            && _.hasOwnProperty.call(_,"__instanceID")
+            && !!_.__instanceID
             && _.hasOwnProperty.call(_,"__definition")
             && typeof _.__definition !== "undefined"
           )?(true):(false);
@@ -1292,7 +1333,7 @@
 
   var isQCObjects_Class = function (_){
     return (typeof _ === "object"
-            && (!_.hasOwnProperty.call(_,"__instanceID"))
+            && (!_.__instanceID)
             && _.hasOwnProperty.call(_,"__definition")
             && typeof _.__definition !== "undefined"
             && _.__definition.hasOwnProperty.call(_.__definition,"__classType")
@@ -1710,7 +1751,7 @@
   };
 
   _top.__oldpopstate = _top.onpopstate;
-  Class("Component",class Component extends QCObjects {},
+  Class("Component", Object, 
   {
     domain: domain,
     basePath: basePath,
@@ -1943,7 +1984,7 @@
     },
     route: function() {
       var componentClass = this;
-      var isValidInstance = (componentClass.hasOwnProperty.call(componentClass,"__instanceID") &&
+      var isValidInstance = ((!!componentClass.__instanceID) &&
         componentClass.hasOwnProperty.call(componentClass,"subcomponents")) ? (true) : (false);
       var __route__ = function(componentList) {
         componentList.map(function (rc, r){
@@ -2940,15 +2981,65 @@
 
     };
 
+    var _serviceLoaderMockup = function(service, _async) {
+      var _promise = new Promise(
+        function(resolve, reject) {
+          logger.debug(`Calling mockup service ${service.name} ...`);
+          var standardResponse = {
+            "request": null,
+            "service": service,
+            "responseHeaders": service.responseHeaders
+          };
+          if (typeof service.mockup === "function") {
+            service.mockup.call(service, standardResponse);
+          } else {
+            service.done.call(service, standardResponse);
+          }
+          resolve.call(_promise, standardResponse);
+        });
+      return _promise;
+    };
+    var _serviceLoaderLocal = function(service, _async) {
+      var _promise = new Promise (
+        function (resolve, reject) {
+          logger.debug(`Calling local service ${service.name} ...`);
+          var standardResponse = {
+            "request": null,
+            "service": service,
+            "responseHeaders": service.responseHeaders
+          };
+          if (typeof service.local === "function") {
+            service.local.call(service, standardResponse);
+          } else {
+            service.done.call(service, standardResponse);
+          }
+          resolve.call(_promise, standardResponse);
+        });
+      return _promise;
+    };
+
     var _ret_;
-    if (isBrowser) {
-      if (typeof _async !== "undefined" && _async) {
-        _ret_ = asyncLoad(_serviceLoaderInBrowser, arguments);
-      } else {
-        _ret_ = _serviceLoaderInBrowser(service, _async);
-      }
-    } else {
-      _ret_ = _serviceLoaderInNode(service, _async);
+    switch (service.kind) {
+      case "rest":
+        if (isBrowser) {
+          if (typeof _async !== "undefined" && _async) {
+            _ret_ = asyncLoad(_serviceLoaderInBrowser, arguments);
+          } else {
+            _ret_ = _serviceLoaderInBrowser(service, _async);
+          }
+        } else {
+          _ret_ = _serviceLoaderInNode(service, _async);
+        }
+        break;
+      case "mockup":
+        _ret_ = _serviceLoaderMockup(service, _async);
+        break;
+      case "local":
+        _ret_ = _serviceLoaderLocal(service, _async);
+        break;
+      default:
+        logger.debug(`The value of the kind property of the service ${service.name} is not valid`);
+        break;
     }
     return _ret_;
   };
