@@ -871,15 +871,16 @@
             writable: false
           });
         }
-        var definition = _QC_CLASSES[name]["__definition"];
 
-        Object.keys(definition).filter(function (k){
-          return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "__new__", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
-        }).forEach(function(key) {
-          self[key] = definition[key];
-        });
-
-        self.__definition = _QC_CLASSES[name]["__definition"];
+        if (typeof _QC_CLASSES[name]["__definition"] !== "undefined") {
+          Object.keys(_QC_CLASSES[name]["__definition"]).filter(function (k){
+            return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "__new__", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
+          }).forEach(function(key) {
+            self[key] = definition[key];
+          });
+  
+          self.__definition = _QC_CLASSES[name]["__definition"];
+        }
 
         if (Object.hasOwnProperty.call(this,"__new__")) {
           if ( !Object.__definition.hasOwnProperty.call(this.__definition,"body")) {
@@ -1105,14 +1106,16 @@
   };
 
   var Export = function(f) {
-    if (isBrowser) {
-      try {
-        _top[f.name] = f;
-        window[f.name] = f;
-      } catch (e) {}
-    } else if (typeof global !== "undefined") {
-      if (!global.hasOwnProperty.call(global,f.name)) {
-        global[f.name] = f;
+    if (typeof f !== "undefined") {
+      if (isBrowser) {
+        try {
+          _top[f.name] = f;
+          window[f.name] = f;
+        } catch (e) {}
+      } else if (typeof global !== "undefined") {
+        if (!global.hasOwnProperty.call(global,f.name)) {
+          global[f.name] = f;
+        }
       }
     }
   };
@@ -1126,12 +1129,12 @@
       var sdkPath = null;
       try {
         var sdkPaths = [
-          `${ClassFactory("CONFIG").get("projectPath")}${ClassFactory("CONFIG").get("relativeImportPath")}`,
-          `${ClassFactory("CONFIG").get("basePath")}${ClassFactory("CONFIG").get("relativeImportPath")}`,
-          `${ClassFactory("CONFIG").get("projectPath")}`,
-          `${ClassFactory("CONFIG").get("basePath")}`,
-          `${ClassFactory("CONFIG").get("relativeImportPath")}`,
-          `${process.cwd()}${ClassFactory("CONFIG").get("relativeImportPath")}`,
+          `${_top.CONFIG.get("projectPath")}${_top.CONFIG.get("relativeImportPath")}`,
+          `${_top.CONFIG.get("basePath")}${_top.CONFIG.get("relativeImportPath")}`,
+          `${_top.CONFIG.get("projectPath")}`,
+          `${_top.CONFIG.get("basePath")}`,
+          `${_top.CONFIG.get("relativeImportPath")}`,
+          `${process.cwd()}${_top.CONFIG.get("relativeImportPath")}`,
           `${process.cwd()}/node_modules/` + packagename,
           `${process.cwd()}/node_modules`,
           `${process.cwd()}`,
@@ -1222,7 +1225,7 @@
     return ClassFactory("_Crypt").encrypt(_DataStringify(o), _secretKey);
   };
   var _DecryptObject = function(s) {
-    return JSON.parse(ClassFactory("_Crypt").decrypt(s, _secretKey));
+    return (s === "")?({}):(JSON.parse(ClassFactory("_Crypt").decrypt(s, _secretKey)));
   };
 
   var shortCode = function () {
@@ -1289,6 +1292,22 @@
   });
 
   Class("CONFIG", Object, {
+    _instance: null,
+    
+    get instance () {
+      
+       if (this._instance === null) {
+         
+          this._instance = New(
+             ClassFactory("CONFIG"),
+             {_instance: {}}
+          );
+         
+       }
+      
+       return this._instance;
+    },
+
     _CONFIG: {
       "relativeImportPath": "",
       "remoteImportsPath": "",
@@ -1311,21 +1330,27 @@
       if (name === "basePath") {
         basePath = value;
       }
-      var _conf = (
-        function(config) {
-          if (config._CONFIG_ENC === null){
-            config._CONFIG_ENC = ClassFactory("_Crypt").encrypt(_DataStringify({}), _secretKey);
+      var _conf = {};
+      try {
+        _conf = (
+          function(config) {
+            if (config._CONFIG_ENC === null){
+              config._CONFIG_ENC = ClassFactory("_Crypt").encrypt(_DataStringify({}), _secretKey);
+            }
+            var _protectedEnc = config._CONFIG_ENC.valueOf();
+            var _protectedConf = config._CONFIG.valueOf();
+            return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
           }
-          var _protectedEnc = config._CONFIG_ENC.valueOf();
-          var _protectedConf = config._CONFIG.valueOf();
-          return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
-        }
-      )(this);
+        )(_top.CONFIG.instance);
+      } catch (e) {
+        console.error (e);
+        logger.debug("failed to encrypt config");
+      }
 
       _conf[name] = value;
-      this._CONFIG_ENC = _CryptObject(_conf);
-      if (this._CONFIG.hasOwnProperty.call(this._CONFIG,name)) {
-        this._CONFIG[name] = value;
+      _conf._CONFIG_ENC = _CryptObject(_conf);
+      if (Object.hasOwnProperty.call(_conf, "_CONFIG") && Object.hasOwnProperty.call(_conf._CONFIG,name)) {
+        _conf._CONFIG[name] = value;
       }
     },
     get (name,_default) {
@@ -1340,13 +1365,14 @@
             var _protectedConf = config._CONFIG.valueOf();
             return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
           }
-        )(this);
+        )(_top.CONFIG.instance);
         if (typeof _conf[name] !== "undefined"){
           _value = _conf[name];
         } else  if (typeof _default !== "undefined"){
           _value = _default;
         }
       } catch (e){
+        console.error (e);
         logger.debug("Something wrong when trying to get CONFIG values");
         logger.debug("No config value for: "+name);
         _value = _default;
@@ -1355,6 +1381,7 @@
     }
   });
   var CONFIG = ClassFactory("CONFIG");
+  
   Export(CONFIG);
   Export(waitUntil);
   Export(_super_);
@@ -1493,7 +1520,7 @@
               _QC_READY_LISTENERS.push(_imported_);
             });
           }
-          if (isBrowser && ClassFactory("CONFIG").get("removePackageScriptAfterLoading")){
+          if (isBrowser && _top.CONFIG.get("removePackageScriptAfterLoading")){
             e.target.remove();
           }
           resolve.call(_promise_import_, {
@@ -1504,8 +1531,8 @@
 
         if (!_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES,packagename)) {
           var s1 = _DOMCreateElement("script");
-          s1.type = ClassFactory("CONFIG").get("sourceType", "text/javascript");
-          s1.async = (ClassFactory("CONFIG").get("asynchronousImportsLoad")) ? (true) : (false);
+          s1.type = _top.CONFIG.get("sourceType", "text/javascript");
+          s1.async = (_top.CONFIG.get("asynchronousImportsLoad")) ? (true) : (false);
           s1.onreadystatechange = function() {
             if (s1.readyState === "complete") {
               readyImported.call();
@@ -1518,7 +1545,7 @@
               "_package_name_": packagename
             });
           };
-          s1.src = (external) ? (ClassFactory("CONFIG").get("remoteImportsPath") + packagename + ".js") : (basePath + ClassFactory("CONFIG").get("relativeImportPath") + packagename + ".js");
+          s1.src = (external) ? (_top.CONFIG.get("remoteImportsPath") + packagename + ".js") : (basePath + _top.CONFIG.get("relativeImportPath") + packagename + ".js");
           document.getElementsByTagName("head")[0].appendChild(s1);
         }
       });
@@ -1539,7 +1566,7 @@
             if (jsNodePath !== null) {
               packageAbsoluteName = jsNodePath + "/" + packagename + ".js";
             } else {
-              packageAbsoluteName = basePath + ClassFactory("CONFIG").get("relativeImportPath") + packagename;
+              packageAbsoluteName = basePath + _top.CONFIG.get("relativeImportPath") + packagename;
             }
           }
           try {
@@ -1672,11 +1699,11 @@
         }
       });
     };
-    if (ClassFactory("CONFIG").get("delayForReady") > 0) {
+    if (_top.CONFIG.get("delayForReady") > 0) {
       if (isBrowser) {
-        setTimeout(_execReady.bind(window), ClassFactory("CONFIG").get("delayForReady"));
+        setTimeout(_execReady.bind(window), _top.CONFIG.get("delayForReady"));
       } else if (typeof global !== "undefined") {
-        setTimeout(_execReady.bind(global), ClassFactory("CONFIG").get("delayForReady"));
+        setTimeout(_execReady.bind(global), _top.CONFIG.get("delayForReady"));
       }
     } else {
       _execReady.call(_top);
@@ -1992,7 +2019,7 @@
                   if (!_top.global.get("routingPaths")) {
                     _top.global.set("routingPaths", []);
                   }
-                  var routingWay = ClassFactory("CONFIG").get("routingWay");
+                  var routingWay = _top.CONFIG.get("routingWay");
                   var routingPath = e.target[routingWay];
                   if (_top.global.get("routingPaths").includes(routingPath) &&
                     e.target[routingWay] !== document.location[routingWay] &&
@@ -2142,7 +2169,7 @@
       return _parsedAssignmentText;
     },
     _new_ (properties) {
-      this.routingWay = ClassFactory("CONFIG").get("routingWay");
+      this.routingWay = _top.CONFIG.get("routingWay");
 
       var self = this;
 
@@ -2232,7 +2259,7 @@
           rc.routingPath = document.location[rc.routingWay];
           rc.routingSelected.map(function (routing, r){
             var componentURI = ComponentURI({
-              "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
+              "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
               "COMPONENT_NAME": routing.name.toString(),
               "TPLEXTENSION": (routing.hasOwnProperty.call(routing,"tplextension")) ? (routing.tplextension) : (rc.tplextension),
               "TPL_SOURCE": "default" //here is always default in order to get the right uri
@@ -2331,7 +2358,7 @@
             function (element){
               if (typeof element.scrollIntoView === "function"){
                 element.scrollIntoView(
-                  ClassFactory("CONFIG").get("scrollIntoHash",{behavior: "auto", block: "top", inline: "top"})
+                  _top.CONFIG.get("scrollIntoHash",{behavior: "auto", block: "top", inline: "top"})
                 );
               }
             }
@@ -2343,10 +2370,10 @@
     },
     i18n_translate  (){
       if (isBrowser){
-        if (ClassFactory("CONFIG").get("use_i18n")){
+        if (_top.CONFIG.get("use_i18n")){
           var component = this;
           var _componentRoot = (component.shadowed)?(component.shadowRoot):(component.body);
-          var lang1=ClassFactory("CONFIG").get("lang","en");
+          var lang1=_top.CONFIG.get("lang","en");
           var lang2 = navigator.language.slice(0, 2);
           var i18n = _top.global.get("i18n");
           if ((lang1 !== lang2) && (typeof i18n === "object" && i18n.hasOwnProperty.call(i18n,"messages"))){
@@ -2525,7 +2552,7 @@
         this.JSONresponse = JSON.parse(ClassFactory("_Crypt").decrypt(this.JSONresponse.__encoded__, _secretKey));
       }
       for (var k in this.JSONresponse) {
-        ClassFactory("CONFIG").set(k, this.JSONresponse[k]);
+        _top.CONFIG.set(k, this.JSONresponse[k]);
       }
       this.configLoaded.call(this);
     },
@@ -3117,10 +3144,10 @@
           if (isBrowser) {
             _promise = new Promise(function(resolve, reject) {
               if (("serviceWorker" in navigator) &&
-                (typeof ClassFactory("CONFIG").get("serviceWorkerURI") !== "undefined")) {
-                ClassFactory("CONFIG").set("serviceWorkerScope", ClassFactory("CONFIG").get("serviceWorkerScope") ? (ClassFactory("CONFIG").get("serviceWorkerScope")) : ("/"));
-                navigator.serviceWorker.register(ClassFactory("CONFIG").get("serviceWorkerURI"), {
-                    scope: ClassFactory("CONFIG").get("serviceWorkerScope")
+                (typeof _top.CONFIG.get("serviceWorkerURI") !== "undefined")) {
+                _top.CONFIG.set("serviceWorkerScope", _top.CONFIG.get("serviceWorkerScope") ? (_top.CONFIG.get("serviceWorkerScope")) : ("/"));
+                navigator.serviceWorker.register(_top.CONFIG.get("serviceWorkerURI"), {
+                    scope: _top.CONFIG.get("serviceWorkerScope")
                   })
                   .then(function(registration) {
                     logger.debug("Service Worker Registered");
@@ -3154,7 +3181,7 @@
 
           }
         };
-        if (ClassFactory("CONFIG").get("useConfigService")) {
+        if (_top.CONFIG.get("useConfigService")) {
           global.configService = New(ClassFactory("ConfigService"));
           global.configService.configLoaded = _buildComponents;
           serviceLoader(global.configService);
@@ -3260,11 +3287,11 @@
 
 
 
-    if (ClassFactory("CONFIG").get("useSDK")) {
+    if (_top.CONFIG.get("useSDK")) {
       (function() {
-        var remoteImportsPath = ClassFactory("CONFIG").get("remoteImportsPath");
-        var external = (!ClassFactory("CONFIG").get("useLocalSDK")) ? (true) : (false);
-        ClassFactory("CONFIG").set("remoteImportsPath", ClassFactory("CONFIG").get("remoteSDKPath"));
+        var remoteImportsPath = _top.CONFIG.get("remoteImportsPath");
+        var external = (!_top.CONFIG.get("useLocalSDK")) ? (true) : (false);
+        _top.CONFIG.set("remoteImportsPath", _top.CONFIG.get("remoteSDKPath"));
 
         var tryImportingSDK = false;
         var sdkName = "QCObjects-SDK";
@@ -3289,7 +3316,7 @@
             } else {
               logger.debug("QCObjects-SDK.js loaded from local");
             }
-            ClassFactory("CONFIG").set("remoteImportsPath", remoteImportsPath);
+            _top.CONFIG.set("remoteImportsPath", remoteImportsPath);
           }, external);
         } else {
           logger.debug("SDK has not been imported as it is not available at the moment");
@@ -3358,7 +3385,7 @@
                 this.subcomponents = _buildComponent(this.body.subelements(tagFilter), this);
               }
 
-              if (ClassFactory("CONFIG").get("overrideComponentTag")) {
+              if (_top.CONFIG.get("overrideComponentTag")) {
                 this.body.outerHTML = this.body.innerHTML;
               }
               this.body.setAttribute("loaded", true);
@@ -3378,7 +3405,7 @@
             var shadowed = (components[_c].getAttribute("shadowed") === "true") ? (true) : (false);
             var __cached_not_set = (components[_c].getAttribute("cached") === null) ? (true) : (false);
             var cached = (components[_c].getAttribute("cached") === "true") ? (true) : (false);
-            var tplextension = (typeof ClassFactory("CONFIG").get("tplextension") !== "undefined") ? (ClassFactory("CONFIG").get("tplextension")) : ("html");
+            var tplextension = (typeof _top.CONFIG.get("tplextension") !== "undefined") ? (_top.CONFIG.get("tplextension")) : ("html");
             tplextension = (components[_c].getAttribute("tplextension") !== null) ? (components[_c].getAttribute("tplextension")) : (tplextension);
             var tplsource = (components[_c].getAttribute("template-source") === null) ? ("default") : (components[_c].getAttribute("template-source"));
             var _componentName = components[_c].getAttribute("name");
@@ -3391,7 +3418,7 @@
             ) ? (true) : (false);
             var _response_to_data_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "data") ? (true) : (false);
             var _response_to_template_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "template") ? (true) : (false);
-            var __componentClassName = (ClassFactory("CONFIG").get("preserveComponentBodyTag"))?(
+            var __componentClassName = (_top.CONFIG.get("preserveComponentBodyTag"))?(
               (_componentName !== null)?("com.qcobjects.components."+_componentName+".ComponentBody"):("com.qcobjects.components.ComponentBody")
             ):(_componentClassName);
             _componentName = (_componentName !== null)?(_componentName):(
@@ -3402,12 +3429,12 @@
               );
             var componentURI;
             componentURI = ComponentURI({
-              "COMPONENTS_BASE_PATH": ClassFactory("CONFIG").get("componentsBasePath"),
+              "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
               "COMPONENT_NAME": _componentName,
               "TPLEXTENSION": tplextension,
               "TPL_SOURCE": tplsource
             });
-            if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
+            if (_top.CONFIG.get("preserveComponentBodyTag")) {
               Package((_componentName !== "")?("com.qcobjects.components."+_componentName+""):("com.qcobjects.components"),[
                 Class("ComponentBody", ClassFactory("Component"), {
                   name: _componentName,
@@ -3439,7 +3466,7 @@
                 cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
                 shadowed: __shadowed,
                 tplextension: tplextension,
-                body: (ClassFactory("CONFIG").get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
+                body: (_top.CONFIG.get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")):(components[_c]),
                 templateURI: componentURI,
                 tplsource: tplsource,
                 subcomponents: []
@@ -3459,7 +3486,7 @@
               }
               var newComponent = New(__classDefinition, __definition);
 
-              if (ClassFactory("CONFIG").get("preserveComponentBodyTag")) {
+              if (_top.CONFIG.get("preserveComponentBodyTag")) {
                 components[_c].append(newComponent);
               }
               newComponent.done = componentDone;
@@ -4264,7 +4291,7 @@
    * Load every component tag declared in the body
    **/
   Ready(function() {
-    if (!ClassFactory("CONFIG").get("useSDK")) {
+    if (!_top.CONFIG.get("useSDK")) {
       global.__start__();
     }
   });
@@ -4371,11 +4398,11 @@
         Object.freeze(Object.prototype);
         Object.freeze(Object);
       };
-      if (isBrowser && CONFIG.get("secureObjects", false)){
+      if (isBrowser && _top.CONFIG.get("secureObjects", false)){
         Ready(function (){
           __freeze__();
         });
-      } else if (CONFIG.get("secureObjects", false)) {
+      } else if (_top.CONFIG.get("secureObjects", false)) {
         __freeze__();
       }
   })(isBrowser);
