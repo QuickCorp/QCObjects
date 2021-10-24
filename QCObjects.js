@@ -847,16 +847,6 @@
         }
         super({..._o_});
         var self = this;
-        var Properties = Object(_o_);
-        for (var prop in Properties) {
-          if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
-            if (Object.hasOwnProperty.call(Properties, prop)) {
-              self[prop] = Properties[prop];
-            }
-          } else {
-            throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
-          }
-        }
 
         __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
         if (!self.__instanceID) {
@@ -880,6 +870,17 @@
           });
   
           self.__definition = _QC_CLASSES[name]["__definition"];
+        }
+
+        var Properties = Object(_o_);
+        for (var prop in Properties) {
+          if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
+            if (Object.hasOwnProperty.call(Properties, prop)) {
+              self[prop] = Properties[prop];
+            }
+          } else {
+            throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
+          }
         }
 
         if (Object.hasOwnProperty.call(this,"__new__")) {
@@ -979,11 +980,20 @@
       definition = _LegacyCopy(definition);
     }
 
-    Object.keys(definition).filter(function (k){
-      return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "__new__", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
-    }).forEach(function(key) {
-      _QC_CLASSES[name][key] = definition[key];
-    });
+    /*
+      Object.keys(definition).filter(function (k){
+        return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "__new__", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
+      }).forEach(function(key) {
+        _QC_CLASSES[name][key] = definition[key];
+      });
+    */
+    
+    /* hack to prevent duplicate __instanceID */
+    if (Object.hasOwnProperty.call(definition, "__instanceID")) {
+      delete definition["__instanceID"];
+    }
+
+    _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
 
     _QC_CLASSES[name]["hierarchy"] = function hierarchy() {
       var __classType = function(o_c) {
@@ -1174,8 +1184,8 @@
       this.construct = true;
     },
     _encrypt () {
-      var string = this.last_string;
-      var key = this.last_key;
+      var string = this.string;
+      var key = this.key;
       var result = "";
       var char;
       var keychar;
@@ -1189,8 +1199,8 @@
       return this.last_string;
     },
     _decrypt () {
-      var string = this.last_string;
-      var key = this.last_key;
+      var string = this.string;
+      var key = this.key;
       var result = "";
       var char;
       var keychar;
@@ -1240,7 +1250,7 @@
   Class("Processor", {
     processors: {
       "config"  (arg){
-        return CONFIG.get(arg,"");
+        return _top.CONFIG.get(arg,"");
       },
       "ENV" (arg) {
         return (typeof process !== "undefined")?(process.env[arg]):("");
@@ -1291,46 +1301,63 @@
     }
   });
 
-  Class("CONFIG", Object, {
+  Class("ConfigSettings", Object, {
     _instance: null,
+
+    set instance (o) {
+      this._instance = o;
+    },
     
     get instance () {
       
        if (this._instance === null) {
          
-          this._instance = New(
-             ClassFactory("CONFIG"),
-             {_instance: {}}
+          this.instance = New(
+             ClassFactory("ConfigSettings"),
+             {
+               _instance: {},
+               _CONFIG: {
+                "relativeImportPath": "",
+                "remoteImportsPath": "",
+                "remoteSDKPath": "https://sdk.qcobjects.dev/",
+                "asynchronousImportsLoad": false,
+                "removePackageScriptAfterLoading":true,
+                "componentsBasePath": "",
+                "delayForReady": 0,
+                "preserveComponentBodyTag": false,
+                "overrideComponentTag": false,
+                "useConfigService": false,
+                "routingWay": "hash",
+                "useSDK": true,
+                "useLocalSDK": false,
+                "basePath": basePath
+              },
+              _CONFIG_ENC: null               
+            }
           );
          
        }
       
        return this._instance;
+    }
+  });
+
+  Class("CONFIG", Object, {
+
+    get _CONFIG_ENC () {
+      return ClassFactory("ConfigSettings").instance._CONFIG_ENC;
     },
 
-    _CONFIG: {
-      "relativeImportPath": "",
-      "remoteImportsPath": "",
-      "remoteSDKPath": "https://sdk.qcobjects.dev/",
-      "asynchronousImportsLoad": false,
-      "removePackageScriptAfterLoading":true,
-      "componentsBasePath": "",
-      "delayForReady": 0,
-      "preserveComponentBodyTag": false,
-      "overrideComponentTag": false,
-      "useConfigService": false,
-      "routingWay": "hash",
-      "useSDK": true,
-      "useLocalSDK": false,
-      "basePath": basePath
+    get _CONFIG () {
+      return ClassFactory("ConfigSettings").instance._CONFIG;
     },
-    _CONFIG_ENC: null,
+
     set (name, value) {
       // hack to force update basePath from CONFIG
       if (name === "basePath") {
         basePath = value;
       }
-      var _conf = {};
+      var _conf;
       try {
         _conf = (
           function(config) {
@@ -1341,16 +1368,17 @@
             var _protectedConf = config._CONFIG.valueOf();
             return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
           }
-        )(_top.CONFIG.instance);
+        )(ClassFactory("ConfigSettings").instance);
       } catch (e) {
+        _conf = {};
         console.error (e);
         logger.debug("failed to encrypt config");
       }
 
-      _conf[name] = value;
-      _conf._CONFIG_ENC = _CryptObject(_conf);
-      if (Object.hasOwnProperty.call(_conf, "_CONFIG") && Object.hasOwnProperty.call(_conf._CONFIG,name)) {
-        _conf._CONFIG[name] = value;
+      ClassFactory("ConfigSettings").instance[name] = value;
+      ClassFactory("ConfigSettings").instance._CONFIG_ENC = _CryptObject(ClassFactory("ConfigSettings").instance);
+      if (Object.hasOwnProperty.call(ClassFactory("ConfigSettings").instance, "_CONFIG") && Object.hasOwnProperty.call(ClassFactory("ConfigSettings").instance._CONFIG,name)) {
+        ClassFactory("ConfigSettings").instance._CONFIG[name] = value;
       }
     },
     get (name,_default) {
@@ -1365,7 +1393,7 @@
             var _protectedConf = config._CONFIG.valueOf();
             return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
           }
-        )(_top.CONFIG.instance);
+        )(ClassFactory("ConfigSettings").instance);
         if (typeof _conf[name] !== "undefined"){
           _value = _conf[name];
         } else  if (typeof _default !== "undefined"){
@@ -1380,9 +1408,7 @@
       return ClassFactory("Processor").processObject.call(ClassFactory("Processor"),_value);
     }
   });
-  var CONFIG = ClassFactory("CONFIG");
   
-  Export(CONFIG);
   Export(waitUntil);
   Export(_super_);
   Export(ComplexStorageCache);
