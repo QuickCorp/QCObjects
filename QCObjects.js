@@ -866,10 +866,10 @@
           Object.keys(_QC_CLASSES[name]["__definition"]).filter(function (k){
             return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "__new__", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
           }).forEach(function(key) {
-            self[key] = definition[key];
+            self[key] = _QC_CLASSES[name]["__definition"][key];
           });
   
-          self.__definition = _QC_CLASSES[name]["__definition"];
+          self.__definition = _QC_CLASSES[name];
         }
 
         var Properties = Object(_o_);
@@ -928,20 +928,18 @@
         return this["body"]["style"];
       }
 
-      hierarchy () {
-        var __recursive__ = this.hierarchy.bind(this);
-        var __hierarchy = [];
-        var __classType = __getType__(this);
-        __hierarchy.push(__classType);
-        var __parent__ = Object.getPrototypeOf(this.constructor);
-        if (typeof __parent__ !== "undefined" 
-            && __parent__ !== null 
-            && __parent__.name !== "Object"
-            && __parent__.name !== "Function"
-            && __parent__.name !== "") {
-          __hierarchy = __hierarchy.concat(__recursive__.call(__parent__));
+      hierarchy (__instance__) {
+        var __hierarchy;
+        if (typeof __instance__ === "undefined" || __instance__ === null) {
+          __instance__ = this;
         }
-        return __hierarchy;
+        var __parent__ = Object.getPrototypeOf(__instance__.constructor);
+        if (__parent__.hierarchy) {
+          __hierarchy = __parent__.hierarchy.call(__parent__, __parent__);
+        } else {
+          __hierarchy = [];
+        }
+        return [__getType__(__instance__)].concat(__hierarchy).filter(function (value, index, self) { return self.indexOf(value) === index;});
       }
 
       append (child) {
@@ -979,14 +977,6 @@
     } else {
       definition = _LegacyCopy(definition);
     }
-
-    /*
-      Object.keys(definition).filter(function (k){
-        return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "__new__", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
-      }).forEach(function(key) {
-        _QC_CLASSES[name][key] = definition[key];
-      });
-    */
     
     /* hack to prevent duplicate __instanceID */
     if (Object.hasOwnProperty.call(definition, "__instanceID")) {
@@ -995,15 +985,19 @@
 
     _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
 
-    _QC_CLASSES[name]["hierarchy"] = function hierarchy() {
+
+    _QC_CLASSES[name]["hierarchy"] = function hierarchy(__class__) {
       var __classType = function(o_c) {
-        return (Object.hasOwnProperty.call(o_c,"__classType"))?(o_c.__classType):(__getType__.call(this, o_c));
+        return (Object.hasOwnProperty.call(o_c,"__classType"))?(o_c.__classType):(__getType__.call(__class__, o_c));
       };
-      var __hierarchy = [];
-      __hierarchy.push(__classType(this));
-      if (this.hasOwnProperty.call(this,"__definition")) {
-        __hierarchy = __hierarchy.concat(this.__definition.hierarchy.call(this.__definition));
+      var __hierarchy__proto__ = (c) => { return (typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null)?( ( (__classType(c)!== "") ?([__classType(c)]):([])).concat( __hierarchy__proto__(c.__proto__)  ) ):([]); };
+
+      if (typeof __class__ === "undefined" || __class__ === null) {
+        __class__ = this;
       }
+      var __hierarchy = [];
+      __hierarchy.push(__classType(__class__));
+      __hierarchy = __hierarchy.concat(__hierarchy__proto__(__class__.__proto__));
       return __hierarchy;
     };
 
@@ -1421,9 +1415,9 @@
 
   var isQCObjects_Object = function (_){
     return (typeof _ === "object"
-            && _.hasOwnProperty.call(_,"__classType")
+            && Object.hasOwnProperty.call(_,"__classType")
             && (!!_.__instanceID)
-            && _.hasOwnProperty.call(_,"__definition")
+            && Object.hasOwnProperty.call(_,"__definition")
             && typeof _.__definition !== "undefined"
           )?(true):(false);
   };
@@ -1431,9 +1425,9 @@
   var isQCObjects_Class = function (_){
     return (typeof _ === "function"
             && (!_.__instanceID)
-            && _.hasOwnProperty.call(_,"__definition")
+            && (!!_.__definition)
             && typeof _.__definition !== "undefined"
-            && _.__definition.hasOwnProperty.call(_.__definition,"__classType")
+            && !!_.__definition.__classType
           )?(true):(false);
   };
 
