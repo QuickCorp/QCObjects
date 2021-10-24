@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-undef */
 
 describe("QCObjects Main Test", function () {
   require("../QCObjects");
@@ -8,9 +9,7 @@ describe("QCObjects Main Test", function () {
 
   it("Class Declaration Test Spec", function () {
     Class("Main", Object, {
-      _new_: (o) => {
-        let main = this;
-        console.log(main);
+      _new_: () => {
       }
     });
 
@@ -51,7 +50,7 @@ describe("QCObjects Main Test", function () {
   });
 
   it("Existence of QCObjects SDK", function () {
-    expect(global.hasOwnProperty("_sdk_")).toEqual(true);
+    expect(!!global._sdk_).toEqual(true);
     logger.debug("Existence of QCObjects SDK... OK");
   });
 
