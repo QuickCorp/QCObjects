@@ -1002,12 +1002,13 @@
       var __hierarchy = [];
       __hierarchy.push(__classType(this));
       if (this.hasOwnProperty.call(this,"__definition")) {
-        return __hierarchy.concat(this.__definition.hierarchy.call(this.__definition));
+        __hierarchy = __hierarchy.concat(this.__definition.hierarchy.call(this.__definition));
       }
       return __hierarchy;
     };
 
     _QC_CLASSES[name]["__definition"] = definition;
+    _QC_CLASSES[name]["__definition"]["hierarchy"] = _QC_CLASSES[name]["hierarchy"].bind(_QC_CLASSES[name]["__definition"]);
     _QC_CLASSES[name]["__definition"]["__classType"] = name;
 
     _top[name] = _QC_CLASSES[name];
