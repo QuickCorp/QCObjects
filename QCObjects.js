@@ -1696,12 +1696,12 @@
    * Dynamic Data Objects Class
    * Usage:
    * Class('TestDDO',{
-   *    _new_:function (){
+   *    _new_ (){
    *        this.ddo = New(DDO,{
    *            instance:this,
    *            name:'ddo',
    *            value:0,
-   *            fget:function (value){
+   *            fget (value){
    *                logger.debug('returned value '+ value );
    *            }
    *            })
@@ -2437,12 +2437,12 @@
     routingSelectedAttr  (attrName){
       return this.component.routingSelected.map(function (r){return r[attrName];}).filter(function (v){return v;}).pop();
     },
-    isTouchable:function (){
+    isTouchable (){
       return ("ontouchstart" in window)
            || (navigator.MaxTouchPoints > 0)
            || (navigator.msMaxTouchPoints > 0);
     },
-    onpress:function (subelementSelector,handler){
+    onpress (subelementSelector,handler){
       try {
         if (this.isTouchable()){
           this.component.body.subelements(subelementSelector)[0].addEventListener("touchstart",handler, {passive:true});
@@ -4042,7 +4042,7 @@
     fitToHeight:false,
     fitToWidth:false,
     effects: [],
-    _new_:function (o){
+    _new_ (o){
       logger.info("DECLARING TransitionEffect  ");
       this.component.defaultParams = this.defaultParams;
     },
