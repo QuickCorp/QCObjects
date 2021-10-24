@@ -74,7 +74,7 @@
   },
   "homepage": "https://qcobjects.com",
   "dependencies": {
-    "qcobjects-sdk": "latest"
+    "qcobjects-sdk": "^2.3.30"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

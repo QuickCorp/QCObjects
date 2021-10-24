@@ -217,12 +217,12 @@
     if (!("Promise" in _top)) {
       _top.Promise = function(_f) {
         var _p = {
-          then: function() {},
-          catch: function() {},
-          _then: function(response) {
+          then () {},
+          catch () {},
+          _then (response) {
             this.then.call(_p, response);
           },
-          _catch: function(response) {
+          _catch (response) {
             this.catch.call(_p, response);
           }
         };
@@ -270,7 +270,7 @@
     var asyncCallback = {
       "func": callback,
       "args": args,
-      "dispatch": function() {
+      "dispatch" () {
         this.func.apply(null, this.args);
       }
     };
@@ -301,17 +301,17 @@
       debugEnabled: true,
       infoEnabled: true,
       warnEnabled: true,
-      debug: function(message) {
+      debug (message) {
         if (this.debugEnabled) {
           console.log("\x1b[35m%s\x1b[0m","[DEBUG] " + message);
         }
       },
-      info: function(message) {
+      info (message) {
         if (this.infoEnabled) {
           console.info("\x1b[33m%s\x1b[0m","[INFO] " + message);
         }
       },
-      warn: function(message) {
+      warn (message) {
         if (this.warnEnabled) {
           console.warn("\x1b[31m%s\x1b[0m","[WARN] " + message);
         }
@@ -324,7 +324,7 @@
   _top.logger = logger;
   var Base64 = {
     _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-    encode: function(e) {
+    encode (e) {
       var t = "";
       var n, r, i, s, o, u, a;
       var f = 0;
@@ -346,7 +346,7 @@
       }
       return t;
     },
-    decode: function(e) {
+    decode (e) {
       var t = "";
       var n, r, i;
       var s, o, u, a;
@@ -371,7 +371,7 @@
       t = Base64._utf8_decode(t);
       return t;
     },
-    _utf8_encode: function(e) {
+    _utf8_encode (e) {
       e = e.replace(/rn/g, "n");
       var t = "";
       for (var n = 0; n < e.length; n++) {
@@ -389,7 +389,7 @@
       }
       return t;
     },
-    _utf8_decode: function(e) {
+    _utf8_decode (e) {
       var t = "";
       var n = 0;
       var r = 0;
@@ -533,7 +533,7 @@
     var supportsPassive = false;
     try {
       var opts = Object.defineProperty({}, "passive", {
-        get: function() {
+        get () {
           supportsPassive = true;
           return supportsPassive;
         }
@@ -1161,7 +1161,7 @@
     last_string: "",
     last_key: "",
     construct: false,
-    _new_: function(o) {
+    _new_ (o) {
       var string = o["string"];
       var key = (o.hasOwnProperty.call(o,"key")) ? (o["key"]) : (null);
       this.__new__(o);
@@ -1170,7 +1170,7 @@
       this.last_string = string;
       this.construct = true;
     },
-    _encrypt: function() {
+    _encrypt () {
       var string = this.last_string;
       var key = this.last_key;
       var result = "";
@@ -1185,7 +1185,7 @@
       this.last_string = Base64.encode(result);
       return this.last_string;
     },
-    _decrypt: function() {
+    _decrypt () {
       var string = this.last_string;
       var key = this.last_key;
       var result = "";
@@ -1202,14 +1202,14 @@
       this.last_string = result;
       return this.last_string;
     },
-    encrypt: function(string, key) {
+    encrypt (string, key) {
       var crypt = New(ClassFactory("_Crypt"), {
         string: string,
         key: (key !== "")?(key):("12345678ABC")
       });
       return crypt._encrypt();
     },
-    decrypt: function(string, key) {
+    decrypt (string, key) {
       var crypt = New(ClassFactory("_Crypt"), {
         string: string,
         key: (key !== "")?(key):("12345678ABC")
@@ -1236,26 +1236,26 @@
 
   Class("Processor", {
     processors: {
-      "config": function (arg){
+      "config"  (arg){
         return CONFIG.get(arg,"");
       },
-      "ENV": function(arg) {
+      "ENV" (arg) {
         return (typeof process !== "undefined")?(process.env[arg]):("");
       },
-      "global": function (arg){
+      "global"  (arg){
         return (typeof global !== "undefined")?(global[arg]):("");
       }
     },
-    setProcessor: function (_proc_){
+    setProcessor  (_proc_){
       if (typeof _proc_ === "function" && _proc_.name !== ""){
         this.processors[_proc_.name] = _proc_;
       }
     },
-    execute: function (processorName, args){
+    execute  (processorName, args){
       let processorHandler = this;
       return processorHandler.processors[processorName].apply(processorHandler, args.split(","));
     },
-    process: function(template) {
+    process (template) {
       if (typeof template === "string"){
         let processorHandler = this;
         Object.keys(processorHandler.processors).map(function (funcName){
@@ -1269,7 +1269,7 @@
       }
       return template;
     },
-    processObject: function (obj){
+    processObject  (obj){
       let __instance__ = this;
       if (typeof obj === "object"){
         Object.keys(obj).map(
@@ -1306,7 +1306,7 @@
       "basePath": basePath
     },
     _CONFIG_ENC: null,
-    set: function(name, value) {
+    set (name, value) {
       // hack to force update basePath from CONFIG
       if (name === "basePath") {
         basePath = value;
@@ -1328,7 +1328,7 @@
         this._CONFIG[name] = value;
       }
     },
-    get: function(name,_default) {
+    get (name,_default) {
       var _value;
       try {
         var _conf = (
@@ -1585,17 +1585,17 @@
   }
 
   Class("TagElements", Array, {
-    show: function() {
+    show () {
       this.map(function(element) {
         return element.style.opacity = 1;
       });
     },
-    hide: function() {
+    hide () {
       this.map(function(element) {
         return element.style.opacity = 0;
       });
     },
-    effect: function() {
+    effect () {
       var effectArguments = [...arguments].slice(1);
       var effectClass = arguments[0];
       if ((typeof effectClass).toLowerCase() === "string") {
@@ -1605,7 +1605,7 @@
         return effectClass.apply.apply(effectClass, [element].concat(effectArguments));
       });
     },
-    findElements: function(elementName) {
+    findElements (elementName) {
       var _o = New(ClassFactory("TagElements"));
       if (isBrowser) {
         for (var _k in this) {
@@ -1710,7 +1710,7 @@
    *
    */
   Class("DDO", Object, {
-    _new_: function({
+    _new_ ({
       instance,
       name,
       fget,
@@ -1758,7 +1758,7 @@
 
   Class("DefaultTemplateHandler", Object, {
     template: "",
-    assign: function(data) {
+    assign (data) {
       var templateInstance = this;
       var processorHandler = templateInstance.component.processorHandler;
       var parsedAssignmentText = templateInstance.template;
@@ -1808,20 +1808,20 @@
     reload: false,
     shadowed:false,
     cached: true,
-    done: function() {
+    done () {
       //TODO: default done method
     },
-    fail: function() {
+    fail () {
       //TODO: default fail method
     },
-    set: function(name, value) {
+    set (name, value) {
       this[name] = value;
     },
-    get: function(name) {
+    get (name) {
       return this[name];
     },
     __promise__: null,
-    feedComponent: function (){
+    feedComponent  (){
       var _component_ = this;
       var _feedComponent_InBrowser = function (_component_){
         var container = (_component_.hasOwnProperty.call(_component_,"container") && typeof _component_.container !== "undefined" && _component_.container !== null) ? (_component_.container) : (_component_.body);
@@ -1895,7 +1895,7 @@
       }
       return _ret_;
     },
-    rebuild: function() {
+    rebuild () {
       var _component = this;
       var _promise = new Promise(function(resolve, reject) {
         switch (true) {
@@ -1961,7 +1961,7 @@
       });
       return _promise;
     },
-    Cast: function(o) {
+    Cast (o) {
       return _Cast(this, o);
     },
     routingWay: null,
@@ -1969,7 +1969,7 @@
     routingNodes: [],
     routings: [],
     routingPath: "",
-    _bindroute: function() {
+    _bindroute () {
       if (isBrowser) {
         if (!ClassFactory("Component")._bindroute.__assigned) {
           document.addEventListener("componentsloaded", function(e) {
@@ -2024,7 +2024,7 @@
         // not yet implemented.
       }
     },
-    route: function() {
+    route () {
       var componentClass = this;
       var isValidInstance = ((!!componentClass.__instanceID) &&
         componentClass.hasOwnProperty.call(componentClass,"subcomponents")) ? (true) : (false);
@@ -2054,7 +2054,7 @@
         logger.debug("An undetermined result expected if load routings. So will not be loaded this time.");
       }
     },
-    fullscreen: function() {
+    fullscreen () {
       if (isBrowser) {
         var elem = this.body;
         if (elem.requestFullscreen) {
@@ -2073,7 +2073,7 @@
         // not yet implemented.
       }
     },
-    closefullscreen: function() {
+    closefullscreen () {
       if (isBrowser) {
         if (document.exitFullscreen) {
           document.exitFullscreen();
@@ -2088,7 +2088,7 @@
         // noy yet implemented.
       }
     },
-    _generateRoutingPaths: function(componentBody) {
+    _generateRoutingPaths (componentBody) {
       var component = this;
       if (isBrowser) {
         if (__valid_routing_way__(component.validRoutingWays, component.routingWay)) {
@@ -2116,7 +2116,7 @@
         // not yet implemented.
       }
     },
-    parseTemplate: function (template){
+    parseTemplate  (template){
       var _self = this;
       var _parsedAssignmentText;
       if (_self.hasOwnProperty.call(_self,"templateHandler")) {
@@ -2141,7 +2141,7 @@
       }
       return _parsedAssignmentText;
     },
-    _new_: function(properties) {
+    _new_ (properties) {
       this.routingWay = ClassFactory("CONFIG").get("routingWay");
 
       var self = this;
@@ -2223,7 +2223,7 @@
         });
       }
     },
-    _reroute_: function() {
+    _reroute_ () {
       //This method set the selected routing and makes the switch to the templateURI
       var rc = this;
       var _rebuilt = false;
@@ -2254,7 +2254,7 @@
       }
       return _rebuilt;
     },
-    lazyLoadImages: function (){
+    lazyLoadImages  (){
       if (isBrowser){
         var component = this;
         var _componentRoot = (component.shadowed)?(component.shadowRoot):(component.body);
@@ -2286,7 +2286,7 @@
       }
       return null;
     },
-    applyTransitionEffect: function (effectClassName) {
+    applyTransitionEffect  (effectClassName) {
       var _Effect = ClassFactory(effectClassName);
       if (typeof _Effect !== "undefined" && is_a(_Effect, "TransitionEffect")) {
         this.effect = New(_Effect, {
@@ -2297,7 +2297,7 @@
         logger.debug(`${__getType__(_Effect)} is not a TransitionEffect`);
       }
     },
-    applyObserveTransitionEffect: function (effectClassName) {
+    applyObserveTransitionEffect  (effectClassName) {
       if (isBrowser){
         var component = this;
         var _componentRoot = (component.shadowed)?(component.shadowRoot):(component.body);
@@ -2322,7 +2322,7 @@
       }
       return null;
     },
-    scrollIntoHash: function (){
+    scrollIntoHash  (){
       if (isBrowser){
         var component = this;
         if (document.location.hash !== ""){
@@ -2341,7 +2341,7 @@
         // not yet implemented
       }
     },
-    i18n_translate: function (){
+    i18n_translate  (){
       if (isBrowser){
         if (ClassFactory("CONFIG").get("use_i18n")){
           var component = this;
@@ -2380,11 +2380,11 @@
       }
     },
     _componentHelpers:[],
-    addComponentHelper: function (componentHelper){
+    addComponentHelper  (componentHelper){
       var component = this;
       component._componentHelpers.push(componentHelper);
     },
-    runComponentHelpers: function() {
+    runComponentHelpers () {
       if (isBrowser){
         var component = this;
         var __component_helpers__ = [];
@@ -2434,7 +2434,7 @@
   Class("Controller", Object, {
     dependencies: [],
     component: null,
-    routingSelectedAttr: function (attrName){
+    routingSelectedAttr  (attrName){
       return this.component.routingSelected.map(function (r){return r[attrName];}).filter(function (v){return v;}).pop();
     },
     isTouchable:function (){
@@ -2453,7 +2453,7 @@
         logger.debug("No button to assign press event");
       }
     },
-    createRoutingController: function (){
+    createRoutingController  (){
       var controller = this;
       var component = controller.component;
       var controllerName = controller.routingSelectedAttr("controllerclass");
@@ -2485,10 +2485,10 @@
     data: {},
     reload: false,
     cached: false,
-    set: function(name, value) {
+    set (name, value) {
       this[name] = value;
     },
-    get: function(name) {
+    get (name) {
       return this[name];
     }
   });
@@ -2501,7 +2501,7 @@
       "charset": "utf-8"
     },
     JSONresponse: null,
-    done: function(result) {
+    done (result) {
       logger.debug("***** RECEIVED RESPONSE:");
       logger.debug(result.service.template);
       this.JSONresponse = JSON.parse(result.service.template);
@@ -2517,7 +2517,7 @@
       "charset": "utf-8"
     },
     JSONresponse: null,
-    done: function(result) {
+    done (result) {
       logger.debug("***** CONFIG LOADED:");
       logger.debug(result.service.template);
       this.JSONresponse = JSON.parse(result.service.template);
@@ -2529,10 +2529,10 @@
       }
       this.configLoaded.call(this);
     },
-    fail: function(result) {
+    fail (result) {
       this.configLoaded.call(this);
     },
-    _new_: function(o) {
+    _new_ (o) {
       this.set("url", this.get("basePath") + this.get("configFileName"));
     }
   });
@@ -2652,11 +2652,11 @@
             if (component.cached && (!is_file)) {
               logger.debug("USING CACHE FOR COMPONENT: " + component.name);
               var cache = new ComplexStorageCache({
-                "index": component.cacheIndex,
-                "load": function(cacheController) {
+                index: component.cacheIndex,
+                load (cacheController) {
                   _directLoad.call(this,is_file);
                 },
-                "alternate": function(cacheController) {
+                alternate (cacheController) {
                   if (component.method === "GET") {
                     component.template = cacheController.cache.getCached(component.cacheIndex);
                     _feedComponent_.call(this, component);
@@ -2741,11 +2741,11 @@
             if (component.cached ) {
               logger.debug("USING CACHE FOR COMPONENT: " + component.name);
               var cache = new ComplexStorageCache({
-                "index": component.cacheIndex,
-                "load": function(cacheController) {
+                index: component.cacheIndex,
+                load (cacheController) {
                   _directLoad.call(this);
                 },
-                "alternate": function(cacheController) {
+                alternate (cacheController) {
                   if (component.method === "GET") {
                     component.template = cacheController.cache.getCached(component.cacheIndex);
                     _feedComponent_.call(this, component);
@@ -2865,11 +2865,11 @@
 
           if (service.cached) {
             var cache = new ComplexStorageCache({
-              "index": service.data,
-              "load": function(cacheController) {
+              index: service.data,
+              load (cacheController) {
                 _directLoad.call(this);
               },
-              "alternate": function(cacheController) {
+              alternate (cacheController) {
                 if (service.method === "GET") {
                   service.template = cacheController.cache.getCached(service.name);
                   if (typeof service.done === "function") {
@@ -3099,10 +3099,10 @@
 
     Class("global", Object, {
       _GLOBAL: {},
-      set: function(name, value) {
+      set (name, value) {
         this._GLOBAL[name] = value;
       },
-      get: function(name,_default) {
+      get (name,_default) {
         var _value;
         if (typeof this._GLOBAL[name] !== "undefined"){
           _value = this._GLOBAL[name];
@@ -3111,7 +3111,7 @@
         }
         return _value;
       },
-      __start__: function() {
+      __start__ () {
         var __load__serviceWorker = function() {
           var _promise;
           if (isBrowser) {
@@ -3564,7 +3564,7 @@
       body: null,
       stream: null,
       request: null,
-      cors: function (){
+      cors  (){
         if (this.route.cors){
           let {allow_origins,allow_credentials,allow_methods,allow_headers} = this.route.cors;
           var microservice = this;
@@ -3604,7 +3604,7 @@
           }
         }
       },
-      _new_: function(o) {
+      _new_ (o) {
         logger.debug("Executing BackendMicroservice ");
         let microservice = this;
         microservice.body = null;
@@ -3640,34 +3640,34 @@
         }
 
       },
-      head: function(formData) {
+      head (formData) {
         this.done();
       },
-      get: function(formData){
+      get (formData){
         this.done();
       },
-      post: function(formData) {
+      post (formData) {
         this.done();
       },
-      put: function(formData) {
+      put (formData) {
         this.done();
       },
-      delete: function(formData) {
+      delete (formData) {
         this.done();
       },
-      connect: function(formData) {
+      connect (formData) {
         this.done();
       },
-      options: function(formData) {
+      options (formData) {
         this.done();
       },
-      trace: function(formData) {
+      trace (formData) {
         this.done();
       },
-      patch: function(formData) {
+      patch (formData) {
         this.done();
       },
-      finishWithBody: function(stream) {
+      finishWithBody (stream) {
         try {
           stream.write(_DataStringify(this.body));
           stream.end();
@@ -3675,7 +3675,7 @@
           logger.debug("Something wrong writing the response for microservice" + e.toString());
         }
       },
-      done: function () {
+      done  () {
         logger.debugEnabled = true;
         var microservice = this;
         var stream = microservice.stream;
@@ -3706,16 +3706,16 @@
     data: {},
     async: false,
     external: false,
-    set: function(name, value) {
+    set (name, value) {
       this[name] = value;
     },
-    get: function(name) {
+    get (name) {
       return this[name];
     },
     status: false,
-    done: function() {},
-    fail: function() {},
-    rebuild: function() {
+    done () {},
+    fail () {},
+    rebuild () {
       var context = this;
       try {
         document.getElementsByTagName(context.containerTag)[0].appendChild(
@@ -3747,10 +3747,10 @@
         context.fail.call(context, e);
       }
     },
-    Cast: function(o) {
+    Cast (o) {
       return _Cast(this, o);
     },
-    "_new_": function(properties) {
+    "_new_" (properties) {
       this.__new__(properties);
       this.rebuild();
     }
@@ -3763,14 +3763,14 @@
     data: {},
     async: false,
     external: false,
-    set: function(name, value) {
+    set (name, value) {
       this[name] = value;
     },
-    get: function(name) {
+    get (name) {
       return this[name];
     },
-    done: function() {},
-    rebuild: function() {
+    done () {},
+    rebuild () {
       var context = this;
       if (isBrowser){
         window.document.getElementsByTagName("head")[0].appendChild(
@@ -3792,10 +3792,10 @@
             (this.external) ? (this.url) : (this.basePath + this.url), context));
       }
     },
-    Cast: function(o) {
+    Cast (o) {
       return _Cast(this, o);
     },
-    "_new_": function(properties) {
+    "_new_" (properties) {
       this.__new__(properties);
       this.rebuild();
     }
@@ -3942,24 +3942,24 @@
 
   Class("ArrayCollection", Object, {
     source: New(ClassFactory("ArrayList"), []),
-    changed: function(prop, value) {
+    changed (prop, value) {
       logger.debug("VALUE CHANGED");
       logger.debug(prop);
       logger.debug(value);
     },
-    push: function(value) {
+    push (value) {
       var self = this;
       logger.debug("VALUE ADDED");
       logger.debug(value);
       self.source.push(value);
     },
-    pop: function(value) {
+    pop (value) {
       var self = this;
       logger.debug("VALUE POPPED");
       logger.debug(value);
       self.source.pop(value);
     },
-    _new_: function(source) {
+    _new_ (source) {
       var self = this;
       var _index = 0;
       self.source = New(ClassFactory("ArrayList"), source);
@@ -3993,7 +3993,7 @@
 
   Class("Effect", {
     duration: 1000,
-    animate: function({
+    animate ({
       timing,
       draw,
       duration
@@ -4046,7 +4046,7 @@
       logger.info("DECLARING TransitionEffect  ");
       this.component.defaultParams = this.defaultParams;
     },
-    apply: function ({alphaFrom,
+    apply  ({alphaFrom,
                       alphaTo,
                       angleFrom,
                       angleTo,
@@ -4085,7 +4085,7 @@
   Class("Timer", {
     duration: 1000,
     alive: true,
-    thread: function({
+    thread ({
       timing,
       intervalInterceptor,
       duration
@@ -4120,10 +4120,10 @@
     _negative: null,
     _dispatched: null,
     _args: {},
-    changeToggle: function() {
+    changeToggle () {
       this._toggle = (this._toggle) ? (false) : (true);
     },
-    _new_: function({
+    _new_ ({
       positive,
       negative,
       args
@@ -4132,7 +4132,7 @@
       this._negative = negative;
       this._args = args;
     },
-    fire: function() {
+    fire () {
       var toggle = this;
       var _promise = new Promise(function(resolve, reject) {
 
