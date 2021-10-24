@@ -33,65 +33,67 @@
     var __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function() {
       return "";
     });
-    _.prototype.toString = function() {
-      var _protected_symbols = ["ComplexStorageCache",
-        "css",
-        "append",
-        "attachIn",
-        "debug",
-        "info",
-        "warn",
-        "QC_Append",
-        "set",
-        "get",
-        "done",
-        "componentDone",
-        "_new_",
-        "__new__",
-        "Class",
-        "ClassFactory",
-        "New",
-        "Export",
-        "Package",
-        "Import",
-        "subelements",
-        "componentLoader",
-        "buildComponents",
-        "Controller",
-        "View",
-        "VO",
-        "Service",
-        "serviceLoader",
-        "JSONService",
-        "ConfigService",
-        "SourceJS",
-        "SourceCSS",
-        "ArrayList",
-        "ArrayCollection",
-        "Effect",
-        "Timer",
-        "sum",
-        "avg",
-        "table",
-        "max",
-        "min",
-        "range",
-        "matrix",
-        "matrix2d",
-        "matrix3d",
-        "unique",
-        "uniqueId",
-        "shortCode",
-        "NamespaceRef"
-      ];
-      var _ret_;
-      if (_protected_symbols.includes(this.name)) {
-        _ret_ = this.name + "{ [QCObjects native code] }";
-      } else {
-        _ret_ = __oldtoString.call(this);
-      }
-      return _ret_;
-    };
+    if (typeof _.prototype !== "undefined") {
+      _.prototype.toString = function() {
+        var _protected_symbols = ["ComplexStorageCache",
+          "css",
+          "append",
+          "attachIn",
+          "debug",
+          "info",
+          "warn",
+          "QC_Append",
+          "set",
+          "get",
+          "done",
+          "componentDone",
+          "_new_",
+          "__new__",
+          "Class",
+          "ClassFactory",
+          "New",
+          "Export",
+          "Package",
+          "Import",
+          "subelements",
+          "componentLoader",
+          "buildComponents",
+          "Controller",
+          "View",
+          "VO",
+          "Service",
+          "serviceLoader",
+          "JSONService",
+          "ConfigService",
+          "SourceJS",
+          "SourceCSS",
+          "ArrayList",
+          "ArrayCollection",
+          "Effect",
+          "Timer",
+          "sum",
+          "avg",
+          "table",
+          "max",
+          "min",
+          "range",
+          "matrix",
+          "matrix2d",
+          "matrix3d",
+          "unique",
+          "uniqueId",
+          "shortCode",
+          "NamespaceRef"
+        ];
+        var _ret_;
+        if (_protected_symbols.includes(this.name)) {
+          _ret_ = this.name + "{ [QCObjects native code] }";
+        } else {
+          _ret_ = __oldtoString.call(this);
+        }
+        return _ret_;
+      };
+    }
   };
   (_protected_code_)(Function);
   var _methods_ = function(_) {
@@ -650,24 +652,24 @@
   };
 
   var _LegacyCopy = function(obj) {
-    var _ret_;
+    var _value_;
     switch (true) {
       case typeof obj === "string":
-        _ret_ = obj;
+        _value_ = obj;
         break;
       case typeof obj === "number":
-        _ret_ = obj;
+        _value_ = obj;
         break;
       case typeof obj === "object":
-        _ret_ = Object.assign({}, obj);
+        _value_ = Object.assign({}, obj);
         break;
       case __is_raw_class__(obj):
-        _ret_ = class extends obj {};
+        _value_ = class extends obj {};
         break;
       default:
         break;
     }
-    return _ret_;
+    return _value_;
   };
 
 
@@ -755,7 +757,22 @@
   * @param {Object} object
   */
   var __getType__ = function __getType__(o_c) {
-    return (o_c.hasOwnProperty.call(o_c,"__classType")) ? (o_c.__classType) : ((o_c.hasOwnProperty.call(o_c,"__definition")) ? (o_c.__definition.__classType) : (ObjectName(o_c)));
+    var _ret_ = "";
+    switch (true) {
+      case typeof o_c === "object" && !!o_c.constructor && Object.hasOwnProperty.call(o_c.constructor, "name"):
+        _ret_ = o_c.constructor.name;
+        break;
+      case Object.hasOwnProperty.call(o_c,"__classType") && o_c.__classType !== "":
+        _ret_ = o_c.__classType;
+        break;
+      case (Object.hasOwnProperty.call(o_c,"__definition") && Object.hasOwnProperty.call(o_c.__definition,"__classType") && o_c.__definition.__classType !== ""):
+        _ret_ = o_c.__definition.__classType;
+        break;
+      default:
+        _ret_ = ObjectName(o_c);
+        break;
+    }
+    return _ret_;
   };
 
   /**
@@ -792,8 +809,8 @@
         break;
       case 2:
         name = arguments[0];
-        type = arguments[1];
-        definition = {};
+        type = class {};
+        definition = arguments[1];
         break;
       case 3:
         name = arguments[0];
@@ -814,8 +831,9 @@
     }
 
     if (typeof type["__definition"] !== "undefined") {
-      definition = Object.assign(definition, _LegacyCopy(type.__definition));
+      definition["__definition"] = Object.assign(_LegacyCopy(type.__definition), type);
     }
+
     _types_[type.name] = type;
 
     _QC_CLASSES[name] = class extends _types_[type.name] {
@@ -828,18 +846,18 @@
           _o_ = {};
         }
         super({..._o_});
+        var self = this;
         var Properties = Object(_o_);
         for (var prop in Properties) {
           if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
             if (Object.hasOwnProperty.call(Properties, prop)) {
-              this[prop] = Properties[prop];
+              self[prop] = Properties[prop];
             }
           } else {
             throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
           }
         }
 
-        var self = this;
         __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
         if (!self.__instanceID) {
           Object.defineProperty(self, "__instanceID", {
@@ -860,6 +878,8 @@
         }).forEach(function(key) {
           self[key] = definition[key];
         });
+
+        self.__definition = _QC_CLASSES[name]["__definition"];
 
         if (Object.hasOwnProperty.call(this,"__new__")) {
           if ( !Object.__definition.hasOwnProperty.call(this.__definition,"body")) {
@@ -896,7 +916,7 @@
 
       __new__ (..._o_) {
         _CastProps(_o_, this);
-      }      
+      }
 
       css (_css) {
         if (typeof this["body"] !== "undefined" && this["body"]["style"] !== "undefined") {
@@ -907,13 +927,17 @@
       }
 
       hierarchy () {
-        var __classType = function(o_c) {
-          return __getType__.call(this, o_c);
-        };
+        var __recursive__ = this.hierarchy.bind(this);
         var __hierarchy = [];
-        __hierarchy.push(__classType(this));
-        if (Object.hasOwnProperty.call(this,"__definition")) {
-          __hierarchy = __hierarchy.concat(this.__definition.hierarchy.call(this.__definition));
+        var __classType = __getType__(this);
+        __hierarchy.push(__classType);
+        var __parent__ = Object.getPrototypeOf(this.constructor);
+        if (typeof __parent__ !== "undefined" 
+            && __parent__ !== null 
+            && __parent__.name !== "Object"
+            && __parent__.name !== "Function"
+            && __parent__.name !== "") {
+          __hierarchy = __hierarchy.concat(__recursive__.call(__parent__));
         }
         return __hierarchy;
       }
@@ -921,7 +945,7 @@
       append (child) {
         var child = (typeof child === "undefined") ? (this["body"]) : (child);
         if (typeof this["body"] !== "undefined") {
-          if (arguments.lenght > 0) {
+          if (arguments.length > 0) {
             this["body"].append(child);
             if (typeof this["childs"] === "undefined") {
               this["childs"] = [];
@@ -960,8 +984,21 @@
       _QC_CLASSES[name][key] = definition[key];
     });
 
+    _QC_CLASSES[name]["hierarchy"] = function hierarchy() {
+      var __classType = function(o_c) {
+        return (Object.hasOwnProperty.call(o_c,"__classType"))?(o_c.__classType):(__getType__.call(this, o_c));
+      };
+      var __hierarchy = [];
+      __hierarchy.push(__classType(this));
+      if (this.hasOwnProperty.call(this,"__definition")) {
+        return __hierarchy.concat(this.__definition.hierarchy.call(this.__definition));
+      }
+      return __hierarchy;
+    };
+
     _QC_CLASSES[name]["__definition"] = definition;
     _QC_CLASSES[name]["__definition"]["__classType"] = name;
+
     _top[name] = _QC_CLASSES[name];
   
     return _top[name];
@@ -1331,14 +1368,14 @@
   var isQCObjects_Object = function (_){
     return (typeof _ === "object"
             && _.hasOwnProperty.call(_,"__classType")
-            && !!_.__instanceID
+            && (!!_.__instanceID)
             && _.hasOwnProperty.call(_,"__definition")
             && typeof _.__definition !== "undefined"
           )?(true):(false);
   };
 
   var isQCObjects_Class = function (_){
-    return (typeof _ === "object"
+    return (typeof _ === "function"
             && (!_.__instanceID)
             && _.hasOwnProperty.call(_,"__definition")
             && typeof _.__definition !== "undefined"
