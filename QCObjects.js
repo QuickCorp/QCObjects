@@ -319,8 +319,8 @@
     };
   };
   var logger = new Logger();
-  logger.debugEnabled = false;
-  logger.infoEnabled = false;
+  logger.debugEnabled = true;
+  logger.infoEnabled = true;
   _top.logger = logger;
   var Base64 = {
     _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
@@ -687,7 +687,7 @@
      var ret = "";
      if (typeof o === "function" && Object.hasOwnProperty.call(o, "name")){
        ret = o.name;
-     } else if (typeof o.constructor === "function") {
+     } else if (typeof o.constructor === "function" && o.constructor.name !== "") {
        ret = o.constructor.name;
      } else if (typeof o.constructor === "object") {
        ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
@@ -759,17 +759,24 @@
   var __getType__ = function __getType__(o_c) {
     var _ret_ = "";
     switch (true) {
-      case typeof o_c === "object" && !!o_c.constructor && Object.hasOwnProperty.call(o_c.constructor, "name"):
+      case typeof o_c === "object" 
+          && !!o_c.constructor 
+          && Object.hasOwnProperty.call(o_c.constructor, "name") 
+          && o_c.constructor.name !== "":
         _ret_ = o_c.constructor.name;
+        console.log("object constructor: ", _ret_);
         break;
-      case Object.hasOwnProperty.call(o_c,"__classType") && o_c.__classType !== "":
+      case (!!o_c.__classType) && o_c.__classType !== "":
         _ret_ = o_c.__classType;
+        console.log("classType: ", _ret_);
         break;
-      case (Object.hasOwnProperty.call(o_c,"__definition") && Object.hasOwnProperty.call(o_c.__definition,"__classType") && o_c.__definition.__classType !== ""):
+      case (!!o_c.__definition) && (!!o_c.__definition.__classType) && o_c.__definition.__classType !== "":
         _ret_ = o_c.__definition.__classType;
+        console.log("definition classType: ", _ret_);
         break;
       default:
         _ret_ = ObjectName(o_c);
+        console.log("default: ", _ret_);
         break;
     }
     return _ret_;
