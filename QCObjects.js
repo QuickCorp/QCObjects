@@ -1,5 +1,5 @@
 /**
- * QCObjects  2.3
+ * QCObjects  2.4
  * ________________
  *
  * Author: Jean Machuca <correojean@gmail.com>
@@ -287,8 +287,8 @@
       }
     };
     document.onreadystatechange = _fireAsyncLoad;
-  } else if (typeof global !== "undefined") {
-    global._fireAsyncLoad = function() {
+  } else if (typeof _top.global !== "undefined") {
+    _top.global._fireAsyncLoad = function() {
       _top._asyncLoad.map(function (fc){
         fc.dispatch.call(fc);
       });
@@ -1118,7 +1118,7 @@
           window[f.name] = f;
         } catch (e) {}
       } else if (typeof global !== "undefined") {
-        if (!global.hasOwnProperty.call(global,f.name)) {
+        if (!Object.hasOwnProperty.call(global,f.name)) {
           global[f.name] = f;
         }
       }
@@ -2093,7 +2093,7 @@
           }
         });
       };
-      if (isValidInstance || global.hasOwnProperty.call(global,"componentsStack")) {
+      if (isValidInstance || global.hasOwnProperty.call(_top.global,"componentsStack")) {
         if (isValidInstance && componentClass.hasOwnProperty.call(componentClass,"name")) {
           logger.debug("loading routings for instance" + componentClass.name);
         }
@@ -3145,7 +3145,7 @@
 
   asyncLoad(function() {
 
-    Class("global", Object, {
+    Class("GlobalSettings", Object, {
       _GLOBAL: {},
       set (name, value) {
         this._GLOBAL[name] = value;
@@ -3211,8 +3211,9 @@
         }
       }
     });
+    _top.global = Object.assign(_top, New(ClassFactory("GlobalSettings")));
 
-    Object.defineProperty(global,"PackagesNameList",{
+    Object.defineProperty(_top.global,"PackagesNameList",{
       set(val){
         logger.debug("PackagesNameList is readonly");
         return;
@@ -3237,13 +3238,13 @@
       }
     });
 
-    Object.defineProperty(global,"PackagesList",{
+    Object.defineProperty(_top.global,"PackagesList",{
       set(value){
         logger.debug("PackagesList is readonly");
         return;
       },
       get(){
-        return global.PackagesNameList.map(function (packagename) {
+        return _top.global.PackagesNameList.map(function (packagename) {
           let _classesList = Package(packagename);
           let _ret_;
           if (_classesList){
@@ -3260,14 +3261,14 @@
       }
     });
 
-    Object.defineProperty(global,"ClassesList",{
+    Object.defineProperty(_top.global,"ClassesList",{
       set(value){
         logger.debug("ClassesList is readonly");
         return;
       },
       get(){
         var _classesList = [];
-        global.PackagesList.map(function (_package_element){
+        _top.global.PackagesList.map(function (_package_element){
           _classesList = _classesList.concat(_package_element.classesList.map(
             function (_class_element){
               return {
@@ -3284,13 +3285,13 @@
       }
     });
 
-    Object.defineProperty(global,"ClassesNameList",{
+    Object.defineProperty(_top.global,"ClassesNameList",{
       set(value){
         logger.debug("ClassesNameList is readonly");
         return;
       },
       get(){
-        return global.ClassesList.map(function (_class_element) {
+        return _top.global.ClassesList.map(function (_class_element) {
           return _class_element.className;
          });
       }
@@ -3305,7 +3306,6 @@
       Export(ClassFactory("GLOBAL"));
     }
     Export(global);
-
 
 
     if (_top.CONFIG.get("useSDK")) {
@@ -4220,7 +4220,7 @@
       */
 
 
-      let globalValue = global.get(valueName);
+      let globalValue = _top.global.get(valueName);
       let componentValue = this.component.get(valueName);
       let dataValue = this.component.data[valueName];
       let list = (typeof dataValue !== "undefined")?( dataValue ):( (typeof componentValue !== "undefined")?( componentValue ):( globalValue ) );
@@ -4313,7 +4313,7 @@
    **/
   Ready(function() {
     if (!_top.CONFIG.get("useSDK")) {
-      global.__start__();
+      _top.global.__start__();
     }
   });
 
@@ -4332,11 +4332,11 @@
   Export(_methods_);
 
   if (!isBrowser) {
-    if (typeof global !== "undefined" && global.hasOwnProperty.call(global,"_fireAsyncLoad")) {
-      global._fireAsyncLoad.call(this);
+    if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global,"_fireAsyncLoad")) {
+      _top.global._fireAsyncLoad.call(this);
     }
-    if (typeof global !== "undefined" && global.hasOwnProperty.call(global,"onload")) {
-      global.onload.call(this);
+    if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global,"onload")) {
+      _top.global.onload.call(this);
     }
   }
 
