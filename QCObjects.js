@@ -1348,6 +1348,7 @@
     },
 
     set (name, value) {
+      logger.debug(`CONFIG.set  ${name}: ${value}`);
       // hack to force update basePath from CONFIG
       if (name === "basePath") {
         basePath = value;
@@ -1370,8 +1371,8 @@
         logger.debug("failed to encrypt config");
       }
 
-      ClassFactory("ConfigSettings").instance[name] = value;
-      ClassFactory("ConfigSettings").instance._CONFIG_ENC = _CryptObject(ClassFactory("ConfigSettings").instance);
+      _conf[name] = value;
+      ClassFactory("ConfigSettings").instance._CONFIG_ENC = _CryptObject(_conf);
       if (Object.hasOwnProperty.call(ClassFactory("ConfigSettings").instance, "_CONFIG") && Object.hasOwnProperty.call(ClassFactory("ConfigSettings").instance._CONFIG,name)) {
         ClassFactory("ConfigSettings").instance._CONFIG[name] = value;
       }
@@ -3202,11 +3203,14 @@
 
           }
         };
-        if (_top.CONFIG.get("useConfigService")) {
-          global.configService = New(ClassFactory("ConfigService"));
-          global.configService.configLoaded = _buildComponents;
-          serviceLoader(global.configService);
+        logger.debug("Starting to load the config settings...");
+        if (ClassFactory("CONFIG").get("useConfigService", false)) {
+          logger.debug("Loading settings using local configuration file...");
+          _top.global.configService = New(ClassFactory("ConfigService"));
+          _top.global.configService.configLoaded = _buildComponents;
+          serviceLoader(_top.global.configService);
         } else {
+          logger.debug("Starting to load the components...");
           _buildComponents.call(this);
         }
       }
