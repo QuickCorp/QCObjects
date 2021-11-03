@@ -29,6 +29,8 @@
 /*eslint no-mixed-operators: "off"*/
 (function(_top) {
   "use strict";
+  var global = _top;
+
   var _protected_code_ = function(_) {
     var __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function() {
       return "";
@@ -726,7 +728,7 @@
         try {
           obj_dest[v] = obj_source[v];
         } catch (e) {
-
+          // DO NOTHING
         }
       } else if (typeof obj_source[v] === "function"){
         try {
@@ -764,19 +766,15 @@
           && Object.hasOwnProperty.call(o_c.constructor, "name") 
           && o_c.constructor.name !== "":
         _ret_ = o_c.constructor.name;
-        console.log("object constructor: ", _ret_);
         break;
       case (!!o_c.__classType) && o_c.__classType !== "":
         _ret_ = o_c.__classType;
-        console.log("classType: ", _ret_);
         break;
       case (!!o_c.__definition) && (!!o_c.__definition.__classType) && o_c.__definition.__classType !== "":
         _ret_ = o_c.__definition.__classType;
-        console.log("definition classType: ", _ret_);
         break;
       default:
         _ret_ = ObjectName(o_c);
-        console.log("default: ", _ret_);
         break;
     }
     return _ret_;
@@ -871,7 +869,7 @@
 
         if (typeof _QC_CLASSES[name]["__definition"] !== "undefined") {
           Object.keys(_QC_CLASSES[name]["__definition"]).filter(function (k){
-            return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "__new__", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
+            return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
           }).forEach(function(key) {
             self[key] = _QC_CLASSES[name]["__definition"][key];
           });
@@ -880,50 +878,27 @@
         }
 
         var Properties = Object(_o_);
-        for (var prop in Properties) {
-          if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
-            if (Object.hasOwnProperty.call(Properties, prop)) {
-              self[prop] = Properties[prop];
+        this.__new__(Properties);
+
+        if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition,"body"))) {
+          try {
+            if (isBrowser) {
+              self["body"] =  _DOMCreateElement(self.__definition.__classType);
+            } else {
+              self["body"] = {};
             }
-          } else {
-            throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
+          } catch (e) {
+            self["body"] = {};
           }
+        } else if (Object.hasOwnProperty.call(self.__definition,"body")) {
+          self["body"] = self.__definition.body;
         }
-
-        if (Object.hasOwnProperty.call(this,"__new__")) {
-          if ( !Object.__definition.hasOwnProperty.call(this.__definition,"body")) {
-            try {
-              if (isBrowser) {
-                this["body"] = _Cast(this["__definition"], _DOMCreateElement(this.__definition.__classType));
-                this["body"]["style"] = _Cast(this.__definition, this["body"]["style"]);
-              } else {
-                this["body"] = {};
-                this["body"]["style"] = {};
-              }
-            } catch (e) {
-              this["body"] = {};
-              this["body"]["style"] = {};
-            }
-          } else if (this.__definition.hasOwnProperty.call(this.__definition,"body")) {
-            this["body"] = this.__definition.body;
-          }
-          this.__new__({..._o_});
-          if (this.hasOwnProperty.call(this,"_new_")) {
-            this._new_({..._o_});
-          }
+        if (typeof self._new_ !== "undefined") {
+          self._new_.call(this,_o_);
         }
-    
       }
 
-      get body () {
-        return (typeof this["__body__"] !== "undefined")?(this["__body__"]):(null);
-      }
-
-      set body (value) {
-        this["__body__"] = value;
-      }
-
-      __new__ (..._o_) {
+      __new__ (_o_) {
         _CastProps(_o_, this);
       }
 
@@ -989,7 +964,6 @@
     if (Object.hasOwnProperty.call(definition, "__instanceID")) {
       delete definition["__instanceID"];
     }
-
     _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
 
 
@@ -1050,7 +1024,7 @@
 
   if (isBrowser) {
     Element.prototype.append = function QC_Append(child) {
-      if (typeof child.__definition !== "undefined" && typeof child.__definition.__classType !== "undefined" && typeof child.body) {
+      if (isQCObjects_Object(child) && typeof child.body !== "undefined") {
         this.appendChild(child.body);
       } else {
         this.appendChild(child);
@@ -1880,7 +1854,11 @@
     feedComponent  (){
       var _component_ = this;
       var _feedComponent_InBrowser = function (_component_){
-        var container = (_component_.hasOwnProperty.call(_component_,"container") && typeof _component_.container !== "undefined" && _component_.container !== null) ? (_component_.container) : (_component_.body);
+        if (typeof _component_.container === "undefined" && typeof _component_.body === "undefined") {
+          logger.warn ("COMPONENT {{NAME}} has an undefined container and body".replace("{{NAME}}", _component_.name));
+          return;
+        }
+        var container = (typeof _component_.container === "undefined" || _component_.container === null) ? (_component_.body) : (_component_.container);
         var parsedAssignmentText = _component_.parsedAssignmentText;
         _component_.innerHTML = parsedAssignmentText;
         if (_component_.shadowed){
@@ -1903,7 +1881,7 @@
               logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", _component_.name));
               _component_.shadowRoot = shadowContainer.shadowRoot;
             } catch (e){
-              logger.debug("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
+              logger.warn("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
             }
           }
           if (typeof _component_.shadowRoot !== "undefined" && _component_.shadowRoot !== null){
@@ -1924,15 +1902,17 @@
               logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
             }
           } else {
-            logger.debug("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));
+            logger.warn("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));
           }
         } else {
           if (_component_.reload) {
             logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
             container.innerHTML = _component_.innerHTML;
-          } else {
+          } else if (container && _component_){
             logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
             container.innerHTML += _component_.innerHTML;
+          } else {
+            logger.warn("COMPONENT {{NAME}} is not added to the DOM".replace("{{NAME}}", _component_.name));
           }
         }
 
@@ -1944,6 +1924,10 @@
       };
 
       var _ret_;
+      if (__getType__(_component_) !== "Component"){
+        logger.warn("Trying to feed a non component object");
+        return;
+      }
       if (isBrowser){
         _ret_ = _feedComponent_InBrowser(_component_);
       } else {
@@ -1955,34 +1939,18 @@
       var _component = this;
       var _promise = new Promise(function(resolve, reject) {
         switch (true) {
-          case (typeof _component.get("tplsource") !== "undefined" &&
-            _component.get("tplsource") === "default" &&
-            typeof _component.get("templateURI") !== "undefined" &&
-            _component.get("templateURI") !== ""):
-            _component.set("url", _component.get("basePath") + _component.get("templateURI"));
-            componentLoader(_component, false).then(
-              function(standardResponse) {
-                resolve.call(_promise, standardResponse);
-              },
-              function(standardResponse) {
-                reject.call(_promise, standardResponse);
-              });
+          case (_component.get("tplsource") === "none"):
+            logger.debug("Component " + _component.name + " has specified template-source=none, so no template load was done");
+            var standardResponse = {
+              request: null,
+              component: _component
+            };
+            if (typeof _component.done === "function") {
+              _component.done.call(_component, standardResponse);
+            }
+            resolve(_promise, standardResponse);
             break;
-          case (typeof _component.get("tplsource") !== "undefined" &&
-            _component.get("tplsource") === "external" &&
-            typeof _component.get("templateURI") !== "undefined" &&
-            _component.get("templateURI") !== ""):
-            _component.set("url", _component.get("templateURI"));
-            componentLoader(_component, false).then(
-              function(standardResponse) {
-                resolve.call(_promise, standardResponse);
-              },
-              function(standardResponse) {
-                reject.call(_promise, standardResponse);
-              });
-            break;
-          case (typeof _component.get("tplsource") !== "undefined" &&
-            _component.get("tplsource") === "inline"):
+          case (_component.get("tplsource") === "inline"):
             logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
             _component.feedComponent();
             var standardResponse = {
@@ -1994,17 +1962,27 @@
             }
             resolve(_promise, standardResponse);
             break;
-          case (typeof _component.get("tplsource") !== "undefined" &&
-            _component.get("tplsource") === "none"):
-            logger.debug("Component " + _component.name + " has specified template-source=none, so no template load was done");
-            var standardResponse = {
-              request: null,
-              component: _component
-            };
-            if (typeof _component.done === "function") {
-              _component.done.call(_component, standardResponse);
-            }
-            resolve(_promise, standardResponse);
+          case (_component.get("tplsource") === "default" &&
+            _component.get("templateURI") !== ""):
+            _component.set("url", _component.get("basePath") + _component.get("templateURI"));
+            componentLoader(_component, false).then(
+              function(standardResponse) {
+                resolve.call(_promise, standardResponse);
+              },
+              function(standardResponse) {
+                reject.call(_promise, standardResponse);
+              });
+            break;
+          case (_component.get("tplsource") === "external" &&
+            _component.get("templateURI") !== ""):
+            _component.set("url", _component.get("templateURI"));
+            componentLoader(_component, false).then(
+              function(standardResponse) {
+                resolve.call(_promise, standardResponse);
+              },
+              function(standardResponse) {
+                reject.call(_promise, standardResponse);
+              });
             break;
           default:
             logger.debug("Component " + _component.name + " will not be rebuilt because no templateURI is present");
@@ -2198,15 +2176,22 @@
       return _parsedAssignmentText;
     },
     _new_ (properties) {
-      this.routingWay = _top.CONFIG.get("routingWay");
 
       var self = this;
+      try {
+        self.__new__(properties);
+      }catch (e){
+        logger.warn("[Component._new_] there was an unknown issue creating the component... continuing..." + e.toString());
+      }
+
+      self.routingWay = _top.CONFIG.get("routingWay");
 
       self.processorHandler = New(ClassFactory("Processor"),{
         component: self
       });
 
       Object.defineProperty(self, "body", {
+        configurable: true,
         set(value) {
           self._body = value;
           self._generateRoutingPaths(value);
@@ -2217,6 +2202,7 @@
       });
 
       Object.defineProperty(self, "cacheIndex", {
+        configurable: true,
         set(value) {
           // readonly
           logger.debug("[cacheIndex] This property is readonly");
@@ -2227,6 +2213,7 @@
       });
 
       Object.defineProperty(self, "parsedAssignmentText", {
+        configurable: true,
         set(value) {
           // readonly
           logger.debug("[parsedAssignmentText] This property is readonly");
@@ -2238,6 +2225,7 @@
       });
 
       Object.defineProperty(self, "shadowRoot", {
+        configurable: true,
         set(value) {
           if (typeof self.__shadowRoot == "undefined"){
             self.__shadowRoot = value;
@@ -2251,6 +2239,7 @@
       });
 
       Object.defineProperty(self, "routingSelected",{
+        configurable: true,
         set(value){
           logger.debug("[routingSelected] This is a read-only property of the component");
         },
@@ -2260,6 +2249,7 @@
       });
 
       Object.defineProperty(self, "routingParams",{
+        configurable: true,
         set(value){
           logger.debug("[routingParams] This is a read-only property of the component");
         },
@@ -2271,10 +2261,8 @@
         }
       });
 
-      this.__new__(properties);
-
-      if (!this._reroute_()) {
-        this.rebuild().catch(function(standardResponse) {
+      if (!self._reroute_()) {
+        self.rebuild().catch(function(standardResponse) {
           logger.debug("Component not rebuilt");
         });
       }
@@ -3222,9 +3210,9 @@
         }
       }
     });
-    _top.global = Object.assign(_top, New(ClassFactory("GlobalSettings")));
+    var _g_ = New(ClassFactory("GlobalSettings"));
 
-    Object.defineProperty(_top.global,"PackagesNameList",{
+    Object.defineProperty(_g_,"PackagesNameList",{
       set(val){
         logger.debug("PackagesNameList is readonly");
         return;
@@ -3249,13 +3237,13 @@
       }
     });
 
-    Object.defineProperty(_top.global,"PackagesList",{
+    Object.defineProperty(_g_,"PackagesList",{
       set(value){
         logger.debug("PackagesList is readonly");
         return;
       },
       get(){
-        return _top.global.PackagesNameList.map(function (packagename) {
+        return _g_.PackagesNameList.map(function (packagename) {
           let _classesList = Package(packagename);
           let _ret_;
           if (_classesList){
@@ -3272,14 +3260,14 @@
       }
     });
 
-    Object.defineProperty(_top.global,"ClassesList",{
+    Object.defineProperty(_g_,"ClassesList",{
       set(value){
         logger.debug("ClassesList is readonly");
         return;
       },
       get(){
         var _classesList = [];
-        _top.global.PackagesList.map(function (_package_element){
+        _g_.PackagesList.map(function (_package_element){
           _classesList = _classesList.concat(_package_element.classesList.map(
             function (_class_element){
               return {
@@ -3296,19 +3284,19 @@
       }
     });
 
-    Object.defineProperty(_top.global,"ClassesNameList",{
+    Object.defineProperty(_g_,"ClassesNameList",{
       set(value){
         logger.debug("ClassesNameList is readonly");
         return;
       },
       get(){
-        return _top.global.ClassesList.map(function (_class_element) {
+        return _g_.ClassesList.map(function (_class_element) {
           return _class_element.className;
          });
       }
     });
 
-
+    _top = _CastProps(_g_, _top);
 
     if (isBrowser) {
       // use of GLOBAL word is deprecated in node.js
@@ -3434,12 +3422,12 @@
             };
 
             var __shadowed_not_set = (components[_c].getAttribute("shadowed") === null) ? (true) : (false);
+            var __tplsource_not_set = (components[_c].getAttribute("template-source") === null) ? (true) : (false);
             var shadowed = (components[_c].getAttribute("shadowed") === "true") ? (true) : (false);
             var __cached_not_set = (components[_c].getAttribute("cached") === null) ? (true) : (false);
             var cached = (components[_c].getAttribute("cached") === "true") ? (true) : (false);
             var tplextension = (typeof _top.CONFIG.get("tplextension") !== "undefined") ? (_top.CONFIG.get("tplextension")) : ("html");
             tplextension = (components[_c].getAttribute("tplextension") !== null) ? (components[_c].getAttribute("tplextension")) : (tplextension);
-            var tplsource = (components[_c].getAttribute("template-source") === null) ? ("default") : (components[_c].getAttribute("template-source"));
             var _componentName = components[_c].getAttribute("name");
             var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
             var _serviceClassName = (components[_c].getAttribute("serviceClass") !== null) ? (components[_c].getAttribute("serviceClass")) : (null);
@@ -3454,11 +3442,17 @@
               (_componentName !== null)?("com.qcobjects.components."+_componentName+".ComponentBody"):("com.qcobjects.components.ComponentBody")
             ):(_componentClassName);
             _componentName = (_componentName !== null)?(_componentName):(
-              (ClassFactory(__componentClassName) && ClassFactory(__componentClassName).hasOwnProperty.call(ClassFactory(__componentClassName),"name")
+              (ClassFactory(__componentClassName) 
+                && typeof ClassFactory(__componentClassName).name !== "undefined"
                 )?(
                   ClassFactory(__componentClassName).name
                 ):("")
               );
+            var __classDefinition = ClassFactory(__componentClassName);
+            var tplsource = (__tplsource_not_set) ? (__classDefinition.tplsource) : (components[_c].getAttribute("template-source"));
+            logger.debug (`template source for  ${_componentName} is ${tplsource} `);
+            logger.debug (`type for ${_componentName} is ${__getType__(__classDefinition)} `);
+
             var componentURI;
             componentURI = ComponentURI({
               "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
@@ -3476,7 +3470,7 @@
                 })
               ]);
             }
-            var __classDefinition = ClassFactory(__componentClassName);
+
             var __serviceClass = ClassFactory(_serviceClassName);
             if (!_response_to_data_ && __classDefinition && __classDefinition.hasOwnProperty.call(__classDefinition, "responseTo")){
               _response_to_data_ = (__classDefinition.responseTo === "data")?(true):(false);
@@ -3809,7 +3803,7 @@
     Cast (o) {
       return _Cast(this, o);
     },
-    "_new_" (properties) {
+    _new_ (properties) {
       this.__new__(properties);
       this.rebuild();
     }
@@ -4324,7 +4318,7 @@
    **/
   Ready(function() {
     if (!_top.CONFIG.get("useSDK")) {
-      _top.global.__start__();
+      _top.__start__();
     }
   });
 
