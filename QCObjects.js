@@ -665,6 +665,9 @@
       case typeof obj === "object":
         _value_ = Object.assign({}, obj);
         break;
+      case typeof obj === "function":
+        _value_ = Object.assign(Function(), obj);
+        break;
       case __is_raw_class__(obj):
         _value_ = class extends obj {};
         break;
@@ -734,7 +737,7 @@
         try {
           obj_dest[v] = obj_source[v].bind(obj_dest);
         } catch (e) {
-
+          logger.warn(e);
         }
       }
     }
@@ -874,13 +877,27 @@
             self[key] = _QC_CLASSES[name]["__definition"][key];
           });
   
-          self.__definition = _QC_CLASSES[name];
+          self.__definition = _QC_CLASSES[name]["__definition"];
         }
 
         var Properties = Object(_o_);
-        this.__new__(Properties);
+         for (var prop in Properties) {
+           if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
+             if (Object.hasOwnProperty.call(Properties, prop)) {
+               self[prop] = Properties[prop];
+             }
+           } else {
+             throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
+           }
+         }
 
-        if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition,"body"))) {
+        try {
+          self.__new__.call(self,{..._o_});
+        } catch (e){
+          logger.warn(e);
+        }
+
+        if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition,"body")) ||  typeof self.__definition.body === "undefined") {
           try {
             if (isBrowser) {
               self["body"] =  _DOMCreateElement(self.__definition.__classType);
@@ -894,12 +911,12 @@
           self["body"] = self.__definition.body;
         }
         if (typeof self._new_ !== "undefined") {
-          self._new_.call(this,_o_);
+          self._new_.call(self,{..._o_});
         }
       }
 
-      __new__ (_o_) {
-        _CastProps(_o_, this);
+      __new__ ({..._o_}) {
+        _CastProps({..._o_}, this);
       }
 
       css (_css) {
@@ -961,11 +978,10 @@
     }
     
     /* hack to prevent duplicate __instanceID */
-    if (Object.hasOwnProperty.call(definition, "__instanceID")) {
+    if (typeof definition["__instanceID"] !== "undefined") {
       delete definition["__instanceID"];
     }
     _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
-
 
     _QC_CLASSES[name]["hierarchy"] = function hierarchy(__class__) {
       var __classType = function(o_c) {
@@ -2178,11 +2194,6 @@
     _new_ (properties) {
 
       var self = this;
-      try {
-        self.__new__(properties);
-      }catch (e){
-        logger.warn("[Component._new_] there was an unknown issue creating the component... continuing..." + e.toString());
-      }
 
       self.routingWay = _top.CONFIG.get("routingWay");
 
@@ -2261,6 +2272,8 @@
         }
       });
 
+      _CastProps(self, properties);
+      
       if (!self._reroute_()) {
         self.rebuild().catch(function(standardResponse) {
           logger.debug("Component not rebuilt");
