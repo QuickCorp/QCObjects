@@ -880,19 +880,8 @@
           self.__definition = _QC_CLASSES[name]["__definition"];
         }
 
-        var Properties = Object(_o_);
-         for (var prop in Properties) {
-           if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
-             if (Object.hasOwnProperty.call(Properties, prop)) {
-               self[prop] = Properties[prop];
-             }
-           } else {
-             throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
-           }
-         }
-
         try {
-          self.__new__.call(self,{..._o_});
+          self.__new__.call(self,_o_);
         } catch (e){
           logger.warn(e);
         }
@@ -911,12 +900,30 @@
           self["body"] = self.__definition.body;
         }
         if (typeof self._new_ !== "undefined") {
-          self._new_.call(self,{..._o_});
+          self._new_.call(self,_o_);
         }
       }
 
-      __new__ ({..._o_}) {
-        _CastProps({..._o_}, this);
+      __new__ (_o_) {
+        if (super.__new__){
+          super.__new__(_o_);
+        }
+
+        var self = this;
+        var Properties = Object(_o_);
+        for (var prop in Properties) {
+          if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
+            if (Object.hasOwnProperty.call(Properties, prop)) {
+              self[prop] = Properties[prop];
+            }
+          } else {
+            throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
+          }
+        }        
+      }
+
+      _new_ (_o_) {
+        this.__new__(_o_);
       }
 
       css (_css) {
@@ -2192,7 +2199,9 @@
       return _parsedAssignmentText;
     },
     _new_ (properties) {
-
+      if (super._new_){
+        super._new_(properties);
+      }
       var self = this;
 
       self.routingWay = _top.CONFIG.get("routingWay");
@@ -2272,44 +2281,45 @@
         }
       });
 
-      _CastProps(self, properties);
+      _CastProps(properties, self);
+
+      self._reroute_()
+        .then(function (rc){
+          return rc.rebuild()
+          .then (function (){
+            logger.warn(`Component._new_ The component ${self.name} was built successfully!`);
+          }).catch (function (standardResponse){
+            logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
+            console.error(standardResponse);
+          });
+      });
       
-      if (!self._reroute_()) {
-        self.rebuild().catch(function(standardResponse) {
-          logger.debug("Component not rebuilt");
-        });
-      }
     },
     _reroute_ () {
-      //This method set the selected routing and makes the switch to the templateURI
+      /* This method set the selected routing and makes the switch to the templateURI */
       var rc = this;
-      var _rebuilt = false;
-      if (isBrowser){
-        if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay)) {
-          rc.routingPath = document.location[rc.routingWay];
-          rc.routingSelected.map(function (routing, r){
-            var componentURI = ComponentURI({
-              "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
-              "COMPONENT_NAME": routing.name.toString(),
-              "TPLEXTENSION": (routing.hasOwnProperty.call(routing,"tplextension")) ? (routing.tplextension) : (rc.tplextension),
-              "TPL_SOURCE": "default" //here is always default in order to get the right uri
+      return new Promise (function (resolve, reject) {
+        if (isBrowser){
+          if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay)) {
+            rc.routingPath = document.location[rc.routingWay];
+            rc.routingSelected.map(function (routing, r){
+              var componentURI = ComponentURI({
+                "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
+                "COMPONENT_NAME": routing.name.toString(),
+                "TPLEXTENSION": (routing.hasOwnProperty.call(routing,"tplextension")) ? (routing.tplextension) : (rc.tplextension),
+                "TPL_SOURCE": "default" /* here is always default in order to get the right uri */
+              });
+              rc.templateURI = componentURI;
             });
-            rc.templateURI = componentURI;
-          });
-          if (rc.routingSelected.length > 0) {
-            rc.template = "";
-            rc.body.innerHTML = "";
-            rc.rebuild().then(function() {
-              // not yet implemented.
-            }).catch(function(standardResponse) {
-              logger.debug("Component not rebuilt");
-            });
-            _rebuilt = true;
+            if (rc.routingSelected.length > 0) {
+              rc.template = "";
+              rc.body.innerHTML = "";
+            }
           }
         }
-
-      }
-      return _rebuilt;
+        resolve(rc);
+  
+      });
     },
     lazyLoadImages  (){
       if (isBrowser){
