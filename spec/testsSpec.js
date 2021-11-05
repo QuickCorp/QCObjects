@@ -45,7 +45,7 @@ describe("QCObjects Main Test", function () {
   });
 
   it("global as QCObjects global", function () {
-    expect(typeof global.__definition).toEqual("function");
+    expect(typeof global.__definition).toEqual("object");
     logger.debug("global as QCObjects global... OK");
   });
 

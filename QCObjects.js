@@ -30,6 +30,7 @@
 (function(_top) {
   "use strict";
   var global = _top;
+  _top.global = global;
 
   var _protected_code_ = function(_) {
     var __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function() {
@@ -321,7 +322,7 @@
     };
   };
   var logger = new Logger();
-  logger.debugEnabled = true;
+  logger.debugEnabled = false;
   logger.infoEnabled = true;
   _top.logger = logger;
   var Base64 = {
@@ -666,7 +667,7 @@
         _value_ = Object.assign({}, obj);
         break;
       case typeof obj === "function":
-        _value_ = Object.assign(Function(), obj);
+        _value_ = obj.bind({});
         break;
       case __is_raw_class__(obj):
         _value_ = class extends obj {};
@@ -853,9 +854,28 @@
         } else {
           _o_ = {};
         }
-        super({..._o_});
+        super(_o_);
         var self = this;
+        self._new_.call(self,_o_);
+      }
 
+      __new__ (_o_) {
+
+        var self = this;
+        var Properties = Object(_o_);
+        for (var prop in Properties) {
+          if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
+            if (Object.hasOwnProperty.call(Properties, prop)) {
+              self[prop] = Properties[prop];
+            }
+          } else {
+            throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
+          }
+        }
+      }
+
+      _new_ (_o_) {
+        var self = this;
         __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
         if (!self.__instanceID) {
           Object.defineProperty(self, "__instanceID", {
@@ -870,15 +890,17 @@
           });
         }
 
-        if (typeof _QC_CLASSES[name]["__definition"] !== "undefined") {
-          Object.keys(_QC_CLASSES[name]["__definition"]).filter(function (k){
+        if (typeof _QC_CLASSES[self.__classType]["__definition"] !== "undefined") {
+          Object.keys(_QC_CLASSES[self.__classType]["__definition"]).filter(function (k){
             return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
           }).forEach(function(key) {
-            self[key] = _QC_CLASSES[name]["__definition"][key];
+            self[key] = _QC_CLASSES[self.__classType]["__definition"][key];
           });
   
-          self.__definition = _QC_CLASSES[name]["__definition"];
+          self.__definition = _QC_CLASSES[self.__classType]["__definition"];
         }
+
+        self = Object.assign(self,_methods_(self).map (function(m) { m=m.bind(self); } ));
 
         try {
           self.__new__.call(self,_o_);
@@ -899,31 +921,7 @@
         } else if (Object.hasOwnProperty.call(self.__definition,"body")) {
           self["body"] = self.__definition.body;
         }
-        if (typeof self._new_ !== "undefined") {
-          self._new_.call(self,_o_);
-        }
-      }
 
-      __new__ (_o_) {
-        if (super.__new__){
-          super.__new__(_o_);
-        }
-
-        var self = this;
-        var Properties = Object(_o_);
-        for (var prop in Properties) {
-          if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
-            if (Object.hasOwnProperty.call(Properties, prop)) {
-              self[prop] = Properties[prop];
-            }
-          } else {
-            throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
-          }
-        }        
-      }
-
-      _new_ (_o_) {
-        this.__new__(_o_);
       }
 
       css (_css) {
@@ -1814,7 +1812,7 @@
     assign (data) {
       var templateInstance = this;
       var processorHandler = templateInstance.component.processorHandler;
-      var parsedAssignmentText = templateInstance.template;
+      var parsedAssignmentText = (typeof templateInstance.template !== "undefined")?(templateInstance.template):("");
       if (typeof data === "object"){
         [...Object.keys(data)].map(function (k){
           var _value = data[k];
@@ -1847,11 +1845,70 @@
   };
 
   _top.__oldpopstate = _top.onpopstate;
-  Class("Component", Object, {
+  _top._bindroute_ = function () {
+    {
+      if (isBrowser) {
+        if (!_top._bindroute_.__assigned) {
+          document.addEventListener("componentsloaded", function(e) {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            if (!_top._bindroute_.__assigned) {
+
+              _top.onpopstate = function(e) {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                ClassFactory("Component").route();
+                if (typeof e.target.__oldpopstate !== "undefined" && typeof e.target.__oldpopstate === "function") {
+                  e.target.__oldpopstate.call(e.target, e);
+                }
+              };
+              Tag("a").map(function(a) {
+                a.oldclick = a.onclick;
+                a.onclick = function(e) {
+                  var _ret_ = true;
+                  if (!_top.global.get("routingPaths")) {
+                    _top.global.set("routingPaths", []);
+                  }
+                  var routingWay = _top.CONFIG.get("routingWay");
+                  var routingPath = e.target[routingWay];
+                  if (_top.global.get("routingPaths").includes(routingPath) &&
+                    e.target[routingWay] !== document.location[routingWay] &&
+                    e.target.href !== document.location.href
+                  ) {
+                    logger.debug("A ROUTING WAS FOUND: " + routingPath);
+                    window.history.pushState({
+                      href: e.target.href
+                    }, e.target.href, e.target.href);
+                    ClassFactory("Component").route();
+                    _ret_ = false;
+                  } else {
+                    logger.debug("NO ROUTING FOUND FOR: " + routingPath);
+                  }
+                  if (typeof e.target.oldclick !== "undefined" && typeof e.target.oldclick === "function") {
+                    e.target.oldclick.call(e.target, e);
+                  }
+                  return _ret_;
+                };
+                return null;
+              });
+
+
+              _top._bindroute_.__assigned = true;
+              Object.freeze(_top._bindroute_);
+            }
+          }, captureFalse);
+        }
+      } else {
+        // not yet implemented.
+      }
+    }
+  };
+  Class ("Component", Object, {
     domain: domain,
     basePath: basePath,
     templateURI: "",
     templateHandler: "DefaultTemplateHandler",
+    template: undefined,
     processorHandler: null,
     tplsource: "default",
     url: "",
@@ -1971,7 +2028,7 @@
             if (typeof _component.done === "function") {
               _component.done.call(_component, standardResponse);
             }
-            resolve(_promise, standardResponse);
+            resolve.call(_promise, standardResponse);
             break;
           case (_component.get("tplsource") === "inline"):
             logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
@@ -1983,7 +2040,7 @@
             if (typeof _component.done === "function") {
               _component.done.call(_component, standardResponse);
             }
-            resolve(_promise, standardResponse);
+            resolve.call(_promise, standardResponse);
             break;
           case (_component.get("tplsource") === "default" &&
             _component.get("templateURI") !== ""):
@@ -2026,61 +2083,6 @@
     routingNodes: [],
     routings: [],
     routingPath: "",
-    _bindroute () {
-      if (isBrowser) {
-        if (!ClassFactory("Component")._bindroute.__assigned) {
-          document.addEventListener("componentsloaded", function(e) {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            if (!ClassFactory("Component")._bindroute.__assigned) {
-
-              _top.onpopstate = function(e) {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                ClassFactory("Component").route();
-                if (typeof e.target.__oldpopstate !== "undefined" && typeof e.target.__oldpopstate === "function") {
-                  e.target.__oldpopstate.call(e.target, e);
-                }
-              };
-              Tag("a").map(function(a) {
-                a.oldclick = a.onclick;
-                a.onclick = function(e) {
-                  var _ret_ = true;
-                  if (!_top.global.get("routingPaths")) {
-                    _top.global.set("routingPaths", []);
-                  }
-                  var routingWay = _top.CONFIG.get("routingWay");
-                  var routingPath = e.target[routingWay];
-                  if (_top.global.get("routingPaths").includes(routingPath) &&
-                    e.target[routingWay] !== document.location[routingWay] &&
-                    e.target.href !== document.location.href
-                  ) {
-                    logger.debug("A ROUTING WAS FOUND: " + routingPath);
-                    window.history.pushState({
-                      href: e.target.href
-                    }, e.target.href, e.target.href);
-                    ClassFactory("Component").route();
-                    _ret_ = false;
-                  } else {
-                    logger.debug("NO ROUTING FOUND FOR: " + routingPath);
-                  }
-                  if (typeof e.target.oldclick !== "undefined" && typeof e.target.oldclick === "function") {
-                    e.target.oldclick.call(e.target, e);
-                  }
-                  return _ret_;
-                };
-                return null;
-              });
-
-
-              ClassFactory("Component")._bindroute.__assigned = true;
-            }
-          }, captureFalse);
-        }
-      } else {
-        // not yet implemented.
-      }
-    },
     route () {
       var componentClass = this;
       var isValidInstance = ((!!componentClass.__instanceID) &&
@@ -2176,7 +2178,7 @@
     parseTemplate  (template){
       var _self = this;
       var _parsedAssignmentText;
-      if (_self.hasOwnProperty.call(_self,"templateHandler")) {
+      if (Object.hasOwnProperty.call(_self,"templateHandler")) {
         var value = template;
         var templateHandlerName = _self.templateHandler;
         var templateHandlerClass = ClassFactory(_self.templateHandler);
@@ -2185,7 +2187,7 @@
           template: value
         });
         var selfData = _self.data;
-        if (_self.hasOwnProperty.call(_self,"assignRoutingParams") && _self.assignRoutingParams){
+        if (Object.hasOwnProperty.call(_self,"assignRoutingParams") && _self.assignRoutingParams){
           try {
             selfData = Object.assign(selfData,_self.routingParams);
           }catch (e){
@@ -2287,7 +2289,7 @@
         .then(function (rc){
           return rc.rebuild()
           .then (function (){
-            logger.warn(`Component._new_ The component ${self.name} was built successfully!`);
+            logger.info(`Component._new_ The component ${self.name} was built successfully!`);
           }).catch (function (standardResponse){
             logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
             console.error(standardResponse);
@@ -2306,7 +2308,7 @@
               var componentURI = ComponentURI({
                 "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
                 "COMPONENT_NAME": routing.name.toString(),
-                "TPLEXTENSION": (routing.hasOwnProperty.call(routing,"tplextension")) ? (routing.tplextension) : (rc.tplextension),
+                "TPLEXTENSION": (Object.hasOwnProperty.call(routing,"tplextension")) ? (routing.tplextension) : (rc.tplextension),
                 "TPL_SOURCE": "default" /* here is always default in order to get the right uri */
               });
               rc.templateURI = componentURI;
@@ -2416,12 +2418,12 @@
           var lang1=_top.CONFIG.get("lang","en");
           var lang2 = navigator.language.slice(0, 2);
           var i18n = _top.global.get("i18n");
-          if ((lang1 !== lang2) && (typeof i18n === "object" && i18n.hasOwnProperty.call(i18n,"messages"))){
+          if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwnProperty.call(i18n,"messages"))){
             var callback_i18n = function (){
               var component = this;
               return new Promise(function (resolve, reject){
                 var messages = i18n.messages.filter(function (message){
-                  return message.hasOwnProperty.call(message,lang1) && message.hasOwnProperty.call(message,lang2);
+                  return Object.hasOwnProperty.call(message,lang1) && Object.hasOwnProperty.call(message,lang2);
                 });
                 _componentRoot.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component")
                 .map(function (element){
@@ -2495,7 +2497,8 @@
 
     }
   });
-  ClassFactory("Component")._bindroute.__assigned=false;
+  _top._bindroute_.__assigned=false;
+
   (_methods_)(ClassFactory("Component")).map(function (__c__){(_protected_code_)(__c__);});
 
   Class("Controller", Object, {
@@ -2530,7 +2533,7 @@
           component.routingController = New(_Controller, {
             component: component
           }); // Initializes the main controller for the component
-          if (component.routingController.hasOwnProperty.call(component.routingController,"done") && typeof component.routingController.done === "function") {
+          if (Object.hasOwnProperty.call(component.routingController,"done") && typeof component.routingController.done === "function") {
             component.routingController.done.call(component.routingController);
           }
         }
@@ -2588,7 +2591,7 @@
       logger.debug("***** CONFIG LOADED:");
       logger.debug(result.service.template);
       this.JSONresponse = JSON.parse(result.service.template);
-      if (this.JSONresponse.hasOwnProperty.call(this.JSONresponse,"__encoded__")) {
+      if (Object.hasOwnProperty.call(this.JSONresponse,"__encoded__")) {
         this.JSONresponse = JSON.parse(ClassFactory("_Crypt").decrypt(this.JSONresponse.__encoded__, _secretKey));
       }
       for (var k in this.JSONresponse) {
@@ -2635,7 +2638,7 @@
     var _componentLoaderInBrowser = function(component, _async) {
       component.__promise__ = new Promise(function(resolve, reject) {
         var _promise = component.__promise__;
-        var container = (component.hasOwnProperty.call(component,"container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
+        var container = (Object.hasOwnProperty.call(component,"container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
         if (container !== null) {
           var _feedComponent_ = function(component) {
             component.feedComponent();
@@ -2969,7 +2972,7 @@
         function(resolve, reject) {
           var serviceURL = new URL(service.url);
           var req;
-          service.useHTTP2 = service.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2;
+          service.useHTTP2 = Object.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2;
 
 
           var captureEvents = function (req){
@@ -3017,7 +3020,7 @@
             req.on("end", () => {
               logger.debug("ending call...");
               service.template = dataXML;
-              if (service.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2) {
+              if (Object.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2) {
                 client.destroy();
               } else {
                 req.destroy();
@@ -3211,7 +3214,7 @@
         var _buildComponents = function() {
           if (isBrowser) {
             logger.debug("Starting to bind routes");
-            ClassFactory("Component")._bindroute.call(ClassFactory("Component"));
+            _top._bindroute_.call(ClassFactory("Component"));
             logger.debug("Starting to building components");
             global.componentsStack = document.buildComponents.call(document);
             logger.debug("Initializing the service worker");
@@ -3247,7 +3250,7 @@
             if (
               typeof _packages[_k] !== "undefined"
               && typeof _packages[_k] !== "function"
-              && _packages[_k].hasOwnProperty.call(_packages[_k],"length")
+              && Object.hasOwnProperty.call(_packages[_k],"length")
               && _packages[_k].length>0
             ){
               _keys.push(_k);
@@ -3394,7 +3397,7 @@
                 this.view = New(_View, {
                   component: this
                 }); // Initializes the main view for the component
-                if (this.view.hasOwnProperty.call(this.view,"done") && typeof this.view.done === "function") {
+                if (Object.hasOwnProperty.call(this.view,"done") && typeof this.view.done === "function") {
                   this.view.done.call(this.view);
                 }
               }
@@ -3407,10 +3410,10 @@
                 this.controller = New(_Controller, {
                   component: this
                 }); // Initializes the main controller for the component
-                if (this.controller.hasOwnProperty.call(this.controller,"done") && typeof this.controller.done === "function") {
+                if (Object.hasOwnProperty.call(this.controller,"done") && typeof this.controller.done === "function") {
                   this.controller.done.call(this.controller);
                 }
-                if (this.controller.hasOwnProperty.call(this.controller,"createRoutingController")){
+                if (Object.hasOwnProperty.call(this.controller,"createRoutingController")){
                   this.controller.createRoutingController.call(this.controller);
                 }
               }
@@ -3456,8 +3459,8 @@
             var _serviceClassName = (components[_c].getAttribute("serviceClass") !== null) ? (components[_c].getAttribute("serviceClass")) : (null);
             /* __enable_service_class__ = true by default */
             var __enable_service_class__ = (
-              (components[_c].hasOwnProperty.call(components[_c], "enableServiceClass") && components[_c].enableServiceClass)
-              || (!components[_c].hasOwnProperty.call(components[_c], "enableServiceClass"))
+              (Object.hasOwnProperty.call(components[_c], "enableServiceClass") && components[_c].enableServiceClass)
+              || (!Object.hasOwnProperty.call(components[_c], "enableServiceClass"))
             ) ? (true) : (false);
             var _response_to_data_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "data") ? (true) : (false);
             var _response_to_template_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "template") ? (true) : (false);
@@ -3495,14 +3498,14 @@
             }
 
             var __serviceClass = ClassFactory(_serviceClassName);
-            if (!_response_to_data_ && __classDefinition && __classDefinition.hasOwnProperty.call(__classDefinition, "responseTo")){
+            if (!_response_to_data_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")){
               _response_to_data_ = (__classDefinition.responseTo === "data")?(true):(false);
-            } else if (!_response_to_data_ && ClassFactory("Component").hasOwnProperty.call(ClassFactory("Component"), "responseTo")){
+            } else if (!_response_to_data_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")){
               _response_to_data_ = (ClassFactory("Component").responseTo === "data")?(true):(false);
             }
-            if (!_response_to_template_ && __classDefinition && __classDefinition.hasOwnProperty.call(__classDefinition, "responseTo")){
+            if (!_response_to_template_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")){
               _response_to_template_ = (__classDefinition.responseTo === "template")?(true):(false);
-            } else if (!_response_to_template_ && ClassFactory("Component").hasOwnProperty.call(ClassFactory("Component"), "responseTo")){
+            } else if (!_response_to_template_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")){
               _response_to_template_ = (ClassFactory("Component").responseTo === "template")?(true):(false);
             }
 
@@ -3694,7 +3697,7 @@
           var supportedMethods = {
             "post": microservice.post,
           };
-          if (supportedMethods.hasOwnProperty.call(supportedMethods,requestMethod)) {
+          if (Object.hasOwnProperty.call(supportedMethods,requestMethod)) {
             supportedMethods[requestMethod].call(microservice, data);
           }
         });
@@ -3711,7 +3714,7 @@
           "trace": microservice.trace,
           "patch": microservice.patch
         };
-        if (supportedMethods.hasOwnProperty.call(supportedMethods,requestMethod)) {
+        if (Object.hasOwnProperty.call(supportedMethods,requestMethod)) {
           supportedMethods[requestMethod].call(microservice);
         }
 
@@ -3752,7 +3755,6 @@
         }
       },
       done  () {
-        logger.debugEnabled = true;
         var microservice = this;
         var stream = microservice.stream;
         try {
@@ -3798,7 +3800,7 @@
           (function(s, url, context) {
             s.type = context.type;
             s.src = url;
-            s.crossOrigin = (context.hasOwnProperty.call(context,"crossOrigin")) ? (context.crossOrigin) : ("anonymous");
+            s.crossOrigin = (Object.hasOwnProperty.call(context,"crossOrigin")) ? (context.crossOrigin) : ("anonymous");
             s.async = context.async;
             s.onreadystatechange = function() {
               if (this.readyState === "complete") {
@@ -4093,7 +4095,7 @@
           // if this is an object with a done method
           if (typeof this !== "undefined"
             && this !== null
-            && this.hasOwnProperty.call(this,"done") &&
+            && Object.hasOwnProperty.call(this,"done") &&
             (typeof this.done).toLowerCase() === "function") {
             this.done.call(this);
           }
@@ -4297,7 +4299,7 @@
         "portrait":layout_portrait
       };
 
-      return (layout_code.hasOwnProperty.call(layout_code, layoutname))?(layout_code[layoutname]):("");
+      return (Object.hasOwnProperty.call(layout_code, layoutname))?(layout_code[layoutname]):("");
     };
 
     ClassFactory("Processor").setProcessor(layout);
