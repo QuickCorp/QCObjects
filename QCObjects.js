@@ -460,25 +460,30 @@
   var ComplexStorageCache = function(params) {
     var object, load, alternate;
     object = params.index;
-    load = params.load;
-    alternate = params.alternate;
-    var cachedObjectID = this.getID(object);
-    var cachedResponse = localStorage.getItem(cachedObjectID);
-    if (this.isEmpty(cachedResponse)) {
-      var cachedNewResponse = load.call(null, {
-        "cachedObjectID": cachedObjectID,
-        "cachedResponse": cachedResponse,
-        "cache": this
-      });
-      this.save(object, cachedNewResponse);
-      logger.debug("RESPONSE OF {{cachedObjectID}} CACHED".replace("{{cachedObjectID}}", cachedObjectID));
+    if (typeof object !== "undefined") {
+      load = params.load;
+      alternate = params.alternate;
+      var cachedObjectID = this.getID(object);
+      var cachedResponse = localStorage.getItem(cachedObjectID);
+      if (this.isEmpty(cachedResponse)) {
+        var cachedNewResponse = load.call(null, {
+          "cachedObjectID": cachedObjectID,
+          "cachedResponse": cachedResponse,
+          "cache": this
+        });
+        this.save(object, cachedNewResponse);
+        logger.debug("RESPONSE OF {{cachedObjectID}} CACHED".replace("{{cachedObjectID}}", cachedObjectID));
+      } else {
+        var alternateResponse = alternate.call(null, {
+          "cachedObjectID": cachedObjectID,
+          "cachedResponse": cachedResponse,
+          "cache": this
+        });
+        logger.debug("RESPONSE OF {{cachedObjectID}} IS ALREADY CACHED ".replace("{{cachedObjectID}}", cachedObjectID));
+      }
+  
     } else {
-      var alternateResponse = alternate.call(null, {
-        "cachedObjectID": cachedObjectID,
-        "cachedResponse": cachedResponse,
-        "cache": this
-      });
-      logger.debug("RESPONSE OF {{cachedObjectID}} IS ALREADY CACHED ".replace("{{cachedObjectID}}", cachedObjectID));
+      throw new Error("ComplexStorageCache: index is undefined");
     }
     return this;
   };
@@ -509,7 +514,10 @@
     return r;
   };
   ComplexStorageCache.prototype.getID = function(object) {
-    var cachedObjectID = "cachedObject_" + Base64.encode(_DataStringify(object).replace(/\{|\}|,/g, "_"));
+    var cachedObjectID;
+    if (typeof object !== "undefined") {
+      cachedObjectID = "cachedObject_" + Base64.encode(_DataStringify(object).replace(/\{|\}|,/g, "_"));
+    }
     return cachedObjectID;
   };
   ComplexStorageCache.prototype.save = function(object, cachedNewResponse) {
@@ -1104,8 +1112,8 @@
    */
 
   var New = function(__class__, args) {
-    var args = (arguments.length > 1) ? (arguments[1]) : ({});
-    return (typeof __class__ === "undefined") ? (new Object()) : (new __class__({...args}));
+    args = (arguments.length > 1) ? (args) : ({});
+    return (typeof __class__ === "undefined") ? (new Object()) : (new __class__(args));
   };
 
   New.prototype.toString = function() {
@@ -2201,10 +2209,10 @@
       return _parsedAssignmentText;
     },
     _new_ (properties) {
-      if (super._new_){
-        super._new_(properties);
-      }
       var self = this;
+      if (super._new_){
+        super._new_.call(self,properties);
+      }
 
       self.routingWay = _top.CONFIG.get("routingWay");
 
@@ -2230,7 +2238,8 @@
           logger.debug("[cacheIndex] This property is readonly");
         },
         get() {
-          return Base64.encode(self.name + _DataStringify(self.routingSelected));
+          var __routing_path__ = _DataStringify(self.routingPath);
+          return Base64.encode(self.name + __routing_path__ );
         }
       });
 
