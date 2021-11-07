@@ -699,7 +699,7 @@
    */
    var ObjectName = function(o) {
      var ret = "";
-     if (typeof o === "function" && Object.hasOwnProperty.call(o, "name")){
+     if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
        ret = o.name;
      } else if (typeof o.constructor === "function" && o.constructor.name !== "") {
        ret = o.constructor.name;
@@ -821,12 +821,12 @@
         return class {};
       case 1:
         name = arguments[0];
-        type = class {};
+        type = Object;
         definition = {};
         break;
       case 2:
         name = arguments[0];
-        type = class {};
+        type = Object;
         definition = arguments[1];
         break;
       case 3:
@@ -838,9 +838,8 @@
         break;
     }
 
-    if (typeof type === "object") {
-      definition = type;
-      type = class {};
+    if (typeof type !== "function") {
+      throw new Error("Class type must be a function or class");
     }
 
     if (__is__forbidden_name__.call(this, name)){
@@ -853,7 +852,36 @@
 
     _types_[type.name] = type;
 
+    if (typeof definition === "undefined" || definition === null) {
+      definition = {};
+    } else {
+      definition = _LegacyCopy(definition);
+    }
+    
+    /* hack to prevent duplicate __instanceID */
+    if (typeof definition["__instanceID"] !== "undefined") {
+      delete definition["__instanceID"];
+    }    
+
     _QC_CLASSES[name] = class extends _types_[type.name] {
+      __classType = name;
+      __definition = definition;
+      body = null;
+
+      static hierarchy(__class__) {
+          var __classType = function(o_c) {
+            return (Object.hasOwnProperty.call(o_c,"__classType"))?(o_c.__classType):(__getType__.call(__class__, o_c));
+          };
+          var __hierarchy__proto__ = (c) => { return (typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null)?( ( (__classType(c)!== "") ?([__classType(c)]):([])).concat( __hierarchy__proto__(c.__proto__)  ) ):([]); };
+    
+          if (typeof __class__ === "undefined" || __class__ === null) {
+            __class__ = this;
+          }
+          var __hierarchy = [];
+          __hierarchy.push(__classType(__class__));
+          __hierarchy = __hierarchy.concat(__hierarchy__proto__(__class__.__proto__));
+          return __hierarchy;
+      }
 
       constructor () {
         var _o_;
@@ -863,27 +891,7 @@
           _o_ = {};
         }
         super(_o_);
-        var self = this;
-        self._new_.call(self,_o_);
-      }
-
-      __new__ (_o_) {
-
-        var self = this;
-        var Properties = Object(_o_);
-        for (var prop in Properties) {
-          if (["__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(prop) === -1) {
-            if (Object.hasOwnProperty.call(Properties, prop)) {
-              self[prop] = Properties[prop];
-            }
-          } else {
-            throw new Error(`${prop} is a reserved word and cannot be used as a property name for ${name}`);
-          }
-        }
-      }
-
-      _new_ (_o_) {
-        var self = this;
+        let self = this;
         __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
         if (!self.__instanceID) {
           Object.defineProperty(self, "__instanceID", {
@@ -891,29 +899,18 @@
             writable: false
           });
         }
-        if (!self.__classType) { 
-          Object.defineProperty(self, "__classType", {
-            value: name,
-            writable: false
-          });
-        }
+//        self = Object.assign(self,Object.getPrototypeOf(self),_methods_(Object.getPrototypeOf(self)).map (function(m) { m=m.bind(self); } ));
+//        self = Object.assign(self,_methods_(self).map (function(m) { m=m.bind(self); } ));
+//        _methods_(_QC_CLASSES[self.__classType]).map (function(m) { self[m.name] = m.bind(self); });
+        _methods_(_QC_CLASSES[self.__classType]).map (function(m) { self[m.name] = m.bind(self); });
 
-        if (typeof _QC_CLASSES[self.__classType]["__definition"] !== "undefined") {
-          Object.keys(_QC_CLASSES[self.__classType]["__definition"]).filter(function (k){
-            return isNaN(k) && ["name","__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].lastIndexOf(k) === -1;
+
+        if (typeof self.__definition !== "undefined") {
+          Object.keys(self.__definition).filter(function (k){
+            return isNaN(k) && !["name","__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].includes(k);
           }).forEach(function(key) {
-            self[key] = _QC_CLASSES[self.__classType]["__definition"][key];
+            self[key] = self.__definition[key];
           });
-  
-          self.__definition = _QC_CLASSES[self.__classType]["__definition"];
-        }
-
-        self = Object.assign(self,_methods_(self).map (function(m) { m=m.bind(self); } ));
-
-        try {
-          self.__new__.call(self,_o_);
-        } catch (e){
-          logger.warn(e);
         }
 
         if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition,"body")) ||  typeof self.__definition.body === "undefined") {
@@ -930,7 +927,20 @@
           self["body"] = self.__definition.body;
         }
 
+        try {
+          self.__new__.call(self,_o_);
+          if (Object.hasOwnProperty.call(self,"_new_")) {
+            self._new_.call(self,_o_);
+          }
+        } catch (e){
+          logger.warn(e);
+        }
       }
+
+      __new__ (_o_) {
+        _CastProps(_o_, this);        
+      }
+      _new_ (){}
 
       css (_css) {
         if (typeof this["body"] !== "undefined" && this["body"]["style"] !== "undefined") {
@@ -954,10 +964,18 @@
         return [__getType__(__instance__)].concat(__hierarchy).filter(function (value, index, self) { return self.indexOf(value) === index;});
       }
 
+
       append (child) {
-        var child = (typeof child === "undefined") ? (this["body"]) : (child);
+        logger.debug("append: start");
+        if (is_a(child, "Component")){
+          logger.debug("append: child is a Component");
+          logger.debug(`appending the body of ${child.name}`);
+        }
+        var child = (arguments.length > 0) ? (arguments[0]) : (this["body"]);
         if (typeof this["body"] !== "undefined") {
-          if (arguments.length > 0) {
+          logger.debug("append element");
+          if (arguments.lenght > 0) {
+            logger.debug("append to element");
             this["body"].append(child);
             if (typeof this["childs"] === "undefined") {
               this["childs"] = [];
@@ -965,6 +983,7 @@
             this["childs"].push(child);
           } else {
             if (isBrowser) {
+              logger.debug("append to body");
               document.body.append(child);
             }
           }
@@ -984,33 +1003,9 @@
 
     };
 
-    if (typeof definition === "undefined" || definition === null) {
-      definition = {};
-    } else {
-      definition = _LegacyCopy(definition);
-    }
-    
-    /* hack to prevent duplicate __instanceID */
-    if (typeof definition["__instanceID"] !== "undefined") {
-      delete definition["__instanceID"];
-    }
+    // remove the keys from definition that exist in the prototype
+
     _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
-
-    _QC_CLASSES[name]["hierarchy"] = function hierarchy(__class__) {
-      var __classType = function(o_c) {
-        return (Object.hasOwnProperty.call(o_c,"__classType"))?(o_c.__classType):(__getType__.call(__class__, o_c));
-      };
-      var __hierarchy__proto__ = (c) => { return (typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null)?( ( (__classType(c)!== "") ?([__classType(c)]):([])).concat( __hierarchy__proto__(c.__proto__)  ) ):([]); };
-
-      if (typeof __class__ === "undefined" || __class__ === null) {
-        __class__ = this;
-      }
-      var __hierarchy = [];
-      __hierarchy.push(__classType(__class__));
-      __hierarchy = __hierarchy.concat(__hierarchy__proto__(__class__.__proto__));
-      return __hierarchy;
-    };
-
     _QC_CLASSES[name]["__definition"] = definition;
     _QC_CLASSES[name]["__definition"]["hierarchy"] = _QC_CLASSES[name]["hierarchy"].bind(_QC_CLASSES[name]["__definition"]);
     _QC_CLASSES[name]["__definition"]["__classType"] = name;
@@ -1306,46 +1301,41 @@
     }
   });
 
-  Class("ConfigSettings", Object, {
-    _instance: null,
+  class ConfigSettings {
+      static _instance = null;
+      static _CONFIG_ENC = null;
+      static get instance() {
 
-    set instance (o) {
-      this._instance = o;
-    },
-    
-    get instance () {
-      
-       if (this._instance === null) {
-         
-          this.instance = New(
-             ClassFactory("ConfigSettings"),
-             {
-               _instance: {},
-               _CONFIG: {
-                "relativeImportPath": "",
-                "remoteImportsPath": "",
-                "remoteSDKPath": "https://sdk.qcobjects.dev/",
-                "asynchronousImportsLoad": false,
-                "removePackageScriptAfterLoading":true,
-                "componentsBasePath": "",
-                "delayForReady": 0,
-                "preserveComponentBodyTag": false,
-                "overrideComponentTag": false,
-                "useConfigService": false,
-                "routingWay": "hash",
-                "useSDK": true,
-                "useLocalSDK": false,
-                "basePath": basePath
-              },
-              _CONFIG_ENC: null               
-            }
-          );
-         
-       }
-      
-       return this._instance;
-    }
-  });
+        if (this._instance === null) {
+          var _config_settings = new ConfigSettings();
+          _config_settings._CONFIG = {
+            "relativeImportPath": "",
+            "remoteImportsPath": "",
+            "remoteSDKPath": "https://sdk.qcobjects.dev/",
+            "asynchronousImportsLoad": false,
+            "removePackageScriptAfterLoading":true,
+            "componentsBasePath": "",
+            "delayForReady": 0,
+            "preserveComponentBodyTag": false,
+            "overrideComponentTag": false,
+            "useConfigService": false,
+            "routingWay": "hash",
+            "useSDK": true,
+            "useLocalSDK": false,
+            "basePath": basePath
+          };
+          _config_settings._CONFIG_ENC = null;
+          this._instance = _config_settings;
+        }
+          
+        return this._instance;
+      }
+
+      static set instance(value) {
+        this._instance = value;
+      }
+  }
+  _QC_CLASSES["ConfigSettings"] = ConfigSettings;
 
   Class("CONFIG", Object, {
 
@@ -1825,8 +1815,12 @@
         [...Object.keys(data)].map(function (k){
           var _value = data[k];
           if (typeof _value === "string" || typeof _value === "number" || (!isNaN(_value))){
-            _value = ClassFactory("Processor").processObject.call(processorHandler,_value);
-            parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
+            try {
+              _value = ClassFactory("Processor").processObject.call(processorHandler,_value);
+              parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
+            }catch (e){
+              logger.warn(e);
+            }
           }
         });
       } else {
@@ -1935,9 +1929,9 @@
     set (name, value) {
       this[name] = value;
     },
-    get (name) {
+    get  (name) {
       return this[name];
-    },
+    },    
     __promise__: null,
     feedComponent  (){
       var _component_ = this;
@@ -1988,6 +1982,8 @@
               container.appendChild(shadowContainer);
             } else {
               logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
+              container.removeChild(container.subelements(".shadowHost").pop());
+              container.appendChild(shadowContainer);
             }
           } else {
             logger.warn("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));
@@ -2072,13 +2068,17 @@
                 reject.call(_promise, standardResponse);
               });
             break;
-          default:
-            logger.debug("Component " + _component.name + " will not be rebuilt because no templateURI is present");
-            reject.call(_promise, {
-              request: null,
-              component: _component
-            });
+          case _component.get("tplsource") === "default" && _component.get("templateURI", "") === "":
+            logger.warn(`Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
+            reject.call(_promise, `Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
             break;
+          default:
+          logger.warn("Component " + _component.name + " will not be rebuilt because no templateURI is present");
+          reject.call(_promise, {
+            request: null,
+            component: _component
+          });
+          break;
         }
       });
       return _promise;
@@ -2210,8 +2210,9 @@
     },
     _new_ (properties) {
       var self = this;
-      if (super._new_){
-        super._new_.call(self,properties);
+
+      if (typeof self.name === "undefined"){
+        throw new Error("Component name is not defined");
       }
 
       self.routingWay = _top.CONFIG.get("routingWay");
@@ -2221,7 +2222,6 @@
       });
 
       Object.defineProperty(self, "body", {
-        configurable: true,
         set(value) {
           self._body = value;
           self._generateRoutingPaths(value);
@@ -2292,11 +2292,13 @@
         }
       });
 
-      _CastProps(properties, self);
+      if (self.__new__){
+        self.__new__.call(self,properties);
+      }
 
       self._reroute_()
-        .then(function (rc){
-          return rc.rebuild()
+        .then(function (){
+          return self.rebuild()
           .then (function (){
             logger.info(`Component._new_ The component ${self.name} was built successfully!`);
           }).catch (function (standardResponse){
@@ -3400,64 +3402,71 @@
               data[_attribute_name_] = components[_c].getAttribute("data-" + _attribute_name_);
             });
             var componentDone = function() {
-              var viewName = this.body.getAttribute("viewClass");
+              var _component_ = this;
+              if (typeof _component_ === "undefined") {
+                throw new Error("componentDone() has lost its context");
+              }
+              if (typeof _component_.body === "undefined") {
+                throw new Error("The component has no body");
+              }
+              var viewName = _component_.body.getAttribute("viewClass");
               var _View = ClassFactory(viewName);
               if (typeof _View !== "undefined") {
-                this.view = New(_View, {
-                  component: this
+                _component_.view = New(_View, {
+                  component: _component_
                 }); // Initializes the main view for the component
-                if (Object.hasOwnProperty.call(this.view,"done") && typeof this.view.done === "function") {
-                  this.view.done.call(this.view);
+                if (Object.hasOwnProperty.call(_component_.view,"done") && typeof _component_.view.done === "function") {
+                  _component_.view.done.call(_component_.view);
                 }
               }
-              var controllerName = this.body.getAttribute("controllerClass");
+              var controllerName = _component_.body.getAttribute("controllerClass");
               if (!controllerName){
                 controllerName = "Controller";
               }
               var _Controller = ClassFactory(controllerName);
               if (typeof _Controller !== "undefined") {
-                this.controller = New(_Controller, {
-                  component: this
+                _component_.controller = New(_Controller, {
+                  component: _component_
                 }); // Initializes the main controller for the component
-                if (Object.hasOwnProperty.call(this.controller,"done") && typeof this.controller.done === "function") {
-                  this.controller.done.call(this.controller);
+                if (Object.hasOwnProperty.call(_component_.controller,"done") && typeof _component_.controller.done === "function") {
+                  _component_.controller.done.call(_component_.controller);
                 }
-                if (Object.hasOwnProperty.call(this.controller,"createRoutingController")){
-                  this.controller.createRoutingController.call(this.controller);
+                if (Object.hasOwnProperty.call(_component_.controller,"createRoutingController")){
+                  _component_.controller.createRoutingController.call(_component_.controller);
                 }
               }
-              var effectClassName = this.body.getAttribute("effectClass");
-              var applyEffectTo = this.body.getAttribute("apply-effect-to");
+              var effectClassName = _component_.body.getAttribute("effectClass");
+              var applyEffectTo = _component_.body.getAttribute("apply-effect-to");
               applyEffectTo = (applyEffectTo !== null)?(applyEffectTo):("load");
               if (effectClassName !== null && applyEffectTo === "observe"){
-                this.applyObserveTransitionEffect(effectClassName);
+                _component_.applyObserveTransitionEffect(effectClassName);
               } else if (effectClassName !== null && applyEffectTo === "load"){
-                this.applyTransitionEffect(effectClassName);
+                _component_.applyTransitionEffect(effectClassName);
               }
-              if (this.shadowed && (typeof this.shadowRoot !== "undefined")){
-                this.subcomponents = _buildComponent(this.shadowRoot.subelements(tagFilter), this);
+              if (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined")){
+                _component_.subcomponents = _buildComponent(_component_.shadowRoot.subelements(tagFilter), _component_);
               } else {
-                this.subcomponents = _buildComponent(this.body.subelements(tagFilter), this);
+                _component_.subcomponents = _buildComponent(_component_.body.subelements(tagFilter), _component_);
               }
 
               if (_top.CONFIG.get("overrideComponentTag")) {
-                this.body.outerHTML = this.body.innerHTML;
+                _component_.body.outerHTML = this.body.innerHTML;
               }
-              this.body.setAttribute("loaded", true);
+              _component_.body.setAttribute("loaded", true);
 
-              this.runComponentHelpers();
+              _component_.runComponentHelpers();
 
               if ((Tag("component[loaded=true]").length * 100 / Tag("component:not([template-source=none])").length) >= 100) {
                 d.dispatchEvent(new CustomEvent("componentsloaded", {
                   detail: {
-                    lastComponent: this
+                    lastComponent: _component_
                   }
                 }));
               }
             };
 
             var __shadowed_not_set = (components[_c].getAttribute("shadowed") === null) ? (true) : (false);
-            var __tplsource_not_set = (components[_c].getAttribute("template-source") === null) ? (true) : (false);
+            var __tplsource_attr_not_set = (components[_c].getAttribute("template-source") === null) ? (true) : (false);
             var shadowed = (components[_c].getAttribute("shadowed") === "true") ? (true) : (false);
             var __cached_not_set = (components[_c].getAttribute("cached") === null) ? (true) : (false);
             var cached = (components[_c].getAttribute("cached") === "true") ? (true) : (false);
@@ -3473,7 +3482,7 @@
             ) ? (true) : (false);
             var _response_to_data_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "data") ? (true) : (false);
             var _response_to_template_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "template") ? (true) : (false);
-            var __componentClassName = (_top.CONFIG.get("preserveComponentBodyTag"))?(
+            let __componentClassName = (_top.CONFIG.get("preserveComponentBodyTag"))?(
               (_componentName !== null)?("com.qcobjects.components."+_componentName+".ComponentBody"):("com.qcobjects.components.ComponentBody")
             ):(_componentClassName);
             _componentName = (_componentName !== null)?(_componentName):(
@@ -3484,7 +3493,8 @@
                 ):("")
               );
             var __classDefinition = ClassFactory(__componentClassName);
-            var tplsource = (__tplsource_not_set) ? (__classDefinition.tplsource) : (components[_c].getAttribute("template-source"));
+            var __tplsource_prop_set = (__componentClassName !== "Component" && (typeof __classDefinition.tplsource === "string" && __classDefinition.tplsource !== "") ) ? (true) : (false);
+            var tplsource = (__tplsource_attr_not_set && __tplsource_prop_set) ? (__classDefinition.tplsource) : ((__tplsource_attr_not_set)?("default"):(components[_c].getAttribute("template-source")));
             logger.debug (`template source for  ${_componentName} is ${tplsource} `);
             logger.debug (`type for ${_componentName} is ${__getType__(__classDefinition)} `);
 
