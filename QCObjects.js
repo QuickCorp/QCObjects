@@ -899,19 +899,16 @@
             writable: false
           });
         }
-//        self = Object.assign(self,Object.getPrototypeOf(self),_methods_(Object.getPrototypeOf(self)).map (function(m) { m=m.bind(self); } ));
-//        self = Object.assign(self,_methods_(self).map (function(m) { m=m.bind(self); } ));
-//        _methods_(_QC_CLASSES[self.__classType]).map (function(m) { self[m.name] = m.bind(self); });
-        _methods_(_QC_CLASSES[self.__classType]).map (function(m) { self[m.name] = m.bind(self); });
-
 
         if (typeof self.__definition !== "undefined") {
           Object.keys(self.__definition).filter(function (k){
-            return isNaN(k) && !["name","__instanceID", "__classType", "__definition", "css", "hierarchy", "append", "attachIn"].includes(k);
+            return isNaN(k) && !["name","__instanceID", "__classType", "__definition","__new__", "_new_", "css", "hierarchy", "append", "attachIn"].includes(k);
           }).forEach(function(key) {
             self[key] = self.__definition[key];
           });
         }
+        _methods_(_QC_CLASSES[self.__classType]).map (function(m) { self[m.name] = m.bind(self); });
+        _methods_(self.__definition).map (function(m) { self[m.name] = m.bind(self); });
 
         if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition,"body")) ||  typeof self.__definition.body === "undefined") {
           try {
@@ -928,7 +925,9 @@
         }
 
         try {
-          self.__new__.call(self,_o_);
+          if (typeof self.__new__ === "function") {
+            self.__new__.call(self,_o_);
+          }
           if (Object.hasOwnProperty.call(self,"_new_")) {
             self._new_.call(self,_o_);
           }
@@ -1048,7 +1047,7 @@
 
   if (isBrowser) {
     Element.prototype.append = function QC_Append(child) {
-      if (isQCObjects_Object(child) && typeof child.body !== "undefined") {
+      if (isQCObjects_Object(child) || typeof child.body !== "undefined") {
         this.appendChild(child.body);
       } else {
         this.appendChild(child);
@@ -2008,10 +2007,12 @@
       };
 
       var _ret_;
-      if (__getType__(_component_) !== "Component"){
+      /*
+      if (is_a(_component_, "Component")){
         logger.warn("Trying to feed a non component object");
         return;
       }
+      */
       if (isBrowser){
         _ret_ = _feedComponent_InBrowser(_component_);
       } else {
@@ -2212,7 +2213,7 @@
       var self = this;
 
       if (typeof self.name === "undefined"){
-        throw new Error("Component name is not defined");
+        logger.debug("Component name is not defined");
       }
 
       self.routingWay = _top.CONFIG.get("routingWay");
@@ -2222,6 +2223,7 @@
       });
 
       Object.defineProperty(self, "body", {
+        configurable: true,
         set(value) {
           self._body = value;
           self._generateRoutingPaths(value);
