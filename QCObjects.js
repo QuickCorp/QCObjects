@@ -907,8 +907,9 @@
             self[key] = self.__definition[key];
           });
         }
-        _methods_(_QC_CLASSES[self.__classType]).map (function(m) { self[m.name] = m.bind(self); });
-        _methods_(self.__definition).map (function(m) { self[m.name] = m.bind(self); });
+        _methods_(_QC_CLASSES[self.__classType]).filter(m=>!Object.hasOwnProperty(self,m.name)).map (function(m) { 
+          self[m.name] = m.bind(self); });
+        _methods_(self.__definition).filter(m=>!Object.hasOwnProperty(self,m.name)).map (function(m) { self[m.name] = m.bind(self); });
 
         if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition,"body")) ||  typeof self.__definition.body === "undefined") {
           try {
@@ -2099,7 +2100,8 @@
       return _promise;
     },
     Cast (o) {
-      return _Cast(this, o);
+      /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
+      return this;
     },
     routingWay: null,
     validRoutingWays: ["pathname", "hash", "search"],
@@ -2528,7 +2530,7 @@
 
   (_methods_)(ClassFactory("Component")).map(function (__c__){(_protected_code_)(__c__);});
 
-  Class("Controller", Object, {
+  Class ("Controller", Object, {
     dependencies: [],
     component: null,
     routingSelectedAttr  (attrName){
