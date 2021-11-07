@@ -865,7 +865,7 @@
 
     _QC_CLASSES[name] = class extends _types_[type.name] {
       __classType = name;
-      __definition = definition;
+      __definition = {...definition};
       body = null;
 
       static hierarchy(__class__) {
@@ -927,9 +927,16 @@
         try {
           if (typeof self.__new__ === "function") {
             self.__new__.call(self,_o_);
+          } else if (typeof super.__new__ === "function") {
+            self.__new__ = super.__new__.bind(self);
+            self.__new__.call(self,_o_);
           }
           if (Object.hasOwnProperty.call(self,"_new_")) {
-            self._new_.call(self,_o_);
+            try {
+              self._new_.call(self,_o_);
+            }catch (e){
+              logger.warn(`${self.__classType}._new_() failed with error: ${e}`);
+            }
           }
         } catch (e){
           logger.warn(e);
@@ -1008,6 +1015,9 @@
     _QC_CLASSES[name]["__definition"] = definition;
     _QC_CLASSES[name]["__definition"]["hierarchy"] = _QC_CLASSES[name]["hierarchy"].bind(_QC_CLASSES[name]["__definition"]);
     _QC_CLASSES[name]["__definition"]["__classType"] = name;
+    _QC_CLASSES[name]["__definition"]["__new__"] = function __new__ (_o_) {
+      _CastProps(_o_, this);
+    };
 
     _top[name] = _QC_CLASSES[name];
   
@@ -2007,12 +2017,10 @@
       };
 
       var _ret_;
-      /*
-      if (is_a(_component_, "Component")){
+      if (!is_a(_component_, "Component")){
         logger.warn("Trying to feed a non component object");
         return;
       }
-      */
       if (isBrowser){
         _ret_ = _feedComponent_InBrowser(_component_);
       } else {
@@ -2023,63 +2031,69 @@
     rebuild () {
       var _component = this;
       var _promise = new Promise(function(resolve, reject) {
-        switch (true) {
-          case (_component.get("tplsource") === "none"):
-            logger.debug("Component " + _component.name + " has specified template-source=none, so no template load was done");
-            var standardResponse = {
-              request: null,
-              component: _component
-            };
-            if (typeof _component.done === "function") {
-              _component.done.call(_component, standardResponse);
-            }
-            resolve.call(_promise, standardResponse);
-            break;
-          case (_component.get("tplsource") === "inline"):
-            logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
-            _component.feedComponent();
-            var standardResponse = {
-              request: null,
-              component: _component
-            };
-            if (typeof _component.done === "function") {
-              _component.done.call(_component, standardResponse);
-            }
-            resolve.call(_promise, standardResponse);
-            break;
-          case (_component.get("tplsource") === "default" &&
-            _component.get("templateURI") !== ""):
-            _component.set("url", _component.get("basePath") + _component.get("templateURI"));
-            componentLoader(_component, false).then(
-              function(standardResponse) {
-                resolve.call(_promise, standardResponse);
-              },
-              function(standardResponse) {
-                reject.call(_promise, standardResponse);
+        if (typeof _component === "undefined" || _component === null){
+          reject("Component is undefined");
+        }
+        if (isQCObjects_Object(_component) && is_a(_component, "Component")){
+          switch (true) {
+            case (_component.get("tplsource") === "none"):
+              logger.debug("Component " + _component.name + " has specified template-source=none, so no template load was done");
+              var standardResponse = {
+                request: null,
+                component: _component
+              };
+              if (typeof _component.done === "function") {
+                _component.done.call(_component, standardResponse);
+              }
+              resolve.call(_promise, standardResponse);
+              break;
+            case (_component.get("tplsource") === "inline"):
+              logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
+              _component.feedComponent();
+              var standardResponse = {
+                request: null,
+                component: _component
+              };
+              if (typeof _component.done === "function") {
+                _component.done.call(_component, standardResponse);
+              }
+              resolve.call(_promise, standardResponse);
+              break;
+            case (_component.get("tplsource") === "default" &&
+              _component.get("templateURI") !== ""):
+              _component.set("url", _component.get("basePath") + _component.get("templateURI"));
+              componentLoader(_component, false).then(
+                function(standardResponse) {
+                  resolve.call(_promise, standardResponse);
+                },
+                function(standardResponse) {
+                  reject.call(_promise, standardResponse);
+                });
+              break;
+            case (_component.get("tplsource") === "external" &&
+              _component.get("templateURI") !== ""):
+              _component.set("url", _component.get("templateURI"));
+              componentLoader(_component, false).then(
+                function(standardResponse) {
+                  resolve.call(_promise, standardResponse);
+                },
+                function(standardResponse) {
+                  reject.call(_promise, standardResponse);
+                });
+              break;
+            case _component.get("tplsource") === "default" && _component.get("templateURI", "") === "":
+              logger.debug(`Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
+              reject.call(_promise, `Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
+              break;
+            default:
+              logger.debug("Component " + _component.name + " will not be rebuilt because no templateURI is present");
+              reject.call(_promise, {
+                request: null,
+                component: _component
               });
-            break;
-          case (_component.get("tplsource") === "external" &&
-            _component.get("templateURI") !== ""):
-            _component.set("url", _component.get("templateURI"));
-            componentLoader(_component, false).then(
-              function(standardResponse) {
-                resolve.call(_promise, standardResponse);
-              },
-              function(standardResponse) {
-                reject.call(_promise, standardResponse);
-              });
-            break;
-          case _component.get("tplsource") === "default" && _component.get("templateURI", "") === "":
-            logger.warn(`Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
-            reject.call(_promise, `Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
-            break;
-          default:
-          logger.warn("Component " + _component.name + " will not be rebuilt because no templateURI is present");
-          reject.call(_promise, {
-            request: null,
-            component: _component
-          });
-          break;
+              break;
+          }
+  
         }
       });
       return _promise;
@@ -2294,7 +2308,7 @@
         }
       });
 
-      if (self.__new__){
+      if (typeof self.__new__ === "function"){
         self.__new__.call(self,properties);
       }
 
@@ -3894,7 +3908,7 @@
     Cast (o) {
       return _Cast(this, o);
     },
-    "_new_" (properties) {
+    _new_ (properties) {
       this.__new__(properties);
       this.rebuild();
     }
