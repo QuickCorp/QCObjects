@@ -7,9 +7,6 @@ on:
   push:
     branches:
       - 'v*.*-beta'
-    branches-ignore:
-      - main
-      - master
     tags:
       - 'v*.*.*-beta'
 
