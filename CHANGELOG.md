@@ -218,11 +218,17 @@ This is an automatic Changelog history of versions generated using the command: 
 	- website2020 powershell
 ## v2 -> v2.3
 
+	- Added __parent__ accessor for components attached in the stack
 	- Allow to register multiple widgets
+	- Improvements to Transition Effects behaviour, add is_a and __getType__ for dynamic type management
 	- Performance improvement for rendering process
 	- Security improvements
 	- Version v2.3 release
+	- add support for Node to ComplexStorageCache
+	- allow serviceLoader to load local and mockup services
+	- bugfix, Installation scripts for Ubuntu, RHEL8 and RaspberryPi now point urls to cdn
 	- componentLoader support for node
+	- fix code integrity
 	- fix serviceLoader in backend headers
 	- freezing Object now is optional
 	- full compatibility with top-level await
@@ -232,6 +238,10 @@ This is an automatic Changelog history of versions generated using the command: 
 	- secureObjects default value to false prevent conflicts with ESLint
 	- serviceClass and response-to attributes to allow components load a service instance atomatically if needed
 	- shortCode & uniqueId helpers to create unique identifiers
+	- some security fixes, accurate name of objects
 	- support for RHEL8 & Raspberry PI Raspbian 9
 	- use of request npm module has been deprecated and replaced by http https respectively
 	- v2.3 release
+## v2 -> v2.4
+
+	- New Version
