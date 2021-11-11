@@ -1,14 +1,17 @@
 # This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
 # For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
 
-name: Node.js Publish Package
+name: Node.js Publish Beta version
 
 on:
   push:
     branches:
+      - 'v*.*-beta'
+    branches-ignore:
       - main
+      - master
     tags:
-      - 'v*.*.*'
+      - 'v*.*.*-beta'
 
 jobs:
   build:
@@ -33,6 +36,6 @@ jobs:
       - name: Set up NPM authentication
         run: echo "registry=https://registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" >> ~/.npmrc
       - run: npm ci
-      - run: npm publish
+      - run: npm publish --tag ${GITHUB_REF##*/}
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
