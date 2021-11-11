@@ -245,3 +245,4 @@ This is an automatic Changelog history of versions generated using the command: 
 ## v2 -> v2.4
 
 	- New Version
+	- v2.4-beta version
