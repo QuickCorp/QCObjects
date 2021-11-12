@@ -931,9 +931,10 @@
             self.__new__ = super.__new__.bind(self);
             self.__new__.call(self,_o_);
           }
-          if (Object.hasOwnProperty.call(self,"_new_")) {
+          if (Object.hasOwnProperty.call(self,"_new_") && typeof self._new_.isCalled === "undefined") {
             try {
               self._new_.call(self,_o_);
+              self._new_.isCalled = true;
             }catch (e){
               logger.warn(`${self.__classType}._new_() failed with error: ${e}`);
             }
@@ -1818,6 +1819,12 @@
     template: "",
     assign (data) {
       var templateInstance = this;
+      if (typeof templateInstance.component === "undefined") {
+        throw new Error("DefaultTemplateHandler.assign: component is undefined");
+      }
+      if (typeof templateInstance.component.processorHandler === "undefined") {
+        throw new Error("DefaultTemplateHandler.assign: component.processorHandler is undefined");
+      }
       var processorHandler = templateInstance.component.processorHandler;
       var parsedAssignmentText = (typeof templateInstance.template !== "undefined")?(templateInstance.template):("");
       if (typeof data === "object"){
