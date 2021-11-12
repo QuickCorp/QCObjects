@@ -7,17 +7,17 @@ describe("QCObjects Config", function () {
   logger.infoEnabled=true;
   logger.warnEnabled=true;
 
-  it("Basic Config intance Test Spec", function () {
-    logger.debug("starting basic Config intance Test Spec... ");
+  it("Basic Config instance Test Spec", function () {
+    logger.debug("starting basic Config instance Test Spec... ");
     CONFIG.set("one", 1);
     var value = CONFIG.get("one");
     expect(value).toEqual(1);
-    logger.debug("basic Config intance Test Spec... OK");
+    logger.debug("basic Config instance Test Spec... OK");
   });
 
 
-  it("Extended Config intance Test Spec", function () {
-    logger.debug("starting extended Config intance Test Spec... ");
+  it("Extended Config instance Test Spec", function () {
+    logger.debug("starting extended Config instance Test Spec... ");
  //   CONFIG.set("sourceType", "module"); // default is text/javascript and you can change it to module or any other compatible with the browser
  //   CONFIG.set("relativeImportPath", "js/packages/");
  //   CONFIG.set("componentsBasePath", "templates/components/");
@@ -30,7 +30,10 @@ describe("QCObjects Config", function () {
     CONFIG.set("tplextension","tpl.html"); // this is the file extension to locate the template files (if component.name = 'main' then template name will be main.tpl.html)
     CONFIG.set("asynchronousImportsLoad",true); // it is recommended to load the Import declarations in an asyncronous way
     CONFIG.set("serviceWorkerURI","/sw.js"); //QCObjects will register an launch this service worker automatically to work offline
-    logger.debug("extended Config intance Test Spec... OK");
+
+    CONFIG.set("customSetting", "customValue");
+    expect(CONFIG.get("customSetting")).toEqual("customValue");
+    logger.debug("extended Config instance Test Spec... OK");
   });
 
 

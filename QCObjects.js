@@ -238,7 +238,6 @@
       _top.console.prototype.log = function(message) {};
     }
 
-
     var domain = (
       function() {
         return (typeof document !== "undefined" && document.domain !== "") ? (document.domain) : ("localhost");
@@ -1046,7 +1045,7 @@
             && Object.hasOwnProperty.call(classFactory,"__definition")
             && isQCObjects_Class(classFactory)
             && classFactory.__definition.__classType===_className
-            && !!classFactory.__instanceID;}).reverse()):([]);
+            && !Object.hasOwnProperty.call(classFactory, "__instanceID");}).reverse()):([]);
       if (packageClasses.length>0){
         _classFactory = packageClasses[0];
       }
@@ -3267,7 +3266,7 @@
     });
     var _g_ = New(ClassFactory("GlobalSettings"));
 
-    Object.defineProperty(_g_,"PackagesNameList",{
+    Object.defineProperty(global,"PackagesNameList",{
       set(val){
         logger.debug("PackagesNameList is readonly");
         return;
@@ -3292,13 +3291,13 @@
       }
     });
 
-    Object.defineProperty(_g_,"PackagesList",{
+    Object.defineProperty(global,"PackagesList",{
       set(value){
         logger.debug("PackagesList is readonly");
         return;
       },
       get(){
-        return _g_.PackagesNameList.map(function (packagename) {
+        return global.PackagesNameList.map(function (packagename) {
           let _classesList = Package(packagename);
           let _ret_;
           if (_classesList){
@@ -3315,14 +3314,14 @@
       }
     });
 
-    Object.defineProperty(_g_,"ClassesList",{
+    Object.defineProperty(global,"ClassesList",{
       set(value){
         logger.debug("ClassesList is readonly");
         return;
       },
       get(){
         var _classesList = [];
-        _g_.PackagesList.map(function (_package_element){
+        global.PackagesList.map(function (_package_element){
           _classesList = _classesList.concat(_package_element.classesList.map(
             function (_class_element){
               return {
@@ -3339,13 +3338,13 @@
       }
     });
 
-    Object.defineProperty(_g_,"ClassesNameList",{
+    Object.defineProperty(global,"ClassesNameList",{
       set(value){
         logger.debug("ClassesNameList is readonly");
         return;
       },
       get(){
-        return _g_.ClassesList.map(function (_class_element) {
+        return global.ClassesList.map(function (_class_element) {
           return _class_element.className;
          });
       }
@@ -3534,7 +3533,10 @@
               ]);
             }
 
-            var __serviceClass = ClassFactory(_serviceClassName);
+            var __serviceClass;
+            if (__enable_service_class__ && _serviceClassName !== null) {
+              __serviceClass = ClassFactory(_serviceClassName);
+            }
             if (!_response_to_data_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")){
               _response_to_data_ = (__classDefinition.responseTo === "data")?(true):(false);
             } else if (!_response_to_data_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")){
