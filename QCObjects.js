@@ -901,9 +901,13 @@
 
         if (typeof self.__definition !== "undefined") {
           Object.keys(self.__definition).filter(function (k){
-            return isNaN(k) && !["name","__instanceID", "__classType", "__definition","__new__", "_new_", "css", "hierarchy", "append", "attachIn"].includes(k);
+            return isNaN(k) && !["name","__instanceID", "__classType", "__definition"].includes(k);
           }).forEach(function(key) {
-            self[key] = self.__definition[key];
+            if (typeof self.__definition[key] === "function") {
+              self[key] = self.__definition[key].bind(self);
+            } else {
+              self[key] = self.__definition[key];
+            }
           });
         }
         _methods_(_QC_CLASSES[self.__classType]).map (function(m) { 
