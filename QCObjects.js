@@ -309,8 +309,14 @@
         }
       },
       info (message) {
+        var color;
         if (this.infoEnabled) {
-          console.info("\x1b[33m%s\x1b[0m","[INFO] " + message);
+          if (isBrowser) {
+            color = "\x1b[103m%s\x1b[0m";
+          } else {
+            color = "\x1b[33m%s\x1b[0m";
+          }
+          console.info(color,"[INFO] " + message);
         }
       },
       warn (message) {
@@ -2121,27 +2127,51 @@
     route () {
       var componentClass = this;
       var isValidInstance = ((!!componentClass.__instanceID) &&
-        componentClass.hasOwnProperty.call(componentClass,"subcomponents")) ? (true) : (false);
+        Object.hasOwnProperty.call(componentClass,"subcomponents")) ? (true) : (false);
       var __route__ = function(componentList) {
-        componentList.map(function (rc, r){
-          if (typeof rc !== "undefined"
-            && rc.hasOwnProperty.call(rc,"_reroute_")){
-            rc._reroute_();
-            if (rc.hasOwnProperty.call(rc,"subcomponents") &&
-              typeof rc.subcomponents !== "undefined" &&
-              rc.subcomponents.length > 0
-            ) {
-              logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + rc.name);
-              __route__.call(componentClass, rc.subcomponents);
-            }
-          } else if (typeof rc !== "undefined"){
-            logger.debug("IT WAS NOT POSSIBLE TO RE-ROUTE: " + rc.name);
+        var _componentNames_ = [];
+        var _promises_ = componentList.filter(function (rc){return typeof rc !== "undefined";}).map(function (rc){
+          if (typeof rc.name !== "undefined"){
+            _componentNames_.push(rc.name);
+          } else {
+            throw new Error(__getType__(rc)+" does not have a name");
           }
+          return new Promise (function (resolve, reject){
+            var _promise_;
+            if (typeof rc !== "undefined"
+              && Object.hasOwnProperty.call(rc,"_reroute_")){
+              _promise_ = rc._reroute_()
+              .then(function (){
+                rc.body.innerHTML = "";
+                rc.innerHTML = "";
+                return rc.rebuild();})
+                .then (function (_rc_){
+                  if (Object.hasOwnProperty.call(_rc_,"subcomponents") &&
+                    typeof _rc_.subcomponents !== "undefined" &&
+                    _rc_.subcomponents.length > 0
+                  ) {
+                    logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + _rc_.name);
+                    return __route__.call(_rc_, _rc_.subcomponents);
+                  } else {
+                    resolve(_rc_);
+                  }
+                });
+            } else if (typeof rc !== "undefined"){
+              reject("Component " + rc.name + " is not an instance of Component");
+            }
+            return _promise_;
+          });
         });
+        return Promise.all(_promises_)
+          .then(function (){
+            logger.debug("ROUTING COMPLETED FOR "+ _componentNames_.join(", "));
+          }).catch(function (err){
+            logger.error("ROUTING FAILED FOR "+ _componentNames_.join(", ") + ": " + err);
+          });
       };
-      if (isValidInstance || global.hasOwnProperty.call(_top.global,"componentsStack")) {
-        if (isValidInstance && componentClass.hasOwnProperty.call(componentClass,"name")) {
-          logger.debug("loading routings for instance" + componentClass.name);
+      if (isValidInstance || Object.hasOwnProperty.call(global,"componentsStack")) {
+        if (isValidInstance && is_a(componentClass, "Component")){
+          logger.debug("loading routings for instance " + componentClass.name);
         }
         __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (global.componentsStack));
       } else {
@@ -2239,7 +2269,7 @@
       var self = this;
 
       if (typeof self.name === "undefined"){
-        logger.debug("Component name is not defined");
+        logger.warn("A name is not defined for "+__getType__(self));
       }
 
       self.routingWay = _top.CONFIG.get("routingWay");
