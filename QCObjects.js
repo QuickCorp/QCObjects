@@ -3039,6 +3039,10 @@
     var _serviceLoaderInNode = function(service, _async) {
       var _promise = new Promise(
         function(resolve, reject) {
+          if (typeof URL === "undefined") {
+            global.URL = require("url").URL;
+            let URL = global.URL;
+          }          
           var serviceURL = new URL(service.url);
           var req;
           service.useHTTP2 = Object.hasOwnProperty.call(service,"useHTTP2") && service.useHTTP2;
@@ -3294,7 +3298,7 @@
           }
         };
         logger.debug("Starting to load the config settings...");
-        if (ClassFactory("CONFIG").get("useConfigService", false)) {
+        if (_top.CONFIG.get("useConfigService", false)) {
           logger.debug("Loading settings using local configuration file...");
           _top.global.configService = New(ClassFactory("ConfigService"));
           _top.global.configService.configLoaded = _buildComponents;
