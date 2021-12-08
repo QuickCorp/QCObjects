@@ -2117,7 +2117,7 @@
     },
     Cast (o) {
       /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
-      return this;
+      return _Cast(this, o);
     },
     routingWay: null,
     validRoutingWays: ["pathname", "hash", "search"],
