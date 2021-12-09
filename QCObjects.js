@@ -2117,7 +2117,7 @@
     },
     Cast (oClass) {
       /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
-      let o = _methods_(oClass).map(m=>m.name.replace(/bound /g, "")).map(m=>{return {[m]:oClass[m]}}).reduce((c,p, {})=>Object.assign(c, p));
+      let o = _methods_(oClass).map(m=>m.name.replace(/bound /g, "")).map(m=>{return {[m]:oClass[m].bind(this)};}).reduce((c,p)=>Object.assign(c, p), {});
       return _Cast(this, o);
     },
     routingWay: null,
