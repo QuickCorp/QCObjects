@@ -941,7 +941,7 @@
             self.__new__ = super.__new__.bind(self);
             self.__new__.call(self,_o_);
           }
-          if (Object.hasOwnProperty.call(self,"_new_") && typeof self._new_.isCalled === "undefined") {
+          if (typeof self === "object" && Object.hasOwnProperty.call(self,"_new_") && typeof self._new_.isCalled === "undefined") {
             try {
               self._new_.call(self,_o_);
               self._new_.isCalled = true;
@@ -958,6 +958,10 @@
         _CastProps(_o_, this);        
       }
       _new_ (){}
+
+      getClass () {
+        return Object.getPrototypeOf(this.constructor);
+      }
 
       css (_css) {
         if (typeof this["body"] !== "undefined" && this["body"]["style"] !== "undefined") {
@@ -1760,16 +1764,18 @@
   } else {
     global.onload = _Ready;
   }
+  Class("InheritClass", Object, {});
 
   /**
    * Dynamic Data Objects Class
    * Usage:
    * Class('TestDDO',{
+   *    data: {},
    *    _new_ (){
    *        this.ddo = New(DDO,{
    *            instance:this,
-   *            name:'ddo',
-   *            value:0,
+   *            name:'data',
+   *            value:{},
    *            fget (value){
    *                logger.debug('returned value '+ value );
    *            }
@@ -1778,7 +1784,31 @@
    * });
    *
    */
-  Class("DDO", Object, {
+  class DDO extends ClassFactory ("InheritClass") {
+    constructor({
+      instance,
+      name,
+      fget,
+      fset,
+      value
+    }) {
+      super({
+        instance,
+        name,
+        fget,
+        fset,
+        value
+      });
+      this._new_({
+        instance,
+        name,
+        fget,
+        fset,
+        value
+      });
+
+    }
+
     _new_ ({
       instance,
       name,
@@ -1786,13 +1816,12 @@
       fset,
       value
     }) {
-      var _value;
       var ddoInstance = this;
       var name = (typeof name === "undefined") ? (ObjectName(ddoInstance)) : (name);
 
       Object.defineProperty(instance, name, {
         set(val) {
-          _value = val;
+          let _value = val;
           logger.debug("value changed " + name);
           var ret;
           if (typeof fset !== "undefined" && typeof fset === "function") {
@@ -1800,12 +1829,14 @@
           } else {
             ret = _value;
           }
+          instance["_"+name] = ret;
           return;
         },
         get() {
+          let _value = instance["_"+name];
           logger.debug("returning value " + name);
           var is_ddo = function(v) {
-            if (typeof v === "object" && v.hasOwnProperty.call(v,"value")) {
+            if (typeof v === "object" && Object.hasOwnProperty.call(v,"value")) {
               return v.value;
             }
             return v;
@@ -1821,9 +1852,8 @@
       });
     }
 
-  });
-
-  Class("InheritClass", Object, {});
+  }
+  Export (DDO);
 
   Class("DefaultTemplateHandler", Object, {
     template: "",
