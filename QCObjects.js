@@ -2803,7 +2803,7 @@
         function(resolve, reject) {
           if (typeof URL === "undefined") {
             global.URL = require("url").URL;
-            let URL = global.URL;
+            var URL = global.URL;
           }
           var serviceURL = new URL(service.url);
           var req;
