@@ -124,8 +124,8 @@
   if (typeof String.prototype.matchAll === "undefined"){
       String.prototype.matchAll = String.prototype.__mAll__;
   }
-
-  var isBrowser = typeof window !== "undefined" && typeof window.self !== "undefined" && window === window.self;
+  var isDeno = (typeof window !== "undefined" && "Deno" in window);
+  var isBrowser = (typeof window !== "undefined" && typeof window.self !== "undefined" && window === window.self) && !isDeno;
   var _DOMCreateElement = function(elementName) {
     var _ret_;
     if (isBrowser) {
