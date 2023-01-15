@@ -826,12 +826,12 @@
         return class {};
       case 1:
         name = arguments[0];
-        type = Object;
+        type = class {};
         definition = {};
         break;
       case 2:
         name = arguments[0];
-        type = Object;
+        type = class {};
         definition = arguments[1];
         break;
       case 3:
@@ -1961,7 +1961,7 @@
       }
     }
   };
-  Class ("Component", Object, {
+  Class ("Component", class {}, {
     domain: domain,
     basePath: basePath,
     templateURI: "",
@@ -3549,7 +3549,7 @@
 
               _component_.runComponentHelpers();
 
-              if ((Tag("component[loaded=true]").length * 100 / Tag("component:not([template-source=none])").length) >= 100) {
+              if ((Tag("component[loaded=true]").length * 100 / Tag("component").length) >= 100) {
                 d.dispatchEvent(new CustomEvent("componentsloaded", {
                   detail: {
                     lastComponent: _component_
