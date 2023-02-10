@@ -79,5 +79,9 @@
   "devDependencies": {
     "eslint": "^8.2.0",
     "jasmine": "^3.7.0"
+  },
+  "engines": {
+    "npm": "~8.10.0",
+    "node": ">=14.17.6"
   }
 }
