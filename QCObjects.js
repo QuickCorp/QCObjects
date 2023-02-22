@@ -706,9 +706,9 @@
      var ret = "";
      if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
        ret = o.name;
-     } else if (typeof o.constructor === "function" && o.constructor.name !== "") {
+     } else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {
        ret = o.constructor.name;
-     } else if (typeof o.constructor === "object") {
+     } else if (typeof o !== "undefined" && typeof o.constructor === "object") {
        ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
      }
      return ret;
@@ -784,10 +784,10 @@
           && o_c.constructor.name !== "":
         _ret_ = o_c.constructor.name;
         break;
-      case (!!o_c.__classType) && o_c.__classType !== "":
+      case (!!o_c && !!o_c.__classType) && o_c.__classType !== "":
         _ret_ = o_c.__classType;
         break;
-      case (!!o_c.__definition) && (!!o_c.__definition.__classType) && o_c.__definition.__classType !== "":
+      case (!!o_c && !!o_c.__definition) && (!!o_c.__definition.__classType) && o_c.__definition.__classType !== "":
         _ret_ = o_c.__definition.__classType;
         break;
       default:
@@ -809,6 +809,12 @@
     || ObjectName(obj) === typeName
     || typeof obj === typeName))?(true):(false);
   };
+
+  var __register_class__ = function (name, _class_) {
+    _QC_CLASSES[name] = _class_;
+    _top[name] = _QC_CLASSES[name];
+    return _top[name];
+  }
 
   /**
    * Creates new object class  of another object
@@ -1139,7 +1145,7 @@
     return "New(QCObjectsClassName, args) { [QCObjects native code] }";
   };
 
-  var Export = function(f) {
+  var __make_global__ = function (f) {
     if (typeof f !== "undefined") {
       if (isBrowser) {
         try {
@@ -1152,6 +1158,11 @@
         }
       }
     }
+
+  };
+
+  var Export = function (f) {
+    return __make_global__(f);
   };
   Export.prototype.toString = function() {
     return "Export(function or symbol) { [QCObjects native code] }";
@@ -1477,6 +1488,7 @@
           }
         ).map(function (_class_){
           _class_.__definition.__namespace = namespace;
+          __register_class__(_class_);
         });
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
     } else if (typeof classes !== "undefined"){
@@ -1487,9 +1499,11 @@
           }
         ).map(function (_class_){
           _class_.__definition.__namespace = namespace;
+          __register_class__(_class_);
         });
       } else if (isQCObjects_Class(classes)) {
         classes.__definition.__namespace = namespace;
+        __register_class__(classes);
       }
       _QC_PACKAGES[namespace] = classes;
     }
@@ -1764,7 +1778,7 @@
   } else {
     global.onload = _Ready;
   }
-  Class("InheritClass", Object, {});
+  Class("InheritClass", class {}, {});
 
   /**
    * Dynamic Data Objects Class
@@ -1961,7 +1975,7 @@
       }
     }
   };
-  Class ("Component", class {}, {
+  Class ("Component", ClassFactory("InheritClass"), {
     domain: domain,
     basePath: basePath,
     templateURI: "",
@@ -2597,6 +2611,7 @@
 
     }
   });
+
   _top._bindroute_.__assigned=false;
 
   (_methods_)(ClassFactory("Component")).map(function (__c__){(_protected_code_)(__c__);});
@@ -3586,7 +3601,7 @@
                 ):("")
               );
             var __classDefinition = ClassFactory(__componentClassName);
-            var __tplsource_prop_set = (__componentClassName !== "Component" && (typeof __classDefinition.tplsource === "string" && __classDefinition.tplsource !== "") ) ? (true) : (false);
+            var __tplsource_prop_set = (__componentClassName !== "Component" && ((typeof __classDefinition !== "undefined" && typeof __classDefinition.tplsource === "string") && __classDefinition.tplsource !== "") ) ? (true) : (false);
             var tplsource = (__tplsource_attr_not_set && __tplsource_prop_set) ? (__classDefinition.tplsource) : ((__tplsource_attr_not_set)?("default"):(components[_c].getAttribute("template-source")));
             logger.debug (`template source for  ${_componentName} is ${tplsource} `);
             logger.debug (`type for ${_componentName} is ${__getType__(__classDefinition)} `);
