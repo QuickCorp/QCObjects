@@ -810,11 +810,34 @@
     || typeof obj === typeName))?(true):(false);
   };
 
-  var __register_class__ = function (name, _class_) {
+
+  var __make_global__ = function (f) {
+    if (typeof f !== "undefined") {
+      if (isBrowser) {
+        try {
+          _top[f.name] = f;
+          window[f.name] = f;
+        } catch (e) {}
+      } else if (typeof global !== "undefined") {
+        if (!Object.hasOwnProperty.call(global,f.name)) {
+          global[f.name] = f;
+        }
+      }
+    }
+
+  };
+
+  var __register_class__ = function (_class_) {
+    var name = _class_.name;
     _QC_CLASSES[name] = _class_;
     _top[name] = _QC_CLASSES[name];
     return _top[name];
   }
+
+  var RegisterClass = function (_class_) {
+    return __register_class__(_class_);
+  }
+  __make_global__ (RegisterClass);
 
   /**
    * Creates new object class  of another object
@@ -1145,21 +1168,6 @@
     return "New(QCObjectsClassName, args) { [QCObjects native code] }";
   };
 
-  var __make_global__ = function (f) {
-    if (typeof f !== "undefined") {
-      if (isBrowser) {
-        try {
-          _top[f.name] = f;
-          window[f.name] = f;
-        } catch (e) {}
-      } else if (typeof global !== "undefined") {
-        if (!Object.hasOwnProperty.call(global,f.name)) {
-          global[f.name] = f;
-        }
-      }
-    }
-
-  };
 
   var Export = function (f) {
     return __make_global__(f);
@@ -1488,7 +1496,6 @@
           }
         ).map(function (_class_){
           _class_.__definition.__namespace = namespace;
-          __register_class__(_class_);
         });
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
     } else if (typeof classes !== "undefined"){
@@ -1499,15 +1506,18 @@
           }
         ).map(function (_class_){
           _class_.__definition.__namespace = namespace;
-          __register_class__(_class_);
         });
       } else if (isQCObjects_Class(classes)) {
         classes.__definition.__namespace = namespace;
-        __register_class__(classes);
       }
       _QC_PACKAGES[namespace] = classes;
     }
-    return (_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES,namespace))?(_QC_PACKAGES[namespace]):(undefined);
+    if (Object.hasOwnProperty.call(_QC_PACKAGES,namespace)){
+      _QC_PACKAGES[namespace].map(function (_class_){
+        __register_class__(_class_);
+      });
+    }
+    return (Object.hasOwnProperty.call(_QC_PACKAGES,namespace))?(_QC_PACKAGES[namespace]):(undefined);
   };
   Package.prototype.toString = function() {
     return "Package(namespace, classes) { [QCObjects native code] }";
@@ -4272,7 +4282,9 @@
       }
       _transition_.component.body.style.display = "block";
       _transition_.effects.map(function (effectClassName,eff){
-        var effectClassMethod = _super_(effectClassName,"apply");
+        var __effectClass__ = ClassFactory(effectClassName);
+        var effectObj = new __effectClass__();
+        var effectClassMethod = effectObj.apply;
         var args = [_transition_.component.body].concat(Object.values(
           {
             alphaFrom,
