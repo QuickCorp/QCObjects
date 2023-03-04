@@ -836,11 +836,11 @@
     _QC_CLASSES[name] = _class_;
     _top[name] = _QC_CLASSES[name];
     return _top[name];
-  }
+  };
 
   var RegisterClass = function (_class_) {
     return __register_class__(_class_);
-  }
+  };
   __make_global__(RegisterClass);
 
   /**
@@ -3354,214 +3354,6 @@
   Export(isQCObjects_Object);
   Export(NamespaceRef);
 
-  asyncLoad(function () {
-
-    Class("GlobalSettings", Object, {
-      _GLOBAL: {},
-      set(name, value) {
-        this._GLOBAL[name] = value;
-      },
-      get(name, _default) {
-        var _value;
-        if (typeof this._GLOBAL[name] !== "undefined") {
-          _value = this._GLOBAL[name];
-        } else if (typeof _default !== "undefined") {
-          _value = _default;
-        }
-        return _value;
-      },
-      __start__() {
-        var __load__serviceWorker = function () {
-          var _promise;
-          if (isBrowser) {
-            _promise = new Promise(function (resolve, reject) {
-              if (("serviceWorker" in navigator) &&
-                (typeof _top.CONFIG.get("serviceWorkerURI") !== "undefined")) {
-                _top.CONFIG.set("serviceWorkerScope", _top.CONFIG.get("serviceWorkerScope") ? (_top.CONFIG.get("serviceWorkerScope")) : ("/"));
-                navigator.serviceWorker.register(_top.CONFIG.get("serviceWorkerURI"), {
-                    scope: _top.CONFIG.get("serviceWorkerScope")
-                  })
-                  .then(function (registration) {
-                    logger.debug("Service Worker Registered");
-                    resolve.call(_promise, registration);
-                  }, function (registration) {
-                    logger.debug("Error registering Service Worker");
-                    reject.call(_promise, registration);
-                  });
-                navigator.serviceWorker.ready.then(function (registration) {
-                  logger.debug("Service Worker Ready");
-                  resolve.call(_promise, registration);
-                }, function (registration) {
-                  logger.debug("Error loading Service Worker");
-                  reject.call(_promise, registration);
-                });
-              }
-            });
-          }
-          return _promise;
-        };
-        var _buildComponents = function () {
-          if (isBrowser) {
-            logger.debug("Starting to bind routes");
-            _top._bindroute_.call(ClassFactory("Component"));
-            logger.debug("Starting to building components");
-            global.componentsStack = document.buildComponents.call(document);
-            logger.debug("Initializing the service worker");
-            __load__serviceWorker.call(_top).catch(function () {
-              logger.debug("error loading the service worker");
-            });
-
-          }
-        };
-        logger.debug("Starting to load the config settings...");
-        if (_top.CONFIG.get("useConfigService", false)) {
-          logger.debug("Loading settings using local configuration file...");
-          _top.global.configService = New(ClassFactory("ConfigService"));
-          _top.global.configService.configLoaded = _buildComponents;
-          serviceLoader(_top.global.configService);
-        } else {
-          logger.debug("Starting to load the components...");
-          _buildComponents.call(this);
-        }
-      }
-    });
-    var _g_ = New(ClassFactory("GlobalSettings"));
-
-    Object.defineProperty(global, "PackagesNameList", {
-      set(val) {
-        logger.debug("PackagesNameList is readonly");
-        return;
-      },
-      get() {
-        var _get_packages_names = function (_packages) {
-          var _keys = [];
-          for (var _k in _packages) {
-            if (
-              typeof _packages[_k] !== "undefined" &&
-              typeof _packages[_k] !== "function" &&
-              Object.hasOwnProperty.call(_packages[_k], "length") &&
-              _packages[_k].length > 0
-            ) {
-              _keys.push(_k);
-              _keys = _keys.concat(_get_packages_names(_packages[_k]));
-            }
-          }
-          return _keys;
-        };
-        return _get_packages_names(_QC_PACKAGES);
-      }
-    });
-
-    Object.defineProperty(global, "PackagesList", {
-      set(value) {
-        logger.debug("PackagesList is readonly");
-        return;
-      },
-      get() {
-        return global.PackagesNameList.map(function (packagename) {
-          let _classesList = Package(packagename);
-          let _ret_;
-          if (_classesList) {
-            _ret_ = {
-              packageName: packagename,
-              classesList: _classesList.filter(function (_packageClass) {
-                return isQCObjects_Class(_packageClass);
-              })
-            };
-          }
-          return _ret_;
-        }).filter(function (_p) {
-          return typeof _p !== "undefined";
-        });
-      }
-    });
-
-    Object.defineProperty(global, "ClassesList", {
-      set(value) {
-        logger.debug("ClassesList is readonly");
-        return;
-      },
-      get() {
-        var _classesList = [];
-        global.PackagesList.map(function (_package_element) {
-          _classesList = _classesList.concat(_package_element.classesList.map(
-            function (_class_element) {
-              return {
-                packageName: _package_element.packageName,
-                className: _package_element.packageName + "." + _class_element.__definition.__classType,
-                classFactory: _class_element
-              };
-            }
-          ));
-          return _package_element;
-        });
-
-        return _classesList;
-      }
-    });
-
-    Object.defineProperty(global, "ClassesNameList", {
-      set(value) {
-        logger.debug("ClassesNameList is readonly");
-        return;
-      },
-      get() {
-        return global.ClassesList.map(function (_class_element) {
-          return _class_element.className;
-        });
-      }
-    });
-
-    _top = _CastProps(_g_, _top);
-
-    if (isBrowser) {
-      // use of GLOBAL word is deprecated in node.js
-      // this is only for compatibility purpose with old versions of QCObjects in browsers
-      Class("GLOBAL", _QC_CLASSES["global"]); // case insensitive for compatibility con old versions;
-      Export(ClassFactory("GLOBAL"));
-    }
-    Export(global);
-
-
-    if (_top.CONFIG.get("useSDK")) {
-      (function () {
-        var remoteImportsPath = _top.CONFIG.get("remoteImportsPath");
-        var external = (!_top.CONFIG.get("useLocalSDK")) ? (true) : (false);
-        _top.CONFIG.set("remoteImportsPath", _top.CONFIG.get("remoteSDKPath"));
-
-        var tryImportingSDK = false;
-        var sdkName = "QCObjects-SDK";
-        if (isBrowser) {
-          tryImportingSDK = true;
-        } else {
-          var sdkPath = findPackageNodePath("qcobjects-sdk");
-          if (sdkPath !== null) {
-            sdkName = "qcobjects-sdk";
-            tryImportingSDK = true;
-          } else {
-            sdkName = "node_modules/qcobjects-sdk/QCObjects-SDK";
-            tryImportingSDK = true;
-          }
-        }
-
-        if (tryImportingSDK) {
-          logger.info("Importing SDK... " + sdkName);
-          Import(sdkName, function () {
-            if (external) {
-              logger.debug("QCObjects-SDK.js loaded from remote location");
-            } else {
-              logger.debug("QCObjects-SDK.js loaded from local");
-            }
-            _top.CONFIG.set("remoteImportsPath", remoteImportsPath);
-          }, external);
-        } else {
-          logger.debug("SDK has not been imported as it is not available at the moment");
-        }
-      }).call(null);
-    }
-
-
-  }, null);
 
   if (isBrowser) {
 
@@ -4621,14 +4413,213 @@
   Export(isBrowser);
   Export(_methods_);
 
-  if (!isBrowser) {
-    if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "_fireAsyncLoad")) {
-      _top.global._fireAsyncLoad.call(this);
+  asyncLoad(function () {
+
+    Class("GlobalSettings", Object, {
+      _GLOBAL: {},
+      set(name, value) {
+        this._GLOBAL[name] = value;
+      },
+      get(name, _default) {
+        var _value;
+        if (typeof this._GLOBAL[name] !== "undefined") {
+          _value = this._GLOBAL[name];
+        } else if (typeof _default !== "undefined") {
+          _value = _default;
+        }
+        return _value;
+      },
+      __start__() {
+        var __load__serviceWorker = function () {
+          var _promise;
+          if (isBrowser) {
+            _promise = new Promise(function (resolve, reject) {
+              if (("serviceWorker" in navigator) &&
+                (typeof _top.CONFIG.get("serviceWorkerURI") !== "undefined")) {
+                _top.CONFIG.set("serviceWorkerScope", _top.CONFIG.get("serviceWorkerScope") ? (_top.CONFIG.get("serviceWorkerScope")) : ("/"));
+                navigator.serviceWorker.register(_top.CONFIG.get("serviceWorkerURI"), {
+                    scope: _top.CONFIG.get("serviceWorkerScope")
+                  })
+                  .then(function (registration) {
+                    logger.debug("Service Worker Registered");
+                    resolve.call(_promise, registration);
+                  }, function (registration) {
+                    logger.debug("Error registering Service Worker");
+                    reject.call(_promise, registration);
+                  });
+                navigator.serviceWorker.ready.then(function (registration) {
+                  logger.debug("Service Worker Ready");
+                  resolve.call(_promise, registration);
+                }, function (registration) {
+                  logger.debug("Error loading Service Worker");
+                  reject.call(_promise, registration);
+                });
+              }
+            });
+          }
+          return _promise;
+        };
+        var _buildComponents = function () {
+          if (isBrowser) {
+            logger.debug("Starting to bind routes");
+            _top._bindroute_.call(ClassFactory("Component"));
+            logger.debug("Starting to building components");
+            global.componentsStack = document.buildComponents.call(document);
+            logger.debug("Initializing the service worker");
+            __load__serviceWorker.call(_top).catch(function () {
+              logger.debug("error loading the service worker");
+            });
+
+          }
+        };
+        logger.debug("Starting to load the config settings...");
+        if (_top.CONFIG.get("useConfigService", false)) {
+          logger.debug("Loading settings using local configuration file...");
+          _top.global.configService = New(ClassFactory("ConfigService"));
+          _top.global.configService.configLoaded = _buildComponents;
+          serviceLoader(_top.global.configService);
+        } else {
+          logger.debug("Starting to load the components...");
+          _buildComponents.call(this);
+        }
+      }
+    });
+    var _g_ = New(ClassFactory("GlobalSettings"));
+
+    Object.defineProperty(global, "PackagesNameList", {
+      set(val) {
+        logger.debug("PackagesNameList is readonly");
+        return;
+      },
+      get() {
+        var _get_packages_names = function (_packages) {
+          var _keys = [];
+          for (var _k in _packages) {
+            if (
+              typeof _packages[_k] !== "undefined" &&
+              typeof _packages[_k] !== "function" &&
+              Object.hasOwnProperty.call(_packages[_k], "length") &&
+              _packages[_k].length > 0
+            ) {
+              _keys.push(_k);
+              _keys = _keys.concat(_get_packages_names(_packages[_k]));
+            }
+          }
+          return _keys;
+        };
+        return _get_packages_names(_QC_PACKAGES);
+      }
+    });
+
+    Object.defineProperty(global, "PackagesList", {
+      set(value) {
+        logger.debug("PackagesList is readonly");
+        return;
+      },
+      get() {
+        return global.PackagesNameList.map(function (packagename) {
+          let _classesList = Package(packagename);
+          let _ret_;
+          if (_classesList) {
+            _ret_ = {
+              packageName: packagename,
+              classesList: _classesList.filter(function (_packageClass) {
+                return isQCObjects_Class(_packageClass);
+              })
+            };
+          }
+          return _ret_;
+        }).filter(function (_p) {
+          return typeof _p !== "undefined";
+        });
+      }
+    });
+
+    Object.defineProperty(global, "ClassesList", {
+      set(value) {
+        logger.debug("ClassesList is readonly");
+        return;
+      },
+      get() {
+        var _classesList = [];
+        global.PackagesList.map(function (_package_element) {
+          _classesList = _classesList.concat(_package_element.classesList.map(
+            function (_class_element) {
+              return {
+                packageName: _package_element.packageName,
+                className: _package_element.packageName + "." + _class_element.__definition.__classType,
+                classFactory: _class_element
+              };
+            }
+          ));
+          return _package_element;
+        });
+
+        return _classesList;
+      }
+    });
+
+    Object.defineProperty(global, "ClassesNameList", {
+      set(value) {
+        logger.debug("ClassesNameList is readonly");
+        return;
+      },
+      get() {
+        return global.ClassesList.map(function (_class_element) {
+          return _class_element.className;
+        });
+      }
+    });
+
+    _top = _CastProps(_g_, _top);
+
+    if (isBrowser) {
+      // use of GLOBAL word is deprecated in node.js
+      // this is only for compatibility purpose with old versions of QCObjects in browsers
+      Class("GLOBAL", _QC_CLASSES["global"]); // case insensitive for compatibility con old versions;
+      Export(ClassFactory("GLOBAL"));
     }
-    if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "onload")) {
-      _top.global.onload.call(this);
+    Export(global);
+
+    if (_top.CONFIG.get("useSDK")) {
+      (function () {
+        var remoteImportsPath = _top.CONFIG.get("remoteImportsPath");
+        var external = (!_top.CONFIG.get("useLocalSDK")) ? (true) : (false);
+        _top.CONFIG.set("remoteImportsPath", _top.CONFIG.get("remoteSDKPath"));
+
+        var tryImportingSDK = false;
+        var sdkName = "QCObjects-SDK";
+        if (isBrowser) {
+          tryImportingSDK = true;
+        } else {
+          var sdkPath = findPackageNodePath("qcobjects-sdk");
+          if (sdkPath !== null) {
+            sdkName = "qcobjects-sdk";
+            tryImportingSDK = true;
+          } else {
+            sdkName = "node_modules/qcobjects-sdk/QCObjects-SDK";
+            tryImportingSDK = true;
+          }
+        }
+
+        if (tryImportingSDK) {
+          logger.info("Importing SDK... " + sdkName);
+          Import(sdkName, function () {
+            if (external) {
+              logger.debug("QCObjects-SDK.js loaded from remote location");
+            } else {
+              logger.debug("QCObjects-SDK.js loaded from local");
+            }
+            _top.CONFIG.set("remoteImportsPath", remoteImportsPath);
+          }, external);
+        } else {
+          logger.debug("SDK has not been imported as it is not available at the moment");
+        }
+      }).call(null);
     }
-  }
+
+
+  }, null);
 
   if (isBrowser) {
     asyncLoad(function () {
@@ -4704,6 +4695,16 @@
       });
     }, null);
   }
+
+  if (!isBrowser) {
+    if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "_fireAsyncLoad")) {
+      _top.global._fireAsyncLoad.call(this);
+    }
+    if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "onload")) {
+      _top.global.onload.call(this);
+    }
+  }
+
 
   /* Freezing Object && Object.prototype to prevent prototype pollution risks */
   (function (isBrowser) {
