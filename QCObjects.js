@@ -782,6 +782,9 @@
   var __getType__ = function __getType__(o_c) {
     var _ret_ = "";
     switch (true) {
+      case typeof o_c === "function" && !!o_c.name:
+        _ret_ = o_c.name;
+        break;
       case typeof o_c === "object" &&
       !!o_c.constructor &&
       Object.hasOwnProperty.call(o_c.constructor, "name") &&
@@ -831,15 +834,19 @@
 
   };
 
-  var __register_class__ = function (_class_) {
+  var __register_class__ = function (_class_, __namespace) {
     var name = _class_.name;
+    _class_.__definition.__classType = name;
+    if (typeof __namespace !== "undefined"){
+      _class_.__definition.__namespace = __namespace
+    }
     _QC_CLASSES[name] = _class_;
     _top[name] = _QC_CLASSES[name];
     return _top[name];
   };
 
-  var RegisterClass = function (_class_) {
-    return __register_class__(_class_);
+  var RegisterClass = function (_class_, __namespace) {
+    return __register_class__(_class_, __namespace);
   };
   __make_global__(RegisterClass);
 
@@ -1100,14 +1107,13 @@
       var _className = className.split(".").slice(-1).join("");
       var _package = Package(packageName);
       var packageClasses = (typeof _package !== "undefined") ? (_package.filter(classFactory => {
-        return typeof classFactory !== "undefined" &&
-          Object.hasOwnProperty.call(classFactory, "__definition") &&
-          isQCObjects_Class(classFactory) &&
-          classFactory.__definition.__classType === _className &&
-          !Object.hasOwnProperty.call(classFactory, "__instanceID");
+        return isQCObjects_Class(classFactory) &&
+          (classFactory.__definition.__classType === _className || (typeof classFactory === "function" && !!classFactory.name) ) ;
       }).reverse()) : ([]);
       if (packageClasses.length > 0) {
         _classFactory = packageClasses[0];
+      } else {
+        throw Error (`Class ${className} not found.`);
       }
     } else if (className !== null && Object.hasOwnProperty.call(_QC_CLASSES, className)) {
       _classFactory = _QC_CLASSES[className];
@@ -1532,7 +1538,7 @@
     }
     if (Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) {
       _QC_PACKAGES[namespace].map(function (_class_) {
-        __register_class__(_class_);
+        __register_class__(_class_, namespace);
       });
     }
     return (Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) ? (_QC_PACKAGES[namespace]) : (undefined);
@@ -3635,145 +3641,168 @@
 
   if (!isBrowser) {
 
-    Class("BackendMicroservice", Object, {
-      domain: domain,
-      basePath: basePath,
-      body: null,
-      stream: null,
-      request: null,
-      cors() {
-        if (this.route.cors) {
-          let {
-            allow_origins,
-            allow_credentials,
-            allow_methods,
-            allow_headers
-          } = this.route.cors;
-          var microservice = this;
-          if (typeof microservice.headers !== "object") {
-            microservice.headers = {};
-          }
-          if (typeof allow_origins !== "undefined") {
-            // an example of allow_origins is ['https://example.com','http://www.example.com']
-            if (allow_origins === "*" || (typeof microservice.request.headers.origin === "undefined") || [...allow_origins].indexOf(microservice.request.headers.origin) !== -1) {
-              // for compatibility with all browsers allways return a wildcard when the origin is allowed
-              microservice.headers["Access-Control-Allow-Origin"] = "*";
-            } else {
-              logger.debug("Origin is not allowed: " + microservice.request.headers.origin);
-              logger.debug("Forcing to finish the response...");
-              this.body = {};
-              try {
-                this.done();
-              } catch (e) {}
+    Package("com.qcobjects.api", [
+      class BackendMicroservice extends ClassFactory("InheritClass") {
+
+        constructor ({
+          domain= domain,
+          basePath= basePath,
+          body= null,
+          stream= null,
+          request= null
+        }){
+          super(...arguments);
+  
+          var o = this;
+  
+          logger.debug("Executing BackendMicroservice ");
+          let microservice = this;
+          microservice.body = null;
+          this.cors();
+          microservice.stream = stream;
+          stream.on("data", (data) => {
+            // data from POST, GET
+            var requestMethod = request.method.toLowerCase();
+            var supportedMethods = {
+              "post": microservice.post,
+            };
+            if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
+              supportedMethods[requestMethod].call(microservice, data);
             }
-          } else {
-            microservice.headers["Access-Control-Allow-Origin"] = "*";
-          }
-          if (typeof allow_credentials !== "undefined") {
-            microservice.headers["Access-Control-Allow-Credentials"] = allow_credentials.toString();
-          } else {
-            microservice.headers["Access-Control-Allow-Credentials"] = "true";
-          }
-          if (typeof allow_methods !== "undefined") {
-            microservice.headers["Access-Control-Allow-Methods"] = [...allow_methods].join(",");
-          } else {
-            microservice.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS, POST";
-          }
-          if (typeof allow_headers !== "undefined") {
-            microservice.headers["Access-Control-Allow-Headers"] = [...allow_headers].join(",");
-          } else {
-            microservice.headers["Access-Control-Allow-Headers"] = "*";
-          }
-        }
-      },
-      _new_(o) {
-        logger.debug("Executing BackendMicroservice ");
-        let microservice = this;
-        microservice.body = null;
-        let request = microservice.request;
-        this.cors();
-        let stream = o.stream;
-        microservice.stream = stream;
-        stream.on("data", (data) => {
+          });
+  
           // data from POST, GET
           var requestMethod = request.method.toLowerCase();
           var supportedMethods = {
-            "post": microservice.post,
+            "get": microservice.get,
+            "head": microservice.head,
+            "put": microservice.put,
+            "delete": microservice.delete,
+            "connect": microservice.connect,
+            "options": microservice.options,
+            "trace": microservice.trace,
+            "patch": microservice.patch
           };
           if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
-            supportedMethods[requestMethod].call(microservice, data);
+            supportedMethods[requestMethod].call(microservice);
           }
-        });
-
-        // data from POST, GET
-        var requestMethod = request.method.toLowerCase();
-        var supportedMethods = {
-          "get": microservice.get,
-          "head": microservice.head,
-          "put": microservice.put,
-          "delete": microservice.delete,
-          "connect": microservice.connect,
-          "options": microservice.options,
-          "trace": microservice.trace,
-          "patch": microservice.patch
-        };
-        if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
-          supportedMethods[requestMethod].call(microservice);
+          
+          
         }
-
-      },
-      head(formData) {
-        this.done();
-      },
-      get(formData) {
-        this.done();
-      },
-      post(formData) {
-        this.done();
-      },
-      put(formData) {
-        this.done();
-      },
-      delete(formData) {
-        this.done();
-      },
-      connect(formData) {
-        this.done();
-      },
-      options(formData) {
-        this.done();
-      },
-      trace(formData) {
-        this.done();
-      },
-      patch(formData) {
-        this.done();
-      },
-      finishWithBody(stream) {
-        try {
-          stream.write(_DataStringify(this.body));
-          stream.end();
-        } catch (e) {
-          logger.debug("Something wrong writing the response for microservice" + e.toString());
+  
+        cors() {
+          if (this.route.cors) {
+            let {
+              allow_origins,
+              allow_credentials,
+              allow_methods,
+              allow_headers
+            } = this.route.cors;
+            var microservice = this;
+            if (typeof microservice.headers !== "object") {
+              microservice.headers = {};
+            }
+            if (typeof allow_origins !== "undefined") {
+              // an example of allow_origins is ['https://example.com','http://www.example.com']
+              if (allow_origins === "*" || (typeof microservice.request.headers.origin === "undefined") || [...allow_origins].indexOf(microservice.request.headers.origin) !== -1) {
+                // for compatibility with all browsers allways return a wildcard when the origin is allowed
+                microservice.headers["Access-Control-Allow-Origin"] = "*";
+              } else {
+                logger.debug("Origin is not allowed: " + microservice.request.headers.origin);
+                logger.debug("Forcing to finish the response...");
+                this.body = {};
+                try {
+                  this.done();
+                } catch (e) {}
+              }
+            } else {
+              microservice.headers["Access-Control-Allow-Origin"] = "*";
+            }
+            if (typeof allow_credentials !== "undefined") {
+              microservice.headers["Access-Control-Allow-Credentials"] = allow_credentials.toString();
+            } else {
+              microservice.headers["Access-Control-Allow-Credentials"] = "true";
+            }
+            if (typeof allow_methods !== "undefined") {
+              microservice.headers["Access-Control-Allow-Methods"] = [...allow_methods].join(",");
+            } else {
+              microservice.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS, POST";
+            }
+            if (typeof allow_headers !== "undefined") {
+              microservice.headers["Access-Control-Allow-Headers"] = [...allow_headers].join(",");
+            } else {
+              microservice.headers["Access-Control-Allow-Headers"] = "*";
+            }
+          }
         }
-      },
-      done() {
-        var microservice = this;
-        var stream = microservice.stream;
-        try {
-          stream.respond(microservice.headers);
-        } catch (e) {
-          logger.debug(e.toString());
+        
+  
+        head(formData) {
+          this.done();
         }
-        if (microservice.body !== null) {
+  
+        get(formData) {
+          this.done();
+        }
+  
+        post(formData) {
+          this.done();
+        }
+  
+        put(formData) {
+          this.done();
+        }
+  
+        delete(formData) {
+          this.done();
+        }
+  
+        connect(formData) {
+          this.done();
+        }
+  
+        options(formData) {
+          this.done();
+        }
+  
+        trace(formData) {
+          this.done();
+        }
+  
+        patch(formData) {
+          this.done();
+        }
+  
+        finishWithBody(stream) {
           try {
-            microservice.finishWithBody.call(microservice, stream);
+            stream.write(_DataStringify(this.body));
+            stream.end();
+          } catch (e) {
+            logger.debug("Something wrong writing the response for microservice" + e.toString());
+          }
+        }
+        
+        done() {
+          var microservice = this;
+          var stream = microservice.stream;
+          try {
+            stream.respond(microservice.headers);
           } catch (e) {
             logger.debug(e.toString());
           }
+          if (microservice.body !== null) {
+            try {
+              microservice.finishWithBody.call(microservice, stream);
+            } catch (e) {
+              logger.debug(e.toString());
+            }
+          }
         }
+  
+  
       }
-    });
+    ]);
+
 
   }
 
