@@ -190,7 +190,8 @@
   } else if (typeof global !== "undefined") {
     _top = global;
   }
-  var basePath = (
+  var _domain_, _basePath_;
+  _basePath_ = (
     function () {
       var _basePath = "";
       if (isBrowser) {
@@ -238,7 +239,7 @@
       _top.console.prototype.log = function (message) {};
     }
 
-    var domain = (
+    _domain_ = (
       function () {
         return (typeof document !== "undefined" && document.domain !== "") ? (document.domain) : ("localhost");
       }
@@ -264,7 +265,7 @@
     // This is only for code integrity purpose using non-browser implementations
     // like using node.js
     var _secretKey = "secret";
-    var domain = "localhost";
+    _domain_ = "localhost";
   }
 
   _top._asyncLoad = [];
@@ -1389,7 +1390,7 @@
           "routingWay": "hash",
           "useSDK": true,
           "useLocalSDK": false,
-          "basePath": basePath
+          "basePath": _basePath_
         };
         _config_settings._CONFIG_ENC = null;
         this._instance = _config_settings;
@@ -1418,7 +1419,7 @@
       logger.debug(`CONFIG.set  ${name}: ${value}`);
       // hack to force update basePath from CONFIG
       if (name === "basePath") {
-        basePath = value;
+        _basePath_ = value;
       }
       var _conf;
       try {
@@ -1650,7 +1651,7 @@
               "_package_name_": packagename
             });
           };
-          s1.src = (external) ? (_top.CONFIG.get("remoteImportsPath") + packagename + ".js") : (basePath + _top.CONFIG.get("relativeImportPath") + packagename + ".js");
+          s1.src = (external) ? (_top.CONFIG.get("remoteImportsPath") + packagename + ".js") : (_basePath_ + _top.CONFIG.get("relativeImportPath") + packagename + ".js");
           document.getElementsByTagName("head")[0].appendChild(s1);
         }
       });
@@ -1671,7 +1672,7 @@
             if (jsNodePath !== null) {
               packageAbsoluteName = jsNodePath + "/" + packagename + ".js";
             } else {
-              packageAbsoluteName = basePath + _top.CONFIG.get("relativeImportPath") + packagename;
+              packageAbsoluteName = _basePath_ + _top.CONFIG.get("relativeImportPath") + packagename;
             }
           }
           try {
@@ -2025,442 +2026,53 @@
       }
     }
   };
-  Class("Component", ClassFactory("InheritClass"), {
-    domain: domain,
-    basePath: basePath,
-    templateURI: "",
-    templateHandler: "DefaultTemplateHandler",
-    template: undefined,
-    processorHandler: null,
-    tplsource: "default",
-    url: "",
-    name: "",
-    method: "GET",
-    data: {},
-    reload: false,
-    shadowed: false,
-    cached: true,
-    done() {
-      //TODO: default done method
-    },
-    fail() {
-      //TODO: default fail method
-    },
-    set(name, value) {
-      this[name] = value;
-    },
-    get(name) {
-      return this[name];
-    },
-    __promise__: null,
-    feedComponent() {
-      var _component_ = this;
-      var _feedComponent_InBrowser = function (_component_) {
-        if (typeof _component_.container === "undefined" && typeof _component_.body === "undefined") {
-          logger.warn("COMPONENT {{NAME}} has an undefined container and body".replace("{{NAME}}", _component_.name));
-          return;
-        }
-        var container = (typeof _component_.container === "undefined" || _component_.container === null) ? (_component_.body) : (_component_.container);
-        var parsedAssignmentText = _component_.parsedAssignmentText;
-        _component_.innerHTML = parsedAssignmentText;
-        if (_component_.shadowed) {
-          logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", _component_.name));
-          logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-          var tmp_shadowContainer = _DOMCreateElement("div");
-          container.subelements("[slot]").map(
-            function (c) {
-              if (c.parentElement === container) {
-                tmp_shadowContainer.appendChild(c);
-              }
-            });
-          logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-          var shadowContainer = _DOMCreateElement("div");
-          shadowContainer.classList.add("shadowHost");
-          try {
-            _component_.shadowRoot = shadowContainer.attachShadow({
-              mode: "open"
-            });
-          } catch (e) {
-            try {
-              logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", _component_.name));
-              _component_.shadowRoot = shadowContainer.shadowRoot;
-            } catch (e) {
-              logger.warn("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
-            }
-          }
-          if (typeof _component_.shadowRoot !== "undefined" && _component_.shadowRoot !== null) {
-            if (_component_.reload) {
-              logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-              shadowContainer.shadowRoot.innerHTML = _component_.innerHTML;
-            } else {
-              tmp_shadowContainer.innerHTML = _component_.parseTemplate(tmp_shadowContainer.innerHTML);
-              logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
-              shadowContainer.shadowRoot.innerHTML += _component_.innerHTML;
-            }
-            logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
-            shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
-            logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", _component_.name));
-            if (container.subelements(".shadowHost") < 1) {
-              container.appendChild(shadowContainer);
-            } else {
-              logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
-              container.removeChild(container.subelements(".shadowHost").pop());
-              container.appendChild(shadowContainer);
-            }
-          } else {
-            logger.warn("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));
-          }
-        } else {
-          if (_component_.reload) {
-            logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-            container.innerHTML = _component_.innerHTML;
-          } else if (container && _component_) {
-            logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
-            container.innerHTML += _component_.innerHTML;
-          } else {
-            logger.warn("COMPONENT {{NAME}} is not added to the DOM".replace("{{NAME}}", _component_.name));
-          }
-        }
 
-      };
+  Package("com.qcobjects", [
+    class Component extends ClassFactory("InheritClass") {
+      _componentHelpers= [];
+      validRoutingWays= ["pathname", "hash", "search"];
+      basePath= _basePath_;
+      domain= _domain_;
 
-      var _feedComponent_InNode = function (_component_) {
-        var parsedAssignmentText = _component_.parsedAssignmentText;
-        _component_.innerHTML = parsedAssignmentText;
-      };
-
-      var _ret_;
-      if (!is_a(_component_, "Component")) {
-        logger.warn("Trying to feed a non component object");
-        return;
-      }
-      if (isBrowser) {
-        _ret_ = _feedComponent_InBrowser(_component_);
-      } else {
-        _ret_ = _feedComponent_InNode(_component_);
-      }
-      return _ret_;
-    },
-    rebuild() {
-      var _component = this;
-      var _promise = new Promise(function (resolve, reject) {
-        if (typeof _component === "undefined" || _component === null) {
-          reject("Component is undefined");
+      constructor ({
+        templateURI= "",
+        templateHandler= "DefaultTemplateHandler",
+        template= undefined,
+        processorHandler= null,
+        tplsource= "default",
+        url= "",
+        name= "",
+        method= "GET",
+        data= {},
+        reload= false,
+        shadowed= false,
+        cached= true,
+        __promise__= null,
+        routingWay= null,
+        routingNodes= [],
+        routings= [],
+        routingPath= "",
+        body=null
+      }){
+        super(...arguments);
+        var self = this;
+  
+        if (typeof self.name === "undefined") {
+          logger.warn("A name is not defined for " + __getType__(self));
         }
-        if (isQCObjects_Object(_component) && is_a(_component, "Component")) {
-          switch (true) {
-            case (_component.get("tplsource") === "none"):
-              logger.debug("Component " + _component.name + " has specified template-source=none, so no template load was done");
-              var standardResponse = {
-                request: null,
-                component: _component
-              };
-              if (typeof _component.done === "function") {
-                _component.done.call(_component, standardResponse);
-              }
-              resolve.call(_promise, standardResponse);
-              break;
-            case (_component.get("tplsource") === "inline"):
-              logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
-              _component.feedComponent();
-              var standardResponse = {
-                request: null,
-                component: _component
-              };
-              if (typeof _component.done === "function") {
-                _component.done.call(_component, standardResponse);
-              }
-              resolve.call(_promise, standardResponse);
-              break;
-            case (_component.get("tplsource") === "default" &&
-              _component.get("templateURI") !== ""):
-              _component.set("url", _component.get("basePath") + _component.get("templateURI"));
-              componentLoader(_component, false).then(
-                function (standardResponse) {
-                  resolve.call(_promise, standardResponse);
-                },
-                function (standardResponse) {
-                  reject.call(_promise, standardResponse);
-                });
-              break;
-            case (_component.get("tplsource") === "external" &&
-              _component.get("templateURI") !== ""):
-              _component.set("url", _component.get("templateURI"));
-              componentLoader(_component, false).then(
-                function (standardResponse) {
-                  resolve.call(_promise, standardResponse);
-                },
-                function (standardResponse) {
-                  reject.call(_promise, standardResponse);
-                });
-              break;
-            case _component.get("tplsource") === "default" && _component.get("templateURI", "") === "":
-              logger.debug(`Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
-              reject.call(_promise, `Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
-              break;
-            default:
-              logger.debug("Component " + _component.name + " will not be rebuilt because no templateURI is present");
-              reject.call(_promise, {
-                request: null,
-                component: _component
-              });
-              break;
-          }
-
-        }
-      });
-      return _promise;
-    },
-    Cast(oClass) {
-      /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
-      let o = _methods_(oClass).map(m => m.name.replace(/bound /g, "")).map(m => {
-        return {
-          [m]: oClass[m].bind(this)
-        };
-      }).reduce((c, p) => Object.assign(c, p), {});
-      return _Cast(this, o);
-    },
-    routingWay: null,
-    validRoutingWays: ["pathname", "hash", "search"],
-    routingNodes: [],
-    routings: [],
-    routingPath: "",
-    route() {
-      var componentClass = this;
-      var isValidInstance = ((!!componentClass.__instanceID) &&
-        Object.hasOwnProperty.call(componentClass, "subcomponents")) ? (true) : (false);
-      var __route__ = function (componentList) {
-        var _componentNames_ = [];
-        var _promises_ = componentList.filter(function (rc) {
-          return typeof rc !== "undefined";
-        }).map(function (rc) {
-          if (typeof rc.name !== "undefined") {
-            _componentNames_.push(rc.name);
-          } else {
-            throw new Error(__getType__(rc) + " does not have a name");
-          }
-          return new Promise(function (resolve, reject) {
-            var _promise_;
-            if (typeof rc !== "undefined" &&
-              Object.hasOwnProperty.call(rc, "_reroute_")) {
-              _promise_ = rc._reroute_()
-                .then(function () {
-                  rc.body.innerHTML = "";
-                  rc.innerHTML = "";
-                  return rc.rebuild();
-                })
-                .then(function (_rc_) {
-                  if (Object.hasOwnProperty.call(_rc_, "subcomponents") &&
-                    typeof _rc_.subcomponents !== "undefined" &&
-                    _rc_.subcomponents.length > 0
-                  ) {
-                    logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + _rc_.name);
-                    return __route__.call(_rc_, _rc_.subcomponents);
-                  } else {
-                    resolve(_rc_);
-                  }
-                });
-            } else if (typeof rc !== "undefined") {
-              reject("Component " + rc.name + " is not an instance of Component");
-            }
-            return _promise_;
-          });
+  
+        self.routingWay = _top.CONFIG.get("routingWay");
+  
+        self.processorHandler = New(ClassFactory("Processor"), {
+          component: self
         });
-        return Promise.all(_promises_)
-          .then(function () {
-            logger.debug("ROUTING COMPLETED FOR " + _componentNames_.join(", "));
-          }).catch(function (err) {
-            logger.error("ROUTING FAILED FOR " + _componentNames_.join(", ") + ": " + err);
-          });
-      };
-      if (isValidInstance || Object.hasOwnProperty.call(global, "componentsStack")) {
-        if (isValidInstance && is_a(componentClass, "Component")) {
-          logger.debug("loading routings for instance " + componentClass.name);
+  
+        if (typeof self.__new__ === "function") {
+          self.__new__.call(self, self);
         }
-        __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (global.componentsStack));
-      } else {
-        logger.debug("An undetermined result expected if load routings. So will not be loaded this time.");
-      }
-    },
-    fullscreen() {
-      if (isBrowser) {
-        var elem = this.body;
-        if (elem.requestFullscreen) {
-          elem.requestFullscreen();
-        } else if (elem.mozRequestFullScreen) {
-          /* Firefox */
-          elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullscreen) {
-          /* Chrome, Safari & Opera */
-          elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-          /* IE/Edge */
-          elem.msRequestFullscreen();
-        }
-      } else {
-        // not yet implemented.
-      }
-    },
-    closefullscreen() {
-      if (isBrowser) {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
-        }
-      } else {
-        // noy yet implemented.
-      }
-    },
-    _generateRoutingPaths(componentBody) {
-      var component = this;
-      if (isBrowser) {
-        if (__valid_routing_way__(component.validRoutingWays, component.routingWay)) {
-          if (typeof componentBody !== "undefined") {
-            component.innerHTML = componentBody.innerHTML;
-            component.routingNodes = componentBody.subelements("routing");
-            component.routings = [];
-            component.routingNodes.map(function (routingNode, r) {
-              var attributeNames = routingNode.getAttributeNames();
-              var routing = {};
-              attributeNames.map(function (attributeName, a) {
-                routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
-              });
-              component.routings.push(routing);
-              if (!_top.global.get("routingPaths")) {
-                _top.global.set("routingPaths", []);
-              }
-              if (!_top.global.get("routingPaths").includes(routing.path)) {
-                _top.global.get("routingPaths").push(routing.path);
-              }
-            });
-          }
-        }
-      } else {
-        // not yet implemented.
-      }
-    },
-    parseTemplate(template) {
-      var _self = this;
-      var _parsedAssignmentText;
-      if (Object.hasOwnProperty.call(_self, "templateHandler")) {
-        var value = template;
-        var templateHandlerName = _self.templateHandler;
-        var templateHandlerClass = ClassFactory(_self.templateHandler);
-        var templateInstance = New(templateHandlerClass, {
-          component: _self,
-          template: value
-        });
-        var selfData = _self.data;
-        if (Object.hasOwnProperty.call(_self, "assignRoutingParams") && _self.assignRoutingParams) {
-          try {
-            selfData = Object.assign(selfData, _self.routingParams);
-          } catch (e) {
-            logger.debug("[parseTemplate] it was not possible to assign the routing params to the template");
-          }
-        }
-        _parsedAssignmentText = templateInstance.assign(selfData);
-      } else {
-        _parsedAssignmentText = value;
-      }
-      return _parsedAssignmentText;
-    },
-    _new_(properties) {
-      var self = this;
 
-      if (typeof self.name === "undefined") {
-        logger.warn("A name is not defined for " + __getType__(self));
-      }
-
-      self.routingWay = _top.CONFIG.get("routingWay");
-
-      self.processorHandler = New(ClassFactory("Processor"), {
-        component: self
-      });
-
-      Object.defineProperty(self, "body", {
-        configurable: true,
-        set(value) {
-          self._body = value;
-          self._generateRoutingPaths(value);
-        },
-        get() {
-          return self._body;
-        }
-      });
-
-      Object.defineProperty(self, "cacheIndex", {
-        configurable: true,
-        set(value) {
-          // readonly
-          logger.debug("[cacheIndex] This property is readonly");
-        },
-        get() {
-          var __routing_path__ = _DataStringify(self.routingPath);
-          return Base64.encode(self.name + __routing_path__);
-        }
-      });
-
-      Object.defineProperty(self, "parsedAssignmentText", {
-        configurable: true,
-        set(value) {
-          // readonly
-          logger.debug("[parsedAssignmentText] This property is readonly");
-        },
-        get() {
-          self._parsedAssignmentText = self.parseTemplate(self.template);
-          return self._parsedAssignmentText;
-        }
-      });
-
-      Object.defineProperty(self, "shadowRoot", {
-        configurable: true,
-        set(value) {
-          if (typeof self.__shadowRoot == "undefined") {
-            self.__shadowRoot = value;
-          } else {
-            logger.debug("[shadowRoot] This property can only be assigned once!");
-          }
-        },
-        get() {
-          return self.__shadowRoot;
-        }
-      });
-
-      Object.defineProperty(self, "routingSelected", {
-        configurable: true,
-        set(value) {
-          logger.debug("[routingSelected] This is a read-only property of the component");
-        },
-        get() {
-          return __valid_routings__(this.routings, this.routingPath);
-        }
-      });
-
-      Object.defineProperty(self, "routingParams", {
-        configurable: true,
-        set(value) {
-          logger.debug("[routingParams] This is a read-only property of the component");
-        },
-        get() {
-          var component = this;
-          return [{}].concat(component.routingSelected.map(function (routing) {
-            return __routing_params__(routing, component.routingPath);
-          })).reduce(function (accumulator, colData, index) {
-            return Object.assign(accumulator, colData);
-          });
-        }
-      });
-
-      if (typeof self.__new__ === "function") {
-        self.__new__.call(self, properties);
-      }
-
-      self._reroute_()
+        self._generateRoutingPaths(self.body);
+        self._reroute_()
         .then(function () {
           return self.rebuild()
             .then(function () {
@@ -2469,213 +2081,629 @@
               logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
               console.error(standardResponse);
             });
-        });
+        });          
 
-    },
-    _reroute_() {
-      /* This method set the selected routing and makes the switch to the templateURI */
-      var rc = this;
-      return new Promise(function (resolve, reject) {
-        if (isBrowser) {
-          if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay)) {
-            rc.routingPath = document.location[rc.routingWay];
-            rc.routingSelected.map(function (routing, r) {
-              var componentURI = ComponentURI({
-                "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
-                "COMPONENT_NAME": routing.name.toString(),
-                "TPLEXTENSION": (Object.hasOwnProperty.call(routing, "tplextension")) ? (routing.tplextension) : (rc.tplextension),
-                "TPL_SOURCE": "default" /* here is always default in order to get the right uri */
+      }
+  
+      set body(value) {
+        var self = this;
+        self._body = value;
+      }
+  
+      get body() {
+        var self= this;
+        return self._body;
+      }
+  
+      set cacheIndex(value) {
+        // readonly
+        logger.debug("[cacheIndex] This property is readonly");
+      }
+  
+      get cacheIndex() {
+        var self= this;
+        var __routing_path__ = _DataStringify(self.routingPath);
+        return Base64.encode(self.name + __routing_path__);
+      }
+  
+      set parsedAssignmentText(value) {
+        // readonly
+        logger.debug("[parsedAssignmentText] This property is readonly");
+      }
+  
+      get parsedAssignmentText() {
+        var self= this;
+        self._parsedAssignmentText = self.parseTemplate(self.template);
+        return self._parsedAssignmentText;
+      }
+  
+  
+      set shadowRoot(value) {
+        var self= this;
+        if (typeof self.__shadowRoot == "undefined") {
+          self.__shadowRoot = value;
+        } else {
+          logger.debug("[shadowRoot] This property can only be assigned once!");
+        }
+      }
+      get shadowRoot() {
+        var self= this;
+        return self.__shadowRoot;
+      }
+  
+  
+      set routingSelected(value){
+        logger.debug("[routingSelected] This is a read-only property of the component");
+      }
+  
+      get routingSelected (){
+        var self= this;
+        return __valid_routings__(self.routings, self.routingPath);
+      }
+  
+      set routingParams (value){
+        logger.debug("[routingParams] This is a read-only property of the component");
+      }
+  
+      get routingParams (){
+        var component = this;
+        return [{}].concat(component.routingSelected.map(function (routing) {
+          return __routing_params__(routing, component.routingPath);
+        })).reduce(function (accumulator, colData, index) {
+          return Object.assign(accumulator, colData);
+        });
+      }
+  
+      
+  
+      done() {
+        //TODO: default done method
+      }
+      
+      fail() {
+        //TODO: default fail method
+      }
+  
+      set(name, value) {
+        this[name] = value;
+      }
+  
+      get(name) {
+        return this[name];
+      }
+  
+      feedComponent() {
+        var _component_ = this;
+        var _feedComponent_InBrowser = function (_component_) {
+          if (typeof _component_.container === "undefined" && typeof _component_.body === "undefined") {
+            logger.warn("COMPONENT {{NAME}} has an undefined container and body".replace("{{NAME}}", _component_.name));
+            return;
+          }
+          var container = (typeof _component_.container === "undefined" || _component_.container === null) ? (_component_.body) : (_component_.container);
+          var parsedAssignmentText = _component_.parsedAssignmentText;
+          _component_.innerHTML = parsedAssignmentText;
+          if (_component_.shadowed) {
+            logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", _component_.name));
+            logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+            var tmp_shadowContainer = _DOMCreateElement("div");
+            container.subelements("[slot]").map(
+              function (c) {
+                if (c.parentElement === container) {
+                  tmp_shadowContainer.appendChild(c);
+                }
               });
-              rc.templateURI = componentURI;
-            });
-            if (rc.routingSelected.length > 0) {
-              rc.template = "";
-              rc.body.innerHTML = "";
+            logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+            var shadowContainer = _DOMCreateElement("div");
+            shadowContainer.classList.add("shadowHost");
+            try {
+              _component_.shadowRoot = shadowContainer.attachShadow({
+                mode: "open"
+              });
+            } catch (e) {
+              try {
+                logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", _component_.name));
+                _component_.shadowRoot = shadowContainer.shadowRoot;
+              } catch (e) {
+                logger.warn("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
+              }
+            }
+            if (typeof _component_.shadowRoot !== "undefined" && _component_.shadowRoot !== null) {
+              if (_component_.reload) {
+                logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+                shadowContainer.shadowRoot.innerHTML = _component_.innerHTML;
+              } else {
+                tmp_shadowContainer.innerHTML = _component_.parseTemplate(tmp_shadowContainer.innerHTML);
+                logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
+                shadowContainer.shadowRoot.innerHTML += _component_.innerHTML;
+              }
+              logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
+              shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
+              logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", _component_.name));
+              if (container.subelements(".shadowHost") < 1) {
+                container.appendChild(shadowContainer);
+              } else {
+                logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
+                container.removeChild(container.subelements(".shadowHost").pop());
+                container.appendChild(shadowContainer);
+              }
+            } else {
+              logger.warn("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));
+            }
+          } else {
+            if (_component_.reload) {
+              logger.debug("FORCED RELOADING OF CONTAINER FOR COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
+              container.innerHTML = _component_.innerHTML;
+            } else if (container && _component_) {
+              logger.debug("ADDING COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
+              container.innerHTML += _component_.innerHTML;
+            } else {
+              logger.warn("COMPONENT {{NAME}} is not added to the DOM".replace("{{NAME}}", _component_.name));
             }
           }
-        }
-        resolve(rc);
-
-      });
-    },
-    lazyLoadImages() {
-      if (isBrowser) {
-        var component = this;
-        var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
-        var _imgLazyLoaded = [..._componentRoot.subelements("img[lazy-src]")];
-        var _lazyLoadImages = function (image) {
-          image.setAttribute("src", image.getAttribute("lazy-src"));
-          image.onload = () => {
-            image.removeAttribute("lazy-src");
-          };
+  
         };
-        if ("IntersectionObserver" in window) {
-          var observer = new IntersectionObserver((items, observer) => {
-            items.forEach((item) => {
-              if (item.isIntersecting) {
-                _lazyLoadImages(item.target);
-                observer.unobserve(item.target);
-              }
-            });
-          });
-          _imgLazyLoaded.map(function (img) {
-            return observer.observe(img);
-          });
-        } else {
-          _imgLazyLoaded.map(_lazyLoadImages);
+  
+        var _feedComponent_InNode = function (_component_) {
+          var parsedAssignmentText = _component_.parsedAssignmentText;
+          _component_.innerHTML = parsedAssignmentText;
+        };
+  
+        var _ret_;
+        if (!is_a(_component_, "Component")) {
+          logger.warn("Trying to feed a non component object");
+          return;
         }
-
-      } else {
-        // not yet implemented
+        if (isBrowser) {
+          _ret_ = _feedComponent_InBrowser(_component_);
+        } else {
+          _ret_ = _feedComponent_InNode(_component_);
+        }
+        return _ret_;
       }
-      return null;
-    },
-    applyTransitionEffect(effectClassName) {
-      var _Effect = ClassFactory(effectClassName);
-      if (typeof _Effect !== "undefined" && is_a(_Effect, "TransitionEffect")) {
-        this.effect = New(_Effect, {
-          component: this
+  
+      rebuild() {
+        var _component = this;
+        var _promise = new Promise(function (resolve, reject) {
+          if (typeof _component === "undefined" || _component === null) {
+            reject("Component is undefined");
+          }
+          if (isQCObjects_Object(_component) && is_a(_component, "Component")) {
+            switch (true) {
+              case (_component.get("tplsource") === "none"):
+                logger.debug("Component " + _component.name + " has specified template-source=none, so no template load was done");
+                var standardResponse = {
+                  request: null,
+                  component: _component
+                };
+                if (typeof _component.done === "function") {
+                  _component.done.call(_component, standardResponse);
+                }
+                resolve.call(_promise, standardResponse);
+                break;
+              case (_component.get("tplsource") === "inline"):
+                logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
+                _component.feedComponent();
+                var standardResponse = {
+                  request: null,
+                  component: _component
+                };
+                if (typeof _component.done === "function") {
+                  _component.done.call(_component, standardResponse);
+                }
+                resolve.call(_promise, standardResponse);
+                break;
+              case (_component.get("tplsource") === "default" &&
+                _component.get("templateURI") !== ""):
+                _component.set("url", _component.get("basePath") + _component.get("templateURI"));
+                componentLoader(_component, false).then(
+                  function (standardResponse) {
+                    resolve.call(_promise, standardResponse);
+                  },
+                  function (standardResponse) {
+                    reject.call(_promise, standardResponse);
+                  });
+                break;
+              case (_component.get("tplsource") === "external" &&
+                _component.get("templateURI") !== ""):
+                _component.set("url", _component.get("templateURI"));
+                componentLoader(_component, false).then(
+                  function (standardResponse) {
+                    resolve.call(_promise, standardResponse);
+                  },
+                  function (standardResponse) {
+                    reject.call(_promise, standardResponse);
+                  });
+                break;
+              case _component.get("tplsource") === "default" && _component.get("templateURI", "") === "":
+                logger.debug(`Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
+                reject.call(_promise, `Component ${_component.name} template-source is ${_component.get("tplsource")} and no templateURI is present`);
+                break;
+              default:
+                logger.debug("Component " + _component.name + " will not be rebuilt because no templateURI is present");
+                reject.call(_promise, {
+                  request: null,
+                  component: _component
+                });
+                break;
+            }
+  
+          }
         });
-        this.effect.apply(this.effect.defaultParams);
-      } else {
-        logger.debug(`${__getType__(_Effect)} is not a TransitionEffect`);
+        return _promise;
       }
-    },
-    applyObserveTransitionEffect(effectClassName) {
-      if (isBrowser) {
-        var component = this;
-        var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
-        var _applyEffect_ = function (element) {
-          component.applyTransitionEffect(effectClassName);
-        };
-        if ("IntersectionObserver" in window) {
-          var observer = new IntersectionObserver((items, observer) => {
-            items.forEach((item) => {
-              if (item.isIntersecting) {
-                _applyEffect_(item.target);
-                observer.unobserve(item.target);
+  
+      Cast(oClass) {
+        /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
+        let o = _methods_(oClass).map(m => m.name.replace(/bound /g, "")).map(m => {
+          return {
+            [m]: oClass[m].bind(this)
+          };
+        }).reduce((c, p) => Object.assign(c, p), {});
+        return _Cast(this, o);
+      }
+  
+      route() {
+        var componentClass = this;
+        var isValidInstance = ((!!componentClass.__instanceID) &&
+          Object.hasOwnProperty.call(componentClass, "subcomponents")) ? (true) : (false);
+        var __route__ = function (componentList) {
+          var _componentNames_ = [];
+          var _promises_ = componentList.filter(function (rc) {
+            return typeof rc !== "undefined";
+          }).map(function (rc) {
+            if (typeof rc.name !== "undefined") {
+              _componentNames_.push(rc.name);
+            } else {
+              throw new Error(__getType__(rc) + " does not have a name");
+            }
+            return new Promise(function (resolve, reject) {
+              var _promise_;
+              if (typeof rc !== "undefined" &&
+                Object.hasOwnProperty.call(rc, "_reroute_")) {
+                _promise_ = rc._reroute_()
+                  .then(function () {
+                    rc.body.innerHTML = "";
+                    rc.innerHTML = "";
+                    return rc.rebuild();
+                  })
+                  .then(function (_rc_) {
+                    if (Object.hasOwnProperty.call(_rc_, "subcomponents") &&
+                      typeof _rc_.subcomponents !== "undefined" &&
+                      _rc_.subcomponents.length > 0
+                    ) {
+                      logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + _rc_.name);
+                      return __route__.call(_rc_, _rc_.subcomponents);
+                    } else {
+                      resolve(_rc_);
+                    }
+                  });
+              } else if (typeof rc !== "undefined") {
+                reject("Component " + rc.name + " is not an instance of Component");
               }
+              return _promise_;
             });
           });
-          observer.observe(_componentRoot);
+          return Promise.all(_promises_)
+            .then(function () {
+              logger.debug("ROUTING COMPLETED FOR " + _componentNames_.join(", "));
+            }).catch(function (err) {
+              logger.error("ROUTING FAILED FOR " + _componentNames_.join(", ") + ": " + err);
+            });
+        };
+        if (isValidInstance || Object.hasOwnProperty.call(global, "componentsStack")) {
+          if (isValidInstance && is_a(componentClass, "Component")) {
+            logger.debug("loading routings for instance " + componentClass.name);
+          }
+          __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (global.componentsStack));
         } else {
-          _applyEffect_(_componentRoot);
+          logger.debug("An undetermined result expected if load routings. So will not be loaded this time.");
         }
-      } else {
-        // not yet implemented
       }
-      return null;
-    },
-    scrollIntoHash() {
-      if (isBrowser) {
+  
+      fullscreen() {
+        if (isBrowser) {
+          var elem = this.body;
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.mozRequestFullScreen) {
+            /* Firefox */
+            elem.mozRequestFullScreen();
+          } else if (elem.webkitRequestFullscreen) {
+            /* Chrome, Safari & Opera */
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            /* IE/Edge */
+            elem.msRequestFullscreen();
+          }
+        } else {
+          // not yet implemented.
+        }
+      }
+  
+      closefullscreen() {
+        if (isBrowser) {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+        } else {
+          // noy yet implemented.
+        }
+      }
+  
+      _generateRoutingPaths(componentBody) {
         var component = this;
-        if (document.location.hash !== "") {
-          var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
-          _componentRoot.subelements(document.location.hash).map(
-            function (element) {
-              if (typeof element.scrollIntoView === "function") {
-                element.scrollIntoView(
-                  _top.CONFIG.get("scrollIntoHash", {
-                    behavior: "auto",
-                    block: "top",
-                    inline: "top"
-                  })
-                );
+        if (isBrowser) {
+          if (__valid_routing_way__(component.validRoutingWays, component.routingWay)) {
+            if (typeof componentBody !== "undefined") {
+              component.innerHTML = componentBody.innerHTML;
+              component.routingNodes = componentBody.subelements("routing");
+              component.routings = [];
+              component.routingNodes.map(function (routingNode, r) {
+                var attributeNames = routingNode.getAttributeNames();
+                var routing = {};
+                attributeNames.map(function (attributeName, a) {
+                  routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+                });
+                component.routings.push(routing);
+                if (!_top.global.get("routingPaths")) {
+                  _top.global.set("routingPaths", []);
+                }
+                if (!_top.global.get("routingPaths").includes(routing.path)) {
+                  _top.global.get("routingPaths").push(routing.path);
+                }
+              });
+            }
+          }
+        } else {
+          // not yet implemented.
+        }
+      }
+  
+      parseTemplate(template) {
+        var _self = this;
+        var _parsedAssignmentText;
+        if (Object.hasOwnProperty.call(_self, "templateHandler")) {
+          var value = template;
+          var templateHandlerName = _self.templateHandler;
+          var templateHandlerClass = ClassFactory(_self.templateHandler);
+          var templateInstance = New(templateHandlerClass, {
+            component: _self,
+            template: value
+          });
+          var selfData = _self.data;
+          if (Object.hasOwnProperty.call(_self, "assignRoutingParams") && _self.assignRoutingParams) {
+            try {
+              selfData = Object.assign(selfData, _self.routingParams);
+            } catch (e) {
+              logger.debug("[parseTemplate] it was not possible to assign the routing params to the template");
+            }
+          }
+          _parsedAssignmentText = templateInstance.assign(selfData);
+        } else {
+          _parsedAssignmentText = value;
+        }
+        return _parsedAssignmentText;
+      }
+  
+      _reroute_() {
+        /* This method set the selected routing and makes the switch to the templateURI */
+        var rc = this;
+        return new Promise(function (resolve, reject) {
+          if (isBrowser) {
+            if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay)) {
+              rc.routingPath = document.location[rc.routingWay];
+              rc.routingSelected.map(function (routing, r) {
+                var componentURI = ComponentURI({
+                  "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
+                  "COMPONENT_NAME": routing.name.toString(),
+                  "TPLEXTENSION": (Object.hasOwnProperty.call(routing, "tplextension")) ? (routing.tplextension) : (rc.tplextension),
+                  "TPL_SOURCE": "default" /* here is always default in order to get the right uri */
+                });
+                rc.templateURI = componentURI;
+              });
+              if (rc.routingSelected.length > 0) {
+                rc.template = "";
+                rc.body.innerHTML = "";
               }
             }
-          );
-        }
-      } else {
-        // not yet implemented
+          }
+          resolve(rc);
+  
+        });
       }
-    },
-    i18n_translate() {
-      if (isBrowser) {
-        if (_top.CONFIG.get("use_i18n")) {
+  
+      lazyLoadImages() {
+        if (isBrowser) {
           var component = this;
           var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
-          var lang1 = _top.CONFIG.get("lang", "en");
-          var lang2 = navigator.language.slice(0, 2);
-          var i18n = _top.global.get("i18n");
-          if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwnProperty.call(i18n, "messages"))) {
-            var callback_i18n = function () {
-              var component = this;
-              return new Promise(function (resolve, reject) {
-                var messages = i18n.messages.filter(function (message) {
-                  return Object.hasOwnProperty.call(message, lang1) && Object.hasOwnProperty.call(message, lang2);
-                });
-                _componentRoot.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component")
-                  .map(function (element) {
-                    messages.map(function (message) {
-                      var _innerHTML = element.innerHTML;
-                      _innerHTML = _innerHTML.replace(new RegExp(`${message[lang1]}`, "g"), message[lang2]);
-                      element.innerHTML = _innerHTML;
-                      return null;
-                    });
-                    return element;
-                  });
-                resolve();
-              });
+          var _imgLazyLoaded = [..._componentRoot.subelements("img[lazy-src]")];
+          var _lazyLoadImages = function (image) {
+            image.setAttribute("src", image.getAttribute("lazy-src"));
+            image.onload = () => {
+              image.removeAttribute("lazy-src");
             };
-            callback_i18n.call(component).then(function () {
-              logger.debug("i18n loaded for component: " + component.name);
+          };
+          if ("IntersectionObserver" in window) {
+            var observer = new IntersectionObserver((items, observer) => {
+              items.forEach((item) => {
+                if (item.isIntersecting) {
+                  _lazyLoadImages(item.target);
+                  observer.unobserve(item.target);
+                }
+              });
             });
-
+            _imgLazyLoaded.map(function (img) {
+              return observer.observe(img);
+            });
+          } else {
+            _imgLazyLoaded.map(_lazyLoadImages);
           }
+  
+        } else {
+          // not yet implemented
         }
-      } else {
-        // not yet implemented
+        return null;
       }
-    },
-    _componentHelpers: [],
-    addComponentHelper(componentHelper) {
-      var component = this;
-      component._componentHelpers.push(componentHelper);
-    },
-    runComponentHelpers() {
-      if (isBrowser) {
-        var component = this;
-        var __component_helpers__ = [];
-        /*
-         * BEGIN use i18n translation
-         */
-        __component_helpers__.push(component.i18n_translate.bind(component));
-        /*
-         * END use i18n translation
-         */
-
-        /*
-         * BEGIN component scrollIntoHash
-         */
-        __component_helpers__.push(component.scrollIntoHash.bind(component));
-        /*
-         * END component scrollIntoHash
-         */
-
-        /*
-         * BEGIN component images lazy-load
-         */
-
-        __component_helpers__.push(component.lazyLoadImages.bind(component));
-
-        /*
-         * END component images lazy-load
-         */
-
-        __component_helpers__ = __component_helpers__.concat(component._componentHelpers);
-
-        __component_helpers__.map(
-          function (_component_helper_) {
-            _component_helper_();
+  
+      applyTransitionEffect(effectClassName) {
+        var _Effect = ClassFactory(effectClassName);
+        if (typeof _Effect !== "undefined" && is_a(_Effect, "TransitionEffect")) {
+          this.effect = New(_Effect, {
+            component: this
+          });
+          this.effect.apply(this.effect.defaultParams);
+        } else {
+          logger.debug(`${__getType__(_Effect)} is not a TransitionEffect`);
+        }
+      }
+  
+      applyObserveTransitionEffect(effectClassName) {
+        if (isBrowser) {
+          var component = this;
+          var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
+          var _applyEffect_ = function (element) {
+            component.applyTransitionEffect(effectClassName);
+          };
+          if ("IntersectionObserver" in window) {
+            var observer = new IntersectionObserver((items, observer) => {
+              items.forEach((item) => {
+                if (item.isIntersecting) {
+                  _applyEffect_(item.target);
+                  observer.unobserve(item.target);
+                }
+              });
+            });
+            observer.observe(_componentRoot);
+          } else {
+            _applyEffect_(_componentRoot);
           }
-        );
-
-      } else {
-        // not yet implemented
+        } else {
+          // not yet implemented
+        }
+        return null;
       }
-
+  
+      scrollIntoHash() {
+        if (isBrowser) {
+          var component = this;
+          if (document.location.hash !== "") {
+            var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
+            _componentRoot.subelements(document.location.hash).map(
+              function (element) {
+                if (typeof element.scrollIntoView === "function") {
+                  element.scrollIntoView(
+                    _top.CONFIG.get("scrollIntoHash", {
+                      behavior: "auto",
+                      block: "top",
+                      inline: "top"
+                    })
+                  );
+                }
+              }
+            );
+          }
+        } else {
+          // not yet implemented
+        }
+      }
+  
+      i18n_translate() {
+        if (isBrowser) {
+          if (_top.CONFIG.get("use_i18n")) {
+            var component = this;
+            var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
+            var lang1 = _top.CONFIG.get("lang", "en");
+            var lang2 = navigator.language.slice(0, 2);
+            var i18n = _top.global.get("i18n");
+            if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwnProperty.call(i18n, "messages"))) {
+              var callback_i18n = function () {
+                var component = this;
+                return new Promise(function (resolve, reject) {
+                  var messages = i18n.messages.filter(function (message) {
+                    return Object.hasOwnProperty.call(message, lang1) && Object.hasOwnProperty.call(message, lang2);
+                  });
+                  _componentRoot.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component")
+                    .map(function (element) {
+                      messages.map(function (message) {
+                        var _innerHTML = element.innerHTML;
+                        _innerHTML = _innerHTML.replace(new RegExp(`${message[lang1]}`, "g"), message[lang2]);
+                        element.innerHTML = _innerHTML;
+                        return null;
+                      });
+                      return element;
+                    });
+                  resolve();
+                });
+              };
+              callback_i18n.call(component).then(function () {
+                logger.debug("i18n loaded for component: " + component.name);
+              });
+  
+            }
+          }
+        } else {
+          // not yet implemented
+        }
+      }
+  
+      addComponentHelper(componentHelper) {
+        var component = this;
+        component._componentHelpers.push(componentHelper);
+      }
+  
+      runComponentHelpers() {
+        if (isBrowser) {
+          var component = this;
+          var __component_helpers__ = [];
+          /*
+           * BEGIN use i18n translation
+           */
+          __component_helpers__.push(component.i18n_translate.bind(component));
+          /*
+           * END use i18n translation
+           */
+  
+          /*
+           * BEGIN component scrollIntoHash
+           */
+          __component_helpers__.push(component.scrollIntoHash.bind(component));
+          /*
+           * END component scrollIntoHash
+           */
+  
+          /*
+           * BEGIN component images lazy-load
+           */
+  
+          __component_helpers__.push(component.lazyLoadImages.bind(component));
+  
+          /*
+           * END component images lazy-load
+           */
+  
+          __component_helpers__ = __component_helpers__.concat(component._componentHelpers);
+  
+          __component_helpers__.map(
+            function (_component_helper_) {
+              _component_helper_();
+            }
+          );
+  
+        } else {
+          // not yet implemented
+        }
+  
+      }
+      
     }
-  });
+  
+  ])
 
   _top._bindroute_.__assigned = false;
 
@@ -2739,8 +2767,8 @@
   Class("Service", ClassFactory("InheritClass"), {
     kind: "rest",
     /* it can be rest, mockup, local */
-    domain: domain,
-    basePath: basePath,
+    domain: _domain_,
+    basePath: _basePath_,
     url: "",
     method: "GET",
     data: {},
@@ -3645,8 +3673,8 @@
       class BackendMicroservice extends ClassFactory("InheritClass") {
 
         constructor ({
-          domain= domain,
-          basePath= basePath,
+          domain= _domain_,
+          basePath= _basePath_,
           body= null,
           stream= null,
           request= null
@@ -3807,8 +3835,8 @@
   }
 
   Class("SourceJS", Object, {
-    domain: domain,
-    basePath: basePath,
+    domain: _domain_,
+    basePath: _basePath_,
     body: _DOMCreateElement("script"),
     type: "text/javascript",
     containerTag: "body",
@@ -3866,8 +3894,8 @@
     }
   });
   Class("SourceCSS", Object, {
-    domain: domain,
-    basePath: basePath,
+    domain: _domain_,
+    basePath: _basePath_,
     body: _DOMCreateElement("link"),
     url: "",
     data: {},
