@@ -914,7 +914,7 @@
       __definition = {
         ...definition
       };
-      body = null;
+      body=null;
 
       static hierarchy(__class__) {
         var __classType = function (o_c) {
@@ -2033,10 +2033,15 @@
       validRoutingWays= ["pathname", "hash", "search"];
       basePath= _basePath_;
       domain= _domain_;
+      _body;
+      templateHandler= "DefaultTemplateHandler";
+      routingWay= null;
+      routingNodes= [];
+      routings= [];
+      routingPath= "";
 
       constructor ({
         templateURI= "",
-        templateHandler= "DefaultTemplateHandler",
         template= undefined,
         processorHandler= null,
         tplsource= "default",
@@ -2048,11 +2053,6 @@
         shadowed= false,
         cached= true,
         __promise__= null,
-        routingWay= null,
-        routingNodes= [],
-        routings= [],
-        routingPath= "",
-        body=null
       }){
         super(...arguments);
         var self = this;
@@ -2114,6 +2114,9 @@
       get parsedAssignmentText() {
         var self= this;
         self._parsedAssignmentText = self.parseTemplate(self.template);
+        if (typeof self._parsedAssignmentText === "undefined"){
+          throw Error (`[Component][${this.name}][parsedAssignmentText] Could not generate content!`);
+        }
         return self._parsedAssignmentText;
       }
   
@@ -2174,6 +2177,7 @@
   
       feedComponent() {
         var _component_ = this;
+        logger.debug(`[Component][${this.name}][feedComponent] start feeding component...`);
         var _feedComponent_InBrowser = function (_component_) {
           if (typeof _component_.container === "undefined" && typeof _component_.body === "undefined") {
             logger.warn("COMPONENT {{NAME}} has an undefined container and body".replace("{{NAME}}", _component_.name));
@@ -2468,10 +2472,11 @@
       parseTemplate(template) {
         var _self = this;
         var _parsedAssignmentText;
+        var value = template;
         if (Object.hasOwnProperty.call(_self, "templateHandler")) {
-          var value = template;
           var templateHandlerName = _self.templateHandler;
-          var templateHandlerClass = ClassFactory(_self.templateHandler);
+          logger.debug(`[Component][${this.name}][parseTemplate] Attempting to use ${templateHandlerName} ...`);
+          var templateHandlerClass = ClassFactory(templateHandlerName);
           var templateInstance = New(templateHandlerClass, {
             component: _self,
             template: value
@@ -2486,6 +2491,7 @@
           }
           _parsedAssignmentText = templateInstance.assign(selfData);
         } else {
+          logger.debug(`[Component][${this.name}][parseTemplate] No value for templateHandler. Using raw content...`);
           _parsedAssignmentText = value;
         }
         return _parsedAssignmentText;
@@ -2711,122 +2717,171 @@
     (_protected_code_)(__c__);
   });
 
-  Class("Controller", ClassFactory("InheritClass"), {
-    dependencies: [],
-    component: null,
-    routingSelectedAttr(attrName) {
-      return this.component.routingSelected.map(function (r) {
-        return r[attrName];
-      }).filter(function (v) {
-        return v;
-      }).pop();
-    },
-    isTouchable() {
-      return ("ontouchstart" in window) ||
-        (navigator.MaxTouchPoints > 0) ||
-        (navigator.msMaxTouchPoints > 0);
-    },
-    onpress(subelementSelector, handler) {
-      try {
-        if (this.isTouchable()) {
-          this.component.body.subelements(subelementSelector)[0].addEventListener("touchstart", handler, {
-            passive: true
-          });
-        } else {
-          this.component.body.subelements(subelementSelector)[0].addEventListener("click", handler, {
-            passive: true
-          });
+  Package("com.qcobjects.controllers", [
+    class Controller extends ClassFactory("InheritClass") {
+      constructor ({
+        component= null,
+        dependencies = []        
+      }){
+        super (...arguments);
+        if (typeof this.component === "undefined" || this.component === "null"){
+          throw Error (`${__getType__(this)} must be called with a component`);
         }
-      } catch (e) {
-        logger.debug("No button to assign press event");
       }
-    },
-    createRoutingController() {
-      var controller = this;
-      var component = controller.component;
-      var controllerName = controller.routingSelectedAttr("controllerclass");
-      if (typeof controllerName !== "undefined") {
-        var _Controller = ClassFactory(controllerName);
-        if (typeof _Controller !== "undefined") {
-          component.routingController = New(_Controller, {
-            component: component
-          }); // Initializes the main controller for the component
-          if (Object.hasOwnProperty.call(component.routingController, "done") && typeof component.routingController.done === "function") {
-            component.routingController.done.call(component.routingController);
+
+      routingSelectedAttr(attrName) {
+        return this.component.routingSelected.map(function (r) {
+          return r[attrName];
+        }).filter(function (v) {
+          return v;
+        }).pop();
+      }
+
+      isTouchable() {
+        return ("ontouchstart" in window) ||
+          (navigator.MaxTouchPoints > 0) ||
+          (navigator.msMaxTouchPoints > 0);
+      }
+
+      onpress(subelementSelector, handler) {
+        try {
+          if (this.isTouchable()) {
+            this.component.body.subelements(subelementSelector)[0].addEventListener("touchstart", handler, {
+              passive: true
+            });
+          } else {
+            this.component.body.subelements(subelementSelector)[0].addEventListener("click", handler, {
+              passive: true
+            });
+          }
+        } catch (e) {
+          logger.debug("No button to assign press event");
+        }
+      }
+
+      createRoutingController() {
+        var controller = this;
+        var component = controller.component;
+        var controllerName = controller.routingSelectedAttr("controllerclass");
+        if (typeof controllerName !== "undefined") {
+          var _Controller = ClassFactory(controllerName);
+          if (typeof _Controller !== "undefined") {
+            component.routingController = New(_Controller, {
+              component: component
+            }); // Initializes the main controller for the component
+            if (Object.hasOwnProperty.call(component.routingController, "done") && typeof component.routingController.done === "function") {
+              component.routingController.done.call(component.routingController);
+            }
           }
         }
       }
+
+      done(){}  
     }
-  });
+  ]);
 
-  Class("View", ClassFactory("InheritClass"), {
-    dependencies: [],
-    component: null
-  });
+  Package("com.qcobjects.views",[
+    class View extends ClassFactory("InheritClass") {
+      constructor ({component = undefined, dependencies = []}){
+        super(...arguments);
+        if (typeof this.component === "undefined" || this.component === "null"){
+          throw Error (`${__getType__(this)} must be called with a component`);
+        }
 
-  Class("Service", ClassFactory("InheritClass"), {
-    kind: "rest",
-    /* it can be rest, mockup, local */
-    domain: _domain_,
-    basePath: _basePath_,
-    url: "",
-    method: "GET",
-    data: {},
-    reload: false,
-    cached: false,
-    set(name, value) {
-      this[name] = value;
-    },
-    get(name) {
-      return this[name];
-    }
-  });
-
-  Class("JSONService", ClassFactory("Service"), {
-    method: "GET",
-    cached: false,
-    headers: {
-      "Content-Type": "application/json",
-      "charset": "utf-8"
-    },
-    JSONresponse: null,
-    done(result) {
-      logger.debug("***** RECEIVED RESPONSE:");
-      logger.debug(result.service.template);
-      this.JSONresponse = JSON.parse(result.service.template);
-    }
-  });
-
-  Class("ConfigService", ClassFactory("JSONService"), {
-    method: "GET",
-    cached: false,
-    configFileName: "config.json",
-    headers: {
-      "Content-Type": "application/json",
-      "charset": "utf-8"
-    },
-    JSONresponse: null,
-    done(result) {
-      logger.debug("***** CONFIG LOADED:");
-      logger.debug(result.service.template);
-      this.JSONresponse = JSON.parse(result.service.template);
-      if (Object.hasOwnProperty.call(this.JSONresponse, "__encoded__")) {
-        this.JSONresponse = JSON.parse(ClassFactory("_Crypt").decrypt(this.JSONresponse.__encoded__, _secretKey));
       }
-      for (var k in this.JSONresponse) {
-        _top.CONFIG.set(k, this.JSONresponse[k]);
-      }
-      this.configLoaded.call(this);
-    },
-    fail(result) {
-      this.configLoaded.call(this);
-    },
-    _new_(o) {
-      this.set("url", this.get("basePath") + this.get("configFileName"));
     }
-  });
+  ]);
 
-  Class("VO", ClassFactory("InheritClass"), {});
+  Package("com.qcobjects.api", [
+    class Service extends ClassFactory("InheritClass") {
+      kind= "rest";
+      /* it can be rest, mockup, local */
+      domain= _domain_;
+      basePath= _basePath_;
+      url= "";
+      method= "GET";
+      data= {};
+      reload= false;
+      cached= false;
+
+      constructor () {
+        super(...arguments);
+      }
+
+      set(name, value) {
+        this[name] = value;
+      }
+
+      get(name) {
+        return this[name];
+      }
+  
+    }
+
+  ]);
+
+  Package("com.qcobjects.api.services", [
+    class JSONService extends ClassFactory("Service") {
+      method= "GET";
+      cached= false;
+      headers= {
+        "Content-Type": "application/json",
+        "charset": "utf-8"
+      };
+      JSONresponse= null;
+      done(result) {
+        logger.debug("***** RECEIVED RESPONSE:");
+        logger.debug(result.service.template);
+        this.JSONresponse = JSON.parse(result.service.template);
+      }
+  
+      constructor (){
+        super(...arguments);
+      }
+
+    }
+  ]);
+
+  Package("com.qcobjects.api.config", [
+    class ConfigService extends ClassFactory("JSONService"){
+      method= "GET";
+      cached= false;
+      configFileName= "config.json";
+      headers= {
+        "Content-Type": "application/json",
+        "charset": "utf-8"
+      };
+      JSONresponse= null;
+      done(result) {
+        logger.debug("***** CONFIG LOADED:");
+        logger.debug(result.service.template);
+        this.JSONresponse = JSON.parse(result.service.template);
+        if (Object.hasOwnProperty.call(this.JSONresponse, "__encoded__")) {
+          this.JSONresponse = JSON.parse(ClassFactory("_Crypt").decrypt(this.JSONresponse.__encoded__, _secretKey));
+        }
+        for (var k in this.JSONresponse) {
+          _top.CONFIG.set(k, this.JSONresponse[k]);
+        }
+        this.configLoaded.call(this);
+      }
+      fail(result) {
+        this.configLoaded.call(this);
+      }
+
+      constructor (){
+        super(...arguments);
+        this.set("url", this.get("basePath") + this.get("configFileName"));
+      }
+    }
+  ]);
+
+  Package("com.qcobjects.valueObjects", [
+    class VO extends ClassFactory("InheritClass") {
+      constructor (){
+        super(...arguments);
+      }
+    }
+  ])
 
   /**
    * Returns a standarized uri for a component
@@ -2854,8 +2909,9 @@
    * @param component a Component object
    */
   var componentLoader = function (component, _async) {
+    var __promise__;
     var _componentLoaderInBrowser = function (component, _async) {
-      component.__promise__ = new Promise(function (resolve, reject) {
+      __promise__ = new Promise(function (resolve, reject) {
         var _promise = component.__promise__;
         var container = (Object.hasOwnProperty.call(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
         if (container !== null) {
@@ -2962,13 +3018,11 @@
             }
 
           }
-
-          return;
         } else {
           logger.debug("CONTAINER DOESNT EXIST");
         }
       });
-      component.__promise__.then(function (standardResponse) {
+      __promise__.then(function (standardResponse) {
         var _ret_;
         if (typeof component.done === "function") {
           _ret_ = component.done.call(component, standardResponse);
@@ -2983,11 +3037,11 @@
       }).catch(function (e) {
         logger.debug("Something wrong loading the component");
       });
-      return component.__promise__;
+      return __promise__;
     };
     var _componentLoaderInNode = function (component, _async) {
-      component.__promise__ = new Promise(function (resolve, reject) {
-        var _promise = component.__promise__;
+      __promise__ = new Promise(function (resolve, reject) {
+        var _promise = __promise__;
         var _feedComponent_ = function (component) {
           component.feedComponent();
           var standardResponse = {
@@ -3051,8 +3105,6 @@
           }
 
         }
-
-        return;
       });
       component.__promise__.then(function (standardResponse) {
         var _ret_;
@@ -3433,11 +3485,15 @@
               _component_.controller = New(_Controller, {
                 component: _component_
               }); // Initializes the main controller for the component
-              if (Object.hasOwnProperty.call(_component_.controller, "done") && typeof _component_.controller.done === "function") {
+              if (typeof _component_.controller.done === "function") {
                 _component_.controller.done.call(_component_.controller);
+              } else {
+                logger.debug(`${controllerName} does not have a done() method.`);
               }
-              if (Object.hasOwnProperty.call(_component_.controller, "createRoutingController")) {
+              if (typeof _component_.controller.createRoutingController === "function") {
                 _component_.controller.createRoutingController.call(_component_.controller);
+              } else {
+                logger.debug(`${controllerName} does not have a createRoutingController() method.`);
               }
             }
             var effectClassName = _component_.body.getAttribute("effectClass");
@@ -3613,7 +3669,7 @@
     HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
     var _ComponentWidget_ = class extends HTMLElement {
       constructor() {
-        super();
+        super(...arguments);
         const componentWidget = this;
         const componentName = componentWidget.nodeName.toLowerCase();
         const componentBody = _DOMCreateElement("component");
