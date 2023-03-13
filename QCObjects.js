@@ -914,7 +914,6 @@
       __definition = {
         ...definition
       };
-      body=null;
 
       static hierarchy(__class__) {
         var __classType = function (o_c) {
@@ -943,6 +942,7 @@
           _o_ = {};
         }
         super(_o_);
+  
         let self = this;
         __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
         if (!self.__instanceID) {
@@ -2029,21 +2029,20 @@
 
   Package("com.qcobjects", [
     class Component extends ClassFactory("InheritClass") {
-      _componentHelpers= [];
       validRoutingWays= ["pathname", "hash", "search"];
       basePath= _basePath_;
       domain= _domain_;
-      _body;
       templateHandler= "DefaultTemplateHandler";
+      processorHandler= null;
       routingWay= null;
       routingNodes= [];
       routings= [];
       routingPath= "";
+      _componentHelpers= [];
 
       constructor ({
         templateURI= "",
-        template= undefined,
-        processorHandler= null,
+        template,
         tplsource= "default",
         url= "",
         name= "",
@@ -2052,7 +2051,11 @@
         reload= false,
         shadowed= false,
         cached= true,
+        _body=_DOMCreateElement("div"),
         __promise__= null,
+        __shadowRoot,
+        body,
+        shadowRoot
       }){
         super(...arguments);
         var self = this;
@@ -2129,6 +2132,7 @@
           logger.debug("[shadowRoot] This property can only be assigned once!");
         }
       }
+
       get shadowRoot() {
         var self= this;
         return self.__shadowRoot;
@@ -2157,14 +2161,22 @@
         });
       }
   
-      
-  
-      done() {
-        //TODO: default done method
+      done(standardResponse) {
+        var _ret_;
+        if (typeof standardResponse !== "undefined"){
+          var {request, component} = standardResponse;
+          _ret_ = Promise.resolve({request, component});
+        }
+        return _ret_;
       }
       
-      fail() {
-        //TODO: default fail method
+      fail(standardResponse) {
+        var _ret_;
+        if (typeof standardResponse !== "undefined"){
+          var {error, component} = standardResponse;
+          _ret_ = Promise.resolve({error, component});
+        }
+        return _ret_;
       }
   
       set(name, value) {
@@ -2346,7 +2358,7 @@
         return _Cast(this, o);
       }
   
-      route() {
+      static route() {
         var componentClass = this;
         var isValidInstance = ((!!componentClass.__instanceID) &&
           Object.hasOwnProperty.call(componentClass, "subcomponents")) ? (true) : (false);
@@ -2362,8 +2374,7 @@
             }
             return new Promise(function (resolve, reject) {
               var _promise_;
-              if (typeof rc !== "undefined" &&
-                Object.hasOwnProperty.call(rc, "_reroute_")) {
+              if (typeof rc !== "undefined" && !!rc._reroute_) {
                 _promise_ = rc._reroute_()
                   .then(function () {
                     rc.body.innerHTML = "";
@@ -2391,7 +2402,7 @@
             .then(function () {
               logger.debug("ROUTING COMPLETED FOR " + _componentNames_.join(", "));
             }).catch(function (err) {
-              logger.error("ROUTING FAILED FOR " + _componentNames_.join(", ") + ": " + err);
+              logger.warn("ROUTING FAILED FOR " + _componentNames_.join(", ") + ": " + err);
             });
         };
         if (isValidInstance || Object.hasOwnProperty.call(global, "componentsStack")) {
@@ -2697,6 +2708,7 @@
   
           __component_helpers__.map(
             function (_component_helper_) {
+              logger.debug(`Executing ${_component_helper_.name} as component helper for ${component.name}...`);
               _component_helper_();
             }
           );
@@ -3515,7 +3527,14 @@
             }
             _component_.body.setAttribute("loaded", true);
 
-            _component_.runComponentHelpers();
+            logger.debug(`Trying to run component helpers for ${_component_.name}...`);
+            try {
+              _component_.runComponentHelpers();
+              logger.debug(`Component helpers for ${_component_.name} executed.`);
+            } catch (e){
+              logger.debug(`Component helpers for ${_component_.name} could not be executed.`);
+              throw Error(e);
+            }
 
             if ((Tag("component[loaded=true]").length * 100 / Tag("component").length) >= 100) {
               d.dispatchEvent(new CustomEvent("componentsloaded", {
