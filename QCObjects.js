@@ -4768,6 +4768,8 @@
           event.stopPropagation();
           if (ClassFactory("CONFIG").get("rebuildObjects", true)){
             global.componentsStack = document.buildComponents.call(document, true);
+          } else {
+            ClassFactory("Component").route();
           }
         };
 
