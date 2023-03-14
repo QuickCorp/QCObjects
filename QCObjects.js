@@ -2074,17 +2074,19 @@
           self.__new__.call(self, self);
         }
 
-        self._generateRoutingPaths(self.body);
-        self._reroute_()
-        .then(function () {
-          return self.rebuild()
-            .then(function () {
-              logger.info(`Component._new_ The component ${self.name} was built successfully!`);
-            }).catch(function (standardResponse) {
-              logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
-              console.error(standardResponse);
-            });
-        });          
+        self._generateRoutingPaths(self.body)
+        .then(function (){
+          self._reroute_()
+          .then(function () {
+            return self.rebuild()
+              .then(function () {
+                logger.info(`Component._new_ The component ${self.name} was built successfully!`);
+              }).catch(function (standardResponse) {
+                logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
+                console.error(standardResponse);
+              });
+          });
+        });
 
       }
   
@@ -2360,6 +2362,7 @@
   
       static route() {
         var componentClass = this;
+        var _route_promise_;
         var isValidInstance = ((!!componentClass.__instanceID) &&
           Object.hasOwnProperty.call(componentClass, "subcomponents")) ? (true) : (false);
         var __route__ = function (componentList) {
@@ -2409,7 +2412,7 @@
           if (isValidInstance && is_a(componentClass, "Component")) {
             logger.debug("loading routings for instance " + componentClass.name);
           }
-          __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (global.componentsStack));
+          _route_promise_ = __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (global.componentsStack));
         } else {
           logger.debug("An undetermined result expected if load routings. So will not be loaded this time.");
         }
@@ -2453,31 +2456,35 @@
   
       _generateRoutingPaths(componentBody) {
         var component = this;
-        if (isBrowser) {
-          if (__valid_routing_way__(component.validRoutingWays, component.routingWay)) {
-            if (typeof componentBody !== "undefined") {
-              component.innerHTML = componentBody.innerHTML;
-              component.routingNodes = componentBody.subelements("routing");
-              component.routings = [];
-              component.routingNodes.map(function (routingNode, r) {
-                var attributeNames = routingNode.getAttributeNames();
-                var routing = {};
-                attributeNames.map(function (attributeName, a) {
-                  routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+        return new Promise(function (resolve, reject){
+          if (isBrowser) {
+            if (__valid_routing_way__(component.validRoutingWays, component.routingWay)) {
+              if (typeof componentBody !== "undefined") {
+                component.innerHTML = componentBody.innerHTML;
+                component.routingNodes = componentBody.subelements("routing");
+                component.routings = [];
+                component.routingNodes.map(function (routingNode, r) {
+                  var attributeNames = routingNode.getAttributeNames();
+                  var routing = {};
+                  attributeNames.map(function (attributeName, a) {
+                    routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+                  });
+                  component.routings.push(routing);
+                  if (!_top.global.get("routingPaths")) {
+                    _top.global.set("routingPaths", []);
+                  }
+                  if (!_top.global.get("routingPaths").includes(routing.path)) {
+                    _top.global.get("routingPaths").push(routing.path);
+                  }
                 });
-                component.routings.push(routing);
-                if (!_top.global.get("routingPaths")) {
-                  _top.global.set("routingPaths", []);
-                }
-                if (!_top.global.get("routingPaths").includes(routing.path)) {
-                  _top.global.get("routingPaths").push(routing.path);
-                }
-              });
+              }
             }
+          } else {
+            // not yet implemented.
           }
-        } else {
-          // not yet implemented.
-        }
+          resolve();
+  
+        });
       }
   
       parseTemplate(template) {
@@ -4759,7 +4766,9 @@
         window.onpopstate = function (event) {
           event.stopImmediatePropagation();
           event.stopPropagation();
-          ClassFactory("Component").route();
+          if (ClassFactory("CONFIG").get("rebuildObjects", true)){
+            global.componentsStack = document.buildComponents.call(document, true);
+          }
         };
 
         /*
