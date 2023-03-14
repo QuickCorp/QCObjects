@@ -839,7 +839,7 @@
     var name = _class_.name;
     _class_.__definition.__classType = name;
     if (typeof __namespace !== "undefined"){
-      _class_.__definition.__namespace = __namespace
+      _class_.__definition.__namespace = __namespace;
     }
     _QC_CLASSES[name] = _class_;
     _top[name] = _QC_CLASSES[name];
@@ -2728,7 +2728,7 @@
       
     }
   
-  ])
+  ]);
 
   _top._bindroute_.__assigned = false;
 
@@ -2900,7 +2900,7 @@
         super(...arguments);
       }
     }
-  ])
+  ]);
 
   /**
    * Returns a standarized uri for a component
