@@ -34,7 +34,7 @@ describe("Global Features Spec", function () {
         }
 
         expect(ClassFactory("MyClass")).toBe( classFactory );
-        logger.debug("Existence of global.ClassesList Spec... OK");
+        logger.debug("Class Factory inside a package, no parent class Spec... OK");
     });
     
   });
