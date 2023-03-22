@@ -2031,6 +2031,7 @@
       routings= [];
       routingPath= "";
       _componentHelpers= [];
+      subcomponents=[];
       splashScreenComponent=undefined;
 
       constructor ({
@@ -2050,6 +2051,7 @@
         body,
         shadowRoot,
         splashScreenComponent,
+        subcomponents
       }){
         super(...arguments);
         var self = this;
@@ -2410,6 +2412,7 @@
         } else {
           logger.debug("An undetermined result expected if load routings. So will not be loaded this time.");
         }
+        return _route_promise_;
       }
   
       fullscreen() {
