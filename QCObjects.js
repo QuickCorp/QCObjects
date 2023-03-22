@@ -932,6 +932,10 @@
         return __hierarchy;
       }
 
+      static getParentClass() {
+        return Object.getPrototypeOf(this.prototype.constructor);
+      }
+
       constructor() {
         var _o_;
         if (arguments.length > 0) {
