@@ -11,14 +11,14 @@ describe("Global Features Spec", function () {
         var classFactory = Class ("MyClass", {});
 
         expect(ClassFactory("MyClass")).toBe( classFactory );
-        logger.debug("Existence of global.ClassesList Spec... OK");
+        logger.debug("Class Factory using Class Function, no parent class Spec... OK");
     });
 
     it("Global Class Factory using Class Function, no parent class Spec", function () {
         var classFactory = Class ("MyClass", {});
 
         expect(global.MyClass).toBe( classFactory );
-        logger.debug("Existence of global.ClassesList Spec... OK");
+        logger.debug("Global Class Factory using Class Function, no parent class Spec... OK");
     });
 
     it("Class Factory inside a package, no parent class Spec", function () {
