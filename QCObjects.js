@@ -1021,20 +1021,9 @@
         return this["body"]["style"];
       }
 
-      hierarchy(__instance__) {
-        var __hierarchy;
-        if (typeof __instance__ === "undefined" || __instance__ === null) {
-          __instance__ = this;
-        }
-        var __parent__ = Object.getPrototypeOf(__instance__.constructor);
-        if (__parent__.hierarchy) {
-          __hierarchy = __parent__.hierarchy.call(__parent__, __parent__);
-        } else {
-          __hierarchy = [];
-        }
-        return [__getType__(__instance__)].concat(__hierarchy).filter(function (value, index, self) {
-          return self.indexOf(value) === index;
-        });
+      hierarchy() {
+        var __instance__ = this;
+        return this.getClass().hierarchy(__instance__);
       }
 
 
@@ -1080,7 +1069,6 @@
 
     _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
     _QC_CLASSES[name]["__definition"] = definition;
-    _QC_CLASSES[name]["__definition"]["hierarchy"] = _QC_CLASSES[name]["hierarchy"].bind(_QC_CLASSES[name]["__definition"]);
     _QC_CLASSES[name]["__definition"]["__classType"] = name;
     _QC_CLASSES[name]["__definition"]["__new__"] = function __new__(_o_) {
       _CastProps(_o_, this);
@@ -2039,6 +2027,7 @@
       routings= [];
       routingPath= "";
       _componentHelpers= [];
+      splashScreenComponent=undefined;
 
       constructor ({
         templateURI= "",
@@ -2055,7 +2044,8 @@
         __promise__= null,
         __shadowRoot,
         body,
-        shadowRoot
+        shadowRoot,
+        splashScreenComponent,
       }){
         super(...arguments);
         var self = this;
