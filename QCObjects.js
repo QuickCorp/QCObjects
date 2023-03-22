@@ -836,7 +836,7 @@
   };
 
   var __register_class__ = function (_class_, __namespace) {
-    var name = _class_.name;
+    var name = _class_.name || __getType__(_class_);
     _class_.__definition.__classType = name;
     if (typeof __namespace !== "undefined"){
       _class_.__definition.__namespace = __namespace;
