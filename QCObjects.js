@@ -306,7 +306,7 @@
       warnEnabled: true,
       debug(message) {
         if (this.debugEnabled) {
-          console.log("\x1b[35m%s\x1b[0m", "[DEBUG] " + message);
+          console.log("\x1b[35m%s\x1b[0m", `[DEBUG][${performance.now().toLocaleString()}] ${message}`);
         }
       },
       info(message) {
@@ -317,12 +317,12 @@
           } else {
             color = "\x1b[33m%s\x1b[0m";
           }
-          console.info(color, "[INFO] " + message);
+          console.info(color, `[INFO][${performance.now().toLocaleString()}] ${message}`);
         }
       },
       warn(message) {
         if (this.warnEnabled) {
-          console.warn("\x1b[31m%s\x1b[0m", "[WARN] " + message);
+          console.warn("\x1b[31m%s\x1b[0m", `[WARN][${performance.now().toLocaleString()}] ${message}`);
         }
       }
     };
@@ -2066,6 +2066,9 @@
       _componentHelpers= [];
       subcomponents=[];
       splashScreenComponent=undefined;
+      controller=undefined;
+      view=undefined;
+      effect=undefined;
 
       constructor ({
         templateURI= "",
@@ -2083,7 +2086,9 @@
         __shadowRoot,
         body,
         shadowRoot,
-        splashScreenComponent
+        splashScreenComponent,
+        controller,
+        view
       }){
         super(...arguments);
         var self = this;
@@ -2259,6 +2264,7 @@
               }
               resolve (serviceResponse);
             }, function (rejectedResponse){
+              logger.debug(`Service loading rejected for ${_serviceClassName} in ${component.name}`);
               reject (rejectedResponse);
             } ).catch(function (e) {
               logger.debug("Something went wroing while trying to load the service " + _serviceClassName);
@@ -2353,7 +2359,11 @@
               component: _component_
             }); // Initializes the main controller for the component
             if (typeof _component_.controller.done === "function") {
-              _component_.controller.done.call(_component_.controller);
+              try {
+                _component_.controller.done.call(_component_.controller);
+              } catch (e){
+                throw Error (e);
+              }
             } else {
               logger.debug(`${controllerName} does not have a done() method.`);
             }
@@ -2413,7 +2423,7 @@
 
       get subtags(){
         var _component_ = this;
-        var tagFilter = ":scope component:not([loaded])";
+        var tagFilter = "component:not([loaded])";
         return _component_.hostElements(tagFilter);
       }
 
@@ -3030,11 +3040,15 @@
 
   Package("com.qcobjects.controllers", [
     class Controller extends ClassFactory("InheritClass") {
+      component = null;
+      dependencies = [];
       constructor ({
-        component= null,
-        dependencies = []        
+        component,
+        dependencies
       }){
         super (...arguments);
+        this.component = component;
+        this.dependencies = dependencies;
         if (typeof this.component === "undefined" || this.component === "null"){
           throw Error (`${__getType__(this)} must be called with a component`);
         }
@@ -3759,7 +3773,7 @@
   if (isBrowser) {
 
     Element.prototype.buildComponents = function (rebuildObjects = false) {
-      var tagFilter = ":scope component:not([loaded])";
+      var tagFilter = "component:not([loaded])";
       var d = this;
       var elements = d.subelements(tagFilter);
       return _buildComponentsFromElements_(elements, null);
@@ -3773,7 +3787,7 @@
         const componentWidget = this;
         const componentName = componentWidget.nodeName.toLowerCase();
         const componentBody = _DOMCreateElement("component");
-        const __enabled__atributes__ = ["cached", "splashscreen", "response-to", "shadowed", "componentClass", "controllerClass", "viewClass", "serviceClass", "effectClass", "tplextension", "template-source", "data"];
+        const __enabled__atributes__ = componentWidget.getAttributeNames();
         componentBody.setAttribute("name", componentName);
 
         if (!componentWidget.hasAttribute("shadowed")) {
