@@ -1959,65 +1959,97 @@
     return validRoutingWays.includes(routingWay);
   };
 
-  _top.__oldpopstate = _top.onpopstate;
-  _top._bindroute_ = function () {
-    {
-      if (isBrowser) {
-        if (!_top._bindroute_.__assigned) {
-          document.addEventListener("componentsloaded", function (e) {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            if (!_top._bindroute_.__assigned) {
+  var _buildComponentFromElement_ = function (element, __parent__){
+      var __shadowed_not_set = (element.getAttribute("shadowed") === null) ? (true) : (false);
+      var __tplsource_attr_not_set = (element.getAttribute("template-source") === null) ? (true) : (false);
+      var shadowed = (element.getAttribute("shadowed") === "true") ? (true) : (false);
+      var __cached_not_set = (element.getAttribute("cached") === null) ? (true) : (false);
+      var cached = (element.getAttribute("cached") === "true") ? (true) : (false);
+      var tplextension = (typeof _top.CONFIG.get("tplextension") !== "undefined") ? (_top.CONFIG.get("tplextension")) : ("html");
+      tplextension = (element.getAttribute("tplextension") !== null) ? (element.getAttribute("tplextension")) : (tplextension);
+      var _componentName = element.getAttribute("name");
+      var _componentClassName = (element.getAttribute("componentClass") !== null) ? (element.getAttribute("componentClass")) : ("Component");
+      let __componentClassName = (_top.CONFIG.get("preserveComponentBodyTag")) ? (
+        (_componentName !== null) ? ("com.qcobjects.components." + _componentName + ".ComponentBody") : ("com.qcobjects.components.ComponentBody")
+      ) : (_componentClassName);
+      _componentName = (_componentName !== null) ? (_componentName) : (
+        (ClassFactory(__componentClassName) &&
+          typeof ClassFactory(__componentClassName).name !== "undefined"
+        ) ? (
+          ClassFactory(__componentClassName).name
+        ) : ("")
+      );
+      var __classDefinition = ClassFactory(__componentClassName);
+      var __tplsource_prop_set = (__componentClassName !== "Component" && ((typeof __classDefinition !== "undefined" && typeof __classDefinition.tplsource === "string") && __classDefinition.tplsource !== "")) ? (true) : (false);
+      var tplsource = (__tplsource_attr_not_set && __tplsource_prop_set) ? (__classDefinition.tplsource) : ((__tplsource_attr_not_set) ? ("default") : (element.getAttribute("template-source")));
+      logger.debug(`template source for  ${_componentName} is ${tplsource} `);
+      logger.debug(`type for ${_componentName} is ${__getType__(__classDefinition)} `);
 
-              _top.onpopstate = function (e) {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                ClassFactory("Component").route();
-                if (typeof e.target.__oldpopstate !== "undefined" && typeof e.target.__oldpopstate === "function") {
-                  e.target.__oldpopstate.call(e.target, e);
-                }
-              };
-              Tag("a").map(function (a) {
-                a.oldclick = a.onclick;
-                a.onclick = function (e) {
-                  var _ret_ = true;
-                  if (!_top.global.get("routingPaths")) {
-                    _top.global.set("routingPaths", []);
-                  }
-                  var routingWay = _top.CONFIG.get("routingWay");
-                  var routingPath = e.target[routingWay];
-                  if (_top.global.get("routingPaths").includes(routingPath) &&
-                    e.target[routingWay] !== document.location[routingWay] &&
-                    e.target.href !== document.location.href
-                  ) {
-                    logger.debug("A ROUTING WAS FOUND: " + routingPath);
-                    window.history.pushState({
-                      href: e.target.href
-                    }, e.target.href, e.target.href);
-                    ClassFactory("Component").route();
-                    _ret_ = false;
-                  } else {
-                    logger.debug("NO ROUTING FOUND FOR: " + routingPath);
-                  }
-                  if (typeof e.target.oldclick !== "undefined" && typeof e.target.oldclick === "function") {
-                    e.target.oldclick.call(e.target, e);
-                  }
-                  return _ret_;
-                };
-                return null;
-              });
-
-
-              _top._bindroute_.__assigned = true;
-              Object.freeze(_top._bindroute_);
-            }
-          }, captureFalse);
-        }
-      } else {
-        // not yet implemented.
+      var componentURI;
+      componentURI = ComponentURI({
+        "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
+        "COMPONENT_NAME": _componentName,
+        "TPLEXTENSION": tplextension,
+        "TPL_SOURCE": tplsource
+      });
+      if (_top.CONFIG.get("preserveComponentBodyTag")) {
+        Package((_componentName !== "") ? ("com.qcobjects.components." + _componentName + "") : ("com.qcobjects.components"), [
+          Class("ComponentBody", ClassFactory("Component"), {
+            name: _componentName,
+            tplsource: tplsource,
+            tplextension: tplextension,
+            reload: true
+          })
+        ]);
       }
-    }
+
+      var __create_component_instance_ = function () {
+        var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
+        var __definition = {
+          __parent__: __parent__,
+          name: _componentName,
+          cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
+          shadowed: __shadowed,
+          tplextension: tplextension,
+          body: (_top.CONFIG.get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")) : (element),
+          templateURI: componentURI,
+          tplsource: tplsource
+        };
+        if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null) {
+          /* this allows to use the original property defined
+          in the component definition if it is not present in the tag */
+          delete __definition.name;
+        }
+        if (componentURI === "") {
+          /* this allows to use the original property defined
+          in the component definition if it is not present in the tag */
+          delete __definition.templateURI;
+        }
+        var newComponent = New(__classDefinition, __definition);
+
+        if (_top.CONFIG.get("preserveComponentBodyTag")) {
+          element.append(newComponent);
+        }
+        return newComponent;
+      };
+      var newComponent = __create_component_instance_.call(this);
+      return newComponent;
   };
+
+  var _buildComponentsFromElements_ = function (elements, __parent__) {
+    var componentsBuiltWith = [];
+    if (isBrowser){
+      componentsBuiltWith = elements.map(
+        function(element){
+          return _buildComponentFromElement_(element, __parent__);
+        }
+      );
+    } else {
+      logger.debug("[_buildComponentsFromElements_] not implemented for Non-Browser environments");
+    }
+    return componentsBuiltWith;
+  };
+
 
   Package("com.qcobjects", [
     class Component extends ClassFactory("InheritClass") {
@@ -2030,6 +2062,7 @@
       routingNodes= [];
       routings= [];
       routingPath= "";
+      routingPaths=[];
       _componentHelpers= [];
       subcomponents=[];
       splashScreenComponent=undefined;
@@ -2050,8 +2083,7 @@
         __shadowRoot,
         body,
         shadowRoot,
-        splashScreenComponent,
-        subcomponents
+        splashScreenComponent
       }){
         super(...arguments);
         var self = this;
@@ -2065,25 +2097,33 @@
         self.processorHandler = New(ClassFactory("Processor"), {
           component: self
         });
+
+        /* assign body data attributes to data */
+        self.data = (typeof self.data === "undefined" || self.data === null)?({}):(self.data);
+        self.data = Object.assign(self.data, self.dataAttributes);
+
+        self.createServiceInstance()
+        .then(function (serviceResponse){
+          if (typeof self.__new__ === "function") {
+            self.__new__.call(self, self);
+          }
   
-        if (typeof self.__new__ === "function") {
-          self.__new__.call(self, self);
-        }
-
-        self._generateRoutingPaths(self.body)
-        .then(function (){
-          self._reroute_()
-          .then(function () {
-            return self.rebuild()
-              .then(function () {
-                logger.info(`Component._new_ The component ${self.name} was built successfully!`);
-              }).catch(function (standardResponse) {
-                logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
-                console.error(standardResponse);
-              });
+          self._generateRoutingPaths(self.body)
+          .then(function (){
+            self._reroute_()
+            .then(function () {
+              return self.rebuild()
+                .then(function () {
+                  logger.info(`Component._new_ The component ${self.name} was built successfully!`);
+                }).catch(function (standardResponse) {
+                  logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
+                  console.error(standardResponse);
+                });
+            });
           });
+  
         });
-
+  
       }
   
       set body(value) {
@@ -2158,6 +2198,122 @@
           return Object.assign(accumulator, colData);
         });
       }
+
+      createServiceInstance (){
+        var component = this;
+        var body = component.body;
+        var data = this.data;
+        var __serviceClass;
+        var __classDefinition = component.getClass().__definition;
+        var _serviceClassName = (body.getAttribute("serviceClass") !== null) ? (body.getAttribute("serviceClass")) : (null);
+
+        return new Promise (function (resolve, reject){
+          /* __enable_service_class__ = true by default */
+          var __enable_service_class__ = (
+            (Object.hasOwnProperty.call(body, "enableServiceClass") && body.enableServiceClass) ||
+            (!Object.hasOwnProperty.call(body, "enableServiceClass"))
+          ) ? (true) : (false);
+          var _response_to_data_ = (body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "data") ? (true) : (false);
+          var _response_to_template_ = (body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "template") ? (true) : (false);
+
+          if (__enable_service_class__ && _serviceClassName !== null) {
+            __serviceClass = ClassFactory(_serviceClassName);
+          }
+          if (!_response_to_data_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
+            _response_to_data_ = (__classDefinition.responseTo === "data") ? (true) : (false);
+          } else if (!_response_to_data_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
+            _response_to_data_ = (ClassFactory("Component").responseTo === "data") ? (true) : (false);
+          }
+          if (!_response_to_template_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
+            _response_to_template_ = (__classDefinition.responseTo === "template") ? (true) : (false);
+          } else if (!_response_to_template_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
+            _response_to_template_ = (ClassFactory("Component").responseTo === "template") ? (true) : (false);
+          }
+
+          if (typeof __serviceClass !== "undefined" &&
+            (typeof __enable_service_class__ !== "undefined" &&
+              __enable_service_class__ === true) &&
+            (_response_to_data_ || _response_to_template_)
+          ) {
+            logger.info("Loading service " + _serviceClassName);
+            var serviceInstance = New(__serviceClass, {
+              data: data
+            });
+            serviceLoader(serviceInstance).then(function ({
+              request,
+              service
+            }) {
+              var serviceResponse = service.template;
+              if (_response_to_data_) {
+                if (typeof data === "object" && typeof serviceResponse === "object") {
+                  data = Object.assign(data, serviceResponse);
+                } else {
+                  data = serviceResponse;
+                }
+              }
+              component.serviceInstance = serviceInstance;
+              component.serviceData = data;
+
+              if (_response_to_template_) {
+                component.template = serviceResponse;
+              }
+              resolve (serviceResponse);
+            }, function (rejectedResponse){
+              reject (rejectedResponse);
+            } ).catch(function (e) {
+              logger.debug("Something went wroing while trying to load the service " + _serviceClassName);
+              throw Error (`Error loading ${_serviceClassName} for ${component.name}. Detail: ${e}`);
+            });
+          } else {
+            resolve(null);
+          }
+        });
+      }
+
+      _bindroute_ () {
+        var _component_ = this;
+        if (!_component_._bindroute_.loaded){
+          if (isBrowser) {
+
+            _component_.hostElements("a").map(function (a) {
+              a.oldclick = a.onclick;
+              a.onclick = function (e) {
+                var _ret_ = true;
+                if (!_top.global.get("routingPaths")) {
+                  _top.global.set("routingPaths", []);
+                }
+                var routingWay = _top.CONFIG.get("routingWay");
+                var routingPath = e.target[routingWay];
+                if (_top.global.get("routingPaths").includes(routingPath) &&
+                  e.target[routingWay] !== document.location[routingWay] &&
+                  e.target.href !== document.location.href
+                ) {
+                  logger.debug("A ROUTING WAS FOUND: " + routingPath);
+                  window.history.pushState({
+                    href: e.target.href
+                  }, e.target.href, e.target.href);
+                  ClassFactory("Component").route();
+                  _ret_ = false;
+                } else {
+                  logger.debug("NO ROUTING FOUND FOR: " + routingPath);
+                }
+                if (typeof e.target.oldclick !== "undefined" && typeof e.target.oldclick === "function") {
+                  e.target.oldclick.call(e.target, e);
+                }
+                return _ret_;
+              };
+              return null;
+            });
+
+          } else {
+            // not yet implemented.
+          }
+          this._bindroute_.loaded = true;
+        } else {
+          logger.debug(`Routes already bound to popstate events for ${_component_.name}`);
+        }
+    
+      }
   
       done(standardResponse) {
         var _ret_;
@@ -2166,6 +2322,123 @@
           _ret_ = Promise.resolve({request, component});
         }
         return _ret_;
+      }
+
+      __done__ () {
+        var _component_ = this;
+        var componentDone = function () {
+          if (typeof _component_ === "undefined") {
+            throw new Error("componentDone() has lost its context");
+          }
+          if (typeof _component_.body === "undefined") {
+            throw new Error("The component has no body");
+          }
+          var viewName = _component_.body.getAttribute("viewClass");
+          var _View = ClassFactory(viewName);
+          if (typeof _View !== "undefined") {
+            _component_.view = New(_View, {
+              component: _component_
+            }); // Initializes the main view for the component
+            if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view.done === "function") {
+              _component_.view.done.call(_component_.view);
+            }
+          }
+          var controllerName = _component_.body.getAttribute("controllerClass");
+          if (!controllerName) {
+            controllerName = "Controller";
+          }
+          var _Controller = ClassFactory(controllerName);
+          if (typeof _Controller !== "undefined") {
+            _component_.controller = New(_Controller, {
+              component: _component_
+            }); // Initializes the main controller for the component
+            if (typeof _component_.controller.done === "function") {
+              _component_.controller.done.call(_component_.controller);
+            } else {
+              logger.debug(`${controllerName} does not have a done() method.`);
+            }
+            if (typeof _component_.controller.createRoutingController === "function") {
+              _component_.controller.createRoutingController.call(_component_.controller);
+            } else {
+              logger.debug(`${controllerName} does not have a createRoutingController() method.`);
+            }
+          }
+          var effectClassName = _component_.body.getAttribute("effectClass");
+          var applyEffectTo = _component_.body.getAttribute("apply-effect-to");
+          applyEffectTo = (applyEffectTo !== null) ? (applyEffectTo) : ("load");
+          if (effectClassName !== null && applyEffectTo === "observe") {
+            _component_.applyObserveTransitionEffect(effectClassName);
+          } else if (effectClassName !== null && applyEffectTo === "load") {
+            _component_.applyTransitionEffect(effectClassName);
+          }
+
+          if (_top.CONFIG.get("overrideComponentTag")) {
+            _component_.body.outerHTML = this.body.innerHTML;
+          }
+          _component_.body.setAttribute("loaded", true);
+
+          logger.debug(`Trying to run component helpers for ${_component_.name}...`);
+          try {
+            _component_.runComponentHelpers();
+            logger.debug(`Component helpers for ${_component_.name} executed.`);
+          } catch (e){
+            logger.debug(`Component helpers for ${_component_.name} could not be executed.`);
+            throw Error(e);
+          }
+
+          _component_.subcomponents = _component_.__buildSubComponents__();
+
+          _component_._bindroute_();
+        };
+
+        return new Promise (function (resolve, reject){
+          try {
+            Promise.resolve(componentDone.call(_component_));
+          } catch (e){
+            reject(e);
+          }
+        });
+
+      }
+
+      hostElements(tagFilter){
+        var _component_ = this;
+        var elementList = (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined"))?(
+          _component_.shadowRoot.subelements(tagFilter)
+        ):(
+          _component_.body.subelements(tagFilter)
+        );
+        return elementList;
+      }
+
+      get subtags(){
+        var _component_ = this;
+        var tagFilter = ":scope component:not([loaded])";
+        return _component_.hostElements(tagFilter);
+      }
+
+      get bodyAttributes() {
+        var _component_ = this;
+        var c = _component_.body;
+        return [...c.getAttributeNames()].map (a => {return {[a]:c.getAttribute(a)};}).reduce ((accumulator,colData, index) => {return Object.assign(accumulator, colData);} );
+      }
+
+      get dataAttributes(){
+        var _component_ = this;
+        var c = _component_.body;
+        return [{}].concat([...c.getAttributeNames()].filter(n=>n.startsWith("data-")).map (a => {return {[a.split("-")[1]]:c.getAttribute(a)};})).reduce ((accumulator,colData, index) => {return Object.assign(accumulator, colData);} );
+      }
+
+      __buildSubComponents__ (rebuildObjects = false) {
+        var _component_ = this;
+        var elementList = _component_.subtags;
+        if (!rebuildObjects){
+          elementList = elementList.filter(t=>t.getAttribute("loaded") !== "true");
+        }
+        if ((typeof _component_ !== "undefined") || _component_.subcomponents.length<1){
+          _component_.subcomponents = _buildComponentsFromElements_(elementList, _component_);
+        }
+        return _component_.subcomponents;
       }
       
       fail(standardResponse) {
@@ -2233,12 +2506,12 @@
               logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
               shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
               logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", _component_.name));
-              if (container.subelements(".shadowHost") < 1) {
+              var qs = container.querySelector(".shadowHost");
+              if (!(typeof qs !== "undefined" && qs !== null)) {
                 container.appendChild(shadowContainer);
               } else {
                 logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
-                container.removeChild(container.subelements(".shadowHost").pop());
-                container.appendChild(shadowContainer);
+                _component_.shadowRoot.innerHTML = shadowContainer.shadowRoot.innerHTML;
               }
             } else {
               logger.warn("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));
@@ -2289,10 +2562,14 @@
                   request: null,
                   component: _component
                 };
-                if (typeof _component.done === "function") {
-                  _component.done.call(_component, standardResponse);
-                }
-                resolve.call(_promise, standardResponse);
+                _component.__done__().then(function (){
+                  if (typeof _component.done === "function") {
+                    _component.done.call(_component, standardResponse);
+                  }
+                  resolve.call(_promise, standardResponse);
+                }, function (){
+                  reject.call(_promise, standardResponse);
+                });
                 break;
               case (_component.get("tplsource") === "inline"):
                 logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
@@ -2301,10 +2578,14 @@
                   request: null,
                   component: _component
                 };
-                if (typeof _component.done === "function") {
-                  _component.done.call(_component, standardResponse);
-                }
-                resolve.call(_promise, standardResponse);
+                _component.__done__().then(function (){
+                  if (typeof _component.done === "function") {
+                    _component.done.call(_component, standardResponse);
+                  }
+                  resolve.call(_promise, standardResponse);
+                }, function (){
+                  reject.call(_promise, standardResponse);
+                });
                 break;
               case (_component.get("tplsource") === "default" &&
                 _component.get("templateURI") !== ""):
@@ -2357,10 +2638,9 @@
       }
   
       static route() {
-        var componentClass = this;
+        var componentClass = this; /* is can be class or object*/
         var _route_promise_;
-        var isValidInstance = ((!!componentClass.__instanceID) &&
-          Object.hasOwnProperty.call(componentClass, "subcomponents")) ? (true) : (false);
+        var isValidInstance = ( isQCObjects_Object(componentClass) && is_a(componentClass,"Component") ) ? (true) : (false);
         var __route__ = function (componentList) {
           var _componentNames_ = [];
           var _promises_ = componentList.filter(function (rc) {
@@ -2376,19 +2656,22 @@
               if (typeof rc !== "undefined" && !!rc._reroute_) {
                 _promise_ = rc._reroute_()
                   .then(function () {
-                    rc.body.innerHTML = "";
-                    rc.innerHTML = "";
+                    rc.reload = true;
                     return rc.rebuild();
                   })
                   .then(function (_rc_) {
-                    if (Object.hasOwnProperty.call(_rc_, "subcomponents") &&
-                      typeof _rc_.subcomponents !== "undefined" &&
-                      _rc_.subcomponents.length > 0
+                    if (Object.hasOwnProperty.call(rc, "subcomponents") &&
+                      typeof rc.subcomponents !== "undefined" &&
+                      rc.subcomponents.length > 0
                     ) {
-                      logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + _rc_.name);
-                      return __route__.call(_rc_, _rc_.subcomponents);
+                      logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + rc.name);
+                      return __route__.call(rc, rc.subcomponents);
                     } else {
-                      resolve(_rc_);
+                      logger.debug("No subcomponents to look for routings in: " + rc.name);
+                      if (rc.subtags.length>0){
+                        rc.subcomponents = rc.__buildSubComponents__(true);
+                      }
+                      resolve(rc);
                     }
                   });
               } else if (typeof rc !== "undefined") {
@@ -2404,8 +2687,8 @@
               logger.warn("ROUTING FAILED FOR " + _componentNames_.join(", ") + ": " + err);
             });
         };
-        if (isValidInstance || Object.hasOwnProperty.call(global, "componentsStack")) {
-          if (isValidInstance && is_a(componentClass, "Component")) {
+        if (isValidInstance || !!global.componentsStack) {
+          if (isValidInstance) {
             logger.debug("loading routings for instance " + componentClass.name);
           }
           _route_promise_ = __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (global.componentsStack));
@@ -2467,6 +2750,12 @@
                     routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
                   });
                   component.routings.push(routing);
+                  if (!component.routingPaths) {
+                    component.routingPaths = [];
+                  }
+                  if (!component.routingPaths.includes(routing.path)) {
+                    component.routingPaths.push(routing.path);
+                  }
                   if (!_top.global.get("routingPaths")) {
                     _top.global.set("routingPaths", []);
                   }
@@ -2727,11 +3016,17 @@
   
   ]);
 
-  _top._bindroute_.__assigned = false;
-
   (_methods_)(ClassFactory("Component")).map(function (__c__) {
     (_protected_code_)(__c__);
   });
+
+  if (isBrowser){
+    window.addEventListener("popstate",function (popStateEvent){
+      popStateEvent.stopImmediatePropagation();
+      popStateEvent.stopPropagation();
+      ClassFactory("Component").route();
+    });
+  }
 
   Package("com.qcobjects.controllers", [
     class Controller extends ClassFactory("InheritClass") {
@@ -3039,11 +3334,13 @@
         }
       });
       __promise__.then(function (standardResponse) {
-        var _ret_;
-        if (typeof component.done === "function") {
-          _ret_ = component.done.call(component, standardResponse);
-        }
-        return Promise.resolve(_ret_);
+        return component.__done__().then (function (){
+          var _ret_;
+          if (typeof component.done === "function") {
+            _ret_ = component.done.call(component, standardResponse);
+          }
+          return Promise.resolve(_ret_);
+        });
       }, function (standardResponse) {
         var _ret_;
         if (typeof component.fail === "function") {
@@ -3123,11 +3420,13 @@
         }
       });
       component.__promise__.then(function (standardResponse) {
-        var _ret_;
-        if (typeof component.done === "function") {
-          _ret_ = component.done.call(component, standardResponse);
-        }
-        return Promise.resolve(_ret_);
+        return component.__done__().then (function (){
+          var _ret_;
+          if (typeof component.done === "function") {
+            _ret_ = component.done.call(component, standardResponse);
+          }
+          return Promise.resolve(_ret_);
+        });
       }, function (standardResponse) {
         var _ret_;
         if (typeof component.fail === "function") {
@@ -3460,234 +3759,12 @@
   if (isBrowser) {
 
     Element.prototype.buildComponents = function (rebuildObjects = false) {
-      var tagFilter = (!rebuildObjects) ? ("component:not([loaded])") : ("component");
+      var tagFilter = ":scope component:not([loaded])";
       var d = this;
-      var _buildComponent = function (components, __parent__) {
-        var componentsBuiltWith = components.map(function (_component_, _c) {
-          _component_ = components[_c];
-          var data = {};
-          var attributenames = components[_c].getAttributeNames().filter(function (a) {
-            return a.startsWith("data-");
-          }).map(function (a) {
-            return a.split("-")[1];
-          });
-          attributenames.map(function (_attribute_name_) {
-            data[_attribute_name_] = components[_c].getAttribute("data-" + _attribute_name_);
-          });
-          var componentDone = function () {
-            var _component_ = this;
-            if (typeof _component_ === "undefined") {
-              throw new Error("componentDone() has lost its context");
-            }
-            if (typeof _component_.body === "undefined") {
-              throw new Error("The component has no body");
-            }
-            var viewName = _component_.body.getAttribute("viewClass");
-            var _View = ClassFactory(viewName);
-            if (typeof _View !== "undefined") {
-              _component_.view = New(_View, {
-                component: _component_
-              }); // Initializes the main view for the component
-              if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view.done === "function") {
-                _component_.view.done.call(_component_.view);
-              }
-            }
-            var controllerName = _component_.body.getAttribute("controllerClass");
-            if (!controllerName) {
-              controllerName = "Controller";
-            }
-            var _Controller = ClassFactory(controllerName);
-            if (typeof _Controller !== "undefined") {
-              _component_.controller = New(_Controller, {
-                component: _component_
-              }); // Initializes the main controller for the component
-              if (typeof _component_.controller.done === "function") {
-                _component_.controller.done.call(_component_.controller);
-              } else {
-                logger.debug(`${controllerName} does not have a done() method.`);
-              }
-              if (typeof _component_.controller.createRoutingController === "function") {
-                _component_.controller.createRoutingController.call(_component_.controller);
-              } else {
-                logger.debug(`${controllerName} does not have a createRoutingController() method.`);
-              }
-            }
-            var effectClassName = _component_.body.getAttribute("effectClass");
-            var applyEffectTo = _component_.body.getAttribute("apply-effect-to");
-            applyEffectTo = (applyEffectTo !== null) ? (applyEffectTo) : ("load");
-            if (effectClassName !== null && applyEffectTo === "observe") {
-              _component_.applyObserveTransitionEffect(effectClassName);
-            } else if (effectClassName !== null && applyEffectTo === "load") {
-              _component_.applyTransitionEffect(effectClassName);
-            }
-            if (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined")) {
-              _component_.subcomponents = _buildComponent(_component_.shadowRoot.subelements(tagFilter), _component_);
-            } else {
-              _component_.subcomponents = _buildComponent(_component_.body.subelements(tagFilter), _component_);
-            }
-
-            if (_top.CONFIG.get("overrideComponentTag")) {
-              _component_.body.outerHTML = this.body.innerHTML;
-            }
-            _component_.body.setAttribute("loaded", true);
-
-            logger.debug(`Trying to run component helpers for ${_component_.name}...`);
-            try {
-              _component_.runComponentHelpers();
-              logger.debug(`Component helpers for ${_component_.name} executed.`);
-            } catch (e){
-              logger.debug(`Component helpers for ${_component_.name} could not be executed.`);
-              throw Error(e);
-            }
-
-            if ((Tag("component[loaded=true]").length * 100 / Tag("component").length) >= 100) {
-              d.dispatchEvent(new CustomEvent("componentsloaded", {
-                detail: {
-                  lastComponent: _component_
-                }
-              }));
-            }
-          };
-
-          var __shadowed_not_set = (components[_c].getAttribute("shadowed") === null) ? (true) : (false);
-          var __tplsource_attr_not_set = (components[_c].getAttribute("template-source") === null) ? (true) : (false);
-          var shadowed = (components[_c].getAttribute("shadowed") === "true") ? (true) : (false);
-          var __cached_not_set = (components[_c].getAttribute("cached") === null) ? (true) : (false);
-          var cached = (components[_c].getAttribute("cached") === "true") ? (true) : (false);
-          var tplextension = (typeof _top.CONFIG.get("tplextension") !== "undefined") ? (_top.CONFIG.get("tplextension")) : ("html");
-          tplextension = (components[_c].getAttribute("tplextension") !== null) ? (components[_c].getAttribute("tplextension")) : (tplextension);
-          var _componentName = components[_c].getAttribute("name");
-          var _componentClassName = (components[_c].getAttribute("componentClass") !== null) ? (components[_c].getAttribute("componentClass")) : ("Component");
-          var _serviceClassName = (components[_c].getAttribute("serviceClass") !== null) ? (components[_c].getAttribute("serviceClass")) : (null);
-          /* __enable_service_class__ = true by default */
-          var __enable_service_class__ = (
-            (Object.hasOwnProperty.call(components[_c], "enableServiceClass") && components[_c].enableServiceClass) ||
-            (!Object.hasOwnProperty.call(components[_c], "enableServiceClass"))
-          ) ? (true) : (false);
-          var _response_to_data_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "data") ? (true) : (false);
-          var _response_to_template_ = (components[_c].getAttribute("response-to") !== null && components[_c].getAttribute("response-to") === "template") ? (true) : (false);
-          let __componentClassName = (_top.CONFIG.get("preserveComponentBodyTag")) ? (
-            (_componentName !== null) ? ("com.qcobjects.components." + _componentName + ".ComponentBody") : ("com.qcobjects.components.ComponentBody")
-          ) : (_componentClassName);
-          _componentName = (_componentName !== null) ? (_componentName) : (
-            (ClassFactory(__componentClassName) &&
-              typeof ClassFactory(__componentClassName).name !== "undefined"
-            ) ? (
-              ClassFactory(__componentClassName).name
-            ) : ("")
-          );
-          var __classDefinition = ClassFactory(__componentClassName);
-          var __tplsource_prop_set = (__componentClassName !== "Component" && ((typeof __classDefinition !== "undefined" && typeof __classDefinition.tplsource === "string") && __classDefinition.tplsource !== "")) ? (true) : (false);
-          var tplsource = (__tplsource_attr_not_set && __tplsource_prop_set) ? (__classDefinition.tplsource) : ((__tplsource_attr_not_set) ? ("default") : (components[_c].getAttribute("template-source")));
-          logger.debug(`template source for  ${_componentName} is ${tplsource} `);
-          logger.debug(`type for ${_componentName} is ${__getType__(__classDefinition)} `);
-
-          var componentURI;
-          componentURI = ComponentURI({
-            "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
-            "COMPONENT_NAME": _componentName,
-            "TPLEXTENSION": tplextension,
-            "TPL_SOURCE": tplsource
-          });
-          if (_top.CONFIG.get("preserveComponentBodyTag")) {
-            Package((_componentName !== "") ? ("com.qcobjects.components." + _componentName + "") : ("com.qcobjects.components"), [
-              Class("ComponentBody", ClassFactory("Component"), {
-                name: _componentName,
-                tplsource: tplsource,
-                tplextension: tplextension,
-                reload: true
-              })
-            ]);
-          }
-
-          var __serviceClass;
-          if (__enable_service_class__ && _serviceClassName !== null) {
-            __serviceClass = ClassFactory(_serviceClassName);
-          }
-          if (!_response_to_data_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
-            _response_to_data_ = (__classDefinition.responseTo === "data") ? (true) : (false);
-          } else if (!_response_to_data_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
-            _response_to_data_ = (ClassFactory("Component").responseTo === "data") ? (true) : (false);
-          }
-          if (!_response_to_template_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
-            _response_to_template_ = (__classDefinition.responseTo === "template") ? (true) : (false);
-          } else if (!_response_to_template_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
-            _response_to_template_ = (ClassFactory("Component").responseTo === "template") ? (true) : (false);
-          }
-
-          var __create_component_instance_ = function (data, serviceResponse) {
-            var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
-            var __definition = {
-              __parent__: __parent__,
-              name: _componentName,
-              data: data,
-              cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
-              shadowed: __shadowed,
-              tplextension: tplextension,
-              body: (_top.CONFIG.get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")) : (components[_c]),
-              templateURI: componentURI,
-              tplsource: tplsource,
-              subcomponents: []
-            };
-            if (_response_to_template_) {
-              __definition.template = serviceResponse;
-            }
-            if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null) {
-              /* this allows to use the original property defined
-              in the component definition if it is not present in the tag */
-              delete __definition.name;
-            }
-            if (componentURI === "") {
-              /* this allows to use the original property defined
-              in the component definition if it is not present in the tag */
-              delete __definition.templateURI;
-            }
-            var newComponent = New(__classDefinition, __definition);
-
-            if (_top.CONFIG.get("preserveComponentBodyTag")) {
-              components[_c].append(newComponent);
-            }
-            newComponent.done = componentDone;
-            return newComponent;
-          };
-          var newComponent;
-          if (typeof __serviceClass !== "undefined" &&
-            (typeof __enable_service_class__ !== "undefined" &&
-              __enable_service_class__ === true) &&
-            (_response_to_data_ || _response_to_template_)
-          ) {
-            logger.info("Loading service " + _serviceClassName);
-            var serviceInstance = New(__serviceClass, {
-              data: data
-            });
-            serviceLoader(serviceInstance).then(function ({
-              request,
-              service
-            }) {
-              var serviceResponse = service.template;
-              if (_response_to_data_) {
-                if (typeof data === "object" && typeof serviceResponse === "object") {
-                  data = Object.assign(data, serviceResponse);
-                } else {
-                  data = serviceResponse;
-                }
-              }
-              newComponent = __create_component_instance_.call(this, data, serviceResponse);
-              newComponent.serviceInstance = serviceInstance;
-              newComponent.serviceData = data;
-            }).catch(function (e) {
-              logger.debug("Something went wroing while trying to load the service " + _serviceClassName);
-            });
-          } else {
-            newComponent = __create_component_instance_.call(this, data, null);
-          }
-          return newComponent;
-        });
-        return componentsBuiltWith;
-      };
-      var components = d.subelements(tagFilter);
-      return _buildComponent(components, null);
+      var elements = d.subelements(tagFilter);
+      return _buildComponentsFromElements_(elements, null);
     };
+
     HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
     HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
     var _ComponentWidget_ = class extends HTMLElement {
@@ -4247,173 +4324,209 @@
     }
   });
 
-  Class("Effect", {
-    duration: 1000,
-    animate({
-      timing,
-      draw,
-      duration
-    }) {
+  Package("com.qcobjects.effects.base", [
+    class Effect extends ClassFactory("InheritClass") {
+      duration = 1000;
 
-      let start = performance.now();
-
-      requestAnimationFrame(function animate(time) {
-        // timeFraction goes from 0 to 1
-        let timeFraction = (time - start) / duration;
-        if (timeFraction > 1) timeFraction = 1;
-
-        // calculate the current animation state
-        let progress = timing(timeFraction);
-
-        draw(Math.round(progress * 100)); // draw it
-
-        if (timeFraction < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          // if this is an object with a done method
-          if (typeof this !== "undefined" &&
-            this !== null &&
-            Object.hasOwnProperty.call(this, "done") &&
-            (typeof this.done).toLowerCase() === "function") {
-            this.done.call(this);
-          }
-        }
-
-      });
-    }
-  });
-
-  Class("TransitionEffect", ClassFactory("Effect"), {
-    duration: 385,
-    defaultParams: {
-      alphaFrom: 0,
-      alphaTo: 1,
-      angleFrom: 180,
-      angleTo: 0,
-      radiusFrom: 0,
-      radiusTo: 30,
-      scaleFrom: 0,
-      scaleTo: 1
-    },
-    fitToHeight: false,
-    fitToWidth: false,
-    effects: [],
-    _new_(o) {
-      logger.info("DECLARING TransitionEffect  ");
-      this.component.defaultParams = this.defaultParams;
-    },
-    apply({
-      alphaFrom,
-      alphaTo,
-      angleFrom,
-      angleTo,
-      radiusFrom,
-      radiusTo,
-      scaleFrom,
-      scaleTo
-    }) {
-      var _transition_ = this;
-      logger.info("EXECUTING TransitionEffect  ");
-      if (_transition_.fitToHeight) {
-        _transition_.component.body.height = _transition_.component.body.offsetParent.scrollHeight;
+      constructor (){
+        super(...arguments);
       }
-      if (_transition_.fitToWidth) {
-        _transition_.component.body.width = _transition_.component.body.offsetParent.scrollWidth;
-      }
-      _transition_.component.body.style.display = "block";
-      _transition_.effects.map(function (effectClassName, eff) {
-        var __effectClass__ = ClassFactory(effectClassName);
-        var effectObj = new __effectClass__();
-        var effectClassMethod = effectObj.apply;
-        var args = [_transition_.component.body].concat(Object.values({
-          alphaFrom,
-          alphaTo,
-          angleFrom,
-          angleTo,
-          radiusFrom,
-          radiusTo,
-          scaleFrom,
-          scaleTo
-        }));
-        effectClassMethod.apply(_transition_, args);
-      });
-    }
-  });
 
-  Class("Timer", {
-    duration: 1000,
-    alive: true,
-    thread({
-      timing,
-      intervalInterceptor,
-      duration
-    }) {
-      var timer = this;
-
-      let start = performance.now();
-
-      requestAnimationFrame(function thread(time) {
-        // timeFraction goes from 0 to 1
-        let elapsed = (time - start);
-        let timeFraction = elapsed / duration;
-        if (timeFraction > 1) timeFraction = 1;
-
-        // calculate the current progress state
-        let progress = timing(timeFraction, elapsed);
-
-        intervalInterceptor(Math.round(progress * 100)); // draw it
-
-        if ((timeFraction < 1 || duration === -1) && timer.alive) {
-          requestAnimationFrame(thread);
-        }
-
-      });
-    }
-  });
-
-  Class("Toggle", ClassFactory("InheritClass"), {
-    _toggle: false,
-    _inverse: true,
-    _positive: null,
-    _negative: null,
-    _dispatched: null,
-    _args: {},
-    changeToggle() {
-      this._toggle = (this._toggle) ? (false) : (true);
-    },
-    _new_({
-      positive,
-      negative,
-      args
-    }) {
-      this._positive = positive;
-      this._negative = negative;
-      this._args = args;
-    },
-    fire() {
-      var toggle = this;
-      var _promise = new Promise(function (resolve, reject) {
-
-        if (typeof toggle._positive === "function" && typeof toggle._negative === "function") {
-          if (toggle._inverse) {
-            toggle._dispatched = (toggle._toggle) ? (toggle._negative.bind(toggle)) : (toggle._positive.bind(toggle));
+      animate({
+        timing,
+        draw,
+        duration
+      }) {
+  
+        let start = performance.now();
+  
+        requestAnimationFrame(function animate(time) {
+          // timeFraction goes from 0 to 1
+          let timeFraction = (time - start) / duration;
+          if (timeFraction > 1) timeFraction = 1;
+  
+          // calculate the current animation state
+          let progress = timing(timeFraction);
+  
+          draw(Math.round(progress * 100)); // draw it
+  
+          if (timeFraction < 1) {
+            requestAnimationFrame(animate);
           } else {
-            toggle._dispatched = (toggle._toggle) ? (toggle._positive.bind(toggle)) : (toggle._negative.bind(toggle));
+            // if this is an object with a done method
+            if (typeof this !== "undefined" &&
+              this !== null &&
+              Object.hasOwnProperty.call(this, "done") &&
+              (typeof this.done).toLowerCase() === "function") {
+              this.done.call(this);
+            }
           }
-          toggle._dispatched.call(toggle, toggle._args);
-          resolve.call(_promise, toggle);
-        } else {
-          logger.debug("Toggle functions are not declared");
-          reject.call(_promise, toggle);
-        }
-      }).then(function (toggle) {
-        toggle.changeToggle();
-      }).catch(function (e) {
-        logger.debug(e.toString());
-      });
-      return _promise;
+  
+        });
+      }
+  
     }
-  });
+  ]);
+
+  Package("com.qcobjects.effects.transitions.base", [
+
+    class TransitionEffect extends ClassFactory("Effect") {
+      duration= 385;
+      defaultParams= {
+        alphaFrom: 0,
+        alphaTo: 1,
+        angleFrom: 180,
+        angleTo: 0,
+        radiusFrom: 0,
+        radiusTo: 30,
+        scaleFrom: 0,
+        scaleTo: 1
+      };
+      fitToHeight= false;
+      fitToWidth= false;
+      effects= [];
+
+      constructor (){
+        super(...arguments);
+        logger.info("DECLARING TransitionEffect  ");
+        this.component.defaultParams = this.defaultParams;
+      }
+
+      apply({
+        alphaFrom,
+        alphaTo,
+        angleFrom,
+        angleTo,
+        radiusFrom,
+        radiusTo,
+        scaleFrom,
+        scaleTo
+      }) {
+        var _transition_ = this;
+        logger.info("EXECUTING TransitionEffect  ");
+        if (_transition_.fitToHeight) {
+          _transition_.component.body.height = _transition_.component.body.offsetParent.scrollHeight;
+        }
+        if (_transition_.fitToWidth) {
+          _transition_.component.body.width = _transition_.component.body.offsetParent.scrollWidth;
+        }
+        _transition_.component.body.style.display = "block";
+        _transition_.effects.map(function (effectClassName, eff) {
+          var __effectClass__ = ClassFactory(effectClassName);
+          var effectObj = new __effectClass__();
+          var effectClassMethod = effectObj.apply;
+          var args = [_transition_.component.body].concat(Object.values({
+            alphaFrom,
+            alphaTo,
+            angleFrom,
+            angleTo,
+            radiusFrom,
+            radiusTo,
+            scaleFrom,
+            scaleTo
+          }));
+          effectClassMethod.apply(_transition_, args);
+        });
+      }
+  
+    }
+  ]);
+
+  Package("com.qcobjects.timing", [
+    class Timer extends ClassFactory("InheritClass") {
+
+      constructor (){
+        super(...arguments);
+      }
+
+      duration= 1000;
+      alive= true;
+      thread({
+        timing,
+        intervalInterceptor,
+        duration
+      }) {
+        var timer = this;
+  
+        let start = performance.now();
+  
+        requestAnimationFrame(function thread(time) {
+          // timeFraction goes from 0 to 1
+          let elapsed = (time - start);
+          let timeFraction = elapsed / duration;
+          if (timeFraction > 1) timeFraction = 1;
+  
+          // calculate the current progress state
+          let progress = timing(timeFraction, elapsed);
+  
+          intervalInterceptor(Math.round(progress * 100)); // draw it
+  
+          if ((timeFraction < 1 || duration === -1) && timer.alive) {
+            requestAnimationFrame(thread);
+          }
+  
+        });
+      }
+  
+
+    }
+  ]);
+
+  Package("com.qcobjects.tools.essentials", [
+    class Toggle extends ClassFactory("InheritClass") {
+      _toggle= false;
+      _inverse= true;
+      _positive= null;
+      _negative= null;
+      _dispatched= null;
+      _args= {};
+  
+      constructor (){
+        super(...arguments);
+      }
+
+      changeToggle() {
+        this._toggle = (this._toggle) ? (false) : (true);
+      }
+
+      _new_({
+        positive,
+        negative,
+        args
+      }) {
+        this._positive = positive;
+        this._negative = negative;
+        this._args = args;
+      }
+
+      fire() {
+        var toggle = this;
+        var _promise = new Promise(function (resolve, reject) {
+  
+          if (typeof toggle._positive === "function" && typeof toggle._negative === "function") {
+            if (toggle._inverse) {
+              toggle._dispatched = (toggle._toggle) ? (toggle._negative.bind(toggle)) : (toggle._positive.bind(toggle));
+            } else {
+              toggle._dispatched = (toggle._toggle) ? (toggle._positive.bind(toggle)) : (toggle._negative.bind(toggle));
+            }
+            toggle._dispatched.call(toggle, toggle._args);
+            resolve.call(_promise, toggle);
+          } else {
+            logger.debug("Toggle functions are not declared");
+            reject.call(_promise, toggle);
+          }
+        }).then(function (toggle) {
+          toggle.changeToggle();
+        }).catch(function (e) {
+          logger.debug(e.toString());
+        });
+        return _promise;
+      }
+  
+
+    }
+
+  ]);
 
   // Set Processors
   (function (_top) {
@@ -4597,8 +4710,6 @@
         };
         var _buildComponents = function () {
           if (isBrowser) {
-            logger.debug("Starting to bind routes");
-            _top._bindroute_.call(ClassFactory("Component"));
             logger.debug("Starting to building components");
             global.componentsStack = document.buildComponents.call(document);
             logger.debug("Initializing the service worker");
@@ -4760,15 +4871,6 @@
   if (isBrowser) {
     asyncLoad(function () {
       Ready(function () {
-        window.onpopstate = function (event) {
-          event.stopImmediatePropagation();
-          event.stopPropagation();
-          if (ClassFactory("CONFIG").get("rebuildObjects", true)){
-            global.componentsStack = document.buildComponents.call(document, true);
-          } else {
-            ClassFactory("Component").route();
-          }
-        };
 
         /*
          * scroll management custom events
