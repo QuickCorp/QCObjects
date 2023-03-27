@@ -2330,24 +2330,11 @@
         return _ret_;
       }
 
-      __done__ () {
+      createControllerInstance (){
         var _component_ = this;
-        var componentDone = function () {
-          if (typeof _component_ === "undefined") {
-            throw new Error("componentDone() has lost its context");
-          }
+        return new Promise (function (resolve, reject){
           if (typeof _component_.body === "undefined") {
             throw new Error("The component has no body");
-          }
-          var viewName = _component_.body.getAttribute("viewClass");
-          var _View = ClassFactory(viewName);
-          if (typeof _View !== "undefined") {
-            _component_.view = New(_View, {
-              component: _component_
-            }); // Initializes the main view for the component
-            if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view.done === "function") {
-              _component_.view.done.call(_component_.view);
-            }
           }
           var controllerName = _component_.body.getAttribute("controllerClass");
           if (!controllerName) {
@@ -2366,6 +2353,7 @@
               }
             } else {
               logger.debug(`${controllerName} does not have a done() method.`);
+              reject(`${controllerName} does not have a done() method.`);
             }
             if (typeof _component_.controller.createRoutingController === "function") {
               _component_.controller.createRoutingController.call(_component_.controller);
@@ -2373,6 +2361,13 @@
               logger.debug(`${controllerName} does not have a createRoutingController() method.`);
             }
           }
+          resolve ({component:_component_,controller:_component_.controller});
+        });
+      }
+
+      createEffectInstance (){
+        var _component_ = this;
+        return new Promise (function (resolve, reject){
           var effectClassName = _component_.body.getAttribute("effectClass");
           var applyEffectTo = _component_.body.getAttribute("apply-effect-to");
           applyEffectTo = (applyEffectTo !== null) ? (applyEffectTo) : ("load");
@@ -2381,11 +2376,42 @@
           } else if (effectClassName !== null && applyEffectTo === "load") {
             _component_.applyTransitionEffect(effectClassName);
           }
-
           if (_top.CONFIG.get("overrideComponentTag")) {
             _component_.body.outerHTML = this.body.innerHTML;
           }
-          _component_.body.setAttribute("loaded", true);
+          resolve({component:_component_, effect:_component_.effect});
+        });
+      }
+
+      createViewInstance(){
+        var _component_ = this;
+        return new Promise (function (resolve, reject){
+          var viewName = _component_.body.getAttribute("viewClass");
+          var _View = ClassFactory(viewName);
+          if (typeof _View !== "undefined") {
+            _component_.view = New(_View, {
+              component: _component_
+            }); // Initializes the main view for the component
+            if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view.done === "function") {
+              _component_.view.done.call(_component_.view);
+            }
+          }
+          resolve({component:_component_, view:_component_.view});
+        });
+      }
+
+      __done__ () {
+        var _component_ = this;
+        var componentDone = function () {
+          if (typeof _component_ === "undefined") {
+            throw new Error("componentDone() has lost its context");
+          }
+          if (typeof _component_.body === "undefined") {
+            throw new Error("The component has no body");
+          }
+          _component_.createViewInstance();
+          _component_.createControllerInstance();
+          _component_.createEffectInstance();
 
           logger.debug(`Trying to run component helpers for ${_component_.name}...`);
           try {
@@ -2399,6 +2425,7 @@
           _component_.subcomponents = _component_.__buildSubComponents__();
 
           _component_._bindroute_();
+          _component_.body.setAttribute("loaded", true);
         };
 
         return new Promise (function (resolve, reject){
