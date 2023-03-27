@@ -191,6 +191,7 @@
     _top = global;
   }
   var _domain_, _basePath_;
+  var _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
   _basePath_ = (
     function () {
       var _basePath = "";
@@ -2450,7 +2451,7 @@
 
       get subtags(){
         var _component_ = this;
-        var tagFilter = "component:not([loaded])";
+        var tagFilter = _tag_filter_;
         return _component_.hostElements(tagFilter);
       }
 
@@ -3800,7 +3801,7 @@
   if (isBrowser) {
 
     Element.prototype.buildComponents = function (rebuildObjects = false) {
-      var tagFilter = "component:not([loaded])";
+      var tagFilter = _tag_filter_;
       var d = this;
       var elements = d.subelements(tagFilter);
       return _buildComponentsFromElements_(elements, null);
@@ -3813,7 +3814,7 @@
         super(...arguments);
         const componentWidget = this;
         const componentName = componentWidget.nodeName.toLowerCase();
-        const componentBody = _DOMCreateElement("component");
+        const componentBody = _DOMCreateElement("quick-component");
         const __enabled__atributes__ = componentWidget.getAttributeNames();
         componentBody.setAttribute("name", componentName);
 
