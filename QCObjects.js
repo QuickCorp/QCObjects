@@ -2077,7 +2077,6 @@
       view=undefined;
       effect=undefined;
       method = "GET";
-      data = {};
       cached= true;
       __promise__ = null;
       __namespace = undefined;
