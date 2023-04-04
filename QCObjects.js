@@ -1514,6 +1514,7 @@
         }
       ).map(function (_class_) {
         _class_.__definition.__namespace = namespace;
+        _class_.__namespace = namespace;
       });
       _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
     } else if (typeof classes !== "undefined") {
@@ -1524,9 +1525,11 @@
           }
         ).map(function (_class_) {
           _class_.__definition.__namespace = namespace;
+          _class_.__namespace = namespace;
         });
       } else if (isQCObjects_Class(classes)) {
         classes.__definition.__namespace = namespace;
+        classes.__namespace = namespace;
       }
       _QC_PACKAGES[namespace] = classes;
     }
@@ -2070,6 +2073,11 @@
       controller=undefined;
       view=undefined;
       effect=undefined;
+      method = "GET";
+      data = {};
+      cached= true;
+      __promise__ = null;
+      __namespace = undefined;
 
       constructor ({
         templateURI= "",
