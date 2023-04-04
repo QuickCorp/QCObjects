@@ -19,7 +19,7 @@ describe("Type Spec", function () {
     var main = new CustomMain();
 
     expect(__getType__(Main)).toEqual("Main");
-    expect(__getType__(CustomMain)).toEqual("Main");
+    expect(__getType__(CustomMain)).toEqual("CustomMain");
     expect(__getType__(main)).toEqual("CustomMain");
     logger.debug("Type Test Spec... OK");
   });
