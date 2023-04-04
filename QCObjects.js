@@ -2909,13 +2909,16 @@
   
       applyTransitionEffect(effectClassName) {
         var _Effect = ClassFactory(effectClassName);
+        if (typeof _Effect === "undefined" ){
+          throw Error (`${effectClassName} not found.`);
+        }
         if (typeof _Effect !== "undefined" && is_a(_Effect, "TransitionEffect")) {
           this.effect = New(_Effect, {
             component: this
           });
           this.effect.apply(this.effect.defaultParams);
         } else {
-          logger.debug(`${__getType__(_Effect)} is not a TransitionEffect`);
+          logger.debug(`${effectClassName} is ${__getType__(_Effect)} but is not a TransitionEffect`);
         }
       }
   
