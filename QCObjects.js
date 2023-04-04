@@ -784,6 +784,9 @@
   var __getType__ = function __getType__(o_c) {
     var _ret_ = "";
     switch (true) {
+      case __is_raw_class__(o_c) && !!o_c.name:
+        _ret_ = o_c.name;
+        break;
       case typeof o_c === "object" &&
       (!!o_c.constructor &&
       !!o_c.constructor.name)  
