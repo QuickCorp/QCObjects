@@ -2928,7 +2928,7 @@
       applyObserveTransitionEffect(effectClassName) {
         if (isBrowser) {
           var component = this;
-          var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
+          var _componentRoot = (component.shadowed) ? (component.shadowRoot.host) : (component.body);
           var _applyEffect_ = function (element) {
             component.applyTransitionEffect(effectClassName);
           };
