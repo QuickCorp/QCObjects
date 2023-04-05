@@ -1312,6 +1312,9 @@
   var uniqueId = shortCode;
 
   Class("Processor", {
+    _new_ ({component}){
+      this.component = component;
+    },
     processors: {
       "config"(arg) {
         return _top.CONFIG.get(arg, "");
@@ -1328,38 +1331,39 @@
         this.processors[_proc_.name] = _proc_;
       }
     },
-    execute(processorName, args) {
-      let processorHandler = this;
-      return processorHandler.processors[processorName].apply(processorHandler, args.split(","));
+    execute(component,processorName, args) {
+      var processorHandler = this;
+      var component = processorHandler.component;
+      return processorHandler.processors[processorName].bind(processorHandler).apply(processorHandler,[component,...args.split(",")]);
     },
-    process(template) {
+    process(template, component = null) {
+      var processorHandler = this;
       if (typeof template === "string") {
-        let processorHandler = this;
         Object.keys(processorHandler.processors).map(function (funcName) {
           [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
             function (procesorMatch) {
               var match0 = `$${funcName}(${procesorMatch[1]})`;
-              template = template.replace(match0, processorHandler.execute.call(processorHandler, funcName, procesorMatch[1]));
+              template = template.replace(match0, processorHandler.execute.bind(processorHandler).call(processorHandler, component, funcName, procesorMatch[1]));
             }
           );
         });
       }
       return template;
     },
-    processObject(obj) {
-      let __instance__ = this;
+    processObject(obj, component = null) {
+      var __instance__ = this;
       if (typeof obj === "object") {
         Object.keys(obj).map(
           function (_k) {
             if (typeof obj[_k] === "object" && !obj[_k].hasOwnProperty.call(obj[_k], "call")) {
-              obj[_k] = __instance__.processObject(obj[_k]);
+              obj[_k] = __instance__.processObject.bind(__instance__)(obj[_k], component);
             } else if (typeof obj[_k] === "string") {
-              obj[_k] = __instance__.process(obj[_k]);
+              obj[_k] = __instance__.process.bind(__instance__)(obj[_k], component);
             }
           }
         );
       } else if (typeof obj === "string") {
-        obj = __instance__.process(obj);
+        obj = __instance__.process.bind(__instance__)(obj, component);
       }
       return obj;
     }
@@ -1917,8 +1921,13 @@
   }
   Export(DDO);
 
-  Class("DefaultTemplateHandler", Object, {
-    template: "",
+  class DefaultTemplateHandler {
+    template= "";
+    __definition = {};
+    constructor ({component, template}){
+      this.component = component;
+      this.template = template;
+    }
     assign(data) {
       var templateInstance = this;
       if (typeof templateInstance.component === "undefined") {
@@ -1934,20 +1943,29 @@
           var _value = data[k];
           if (typeof _value === "string" || typeof _value === "number" || (!isNaN(_value))) {
             try {
-              _value = ClassFactory("Processor").processObject.call(processorHandler, _value);
+              _value = ClassFactory("Processor").processObject.call(processorHandler, _value, templateInstance.component);
               parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
             } catch (e) {
-              logger.warn(e);
+              logger.warn(`${templateInstance.component.name} could not parse processors.`);
+              throw Error (`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
             }
           }
         });
       } else {
         logger.debug(`${templateInstance.component.name}.data is not an object`);
       }
-      parsedAssignmentText = ClassFactory("Processor").processObject.call(processorHandler, parsedAssignmentText);
+      try {
+        parsedAssignmentText = ClassFactory("Processor").processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
+      }catch (e){
+        logger.warn(`${templateInstance.component.name} could not parse processors.`);
+        throw Error (`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+      }
       return parsedAssignmentText;
     }
-  });
+    
+  }
+  DefaultTemplateHandler.__definition = {};
+  RegisterClass(DefaultTemplateHandler,"com.qcobjects");
 
   var __routing_params__ = function (routing, routingPath) {
     let standardRoutingPath = routing.path.replace(/{(.*?)}/g, "(?<$1>.*)"); //allowing {param}
@@ -2259,13 +2277,14 @@
               request,
               service
             }) {
-              var serviceResponse = service.template;
+              var serviceResponse = (!!service.JSONresponse)?(service.JSONresponse):(service.template);
               if (_response_to_data_) {
                 if (typeof data === "object" && typeof serviceResponse === "object") {
                   data = Object.assign(data, serviceResponse);
                 } else {
                   data = serviceResponse;
                 }
+                component.data = data;
               }
               component.serviceInstance = serviceInstance;
               component.serviceData = data;
@@ -4586,7 +4605,7 @@
   // Set Processors
   (function (_top) {
 
-    let mapper = function (componentName, valueName) {
+    let mapper = function (componentInstance,componentName, valueName) {
       /*
        * Mapper processor
        * @usage
@@ -4597,10 +4616,13 @@
        * the component instance, the data object or a global value
        */
 
-
+      var self = this;
+      if (!!componentInstance || componentInstance === null){
+        throw Error (`mapper.${componentName}.${valueName} does not have a component instance or it is null.`);
+      }
       let globalValue = _top.global.get(valueName);
-      let componentValue = this.component.get(valueName);
-      let dataValue = this.component.data[valueName];
+      let componentValue = componentInstance.get(valueName);
+      let dataValue = componentInstance.data[valueName];
       let list = (typeof dataValue !== "undefined") ? (dataValue) : ((typeof componentValue !== "undefined") ? (componentValue) : (globalValue));
       let listItems = "";
       if (typeof list !== "undefined" && typeof list["map"] !== "undefined") {
@@ -4615,7 +4637,7 @@
     };
     ClassFactory("Processor").setProcessor(mapper);
 
-    let layout = function (layoutname, cssfile) {
+    let layout = function (componentInstance, layoutname, cssfile) {
       /*
        * Layout processor
        * @usage
@@ -4660,7 +4682,7 @@
        * Returns a component tag declaration like:
        * <component name=<name> ...></component>
        */
-      let arg = [...arguments].map(function (a) {
+      let arg = [...arguments].slice(1).map(function (a) {
         return {
           [a.split("=")[0]]: a.split("=")[1]
         };
@@ -4675,7 +4697,7 @@
 
     ClassFactory("Processor").setProcessor(component);
 
-    let repeat = function (length, text) {
+    let repeat = function (componentInstance, length, text) {
       /*
        * Repeat processor
        * @usage
