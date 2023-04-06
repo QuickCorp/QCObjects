@@ -2277,7 +2277,12 @@
               request,
               service
             }) {
-              var serviceResponse = (!!service.JSONresponse)?(service.JSONresponse):(service.template);
+              var serviceResponse;
+              if (typeof service.JSONresponse !== "undefined" && service.JSONresponse !== null){
+                serviceResponse = service.JSONresponse;
+              } else {
+                serviceResponse = service.template;
+              }
               if (_response_to_data_) {
                 if (typeof data === "object" && typeof serviceResponse === "object") {
                   data = Object.assign(data, serviceResponse);
@@ -2640,7 +2645,7 @@
                 break;
               case (_component.get("tplsource") === "inline"):
                 logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
-                _component.feedComponent();
+                _component.feedComponent.bind(_component)();
                 var standardResponse = {
                   request: null,
                   component: _component
@@ -4617,7 +4622,7 @@
        */
 
       var self = this;
-      if (!!componentInstance || componentInstance === null){
+      if (typeof componentInstance === "undefined" || componentInstance === null){
         throw Error (`mapper.${componentName}.${valueName} does not have a component instance or it is null.`);
       }
       let globalValue = _top.global.get(valueName);
