@@ -1310,12 +1310,12 @@
     return shortCode;
   };
   var uniqueId = shortCode;
+  Class("InheritClass", class {}, {});
 
-  Class("Processor", {
-    _new_ ({component}){
-      this.component = component;
-    },
-    processors: {
+  class Processor extends ClassFactory("InheritClass") {
+    component = null;
+
+    static processors= {
       "config"(arg) {
         return _top.CONFIG.get(arg, "");
       },
@@ -1325,18 +1325,28 @@
       "global"(arg) {
         return (typeof global !== "undefined") ? (global[arg]) : ("");
       }
-    },
-    setProcessor(_proc_) {
+    };
+    static setProcessor(_proc_) {
       if (typeof _proc_ === "function" && _proc_.name !== "") {
         this.processors[_proc_.name] = _proc_;
       }
-    },
+    }
+    
+    constructor (){
+      super(...arguments);
+      this.processors = Processor.processors;
+      this.process = Processor.process.bind(this);
+      this.processObject = Processor.processObject.bind(this);
+      this.setProcessor = Processor.setProcessor.bind(this);
+    }
+
     execute(component,processorName, args) {
       var processorHandler = this;
       var component = processorHandler.component;
       return processorHandler.processors[processorName].bind(processorHandler).apply(processorHandler,[component,...args.split(",")]);
-    },
-    process(template, component = null) {
+    }
+
+    static process(template, component = null) {
       var processorHandler = this;
       if (typeof template === "string") {
         Object.keys(processorHandler.processors).map(function (funcName) {
@@ -1349,8 +1359,9 @@
         });
       }
       return template;
-    },
-    processObject(obj, component = null) {
+    }
+
+    static processObject(obj, component = null) {
       var __instance__ = this;
       if (typeof obj === "object") {
         Object.keys(obj).map(
@@ -1367,7 +1378,10 @@
       }
       return obj;
     }
-  });
+
+  }
+  RegisterClass(Processor,"com.qcobjects");
+
 
   class ConfigSettings {
     static _instance = null;
@@ -1830,7 +1844,6 @@
   } else {
     global.onload = _Ready;
   }
-  Class("InheritClass", class {}, {});
 
   /**
    * Dynamic Data Objects Class
@@ -1937,13 +1950,14 @@
         throw new Error("DefaultTemplateHandler.assign: component.processorHandler is undefined");
       }
       var processorHandler = templateInstance.component.processorHandler;
+      processorHandler.component = templateInstance.component;
       var parsedAssignmentText = (typeof templateInstance.template !== "undefined") ? (templateInstance.template) : ("");
       if (typeof data === "object") {
         [...Object.keys(data)].map(function (k) {
           var _value = data[k];
           if (typeof _value === "string" || typeof _value === "number" || (!isNaN(_value))) {
             try {
-              _value = ClassFactory("Processor").processObject.call(processorHandler, _value, templateInstance.component);
+              _value = ClassFactory("Processor").processObject.bind(processorHandler).call(processorHandler, _value, templateInstance.component);
               parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
             } catch (e) {
               logger.warn(`${templateInstance.component.name} could not parse processors.`);
@@ -2645,7 +2659,9 @@
                 break;
               case (_component.get("tplsource") === "inline"):
                 logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
-                _component.feedComponent.bind(_component)();
+                (async function (_component){
+                  _component.feedComponent.bind(_component)();
+                })(_component);
                 var standardResponse = {
                   request: null,
                   component: _component
@@ -2857,6 +2873,7 @@
             component: _self,
             template: value
           });
+          templateInstance.component = _self;
           var selfData = _self.data;
           if (Object.hasOwnProperty.call(_self, "assignRoutingParams") && _self.assignRoutingParams) {
             try {
