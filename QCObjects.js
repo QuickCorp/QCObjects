@@ -4649,8 +4649,8 @@
       let listItems = "";
       if (typeof list !== "undefined" && typeof list["map"] !== "undefined") {
         listItems = list.map(function (element) {
-          let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${element[k].toString()}"`).join("");
-          return `<component name="${componentName}" ${dataItems} ></component>`;
+          let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${(typeof element[k] !== "undefined" && element[k] !== null)?(element[k].toString()):("")}"`).join("");
+          return `<quick-component name="${componentName}" ${dataItems} ></quick-component>`;
         }).join("");
       } else {
         logger.debug(`${componentName}.${valueName} does not have a map property`);
@@ -4718,6 +4718,30 @@
     };
 
     ClassFactory("Processor").setProcessor(component);
+
+    let quick_component = function () {
+      /*
+       * component processor
+       * @usage
+       *        $quick_component(name=<name>, componentClass=<componentClass>, ...)
+       * Returns a component tag declaration like:
+       * <quick-component name=<name> ...></quick-component>
+       */
+      let arg = [...arguments].slice(1).map(function (a) {
+        return {
+          [a.split("=")[0]]: a.split("=")[1]
+        };
+      }).reduce(function (k1, k2) {
+        return Object.assign(k1, k2);
+      });
+      let attrs = [...Object.keys(arg)].map(function (a) {
+        return `${a}=${arg[a]}`;
+      }).join(" ");
+      return `<quick-component ${attrs}></quick-component>`;
+    };
+
+    ClassFactory("Processor").setProcessor(quick_component);
+
 
     let repeat = function (componentInstance, length, text) {
       /*
