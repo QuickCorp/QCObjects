@@ -2382,33 +2382,36 @@
       createControllerInstance (){
         var _component_ = this;
         return new Promise (function (resolve, reject){
-          if (typeof _component_.body === "undefined") {
-            throw new Error("The component has no body");
-          }
-          var controllerName = _component_.body.getAttribute("controllerClass");
-          if (!controllerName) {
-            controllerName = "Controller";
-          }
-          var _Controller = ClassFactory(controllerName);
-          if (typeof _Controller !== "undefined") {
-            _component_.controller = New(_Controller, {
-              component: _component_
-            }); // Initializes the main controller for the component
-            if (typeof _component_.controller.done === "function") {
-              try {
-                _component_.controller.done.call(_component_.controller);
-              } catch (e){
-                throw Error (e);
+          if (isBrowser){
+            if (typeof _component_.body === "undefined") {
+              throw new Error("The component has no body");
+            }
+            var controllerName = _component_.body.getAttribute("controllerClass");
+            if (!controllerName) {
+              controllerName = "Controller";
+            }
+            var _Controller = ClassFactory(controllerName);
+            if (typeof _Controller !== "undefined") {
+              _component_.controller = New(_Controller, {
+                component: _component_
+              }); // Initializes the main controller for the component
+              if (typeof _component_.controller.done === "function") {
+                try {
+                  _component_.controller.done.call(_component_.controller);
+                } catch (e){
+                  throw Error (e);
+                }
+              } else {
+                logger.debug(`${controllerName} does not have a done() method.`);
+                reject(`${controllerName} does not have a done() method.`);
               }
-            } else {
-              logger.debug(`${controllerName} does not have a done() method.`);
-              reject(`${controllerName} does not have a done() method.`);
+              if (typeof _component_.controller.createRoutingController === "function") {
+                _component_.controller.createRoutingController.call(_component_.controller);
+              } else {
+                logger.debug(`${controllerName} does not have a createRoutingController() method.`);
+              }
             }
-            if (typeof _component_.controller.createRoutingController === "function") {
-              _component_.controller.createRoutingController.call(_component_.controller);
-            } else {
-              logger.debug(`${controllerName} does not have a createRoutingController() method.`);
-            }
+  
           }
           resolve ({component:_component_,controller:_component_.controller});
         });
@@ -2417,16 +2420,19 @@
       createEffectInstance (){
         var _component_ = this;
         return new Promise (function (resolve, reject){
-          var effectClassName = _component_.body.getAttribute("effectClass");
-          var applyEffectTo = _component_.body.getAttribute("apply-effect-to");
-          applyEffectTo = (applyEffectTo !== null) ? (applyEffectTo) : ("load");
-          if (effectClassName !== null && applyEffectTo === "observe") {
-            _component_.applyObserveTransitionEffect(effectClassName);
-          } else if (effectClassName !== null && applyEffectTo === "load") {
-            _component_.applyTransitionEffect(effectClassName);
-          }
-          if (_top.CONFIG.get("overrideComponentTag")) {
-            _component_.body.outerHTML = this.body.innerHTML;
+          if (isBrowser){
+            var effectClassName = _component_.body.getAttribute("effectClass");
+            var applyEffectTo = _component_.body.getAttribute("apply-effect-to");
+            applyEffectTo = (applyEffectTo !== null) ? (applyEffectTo) : ("load");
+            if (effectClassName !== null && applyEffectTo === "observe") {
+              _component_.applyObserveTransitionEffect(effectClassName);
+            } else if (effectClassName !== null && applyEffectTo === "load") {
+              _component_.applyTransitionEffect(effectClassName);
+            }
+            if (_top.CONFIG.get("overrideComponentTag")) {
+              _component_.body.outerHTML = this.body.innerHTML;
+            }
+  
           }
           resolve({component:_component_, effect:_component_.effect});
         });
@@ -2435,17 +2441,21 @@
       createViewInstance(){
         var _component_ = this;
         return new Promise (function (resolve, reject){
-          var viewName = _component_.body.getAttribute("viewClass");
-          var _View = ClassFactory(viewName);
-          if (typeof _View !== "undefined") {
-            _component_.view = New(_View, {
-              component: _component_
-            }); // Initializes the main view for the component
-            if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view.done === "function") {
-              _component_.view.done.call(_component_.view);
+          var viewName = (isBrowser)?(_component_.body.getAttribute("viewClass")):(null);
+          if (viewName !== null){
+            var _View = ClassFactory(viewName);
+            if (typeof _View !== "undefined") {
+              _component_.view = New(_View, {
+                component: _component_
+              }); // Initializes the main view for the component
+              if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view.done === "function") {
+                _component_.view.done.call(_component_.view);
+              }
             }
+  
           }
           resolve({component:_component_, view:_component_.view});
+
         });
       }
 
