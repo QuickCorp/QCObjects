@@ -4579,6 +4579,7 @@
   
       constructor (){
         super(...arguments);
+        this._new_(...arguments);
       }
 
       changeToggle() {
