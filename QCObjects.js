@@ -3515,7 +3515,7 @@
 
         }
       });
-      component.__promise__.then(function (standardResponse) {
+      __promise__.then(function (standardResponse) {
         return component.__done__().then (function (){
           var _ret_;
           if (typeof component.done === "function") {
@@ -3532,7 +3532,7 @@
       }).catch(function (e) {
         logger.debug("Something wrong loading the component");
       });
-      return component.__promise__;
+      return __promise__;
     };
 
     var _ret_;
