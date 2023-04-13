@@ -2253,7 +2253,7 @@
         var data = this.data;
         var __serviceClass;
         var __classDefinition = component.getClass().__definition;
-        var _serviceClassName = (body.getAttribute("serviceClass") !== null) ? (body.getAttribute("serviceClass")) : (null);
+        var _serviceClassName = (isBrowser && body.getAttribute("serviceClass") !== null) ? (body.getAttribute("serviceClass")) : (null);
 
         return new Promise (function (resolve, reject){
           /* __enable_service_class__ = true by default */
@@ -2261,8 +2261,8 @@
             (Object.hasOwnProperty.call(body, "enableServiceClass") && body.enableServiceClass) ||
             (!Object.hasOwnProperty.call(body, "enableServiceClass"))
           ) ? (true) : (false);
-          var _response_to_data_ = (body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "data") ? (true) : (false);
-          var _response_to_template_ = (body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "template") ? (true) : (false);
+          var _response_to_data_ = (isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "data") ? (true) : (false);
+          var _response_to_template_ = (isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "template") ? (true) : (false);
 
           if (__enable_service_class__ && _serviceClassName !== null) {
             __serviceClass = ClassFactory(_serviceClassName);
@@ -2506,13 +2506,13 @@
       get bodyAttributes() {
         var _component_ = this;
         var c = _component_.body;
-        return [...c.getAttributeNames()].map (a => {return {[a]:c.getAttribute(a)};}).reduce ((accumulator,colData, index) => {return Object.assign(accumulator, colData);} );
+        return (isBrowser)?([...c.getAttributeNames()].map (a => {return {[a]:c.getAttribute(a)};}).reduce ((accumulator,colData, index) => {return Object.assign(accumulator, colData);} )):({});
       }
 
       get dataAttributes(){
         var _component_ = this;
         var c = _component_.body;
-        return [{}].concat([...c.getAttributeNames()].filter(n=>n.startsWith("data-")).map (a => {return {[a.split("-")[1]]:c.getAttribute(a)};})).reduce ((accumulator,colData, index) => {return Object.assign(accumulator, colData);} );
+        return (isBrowser)?([{}].concat([...c.getAttributeNames()].filter(n=>n.startsWith("data-")).map (a => {return {[a.split("-")[1]]:c.getAttribute(a)};})).reduce ((accumulator,colData, index) => {return Object.assign(accumulator, colData);} )):({});
       }
 
       __buildSubComponents__ (rebuildObjects = false) {
