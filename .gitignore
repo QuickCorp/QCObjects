@@ -1,6 +1,7 @@
 .DS_Store
 .DS_Store
 config.json
+build
 # Logs
 logs
 *.log

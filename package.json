@@ -2,11 +2,18 @@
   "name": "qcobjects",
   "version": "2.4.55",
   "description": "QCObjects is an Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.",
-  "main": "QCObjects.js",
+  "main": "src/index.cjs",
+  "module": "src/index.mjs",
+  "exports": {
+    "require": "./src/index.cjs",
+    "import": "./src/index.mjs"
+  },
+  "type": "commonjs",
   "license": "LGPL-3.0",
   "scripts": {
+    "build:ts": "npm test && npx tsc",
     "start": "qcobjects-shell",
-    "test": "npx eslint --fix QCObjects.js && jasmine",
+    "test": "((npx eslint src/*.js spec/*.js --fix) && (npx jasmine))",
     "preversion": "npm cache verify && npm test",
     "sync": "git add . && git commit -am ",
     "postversion": "git push && git push --tags "
@@ -78,7 +85,8 @@
   },
   "devDependencies": {
     "eslint": "^8.2.0",
-    "jasmine": "^3.7.0"
+    "jasmine": "^3.7.0",
+    "typescript": "^5.0.4"
   },
   "engines": {
     "npm": "~8.10.0",

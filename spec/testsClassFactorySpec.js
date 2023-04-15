@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 
 describe("Global Features Spec", function () {
-    require("../QCObjects");
+    require("../src/QCObjects.js");
     logger.debugEnabled=true;
     logger.infoEnabled=true;
     logger.warnEnabled=true;
