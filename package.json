@@ -6,7 +6,8 @@
   "module": "src/index.mjs",
   "exports": {
     "require": "./src/index.cjs",
-    "import": "./src/index.mjs"
+    "import": "./src/index.mjs",
+    "package.json": "./package.json"
   },
   "type": "commonjs",
   "license": "LGPL-3.0",
