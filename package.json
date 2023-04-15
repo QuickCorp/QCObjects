@@ -12,9 +12,11 @@
     "./package.json": "./package.json"
   },
   "type": "commonjs",
+  "types": "./types/index.d.ts",
   "license": "LGPL-3.0",
   "scripts": {
     "build:ts": "npm test && npx tsc",
+    "build:ts-types":"npx -p typescript tsc src/index.ts --declaration --allowJs --emitDeclarationOnly --esModuleInterop --outDir types",
     "start": "qcobjects-shell",
     "test": "((npx eslint src/*.js spec/*.js --fix) && (npx jasmine))",
     "preversion": "npm cache verify && npm test",
