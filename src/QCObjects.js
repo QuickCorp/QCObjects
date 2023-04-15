@@ -1320,13 +1320,13 @@
     component = null;
 
     static processors= {
-      "config"(arg) {
+      "config"(component,arg) {
         return _top.CONFIG.get(arg, "");
       },
-      "ENV"(arg) {
+      "ENV"(component, arg) {
         return (typeof process !== "undefined") ? (process.env[arg]) : ("");
       },
-      "global"(arg) {
+      "global"(component, arg) {
         return (typeof global !== "undefined") ? (global[arg]) : ("");
       }
     };
@@ -1351,7 +1351,7 @@
     }
 
     static process(template, component = null) {
-      var processorHandler = this;
+      var processorHandler = (component !== null)?(component.processorHandler):( New(ClassFactory("Processor"), {component:null}) );
       if (typeof template === "string") {
         Object.keys(processorHandler.processors).map(function (funcName) {
           [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
