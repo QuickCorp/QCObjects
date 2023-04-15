@@ -31,6 +31,12 @@
   "use strict";
   var global = _top;
   _top.global = global;
+  var isDeno = (typeof window !== "undefined" && "Deno" in window);
+  var isBrowser = (typeof window !== "undefined" && typeof window.self !== "undefined" && window === window.self) && !isDeno;
+  var deno_require = function (){ /* not yet implemented */};
+  var _require_ = function (){
+    return (isDeno)?(deno_require(...arguments)):(require(...arguments));
+  };
 
   var _protected_code_ = function (_) {
     var __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function () {
@@ -124,8 +130,6 @@
   if (typeof String.prototype.matchAll === "undefined") {
     String.prototype.matchAll = String.prototype.__mAll__;
   }
-  var isDeno = (typeof window !== "undefined" && "Deno" in window);
-  var isBrowser = (typeof window !== "undefined" && typeof window.self !== "undefined" && window === window.self) && !isDeno;
   var _DOMCreateElement = function (elementName) {
     var _ret_;
     if (isBrowser) {
@@ -137,7 +141,7 @@
   };
 
   if (!isBrowser) {
-    const fs = require("fs");
+    const fs = _require_("fs");
   }
 
   var _DataStringify = function (data) {
@@ -202,7 +206,7 @@
       } else {
         var process;
         try {
-          process = require("process");
+          process = _require_("process");
         } catch (e) {
           // not a process module
         }
@@ -1197,7 +1201,7 @@
 
   if (!isBrowser) {
     var findPackageNodePath = function (packagename) {
-      const fs = require("fs");
+      const fs = _require_("fs");
       var sdkPath = null;
       try {
         var sdkPaths = [
@@ -1694,7 +1698,7 @@
           }
           try {
             resolve.call(_promise_import_, {
-              "_imported_": require(`${packageAbsoluteName}`),
+              "_imported_": _require_(`${packageAbsoluteName}`),
               "_package_name_": packagename
             });
           } catch (e) {
@@ -3495,7 +3499,7 @@
         } else {
           logger.debug("Loading the component as a local file in server...");
           var _directLoad = function (is_file) {
-            const fs = require("fs");
+            const fs = _require_("fs");
             logger.debug("SENDING THE NORMAL REQUEST  ");
             fs.readFile(component.url, _componentLoaded);
           };
@@ -3663,7 +3667,7 @@
       var _promise = new Promise(
         function (resolve, reject) {
           if (typeof URL === "undefined") {
-            global.URL = require("url").URL;
+            global.URL = _require_("url").URL;
             let URL = global.URL;
           }
           var serviceURL = new URL(service.url);
@@ -3734,7 +3738,7 @@
             var requestOptions;
             if (service.useHTTP2) {
               logger.debug("using http2");
-              var http2 = require("http2");
+              var http2 = _require_("http2");
               var client = http2.connect(serviceURL.origin);
               requestOptions = Object.assign({
                 ":method": service.method,
@@ -3746,7 +3750,7 @@
               captureEvents(req);
             } else {
               if (serviceURL.protocol === "http:") {
-                var http = require("http");
+                var http = _require_("http");
                 var request = http.request;
                 requestOptions = Object.assign({
                   "url": service.url,
@@ -3755,7 +3759,7 @@
                 var req = request(service.url);
                 captureEvents(req);
               } else if (serviceURL.protocol === "https:") {
-                var https = require("https");
+                var https = _require_("https");
                 requestOptions = Object.assign({
                   hostname: serviceURL.hostname,
                   port: serviceURL.port,
