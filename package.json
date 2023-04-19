@@ -97,7 +97,7 @@
     "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk"
   },
   "engines": {
-    "npm": "~8.10.0",
-    "node": ">=14.17.6"
+    "npm": ">=9",
+    "node": ">=18"
   }
 }
