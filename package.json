@@ -88,10 +88,13 @@
     "qcobjects-sdk": "^2.3.30"
   },
   "devDependencies": {
-    "@types/qcobjects": "github:QCObjects/-types-qcobjects",
     "eslint": "^8.2.0",
     "jasmine": "^3.7.0",
     "typescript": "^5.0.4"
+  },
+  "peerDependencies": {
+    "@types/qcobjects": "github:QCObjects/-types-qcobjects",
+    "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk"
   },
   "engines": {
     "npm": "~8.10.0",
