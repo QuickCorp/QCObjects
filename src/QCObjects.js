@@ -26,11 +26,13 @@
 /*eslint no-redeclare: "off"*/
 /*eslint no-empty: "off"*/
 /*eslint strict: "off"*/
+
 /*eslint no-mixed-operators: "off"*/
 (function (_top) {
   "use strict";
   var global = _top;
   _top.global = global;
+  
   var isDeno = (typeof window !== "undefined" && "Deno" in window);
   var isBrowser = (typeof window !== "undefined" && typeof window.self !== "undefined" && window === window.self) && !isDeno;
   var deno_require = function (){ /* not yet implemented */};
@@ -1318,6 +1320,8 @@
 
   class Processor extends ClassFactory("InheritClass") {
     component = null;
+    __definition = {};
+    __classType = "Processor";
 
     static processors= {
       "config"(component,arg) {
@@ -1342,16 +1346,16 @@
       this.process = Processor.process.bind(this);
       this.processObject = Processor.processObject.bind(this);
       this.setProcessor = Processor.setProcessor.bind(this);
+      this.execute = Processor.execute.bind(this);
     }
 
-    execute(component,processorName, args) {
-      var processorHandler = this;
-      var component = processorHandler.component;
+    static execute(component,processorName, args) {
+      var processorHandler = (typeof component !== "undefined" && component !== null)?(component.processorHandler):(this);
       return processorHandler.processors[processorName].bind(processorHandler).apply(processorHandler,[component,...args.split(",")]);
     }
 
     static process(template, component = null) {
-      var processorHandler = (component !== null)?(component.processorHandler):( New(ClassFactory("Processor"), {component:null}) );
+      var processorHandler = (component !== null)?(component.processorHandler):( New(Processor,{component:null}) ) ;
       if (typeof template === "string") {
         Object.keys(processorHandler.processors).map(function (funcName) {
           [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
@@ -1366,7 +1370,10 @@
     }
 
     static processObject(obj, component = null) {
-      var __instance__ = this;
+      var __instance__ = (component === null)?(this):(component.processorHandler);
+      if (typeof __instance__ === "undefined"){
+        __instance__ = new Processor({component:component});
+      }
       if (typeof obj === "object") {
         Object.keys(obj).map(
           function (_k) {
@@ -1384,7 +1391,10 @@
     }
 
   }
+  Processor.__definition = {};
+  Processor.__classType = "Processor";
   RegisterClass(Processor,"com.qcobjects");
+  __make_global__(Processor);
 
 
   class ConfigSettings {
@@ -1487,7 +1497,7 @@
         logger.debug("No config value for: " + name);
         _value = _default;
       }
-      return ClassFactory("Processor").processObject.call(ClassFactory("Processor"), _value);
+      return Processor.processObject.call(Processor, _value);
     }
   });
 
@@ -1568,6 +1578,8 @@
   Package.prototype.toString = function () {
     return "Package(namespace, classes) { [QCObjects native code] }";
   };
+
+  Package("com.qcobjects",[Processor]);
 
   /**
    * Declare Namespace
@@ -1961,7 +1973,7 @@
           var _value = data[k];
           if (typeof _value === "string" || typeof _value === "number" || (!isNaN(_value))) {
             try {
-              _value = ClassFactory("Processor").processObject.bind(processorHandler).call(processorHandler, _value, templateInstance.component);
+              _value = Processor.processObject.bind(processorHandler).call(processorHandler, _value, templateInstance.component);
               parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
             } catch (e) {
               logger.warn(`${templateInstance.component.name} could not parse processors.`);
@@ -1973,7 +1985,7 @@
         logger.debug(`${templateInstance.component.name}.data is not an object`);
       }
       try {
-        parsedAssignmentText = ClassFactory("Processor").processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
+        parsedAssignmentText = Processor.processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
       }catch (e){
         logger.warn(`${templateInstance.component.name} could not parse processors.`);
         throw Error (`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
@@ -2146,7 +2158,7 @@
   
         self.routingWay = _top.CONFIG.get("routingWay");
   
-        self.processorHandler = New(ClassFactory("Processor"), {
+        self.processorHandler = New(Processor, {
           component: self
         });
 
@@ -2789,13 +2801,14 @@
               logger.warn("ROUTING FAILED FOR " + _componentNames_.join(", ") + ": " + err);
             });
         };
-        if (isValidInstance || !!global.componentsStack) {
+        if (isValidInstance || !!_top.componentsStack) {
           if (isValidInstance) {
             logger.debug("loading routings for instance " + componentClass.name);
           }
-          _route_promise_ = __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (global.componentsStack));
+          _route_promise_ = __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (_top.componentsStack));
         } else {
           logger.debug("An undetermined result expected if load routings. So will not be loaded this time.");
+          throw Error (`There is no valid instance and no components stack available to apply rountings`);
         }
         return _route_promise_;
       }
@@ -4514,18 +4527,19 @@
       }) {
         var _transition_ = this;
         logger.info("EXECUTING TransitionEffect  ");
+        var componentRoot = (_transition_.component.shadowed)?(_transition_.component.shadowRoot.host):(_transition_.component.body);
         if (_transition_.fitToHeight) {
-          _transition_.component.body.height = _transition_.component.body.offsetParent.scrollHeight;
+          componentRoot.height = (typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null)?(componentRoot.offsetParent.scrollHeight):(componentRoot.getBoundingClientRect().height);
         }
         if (_transition_.fitToWidth) {
-          _transition_.component.body.width = _transition_.component.body.offsetParent.scrollWidth;
+          componentRoot.width = (typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null)?(componentRoot.offsetParent.scrollWidth):(componentRoot.getBoundingClientRect().width);
         }
-        _transition_.component.body.style.display = "block";
+        componentRoot.style.display = "block";
         _transition_.effects.map(function (effectClassName, eff) {
           var __effectClass__ = ClassFactory(effectClassName);
           var effectObj = new __effectClass__();
           var effectClassMethod = effectObj.apply;
-          var args = [_transition_.component.body].concat(Object.values({
+          var args = [componentRoot].concat(Object.values({
             alphaFrom,
             alphaTo,
             angleFrom,
@@ -4672,7 +4686,7 @@
       }
       return listItems;
     };
-    ClassFactory("Processor").setProcessor(mapper);
+    Processor.setProcessor(mapper);
 
     let layout = function (componentInstance, layoutname, cssfile) {
       /*
@@ -4709,7 +4723,7 @@
       return (Object.hasOwnProperty.call(layout_code, layoutname)) ? (layout_code[layoutname]) : ("");
     };
 
-    ClassFactory("Processor").setProcessor(layout);
+    Processor.setProcessor(layout);
 
     let component = function () {
       /*
@@ -4732,7 +4746,7 @@
       return `<component ${attrs}></component>`;
     };
 
-    ClassFactory("Processor").setProcessor(component);
+    Processor.setProcessor(component);
 
     let quick_component = function () {
       /*
@@ -4755,7 +4769,7 @@
       return `<quick-component ${attrs}></quick-component>`;
     };
 
-    ClassFactory("Processor").setProcessor(quick_component);
+    Processor.setProcessor(quick_component);
 
 
     let repeat = function (componentInstance, length, text) {
@@ -4772,7 +4786,7 @@
       ).join("");
     };
 
-    ClassFactory("Processor").setProcessor(repeat);
+    Processor.setProcessor(repeat);
 
   })(_top);
 
@@ -4800,76 +4814,102 @@
   Export(isBrowser);
   Export(_methods_);
 
-  asyncLoad(function () {
-
-    Class("GlobalSettings", Object, {
-      _GLOBAL: {},
-      set(name, value) {
-        this._GLOBAL[name] = value;
-      },
-      get(name, _default) {
-        var _value;
-        if (typeof this._GLOBAL[name] !== "undefined") {
-          _value = this._GLOBAL[name];
-        } else if (typeof _default !== "undefined") {
-          _value = _default;
+  (function (_top){
+    Package("com.qcobjects", [
+      class GlobalSettings extends ClassFactory("InheritClass"){
+        _GLOBAL= {};
+        __definition = {};
+        __classType = "GlobalSettings";
+    
+        constructor(){
+          super(...arguments);
+          this.set = GlobalSettings.set.bind(this);
+          this.get = GlobalSettings.get.bind(this);
+          this.__start__ = GlobalSettings.__start__.bind(this);
         }
-        return _value;
-      },
-      __start__() {
-        var __load__serviceWorker = function () {
-          var _promise;
-          if (isBrowser) {
-            _promise = new Promise(function (resolve, reject) {
-              if (("serviceWorker" in navigator) &&
-                (typeof _top.CONFIG.get("serviceWorkerURI") !== "undefined")) {
-                _top.CONFIG.set("serviceWorkerScope", _top.CONFIG.get("serviceWorkerScope") ? (_top.CONFIG.get("serviceWorkerScope")) : ("/"));
-                navigator.serviceWorker.register(_top.CONFIG.get("serviceWorkerURI"), {
-                    scope: _top.CONFIG.get("serviceWorkerScope")
-                  })
-                  .then(function (registration) {
-                    logger.debug("Service Worker Registered");
+
+        static set(name, value) {
+          this._GLOBAL[name] = value;
+        }
+
+        static get(name, _default) {
+          var _value;
+          if (typeof this._GLOBAL[name] !== "undefined") {
+            _value = this._GLOBAL[name];
+          } else if (typeof _default !== "undefined") {
+            _value = _default;
+          }
+          return _value;
+        }
+
+        static __start__() {
+          var __load__serviceWorker = function () {
+            var _promise;
+            if (isBrowser) {
+              _promise = new Promise(function (resolve, reject) {
+                if (("serviceWorker" in navigator) &&
+                  (typeof _top.CONFIG.get("serviceWorkerURI") !== "undefined")) {
+                  _top.CONFIG.set("serviceWorkerScope", _top.CONFIG.get("serviceWorkerScope") ? (_top.CONFIG.get("serviceWorkerScope")) : ("/"));
+                  navigator.serviceWorker.register(_top.CONFIG.get("serviceWorkerURI"), {
+                      scope: _top.CONFIG.get("serviceWorkerScope")
+                    })
+                    .then(function (registration) {
+                      logger.debug("Service Worker Registered");
+                      resolve.call(_promise, registration);
+                    }, function (registration) {
+                      logger.debug("Error registering Service Worker");
+                      reject.call(_promise, registration);
+                    });
+                  navigator.serviceWorker.ready.then(function (registration) {
+                    logger.debug("Service Worker Ready");
                     resolve.call(_promise, registration);
                   }, function (registration) {
-                    logger.debug("Error registering Service Worker");
+                    logger.debug("Error loading Service Worker");
                     reject.call(_promise, registration);
                   });
-                navigator.serviceWorker.ready.then(function (registration) {
-                  logger.debug("Service Worker Ready");
-                  resolve.call(_promise, registration);
-                }, function (registration) {
-                  logger.debug("Error loading Service Worker");
-                  reject.call(_promise, registration);
-                });
-              }
-            });
+                }
+              });
+            }
+            return _promise;
+          };
+          var _buildComponents = function () {
+            var _promise_;
+            if (isBrowser) {
+              logger.debug("Initializing the service worker");
+              _promise_ = __load__serviceWorker.call(_top)
+              .finally (function (){
+                logger.debug("Starting to building components");
+                try {
+                  _top.componentsStack = document.buildComponents.call(document);
+                }catch (e){
+                  throw Error (`Something went wrong trying to start components tree: ${e.message}`);
+                }
+              })
+              .catch(function (e) {
+                logger.debug(`error loading the service worker ${e}`);
+              });
+            } else {
+              _promise_ = Promise.resolve();
+            }
+            return _promise_;
+          };
+          logger.debug("Starting to load the config settings...");
+          if (_top.CONFIG.get("useConfigService", false)) {
+            logger.debug("Loading settings using local configuration file...");
+            _top.global.configService = New(ClassFactory("ConfigService"));
+            _top.global.configService.configLoaded = _buildComponents;
+            serviceLoader(_top.global.configService);
+          } else {
+            logger.debug("Starting to load the components...");
+            _buildComponents.call(this);
           }
-          return _promise;
-        };
-        var _buildComponents = function () {
-          if (isBrowser) {
-            logger.debug("Starting to building components");
-            global.componentsStack = document.buildComponents.call(document);
-            logger.debug("Initializing the service worker");
-            __load__serviceWorker.call(_top).catch(function () {
-              logger.debug("error loading the service worker");
-            });
-
-          }
-        };
-        logger.debug("Starting to load the config settings...");
-        if (_top.CONFIG.get("useConfigService", false)) {
-          logger.debug("Loading settings using local configuration file...");
-          _top.global.configService = New(ClassFactory("ConfigService"));
-          _top.global.configService.configLoaded = _buildComponents;
-          serviceLoader(_top.global.configService);
-        } else {
-          logger.debug("Starting to load the components...");
-          _buildComponents.call(this);
         }
+  
       }
-    });
-    var _g_ = New(ClassFactory("GlobalSettings"));
+    ]);
+    Export(ClassFactory("GlobalSettings"));
+    global = New(ClassFactory("GlobalSettings"));
+    _top = _CastProps(global, _top);
 
     Object.defineProperty(global, "PackagesNameList", {
       set(val) {
@@ -4956,8 +4996,6 @@
       }
     });
 
-    _top = _CastProps(_g_, _top);
-
     if (isBrowser) {
       // use of GLOBAL word is deprecated in node.js
       // this is only for compatibility purpose with old versions of QCObjects in browsers
@@ -4967,7 +5005,7 @@
     Export(global);
 
     if (_top.CONFIG.get("useSDK")) {
-      (function () {
+      (function (_top) {
         var remoteImportsPath = _top.CONFIG.get("remoteImportsPath");
         var external = (!_top.CONFIG.get("useLocalSDK")) ? (true) : (false);
         _top.CONFIG.set("remoteImportsPath", _top.CONFIG.get("remoteSDKPath"));
@@ -5000,11 +5038,9 @@
         } else {
           logger.debug("SDK has not been imported as it is not available at the moment");
         }
-      }).call(null);
+      })(_top);
     }
-
-
-  }, null);
+  })(_top);
 
   if (isBrowser) {
     asyncLoad(function () {
@@ -5101,6 +5137,16 @@
     }
   })(isBrowser);
 
-}).call(null, (typeof module === "object" && typeof module.exports === "object") ? (module.exports = global) : ((typeof global === "object") ? (global) : (
+}).call(null, (typeof module === "object" && typeof module.exports === "object") ? (
+  module.exports = (typeof globalThis !== "undefined"
+  ? globalThis
+  : typeof self !== "undefined"
+  ? self
+  : typeof window !== "undefined"
+  ? window
+  : typeof global !== "undefined"
+  ? global
+  : {})
+) : ((typeof global === "object") ? (global) : (
   (typeof window === "object") ? (window) : ({})
 )));
