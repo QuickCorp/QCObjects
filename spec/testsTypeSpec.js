@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 
 describe("Type Spec", function () {
-  require("../src/QCObjects.js");
+  require("../src/QCObjects");
   logger.debugEnabled=true;
   logger.infoEnabled=true;
   logger.warnEnabled=true;

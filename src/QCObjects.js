@@ -4911,7 +4911,7 @@
     global = New(ClassFactory("GlobalSettings"));
     _top = _CastProps(global, _top);
 
-    Object.defineProperty(global, "PackagesNameList", {
+    Object.defineProperty(_top, "PackagesNameList", {
       set(val) {
         logger.debug("PackagesNameList is readonly");
         return;
@@ -4936,13 +4936,13 @@
       }
     });
 
-    Object.defineProperty(global, "PackagesList", {
+    Object.defineProperty(_top, "PackagesList", {
       set(value) {
         logger.debug("PackagesList is readonly");
         return;
       },
       get() {
-        return global.PackagesNameList.map(function (packagename) {
+        return _top.PackagesNameList.map(function (packagename) {
           let _classesList = Package(packagename);
           let _ret_;
           if (_classesList) {
@@ -4960,14 +4960,14 @@
       }
     });
 
-    Object.defineProperty(global, "ClassesList", {
+    Object.defineProperty(_top, "ClassesList", {
       set(value) {
         logger.debug("ClassesList is readonly");
         return;
       },
       get() {
         var _classesList = [];
-        global.PackagesList.map(function (_package_element) {
+        _top.PackagesList.map(function (_package_element) {
           _classesList = _classesList.concat(_package_element.classesList.map(
             function (_class_element) {
               return {
@@ -4984,13 +4984,13 @@
       }
     });
 
-    Object.defineProperty(global, "ClassesNameList", {
+    Object.defineProperty(_top, "ClassesNameList", {
       set(value) {
         logger.debug("ClassesNameList is readonly");
         return;
       },
       get() {
-        return global.ClassesList.map(function (_class_element) {
+        return _top.ClassesList.map(function (_class_element) {
           return _class_element.className;
         });
       }
