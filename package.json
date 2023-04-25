@@ -85,15 +85,12 @@
     "url": "https://github.com/QuickGroup/QCObjects/issues"
   },
   "homepage": "https://qcobjects.com",
-  "dependencies": {
-    "qcobjects-sdk": "^2.3.30"
-  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-config-qcobjects": "^0.0.26",
+    "eslint-config-qcobjects": "^0.0.23",
     "eslint-config-semistandard": "^17.0.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
@@ -105,7 +102,8 @@
   },
   "peerDependencies": {
     "@types/qcobjects": "github:QCObjects/-types-qcobjects",
-    "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk"
+    "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
+    "qcobjects-sdk": "^2.3.30"
   },
   "engines": {
     "npm": ">=9",
