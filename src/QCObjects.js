@@ -30,7 +30,24 @@
 /*eslint no-mixed-operators: "off"*/
 (function __qcobjects__ (_top) {
   "use strict";
-  if (typeof __qcobjects__.__loaded__ === "undefined"){
+
+  if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined"){
+    try {
+      Object.defineProperty(_top,"__qcobjects__", {
+        enumerable: true,
+        configurable: false,
+        writable: false,
+        value: __qcobjects__,
+      });
+    } catch (e){
+      if (typeof _top.__qcobjects__ !== "undefined"){
+        _top.__qcobjects__.loaded = true;
+      }
+    }
+  }
+  if (typeof _top.__qcobjects__.loaded === "undefined"){
+    _top.__qcobjects__.loaded = true;
+    
     var global = _top;
     _top.global = global;
     
@@ -48,7 +65,9 @@
       });
       if (typeof _.prototype !== "undefined") {
         _.prototype.toString = function () {
-          var _protected_symbols = ["ComplexStorageCache",
+          var _protected_symbols = [
+            "__qcobjects__",
+            "ComplexStorageCache",
             "css",
             "append",
             "attachIn",
@@ -5147,7 +5166,6 @@
         __freeze__();
       }
     })(isBrowser);
-    __qcobjects__.__loaded__ = true;
   }
 }).call(null, (typeof module === "object" && typeof module.exports === "object") ? (
   module.exports = (typeof globalThis !== "undefined"
