@@ -1,2 +1,2 @@
 import QCObjects from "./QCObjects";
-export = QCObjects;
+export default QCObjects;
