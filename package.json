@@ -103,6 +103,7 @@
   "peerDependencies": {
     "@types/qcobjects": "github:QCObjects/-types-qcobjects",
     "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
+    "@types/qcobjects-api": "github:QCObjects/-types-qcobjects-api",
     "qcobjects-sdk": "^2.3.30"
   },
   "engines": {
