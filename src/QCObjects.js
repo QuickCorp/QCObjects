@@ -67,6 +67,8 @@
         _.prototype.toString = function () {
           var _protected_symbols = [
             "__qcobjects__",
+            "__qcobjects_sdk__",
+            "__loaded__",
             "ComplexStorageCache",
             "css",
             "append",
@@ -1437,7 +1439,6 @@
             "componentsBasePath": "",
             "delayForReady": 0,
             "preserveComponentBodyTag": false,
-            "overrideComponentTag": false,
             "useConfigService": false,
             "routingWay": "hash",
             "useSDK": true,
@@ -2195,7 +2196,7 @@
             if (typeof self.__new__ === "function") {
               self.__new__.call(self, self);
             }
-    
+  
             self._generateRoutingPaths(self.body)
             .then(function (){
               self._reroute_()
@@ -2474,10 +2475,6 @@
               } else if (effectClassName !== null && applyEffectTo === "load") {
                 _component_.applyTransitionEffect(effectClassName);
               }
-              if (_top.CONFIG.get("overrideComponentTag")) {
-                _component_.body.outerHTML = this.body.innerHTML;
-              }
-    
             }
             resolve({component:_component_, effect:_component_.effect});
           });
