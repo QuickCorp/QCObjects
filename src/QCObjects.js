@@ -4938,25 +4938,22 @@
               return _promise;
             };
             var _buildComponents = function () {
-              var _promise_;
-              if (isBrowser) {
-                logger.debug("Initializing the service worker");
-                _promise_ = __load__serviceWorker.call(_top)
-                .finally (function (){
+              return new Promise ((resolve, reject) => {
+                if (isBrowser) {
                   logger.debug("Starting to building components");
                   try {
                     _top.componentsStack = document.buildComponents.call(document);
                   }catch (e){
                     throw Error (`Something went wrong trying to start components tree: ${e.message}`);
                   }
-                })
-                .catch(function (e) {
-                  logger.debug(`error loading the service worker ${e}`);
-                });
-              } else {
-                _promise_ = Promise.resolve();
-              }
-              return _promise_;
+                  logger.debug("Initializing the service worker");
+                  __load__serviceWorker.call(_top)
+                  .catch(function (e) {
+                    logger.debug(`error loading the service worker ${e}`);
+                  });
+                }
+                resolve();
+              });
             };
             logger.debug("Starting to load the config settings...");
             if (_top.CONFIG.get("useConfigService", false)) {
