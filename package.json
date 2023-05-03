@@ -103,7 +103,7 @@
   "peerDependencies": {
     "@types/qcobjects": "github:QCObjects/-types-qcobjects",
     "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
-    "qcobjects-sdk": ">=2.4.40<3"
+    "qcobjects-sdk": "^2.4.40"
   },
   "engines": {
     "npm": ">=9",
