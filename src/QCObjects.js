@@ -2158,6 +2158,7 @@
           templateURI= "",
           template,
           tplsource= "default",
+          tplextension,
           url= "",
           name= "",
           method= "GET",
@@ -2180,6 +2181,7 @@
           super({
             templateURI,
             template,
+            tplextension,
             tplsource,
             url,
             name,
