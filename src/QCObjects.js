@@ -1433,7 +1433,7 @@
           _config_settings._CONFIG = {
             "relativeImportPath": "",
             "remoteImportsPath": "",
-            "remoteSDKPath": "https://sdk.qcobjects.dev/v2.4/",
+            "remoteSDKPath": "https://sdk.qcobjects.dev/v2.4/src/",
             "asynchronousImportsLoad": false,
             "removePackageScriptAfterLoading": true,
             "componentsBasePath": "",
@@ -2168,13 +2168,35 @@
           _body=_DOMCreateElement("div"),
           __promise__= null,
           __shadowRoot,
-          body,
-          shadowRoot,
-          splashScreenComponent,
-          controller,
-          view
+            body,
+            shadowRoot,
+            splashScreenComponent,
+            controller,
+            view
         }){
-          super(...arguments);
+          if (arguments.length<1){
+            throw Error(`No arguments in component. You must at least give one argument.`);
+          }
+          super({
+            templateURI,
+            template,
+            tplsource,
+            url,
+            name,
+            method,
+            data,
+            reload,
+            shadowed,
+            cached,
+            _body,
+            __promise__,
+            __shadowRoot,
+              body,
+              shadowRoot,
+              splashScreenComponent,
+              controller,
+              view
+          });
           var self = this;
     
           if (typeof self.name === "undefined") {
@@ -4602,7 +4624,7 @@
           componentRoot.style.display = "block";
           _transition_.effects.map(function (effectClassName, eff) {
             var __effectClass__ = ClassFactory(effectClassName);
-            var effectObj = new __effectClass__();
+            var effectObj = new __effectClass__({});
             var effectClassMethod = effectObj.apply;
             var args = [componentRoot].concat(Object.values({
               alphaFrom,
