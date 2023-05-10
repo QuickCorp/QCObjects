@@ -3382,7 +3382,6 @@
      */
     var ComponentURI = ({TPL_SOURCE ,COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION}) => {
       const templateURI = (TPL_SOURCE === "default")?(`${COMPONENTS_BASE_PATH}${COMPONENT_NAME}${TPLEXTENSION}`):("");
-      logger.debug(`templateURI: ${templateURI}`);
       return templateURI;
     };
   
