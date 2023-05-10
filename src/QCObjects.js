@@ -2550,7 +2550,9 @@
             _component_.subcomponents = _component_.__buildSubComponents__();
   
             _component_._bindroute_();
-            _component_.body.setAttribute("loaded", true);
+            if (isBrowser){
+              _component_.body.setAttribute("loaded", true);
+            }
           };
   
           return new Promise (function (resolve, reject){
@@ -2565,11 +2567,15 @@
   
         hostElements(tagFilter){
           var _component_ = this;
-          var elementList = (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined"))?(
-            _component_.shadowRoot.subelements(tagFilter)
-          ):(
-            _component_.body.subelements(tagFilter)
-          );
+          var elementList = [];
+          if (isBrowser){
+            elementList = (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined"))?(
+              _component_.shadowRoot.subelements(tagFilter)
+            ):(
+              _component_.body.subelements(tagFilter)
+            );
+  
+          }
           return elementList;
         }
   
@@ -3374,15 +3380,9 @@
      * @author: Jean Machuca <correojean@gmail.com>
      * @param params an object with the params to build the uri path
      */
-    var ComponentURI = function (params) {
-      var templateURI = "";
-      if (params["TPL_SOURCE"] === "default") {
-        templateURI = "{{COMPONENTS_BASE_PATH}}{{COMPONENT_NAME}}.{{TPLEXTENSION}}";
-        for (var k in params) {
-          var param = params[k];
-          templateURI = templateURI.replace("{{" + k + "}}", params[k]);
-        }
-      }
+    var ComponentURI = ({TPL_SOURCE ,COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION}) => {
+      const templateURI = (TPL_SOURCE === "default")?(`${COMPONENTS_BASE_PATH}${COMPONENT_NAME}${TPLEXTENSION}`):("");
+      logger.debug(`templateURI: ${templateURI}`);
       return templateURI;
     };
   
@@ -3607,7 +3607,7 @@
           }
           return Promise.reject(_ret_);
         }).catch(function (e) {
-          logger.debug("Something wrong loading the component");
+          logger.debug(`Something wrong loading the component: ${e}`);
         });
         return __promise__;
       };
