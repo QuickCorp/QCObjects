@@ -3381,7 +3381,7 @@
      * @param params an object with the params to build the uri path
      */
     var ComponentURI = ({TPL_SOURCE ,COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION}) => {
-      const templateURI = (TPL_SOURCE === "default")?(`${COMPONENTS_BASE_PATH}${COMPONENT_NAME}${TPLEXTENSION}`):("");
+      const templateURI = (TPL_SOURCE === "default")?(`${COMPONENTS_BASE_PATH}${COMPONENT_NAME}.${TPLEXTENSION}`):("");
       return templateURI;
     };
   
