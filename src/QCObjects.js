@@ -2557,7 +2557,7 @@
   
           return new Promise (function (resolve, reject){
             try {
-              Promise.resolve(componentDone.call(_component_));
+              resolve(componentDone.call(_component_));
             } catch (e){
               reject(e);
             }
