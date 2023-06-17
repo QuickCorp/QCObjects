@@ -1,6 +1,6 @@
 {
   "name": "qcobjects",
-  "version": "2.4.94",
+  "version": "2.4.95",
   "description": "QCObjects is an Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.",
   "main": "src/index.cjs",
   "module": "src/index.mjs",
@@ -22,7 +22,7 @@
     "preversion": "npm cache verify && npm test",
     "sync": "git add . && git commit -am ",
     "postversion": "git push && git push --tags ",
-    "generate-readme-pdf":"npx markdown-pdf --paper-format \"Letter\" -o README.pdf README.md && npx markdown-pdf --paper-format \"Letter\" -o README-es.pdf README-es.md"
+    "generate-readme-pdf": "npx markdown-pdf --paper-format \"Letter\" -o README.pdf README.md && npx markdown-pdf --paper-format \"Letter\" -o README-es.pdf README-es.md"
   },
   "repository": {
     "type": "git",
