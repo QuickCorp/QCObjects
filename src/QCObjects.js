@@ -870,6 +870,9 @@
   
     var __register_class__ = function (_class_, __namespace) {
       var name = _class_.name || __getType__(_class_);
+      if (typeof _class_.__definition === "undefined"){
+        _class_.__definition = {};
+      }
       _class_.__definition.__classType = name;
       if (typeof __namespace !== "undefined"){
         _class_.__definition.__namespace = __namespace;
@@ -2155,6 +2158,7 @@
         __namespace = undefined;
   
         constructor ({
+          __parent__,
           templateURI= "",
           template,
           tplsource= "default",
@@ -2179,6 +2183,7 @@
             throw Error(`No arguments in component. You must at least give one argument.`);
           }
           super({
+            __parent__,
             templateURI,
             template,
             tplextension,

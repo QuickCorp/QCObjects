@@ -21,7 +21,8 @@
     "lint": "(npx eslint src/**/*.ts --fix --ext ts)",
     "preversion": "npm cache verify && npm test",
     "sync": "git add . && git commit -am ",
-    "postversion": "git push && git push --tags "
+    "postversion": "git push && git push --tags ",
+    "generate-readme-pdf":"npx markdown-pdf --paper-format \"Letter\" -o README.pdf README.md && npx markdown-pdf --paper-format \"Letter\" -o README-es.pdf README-es.md"
   },
   "repository": {
     "type": "git",
@@ -103,7 +104,7 @@
   "peerDependencies": {
     "@types/qcobjects": "github:QCObjects/-types-qcobjects",
     "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
-    "qcobjects-sdk": ">=2.4.55"
+    "qcobjects-sdk": ">=2.4.64"
   },
   "engines": {
     "npm": ">=9",
