@@ -1436,7 +1436,7 @@
           _config_settings._CONFIG = {
             "relativeImportPath": "",
             "remoteImportsPath": "",
-            "remoteSDKPath": "https://sdk.qcobjects.dev/v2.4/src/",
+            "remoteSDKPath": "https://sdk.qcobjects.dev/",
             "asynchronousImportsLoad": false,
             "removePackageScriptAfterLoading": true,
             "componentsBasePath": "",
