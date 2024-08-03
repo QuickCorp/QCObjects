@@ -1,6 +1,11 @@
-FROM node:lts
+FROM alpine/git:latest
+FROM alpine/openssl
+FROM certbot/certbot
+FROM docker/extension-npm-installer
+FROM --platform=$BUILDPLATFORM node:lts-alpine as builder
+
 ###
-#  QCObjects  1.0
+#  QCObjects  2.4
 #  ________________
 #
 #  Author: Jean Machuca <correojean@gmail.com>
@@ -24,54 +29,26 @@ FROM node:lts
 #  license document, but changing it is not allowed.
 ###
 
-LABEL org.quickcorp.qcobjects.cli.version="0.0.4"
+LABEL org.quickcorp.qcobjects.cli.version="2.4.62"
 LABEL vendor1="QuickCorp"
 LABEL vendor2="QCObjects"
 LABEL org.quickcorp.qcobjects.release-date="2019-06-01"
 LABEL org.quickcorp.qcobjects.version.is-production=""
 
-# Install Openssl
-USER root
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      openssl \
-    && apt-get clean
-# End Install Openssl
-
-# Installation of certbot
-USER root
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
-RUN apt-get -y install software-properties-common
-RUN sed -i "/^# deb.*universe/ s/^# //" /etc/apt/sources.list
-RUN add-apt-repository ppa:certbot/certbot
-RUN apt-get -y install certbot
-# End Installation of certbot
-
-
-RUN npm install -g jasmine --only=production
-RUN npm install -g qcobjects-sdk --only=production
-RUN npm install -g qcobjects-cli --only=production
-
-# QCObjects Service
-RUN apt-get -y install --reinstall systemd
-COPY bin/install/ubuntu18/etc/systemd/system/qcobjects.service /etc/systemd/system/qcobjects.service
-# End QCObjects Service
+RUN npm install -g npm@latest
+RUN npm config set legacy-peer-deps true --global
+RUN npm install -g qcobjects qcobjects-sdk qcobjects-cli 
 
 RUN mkdir -p /etc/letsencrypt/live/
 RUN mkdir -p /etc/letsencrypt/live/mynewapp.qcobjects.com/
 RUN chmod 775 /etc/letsencrypt/live/
 RUN chmod 777 /etc/letsencrypt/live/mynewapp.qcobjects.com/
 
-RUN groupadd -r qcobjects && useradd -r -s /bin/bash -g qcobjects qcobjects
+RUN addgroup -S qcobjects && adduser -s /bin/bash -S qcobjects -G qcobjects
 RUN mkdir -p /home/qcobjects && chown -R qcobjects:qcobjects /home/qcobjects
 
-RUN mkdir -p /etc/qcobjects/
-RUN mkdir -p /home/qcobjects/projects/mynewapp/
-RUN chmod +w /home/qcobjects/projects/mynewapp/
-COPY bin/install/ubuntu18/etc/qcobjects/config.json.template /etc/qcobjects/config.json
-RUN (cd /etc/qcobjects/ && npm install qcobjects-sdk --save && qcobjects-createcert)
-RUN (cd /home/qcobjects/projects/mynewapp && npm install qcobjects-sdk --save)
-RUN (cd /home/qcobjects/projects/mynewapp && (qcobjects-createcert && echo "\n" | (qcobjects create --pwa app 2>&1 >/dev/null)))
+RUN mkdir -p /etc/qcobjects
+RUN chmod +w /home/qcobjects
 
 RUN echo "Welcome to... "
 RUN echo ""
@@ -87,31 +64,11 @@ RUN echo "       Y8b                                888"
 RUN echo "                                         d88P"
 RUN echo "                                       888P"
 RUN echo ""
-RUN echo "To start, use: su - qcobjects"
-RUN echo "and go to the path ~/projects/mynewapp"
-RUN echo ""
-RUN echo "To create a new progressive web app type: "
-RUN echo "> qcobjects create mynewapp --pwa"
-RUN echo ""
-RUN echo "To create an accelerated mobile page type: "
-RUN echo "> qcobjects create mynewapp --amp"
-RUN echo ""
-RUN echo "The QCObjects HTTP2 Server Settings file is in: "
-RUN echo "/etc/qcobjects/config.json"
-RUN echo ""
-RUN echo "To check the status of the service:"
-RUN echo "> service qcobjects status"
-RUN echo ""
-RUN echo "To start|stop|prestart the service:"
-RUN echo "> service qcobjects start"
-RUN echo "> service qcobjects stop"
-RUN echo "> service qcobjects restart"
 RUN echo ""
 
 WORKDIR /home/qcobjects
 USER qcobjects
 COPY package*.json ./
-RUN jasmine init
 RUN npm cache verify
 RUN npm ci --save --only=production
 
