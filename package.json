@@ -119,6 +119,7 @@
     "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
     "qcobjects-sdk": ">=2.4.64"
   },
+  "dependencies": {},
   "engines": {
     "npm": ">=9",
     "node": ">=18"
