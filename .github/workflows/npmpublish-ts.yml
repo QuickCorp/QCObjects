@@ -6,9 +6,9 @@ name: Node.js Publish Beta version
 on:
   push:
     branches:
-      - 'v*.*-beta'
+      - 'v*.*-ts'
     tags:
-      - 'v*.*.*-beta'
+      - 'v*.*.*-ts'
 
 jobs:
   build:
