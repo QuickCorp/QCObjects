@@ -2,27 +2,36 @@
   "name": "qcobjects",
   "version": "2.4.99",
   "description": "QCObjects is an Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.",
-  "main": "src/index.cjs",
-  "module": "src/index.mjs",
+  "main": "public/index.cjs",
+  "module": "public/index.mjs",
+  "type": "commonjs",
+  "types": "src/**/*.d.ts",
   "exports": {
     ".": {
-      "require": "./src/index.cjs",
-      "import": "./src/index.mjs"
+      "require": "./public/js/index.cjs",
+      "import": "./public/js/index.mjs"
     },
     "./package.json": "./package.json"
   },
-  "type": "commonjs",
-  "types": "./src/index.d.ts",
   "license": "LGPL-3.0",
   "scripts": {
-    "build:ts": "npm test && npx tsc",
-    "start": "qcobjects-shell",
-    "test": "(npm run lint && (npx jasmine))",
-    "lint": "(npx eslint src/**/*.ts --fix --ext ts)",
-    "preversion": "npm cache verify && npm test",
+    "test": "npm run lint",
+    "lint": "(npx eslint \"src/**/*.ts\" --fix --ext ts)",
     "sync": "git add . && git commit -am ",
-    "postversion": "git push && git push --tags ",
-    "generate-readme-pdf": "npx markdown-pdf --paper-format \"Letter\" -o README.pdf README.md && npx markdown-pdf --paper-format \"Letter\" -o README-es.pdf README-es.md"
+    "preversion": "npm i --upgrade && npm test",
+    "postversion": "git push && git push --tags",
+    "v-patch": "qcobjects v-patch",
+    "v-minor": "qcobjects v-minor",
+    "v-major": "qcobjects v-major",
+    "qcobjects": "qcobjects",
+    "cli": "qcobjects",
+    "build:ts": "npm test && npx tsc",
+    "build:ts-types": "npx tsc --project tsconfig.d.json",
+    "build": "npm run build:ts-types && npm run build:ts && npm run generate-readme-pdf",
+    "prepare": "node -e \"if(!require('fs').existsSync('.git')){process.exit(0)}\" || npx -y husky install",
+    "cli:help": "qcobjects --help",
+    "tree": "tree -d --gitignore",
+    "generate-readme-pdf": "(npx -y markdown-pdf --paper-format \"Letter\" -o README.pdf README.md && npx markdown-pdf --paper-format \"Letter\" -o README-es.pdf README-es.md) && npm uninstall markdown-pdf"
   },
   "repository": {
     "type": "git",
@@ -87,6 +96,8 @@
   },
   "homepage": "https://qcobjects.com",
   "devDependencies": {
+    "@types/qcobjects": "github:QCObjects/-types-qcobjects",
+    "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
     "eslint": "^8.40.0",
@@ -99,7 +110,9 @@
     "eslint-plugin-promise": "^6.1.1",
     "hint": "^2.0.0",
     "jasmine": "^3.7.0",
-    "typescript": "^5.0.4"
+    "qcobjects-sdk": "^2.4.66",
+    "qcobjects-tsconfig": "^2.4.10",
+    "typescript": "^5.6.2"
   },
   "peerDependencies": {
     "@types/qcobjects": "github:QCObjects/-types-qcobjects",
