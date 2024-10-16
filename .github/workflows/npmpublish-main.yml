@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v3.6.0
         with:
           node-version: 22
-      - run: npm ci
+      - run: npm i && npm ci --install-strategy=nested
       - run: npm test
 
   publish-npm:
@@ -32,7 +32,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Set up NPM authentication
         run: echo "registry=https://registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" >> ~/.npmrc
-      - run: npm ci
+      - run: npm i && npm ci --install-strategy=nested
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
