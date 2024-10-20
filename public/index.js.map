@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../build/index.js"],
+  "sourcesContent": ["\"use strict\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst QCObjects_1 = __importDefault(require(\"./QCObjects\"));\nexports.default = QCObjects_1.default;\n"],
+  "mappings": "sDAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,IAAIC,EAAmBD,GAAQA,EAAK,iBAAoB,SAAUE,EAAK,CACnE,OAAQA,GAAOA,EAAI,WAAcA,EAAM,CAAE,QAAWA,CAAI,CAC5D,EACA,OAAO,eAAeF,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5D,IAAMG,EAAcF,EAAgB,GAAsB,EAC1DD,EAAQ,QAAUG,EAAY",
+  "names": ["require_build", "__commonJSMin", "exports", "__importDefault", "mod", "QCObjects_1"]
+}

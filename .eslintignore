@@ -1,3 +1,5 @@
 *.js
 src/*.js
 src/**/*.js
+node_modules/**/*
+node_modules

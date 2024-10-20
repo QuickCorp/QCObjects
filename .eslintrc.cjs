@@ -12,8 +12,7 @@ module.exports = {
     "semistandard",
     "standard",
     "prettier",
-    "eslint:recommended", "plugin:@typescript-eslint/recommended",
-    "qcobjects"
+    "eslint:recommended", "plugin:@typescript-eslint/recommended"
 
   ],
   parser: "@typescript-eslint/parser",

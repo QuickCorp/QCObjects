@@ -1,9 +1,10 @@
 {
   "name": "qcobjects",
-  "version": "2.4.99",
+  "version": "2.4.104-ts",
   "description": "QCObjects is an Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.",
-  "main": "src/index.cjs",
-  "module": "src/index.mjs",
+  "main": "build/index.cjs",
+  "module": "build/index.mjs",
+  "browser": "browser/index.js",
   "exports": {
     ".": {
       "require": "./src/index.cjs",
@@ -15,10 +16,12 @@
   "types": "./src/index.d.ts",
   "license": "LGPL-3.0",
   "scripts": {
+    "build": "npm run build:ts && npm run build:browser",
     "build:ts": "npm test && npx tsc",
+    "build:browser": "npx -y esbuild@0.17.19 build/*.js --bundle --outdir=public --keep-names --minify --global-name=global --sourcemap --splitting --chunk-names=chunks/[name]-[hash] --format=esm --target=es2021",
     "start": "qcobjects-shell",
     "test": "(npm run lint && (npx jasmine))",
-    "lint": "(npx eslint src/**/*.ts --fix --ext ts)",
+    "lint": "(npx -y eslint@8.40.0 src/**/*.ts --fix --ext ts)",
     "preversion": "npm cache verify && npm test",
     "sync": "git add . && git commit -am ",
     "postversion": "git push && git push --tags ",
@@ -90,16 +93,15 @@
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
     "eslint": "^8.40.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-config-qcobjects": "^0.0.23",
+    "eslint-config-prettier": "^8.10.0",
     "eslint-config-semistandard": "^17.0.0",
-    "eslint-config-standard": "^17.0.0",
+    "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-promise": "^6.1.1",
     "hint": "^2.0.0",
     "jasmine": "^3.7.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.6.3"
   },
   "peerDependencies": {
     "@types/qcobjects": "github:QCObjects/-types-qcobjects",
@@ -107,7 +109,7 @@
     "qcobjects-sdk": ">=2.4.64"
   },
   "engines": {
-    "npm": ">=9",
-    "node": ">=18"
+    "npm": ">=10",
+    "node": ">=20"
   }
 }
