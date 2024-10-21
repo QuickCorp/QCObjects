@@ -4865,4 +4865,4 @@
             ? window
             : typeof global !== "undefined"
                 ? global
-                : {})) : ((typeof global === "object") ? (global) : ((typeof window === "object") ? (window) : ({}))));
+                : object)) : ((typeof global === "object") ? (global) : ((typeof window === "object") ? (window) : (object))));

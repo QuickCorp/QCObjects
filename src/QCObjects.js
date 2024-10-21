@@ -5231,6 +5231,7 @@
       }
     })(isBrowser);
   }
+
 }).call(null, (typeof module === "object" && typeof module.exports === "object") ? (
   module.exports = (typeof globalThis !== "undefined"
   ? globalThis
@@ -5240,7 +5241,7 @@
   ? window
   : typeof global !== "undefined"
   ? global
-  : {})
+  : object)
 ) : ((typeof global === "object") ? (global) : (
-  (typeof window === "object") ? (window) : ({})
+  (typeof window === "object") ? (window) : (object)
 )));
