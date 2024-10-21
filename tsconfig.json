@@ -1,6 +1,9 @@
 {
   "extends": ["qcobjects-tsconfig/tsconfig.json"],
   "compilerOptions": {
+    "target": "ESNext",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "lib": ["ESNext", "DOM"],                                      /* Specify a set of bundled library declaration files that describe the target runtime environment. */
+    "module": "NodeNext",                                /* Specify what module code is generated. */
     "rootDir": "src",                                    /* Specify the root folder within your source files. */
     "allowJs": true,                                     /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
     "outDir": "build",                                  /* Specify an output folder for all emitted files. */  
