@@ -6,19 +6,20 @@
   "module": "build/index.mjs",
   "browser": "browser/index.js",
   "type": "commonjs",
-  "types": "src/**/*.d.ts",
+  "types": "build/index.d.ts",
   "exports": {
     ".": {
       "require": "./build/index.cjs",
       "import": "./build/index.mjs",
-      "types": "./src/types.d.ts"
+      "types": "./build/index.d.ts"
     },
     "./package.json": "./package.json"
   },
   "license": "LGPL-3.0",
   "scripts": {
-    "build": "npm run build:ts && npm run build:browser",
+    "build": "npm run build:ts-types && npm run build:ts && npm run build:browser",
     "build:ts": "npm test && npx tsc",
+    "build:ts-types": "npx tsc --project tsconfig.d.json",
     "build:browser": "npx -y esbuild@0.17.19 build/*.js --bundle --outdir=browser --keep-names --minify --global-name=global --sourcemap --splitting --chunk-names=chunks/[name]-[hash] --format=esm --target=es2021",
     "start": "qcobjects-shell",
     "test": "(npm run lint && (npx jasmine))",

@@ -1,11 +1,8 @@
-// Type definitions for QCObjects 2.4
-// Project: https://qcobjects.dev
-// Definitions by: Jean Machuca <https://github.com/jeanmachuca>
-// Definitions: https://qcobjects.dev
-
-/**
- */
-
-import QCObjects from "qcobjects";
-
-export = QCObjects;
+declare module "QCObjects" {
+    const _exports: {};
+    export = _exports;
+}
+declare module "index" {
+    import QCObjects from "QCObjects";
+    export default QCObjects;
+}

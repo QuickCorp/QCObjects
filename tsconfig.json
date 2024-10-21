@@ -8,8 +8,10 @@
     "allowJs": true,                                     /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
     "outDir": "build",                                  /* Specify an output folder for all emitted files. */  
     "allowSyntheticDefaultImports":true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "typeRoots": ["types", "node_modules/@types", "@typescript-eslint"]
   },
   "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts"],
-  "exclude": ["src/**/*.spec.js", "src/*.js"]
+  "exclude": ["src/**/*.spec.js", "src/*.js","src/*.d.ts", "src/**/*.d.ts"]
 }

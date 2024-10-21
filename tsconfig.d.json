@@ -8,11 +8,11 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "outFile": "src/types.d.ts",
+    "outFile": "src/index.d.ts",
     "typeRoots": ["types", "node_modules/@types", "@typescript-eslint"],
     "allowSyntheticDefaultImports":true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*.ts", "src/static/js/packages/components/*.d.ts"],
+  "include": ["src/**/*.ts", "src/static/js/packages/components/*.d.ts", "types/*.d.ts"],
   "exclude": ["src/**/*.spec.js", "src/*.js", "src/*.d.ts", "src/**/*.d.ts"]
 }
