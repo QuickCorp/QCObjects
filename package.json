@@ -19,7 +19,7 @@
   "scripts": {
     "build": "npm run build:ts && npm run build:browser",
     "build:ts": "npm test && npx tsc",
-    "build:browser": "npx -y esbuild@0.17.19 build/*.js --bundle --outdir=public --keep-names --minify --global-name=global --sourcemap --splitting --chunk-names=chunks/[name]-[hash] --format=esm --target=es2021",
+    "build:browser": "npx -y esbuild@0.17.19 build/*.js --bundle --outdir=browser --keep-names --minify --global-name=global --sourcemap --splitting --chunk-names=chunks/[name]-[hash] --format=esm --target=es2021",
     "start": "qcobjects-shell",
     "test": "(npm run lint && (npx jasmine))",
     "lint": "(npx -y eslint@8.40.0 src/**/*.ts --fix --ext ts)",
