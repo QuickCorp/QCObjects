@@ -8,13 +8,13 @@ import { isQCObjects_Class } from "./isQCObjects";
 import { Package } from "./Package";
 import { _QC_CLASSES } from "./PrimaryCollections";
 
-export const ClassFactory = function (className) {
+export const ClassFactory = function (className:string) {
     var _classFactory;
     if (className !== null && className.indexOf(".") > -1) {
         var packageName = className.split(".").slice(0, className.split(".").length - 1).join(".");
         var _className = className.split(".").slice(-1).join("");
         var _package = Package(packageName);
-        var packageClasses = (typeof _package !== "undefined") ? (_package.filter(classFactory => {
+        var packageClasses = (typeof _package !== "undefined") ? (_package.filter((classFactory:any) => {
             return isQCObjects_Class(classFactory) &&
                 (classFactory.__definition.__classType === _className || (typeof classFactory === "function" && !!classFactory.name));
         }).reverse()) : ([]);
@@ -24,7 +24,7 @@ export const ClassFactory = function (className) {
             throw Error(`Class ${className} not found.`);
         }
     } else if (className !== null && Object.hasOwnProperty.call(_QC_CLASSES, className)) {
-        _classFactory = _QC_CLASSES[className];
+        _classFactory = (_QC_CLASSES as any)[className];
     }
     return _classFactory;
 };

@@ -1,8 +1,8 @@
 export const Base64 = {
     _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-    encode(e) {
+    encode(e: string) {
       var t = "";
-      var n, r, i, s, o, u, a;
+      var n: number, r: number, i: number, s: number, o: number, u: number, a: number;
       var f = 0;
       e = Base64._utf8_encode(e);
       while (f < e.length) {
@@ -22,10 +22,10 @@ export const Base64 = {
       }
       return t;
     },
-    decode(e) {
+    decode(e: string) {
       var t = "";
-      var n, r, i;
-      var s, o, u, a;
+      var n: number, r: number, i: number;
+      var s: number, o: number, u: number, a: number;
       var f = 0;
       e = e.replace(/[^A-Za-z0-9+/=]/g, "");
       while (f < e.length) {
@@ -47,7 +47,7 @@ export const Base64 = {
       t = Base64._utf8_decode(t);
       return t;
     },
-    _utf8_encode(e) {
+    _utf8_encode(e: string) {
       e = e.replace(/rn/g, "n");
       var t = "";
       for (var n = 0; n < e.length; n++) {
@@ -65,13 +65,13 @@ export const Base64 = {
       }
       return t;
     },
-    _utf8_decode(e) {
+    _utf8_decode(e: string) {
       var t = "";
       var n = 0;
       var r = 0;
       var c1 = 0;
       var c2 = 0;
-      var c3;
+      var c3: number;
       while (n < e.length) {
         r = e.charCodeAt(n);
         if (r < 128) {

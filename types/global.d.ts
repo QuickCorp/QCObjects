@@ -205,7 +205,7 @@ declare function isQCObjects_Class(_: any): boolean;
 declare function isQCObjects_Object(_: any): boolean;
 declare function NamespaceRef(namespace: string): any;
 declare function RegisterWidget(widgetName: string): void;
-declare function RegisterWidgets(...widgetList: Array<string>): void;
+declare function RegisterWidgets(...widgetList:string[]): void;
 declare function range(start: number, stop: number, step: number): Array<any>;
 declare function getDocumentLayout(): string;
 declare function Export(fn: Function): Function;
@@ -235,7 +235,7 @@ declare class Processor extends InheritClass {
     process(template: string, component: Component): any;
     processObject(obj: any, component: Component): any;
     setProcessor(proc: Function): any;
-    constructor(...args: Array<any>);
+    constructor(...args: any[]);
 
 }
 
@@ -365,8 +365,8 @@ declare class Controller {
     createRoutingController(): void;
 
 
-    done(...args: Array<any>);
-    fail(...args: Array<any>);
+    done(...args: any[]);
+    fail(...args: any[]);
 }
 
 declare type ViewParams = {
@@ -382,8 +382,8 @@ declare class View {
     body: QCObjectsElement | HTMLElement;
     component: Component;
     constructor(view: ViewParams);
-    done(...args: Array<any>);
-    fail(...args: Array<any>);
+    done(...args:any[]);
+    fail(...args:any[]);
 }
 
 declare class Service extends InheritClass {
@@ -400,7 +400,7 @@ declare class Service extends InheritClass {
     set(name: string, value: any): void;
     get(name: string): any;
     done({ request: XMLHttpRequest, service: Service });
-    fail(...args: Array<any>);
+    fail(...args: any[]);
 }
 declare class JSONService extends Service {
     JSONresponse: JSON;
@@ -417,7 +417,7 @@ declare type EffectParams = {
 
 declare class Effect extends InheritClass {
     duration: number;
-    apply(...args: Array<any>): any;
+    apply(...args: any[]): any;
     animate (effect:EffectParams);
 }
 declare class TransitionEffect extends Effect {
@@ -493,6 +493,7 @@ interface ShadowRoot extends QCObjectsShadowedElement {
 }
 
 interface Array<T> {
+    length: any;
     prototype: any;
     unique(): T[];
     table():T[];

@@ -7,29 +7,29 @@ export const ArrayList = Class("ArrayList", Array, []);
 
 export const ArrayCollection = Class("ArrayCollection", Object, {
     source: New(ClassFactory("ArrayList"), []),
-    changed(prop, value) {
+    changed(prop: any, value: any) {
       logger.debug("VALUE CHANGED");
       logger.debug(prop);
       logger.debug(value);
     },
-    push(value) {
+    push(value: any) {
       var self = this;
       logger.debug("VALUE ADDED");
       logger.debug(value);
       self.source.push(value);
     },
-    pop(value) {
+    pop(value: any) {
       var self = this;
       logger.debug("VALUE POPPED");
       logger.debug(value);
       self.source.pop(value);
     },
-    _new_(source) {
+    _new_(source: {} | undefined) {
       var self = this;
       var _index = 0;
       self.source = New(ClassFactory("ArrayList"), source);
       for (var _k in self.source) {
-        if (!isNaN(_k)) {
+        if (!isNaN(_k as any)) {
           logger.debug("binding " + _k.toString());
           (function (_pname) {
             Object.defineProperty(self, _pname, {

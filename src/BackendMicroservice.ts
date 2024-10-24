@@ -30,19 +30,19 @@ export class BackendMicroservice extends InheritClass {
     }
     this.cors();
     microservice.stream = stream;
-    stream.on("data", (data: any) => {
+    (stream as any)?.on("data", (data: any) => {
       // data from POST, GET
-      var requestMethod = request.method.toLowerCase();
+      var requestMethod = (request as any)?.method.toLowerCase();
       var supportedMethods = {
         "post": microservice.post,
       };
       if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
-        supportedMethods[requestMethod].call(microservice, data);
+        (supportedMethods as any)[requestMethod].call(microservice, data);
       }
     });
 
     // data from POST, GET
-    var requestMethod = request.method.toLowerCase();
+    var requestMethod = (request as any)?.method.toLowerCase();
     var supportedMethods = {
       "get": microservice.get,
       "head": microservice.head,
@@ -54,7 +54,7 @@ export class BackendMicroservice extends InheritClass {
       "patch": microservice.patch
     };
     if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
-      supportedMethods[requestMethod].call(microservice);
+      (supportedMethods as any)[requestMethod].call(microservice);
     }
 
 

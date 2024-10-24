@@ -16,8 +16,8 @@ if (isBrowser) {
                 return supportsPassive;
             }
         });
-        window.addEventListener("testPassive", null, opts);
-        window.removeEventListener("testPassive", null, opts);
+        (window as any).addEventListener("testPassive", null, opts);
+        (window as any).removeEventListener("testPassive", null, opts);
     } catch (e) {
         supportsPassive = false;
     }

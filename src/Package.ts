@@ -8,11 +8,11 @@ import { __register_class__ } from "./RegisterClass";
      * @param {Object} namespace
      * @param {Object} classes
      */
-    export const Package = function (namespace, classes = []) {
+    export const Package = function (namespace:string, classes:any[] = []) {
         if (_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES, namespace) &&
-          typeof _QC_PACKAGES[namespace] !== "undefined" &&
-          _QC_PACKAGES[namespace].hasOwnProperty.call(_QC_PACKAGES[namespace], "length") &&
-          _QC_PACKAGES[namespace].length > 0 &&
+          typeof (_QC_PACKAGES as any)[namespace] !== "undefined" &&
+          (_QC_PACKAGES as any)[namespace].hasOwnProperty.call((_QC_PACKAGES as any)[namespace], "length") &&
+          (_QC_PACKAGES as any)[namespace].length > 0 &&
           typeof classes !== "undefined" &&
           classes.hasOwnProperty.call(classes, "length") &&
           classes.length > 0
@@ -25,7 +25,7 @@ import { __register_class__ } from "./RegisterClass";
             _class_.__definition.__namespace = namespace;
             _class_.__namespace = namespace;
           });
-          _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
+          (_QC_PACKAGES as any)[namespace] = (_QC_PACKAGES as any)[namespace].concat(classes);
         } else if (typeof classes !== "undefined") {
           if (typeof classes === "object" && classes.hasOwnProperty.call(classes, "length")) {
             classes.filter(
@@ -37,17 +37,17 @@ import { __register_class__ } from "./RegisterClass";
               _class_.__namespace = namespace;
             });
           } else if (isQCObjects_Class(classes)) {
-            classes.__definition.__namespace = namespace;
-            classes.__namespace = namespace;
+            (classes as any).__definition.__namespace = namespace;
+            (classes as any).__namespace = namespace;
           }
-          _QC_PACKAGES[namespace] = classes;
+          (_QC_PACKAGES as any)[namespace] = classes;
         }
         if (Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) {
-          _QC_PACKAGES[namespace].map(function (_class_) {
+          (_QC_PACKAGES as any)[namespace].map(function (_class_:any) {
             __register_class__(_class_, namespace);
           });
         }
-        return (Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) ? (_QC_PACKAGES[namespace]) : (undefined);
+        return (Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) ? ((_QC_PACKAGES as any)[namespace]) : (undefined);
       };
       Package.prototype.toString = function () {
         return "Package(namespace, classes) { [QCObjects native code] }";

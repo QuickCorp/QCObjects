@@ -31,7 +31,11 @@ declare module "Cast" {
      * @param {Object} obj_source
      * @param {Object} obj_dest
      */
-    export const _CastProps: (obj_source: any, obj_dest: any) => any;
+    export const _CastProps: (obj_source: {
+        [x: string]: {
+            bind: (arg0: any) => any;
+        };
+    }, obj_dest: any) => any;
 }
 declare module "DOMCreateElement" {
     export const _DOMCreateElement: (elementName: any) => any;
@@ -83,7 +87,7 @@ declare module "is_forbidden_name" {
      * @param {Object} type
      * @param {Object} definition
      */
-    export const __is__forbidden_name__: () => boolean;
+    export const __is__forbidden_name__: (name: string) => boolean;
 }
 declare module "LegacyCopy" {
     export const _LegacyCopy: (obj: any) => any;
@@ -183,7 +187,7 @@ declare module "Class" {
      * @param {Object} type
      * @param {Object} definition
      */
-    export const Class: (name?: string, type?: undefined, definition?: undefined) => any;
+    export const Class: (name?: string, type?: any, definition?: any) => any;
 }
 declare module "isQCObjects" {
     export const isQCObjects_Object: (_: any) => boolean;
@@ -203,10 +207,10 @@ declare module "Package" {
      * @param {Object} namespace
      * @param {Object} classes
      */
-    export const Package: (namespace: any, classes?: never[]) => any;
+    export const Package: (namespace: string, classes?: any[]) => any;
 }
 declare module "ClassFactory" {
-    export const ClassFactory: (className: any) => any;
+    export const ClassFactory: (className: string) => any;
 }
 declare module "New" {
     /**
@@ -228,14 +232,22 @@ declare module "basePath" {
 declare module "DataStringify" {
     export const _DataStringify: (data: any) => string;
 }
+declare module "domain" {
+    export const _domain_: string;
+}
 declare module "InheritClass" {
     export const InheritClass: any;
 }
 declare module "BackendMicroservice" {
     import { InheritClass } from "InheritClass";
     export class BackendMicroservice extends InheritClass {
+        body: any;
+        stream: any;
+        route: any;
+        headers: any;
+        request: any;
         constructor({ domain, basePath, body, stream, request }: {
-            domain?: any;
+            domain?: string | undefined;
             basePath?: string | undefined;
             body?: null | undefined;
             stream?: null | undefined;
@@ -251,17 +263,20 @@ declare module "BackendMicroservice" {
         options(formData: any): void;
         trace(formData: any): void;
         patch(formData: any): void;
-        finishWithBody(stream: any): void;
+        finishWithBody(stream: {
+            write: (arg0: any) => void;
+            end: () => void;
+        }): void;
         done(): void;
     }
 }
 declare module "Base64" {
     export const Base64: {
         _keyStr: string;
-        encode(e: any): string;
-        decode(e: any): string;
-        _utf8_encode(e: any): string;
-        _utf8_decode(e: any): string;
+        encode(e: string): string;
+        decode(e: string): string;
+        _utf8_encode(e: string): string;
+        _utf8_decode(e: string): string;
     };
 }
 declare module "secretKey" {
@@ -530,12 +545,21 @@ declare module "localStorage" {
     export var localStorage: any;
 }
 declare module "subelements" {
-    export const subelements: (selector: any) => any[];
+    export const subelements: (query: string) => Array<any>;
 }
 declare module "asyncLoad" {
-    export const asyncLoad: (callback: any, args: any) => {
-        func: any;
-        args: any;
+    export const _asyncLoad: never[];
+    export const asyncLoad: (callback: {
+        (service: any, _async: any): Promise<unknown>;
+        (component: any, _async: any): Promise<unknown>;
+        (): void;
+    }, args: any[]) => {
+        func: {
+            (service: any, _async: any): Promise<unknown>;
+            (component: any, _async: any): Promise<unknown>;
+            (): void;
+        };
+        args: any[];
         dispatch(): void;
     };
     export const _fireAsyncLoad: () => void;
@@ -585,8 +609,12 @@ declare module "serviceLoader" {
      * @param service a Service object
      */
     export const serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
-        func: any;
-        args: any;
+        func: {
+            (service: any, _async: any): Promise<unknown>;
+            (component: any, _async: any): Promise<unknown>;
+            (): void;
+        };
+        args: any[];
         dispatch(): void;
     } | undefined;
 }
@@ -598,8 +626,12 @@ declare module "componentLoader" {
      * @param component a Component object
      */
     export const componentLoader: (component: any, _async: any) => Promise<unknown> | {
-        func: any;
-        args: any;
+        func: {
+            (service: any, _async: any): Promise<unknown>;
+            (component: any, _async: any): Promise<unknown>;
+            (): void;
+        };
+        args: any[];
         dispatch(): void;
     };
 }
@@ -1070,6 +1102,9 @@ declare module "Timer" {
         }): void;
     }
 }
+declare module "tag_filter" {
+    export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
+}
 declare module "QCObjects" {
     import "assign";
     import { Logger } from "Logger";
@@ -1089,7 +1124,7 @@ declare module "QCObjects" {
     const _default: {
         BackendMicroservice: typeof BackendMicroservice;
         Logger: typeof Logger;
-        Class: (name?: string, type?: undefined, definition?: undefined) => any;
+        Class: (name?: string, type?: any, definition?: any) => any;
         _Crypt: any;
         TagElements: any;
         DefaultTemplateHandler: typeof DefaultTemplateHandler;
@@ -1102,9 +1137,17 @@ declare module "QCObjects" {
         DDO: typeof DDO;
         ComplexStorageCache: (params: any) => any;
         _ComponentWidget_: typeof _ComponentWidget_;
-        asyncLoad: (callback: any, args: any) => {
-            func: any;
-            args: any;
+        asyncLoad: (callback: {
+            (service: any, _async: any): Promise<unknown>;
+            (component: any, _async: any): Promise<unknown>;
+            (): void;
+        }, args: any[]) => {
+            func: {
+                (service: any, _async: any): Promise<unknown>;
+                (component: any, _async: any): Promise<unknown>;
+                (): void;
+            };
+            args: any[];
             dispatch(): void;
         };
         RegisterClass: (_class_: any, __namespace: any) => any;
@@ -1122,13 +1165,21 @@ declare module "QCObjects" {
         is_a: (obj: any, typeName: any) => boolean;
         _DataStringify: (data: any) => string;
         serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
-            func: any;
-            args: any;
+            func: {
+                (service: any, _async: any): Promise<unknown>;
+                (component: any, _async: any): Promise<unknown>;
+                (): void;
+            };
+            args: any[];
             dispatch(): void;
         } | undefined;
         componentLoader: (component: any, _async: any) => Promise<unknown> | {
-            func: any;
-            args: any;
+            func: {
+                (service: any, _async: any): Promise<unknown>;
+                (component: any, _async: any): Promise<unknown>;
+                (): void;
+            };
+            args: any[];
             dispatch(): void;
         };
         ObjectName: (o: any) => string;
@@ -1164,8 +1215,8 @@ declare module "QCObjects" {
         logger: Logger;
         _sdk_: Promise<any>;
         global: typeof globalThis;
-        ClassFactory: (className: any) => any;
-        Package: (namespace: any, classes?: never[]) => any;
+        ClassFactory: (className: string) => any;
+        Package: (namespace: string, classes?: any[]) => any;
         Import: () => Promise<unknown> | undefined;
     };
     export default _default;

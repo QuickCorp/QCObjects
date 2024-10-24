@@ -5,7 +5,7 @@ export var _basePath_ = (
     function () {
       var _basePath = "";
       if (isBrowser) {
-        var baseURI = _top.document.baseURI.split("?")[0].split("/");
+        var baseURI = document.baseURI.split("?")[0].split("/");
         baseURI.pop();
         _basePath = baseURI.join("/") + "/";
       } else {
@@ -16,7 +16,7 @@ export var _basePath_ = (
           // not a process module
         }
         if (typeof process !== "undefined") {
-          _basePath = `${process.cwd()}/`;
+          _basePath = `${(process as any).cwd()}/`;
         } else {
           _basePath = "";
         }
