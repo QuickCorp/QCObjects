@@ -245,13 +245,7 @@ import { captureFalseTouch } from "./captureFalseTouch";
     }
 
 
-    Package("com.qcobjects.valueObjects", [
-      class VO extends ClassFactory("InheritClass") {
-        constructor() {
-          super(...arguments);
-        }
-      }
-    ]);
+
 
 
 
