@@ -14,7 +14,7 @@ import { _top } from "./top";
  */
 export const componentLoader = function (component: Component, _async: boolean) {
     var __promise__: Promise<any>;
-    var _componentLoaderInBrowser = function (component: Component, _async: any) {
+    var _componentLoaderInBrowser = function (component: Component, _async?: any) {
         __promise__ = new Promise(function (resolve, reject) {
             var _promise = component.__promise__;
             var container = (Object.hasOwnProperty.call(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
@@ -51,7 +51,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                 };
                 if (typeof component.template === "string" && component.template !== "") {
                     // component already has a template it does not need to be reloaded
-                    _feedComponent_.call(this, component);
+                    _feedComponent_(component);
                 } else {
                     var is_file = (component.url.startsWith("file:")) ? (true) : (false);
                     var xhr = new XMLHttpRequest();
@@ -70,7 +70,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                                 logger.debug("I got a response from fetch, so I'll feed the component");
                                 response.text().then(text => {
                                     component.template = text;
-                                    _feedComponent_.call(this, component);
+                                    _feedComponent_(component);
                                 });
                             });
                         }
@@ -89,7 +89,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                                 logger.debug("I have to try to load the file using xhr...  ");
                                 xhr.send(null);
                                 if (xhr.status === XMLHttpRequest.DONE) {
-                                    _componentLoaded.call(this);
+                                    _componentLoaded();
                                 }
                             }
                         } else {
@@ -115,10 +115,10 @@ export const componentLoader = function (component: Component, _async: boolean) 
                                 return;
                             }
                         });
-                        global.lastCache = cache;
+                        _top.lastCache = cache;
                     } else {
                         logger.debug("NOT USING CACHE FOR COMPONENT: " + component.name);
-                        _directLoad.call(this, is_file);
+                        _directLoad(is_file);
                     }
 
                 }
@@ -145,10 +145,10 @@ export const componentLoader = function (component: Component, _async: boolean) 
         });
         return __promise__;
     };
-    var _componentLoaderInNode = function (component: { data: any; url: string; name: string; template: string; cached: any; cacheIndex: any; method: string; __done__: () => Promise<any>; done: { call: (arg0: any, arg1: unknown) => any; }; fail: { call: (arg0: any, arg1: any) => any; }; }, _async: any) {
+    var _componentLoaderInNode = function (component: Component, _async: any) {
         __promise__ = new Promise(function (resolve, reject) {
             var _promise = __promise__;
-            var _feedComponent_ = function (component: { feedComponent: () => void; }) {
+            var _feedComponent_ = function (component: Component) {
                 component.feedComponent();
                 var standardResponse = {
                     "request": null,
@@ -167,7 +167,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                     if (component.cached && (typeof cache !== "undefined")) {
                         cache.save(component.name, component.template);
                     }
-                    _feedComponent_.call(this, component);
+                    _feedComponent_(component);
                 } else {
                     var standardResponse = {
                         "request": null,
@@ -178,10 +178,10 @@ export const componentLoader = function (component: Component, _async: boolean) 
             };
             if (typeof component.template === "string" && component.template !== "") {
                 // component already has a template it does not need to be reloaded
-                _feedComponent_.call(this, component);
+                _feedComponent_(component);
             } else {
                 logger.debug("Loading the component as a local file in server...");
-                var _directLoad = function (is_file: any) {
+                var _directLoad = function () {
                     const fs = _require_("fs");
                     logger.debug("SENDING THE NORMAL REQUEST  ");
                     (fs as any).readFile(component.url, _componentLoaded);
@@ -192,7 +192,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                     var cache = new ComplexStorageCache({
                         index: component.cacheIndex,
                         load(cacheController: any) {
-                            _directLoad.call(this);
+                            _directLoad();
                         },
                         alternate(cacheController: { cache: { getCached: (arg0: any) => any; }; }) {
                             if (component.method === "GET") {
@@ -204,10 +204,10 @@ export const componentLoader = function (component: Component, _async: boolean) 
                             return;
                         }
                     });
-                    global.lastCache = cache;
+                    _top.lastCache = cache;
                 } else {
                     logger.debug("NOT USING CACHE FOR COMPONENT: " + component.name);
-                    _directLoad.call(this);
+                    _directLoad();
                 }
 
             }
@@ -235,7 +235,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
     var _ret_;
     if (isBrowser) {
         if (typeof _async !== "undefined" && _async) {
-            _ret_ = asyncLoad(_componentLoaderInBrowser, arguments);
+            _ret_ = asyncLoad(_componentLoaderInBrowser, [component, _async]);
         } else {
             _ret_ = _componentLoaderInBrowser(component, _async);
         }

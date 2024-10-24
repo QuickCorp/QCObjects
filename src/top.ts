@@ -1,6 +1,7 @@
-import { Component } from "types/global";
+import { ComplexStorageCache, Component } from "types/global";
 
 type QCObjects = typeof self | typeof window | typeof global | {
+    lastCache:ComplexStorageCache,
     componentsStack:Component[],
     Microservice:any,
     Route:any,
@@ -82,6 +83,7 @@ type QCObjects = typeof self | typeof window | typeof global | {
 export var _top: QCObjects = (self || window || global ) as QCObjects;
 export const componentsStack:Component[] = [];
 (_top as any).componentsStack = componentsStack;
+(_top as any).lastCache = {};
 
 export const resetTop = (_top_: QCObjects) => {
     _top = _top_;
