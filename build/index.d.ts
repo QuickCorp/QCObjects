@@ -201,8 +201,8 @@ declare module "make_global" {
     export const __make_global__: (f: any) => void;
 }
 declare module "RegisterClass" {
-    export const __register_class__: (_class_: any, __namespace: any) => any;
-    export const RegisterClass: (_class_: any, __namespace: any) => any;
+    export const __register_class__: (_class_: any, __namespace?: string) => any;
+    export const RegisterClass: (_class_: any, __namespace?: string) => any;
 }
 declare module "Package" {
     /**
@@ -1161,7 +1161,7 @@ declare module "QCObjects" {
                 dispatch(): void;
             };
         };
-        RegisterClass: (_class_: any, __namespace: any) => any;
+        RegisterClass: (_class_: any, __namespace?: string) => any;
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").ComponentURIParams) => string;
         waitUntil: (func: any, exp: any) => void;
         _super_: (className: any, classMethodName: any, params: any) => any;
