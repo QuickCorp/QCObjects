@@ -1,0 +1,52 @@
+import { logger } from "./Logger";
+import { Processor } from "./Processor";
+import { RegisterClass } from "./RegisterClass";
+
+export class DefaultTemplateHandler {
+    template = "";
+    __definition = {};
+    static __definition = {};
+    component;
+
+    constructor({ component, template }) {
+      this.component = component;
+      this.template = template;
+    }
+    assign(data) {
+      var templateInstance = this;
+      if (typeof templateInstance.component === "undefined") {
+        throw new Error("DefaultTemplateHandler.assign: component is undefined");
+      }
+      if (typeof templateInstance.component.processorHandler === "undefined") {
+        throw new Error("DefaultTemplateHandler.assign: component.processorHandler is undefined");
+      }
+      var processorHandler = templateInstance.component.processorHandler;
+      processorHandler.component = templateInstance.component;
+      var parsedAssignmentText = (typeof templateInstance.template !== "undefined") ? (templateInstance.template) : ("");
+      if (typeof data === "object") {
+        [...Object.keys(data)].map(function (k) {
+          var _value = data[k];
+          if (typeof _value === "string" || typeof _value === "number" || (!isNaN(_value))) {
+            try {
+              _value = Processor.processObject.bind(processorHandler).call(processorHandler, _value, templateInstance.component);
+              parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
+            } catch (e) {
+              logger.warn(`${templateInstance.component.name} could not parse processors.`);
+              throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+            }
+          }
+        });
+      } else {
+        logger.debug(`${templateInstance.component.name}.data is not an object`);
+      }
+      try {
+        parsedAssignmentText = Processor.processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
+      } catch (e) {
+        logger.warn(`${templateInstance.component.name} could not parse processors.`);
+        throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+      }
+      return parsedAssignmentText;
+    }
+
+  }
+  RegisterClass(DefaultTemplateHandler, "com.qcobjects");
