@@ -45,6 +45,7 @@ import "./assign";
 import { __is_raw_class__ } from "./is_raw_class";
 import { _LegacyCopy } from "./LegacyCopy";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
+import { __instanceID, _QC_CLASSES, IncrementInstanceID } from "./PrimaryCollections";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -144,17 +145,6 @@ import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
       };
     }
 
-    /**
-     * Primary instance ID of all objects
-     */
-    var __instanceID;
-
-
-
-    var _QC_CLASSES = {};
-    var _QC_PACKAGES = {};
-    var _QC_PACKAGES_IMPORTED = [];
-    var _QC_READY_LISTENERS = [];
 
     /**
      * Returns the object or function name
@@ -408,8 +398,8 @@ import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
           super(_o_);
 
           let self = this;
-          __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
-          if (!self.__instanceID) {
+          IncrementInstanceID();
+          if (!(self as any).__instanceID) {
             Object.defineProperty(self, "__instanceID", {
               value: __instanceID,
               writable: false
