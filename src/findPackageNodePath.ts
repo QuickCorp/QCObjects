@@ -1,0 +1,42 @@
+import { Export } from "./Export";
+import { logger } from "./Logger";
+import { _require_, isBrowser } from "./platform";
+import { _top } from "./top";
+
+export const findPackageNodePath = function (packagename) {
+    var sdkPath = null;
+    if (!isBrowser) {
+        const fs = _require_("fs");
+        try {
+            var sdkPaths = [
+                `${_top.CONFIG.get("projectPath")}${_top.CONFIG.get("relativeImportPath")}`,
+                `${_top.CONFIG.get("basePath")}${_top.CONFIG.get("relativeImportPath")}`,
+                `${_top.CONFIG.get("projectPath")}`,
+                `${_top.CONFIG.get("basePath")}`,
+                `${_top.CONFIG.get("relativeImportPath")}`,
+                `${process.cwd()}${_top.CONFIG.get("relativeImportPath")}`,
+                `${process.cwd()}/node_modules/` + packagename,
+                `${process.cwd()}/node_modules`,
+                `${process.cwd()}`,
+                "node_modules",
+                "./",
+                ""
+            ].concat(module.paths);
+            sdkPaths = sdkPaths.filter(p => {
+                return (fs as any).existsSync(p + "/" + packagename);
+            });
+            if (sdkPaths.length > 0) {
+                sdkPath = sdkPaths[0];
+                logger.info(packagename + " is Installed.");
+            } else {
+                //          logger.debug(packagename + ' is not in a standard path.');
+            }
+        } catch (e) {
+            // do nothing
+            console.log(e);
+        }
+
+    }
+    return sdkPath;
+};
+Export(findPackageNodePath);

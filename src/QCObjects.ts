@@ -198,42 +198,6 @@ import { Class } from "./Class";
 
 
 
-    if (!isBrowser) {
-      var findPackageNodePath = function (packagename) {
-        const fs = _require_("fs");
-        var sdkPath = null;
-        try {
-          var sdkPaths = [
-            `${_top.CONFIG.get("projectPath")}${_top.CONFIG.get("relativeImportPath")}`,
-            `${_top.CONFIG.get("basePath")}${_top.CONFIG.get("relativeImportPath")}`,
-            `${_top.CONFIG.get("projectPath")}`,
-            `${_top.CONFIG.get("basePath")}`,
-            `${_top.CONFIG.get("relativeImportPath")}`,
-            `${process.cwd()}${_top.CONFIG.get("relativeImportPath")}`,
-            `${process.cwd()}/node_modules/` + packagename,
-            `${process.cwd()}/node_modules`,
-            `${process.cwd()}`,
-            "node_modules",
-            "./",
-            ""
-          ].concat(module.paths);
-          sdkPaths = sdkPaths.filter(p => {
-            return fs.existsSync(p + "/" + packagename);
-          });
-          if (sdkPaths.length > 0) {
-            sdkPath = sdkPaths[0];
-            logger.info(packagename + " is Installed.");
-          } else {
-            //          logger.debug(packagename + ' is not in a standard path.');
-          }
-        } catch (e) {
-          // do nothing
-          console.log(e);
-        }
-        return sdkPath;
-      };
-      Export(findPackageNodePath);
-    }
 
     Class("_Crypt", Object, {
       last_string: "",
