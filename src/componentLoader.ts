@@ -1,5 +1,6 @@
 import { asyncLoad } from "./asyncLoad";
 import { ComplexStorageCache } from "./ComplexStorageCache";
+import { Component } from "./Component";
 import { _DataStringify } from "./DataStringify";
 import { logger } from "./Logger";
 import { _require_, is_phonegap, isBrowser } from "./platform";
@@ -11,14 +12,14 @@ import { _top } from "./top";
  * @author: Jean Machuca <correojean@gmail.com>
  * @param component a Component object
  */
-export const componentLoader = function (component, _async) {
-    var __promise__;
-    var _componentLoaderInBrowser = function (component, _async) {
+export const componentLoader = function (component: Component, _async: boolean) {
+    var __promise__: Promise<any>;
+    var _componentLoaderInBrowser = function (component: Component, _async: any) {
         __promise__ = new Promise(function (resolve, reject) {
             var _promise = component.__promise__;
             var container = (Object.hasOwnProperty.call(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
             if (container !== null) {
-                var _feedComponent_ = function (component) {
+                var _feedComponent_ = function (component: { feedComponent: () => void; }) {
                     component.feedComponent();
                     var standardResponse = {
                         "request": xhr,
@@ -28,7 +29,7 @@ export const componentLoader = function (component, _async) {
                 };
                 logger.debug("LOADING COMPONENT DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(component.data)).replace("{{URL}}", component.url));
 
-                var _componentLoaded = function () {
+                var _componentLoaded = function (this: any) {
                     var successStatus = (is_file) ? (0) : (200);
                     if (xhr.status === successStatus) {
                         var response = xhr.responseText;
@@ -80,7 +81,7 @@ export const componentLoader = function (component, _async) {
                     if (!is_file) {
                         xhr.onload = _componentLoaded;
                     }
-                    var _directLoad = function (is_file) {
+                    var _directLoad = function (is_file: boolean) {
                         is_file = (typeof is_file === "undefined" || !is_file) ? (false) : (true);
                         logger.debug("SENDING THE NORMAL REQUEST  ");
                         if (is_file) {
@@ -101,10 +102,10 @@ export const componentLoader = function (component, _async) {
                         logger.debug("USING CACHE FOR COMPONENT: " + component.name);
                         var cache = new ComplexStorageCache({
                             index: component.cacheIndex,
-                            load(cacheController) {
+                            load(cacheController: any) {
                                 _directLoad.call(this, is_file);
                             },
-                            alternate(cacheController) {
+                            alternate(cacheController: { cache: { getCached: (arg0: any) => any; }; }) {
                                 if (component.method === "GET") {
                                     component.template = cacheController.cache.getCached(component.cacheIndex);
                                     _feedComponent_.call(this, component);
@@ -144,10 +145,10 @@ export const componentLoader = function (component, _async) {
         });
         return __promise__;
     };
-    var _componentLoaderInNode = function (component, _async) {
+    var _componentLoaderInNode = function (component: { data: any; url: string; name: string; template: string; cached: any; cacheIndex: any; method: string; __done__: () => Promise<any>; done: { call: (arg0: any, arg1: unknown) => any; }; fail: { call: (arg0: any, arg1: any) => any; }; }, _async: any) {
         __promise__ = new Promise(function (resolve, reject) {
             var _promise = __promise__;
-            var _feedComponent_ = function (component) {
+            var _feedComponent_ = function (component: { feedComponent: () => void; }) {
                 component.feedComponent();
                 var standardResponse = {
                     "request": null,
@@ -157,7 +158,7 @@ export const componentLoader = function (component, _async) {
             };
             logger.debug("LOADING COMPONENT DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(component.data)).replace("{{URL}}", component.url));
 
-            var _componentLoaded = function (err, responseText) {
+            var _componentLoaded = function (err: any, responseText: { toString: () => any; }) {
                 if (!err) {
                     var response = responseText.toString();
                     logger.debug("Data received {{DATA}}".replace("{{DATA}}", _DataStringify(response)));
@@ -180,7 +181,7 @@ export const componentLoader = function (component, _async) {
                 _feedComponent_.call(this, component);
             } else {
                 logger.debug("Loading the component as a local file in server...");
-                var _directLoad = function (is_file) {
+                var _directLoad = function (is_file: any) {
                     const fs = _require_("fs");
                     logger.debug("SENDING THE NORMAL REQUEST  ");
                     (fs as any).readFile(component.url, _componentLoaded);
@@ -190,10 +191,10 @@ export const componentLoader = function (component, _async) {
                     logger.debug("USING CACHE FOR COMPONENT: " + component.name);
                     var cache = new ComplexStorageCache({
                         index: component.cacheIndex,
-                        load(cacheController) {
+                        load(cacheController: any) {
                             _directLoad.call(this);
                         },
-                        alternate(cacheController) {
+                        alternate(cacheController: { cache: { getCached: (arg0: any) => any; }; }) {
                             if (component.method === "GET") {
                                 component.template = cacheController.cache.getCached(component.cacheIndex);
                                 _feedComponent_.call(this, component);

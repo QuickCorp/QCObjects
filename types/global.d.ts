@@ -274,6 +274,7 @@ declare type ComponentRouting = {
 declare type ComponentRoutings = Array<ComponentRouting>;
 declare class Component extends InheritClass {
     name: string;
+    cached?:boolean;
     _body: QCObjectsElement | HTMLElement;
     body: QCObjectsElement | HTMLElement;
     templateURI: string;
@@ -311,6 +312,7 @@ declare class Component extends InheritClass {
     bodyAttributes: any;
     dataAttributes: any;
     serviceData?:any;
+    container?: any;
     constructor(component: ComponentParams);
     static route(): Promise<Component[]>;
     __done__(): Promise<void>;
@@ -323,7 +325,7 @@ declare class Component extends InheritClass {
     createEffectInstance(): Promise<{ component: Component, effect: Effect }>;
     createViewInstance(): Promise<{ component: Component, view: View }>;
     done(standardResponse: ComponentDoneResponse): Promise<ComponentDoneResponse>;
-    fail({ error: any, component: Component });
+    fail({error, component}:{ error: any, component: Component }):void;
     hostElements(tagFilter: string): Array<HTMLElement | QCObjectsElement | QCObjectsShadowedElement>;
     set(name: string, value: any): void;
     get(name: string): any;

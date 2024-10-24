@@ -42,7 +42,7 @@ export class Component extends InheritClass {
     view?:View = undefined;
     effect = undefined;
     method = "GET";
-    cached = true;
+    cached:boolean = true;
     __promise__?:Promise<any>|null = null;
     __namespace = undefined;
 
@@ -611,7 +611,7 @@ export class Component extends InheritClass {
     }
 
     rebuild() {
-        var _component = this;
+        var _component = this as Component;
         var _promise = new Promise(function (resolve, reject) {
             if (typeof _component === "undefined" || _component === null) {
                 reject("Component is undefined");
