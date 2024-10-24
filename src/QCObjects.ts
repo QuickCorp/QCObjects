@@ -31,147 +31,41 @@
 
 "use strict";
 
+import { Base64 } from "./Base64";
+import { _DataStringify } from "./DataStringify";
+import { _DOMCreateElement } from "./DOMCreateElement";
+import { _methods_, _protected_code_ } from "./introspection";
+import { logger, Logger } from "./Logger";
 import { _require_, isBrowser, isDeno, isNodeCommonJS } from "./platform";
+import { _top } from "./top";
 
-const _top:any = self || window || global;
-
-(function __qcobjects__(_top:any):void{
-  if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined"){
+(function __qcobjects__(_top: any): void {
+  if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
     try {
-      Object.defineProperty(_top,"__qcobjects__", {
+      Object.defineProperty(_top, "__qcobjects__", {
         enumerable: true,
         configurable: false,
         writable: false,
         value: __qcobjects__,
       });
-    } catch (e){
-      if (typeof _top.__qcobjects__ !== "undefined"){
+    } catch (e) {
+      if (typeof _top.__qcobjects__ !== "undefined") {
         _top.__qcobjects__.loaded = true;
       }
     }
   }
-  if (typeof _top.__qcobjects__.loaded === "undefined"){
+  if (typeof _top.__qcobjects__.loaded === "undefined") {
     _top.__qcobjects__.loaded = true;
-    
+
     var global = _top;
     _top.global = global;
-    
-  
-    var _protected_code_ = function (_) {
-      var __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function () {
-        return "";
-      });
-      if (typeof _.prototype !== "undefined") {
-        _.prototype.toString = function () {
-          var _protected_symbols = [
-            "__qcobjects__",
-            "__qcobjects_sdk__",
-            "__loaded__",
-            "ComplexStorageCache",
-            "css",
-            "append",
-            "attachIn",
-            "debug",
-            "info",
-            "warn",
-            "QC_Append",
-            "set",
-            "get",
-            "done",
-            "componentDone",
-            "_new_",
-            "__new__",
-            "Class",
-            "ClassFactory",
-            "New",
-            "Export",
-            "Package",
-            "Import",
-            "subelements",
-            "componentLoader",
-            "buildComponents",
-            "Controller",
-            "View",
-            "VO",
-            "Service",
-            "serviceLoader",
-            "JSONService",
-            "ConfigService",
-            "SourceJS",
-            "SourceCSS",
-            "ArrayList",
-            "ArrayCollection",
-            "Effect",
-            "Timer",
-            "sum",
-            "avg",
-            "table",
-            "max",
-            "min",
-            "range",
-            "matrix",
-            "matrix2d",
-            "matrix3d",
-            "unique",
-            "uniqueId",
-            "shortCode",
-            "NamespaceRef"
-          ];
-          var _ret_;
-          if (_protected_symbols.includes(this.name)) {
-            _ret_ = this.name + "{ [QCObjects native code] }";
-          } else {
-            _ret_ = __oldtoString.call(this);
-          }
-          return _ret_;
-        };
-      }
-    };
-    (_protected_code_)(Function);
-    var _methods_ = function (_) {
-      var _m = [];
-      for (var i in _) {
-        if ((typeof _[i]).toLowerCase() === "function") {
-          _m.push(_[i]);
-        }
-      }
-      return _m;
-    };
-  
-    var _DOMCreateElement = function (elementName) {
-      var _ret_;
-      if (isBrowser) {
-        _ret_ = document.createElement(elementName);
-      } else {
-        _ret_ = {};
-      }
-      return _ret_;
-    };
-  
+
     if (!isBrowser) {
       const fs = _require_("fs");
     }
-  
-    var _DataStringify = function (data) {
-      var getCircularReplacer = function () {
-        var seen = new WeakSet();
-        var _level = 0;
-        return function (key, value) {
-          if (typeof value === "object" && value !== null) {
-            if (seen.has(value)) {
-              _level += 1;
-              return (_level <= 3) ? (_LegacyCopy(value)) : (null);
-            }
-            seen.add(value);
-          }
-          return value;
-        };
-      };
-      return JSON.stringify(data, getCircularReplacer());
-    };
-  
+
     if (isBrowser) {
-      var _subelements = function subelements(selector) {
+      const _subelements = function subelements(selector) {
         return [...this.querySelectorAll(selector)];
       };
       Element.prototype.subelements = _subelements;
@@ -204,29 +98,6 @@ const _top:any = self || window || global;
     }
     var _domain_, _basePath_;
     var _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
-    _basePath_ = (
-      function () {
-        var _basePath = "";
-        if (isBrowser) {
-          var baseURI = _top.document.baseURI.split("?")[0].split("/");
-          baseURI.pop();
-          _basePath = baseURI.join("/") + "/";
-        } else {
-          var process;
-          try {
-            process = _require_("process");
-          } catch (e) {
-            // not a process module
-          }
-          if (typeof process !== "undefined") {
-            _basePath = `${process.cwd()}/`;
-          } else {
-            _basePath = "";
-          }
-        }
-        return _basePath;
-      }
-    )();
     if (isBrowser) {
       /**
        * Polyfilling Promise
@@ -234,8 +105,8 @@ const _top:any = self || window || global;
       if (!("Promise" in _top)) {
         _top.Promise = function (_f) {
           var _p = {
-            then() {},
-            catch () {},
+            then() { },
+            catch() { },
             _then(response) {
               this.then.call(_p, response);
             },
@@ -248,25 +119,25 @@ const _top:any = self || window || global;
         };
       }
       if (typeof _top.console === "undefined") {
-        _top.console = function () {};
-        _top.console.prototype.log = function (message) {};
+        _top.console = function () { };
+        _top.console.prototype.log = function (message) { };
       }
-  
+
       _domain_ = (
         function () {
           return (typeof document !== "undefined" && document.domain !== "") ? (document.domain) : ("localhost");
         }
       )();
-  
+
       var _secretKey = location.host;
-  
+
     } else {
       // This is only for code integrity purpose using non-browser implementations
       // like using node.js
       var _secretKey = "secret";
       _domain_ = "localhost";
     }
-  
+
     _top._asyncLoad = [];
     var asyncLoad = function (callback, args) {
       var asyncCallback = {
@@ -279,7 +150,7 @@ const _top:any = self || window || global;
       _top._asyncLoad.push(asyncCallback);
       return asyncCallback;
     };
-  
+
     if (isBrowser) {
       var _fireAsyncLoad = function () {
         if (document.readyState === "complete") {
@@ -296,157 +167,11 @@ const _top:any = self || window || global;
         });
       };
     }
-  
+
     _top.asyncLoad = asyncLoad;
-    var Logger = function () {
-      return {
-        debugEnabled: true,
-        infoEnabled: true,
-        warnEnabled: true,
-        debug(message) {
-          if (this.debugEnabled) {
-            console.log("\x1b[35m%s\x1b[0m", `[DEBUG][${performance.now().toLocaleString()}] ${message}`);
-          }
-        },
-        info(message) {
-          var color;
-          if (this.infoEnabled) {
-            if (isBrowser) {
-              color = "\x1b[103m%s\x1b[0m";
-            } else {
-              color = "\x1b[33m%s\x1b[0m";
-            }
-            console.info(color, `[INFO][${performance.now().toLocaleString()}] ${message}`);
-          }
-        },
-        warn(message) {
-          if (this.warnEnabled) {
-            console.warn("\x1b[31m%s\x1b[0m", `[WARN][${performance.now().toLocaleString()}] ${message}`);
-          }
-        }
-      };
-    };
-    var logger = new Logger();
     logger.debugEnabled = false;
     logger.infoEnabled = true;
     _top.logger = logger;
-    var Base64 = {
-      _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-      encode(e) {
-        var t = "";
-        var n, r, i, s, o, u, a;
-        var f = 0;
-        e = Base64._utf8_encode(e);
-        while (f < e.length) {
-          n = e.charCodeAt(f++);
-          r = e.charCodeAt(f++);
-          i = e.charCodeAt(f++);
-          s = n >> 2;
-          o = (n & 3) << 4 | r >> 4;
-          u = (r & 15) << 2 | i >> 6;
-          a = i & 63;
-          if (isNaN(r)) {
-            u = a = 64;
-          } else if (isNaN(i)) {
-            a = 64;
-          }
-          t = t + this._keyStr.charAt(s) + this._keyStr.charAt(o) + this._keyStr.charAt(u) + this._keyStr.charAt(a);
-        }
-        return t;
-      },
-      decode(e) {
-        var t = "";
-        var n, r, i;
-        var s, o, u, a;
-        var f = 0;
-        e = e.replace(/[^A-Za-z0-9+/=]/g, "");
-        while (f < e.length) {
-          s = this._keyStr.indexOf(e.charAt(f++));
-          o = this._keyStr.indexOf(e.charAt(f++));
-          u = this._keyStr.indexOf(e.charAt(f++));
-          a = this._keyStr.indexOf(e.charAt(f++));
-          n = s << 2 | o >> 4;
-          r = (o & 15) << 4 | u >> 2;
-          i = (u & 3) << 6 | a;
-          t = t + String.fromCharCode(n);
-          if (u !== 64) {
-            t = t + String.fromCharCode(r);
-          }
-          if (a !== 64) {
-            t = t + String.fromCharCode(i);
-          }
-        }
-        t = Base64._utf8_decode(t);
-        return t;
-      },
-      _utf8_encode(e) {
-        e = e.replace(/rn/g, "n");
-        var t = "";
-        for (var n = 0; n < e.length; n++) {
-          var r = e.charCodeAt(n);
-          if (r < 128) {
-            t += String.fromCharCode(r);
-          } else if (r > 127 && r < 2048) {
-            t += String.fromCharCode(r >> 6 | 192);
-            t += String.fromCharCode(r & 63 | 128);
-          } else {
-            t += String.fromCharCode(r >> 12 | 224);
-            t += String.fromCharCode(r >> 6 & 63 | 128);
-            t += String.fromCharCode(r & 63 | 128);
-          }
-        }
-        return t;
-      },
-      _utf8_decode(e) {
-        var t = "";
-        var n = 0;
-        var r = 0;
-        var c1 = 0;
-        var c2 = 0;
-        var c3;
-        while (n < e.length) {
-          r = e.charCodeAt(n);
-          if (r < 128) {
-            t += String.fromCharCode(r);
-            n++;
-          } else if (r > 191 && r < 224) {
-            c2 = e.charCodeAt(n + 1);
-            t += String.fromCharCode((r & 31) << 6 | c2 & 63);
-            n += 2;
-          } else {
-            c2 = e.charCodeAt(n + 1);
-            c3 = e.charCodeAt(n + 2);
-            t += String.fromCharCode((r & 15) << 12 | (c2 & 63) << 6 | c3 & 63);
-            n += 3;
-          }
-        }
-        return t;
-      }
-    };
-    var waitUntil = function (func, exp) {
-      var _waitUntil = function (func, exp) {
-        var maxWaitCycles = 2000;
-        var _w = 0;
-        var _t = setInterval(function () {
-          if (exp.call()) {
-            clearInterval(_t);
-            func.call();
-            logger.debug("Ejecuting " + func.name + " after wait");
-          } else {
-            if (_w < maxWaitCycles) {
-              _w += 1;
-              logger.debug("WAIT UNTIL " + func.name + " is true, " + _w.toString() + " cycles");
-            } else {
-              logger.debug("Max execution time for " + func.name + " expression until true");
-              clearInterval(_t);
-            }
-          }
-        }, 1);
-      };
-      setTimeout(function () {
-        _waitUntil(func, exp);
-      }, 1);
-    };
     if (typeof localStorage === "undefined") {
       /* Polyfill for localStorage */
       var localStorage = {
@@ -486,7 +211,7 @@ const _top:any = self || window || global;
           });
           logger.debug("RESPONSE OF {{cachedObjectID}} IS ALREADY CACHED ".replace("{{cachedObjectID}}", cachedObjectID));
         }
-  
+
       } else {
         throw new Error("ComplexStorageCache: index is undefined");
       }
@@ -541,13 +266,13 @@ const _top:any = self || window || global;
         localStorage.removeItem(c);
       });
     };
-  
+
     /**
      *  Detecting passive events feature
      *
      * https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md#feature-detection
      **/
-  
+
     // Test via a getter in the options object to see if the passive property is accessed
     if (isBrowser) {
       var supportsPassive = false;
@@ -560,24 +285,24 @@ const _top:any = self || window || global;
         });
         window.addEventListener("testPassive", null, opts);
         window.removeEventListener("testPassive", null, opts);
-      } catch (e) {}
+      } catch (e) { }
       var captureFalse = function () {
         return (supportsPassive) ? ({
           passive: true
         }) : (false);
       };
-  
+
       // Use our detect's results. passive applied if supported, capture will be false either way.
       //elem.addEventListener('touchstart', fn, captureFalse);
-  
+
     }
-  
-  
+
+
     /**
      * Basic Type of all elements
      */
     if (isBrowser) {
-      Element.prototype.find = function (tag:string):Element[] {
+      Element.prototype.find = function (tag: string): Element[] {
         var _oo = [];
         var _tags = document.subelements(tag);
         _tags.map(function (_tt, _t) {
@@ -588,7 +313,7 @@ const _top:any = self || window || global;
         return _oo;
       };
     }
-  
+
     /**
      * Primary instance ID of all objects
      */
@@ -596,26 +321,26 @@ const _top:any = self || window || global;
     // Adaptation of Production steps of ECMA-262, Edition 5, 15.2.3.5
     // Reference: http://es5.github.io/#x15.2.3.5
     var _Object_Create = (function () {
-  
+
       // make a safe reference to Object.prototype.hasOwnProperty
       var hasOwn = Object.prototype.hasOwnProperty;
-  
+
       return function (O) {
         // 1. If Type(O) is not Object or Null throw a TypeError exception.
         if (typeof O !== "object") {
           throw TypeError("Object prototype may only be an Object or null. The type is " + typeof (O));
         }
-  
+
         // 2. Let obj be the result of creating a new object as if by the
         //		expression new Object() where Object is the standard built-in
         //		constructor with that name
         // 3. Set the [[Prototype]] internal property of obj to O.
-        var QCObjects = function () {};
+        var QCObjects = function () { };
         QCObjects.prototype = O;
         var obj = new QCObjects();
-  
+
         // Let's not keep a stray reference to O...
-  
+
         // 4. If the argument Properties is present and not undefined, add
         //		own properties to obj as if by calling the standard built-in
         //		function Object.defineProperties with arguments obj and
@@ -629,12 +354,12 @@ const _top:any = self || window || global;
             }
           }
         }
-  
+
         // 5. Return obj
         return obj;
       };
     })();
-  
+
     // Object.assign Polyfilling
     // Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
     if (typeof Object.assign !== "function") {
@@ -645,12 +370,12 @@ const _top:any = self || window || global;
           if (target === null) { // TypeError if undefined or null
             throw new TypeError("Cannot convert undefined or null to object");
           }
-  
+
           var to = Object(target);
-  
+
           for (var index = 1; index < arguments.length; index++) {
             var nextSource = arguments[index];
-  
+
             if (nextSource !== null) { // Skip over if undefined or null
               for (var nextKey in nextSource) {
                 // Avoid bugs when hasOwnProperty is shadowed
@@ -666,11 +391,11 @@ const _top:any = self || window || global;
         configurable: true
       });
     }
-  
+
     var __is_raw_class__ = function (o_c) {
       return (typeof o_c === "function" && o_c.toString().startsWith("class")) ? (true) : (false);
     };
-  
+
     var _LegacyCopy = function (obj) {
       var _value_;
       switch (true) {
@@ -687,20 +412,20 @@ const _top:any = self || window || global;
           _value_ = obj.bind({});
           break;
         case __is_raw_class__(obj):
-          _value_ = class extends obj {};
+          _value_ = class extends obj { };
           break;
         default:
           break;
       }
       return _value_;
     };
-  
-  
+
+
     var _QC_CLASSES = {};
     var _QC_PACKAGES = {};
     var _QC_PACKAGES_IMPORTED = [];
     var _QC_READY_LISTENERS = [];
-  
+
     /**
      * Returns the object or function name
      *
@@ -717,7 +442,7 @@ const _top:any = self || window || global;
       }
       return ret;
     };
-  
+
     /**
      * Casts an object to another object class type
      *
@@ -730,13 +455,13 @@ const _top:any = self || window || global;
           try {
             obj_dest[v] = obj_source[v];
           } catch (e) {
-  
+
           }
         }
       }
       return obj_dest;
     };
-  
+
     /**
      * Casts an object to another object class type. Only properties
      *
@@ -761,7 +486,7 @@ const _top:any = self || window || global;
       }
       return obj_dest;
     };
-  
+
     /**
      * Internal use to determine the forbidden names for classes
      * Reserved words
@@ -773,7 +498,7 @@ const _top:any = self || window || global;
     var __is__forbidden_name__ = function () {
       return (["__proto__", "prototype", "Object", "Map", "defineProperty", "indexOf", "toString", "__instanceID"].indexOf(arguments[0]) !== -1) ? (true) : (false);
     };
-  
+
     /**
      * Determine the type of the Object for any QCObjects Object
      *
@@ -786,9 +511,9 @@ const _top:any = self || window || global;
           _ret_ = o_c.name;
           break;
         case typeof o_c === "object" &&
-        (!!o_c.constructor &&
-        !!o_c.constructor.name)  
-        && o_c.constructor.name !== "":
+          (!!o_c.constructor &&
+            !!o_c.constructor.name)
+          && o_c.constructor.name !== "":
           _ret_ = o_c.constructor.name;
           break;
         case (!!o_c && !!o_c.__classType) && o_c.__classType !== "":
@@ -806,7 +531,7 @@ const _top:any = self || window || global;
       }
       return _ret_;
     };
-  
+
     /**
      * Returns if a class or object is from a determinated type
      * @param {Object} object
@@ -819,43 +544,43 @@ const _top:any = self || window || global;
           ObjectName(obj) === typeName ||
           typeof obj === typeName)) ? (true) : (false);
     };
-  
-  
+
+
     var __make_global__ = function (f) {
       if (typeof f !== "undefined") {
         if (isBrowser) {
           try {
             _top[f.name] = f;
             window[f.name] = f;
-          } catch (e) {}
+          } catch (e) { }
         } else if (typeof global !== "undefined") {
           if (!Object.hasOwnProperty.call(global, f.name)) {
             global[f.name] = f;
           }
         }
       }
-  
+
     };
-  
+
     var __register_class__ = function (_class_, __namespace) {
       var name = _class_.name || __getType__(_class_);
-      if (typeof _class_.__definition === "undefined"){
+      if (typeof _class_.__definition === "undefined") {
         _class_.__definition = {};
       }
       _class_.__definition.__classType = name;
-      if (typeof __namespace !== "undefined"){
+      if (typeof __namespace !== "undefined") {
         _class_.__definition.__namespace = __namespace;
       }
       _QC_CLASSES[name] = _class_;
       _top[name] = _QC_CLASSES[name];
       return _top[name];
     };
-  
+
     var RegisterClass = function (_class_, __namespace) {
       return __register_class__(_class_, __namespace);
     };
     __make_global__(RegisterClass);
-  
+
     /**
      * Creates new object class  of another object
      *
@@ -866,18 +591,18 @@ const _top:any = self || window || global;
     var Class = function () {
       var _types_ = {};
       var name, type, definition;
-  
+
       switch (arguments.length) {
         case 0:
-          return class {};
+          return class { };
         case 1:
           name = arguments[0];
-          type = class {};
+          type = class { };
           definition = {};
           break;
         case 2:
           name = arguments[0];
-          type = class {};
+          type = class { };
           definition = arguments[1];
           break;
         case 3:
@@ -888,38 +613,38 @@ const _top:any = self || window || global;
         default:
           break;
       }
-  
+
       if (typeof type !== "function") {
         throw new Error("Class type must be a function or class");
       }
-  
+
       if (__is__forbidden_name__.call(this, name)) {
         throw new Error(`${name} is not an allowed word in the name of a class`);
       }
-  
+
       if (typeof type["__definition"] !== "undefined") {
         definition["__definition"] = Object.assign(_LegacyCopy(type.__definition), type);
       }
-  
+
       _types_[type.name] = type;
-  
+
       if (typeof definition === "undefined" || definition === null) {
         definition = {};
       } else {
         definition = _LegacyCopy(definition);
       }
-  
+
       /* hack to prevent duplicate __instanceID */
       if (typeof definition["__instanceID"] !== "undefined") {
         delete definition["__instanceID"];
       }
-  
+
       _QC_CLASSES[name] = class extends _types_[type.name] {
         __classType = name;
         __definition = {
           ...definition
         };
-  
+
         static hierarchy(__class__) {
           var __classType = function (o_c) {
             return (Object.hasOwnProperty.call(o_c, "__classType")) ? (o_c.__classType) : (__getType__.call(__class__, o_c));
@@ -927,7 +652,7 @@ const _top:any = self || window || global;
           var __hierarchy__proto__ = (c) => {
             return (typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null) ? (((__classType(c) !== "") ? ([__classType(c)]) : ([])).concat(__hierarchy__proto__(c.__proto__))) : ([]);
           };
-  
+
           if (typeof __class__ === "undefined" || __class__ === null) {
             __class__ = this;
           }
@@ -936,11 +661,11 @@ const _top:any = self || window || global;
           __hierarchy = __hierarchy.concat(__hierarchy__proto__(__class__.__proto__));
           return __hierarchy;
         }
-  
+
         static getParentClass() {
           return Object.getPrototypeOf(this.prototype.constructor);
         }
-  
+
         constructor() {
           var _o_;
           if (arguments.length > 0) {
@@ -951,7 +676,7 @@ const _top:any = self || window || global;
             _o_ = {};
           }
           super(_o_);
-    
+
           let self = this;
           __instanceID = (typeof __instanceID === "undefined" || __instanceID === null) ? (0) : (__instanceID + 1);
           if (!self.__instanceID) {
@@ -960,7 +685,7 @@ const _top:any = self || window || global;
               writable: false
             });
           }
-  
+
           if (typeof self.__definition !== "undefined") {
             Object.keys(self.__definition).filter(function (k) {
               return isNaN(k) && !["name", "__instanceID", "__classType", "__definition"].includes(k);
@@ -979,7 +704,7 @@ const _top:any = self || window || global;
             self[m.name] = m.bind(self);
           });
 
-          if (!!self["body"]){
+          if (!!self["body"]) {
             if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition, "body")) || typeof self.__definition.body === "undefined") {
               try {
                 if (isBrowser) {
@@ -992,10 +717,10 @@ const _top:any = self || window || global;
               }
             } else if (Object.hasOwnProperty.call(self.__definition, "body")) {
               self["body"] = self.__definition.body;
-            }  
+            }
           }
-  
-  
+
+
           try {
             if (typeof self.__new__ === "function") {
               self.__new__.call(self, _o_);
@@ -1015,16 +740,16 @@ const _top:any = self || window || global;
             logger.warn(e);
           }
         }
-  
+
         __new__(_o_) {
           _CastProps(_o_, this);
         }
-        _new_() {}
-  
+        _new_() { }
+
         getClass() {
           return Object.getPrototypeOf(this.constructor);
         }
-  
+
         css(_css) {
           if (typeof this["body"] !== "undefined" && this["body"]["style"] !== "undefined") {
             logger.debug("body style");
@@ -1032,13 +757,13 @@ const _top:any = self || window || global;
           }
           return this["body"]["style"];
         }
-  
+
         hierarchy() {
           var __instance__ = this;
           return this.getClass().hierarchy(__instance__);
         }
-  
-  
+
+
         append(child) {
           logger.debug("append: start");
           if (is_a(child, "Component")) {
@@ -1063,7 +788,7 @@ const _top:any = self || window || global;
             }
           }
         }
-  
+
         attachIn(tag) {
           if (isBrowser) {
             var tags = document.subelements(tag);
@@ -1074,33 +799,33 @@ const _top:any = self || window || global;
             throw new Error("attachIn not yet implemented for non browser platforms");
           }
         }
-  
+
       };
-  
+
       // remove the keys from definition that exist in the prototype
-  
+
       _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
       _QC_CLASSES[name]["__definition"] = definition;
       _QC_CLASSES[name]["__definition"]["__classType"] = name;
       _QC_CLASSES[name]["__definition"]["__new__"] = function __new__(_o_) {
         _CastProps(_o_, this);
       };
-  
+
       _top[name] = _QC_CLASSES[name];
-  
+
       return _top[name];
     };
-  
+
     Class.prototype.toString = function () {
       return "Class(name, type, definition) { [QCObjects native code] }";
     };
-  
+
     /**
      * Returns the QCObjects Class Factory of a given ClassName
      *
      * @param {String} name
      */
-  
+
     var ClassFactory = function (className) {
       var _classFactory;
       if (className !== null && className.indexOf(".") > -1) {
@@ -1109,19 +834,19 @@ const _top:any = self || window || global;
         var _package = Package(packageName);
         var packageClasses = (typeof _package !== "undefined") ? (_package.filter(classFactory => {
           return isQCObjects_Class(classFactory) &&
-            (classFactory.__definition.__classType === _className || (typeof classFactory === "function" && !!classFactory.name) ) ;
+            (classFactory.__definition.__classType === _className || (typeof classFactory === "function" && !!classFactory.name));
         }).reverse()) : ([]);
         if (packageClasses.length > 0) {
           _classFactory = packageClasses[0];
         } else {
-          throw Error (`Class ${className} not found.`);
+          throw Error(`Class ${className} not found.`);
         }
       } else if (className !== null && Object.hasOwnProperty.call(_QC_CLASSES, className)) {
         _classFactory = _QC_CLASSES[className];
       }
       return _classFactory;
     };
-  
+
     if (isBrowser) {
       Element.prototype.append = function QC_Append(child) {
         if (isQCObjects_Object(child) || typeof child.body !== "undefined") {
@@ -1130,7 +855,7 @@ const _top:any = self || window || global;
           this.appendChild(child);
         }
       };
-  
+
       /**
        * A replacement for direct using of innerHTML
        * use: [element].render('content') where 'content' is the string corresponding
@@ -1158,7 +883,7 @@ const _top:any = self || window || global;
         }
       };
     }
-  
+
     /**
      * Returns a method from a superior QCObjects Class
      * It is useful for Class Inheritance in the _new_ and __new__ method constructors
@@ -1174,31 +899,31 @@ const _top:any = self || window || global;
     _super_.prototype.toString = function () {
       return "_super_(className,classMethodName,params) { [QCObjects native code] }";
     };
-  
+
     /**
      * Creates an object from a Class definition
      *
      * @param {QC_Object} o
      * @param {Object} args
      */
-  
+
     var New = function (__class__, args) {
       args = (arguments.length > 1) ? (args) : ({});
       return (typeof __class__ === "undefined") ? (new Object()) : (new __class__(args));
     };
-  
+
     New.prototype.toString = function () {
       return "New(QCObjectsClassName, args) { [QCObjects native code] }";
     };
-  
-  
+
+
     var Export = function (f) {
       return __make_global__(f);
     };
     Export.prototype.toString = function () {
       return "Export(function or symbol) { [QCObjects native code] }";
     };
-  
+
     if (!isBrowser) {
       var findPackageNodePath = function (packagename) {
         const fs = _require_("fs");
@@ -1235,7 +960,7 @@ const _top:any = self || window || global;
       };
       Export(findPackageNodePath);
     }
-  
+
     Class("_Crypt", Object, {
       last_string: "",
       last_key: "",
@@ -1277,7 +1002,7 @@ const _top:any = self || window || global;
           char = String.fromCharCode(char.charCodeAt(0) - keychar.charCodeAt(0));
           result += char;
         }
-  
+
         this.last_string = result;
         return this.last_string;
       },
@@ -1296,14 +1021,14 @@ const _top:any = self || window || global;
         return crypt._decrypt();
       }
     });
-  
+
     var _CryptObject = function (o) {
       return ClassFactory("_Crypt").encrypt(_DataStringify(o), _secretKey);
     };
     var _DecryptObject = function (s) {
       return (s === "") ? ({}) : (JSON.parse(ClassFactory("_Crypt").decrypt(s, _secretKey)));
     };
-  
+
     var shortCode = function () {
       var length = 1000;
       var code1 = ClassFactory("_Crypt").encrypt((Math.random() * length).toString().replace(".", ""), (new Date()).getTime().toString());
@@ -1314,15 +1039,15 @@ const _top:any = self || window || global;
       return shortCode;
     };
     var uniqueId = shortCode;
-    Class("InheritClass", class {}, {});
-  
+    Class("InheritClass", class { }, {});
+
     class Processor extends ClassFactory("InheritClass") {
       component = null;
       __definition = {};
       __classType = "Processor";
-  
-      static processors= {
-        "config"(component,arg) {
+
+      static processors = {
+        "config"(component, arg) {
           return _top.CONFIG.get(arg, "");
         },
         "ENV"(component, arg) {
@@ -1337,8 +1062,8 @@ const _top:any = self || window || global;
           this.processors[_proc_.name] = _proc_;
         }
       }
-      
-      constructor (){
+
+      constructor() {
         super(...arguments);
         this.processors = Processor.processors;
         this.process = Processor.process.bind(this);
@@ -1346,14 +1071,14 @@ const _top:any = self || window || global;
         this.setProcessor = Processor.setProcessor.bind(this);
         this.execute = Processor.execute.bind(this);
       }
-  
-      static execute(component,processorName, args) {
-        var processorHandler = (typeof component !== "undefined" && component !== null)?(component.processorHandler):(this);
-        return processorHandler.processors[processorName].bind(processorHandler).apply(processorHandler,[component,...args.split(",")]);
+
+      static execute(component, processorName, args) {
+        var processorHandler = (typeof component !== "undefined" && component !== null) ? (component.processorHandler) : (this);
+        return processorHandler.processors[processorName].bind(processorHandler).apply(processorHandler, [component, ...args.split(",")]);
       }
-  
+
       static process(template, component = null) {
-        var processorHandler = (component !== null)?(component.processorHandler):( New(Processor,{component:null}) ) ;
+        var processorHandler = (component !== null) ? (component.processorHandler) : (New(Processor, { component: null }));
         if (typeof template === "string") {
           Object.keys(processorHandler.processors).map(function (funcName) {
             [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
@@ -1366,11 +1091,11 @@ const _top:any = self || window || global;
         }
         return template;
       }
-  
+
       static processObject(obj, component = null) {
-        var __instance__ = (component === null)?(this):(component.processorHandler);
-        if (typeof __instance__ === "undefined"){
-          __instance__ = new Processor({component:component});
+        var __instance__ = (component === null) ? (this) : (component.processorHandler);
+        if (typeof __instance__ === "undefined") {
+          __instance__ = new Processor({ component: component });
         }
         if (typeof obj === "object") {
           Object.keys(obj).map(
@@ -1387,19 +1112,19 @@ const _top:any = self || window || global;
         }
         return obj;
       }
-  
+
     }
     Processor.__definition = {};
     Processor.__classType = "Processor";
-    RegisterClass(Processor,"com.qcobjects");
+    RegisterClass(Processor, "com.qcobjects");
     __make_global__(Processor);
-  
-  
+
+
     class ConfigSettings {
       static _instance = null;
       static _CONFIG_ENC = null;
       static get instance() {
-  
+
         if (this._instance === null) {
           var _config_settings = new ConfigSettings();
           _config_settings._CONFIG = {
@@ -1420,26 +1145,26 @@ const _top:any = self || window || global;
           _config_settings._CONFIG_ENC = null;
           this._instance = _config_settings;
         }
-  
+
         return this._instance;
       }
-  
+
       static set instance(value) {
         this._instance = value;
       }
     }
     _QC_CLASSES["ConfigSettings"] = ConfigSettings;
-  
+
     Class("CONFIG", Object, {
-  
+
       get _CONFIG_ENC() {
         return ClassFactory("ConfigSettings").instance._CONFIG_ENC;
       },
-  
+
       get _CONFIG() {
         return ClassFactory("ConfigSettings").instance._CONFIG;
       },
-  
+
       set(name, value) {
         logger.debug(`CONFIG.set  ${name}: ${value}`);
         // hack to force update basePath from CONFIG
@@ -1463,7 +1188,7 @@ const _top:any = self || window || global;
           console.error(e);
           logger.debug("failed to encrypt config");
         }
-  
+
         _conf[name] = value;
         ClassFactory("ConfigSettings").instance._CONFIG_ENC = _CryptObject(_conf);
         if (Object.hasOwnProperty.call(ClassFactory("ConfigSettings").instance, "_CONFIG") && Object.hasOwnProperty.call(ClassFactory("ConfigSettings").instance._CONFIG, name)) {
@@ -1497,7 +1222,7 @@ const _top:any = self || window || global;
         return Processor.processObject.call(Processor, _value);
       }
     });
-  
+
     Export(waitUntil);
     Export(_super_);
     Export(ComplexStorageCache);
@@ -1506,7 +1231,7 @@ const _top:any = self || window || global;
     Export(shortCode);
     Export(__getType__);
     Export(is_a);
-  
+
     var isQCObjects_Object = function (_) {
       return (typeof _ === "object" &&
         Object.hasOwnProperty.call(_, "__classType") &&
@@ -1515,7 +1240,7 @@ const _top:any = self || window || global;
         typeof _.__definition !== "undefined"
       ) ? (true) : (false);
     };
-  
+
     var isQCObjects_Class = function (_) {
       return (typeof _ === "function" &&
         (!_.__instanceID) &&
@@ -1524,7 +1249,7 @@ const _top:any = self || window || global;
         !!_.__definition.__classType
       ) ? (true) : (false);
     };
-  
+
     /**
      * Defines a package for Class classification
      *
@@ -1575,9 +1300,9 @@ const _top:any = self || window || global;
     Package.prototype.toString = function () {
       return "Package(namespace, classes) { [QCObjects native code] }";
     };
-  
-    Package("com.qcobjects",[Processor]);
-  
+
+    Package("com.qcobjects", [Processor]);
+
     /**
      * Declare Namespace
      *
@@ -1600,8 +1325,8 @@ const _top:any = self || window || global;
         return b;
       });
     };
-  
-  
+
+
     /**
      * Imports a script with the package nomenclature
      *
@@ -1611,7 +1336,7 @@ const _top:any = self || window || global;
      */
     var Import = function () {
       var packagename;
-      var ready = function () {};
+      var ready = function () { };
       var external = false;
       if (arguments.length < 1) {
         return;
@@ -1634,7 +1359,7 @@ const _top:any = self || window || global;
       var _promise_import_;
       if (isBrowser) {
         _promise_import_ = new Promise(function (resolve, reject) {
-  
+
           var allPackagesImported = function () {
             var ret = false;
             var cp = 0;
@@ -1648,7 +1373,7 @@ const _top:any = self || window || global;
             }
             return ret;
           };
-  
+
           var readyImported = function (e) {
             _QC_PACKAGES_IMPORTED.push(ready);
             if (allPackagesImported()) {
@@ -1664,7 +1389,7 @@ const _top:any = self || window || global;
               "_package_name_": packagename
             });
           };
-  
+
           if (!_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES, packagename)) {
             var s1 = _DOMCreateElement("script");
             s1.type = _top.CONFIG.get("sourceType", "text/javascript");
@@ -1688,7 +1413,7 @@ const _top:any = self || window || global;
         _promise_import_.catch(function () {
           logger.debug("Import: Error loading a package ");
         });
-  
+
       } else {
         // support to be used in a nodejs environment
         _promise_import_ = new Promise(function (resolve, reject) {
@@ -1738,7 +1463,7 @@ const _top:any = self || window || global;
     Import.prototype.toString = function () {
       return "Import(packagename,ready,external) { [QCObjects native code] }";
     };
-  
+
     if (isBrowser) {
       /**
        * Adds a Cast functionality to every Element of DOM
@@ -1749,7 +1474,7 @@ const _top:any = self || window || global;
         return _o;
       };
     }
-  
+
     Class("TagElements", Array, {
       show() {
         this.map(function (element) {
@@ -1785,7 +1510,7 @@ const _top:any = self || window || global;
         return _o;
       }
     });
-  
+
     /**
      * Gets the element of DOM found by tag name
      *
@@ -1811,7 +1536,7 @@ const _top:any = self || window || global;
       }
       return _o;
     };
-  
+
     /**
      * Defines a Custom Ready listener
      */
@@ -1823,7 +1548,7 @@ const _top:any = self || window || global;
       }
     }
     var ready = Ready; // case insensitive ready option
-  
+
     /**
      * Default Ready event function for window. Executes all micro ready events of Import calls
      *
@@ -1848,7 +1573,7 @@ const _top:any = self || window || global;
         _execReady.call(_top);
       }
     };
-  
+
     if (isBrowser) {
       window.onload = _Ready;
       if (is_phonegap) {
@@ -1857,7 +1582,7 @@ const _top:any = self || window || global;
     } else {
       global.onload = _Ready;
     }
-  
+
     /**
      * Dynamic Data Objects Class
      * Usage:
@@ -1898,9 +1623,9 @@ const _top:any = self || window || global;
           fset,
           value
         });
-  
+
       }
-  
+
       _new_({
         instance,
         name,
@@ -1910,7 +1635,7 @@ const _top:any = self || window || global;
       }) {
         var ddoInstance = this;
         var name = (typeof name === "undefined") ? (ObjectName(ddoInstance)) : (name);
-  
+
         Object.defineProperty(instance, name, {
           set(val) {
             let _value = val;
@@ -1943,14 +1668,14 @@ const _top:any = self || window || global;
           }
         });
       }
-  
+
     }
     Export(DDO);
-  
+
     class DefaultTemplateHandler {
-      template= "";
+      template = "";
       __definition = {};
-      constructor ({component, template}){
+      constructor({ component, template }) {
         this.component = component;
         this.template = template;
       }
@@ -1974,7 +1699,7 @@ const _top:any = self || window || global;
                 parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
               } catch (e) {
                 logger.warn(`${templateInstance.component.name} could not parse processors.`);
-                throw Error (`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+                throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
               }
             }
           });
@@ -1983,24 +1708,24 @@ const _top:any = self || window || global;
         }
         try {
           parsedAssignmentText = Processor.processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
-        }catch (e){
+        } catch (e) {
           logger.warn(`${templateInstance.component.name} could not parse processors.`);
-          throw Error (`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+          throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
         }
         return parsedAssignmentText;
       }
-      
+
     }
     DefaultTemplateHandler.__definition = {};
-    RegisterClass(DefaultTemplateHandler,"com.qcobjects");
-  
+    RegisterClass(DefaultTemplateHandler, "com.qcobjects");
+
     var __routing_params__ = function (routing, routingPath) {
       let standardRoutingPath = routing.path.replace(/{(.*?)}/g, "(?<$1>.*)"); //allowing {param}
       return {
         ...[...routingPath.matchAll((new RegExp(standardRoutingPath, "g")))][0]["groups"]
       };
     };
-  
+
     var __valid_routings__ = function (routings, routingPath) {
       return routings.filter(function (routing) {
         var standardRoutingPath = routing.path.replace(/{(.*?)}/g, "(?<$1>.*)");
@@ -2010,89 +1735,89 @@ const _top:any = self || window || global;
     var __valid_routing_way__ = function (validRoutingWays, routingWay) {
       return validRoutingWays.includes(routingWay);
     };
-  
-    var _buildComponentFromElement_ = function (element, __parent__){
-        var __shadowed_not_set = (element.getAttribute("shadowed") === null) ? (true) : (false);
-        var __tplsource_attr_not_set = (element.getAttribute("template-source") === null) ? (true) : (false);
-        var shadowed = (element.getAttribute("shadowed") === "true") ? (true) : (false);
-        var __cached_not_set = (element.getAttribute("cached") === null) ? (true) : (false);
-        var cached = (element.getAttribute("cached") === "true") ? (true) : (false);
-        var tplextension = (typeof _top.CONFIG.get("tplextension") !== "undefined") ? (_top.CONFIG.get("tplextension")) : ("html");
-        tplextension = (element.getAttribute("tplextension") !== null) ? (element.getAttribute("tplextension")) : (tplextension);
-        var _componentName = element.getAttribute("name");
-        var _componentClassName = (element.getAttribute("componentClass") !== null) ? (element.getAttribute("componentClass")) : ("Component");
-        let __componentClassName = (_top.CONFIG.get("preserveComponentBodyTag")) ? (
-          (_componentName !== null) ? ("com.qcobjects.components." + _componentName + ".ComponentBody") : ("com.qcobjects.components.ComponentBody")
-        ) : (_componentClassName);
-        _componentName = (_componentName !== null) ? (_componentName) : (
-          (ClassFactory(__componentClassName) &&
-            typeof ClassFactory(__componentClassName).name !== "undefined"
-          ) ? (
-            ClassFactory(__componentClassName).name
-          ) : ("")
-        );
-        var __classDefinition = ClassFactory(__componentClassName);
-        var __tplsource_prop_set = (__componentClassName !== "Component" && ((typeof __classDefinition !== "undefined" && typeof __classDefinition.tplsource === "string") && __classDefinition.tplsource !== "")) ? (true) : (false);
-        var tplsource = (__tplsource_attr_not_set && __tplsource_prop_set) ? (__classDefinition.tplsource) : ((__tplsource_attr_not_set) ? ("default") : (element.getAttribute("template-source")));
-        logger.debug(`template source for  ${_componentName} is ${tplsource} `);
-        logger.debug(`type for ${_componentName} is ${__getType__(__classDefinition)} `);
-  
-        var componentURI;
-        componentURI = ComponentURI({
-          "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
-          "COMPONENT_NAME": _componentName,
-          "TPLEXTENSION": tplextension,
-          "TPL_SOURCE": tplsource
-        });
-        if (_top.CONFIG.get("preserveComponentBodyTag")) {
-          Package((_componentName !== "") ? ("com.qcobjects.components." + _componentName + "") : ("com.qcobjects.components"), [
-            Class("ComponentBody", ClassFactory("Component"), {
-              name: _componentName,
-              tplsource: tplsource,
-              tplextension: tplextension,
-              reload: true
-            })
-          ]);
-        }
-  
-        var __create_component_instance_ = function () {
-          var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
-          var __definition = {
-            __parent__: __parent__,
+
+    var _buildComponentFromElement_ = function (element, __parent__) {
+      var __shadowed_not_set = (element.getAttribute("shadowed") === null) ? (true) : (false);
+      var __tplsource_attr_not_set = (element.getAttribute("template-source") === null) ? (true) : (false);
+      var shadowed = (element.getAttribute("shadowed") === "true") ? (true) : (false);
+      var __cached_not_set = (element.getAttribute("cached") === null) ? (true) : (false);
+      var cached = (element.getAttribute("cached") === "true") ? (true) : (false);
+      var tplextension = (typeof _top.CONFIG.get("tplextension") !== "undefined") ? (_top.CONFIG.get("tplextension")) : ("html");
+      tplextension = (element.getAttribute("tplextension") !== null) ? (element.getAttribute("tplextension")) : (tplextension);
+      var _componentName = element.getAttribute("name");
+      var _componentClassName = (element.getAttribute("componentClass") !== null) ? (element.getAttribute("componentClass")) : ("Component");
+      let __componentClassName = (_top.CONFIG.get("preserveComponentBodyTag")) ? (
+        (_componentName !== null) ? ("com.qcobjects.components." + _componentName + ".ComponentBody") : ("com.qcobjects.components.ComponentBody")
+      ) : (_componentClassName);
+      _componentName = (_componentName !== null) ? (_componentName) : (
+        (ClassFactory(__componentClassName) &&
+          typeof ClassFactory(__componentClassName).name !== "undefined"
+        ) ? (
+          ClassFactory(__componentClassName).name
+        ) : ("")
+      );
+      var __classDefinition = ClassFactory(__componentClassName);
+      var __tplsource_prop_set = (__componentClassName !== "Component" && ((typeof __classDefinition !== "undefined" && typeof __classDefinition.tplsource === "string") && __classDefinition.tplsource !== "")) ? (true) : (false);
+      var tplsource = (__tplsource_attr_not_set && __tplsource_prop_set) ? (__classDefinition.tplsource) : ((__tplsource_attr_not_set) ? ("default") : (element.getAttribute("template-source")));
+      logger.debug(`template source for  ${_componentName} is ${tplsource} `);
+      logger.debug(`type for ${_componentName} is ${__getType__(__classDefinition)} `);
+
+      var componentURI;
+      componentURI = ComponentURI({
+        "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
+        "COMPONENT_NAME": _componentName,
+        "TPLEXTENSION": tplextension,
+        "TPL_SOURCE": tplsource
+      });
+      if (_top.CONFIG.get("preserveComponentBodyTag")) {
+        Package((_componentName !== "") ? ("com.qcobjects.components." + _componentName + "") : ("com.qcobjects.components"), [
+          Class("ComponentBody", ClassFactory("Component"), {
             name: _componentName,
-            cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
-            shadowed: __shadowed,
+            tplsource: tplsource,
             tplextension: tplextension,
-            body: (_top.CONFIG.get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")) : (element),
-            templateURI: componentURI,
-            tplsource: tplsource
-          };
-          if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null) {
-            /* this allows to use the original property defined
-            in the component definition if it is not present in the tag */
-            delete __definition.name;
-          }
-          if (componentURI === "") {
-            /* this allows to use the original property defined
-            in the component definition if it is not present in the tag */
-            delete __definition.templateURI;
-          }
-          var newComponent = New(__classDefinition, __definition);
-  
-          if (_top.CONFIG.get("preserveComponentBodyTag")) {
-            element.append(newComponent);
-          }
-          return newComponent;
+            reload: true
+          })
+        ]);
+      }
+
+      var __create_component_instance_ = function () {
+        var __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
+        var __definition = {
+          __parent__: __parent__,
+          name: _componentName,
+          cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
+          shadowed: __shadowed,
+          tplextension: tplextension,
+          body: (_top.CONFIG.get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")) : (element),
+          templateURI: componentURI,
+          tplsource: tplsource
         };
-        var newComponent = __create_component_instance_.call(this);
+        if (typeof _componentName === "undefined" || _componentName === "" || _componentName === null) {
+          /* this allows to use the original property defined
+          in the component definition if it is not present in the tag */
+          delete __definition.name;
+        }
+        if (componentURI === "") {
+          /* this allows to use the original property defined
+          in the component definition if it is not present in the tag */
+          delete __definition.templateURI;
+        }
+        var newComponent = New(__classDefinition, __definition);
+
+        if (_top.CONFIG.get("preserveComponentBodyTag")) {
+          element.append(newComponent);
+        }
         return newComponent;
+      };
+      var newComponent = __create_component_instance_.call(this);
+      return newComponent;
     };
-  
+
     var _buildComponentsFromElements_ = function (elements, __parent__) {
       var componentsBuiltWith = [];
-      if (isBrowser){
+      if (isBrowser) {
         componentsBuiltWith = elements.map(
-          function(element){
+          function (element) {
             return _buildComponentFromElement_(element, __parent__);
           }
         );
@@ -2101,54 +1826,54 @@ const _top:any = self || window || global;
       }
       return componentsBuiltWith;
     };
-  
-  
+
+
     Package("com.qcobjects", [
       class Component extends ClassFactory("InheritClass") {
-        validRoutingWays= ["pathname", "hash", "search"];
-        basePath= _basePath_;
-        domain= _domain_;
-        templateHandler= "DefaultTemplateHandler";
-        processorHandler= null;
-        routingWay= null;
-        routingNodes= [];
-        routings= [];
-        routingPath= "";
-        routingPaths=[];
-        _componentHelpers= [];
-        subcomponents=[];
-        splashScreenComponent=undefined;
-        controller=undefined;
-        view=undefined;
-        effect=undefined;
+        validRoutingWays = ["pathname", "hash", "search"];
+        basePath = _basePath_;
+        domain = _domain_;
+        templateHandler = "DefaultTemplateHandler";
+        processorHandler = null;
+        routingWay = null;
+        routingNodes = [];
+        routings = [];
+        routingPath = "";
+        routingPaths = [];
+        _componentHelpers = [];
+        subcomponents = [];
+        splashScreenComponent = undefined;
+        controller = undefined;
+        view = undefined;
+        effect = undefined;
         method = "GET";
-        cached= true;
+        cached = true;
         __promise__ = null;
         __namespace = undefined;
-  
-        constructor ({
+
+        constructor({
           __parent__,
-          templateURI= "",
+          templateURI = "",
           template,
-          tplsource= "default",
+          tplsource = "default",
           tplextension,
-          url= "",
-          name= "",
-          method= "GET",
-          data= {},
-          reload= false,
-          shadowed= false,
-          cached= true,
-          _body=_DOMCreateElement("div"),
-          __promise__= null,
+          url = "",
+          name = "",
+          method = "GET",
+          data = {},
+          reload = false,
+          shadowed = false,
+          cached = true,
+          _body = _DOMCreateElement("div"),
+          __promise__ = null,
           __shadowRoot,
-            body,
-            shadowRoot,
-            splashScreenComponent,
-            controller,
-            view
-        }){
-          if (arguments.length<1){
+          body,
+          shadowRoot,
+          splashScreenComponent,
+          controller,
+          view
+        }) {
+          if (arguments.length < 1) {
             throw Error(`No arguments in component. You must at least give one argument.`);
           }
           super({
@@ -2167,117 +1892,117 @@ const _top:any = self || window || global;
             _body,
             __promise__,
             __shadowRoot,
-              body,
-              shadowRoot,
-              splashScreenComponent,
-              controller,
-              view
+            body,
+            shadowRoot,
+            splashScreenComponent,
+            controller,
+            view
           });
           var self = this;
-    
+
           if (typeof self.name === "undefined") {
             logger.warn("A name is not defined for " + __getType__(self));
           }
-    
+
           self.routingWay = _top.CONFIG.get("routingWay");
-    
+
           self.processorHandler = New(Processor, {
             component: self
           });
-  
+
           /* assign body data attributes to data */
-          self.data = (typeof self.data === "undefined" || self.data === null)?({}):(self.data);
+          self.data = (typeof self.data === "undefined" || self.data === null) ? ({}) : (self.data);
           self.data = Object.assign(self.data, self.dataAttributes);
-  
+
           self.createServiceInstance()
-          .then(function (serviceResponse){
-            if (typeof self.__new__ === "function") {
-              self.__new__.call(self, self);
-            }
-  
-            self._generateRoutingPaths(self.body)
-            .then(function (){
-              self._reroute_()
-              .then(function () {
-                return self.rebuild()
-                  .then(function () {
-                    logger.info(`Component._new_ The component ${self.name} was built successfully!`);
-                  }).catch(function (standardResponse) {
-                    logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
-                    console.error(standardResponse);
-                  });
-              });
+            .then(function (serviceResponse) {
+              if (typeof self.__new__ === "function") {
+                self.__new__.call(self, self);
+              }
+
+              self._generateRoutingPaths(self.body)
+                .then(function () {
+                  self._reroute_()
+                    .then(function () {
+                      return self.rebuild()
+                        .then(function () {
+                          logger.info(`Component._new_ The component ${self.name} was built successfully!`);
+                        }).catch(function (standardResponse) {
+                          logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
+                          console.error(standardResponse);
+                        });
+                    });
+                });
+
             });
-    
-          });
-    
+
         }
-    
+
         set body(value) {
           var self = this;
           self._body = value;
         }
-    
+
         get body() {
-          var self= this;
+          var self = this;
           return self._body;
         }
-    
+
         set cacheIndex(value) {
           // readonly
           logger.debug("[cacheIndex] This property is readonly");
         }
-    
+
         get cacheIndex() {
-          var self= this;
+          var self = this;
           var __routing_path__ = _DataStringify(self.routingPath);
           return Base64.encode(self.name + __routing_path__);
         }
-    
+
         set parsedAssignmentText(value) {
           // readonly
           logger.debug("[parsedAssignmentText] This property is readonly");
         }
-    
+
         get parsedAssignmentText() {
-          var self= this;
+          var self = this;
           self._parsedAssignmentText = self.parseTemplate(self.template);
-          if (typeof self._parsedAssignmentText === "undefined"){
-            throw Error (`[Component][${this.name}][parsedAssignmentText] Could not generate content!`);
+          if (typeof self._parsedAssignmentText === "undefined") {
+            throw Error(`[Component][${this.name}][parsedAssignmentText] Could not generate content!`);
           }
           return self._parsedAssignmentText;
         }
-    
-    
+
+
         set shadowRoot(value) {
-          var self= this;
+          var self = this;
           if (typeof self.__shadowRoot == "undefined") {
             self.__shadowRoot = value;
           } else {
             logger.debug("[shadowRoot] This property can only be assigned once!");
           }
         }
-  
+
         get shadowRoot() {
-          var self= this;
+          var self = this;
           return self.__shadowRoot;
         }
-    
-    
-        set routingSelected(value){
+
+
+        set routingSelected(value) {
           logger.debug("[routingSelected] This is a read-only property of the component");
         }
-    
-        get routingSelected (){
-          var self= this;
+
+        get routingSelected() {
+          var self = this;
           return __valid_routings__(self.routings, self.routingPath);
         }
-    
-        set routingParams (value){
+
+        set routingParams(value) {
           logger.debug("[routingParams] This is a read-only property of the component");
         }
-    
-        get routingParams (){
+
+        get routingParams() {
           var component = this;
           return [{}].concat(component.routingSelected.map(function (routing) {
             return __routing_params__(routing, component.routingPath);
@@ -2285,16 +2010,16 @@ const _top:any = self || window || global;
             return Object.assign(accumulator, colData);
           });
         }
-  
-        createServiceInstance (){
+
+        createServiceInstance() {
           var component = this;
           var body = component.body;
           var data = this.data;
           var __serviceClass;
           var __classDefinition = component.getClass().__definition;
           var _serviceClassName = (isBrowser && body.getAttribute("serviceClass") !== null) ? (body.getAttribute("serviceClass")) : (null);
-  
-          return new Promise (function (resolve, reject){
+
+          return new Promise(function (resolve, reject) {
             /* __enable_service_class__ = true by default */
             var __enable_service_class__ = (
               (Object.hasOwnProperty.call(body, "enableServiceClass") && body.enableServiceClass) ||
@@ -2302,7 +2027,7 @@ const _top:any = self || window || global;
             ) ? (true) : (false);
             var _response_to_data_ = (isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "data") ? (true) : (false);
             var _response_to_template_ = (isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "template") ? (true) : (false);
-  
+
             if (__enable_service_class__ && _serviceClassName !== null) {
               __serviceClass = ClassFactory(_serviceClassName);
             }
@@ -2316,7 +2041,7 @@ const _top:any = self || window || global;
             } else if (!_response_to_template_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
               _response_to_template_ = (ClassFactory("Component").responseTo === "template") ? (true) : (false);
             }
-  
+
             if (typeof __serviceClass !== "undefined" &&
               (typeof __enable_service_class__ !== "undefined" &&
                 __enable_service_class__ === true) &&
@@ -2331,7 +2056,7 @@ const _top:any = self || window || global;
                 service
               }) {
                 var serviceResponse;
-                if (typeof service.JSONresponse !== "undefined" && service.JSONresponse !== null){
+                if (typeof service.JSONresponse !== "undefined" && service.JSONresponse !== null) {
                   serviceResponse = service.JSONresponse;
                 } else {
                   serviceResponse = service.template;
@@ -2346,29 +2071,29 @@ const _top:any = self || window || global;
                 }
                 component.serviceInstance = serviceInstance;
                 component.serviceData = data;
-  
+
                 if (_response_to_template_) {
                   component.template = serviceResponse;
                 }
-                resolve (serviceResponse);
-              }, function (rejectedResponse){
+                resolve(serviceResponse);
+              }, function (rejectedResponse) {
                 logger.debug(`Service loading rejected for ${_serviceClassName} in ${component.name}`);
-                reject (rejectedResponse);
-              } ).catch(function (e) {
+                reject(rejectedResponse);
+              }).catch(function (e) {
                 logger.debug("Something went wroing while trying to load the service " + _serviceClassName);
-                throw Error (`Error loading ${_serviceClassName} for ${component.name}. Detail: ${e}`);
+                throw Error(`Error loading ${_serviceClassName} for ${component.name}. Detail: ${e}`);
               });
             } else {
               resolve(null);
             }
           });
         }
-  
-        _bindroute_ () {
+
+        _bindroute_() {
           var _component_ = this;
-          if (!_component_._bindroute_.loaded){
+          if (!_component_._bindroute_.loaded) {
             if (isBrowser) {
-  
+
               _component_.hostElements("a").map(function (a) {
                 a.oldclick = a.onclick;
                 a.onclick = function (e) {
@@ -2398,7 +2123,7 @@ const _top:any = self || window || global;
                 };
                 return null;
               });
-  
+
             } else {
               // not yet implemented.
             }
@@ -2406,21 +2131,21 @@ const _top:any = self || window || global;
           } else {
             logger.debug(`Routes already bound to popstate events for ${_component_.name}`);
           }
-      
+
         }
-    
+
         done(standardResponse) {
           var _ret_;
-          if (typeof standardResponse !== "undefined"){
-            var {request, component} = standardResponse;
-            _ret_ = Promise.resolve({request, component});
+          if (typeof standardResponse !== "undefined") {
+            var { request, component } = standardResponse;
+            _ret_ = Promise.resolve({ request, component });
           }
           return _ret_;
         }
-  
-        createControllerInstance (){
+
+        createControllerInstance() {
           var _Controller;
-          if (isBrowser){
+          if (isBrowser) {
             if (typeof this.body === "undefined") {
               throw new Error("The component has no body");
             }
@@ -2429,22 +2154,22 @@ const _top:any = self || window || global;
               controllerName = "Controller";
             }
             _Controller = ClassFactory(controllerName);
-            if (typeof _Controller !== "undefined"){
+            if (typeof _Controller !== "undefined") {
               this.controller = New(_Controller, {
                 component: this
               });
             }
-  
+
           }
-  
-          return new Promise ( (resolve, reject) => {
-            if (isBrowser){
+
+          return new Promise((resolve, reject) => {
+            if (isBrowser) {
               if (typeof _Controller !== "undefined" && typeof this.controller !== "undefined") {
                 if (typeof this.controller.done === "function") {
                   try {
                     this.controller.done.call(this.controller);
-                  } catch (e){
-                    throw Error (e);
+                  } catch (e) {
+                    throw Error(e);
                   }
                 } else {
                   logger.debug(`${controllerName} does not have a done() method.`);
@@ -2457,14 +2182,14 @@ const _top:any = self || window || global;
                 }
               }
             }
-            resolve ({component:this,controller:this.controller});
+            resolve({ component: this, controller: this.controller });
           });
         }
-  
-        createEffectInstance (){
+
+        createEffectInstance() {
           var _component_ = this;
-          return new Promise (function (resolve, reject){
-            if (isBrowser){
+          return new Promise(function (resolve, reject) {
+            if (isBrowser) {
               var effectClassName = _component_.body.getAttribute("effectClass");
               var applyEffectTo = _component_.body.getAttribute("apply-effect-to");
               applyEffectTo = (applyEffectTo !== null) ? (applyEffectTo) : ("load");
@@ -2474,15 +2199,15 @@ const _top:any = self || window || global;
                 _component_.applyTransitionEffect(effectClassName);
               }
             }
-            resolve({component:_component_, effect:_component_.effect});
+            resolve({ component: _component_, effect: _component_.effect });
           });
         }
-  
-        createViewInstance(){
+
+        createViewInstance() {
           var _component_ = this;
-          return new Promise (function (resolve, reject){
-            var viewName = (isBrowser)?(_component_.body.getAttribute("viewClass")):(null);
-            if (viewName !== null){
+          return new Promise(function (resolve, reject) {
+            var viewName = (isBrowser) ? (_component_.body.getAttribute("viewClass")) : (null);
+            if (viewName !== null) {
               var _View = ClassFactory(viewName);
               if (typeof _View !== "undefined") {
                 _component_.view = New(_View, {
@@ -2492,14 +2217,14 @@ const _top:any = self || window || global;
                   _component_.view.done.call(_component_.view);
                 }
               }
-    
+
             }
-            resolve({component:_component_, view:_component_.view});
-  
+            resolve({ component: _component_, view: _component_.view });
+
           });
         }
-  
-        __done__ () {
+
+        __done__() {
           var _component_ = this;
           var componentDone = function () {
             if (typeof _component_ === "undefined") {
@@ -2511,95 +2236,95 @@ const _top:any = self || window || global;
             _component_.createViewInstance();
             _component_.createControllerInstance();
             _component_.createEffectInstance();
-  
+
             logger.debug(`Trying to run component helpers for ${_component_.name}...`);
             try {
               _component_.runComponentHelpers();
               logger.debug(`Component helpers for ${_component_.name} executed.`);
-            } catch (e){
+            } catch (e) {
               logger.debug(`Component helpers for ${_component_.name} could not be executed.`);
               throw Error(e);
             }
-  
+
             _component_.subcomponents = _component_.__buildSubComponents__();
-  
+
             _component_._bindroute_();
-            if (isBrowser){
+            if (isBrowser) {
               _component_.body.setAttribute("loaded", true);
             }
           };
-  
-          return new Promise (function (resolve, reject){
+
+          return new Promise(function (resolve, reject) {
             try {
               resolve(componentDone.call(_component_));
-            } catch (e){
+            } catch (e) {
               reject(e);
             }
           });
-  
+
         }
-  
-        hostElements(tagFilter){
+
+        hostElements(tagFilter) {
           var _component_ = this;
           var elementList = [];
-          if (isBrowser){
-            elementList = (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined"))?(
+          if (isBrowser) {
+            elementList = (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined")) ? (
               _component_.shadowRoot.subelements(tagFilter)
-            ):(
+            ) : (
               _component_.body.subelements(tagFilter)
             );
-  
+
           }
           return elementList;
         }
-  
-        get subtags(){
+
+        get subtags() {
           var _component_ = this;
           var tagFilter = _tag_filter_;
           return _component_.hostElements(tagFilter);
         }
-  
+
         get bodyAttributes() {
           var _component_ = this;
           var c = _component_.body;
-          return (isBrowser)?([...c.getAttributeNames()].map (a => {return {[a]:c.getAttribute(a)};}).reduce ((accumulator,colData, index) => {return Object.assign(accumulator, colData);} )):({});
+          return (isBrowser) ? ([...c.getAttributeNames()].map(a => { return { [a]: c.getAttribute(a) }; }).reduce((accumulator, colData, index) => { return Object.assign(accumulator, colData); })) : ({});
         }
-  
-        get dataAttributes(){
+
+        get dataAttributes() {
           var _component_ = this;
           var c = _component_.body;
-          return (isBrowser)?([{}].concat([...c.getAttributeNames()].filter(n=>n.startsWith("data-")).map (a => {return {[a.split("-")[1]]:c.getAttribute(a)};})).reduce ((accumulator,colData, index) => {return Object.assign(accumulator, colData);} )):({});
+          return (isBrowser) ? ([{}].concat([...c.getAttributeNames()].filter(n => n.startsWith("data-")).map(a => { return { [a.split("-")[1]]: c.getAttribute(a) }; })).reduce((accumulator, colData, index) => { return Object.assign(accumulator, colData); })) : ({});
         }
-  
-        __buildSubComponents__ (rebuildObjects = false) {
+
+        __buildSubComponents__(rebuildObjects = false) {
           var _component_ = this;
           var elementList = _component_.subtags;
-          if (!rebuildObjects){
-            elementList = elementList.filter(t=>t.getAttribute("loaded") !== "true");
+          if (!rebuildObjects) {
+            elementList = elementList.filter(t => t.getAttribute("loaded") !== "true");
           }
-          if ((typeof _component_ !== "undefined") || _component_.subcomponents.length<1){
+          if ((typeof _component_ !== "undefined") || _component_.subcomponents.length < 1) {
             _component_.subcomponents = _buildComponentsFromElements_(elementList, _component_);
           }
           return _component_.subcomponents;
         }
-        
+
         fail(standardResponse) {
           var _ret_;
-          if (typeof standardResponse !== "undefined"){
-            var {error, component} = standardResponse;
-            _ret_ = Promise.resolve({error, component});
+          if (typeof standardResponse !== "undefined") {
+            var { error, component } = standardResponse;
+            _ret_ = Promise.resolve({ error, component });
           }
           return _ret_;
         }
-    
+
         set(name, value) {
           this[name] = value;
         }
-    
+
         get(name) {
           return this[name];
         }
-    
+
         feedComponent() {
           var _component_ = this;
           logger.debug(`[Component][${this.name}][feedComponent] start feeding component...`);
@@ -2669,14 +2394,14 @@ const _top:any = self || window || global;
                 logger.warn("COMPONENT {{NAME}} is not added to the DOM".replace("{{NAME}}", _component_.name));
               }
             }
-    
+
           };
-    
+
           var _feedComponent_InNode = function (_component_) {
             var parsedAssignmentText = _component_.parsedAssignmentText;
             _component_.innerHTML = parsedAssignmentText;
           };
-    
+
           var _ret_;
           if (!is_a(_component_, "Component")) {
             logger.warn("Trying to feed a non component object");
@@ -2689,7 +2414,7 @@ const _top:any = self || window || global;
           }
           return _ret_;
         }
-    
+
         rebuild() {
           var _component = this;
           var _promise = new Promise(function (resolve, reject) {
@@ -2704,30 +2429,30 @@ const _top:any = self || window || global;
                     request: null,
                     component: _component
                   };
-                  _component.__done__().then(function (){
+                  _component.__done__().then(function () {
                     if (typeof _component.done === "function") {
                       _component.done.call(_component, standardResponse);
                     }
                     resolve.call(_promise, standardResponse);
-                  }, function (){
+                  }, function () {
                     reject.call(_promise, standardResponse);
                   });
                   break;
                 case (_component.get("tplsource") === "inline"):
                   logger.debug("Component " + _component.name + " has specified template-source=inline, so it is assumed that template is already declared");
-                  (async function (_component){
+                  (async function (_component) {
                     _component.feedComponent.bind(_component)();
                   })(_component);
                   var standardResponse = {
                     request: null,
                     component: _component
                   };
-                  _component.__done__().then(function (){
+                  _component.__done__().then(function () {
                     if (typeof _component.done === "function") {
                       _component.done.call(_component, standardResponse);
                     }
                     resolve.call(_promise, standardResponse);
-                  }, function (){
+                  }, function () {
                     reject.call(_promise, standardResponse);
                   });
                   break;
@@ -2765,12 +2490,12 @@ const _top:any = self || window || global;
                   });
                   break;
               }
-    
+
             }
           });
           return _promise;
         }
-    
+
         Cast(oClass) {
           /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
           let o = _methods_(oClass).map(m => m.name.replace(/bound /g, "")).map(m => {
@@ -2780,11 +2505,11 @@ const _top:any = self || window || global;
           }).reduce((c, p) => Object.assign(c, p), {});
           return _Cast(this, o);
         }
-    
+
         static route() {
           var componentClass = this; /* is can be class or object*/
           var _route_promise_;
-          var isValidInstance = ( isQCObjects_Object(componentClass) && is_a(componentClass,"Component") ) ? (true) : (false);
+          var isValidInstance = (isQCObjects_Object(componentClass) && is_a(componentClass, "Component")) ? (true) : (false);
           var __route__ = function (componentList) {
             var _componentNames_ = [];
             var _promises_ = componentList.filter(function (rc) {
@@ -2812,7 +2537,7 @@ const _top:any = self || window || global;
                         return __route__.call(rc, rc.subcomponents);
                       } else {
                         logger.debug("No subcomponents to look for routings in: " + rc.name);
-                        if (rc.subtags.length>0){
+                        if (rc.subtags.length > 0) {
                           rc.subcomponents = rc.__buildSubComponents__(true);
                         }
                         resolve(rc);
@@ -2838,11 +2563,11 @@ const _top:any = self || window || global;
             _route_promise_ = __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (_top.componentsStack));
           } else {
             logger.debug("An undetermined result expected if load routings. So will not be loaded this time.");
-            throw Error (`There is no valid instance and no components stack available to apply rountings`);
+            throw Error(`There is no valid instance and no components stack available to apply rountings`);
           }
           return _route_promise_;
         }
-    
+
         fullscreen() {
           if (isBrowser) {
             var elem = this.body;
@@ -2862,7 +2587,7 @@ const _top:any = self || window || global;
             // not yet implemented.
           }
         }
-    
+
         closefullscreen() {
           if (isBrowser) {
             if (document.exitFullscreen) {
@@ -2878,10 +2603,10 @@ const _top:any = self || window || global;
             // noy yet implemented.
           }
         }
-    
+
         _generateRoutingPaths(componentBody) {
           var component = this;
-          return new Promise(function (resolve, reject){
+          return new Promise(function (resolve, reject) {
             if (isBrowser) {
               if (__valid_routing_way__(component.validRoutingWays, component.routingWay)) {
                 if (typeof componentBody !== "undefined") {
@@ -2914,10 +2639,10 @@ const _top:any = self || window || global;
               // not yet implemented.
             }
             resolve();
-    
+
           });
         }
-    
+
         parseTemplate(template) {
           var _self = this;
           var _parsedAssignmentText;
@@ -2946,7 +2671,7 @@ const _top:any = self || window || global;
           }
           return _parsedAssignmentText;
         }
-    
+
         _reroute_() {
           /* This method set the selected routing and makes the switch to the templateURI */
           var rc = this;
@@ -2970,10 +2695,10 @@ const _top:any = self || window || global;
               }
             }
             resolve(rc);
-    
+
           });
         }
-    
+
         lazyLoadImages() {
           if (isBrowser) {
             var component = this;
@@ -3000,17 +2725,17 @@ const _top:any = self || window || global;
             } else {
               _imgLazyLoaded.map(_lazyLoadImages);
             }
-    
+
           } else {
             // not yet implemented
           }
           return null;
         }
-    
+
         applyTransitionEffect(effectClassName) {
           var _Effect = ClassFactory(effectClassName);
-          if (typeof _Effect === "undefined" ){
-            throw Error (`${effectClassName} not found.`);
+          if (typeof _Effect === "undefined") {
+            throw Error(`${effectClassName} not found.`);
           }
           if (typeof _Effect !== "undefined" && is_a(_Effect, "TransitionEffect")) {
             this.effect = New(_Effect, {
@@ -3021,7 +2746,7 @@ const _top:any = self || window || global;
             logger.debug(`${effectClassName} is ${__getType__(_Effect)} but is not a TransitionEffect`);
           }
         }
-    
+
         applyObserveTransitionEffect(effectClassName) {
           if (isBrowser) {
             var component = this;
@@ -3047,7 +2772,7 @@ const _top:any = self || window || global;
           }
           return null;
         }
-    
+
         scrollIntoHash() {
           if (isBrowser) {
             var component = this;
@@ -3071,7 +2796,7 @@ const _top:any = self || window || global;
             // not yet implemented
           }
         }
-    
+
         i18n_translate() {
           if (isBrowser) {
             if (_top.CONFIG.get("use_i18n")) {
@@ -3103,19 +2828,19 @@ const _top:any = self || window || global;
                 callback_i18n.call(component).then(function () {
                   logger.debug("i18n loaded for component: " + component.name);
                 });
-    
+
               }
             }
           } else {
             // not yet implemented
           }
         }
-    
+
         addComponentHelper(componentHelper) {
           var component = this;
           component._componentHelpers.push(componentHelper);
         }
-    
+
         runComponentHelpers() {
           if (isBrowser) {
             var component = this;
@@ -3127,7 +2852,7 @@ const _top:any = self || window || global;
             /*
              * END use i18n translation
              */
-    
+
             /*
              * BEGIN component scrollIntoHash
              */
@@ -3135,64 +2860,64 @@ const _top:any = self || window || global;
             /*
              * END component scrollIntoHash
              */
-    
+
             /*
              * BEGIN component images lazy-load
              */
-    
+
             __component_helpers__.push(component.lazyLoadImages.bind(component));
-    
+
             /*
              * END component images lazy-load
              */
-    
+
             __component_helpers__ = __component_helpers__.concat(component._componentHelpers);
-    
+
             __component_helpers__.map(
               function (_component_helper_) {
                 logger.debug(`Executing ${_component_helper_.name} as component helper for ${component.name}...`);
                 _component_helper_();
               }
             );
-    
+
           } else {
             // not yet implemented
           }
-    
+
         }
-        
+
       }
-    
+
     ]);
-  
+
     (_methods_)(ClassFactory("Component")).map(function (__c__) {
       (_protected_code_)(__c__);
     });
-  
-    if (isBrowser){
-      window.addEventListener("popstate",function (popStateEvent){
+
+    if (isBrowser) {
+      window.addEventListener("popstate", function (popStateEvent) {
         popStateEvent.stopImmediatePropagation();
         popStateEvent.stopPropagation();
         ClassFactory("Component").route();
       });
     }
-  
+
     Package("com.qcobjects.controllers", [
       class Controller extends ClassFactory("InheritClass") {
         component = null;
         dependencies = [];
-        constructor ({
+        constructor({
           component,
           dependencies
-        }){
-          super ({component, dependencies});
+        }) {
+          super({ component, dependencies });
           this.component = component;
           this.dependencies = dependencies;
-          if (typeof this.component === "undefined" || this.component === "null"){
-            throw Error (`${__getType__(this)} must be called with a component`);
+          if (typeof this.component === "undefined" || this.component === "null") {
+            throw Error(`${__getType__(this)} must be called with a component`);
           }
         }
-  
+
         routingSelectedAttr(attrName) {
           return this.component.routingSelected.map(function (r) {
             return r[attrName];
@@ -3200,13 +2925,13 @@ const _top:any = self || window || global;
             return v;
           }).pop();
         }
-  
+
         isTouchable() {
           return ("ontouchstart" in window) ||
             (navigator.MaxTouchPoints > 0) ||
             (navigator.msMaxTouchPoints > 0);
         }
-  
+
         onpress(subelementSelector, handler) {
           try {
             if (this.isTouchable()) {
@@ -3222,7 +2947,7 @@ const _top:any = self || window || global;
             logger.debug("No button to assign press event");
           }
         }
-  
+
         createRoutingController() {
           var controller = this;
           var component = controller.component;
@@ -3239,83 +2964,83 @@ const _top:any = self || window || global;
             }
           }
         }
-  
-        done(){}  
+
+        done() { }
       }
     ]);
-  
-    Package("com.qcobjects.views",[
+
+    Package("com.qcobjects.views", [
       class View extends ClassFactory("InheritClass") {
-        constructor ({component = undefined, dependencies = []}){
+        constructor({ component = undefined, dependencies = [] }) {
           super(...arguments);
-          if (typeof this.component === "undefined" || this.component === "null"){
-            throw Error (`${__getType__(this)} must be called with a component`);
+          if (typeof this.component === "undefined" || this.component === "null") {
+            throw Error(`${__getType__(this)} must be called with a component`);
           }
-  
+
         }
       }
     ]);
-  
+
     Package("com.qcobjects.api", [
       class Service extends ClassFactory("InheritClass") {
-        kind= "rest";
+        kind = "rest";
         /* it can be rest, mockup, local */
-        domain= _domain_;
-        basePath= _basePath_;
-        url= "";
-        method= "GET";
-        data= {};
-        reload= false;
-        cached= false;
-  
-        constructor () {
+        domain = _domain_;
+        basePath = _basePath_;
+        url = "";
+        method = "GET";
+        data = {};
+        reload = false;
+        cached = false;
+
+        constructor() {
           super(...arguments);
         }
-  
+
         set(name, value) {
           this[name] = value;
         }
-  
+
         get(name) {
           return this[name];
         }
-    
+
       }
-  
+
     ]);
-  
+
     Package("com.qcobjects.api.services", [
       class JSONService extends ClassFactory("Service") {
-        method= "GET";
-        cached= false;
-        headers= {
+        method = "GET";
+        cached = false;
+        headers = {
           "Content-Type": "application/json",
           "charset": "utf-8"
         };
-        JSONresponse= null;
+        JSONresponse = null;
         done(result) {
           logger.debug("***** RECEIVED RESPONSE:");
           logger.debug(result.service.template);
           this.JSONresponse = JSON.parse(result.service.template);
         }
-    
-        constructor (){
+
+        constructor() {
           super(...arguments);
         }
-  
+
       }
     ]);
-  
+
     Package("com.qcobjects.api.config", [
-      class ConfigService extends ClassFactory("JSONService"){
-        method= "GET";
-        cached= false;
-        configFileName= "config.json";
-        headers= {
+      class ConfigService extends ClassFactory("JSONService") {
+        method = "GET";
+        cached = false;
+        configFileName = "config.json";
+        headers = {
           "Content-Type": "application/json",
           "charset": "utf-8"
         };
-        JSONresponse= null;
+        JSONresponse = null;
         done(result) {
           logger.debug("***** CONFIG LOADED:");
           logger.debug(result.service.template);
@@ -3331,22 +3056,22 @@ const _top:any = self || window || global;
         fail(result) {
           this.configLoaded.call(this);
         }
-  
-        constructor (){
+
+        constructor() {
           super(...arguments);
           this.set("url", this.get("basePath") + this.get("configFileName"));
         }
       }
     ]);
-  
+
     Package("com.qcobjects.valueObjects", [
       class VO extends ClassFactory("InheritClass") {
-        constructor (){
+        constructor() {
           super(...arguments);
         }
       }
     ]);
-  
+
     /**
      * Returns a standarized uri for a component
      * @example
@@ -3354,11 +3079,11 @@ const _top:any = self || window || global;
      * @author: Jean Machuca <correojean@gmail.com>
      * @param params an object with the params to build the uri path
      */
-    var ComponentURI = ({TPL_SOURCE ,COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION}) => {
-      const templateURI = (TPL_SOURCE === "default")?(`${COMPONENTS_BASE_PATH}${COMPONENT_NAME}.${TPLEXTENSION}`):("");
+    var ComponentURI = ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }) => {
+      const templateURI = (TPL_SOURCE === "default") ? (`${COMPONENTS_BASE_PATH}${COMPONENT_NAME}.${TPLEXTENSION}`) : ("");
       return templateURI;
     };
-  
+
     /**
      * Loads a simple component from a template
      *
@@ -3381,7 +3106,7 @@ const _top:any = self || window || global;
               resolve.call(_promise, standardResponse);
             };
             logger.debug("LOADING COMPONENT DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(component.data)).replace("{{URL}}", component.url));
-  
+
             var _componentLoaded = function () {
               var successStatus = (is_file) ? (0) : (200);
               if (xhr.status === successStatus) {
@@ -3399,7 +3124,7 @@ const _top:any = self || window || global;
                   "component": component
                 };
                 reject.call(_promise, standardResponse);
-  
+
               }
             };
             if (typeof component.template === "string" && component.template !== "") {
@@ -3450,7 +3175,7 @@ const _top:any = self || window || global;
                   xhr.send(_DataStringify(component.data));
                 }
               };
-  
+
               if (component.cached && (!is_file)) {
                 logger.debug("USING CACHE FOR COMPONENT: " + component.name);
                 var cache = new ComplexStorageCache({
@@ -3473,14 +3198,14 @@ const _top:any = self || window || global;
                 logger.debug("NOT USING CACHE FOR COMPONENT: " + component.name);
                 _directLoad.call(this, is_file);
               }
-  
+
             }
           } else {
             logger.debug("CONTAINER DOESNT EXIST");
           }
         });
         __promise__.then(function (standardResponse) {
-          return component.__done__().then (function (){
+          return component.__done__().then(function () {
             var _ret_;
             if (typeof component.done === "function") {
               _ret_ = component.done.call(component, standardResponse);
@@ -3510,7 +3235,7 @@ const _top:any = self || window || global;
             resolve.call(_promise, standardResponse);
           };
           logger.debug("LOADING COMPONENT DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(component.data)).replace("{{URL}}", component.url));
-  
+
           var _componentLoaded = function (err, responseText) {
             if (!err) {
               var response = responseText.toString();
@@ -3539,7 +3264,7 @@ const _top:any = self || window || global;
               logger.debug("SENDING THE NORMAL REQUEST  ");
               fs.readFile(component.url, _componentLoaded);
             };
-  
+
             if (component.cached) {
               logger.debug("USING CACHE FOR COMPONENT: " + component.name);
               var cache = new ComplexStorageCache({
@@ -3562,11 +3287,11 @@ const _top:any = self || window || global;
               logger.debug("NOT USING CACHE FOR COMPONENT: " + component.name);
               _directLoad.call(this);
             }
-  
+
           }
         });
         __promise__.then(function (standardResponse) {
-          return component.__done__().then (function (){
+          return component.__done__().then(function () {
             var _ret_;
             if (typeof component.done === "function") {
               _ret_ = component.done.call(component, standardResponse);
@@ -3584,7 +3309,7 @@ const _top:any = self || window || global;
         });
         return __promise__;
       };
-  
+
       var _ret_;
       if (isBrowser) {
         if (typeof _async !== "undefined" && _async) {
@@ -3597,7 +3322,7 @@ const _top:any = self || window || global;
       }
       return _ret_;
     };
-  
+
     /**
      * Loads a simple component from a template
      *
@@ -3608,7 +3333,7 @@ const _top:any = self || window || global;
       var _serviceLoaderInBrowser = function (service, _async) {
         var _promise = new Promise(
           function (resolve, reject) {
-  
+
             logger.debug("LOADING SERVICE DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service.data)).replace("{{URL}}", service.url));
             var xhr = new XMLHttpRequest();
             xhr.withCredentials = service.withCredentials;
@@ -3651,7 +3376,7 @@ const _top:any = self || window || global;
                 }
               }
             };
-  
+
             var _directLoad = function () {
               logger.debug("SENDING THE NORMAL REQUEST  ");
               try {
@@ -3664,7 +3389,7 @@ const _top:any = self || window || global;
                 });
               }
             };
-  
+
             if (service.cached) {
               var cache = new ComplexStorageCache({
                 index: service.data,
@@ -3692,13 +3417,13 @@ const _top:any = self || window || global;
             } else {
               _directLoad.call(this);
             }
-  
+
             return xhr;
           }
         );
         return _promise;
       };
-  
+
       var _serviceLoaderInNode = function (service, _async) {
         var _promise = new Promise(
           function (resolve, reject) {
@@ -3709,8 +3434,8 @@ const _top:any = self || window || global;
             var serviceURL = new URL(service.url);
             var req;
             service.useHTTP2 = Object.hasOwnProperty.call(service, "useHTTP2") && service.useHTTP2;
-  
-  
+
+
             var captureEvents = function (req) {
               logger.debug("LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service.data)).replace("{{URL}}", service.url));
               var dataXML;
@@ -3720,7 +3445,7 @@ const _top:any = self || window || global;
                 "service": service,
                 "responseHeaders": null
               };
-  
+
               if (typeof service.data === "object" && service.data !== null) {
                 if (service.useHTTP2) {
                   try {
@@ -3732,7 +3457,7 @@ const _top:any = self || window || global;
                   }
                 }
               }
-  
+
               dataXML = "";
               req.on("response", (responseHeaders, flags) => {
                 logger.debug("receiving response...");
@@ -3767,9 +3492,9 @@ const _top:any = self || window || global;
               if (service.useHTTP2) {
                 req.end();
               }
-  
+
             };
-  
+
             try {
               var requestOptions;
               if (service.useHTTP2) {
@@ -3813,23 +3538,23 @@ const _top:any = self || window || global;
                   throw new Error(e);
                 }
               }
-  
-  
+
+
             } catch (e) {
               logger.debug(e);
               service.fail.call(service, e);
               reject.call(_promise, e);
-  
+
             }
           }).catch(function (e) {
-          console.log(e);
-          logger.debug("Something happened when trying to call the service: " + service.name);
-          service.fail.call(service, e);
-        });
+            console.log(e);
+            logger.debug("Something happened when trying to call the service: " + service.name);
+            service.fail.call(service, e);
+          });
         return _promise;
-  
+
       };
-  
+
       var _serviceLoaderMockup = function (service, _async) {
         var _promise = new Promise(
           function (resolve, reject) {
@@ -3866,7 +3591,7 @@ const _top:any = self || window || global;
           });
         return _promise;
       };
-  
+
       var _ret_;
       switch (service.kind) {
         case "rest":
@@ -3900,17 +3625,17 @@ const _top:any = self || window || global;
     Export(isQCObjects_Class);
     Export(isQCObjects_Object);
     Export(NamespaceRef);
-  
-  
+
+
     if (isBrowser) {
-  
+
       Element.prototype.buildComponents = function (rebuildObjects = false) {
         var tagFilter = _tag_filter_;
         var d = this;
         var elements = d.subelements(tagFilter);
         return _buildComponentsFromElements_(elements, null);
       };
-  
+
       HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
       HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
       var _ComponentWidget_ = class extends HTMLElement {
@@ -3921,7 +3646,7 @@ const _top:any = self || window || global;
           const componentBody = _DOMCreateElement("quick-component");
           const __enabled__atributes__ = componentWidget.getAttributeNames();
           componentBody.setAttribute("name", componentName);
-  
+
           if (!componentWidget.hasAttribute("shadowed")) {
             componentBody.setAttribute("shadowed", "true");
           }
@@ -3944,13 +3669,13 @@ const _top:any = self || window || global;
             componentBody.appendChild(element.cloneNode(true));
             element.remove();
           });
-  
+
           componentWidget.append(componentBody);
         }
       };
       Export(_ComponentWidget_);
       var RegisterWidget = function (widgetName) {
-        customElements.define(widgetName, class extends _ComponentWidget_ {});
+        customElements.define(widgetName, class extends _ComponentWidget_ { });
       };
       var RegisterWidgets = function () {
         var widgetList = [...arguments];
@@ -3964,30 +3689,30 @@ const _top:any = self || window || global;
       (_protected_code_)(RegisterWidgets);
       Export(RegisterWidget);
       Export(RegisterWidgets);
-  
+
     } else {
       // not yet implemented.
     }
-  
+
     if (!isBrowser) {
-  
+
       Package("com.qcobjects.api", [
         class BackendMicroservice extends ClassFactory("InheritClass") {
-  
-          constructor ({
-            domain= _domain_,
-            basePath= _basePath_,
+
+          constructor({
+            domain = _domain_,
+            basePath = _basePath_,
             body = null,
-            stream= null,
-            request= null
-          }){
+            stream = null,
+            request = null
+          }) {
             super(...arguments);
             logger.debug("Initializing BackendMicroservice...");
             let microservice = this;
             if (typeof this.body === "undefined") {
               this.body = null;
             }
-            if (typeof body !== "undefined"){
+            if (typeof body !== "undefined") {
               this.body = body;
             }
             this.cors();
@@ -4002,7 +3727,7 @@ const _top:any = self || window || global;
                 supportedMethods[requestMethod].call(microservice, data);
               }
             });
-    
+
             // data from POST, GET
             var requestMethod = request.method.toLowerCase();
             var supportedMethods = {
@@ -4018,10 +3743,10 @@ const _top:any = self || window || global;
             if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
               supportedMethods[requestMethod].call(microservice);
             }
-            
-            
+
+
           }
-    
+
           cors() {
             if (this.route.cors) {
               logger.debug("Validating CORS...");
@@ -4085,50 +3810,50 @@ const _top:any = self || window || global;
               logger.debug("No CORS validation available. You can specify cors in CONFIG.backend.routes[].cors");
             }
           }
-          
-    
+
+
           head(formData) {
             this.done();
           }
-    
+
           get(formData) {
             logger.debug(`[BackendMicroservice.get] Data received: ${_DataStringify(formData)}`);
             this.done();
           }
-    
+
           post(formData) {
             this.done();
           }
-    
+
           put(formData) {
             this.done();
           }
-    
+
           delete(formData) {
             this.done();
           }
-    
+
           connect(formData) {
             this.done();
           }
-    
+
           options(formData) {
             this.done();
           }
-    
+
           trace(formData) {
             this.done();
           }
-    
+
           patch(formData) {
             this.done();
           }
-    
+
           finishWithBody(stream) {
             try {
               logger.debug("[BackendMicroservice.finishWithBody] Ending the stream...");
               logger.debug(`[BackendMicroservice.finishWithBody] type of body is: ${typeof this.body}`);
-              if (typeof this.body !== "string"){
+              if (typeof this.body !== "string") {
                 this.body = _DataStringify(this.body);
               }
               logger.debug(`[BackendMicroservice.finishWithBody] \n body: ${this.body} `);
@@ -4139,14 +3864,14 @@ const _top:any = self || window || global;
               logger.debug(`[BackendMicroservice.finishWithBody] Something went wrong ending the stream: ${e}`);
             }
           }
-          
+
           done() {
             logger.debug(`[BackendMicroservice.done] Finalizing the response...`);
             var microservice = this;
             var stream = microservice.stream;
             try {
               logger.debug(`[BackendMicroservice.done] Sending response headers...`);
-              if (microservice.route.responseHeaders){
+              if (microservice.route.responseHeaders) {
                 logger.debug(`[BackendMicroservice.done] Response headers present: ${Object.keys(microservice.route.responseHeaders)}`);
                 stream.respond(microservice.route.responseHeaders);
               } else {
@@ -4167,14 +3892,14 @@ const _top:any = self || window || global;
               stream.end();
             }
           }
-    
-    
+
+
         }
       ]);
-  
-  
+
+
     }
-  
+
     Class("SourceJS", Object, {
       domain: _domain_,
       basePath: _basePath_,
@@ -4192,8 +3917,8 @@ const _top:any = self || window || global;
         return this[name];
       },
       status: false,
-      done() {},
-      fail() {},
+      done() { },
+      fail() { },
       rebuild() {
         var context = this;
         try {
@@ -4248,7 +3973,7 @@ const _top:any = self || window || global;
       get(name) {
         return this[name];
       },
-      done() {},
+      done() { },
       rebuild() {
         var context = this;
         if (isBrowser) {
@@ -4279,7 +4004,7 @@ const _top:any = self || window || global;
         this.rebuild();
       }
     });
-  
+
     /**
      * Array math functions
      */
@@ -4361,7 +4086,7 @@ const _top:any = self || window || global;
     };
     (_protected_code_)(Array.sortBy);
     (_protected_code_)(Array.prototype.sortBy);
-  
+
     Array.matrix = function (_length, _fillValue = 0) {
       var x_func = function (x) {
         return _fillValue;
@@ -4371,7 +4096,7 @@ const _top:any = self || window || global;
       }, x_func);
     };
     (_protected_code_)(Array.matrix);
-  
+
     Array.matrix2d = function (_length, _fillValue = 0) {
       var y_func = function (y) {
         return _fillValue;
@@ -4386,7 +4111,7 @@ const _top:any = self || window || global;
       }, x_func);
     };
     (_protected_code_)(Array.matrix2d);
-  
+
     Array.matrix3d = function (_length, _fillValue = 0) {
       var y_func = function (y) {
         return Array.from({
@@ -4405,7 +4130,7 @@ const _top:any = self || window || global;
       }, x_func);
     };
     (_protected_code_)(Array.matrix3d);
-  
+
     _top.range = function (start, stop = 0, step = 1) {
       if (stop === 0 || typeof stop === "undefined") {
         stop = start;
@@ -4418,7 +4143,7 @@ const _top:any = self || window || global;
       });
     };
     (_protected_code_)(_top.range);
-  
+
     String.prototype.list = function () {
       var __instance = this;
       return _top.range(0, __instance.length - 1).map(function (i) {
@@ -4426,7 +4151,7 @@ const _top:any = self || window || global;
       });
     };
     (_protected_code_)(String.prototype.list);
-  
+
     _top.getDocumentLayout = function () {
       var h = (w, h) => {
         return w > h ? "landscape" : null;
@@ -4443,13 +4168,13 @@ const _top:any = self || window || global;
         square(document.documentElement.clientWidth, document.documentElement.clientHeight)
       ].filter(e => e !== null).pop();
     };
-  
-  
+
+
     /**
      * End of array math functions
      */
-  
-  
+
+
     Class("ArrayList", Array, []);
     ClassFactory("ArrayList").matrix = Array.matrix;
     ClassFactory("ArrayList").matrix2d = Array.matrix2d;
@@ -4457,7 +4182,7 @@ const _top:any = self || window || global;
     (_protected_code_)(ClassFactory("ArrayList").matrix);
     (_protected_code_)(ClassFactory("ArrayList").matrix2d);
     (_protected_code_)(ClassFactory("ArrayList").matrix3d);
-  
+
     Class("ArrayCollection", Object, {
       source: New(ClassFactory("ArrayList"), []),
       changed(prop, value) {
@@ -4498,7 +4223,7 @@ const _top:any = self || window || global;
             })(_k);
             _index++;
           }
-  
+
         }
         self.source.length = _index;
         Object.defineProperty(self, "length", {
@@ -4508,33 +4233,33 @@ const _top:any = self || window || global;
         });
       }
     });
-  
+
     Package("com.qcobjects.effects.base", [
       class Effect extends ClassFactory("InheritClass") {
         duration = 1000;
-  
-        constructor (){
+
+        constructor() {
           super(...arguments);
         }
-  
+
         animate({
           timing,
           draw,
           duration
         }) {
-    
+
           let start = performance.now();
-    
+
           requestAnimationFrame(function animate(time) {
             // timeFraction goes from 0 to 1
             let timeFraction = (time - start) / duration;
             if (timeFraction > 1) timeFraction = 1;
-    
+
             // calculate the current animation state
             let progress = timing(timeFraction);
-    
+
             draw(Math.round(progress * 100)); // draw it
-    
+
             if (timeFraction < 1) {
               requestAnimationFrame(animate);
             } else {
@@ -4546,18 +4271,18 @@ const _top:any = self || window || global;
                 this.done.call(this);
               }
             }
-    
+
           });
         }
-    
+
       }
     ]);
-  
+
     Package("com.qcobjects.effects.transitions.base", [
-  
+
       class TransitionEffect extends ClassFactory("Effect") {
-        duration= 385;
-        defaultParams= {
+        duration = 385;
+        defaultParams = {
           alphaFrom: 0,
           alphaTo: 1,
           angleFrom: 180,
@@ -4567,16 +4292,16 @@ const _top:any = self || window || global;
           scaleFrom: 0,
           scaleTo: 1
         };
-        fitToHeight= false;
-        fitToWidth= false;
-        effects= [];
-  
-        constructor (){
+        fitToHeight = false;
+        fitToWidth = false;
+        effects = [];
+
+        constructor() {
           super(...arguments);
           logger.info("DECLARING TransitionEffect  ");
           this.component.defaultParams = this.defaultParams;
         }
-  
+
         apply({
           alphaFrom,
           alphaTo,
@@ -4589,12 +4314,12 @@ const _top:any = self || window || global;
         }) {
           var _transition_ = this;
           logger.info("EXECUTING TransitionEffect  ");
-          var componentRoot = (_transition_.component.shadowed)?(_transition_.component.shadowRoot.host):(_transition_.component.body);
+          var componentRoot = (_transition_.component.shadowed) ? (_transition_.component.shadowRoot.host) : (_transition_.component.body);
           if (_transition_.fitToHeight) {
-            componentRoot.height = (typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null)?(componentRoot.offsetParent.scrollHeight):(componentRoot.getBoundingClientRect().height);
+            componentRoot.height = (typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null) ? (componentRoot.offsetParent.scrollHeight) : (componentRoot.getBoundingClientRect().height);
           }
           if (_transition_.fitToWidth) {
-            componentRoot.width = (typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null)?(componentRoot.offsetParent.scrollWidth):(componentRoot.getBoundingClientRect().width);
+            componentRoot.width = (typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null) ? (componentRoot.offsetParent.scrollWidth) : (componentRoot.getBoundingClientRect().width);
           }
           componentRoot.style.display = "block";
           _transition_.effects.map(function (effectClassName, eff) {
@@ -4614,68 +4339,68 @@ const _top:any = self || window || global;
             effectClassMethod.apply(_transition_, args);
           });
         }
-    
+
       }
     ]);
-  
+
     Package("com.qcobjects.timing", [
       class Timer extends ClassFactory("InheritClass") {
-  
-        constructor (){
+
+        constructor() {
           super(...arguments);
         }
-  
-        duration= 1000;
-        alive= true;
+
+        duration = 1000;
+        alive = true;
         thread({
           timing,
           intervalInterceptor,
           duration
         }) {
           var timer = this;
-    
+
           let start = performance.now();
-    
+
           requestAnimationFrame(function thread(time) {
             // timeFraction goes from 0 to 1
             let elapsed = (time - start);
             let timeFraction = elapsed / duration;
             if (timeFraction > 1) timeFraction = 1;
-    
+
             // calculate the current progress state
             let progress = timing(timeFraction, elapsed);
-    
+
             intervalInterceptor(Math.round(progress * 100)); // draw it
-    
+
             if ((timeFraction < 1 || duration === -1) && timer.alive) {
               requestAnimationFrame(thread);
             }
-    
+
           });
         }
-    
-  
+
+
       }
     ]);
-  
+
     Package("com.qcobjects.tools.essentials", [
       class Toggle extends ClassFactory("InheritClass") {
-        _toggle= false;
-        _inverse= true;
-        _positive= null;
-        _negative= null;
-        _dispatched= null;
-        _args= {};
-    
-        constructor (){
+        _toggle = false;
+        _inverse = true;
+        _positive = null;
+        _negative = null;
+        _dispatched = null;
+        _args = {};
+
+        constructor() {
           super(...arguments);
           this._new_(...arguments);
         }
-  
+
         changeToggle() {
           this._toggle = (this._toggle) ? (false) : (true);
         }
-  
+
         _new_({
           positive,
           negative,
@@ -4685,11 +4410,11 @@ const _top:any = self || window || global;
           this._negative = negative;
           this._args = args;
         }
-  
+
         fire() {
           var toggle = this;
           var _promise = new Promise(function (resolve, reject) {
-    
+
             if (typeof toggle._positive === "function" && typeof toggle._negative === "function") {
               if (toggle._inverse) {
                 toggle._dispatched = (toggle._toggle) ? (toggle._negative.bind(toggle)) : (toggle._positive.bind(toggle));
@@ -4709,16 +4434,16 @@ const _top:any = self || window || global;
           });
           return _promise;
         }
-    
-  
+
+
       }
-  
+
     ]);
-  
+
     // Set Processors
     (function (_top) {
-  
-      let mapper = function (componentInstance,componentName, valueName) {
+
+      let mapper = function (componentInstance, componentName, valueName) {
         /*
          * Mapper processor
          * @usage
@@ -4728,10 +4453,10 @@ const _top:any = self || window || global;
          * and valueName is the name of the variable that contains the value to map, it can be either a property of
          * the component instance, the data object or a global value
          */
-  
+
         var self = this;
-        if (typeof componentInstance === "undefined" || componentInstance === null){
-          throw Error (`mapper.${componentName}.${valueName} does not have a component instance or it is null.`);
+        if (typeof componentInstance === "undefined" || componentInstance === null) {
+          throw Error(`mapper.${componentName}.${valueName} does not have a component instance or it is null.`);
         }
         let globalValue = _top.global.get(valueName);
         let componentValue = componentInstance.get(valueName);
@@ -4740,7 +4465,7 @@ const _top:any = self || window || global;
         let listItems = "";
         if (typeof list !== "undefined" && typeof list["map"] !== "undefined") {
           listItems = list.map(function (element) {
-            let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${(typeof element[k] !== "undefined" && element[k] !== null)?(element[k].toString()):("")}"`).join("");
+            let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${(typeof element[k] !== "undefined" && element[k] !== null) ? (element[k].toString()) : ("")}"`).join("");
             return `<quick-component name="${componentName}" ${dataItems} ></quick-component>`;
           }).join("");
         } else {
@@ -4749,7 +4474,7 @@ const _top:any = self || window || global;
         return listItems;
       };
       Processor.setProcessor(mapper);
-  
+
       let layout = function (componentInstance, layoutname, cssfile) {
         /*
          * Layout processor
@@ -4758,7 +4483,7 @@ const _top:any = self || window || global;
          * Where layoutname can be "portrait" or "landscape" without quotes
          * cssfile is the uri for the css file to import
          */
-  
+
         var layout_portrait = `
         /* CSS Document for Mobile Imports */
         @import url("${cssfile}") (orientation:portrait);
@@ -4781,12 +4506,12 @@ const _top:any = self || window || global;
           "landscape": layout_landscape,
           "portrait": layout_portrait
         };
-  
+
         return (Object.hasOwnProperty.call(layout_code, layoutname)) ? (layout_code[layoutname]) : ("");
       };
-  
+
       Processor.setProcessor(layout);
-  
+
       let component = function () {
         /*
          * component processor
@@ -4807,9 +4532,9 @@ const _top:any = self || window || global;
         }).join(" ");
         return `<component ${attrs}></component>`;
       };
-  
+
       Processor.setProcessor(component);
-  
+
       let quick_component = function () {
         /*
          * component processor
@@ -4830,10 +4555,10 @@ const _top:any = self || window || global;
         }).join(" ");
         return `<quick-component ${attrs}></quick-component>`;
       };
-  
+
       Processor.setProcessor(quick_component);
-  
-  
+
+
       let repeat = function (componentInstance, length, text) {
         /*
          * Repeat processor
@@ -4847,12 +4572,12 @@ const _top:any = self || window || global;
           }
         ).join("");
       };
-  
+
       Processor.setProcessor(repeat);
-  
+
     })(_top);
-  
-  
+
+
     /**
      * Load every component tag declared in the body
      **/
@@ -4861,7 +4586,7 @@ const _top:any = self || window || global;
         _top.__start__();
       }
     });
-  
+
     /*
     Public variables and functions
     */
@@ -4875,25 +4600,25 @@ const _top:any = self || window || global;
     Export(ready);
     Export(isBrowser);
     Export(_methods_);
-  
-    (function (_top){
+
+    (function (_top) {
       Package("com.qcobjects", [
-        class GlobalSettings extends ClassFactory("InheritClass"){
-          _GLOBAL= {};
+        class GlobalSettings extends ClassFactory("InheritClass") {
+          _GLOBAL = {};
           __definition = {};
           __classType = "GlobalSettings";
-      
-          constructor(){
+
+          constructor() {
             super(...arguments);
             this.set = GlobalSettings.set.bind(this);
             this.get = GlobalSettings.get.bind(this);
             this.__start__ = GlobalSettings.__start__.bind(this);
           }
-  
+
           static set(name, value) {
             this._GLOBAL[name] = value;
           }
-  
+
           static get(name, _default) {
             var _value;
             if (typeof this._GLOBAL[name] !== "undefined") {
@@ -4903,7 +4628,7 @@ const _top:any = self || window || global;
             }
             return _value;
           }
-  
+
           static __start__() {
             var __load__serviceWorker = function () {
               var _promise;
@@ -4913,8 +4638,8 @@ const _top:any = self || window || global;
                     (typeof _top.CONFIG.get("serviceWorkerURI") !== "undefined")) {
                     _top.CONFIG.set("serviceWorkerScope", _top.CONFIG.get("serviceWorkerScope") ? (_top.CONFIG.get("serviceWorkerScope")) : ("/"));
                     navigator.serviceWorker.register(_top.CONFIG.get("serviceWorkerURI"), {
-                        scope: _top.CONFIG.get("serviceWorkerScope")
-                      })
+                      scope: _top.CONFIG.get("serviceWorkerScope")
+                    })
                       .then(function (registration) {
                         logger.debug("Service Worker Registered");
                         resolve.call(_promise, registration);
@@ -4935,19 +4660,19 @@ const _top:any = self || window || global;
               return _promise;
             };
             var _buildComponents = function () {
-              return new Promise ((resolve, reject) => {
+              return new Promise((resolve, reject) => {
                 if (isBrowser) {
                   logger.debug("Starting to building components");
                   try {
                     _top.componentsStack = document.buildComponents.call(document);
-                  }catch (e){
-                    throw Error (`Something went wrong trying to start components tree: ${e.message}`);
+                  } catch (e) {
+                    throw Error(`Something went wrong trying to start components tree: ${e.message}`);
                   }
                   logger.debug("Initializing the service worker");
                   __load__serviceWorker.call(_top)
-                  .catch(function (e) {
-                    logger.debug(`error loading the service worker ${e}`);
-                  });
+                    .catch(function (e) {
+                      logger.debug(`error loading the service worker ${e}`);
+                    });
                 }
                 resolve();
               });
@@ -4963,13 +4688,13 @@ const _top:any = self || window || global;
               _buildComponents.call(this);
             }
           }
-    
+
         }
       ]);
       Export(ClassFactory("GlobalSettings"));
       global = New(ClassFactory("GlobalSettings"));
       _top = _CastProps(global, _top);
-  
+
       Object.defineProperty(_top, "PackagesNameList", {
         set(val) {
           logger.debug("PackagesNameList is readonly");
@@ -4994,7 +4719,7 @@ const _top:any = self || window || global;
           return _get_packages_names(_QC_PACKAGES);
         }
       });
-  
+
       Object.defineProperty(_top, "PackagesList", {
         set(value) {
           logger.debug("PackagesList is readonly");
@@ -5018,7 +4743,7 @@ const _top:any = self || window || global;
           });
         }
       });
-  
+
       Object.defineProperty(_top, "ClassesList", {
         set(value) {
           logger.debug("ClassesList is readonly");
@@ -5038,11 +4763,11 @@ const _top:any = self || window || global;
             ));
             return _package_element;
           });
-  
+
           return _classesList;
         }
       });
-  
+
       Object.defineProperty(_top, "ClassesNameList", {
         set(value) {
           logger.debug("ClassesNameList is readonly");
@@ -5054,7 +4779,7 @@ const _top:any = self || window || global;
           });
         }
       });
-  
+
       if (isBrowser) {
         // use of GLOBAL word is deprecated in node.js
         // this is only for compatibility purpose with old versions of QCObjects in browsers
@@ -5062,13 +4787,13 @@ const _top:any = self || window || global;
         Export(ClassFactory("GLOBAL"));
       }
       Export(global);
-  
+
       if (_top.CONFIG.get("useSDK")) {
         (function (_top) {
           var remoteImportsPath = _top.CONFIG.get("remoteImportsPath");
           var external = (!_top.CONFIG.get("useLocalSDK")) ? (true) : (false);
           _top.CONFIG.set("remoteImportsPath", _top.CONFIG.get("remoteSDKPath"));
-  
+
           var tryImportingSDK = false;
           var sdkName = "QCObjects-SDK";
           if (isBrowser) {
@@ -5083,10 +4808,10 @@ const _top:any = self || window || global;
               tryImportingSDK = true;
             }
           }
-  
+
           if (tryImportingSDK) {
             logger.info("Importing SDK... " + sdkName);
-            if (isNodeCommonJS && typeof require !== "undefined"){
+            if (isNodeCommonJS && typeof require !== "undefined") {
               let sdk = require("qcobjects-sdk");
             } else {
               Import(sdkName, function () {
@@ -5104,17 +4829,17 @@ const _top:any = self || window || global;
         })(_top);
       }
     })(_top);
-  
+
     if (isBrowser) {
       asyncLoad(function () {
         Ready(function () {
-  
+
           /*
            * scroll management custom events
            * usage: document.addEventListener('percentY90',function(e){console.log(e.detail.percentY)});
            * possible events: scrollpercent, defaultscroll, percentY0, percentY25, percentY50, percentY75, percentY90
            */
-  
+
           (function (_top) {
             let lastKnownScrollPosition = 0;
             let ticking = false;
@@ -5123,13 +4848,13 @@ const _top:any = self || window || global;
               document.body.offsetHeight, document.documentElement.offsetHeight,
               document.body.clientHeight, document.documentElement.clientHeight
             );
-  
+
             let scrollWidth = Math.max(
               document.body.scrollWidth, document.documentElement.scrollWidth,
               document.body.offsetWidth, document.documentElement.offsetWidth,
               document.body.clientWidth, document.documentElement.clientWidth
             );
-  
+
             function scrollDispatcher(event) {
               var percentY = Math.round(_top.scrollY * 100 / scrollHeight);
               var percentX = Math.round(_top.scrollX * 100 / scrollWidth);
@@ -5154,27 +4879,27 @@ const _top:any = self || window || global;
                 });
                 event.target.dispatchEvent(secondaryCustomEvent);
               });
-  
+
             }
-  
+
             document.addEventListener("scroll", function (event) {
-  
+
               if (!ticking) {
                 requestAnimationFrame(function () {
                   scrollDispatcher(event);
                   ticking = false;
                 });
-  
+
                 ticking = true;
               }
             });
-  
+
           })(_top);
-  
+
         });
       }, null);
     }
-  
+
     if (!isBrowser) {
       if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "_fireAsyncLoad")) {
         _top.global._fireAsyncLoad.call(_top);
@@ -5183,8 +4908,8 @@ const _top:any = self || window || global;
         _top.global.onload.call(_top);
       }
     }
-  
-  
+
+
     /* Freezing Object && Object.prototype to prevent prototype pollution risks */
     (function (isBrowser) {
       var __freeze__ = function () {
