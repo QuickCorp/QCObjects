@@ -28,9 +28,14 @@
 /*eslint strict: "off"*/
 
 /*eslint no-mixed-operators: "off"*/
-(function __qcobjects__ (_top) {
-  "use strict";
 
+"use strict";
+
+import { _require_, isBrowser, isDeno, isNodeCommonJS } from "./platform";
+
+const _top:any = self || window || global;
+
+(function __qcobjects__(_top:any):void{
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined"){
     try {
       Object.defineProperty(_top,"__qcobjects__", {
@@ -51,13 +56,6 @@
     var global = _top;
     _top.global = global;
     
-    var isDeno = (typeof window !== "undefined" && "Deno" in window);
-    var isBrowser = (typeof window !== "undefined" && typeof window.self !== "undefined" && window === window.self) && !isDeno;
-    var isNodeCommonJS = (typeof module !== "undefined") ? (true): (false);
-    var deno_require = function (){ /* not yet implemented */};
-    var _require_ = function (){
-      return (isDeno)?(deno_require(...arguments)):(require(...arguments));
-    };
   
     var _protected_code_ = function (_) {
       var __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function () {
@@ -140,21 +138,6 @@
       return _m;
     };
   
-    String.prototype.__mAll__ = function (regex) {
-      // This is an alternative to old browsers that dont support String.prototype.matchAll
-      // https://github.com/tc39/proposal-string-matchall
-      var matches = [];
-      this.replace(regex, function () {
-        var match = Array.prototype.slice.call(arguments, 0, -2);
-        match.input = arguments[arguments.length - 1];
-        match.index = arguments[arguments.length - 2];
-        matches.push(match);
-      });
-      return matches;
-    };
-    if (typeof String.prototype.matchAll === "undefined") {
-      String.prototype.matchAll = String.prototype.__mAll__;
-    }
     var _DOMCreateElement = function (elementName) {
       var _ret_;
       if (isBrowser) {
@@ -275,21 +258,7 @@
         }
       )();
   
-      var _secretKey = (
-        function () {
-          var __secretKey = _top[(![] + [])[((+!+[]) + (+!+[]))] + (typeof ![])[(+!+[])] + (typeof [])[((+!+[]) + (+!+[])) * ((+!+[]) + (+!+[]))] + (![] + [])[(+!+[])] + (!![] + [])[(+[])] + ([] + [] + [][
-            []
-          ])[(+[+!+[] + [+[]]]) / ((+!+[]) + (+!+[]))] + (typeof ![])[(+!+[])] + ([] + [] + [][
-            []
-          ])[(+!+[])]]["h" + (typeof ![])[(+!+[])] + (![] + [])[(+!+[] + ((+!+[]) + (+!+[])))] + (!![] + [])[(+[])]].toLowerCase();
-          return __secretKey;
-        }
-      )();
-      var is_phonegap = (
-        function () {
-          return (typeof cordova !== "undefined") ? (true) : (false);
-        }
-      )();
+      var _secretKey = location.host;
   
     } else {
       // This is only for code integrity purpose using non-browser implementations
@@ -608,7 +577,7 @@
      * Basic Type of all elements
      */
     if (isBrowser) {
-      Element.prototype.find = function (tag) {
+      Element.prototype.find = function (tag:string):Element[] {
         var _oo = [];
         var _tags = document.subelements(tag);
         _tags.map(function (_tt, _t) {
@@ -5208,10 +5177,10 @@
   
     if (!isBrowser) {
       if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "_fireAsyncLoad")) {
-        _top.global._fireAsyncLoad.call(this);
+        _top.global._fireAsyncLoad.call(_top);
       }
       if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "onload")) {
-        _top.global.onload.call(this);
+        _top.global.onload.call(_top);
       }
     }
   
@@ -5231,17 +5200,6 @@
       }
     })(isBrowser);
   }
+})(_top);
 
-}).call(null, (typeof module === "object" && typeof module.exports === "object") ? (
-  module.exports = (typeof globalThis !== "undefined"
-  ? globalThis
-  : typeof self !== "undefined"
-  ? self
-  : typeof window !== "undefined"
-  ? window
-  : typeof global !== "undefined"
-  ? global
-  : object)
-) : ((typeof global === "object") ? (global) : (
-  (typeof window === "object") ? (window) : (object)
-)));
+export default _top;

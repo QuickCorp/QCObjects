@@ -3,6 +3,7 @@
 // Definitions by: Jean Machuca <https://github.com/jeanmachuca>
 // Definitions: https://qcobjects.dev
 
+
 import { ClientRequest } from "http";
 import { Http2SecureServer, Http2Server, Http2ServerRequest, Http2Stream } from "http2";
 import { Stream } from "stream";
@@ -468,5 +469,6 @@ declare namespace QCObjects {
     function Import(packageName: string, ready?: Function, external?: boolean): any;
 
 }
+
 
 export = QCObjects;

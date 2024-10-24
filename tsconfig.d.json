@@ -1,18 +1,31 @@
 {
-  "extends": "qcobjects-tsconfig/tsconfig.d.json",
+  "extends": [
+    "./tsconfig.json"
+  ],
   "compilerOptions": {
-    "strict": true,  // Enables all strict type-checking options
+    "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "outFile": "src/index.d.ts",
-    "typeRoots": ["types", "node_modules/@types", "@typescript-eslint"],
-    "allowSyntheticDefaultImports":true,
-    "esModuleInterop": true
+    "outFile": "build/index.d.ts",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
+    "types": [
+      "node"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "emitDeclarationOnly": true
   },
-  "include": ["src/**/*.ts", "src/static/js/packages/components/*.d.ts", "types/*.d.ts"],
-  "exclude": ["src/**/*.spec.js", "src/*.js", "src/*.d.ts", "src/**/*.d.ts"]
+  "include": [
+    "src/**/*",
+    "types/**/*"
+  ],
+  "exclude": ["src/**/*.mts", "src/**/*.cts"]
 }
