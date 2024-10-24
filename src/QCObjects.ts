@@ -31,6 +31,8 @@
 
 "use strict";
 
+import "./assign";
+import { Promise } from "./Promise";
 import { Base64 } from "./Base64";
 import { _DataStringify } from "./DataStringify";
 import { _DOMCreateElement } from "./DOMCreateElement";
@@ -38,14 +40,13 @@ import { _methods_, _protected_code_ } from "./introspection";
 import { localStorage } from "./localStorage";
 import { logger, Logger } from "./Logger";
 import { _require_, isBrowser, isDeno, isNodeCommonJS } from "./platform";
-import { Promise } from "./Promise";
 import { subelements } from "./subelements";
 import { _top } from "./top";
-import "./assign";
 import { __is_raw_class__ } from "./is_raw_class";
 import { _LegacyCopy } from "./LegacyCopy";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
-import { __instanceID, _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS, IncrementInstanceID } from "./PrimaryCollections";
+import { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "./PrimaryCollections";
+import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
