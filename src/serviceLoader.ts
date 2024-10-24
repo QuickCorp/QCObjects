@@ -10,7 +10,7 @@ import { _require_, isBrowser } from "./platform";
  * @author: Jean Machuca <correojean@gmail.com>
  * @param service a Service object
  */
-export const serviceLoader = function (service, _async) {
+export const serviceLoader = function (service, _async = false) {
     var _serviceLoaderInBrowser = function (service, _async) {
         var _promise = new Promise(
             function (resolve, reject) {
