@@ -43,6 +43,7 @@ import { subelements } from "./subelements";
 import { _top } from "./top";
 import "./assign";
 import { __is_raw_class__ } from "./is_raw_class";
+import { _LegacyCopy } from "./LegacyCopy";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -178,30 +179,6 @@ import { __is_raw_class__ } from "./is_raw_class";
      */
     var __instanceID;
 
-
-    var _LegacyCopy = function (obj) {
-      var _value_;
-      switch (true) {
-        case typeof obj === "string":
-          _value_ = obj;
-          break;
-        case typeof obj === "number":
-          _value_ = obj;
-          break;
-        case typeof obj === "object":
-          _value_ = Object.assign({}, obj);
-          break;
-        case typeof obj === "function":
-          _value_ = obj.bind({});
-          break;
-        case __is_raw_class__(obj):
-          _value_ = class extends obj { };
-          break;
-        default:
-          break;
-      }
-      return _value_;
-    };
 
 
     var _QC_CLASSES = {};
