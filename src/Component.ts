@@ -1,9 +1,11 @@
+import { ComponentParams, ComponentRouting, Controller, Route, View } from "types/global";
 import { Base64 } from "./Base64";
 import { _basePath_ } from "./basePath";
 import { _Cast } from "./Cast";
 import { ClassFactory } from "./ClassFactory";
-import { ComponentURI } from "./ComponentFactory";
+import { _buildComponentsFromElements_, ComponentURI } from "./ComponentFactory";
 import { _DataStringify } from "./DataStringify";
+import { _domain_ } from "./domain";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { __getType__ } from "./getType";
 import { InheritClass } from "./InheritClass";
@@ -16,27 +18,32 @@ import { Package } from "./Package";
 import { isBrowser } from "./platform";
 import { Processor } from "./Processor";
 import { __routing_params__, __valid_routing_way__, __valid_routings__ } from "./routings";
-import { _top } from "./top";
+import { _top, componentsStack } from "./top";
+import { CONFIG } from "./CONFIG";
+import { serviceLoader } from "./serviceLoader";
+import { _tag_filter_ } from "./tag_filter";
+import { componentLoader } from "./componentLoader";
+
 export class Component extends InheritClass {
     validRoutingWays = ["pathname", "hash", "search"];
     basePath = _basePath_;
     domain = _domain_;
     templateHandler = "DefaultTemplateHandler";
     processorHandler = null;
-    routingWay = null;
-    routingNodes = [];
+    routingWay:string|null = null;
+    routingNodes:any[] = [];
     routings = [];
     routingPath = "";
     routingPaths = [];
     _componentHelpers = [];
-    subcomponents = [];
+    subcomponents:any[] = [];
     splashScreenComponent = undefined;
-    controller = undefined;
-    view = undefined;
+    controller?:Controller = undefined;
+    view?:View = undefined;
     effect = undefined;
     method = "GET";
     cached = true;
-    __promise__ = null;
+    __promise__?:Promise<any>|null = null;
     __namespace = undefined;
 
     constructor({
@@ -60,7 +67,7 @@ export class Component extends InheritClass {
         splashScreenComponent,
         controller,
         view
-    }) {
+    }:ComponentParams) {
         if (arguments.length < 1) {
             throw Error(`No arguments in component. You must at least give one argument.`);
         }
@@ -92,7 +99,7 @@ export class Component extends InheritClass {
             logger.warn("A name is not defined for " + __getType__(self));
         }
 
-        self.routingWay = _top.CONFIG.get("routingWay");
+        self.routingWay = CONFIG.get("routingWay");
 
         self.processorHandler = New(Processor, {
             component: self
@@ -192,7 +199,7 @@ export class Component extends InheritClass {
 
     get routingParams() {
         var component = this;
-        return [{}].concat(component.routingSelected.map(function (routing) {
+        return [{}].concat(component.routingSelected.map(function (routing: any) {
             return __routing_params__(routing, component.routingPath);
         })).reduce(function (accumulator, colData, index) {
             return Object.assign(accumulator, colData);
@@ -203,7 +210,7 @@ export class Component extends InheritClass {
         var component = this;
         var body = component.body;
         var data = this.data;
-        var __serviceClass;
+        var __serviceClass: any;
         var __classDefinition = component.getClass().__definition;
         var _serviceClassName = (isBrowser && body.getAttribute("serviceClass") !== null) ? (body.getAttribute("serviceClass")) : (null);
 
@@ -239,10 +246,10 @@ export class Component extends InheritClass {
                 var serviceInstance = New(__serviceClass, {
                     data: data
                 });
-                serviceLoader(serviceInstance).then(function ({
+                (serviceLoader(serviceInstance) as Promise<any>)?.then(function ({
                     request,
                     service
-                }) {
+                }:{request:any, service:any}) {
                     var serviceResponse;
                     if (typeof service.JSONresponse !== "undefined" && service.JSONresponse !== null) {
                         serviceResponse = service.JSONresponse;
@@ -264,10 +271,10 @@ export class Component extends InheritClass {
                         component.template = serviceResponse;
                     }
                     resolve(serviceResponse);
-                }, function (rejectedResponse) {
+                }, function (rejectedResponse: any) {
                     logger.debug(`Service loading rejected for ${_serviceClassName} in ${component.name}`);
                     reject(rejectedResponse);
-                }).catch(function (e) {
+                }).catch(function (e: any) {
                     logger.debug("Something went wroing while trying to load the service " + _serviceClassName);
                     throw Error(`Error loading ${_serviceClassName} for ${component.name}. Detail: ${e}`);
                 });
@@ -279,26 +286,26 @@ export class Component extends InheritClass {
 
     _bindroute_() {
         var _component_ = this;
-        if (!_component_._bindroute_.loaded) {
+        if (!(_component_ as any)._bindroute_.loaded) {
             if (isBrowser) {
 
-                _component_.hostElements("a").map(function (a) {
+                _component_.hostElements("a").map(function (a: { oldclick: any; onclick: (e: any) => boolean; }) {
                     a.oldclick = a.onclick;
-                    a.onclick = function (e) {
+                    a.onclick = function (e: { target: { [x: string]: any; href: string | URL | null | undefined; oldclick: { call: (arg0: any, arg1: any) => void; }; }; }) {
                         var _ret_ = true;
                         if (!_top.global.get("routingPaths")) {
                             _top.global.set("routingPaths", []);
                         }
-                        var routingWay = _top.CONFIG.get("routingWay");
+                        var routingWay = CONFIG.get("routingWay");
                         var routingPath = e.target[routingWay];
                         if (_top.global.get("routingPaths").includes(routingPath) &&
-                            e.target[routingWay] !== document.location[routingWay] &&
+                            e.target[routingWay] !== (location as any)[routingWay] &&
                             e.target.href !== document.location.href
                         ) {
                             logger.debug("A ROUTING WAS FOUND: " + routingPath);
                             window.history.pushState({
                                 href: e.target.href
-                            }, e.target.href, e.target.href);
+                            }, e?.target?.href as string, e.target.href);
                             ClassFactory("Component").route();
                             _ret_ = false;
                         } else {
@@ -315,14 +322,14 @@ export class Component extends InheritClass {
             } else {
                 // not yet implemented.
             }
-            this._bindroute_.loaded = true;
+            (_component_ as any)._bindroute_.loaded = true;
         } else {
             logger.debug(`Routes already bound to popstate events for ${_component_.name}`);
         }
 
     }
 
-    done(standardResponse) {
+    done(standardResponse: { request: any; component: any; }) {
         var _ret_;
         if (typeof standardResponse !== "undefined") {
             var { request, component } = standardResponse;
@@ -332,7 +339,7 @@ export class Component extends InheritClass {
     }
 
     createControllerInstance() {
-        var _Controller;
+        var _Controller: any;
         if (isBrowser) {
             if (typeof this.body === "undefined") {
                 throw new Error("The component has no body");
@@ -353,10 +360,10 @@ export class Component extends InheritClass {
         return new Promise((resolve, reject) => {
             if (isBrowser) {
                 if (typeof _Controller !== "undefined" && typeof this.controller !== "undefined") {
-                    if (typeof this.controller.done === "function") {
+                    if (typeof (this.controller as Controller).done === "function") {
                         try {
                             this.controller.done.call(this.controller);
-                        } catch (e) {
+                        } catch (e:any) {
                             throw Error(e);
                         }
                     } else {
@@ -401,8 +408,8 @@ export class Component extends InheritClass {
                     _component_.view = New(_View, {
                         component: _component_
                     }); // Initializes the main view for the component
-                    if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view.done === "function") {
-                        _component_.view.done.call(_component_.view);
+                    if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view?.done === "function") {
+                        _component_.view?.done.call(_component_.view);
                     }
                 }
 
@@ -429,7 +436,7 @@ export class Component extends InheritClass {
             try {
                 _component_.runComponentHelpers();
                 logger.debug(`Component helpers for ${_component_.name} executed.`);
-            } catch (e) {
+            } catch (e:any) {
                 logger.debug(`Component helpers for ${_component_.name} could not be executed.`);
                 throw Error(e);
             }
@@ -452,7 +459,7 @@ export class Component extends InheritClass {
 
     }
 
-    hostElements(tagFilter) {
+    hostElements(tagFilter: string) {
         var _component_ = this;
         var elementList = [];
         if (isBrowser) {
@@ -485,18 +492,18 @@ export class Component extends InheritClass {
     }
 
     __buildSubComponents__(rebuildObjects = false) {
-        var _component_ = this;
+        const _component_:Component = this as Component;
         var elementList = _component_.subtags;
         if (!rebuildObjects) {
-            elementList = elementList.filter(t => t.getAttribute("loaded") !== "true");
+            elementList = elementList.filter((t: { getAttribute: (arg0: string) => string; }) => t.getAttribute("loaded") !== "true");
         }
-        if ((typeof _component_ !== "undefined") || _component_.subcomponents.length < 1) {
+        if ((typeof _component_ !== "undefined") || (_component_ as Component).subcomponents.length < 1) {
             _component_.subcomponents = _buildComponentsFromElements_(elementList, _component_);
         }
         return _component_.subcomponents;
     }
 
-    fail(standardResponse) {
+    fail(standardResponse: { error: any; component: any; }) {
         var _ret_;
         if (typeof standardResponse !== "undefined") {
             var { error, component } = standardResponse;
@@ -505,18 +512,18 @@ export class Component extends InheritClass {
         return _ret_;
     }
 
-    set(name, value) {
+    set(name: string, value: any) {
         this[name] = value;
     }
 
-    get(name) {
-        return this[name];
+    get(name: string, _defaultValue?:string) {
+        return this[name] || _defaultValue;
     }
 
     feedComponent() {
         var _component_ = this;
         logger.debug(`[Component][${this.name}][feedComponent] start feeding component...`);
-        var _feedComponent_InBrowser = function (_component_) {
+        var _feedComponent_InBrowser = function (_component_: Component) {
             if (typeof _component_.container === "undefined" && typeof _component_.body === "undefined") {
                 logger.warn("COMPONENT {{NAME}} has an undefined container and body".replace("{{NAME}}", _component_.name));
                 return;
@@ -529,7 +536,7 @@ export class Component extends InheritClass {
                 logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
                 var tmp_shadowContainer = _DOMCreateElement("div");
                 container.subelements("[slot]").map(
-                    function (c) {
+                    function (c: { parentElement: any; }) {
                         if (c.parentElement === container) {
                             tmp_shadowContainer.appendChild(c);
                         }
@@ -585,7 +592,7 @@ export class Component extends InheritClass {
 
         };
 
-        var _feedComponent_InNode = function (_component_) {
+        var _feedComponent_InNode = function (_component_: Component) {
             var parsedAssignmentText = _component_.parsedAssignmentText;
             _component_.innerHTML = parsedAssignmentText;
         };
@@ -647,22 +654,22 @@ export class Component extends InheritClass {
                     case (_component.get("tplsource") === "default" &&
                         _component.get("templateURI") !== ""):
                         _component.set("url", _component.get("basePath") + _component.get("templateURI"));
-                        componentLoader(_component, false).then(
-                            function (standardResponse) {
+                        (componentLoader(_component, false) as Promise<any>)?.then(
+                            function (standardResponse: any) {
                                 resolve.call(_promise, standardResponse);
                             },
-                            function (standardResponse) {
+                            function (standardResponse: any) {
                                 reject.call(_promise, standardResponse);
                             });
                         break;
                     case (_component.get("tplsource") === "external" &&
                         _component.get("templateURI") !== ""):
                         _component.set("url", _component.get("templateURI"));
-                        componentLoader(_component, false).then(
-                            function (standardResponse) {
+                        (componentLoader(_component, false) as Promise<any>).then(
+                            function (standardResponse: any) {
                                 resolve.call(_promise, standardResponse);
                             },
-                            function (standardResponse) {
+                            function (standardResponse: any) {
                                 reject.call(_promise, standardResponse);
                             });
                         break;
@@ -684,7 +691,7 @@ export class Component extends InheritClass {
         return _promise;
     }
 
-    Cast(oClass) {
+    Cast(oClass:any) {
         /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
         let o = _methods_(oClass).map(m => m.name.replace(/bound /g, "")).map(m => {
             return {
@@ -698,11 +705,11 @@ export class Component extends InheritClass {
         var componentClass = this; /* is can be class or object*/
         var _route_promise_;
         var isValidInstance = (isQCObjects_Object(componentClass) && is_a(componentClass, "Component")) ? (true) : (false);
-        var __route__ = function (componentList) {
-            var _componentNames_ = [];
-            var _promises_ = componentList.filter(function (rc) {
+        var __route__ = function (componentList: any[]) {
+            var _componentNames_: any[] = [];
+            var _promises_ = componentList.filter(function (rc: any) {
                 return typeof rc !== "undefined";
-            }).map(function (rc) {
+            }).map(function (rc: Component) {
                 if (typeof rc.name !== "undefined") {
                     _componentNames_.push(rc.name);
                 } else {
@@ -716,7 +723,7 @@ export class Component extends InheritClass {
                                 rc.reload = true;
                                 return rc.rebuild();
                             })
-                            .then(function (_rc_) {
+                            .then(function (_rc_: any) {
                                 if (Object.hasOwnProperty.call(rc, "subcomponents") &&
                                     typeof rc.subcomponents !== "undefined" &&
                                     rc.subcomponents.length > 0
@@ -744,11 +751,11 @@ export class Component extends InheritClass {
                     logger.warn("ROUTING FAILED FOR " + _componentNames_.join(", ") + ": " + err);
                 });
         };
-        if (isValidInstance || !!_top.componentsStack) {
+        if (isValidInstance || !!componentsStack) {
             if (isValidInstance) {
                 logger.debug("loading routings for instance " + componentClass.name);
             }
-            _route_promise_ = __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (_top.componentsStack));
+            _route_promise_ = __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (componentsStack));
         } else {
             logger.debug("An undetermined result expected if load routings. So will not be loaded this time.");
             throw Error(`There is no valid instance and no components stack available to apply rountings`);
@@ -792,7 +799,7 @@ export class Component extends InheritClass {
         }
     }
 
-    _generateRoutingPaths(componentBody) {
+    _generateRoutingPaths(componentBody: { innerHTML: any; subelements: (arg0: string) => any[]; }) {
         var component = this;
         return new Promise<void>(function (resolve, reject) {
             if (isBrowser) {
@@ -803,16 +810,16 @@ export class Component extends InheritClass {
                         component.routings = [];
                         component.routingNodes.map(function (routingNode, r) {
                             var attributeNames = routingNode.getAttributeNames();
-                            var routing = {};
-                            attributeNames.map(function (attributeName, a) {
-                                routing[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+                            var routing = {} as ComponentRouting;
+                            attributeNames.map(function (attributeName: any, a: string | number) {
+                                (routing as any)[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
                             });
-                            component.routings.push(routing);
+                            component.routings.push(routing as never);
                             if (!component.routingPaths) {
                                 component.routingPaths = [];
                             }
-                            if (!component.routingPaths.includes(routing.path)) {
-                                component.routingPaths.push(routing.path);
+                            if (!component.routingPaths.includes(routing.path as never)) {
+                                component.routingPaths.push(routing.path as never);
                             }
                             if (!_top.global.get("routingPaths")) {
                                 _top.global.set("routingPaths", []);
@@ -831,7 +838,7 @@ export class Component extends InheritClass {
         });
     }
 
-    parseTemplate(template) {
+    parseTemplate(template: any) {
         var _self = this;
         var _parsedAssignmentText;
         var value = template;
@@ -866,10 +873,10 @@ export class Component extends InheritClass {
         return new Promise(function (resolve, reject) {
             if (isBrowser) {
                 if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay)) {
-                    rc.routingPath = document.location[rc.routingWay];
-                    rc.routingSelected.map(function (routing, r) {
+                    rc.routingPath = (location as any)[rc.routingWay as string];
+                    rc.routingSelected.map(function (routing: { name: { toString: () => any; }; tplextension: any; }, r: any) {
                         var componentURI = ComponentURI({
-                            "COMPONENTS_BASE_PATH": _top.CONFIG.get("componentsBasePath"),
+                            "COMPONENTS_BASE_PATH": CONFIG.get("componentsBasePath"),
                             "COMPONENT_NAME": routing.name.toString(),
                             "TPLEXTENSION": (Object.hasOwnProperty.call(routing, "tplextension")) ? (routing.tplextension) : (rc.tplextension),
                             "TPL_SOURCE": "default" /* here is always default in order to get the right uri */
@@ -892,9 +899,9 @@ export class Component extends InheritClass {
             var component = this;
             var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
             var _imgLazyLoaded = [..._componentRoot.subelements("img[lazy-src]")];
-            var _lazyLoadImages = function (image) {
-                image.setAttribute("src", image.getAttribute("lazy-src"));
-                image.onload = () => {
+            var _lazyLoadImages = function (image: Element| HTMLElement) {
+                image.setAttribute("src", image.getAttribute("lazy-src")?.toString() as string);
+                (image as HTMLElement).onload = () => {
                     image.removeAttribute("lazy-src");
                 };
             };
@@ -920,7 +927,7 @@ export class Component extends InheritClass {
         return null;
     }
 
-    applyTransitionEffect(effectClassName) {
+    applyTransitionEffect(effectClassName: string) {
         var _Effect = ClassFactory(effectClassName);
         if (typeof _Effect === "undefined") {
             throw Error(`${effectClassName} not found.`);
@@ -929,17 +936,17 @@ export class Component extends InheritClass {
             this.effect = New(_Effect, {
                 component: this
             });
-            this.effect.apply(this.effect.defaultParams);
+            (this.effect as any)?.apply((this.effect as any)?.defaultParams);
         } else {
             logger.debug(`${effectClassName} is ${__getType__(_Effect)} but is not a TransitionEffect`);
         }
     }
 
-    applyObserveTransitionEffect(effectClassName) {
+    applyObserveTransitionEffect(effectClassName: any) {
         if (isBrowser) {
             var component = this;
             var _componentRoot = (component.shadowed) ? (component.shadowRoot.host) : (component.body);
-            var _applyEffect_ = function (element) {
+            var _applyEffect_ = function (element: Element) {
                 component.applyTransitionEffect(effectClassName);
             };
             if ("IntersectionObserver" in window) {
@@ -967,10 +974,10 @@ export class Component extends InheritClass {
             if (document.location.hash !== "") {
                 var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
                 _componentRoot.subelements(document.location.hash).map(
-                    function (element) {
+                    function (element: { scrollIntoView: (arg0: any) => void; }) {
                         if (typeof element.scrollIntoView === "function") {
                             element.scrollIntoView(
-                                _top.CONFIG.get("scrollIntoHash", {
+                                CONFIG.get("scrollIntoHash", {
                                     behavior: "auto",
                                     block: "top",
                                     inline: "top"
@@ -987,22 +994,22 @@ export class Component extends InheritClass {
 
     i18n_translate() {
         if (isBrowser) {
-            if (_top.CONFIG.get("use_i18n")) {
+            if (CONFIG.get("use_i18n")) {
                 var component = this;
                 var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
-                var lang1 = _top.CONFIG.get("lang", "en");
+                var lang1 = CONFIG.get("lang", "en");
                 var lang2 = navigator.language.slice(0, 2);
                 var i18n = _top.global.get("i18n");
                 if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwnProperty.call(i18n, "messages"))) {
-                    var callback_i18n = function () {
+                    var callback_i18n = function (this: any) {
                         var component = this;
                         return new Promise<void>(function (resolve, reject) {
-                            var messages = i18n.messages.filter(function (message) {
+                            var messages = i18n.messages.filter(function (message: any) {
                                 return Object.hasOwnProperty.call(message, lang1) && Object.hasOwnProperty.call(message, lang2);
                             });
                             _componentRoot.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component")
-                                .map(function (element) {
-                                    messages.map(function (message) {
+                                .map(function (element: { innerHTML: any; }) {
+                                    messages.map(function (message: { [x: string]: any; }) {
                                         var _innerHTML = element.innerHTML;
                                         _innerHTML = _innerHTML.replace(new RegExp(`${message[lang1]}`, "g"), message[lang2]);
                                         element.innerHTML = _innerHTML;
@@ -1024,9 +1031,9 @@ export class Component extends InheritClass {
         }
     }
 
-    addComponentHelper(componentHelper) {
+    addComponentHelper(componentHelper: any) {
         var component = this;
-        component._componentHelpers.push(componentHelper);
+        component._componentHelpers.push(componentHelper as never);
     }
 
     runComponentHelpers() {
@@ -1082,4 +1089,4 @@ Package("com.qcobjects", [
 
 (_methods_)(ClassFactory("Component")).map(function (__c__) {
     (_protected_code_)(__c__);
-  });
+});

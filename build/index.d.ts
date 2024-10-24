@@ -99,7 +99,9 @@ declare module "PrimaryCollections" {
     export var _QC_READY_LISTENERS: never[];
 }
 declare module "top" {
+    import { Component } from "types/global";
     type QCObjects = typeof self | typeof window | typeof global | {
+        componentsStack: Component[];
         Microservice: any;
         Route: any;
         BackendMicroservice: any;
@@ -177,6 +179,7 @@ declare module "top" {
         Import: any;
     };
     export var _top: QCObjects;
+    export const componentsStack: Component[];
     export const resetTop: (_top_: QCObjects) => void;
 }
 declare module "Class" {
@@ -327,6 +330,8 @@ declare module "ComplexStorageCache" {
     }
 }
 declare module "ComponentFactory" {
+    import { ComponentURIParams } from "types/global";
+    import { Component } from "Component";
     /**
      * Returns a standarized uri for a component
      * @example
@@ -334,65 +339,100 @@ declare module "ComponentFactory" {
      * @author: Jean Machuca <correojean@gmail.com>
      * @param params an object with the params to build the uri path
      */
-    export const ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: {
-        TPL_SOURCE: any;
-        COMPONENTS_BASE_PATH: any;
-        COMPONENT_NAME: any;
-        TPLEXTENSION: any;
-    }) => string;
-    export const _buildComponentFromElement_: (element: any, __parent__: any) => any;
-    export const _buildComponentsFromElements_: (elements: any, __parent__: any) => any;
+    export const ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: ComponentURIParams) => string;
+    export const _buildComponentFromElement_: (element: {
+        getAttribute: (arg0: string) => string | null;
+        append: (arg0: any) => void;
+    }, __parent__: any) => any;
+    export const _buildComponentsFromElements_: (elements: any[], __parent__: Component | null) => any[];
 }
 declare module "routings" {
     export const __routing_params__: (routing: any, routingPath: any) => any;
     export const __valid_routings__: (routings: any, routingPath: any) => any;
     export const __valid_routing_way__: (validRoutingWays: any, routingWay: any) => any;
 }
+declare module "Export" {
+    export const Export: (f: any) => void;
+}
+declare module "asyncLoad" {
+    export const _asyncLoad: never[];
+    export const asyncLoad: (callback: {
+        (service: any, _async: any): Promise<unknown>;
+        (component: any, _async: any): Promise<unknown>;
+        (): void;
+    }, args: any[]) => {
+        func: {
+            (service: any, _async: any): Promise<unknown>;
+            (component: any, _async: any): Promise<unknown>;
+            (): void;
+        };
+        args: any[];
+        dispatch(): void;
+    };
+    export const _fireAsyncLoad: () => void;
+}
+declare module "serviceLoader" {
+    /**
+     * Loads a simple component from a template
+     *
+     * @author: Jean Machuca <correojean@gmail.com>
+     * @param service a Service object
+     */
+    export const serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
+        func: {
+            (service: any, _async: any): Promise<unknown>;
+            (component: any, _async: any): Promise<unknown>;
+            (): void;
+        };
+        args: any[];
+        dispatch(): void;
+    } | undefined;
+}
+declare module "tag_filter" {
+    export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
+}
+declare module "componentLoader" {
+    /**
+     * Loads a simple component from a template
+     *
+     * @author: Jean Machuca <correojean@gmail.com>
+     * @param component a Component object
+     */
+    export const componentLoader: (component: any, _async: any) => Promise<unknown> | {
+        func: {
+            (service: any, _async: any): Promise<unknown>;
+            (component: any, _async: any): Promise<unknown>;
+            (): void;
+        };
+        args: any[];
+        dispatch(): void;
+    };
+}
 declare module "Component" {
+    import { ComponentParams, Controller, View } from "types/global";
     import { InheritClass } from "InheritClass";
     export class Component extends InheritClass {
         validRoutingWays: string[];
         basePath: string;
-        domain: any;
+        domain: string;
         templateHandler: string;
         processorHandler: null;
-        routingWay: null;
-        routingNodes: never[];
+        routingWay: string | null;
+        routingNodes: any[];
         routings: never[];
         routingPath: string;
         routingPaths: never[];
         _componentHelpers: never[];
-        subcomponents: never[];
+        subcomponents: any[];
         splashScreenComponent: undefined;
-        controller: undefined;
-        view: undefined;
+        controller?: Controller;
+        view?: View;
         effect: undefined;
         method: string;
         cached: boolean;
-        __promise__: null;
+        __promise__?: Promise<any> | null;
         __namespace: undefined;
-        constructor({ __parent__, templateURI, template, tplsource, tplextension, url, name, method, data, reload, shadowed, cached, _body, __promise__, __shadowRoot, body, shadowRoot, splashScreenComponent, controller, view }: {
-            __parent__: any;
-            templateURI?: string | undefined;
-            template: any;
-            tplsource?: string | undefined;
-            tplextension: any;
-            url?: string | undefined;
-            name?: string | undefined;
-            method?: string | undefined;
-            data?: {} | undefined;
-            reload?: boolean | undefined;
-            shadowed?: boolean | undefined;
-            cached?: boolean | undefined;
-            _body?: any;
-            __promise__?: null | undefined;
-            __shadowRoot: any;
-            body: any;
-            shadowRoot: any;
-            splashScreenComponent: any;
-            controller: any;
-            view: any;
-        });
+        constructor({ __parent__, templateURI, template, tplsource, tplextension, url, name, method, data, reload, shadowed, cached, _body, __promise__, __shadowRoot, body, shadowRoot, splashScreenComponent, controller, view }: ComponentParams);
         set body(value: any);
         get body(): any;
         set cacheIndex(value: string);
@@ -407,7 +447,10 @@ declare module "Component" {
         get routingParams(): {};
         createServiceInstance(): Promise<unknown>;
         _bindroute_(): void;
-        done(standardResponse: any): Promise<{
+        done(standardResponse: {
+            request: any;
+            component: any;
+        }): Promise<{
             request: any;
             component: any;
         }> | undefined;
@@ -415,30 +458,36 @@ declare module "Component" {
         createEffectInstance(): Promise<unknown>;
         createViewInstance(): Promise<unknown>;
         __done__(): Promise<unknown>;
-        hostElements(tagFilter: any): any;
+        hostElements(tagFilter: string): any;
         get subtags(): any;
         get bodyAttributes(): {
             [x: number]: any;
         };
         get dataAttributes(): {};
-        __buildSubComponents__(rebuildObjects?: boolean): never[];
-        fail(standardResponse: any): Promise<{
+        __buildSubComponents__(rebuildObjects?: boolean): any[];
+        fail(standardResponse: {
+            error: any;
+            component: any;
+        }): Promise<{
             error: any;
             component: any;
         }> | undefined;
-        set(name: any, value: any): void;
-        get(name: any): any;
+        set(name: string, value: any): void;
+        get(name: string, _defaultValue?: string): any;
         feedComponent(): void;
         rebuild(): Promise<unknown>;
         Cast(oClass: any): any;
         static route(): Promise<void>;
         fullscreen(): void;
         closefullscreen(): void;
-        _generateRoutingPaths(componentBody: any): Promise<void>;
+        _generateRoutingPaths(componentBody: {
+            innerHTML: any;
+            subelements: (arg0: string) => any[];
+        }): Promise<void>;
         parseTemplate(template: any): any;
         _reroute_(): Promise<unknown>;
         lazyLoadImages(): null;
-        applyTransitionEffect(effectClassName: any): void;
+        applyTransitionEffect(effectClassName: string): void;
         applyObserveTransitionEffect(effectClassName: any): null;
         scrollIntoHash(): void;
         i18n_translate(): void;
@@ -462,9 +511,6 @@ declare module "Controller" {
         createRoutingController(): void;
         done(): void;
     }
-}
-declare module "Export" {
-    export const Export: (f: any) => void;
 }
 declare module "DDO" {
     const DDO_base: any;
@@ -560,23 +606,6 @@ declare module "localStorage" {
 declare module "subelements" {
     export const subelements: (query: string) => Array<any>;
 }
-declare module "asyncLoad" {
-    export const _asyncLoad: never[];
-    export const asyncLoad: (callback: {
-        (service: any, _async: any): Promise<unknown>;
-        (component: any, _async: any): Promise<unknown>;
-        (): void;
-    }, args: any[]) => {
-        func: {
-            (service: any, _async: any): Promise<unknown>;
-            (component: any, _async: any): Promise<unknown>;
-            (): void;
-        };
-        args: any[];
-        dispatch(): void;
-    };
-    export const _fireAsyncLoad: () => void;
-}
 declare module "waitUntil" {
     export const waitUntil: (func: any, exp: any) => void;
 }
@@ -612,40 +641,6 @@ declare module "captureFalseTouch" {
     export let supportsPassive: boolean;
     export const captureFalseTouch: () => false | {
         passive: boolean;
-    };
-}
-declare module "serviceLoader" {
-    /**
-     * Loads a simple component from a template
-     *
-     * @author: Jean Machuca <correojean@gmail.com>
-     * @param service a Service object
-     */
-    export const serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
-        func: {
-            (service: any, _async: any): Promise<unknown>;
-            (component: any, _async: any): Promise<unknown>;
-            (): void;
-        };
-        args: any[];
-        dispatch(): void;
-    } | undefined;
-}
-declare module "componentLoader" {
-    /**
-     * Loads a simple component from a template
-     *
-     * @author: Jean Machuca <correojean@gmail.com>
-     * @param component a Component object
-     */
-    export const componentLoader: (component: any, _async: any) => Promise<unknown> | {
-        func: {
-            (service: any, _async: any): Promise<unknown>;
-            (component: any, _async: any): Promise<unknown>;
-            (): void;
-        };
-        args: any[];
-        dispatch(): void;
     };
 }
 declare module "defaultProcessors" {
@@ -1115,9 +1110,6 @@ declare module "Timer" {
         }): void;
     }
 }
-declare module "tag_filter" {
-    export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
-}
 declare module "QCObjects" {
     import "assign";
     import { Logger } from "Logger";
@@ -1165,12 +1157,7 @@ declare module "QCObjects" {
             dispatch(): void;
         };
         RegisterClass: (_class_: any, __namespace: any) => any;
-        ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: {
-            TPL_SOURCE: any;
-            COMPONENTS_BASE_PATH: any;
-            COMPONENT_NAME: any;
-            TPLEXTENSION: any;
-        }) => string;
+        ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").ComponentURIParams) => string;
         waitUntil: (func: any, exp: any) => void;
         _super_: (className: any, classMethodName: any, params: any) => any;
         _DOMCreateElement: (elementName: any) => any;

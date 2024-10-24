@@ -186,11 +186,13 @@ declare class ComplexStorageCache {
     constructor(cache:ComplexCacheParams);
 
 }
+
+declare type ComponentURIParams = { COMPONENTS_BASE_PATH:string, COMPONENT_NAME:string, TPLEXTENSION:string, TPL_SOURCE:string };
 declare class _ComponentWidget_ extends HTMLElement { }
 
 declare function asyncLoad(callback: Function, args: Array<any>): any;
 declare function RegisterClass(_class_: any, namespace: string): void;
-declare function ComponentURI({ COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION, TPL_SOURCE }): string;
+declare function ComponentURI ({ COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION, TPL_SOURCE }:ComponentURIParams):string;
 declare function waitUntil(func: Function, exp: Function): void;
 declare function _super_(className: string, classMethodName: string, params?: Array<any>): any;
 declare function _DOMCreateElement(elementName: string): QCObjectsElement | HTMLElement;
@@ -240,6 +242,7 @@ declare class Processor extends InheritClass {
 }
 
 declare type ComponentParams = {
+    __parent__?:Component;
     name: string;
     template?: string;
     templateURI?: string;
@@ -252,7 +255,7 @@ declare type ComponentParams = {
     shadowed?: boolean;
     cached?: boolean;
     _body?: QCObjectsElement;
-    __promise__?: Promise<any>;
+    __promise__?: Promise<any>|null;
     __shadowRoot?: QCObjectsShadowedElement;
     body?: QCObjectsElement;
     shadowRoot?: QCObjectsShadowedElement;
@@ -265,7 +268,10 @@ declare type ComponentDoneResponse = {
     request?: XMLHttpRequest;
     component?: Component;
 };
-
+declare type ComponentRouting = {
+    path:string, name:string
+};
+declare type ComponentRoutings = Array<ComponentRouting>;
 declare class Component extends InheritClass {
     name: string;
     _body: QCObjectsElement | HTMLElement;
@@ -281,7 +287,7 @@ declare class Component extends InheritClass {
     processorHandler: Processor;
     routingWay: string;
     routingNodes: Array<QCObjectsElement | HTMLElement>;
-    routings: Array<any>;
+    routings: ComponentRoutings;
     routingPath: string;
     routingPaths: Array<string>;
     _componentHelpers: Array<any>;
@@ -525,3 +531,5 @@ interface String {
     prototype: any;
     list ():string[];
 }
+
+declare const componentsStack:Component[];

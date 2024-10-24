@@ -1,4 +1,7 @@
+import { Component } from "types/global";
+
 type QCObjects = typeof self | typeof window | typeof global | {
+    componentsStack:Component[],
     Microservice:any,
     Route:any,
     BackendMicroservice:any,
@@ -76,7 +79,9 @@ type QCObjects = typeof self | typeof window | typeof global | {
     Import:any
 }
 
-export var _top: QCObjects = self || window || global;
+export var _top: QCObjects = (self || window || global ) as QCObjects;
+export const componentsStack:Component[] = [];
+(_top as any).componentsStack = componentsStack;
 
 export const resetTop = (_top_: QCObjects) => {
     _top = _top_;
