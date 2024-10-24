@@ -44,6 +44,7 @@ import { _top } from "./top";
 import "./assign";
 import { __is_raw_class__ } from "./is_raw_class";
 import { _LegacyCopy } from "./LegacyCopy";
+import { _fireAsyncLoad } from "./asyncLoad";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -122,37 +123,7 @@ import { _LegacyCopy } from "./LegacyCopy";
       _domain_ = "localhost";
     }
 
-    _top._asyncLoad = [];
-    var asyncLoad = function (callback, args) {
-      var asyncCallback = {
-        "func": callback,
-        "args": args,
-        "dispatch"() {
-          this.func.apply(null, this.args);
-        }
-      };
-      _top._asyncLoad.push(asyncCallback);
-      return asyncCallback;
-    };
 
-    if (isBrowser) {
-      var _fireAsyncLoad = function () {
-        if (document.readyState === "complete") {
-          _top._asyncLoad.map(function (fc) {
-            fc.dispatch.call(fc);
-          });
-        }
-      };
-      document.onreadystatechange = _fireAsyncLoad;
-    } else if (typeof _top.global !== "undefined") {
-      _top.global._fireAsyncLoad = function () {
-        _top._asyncLoad.map(function (fc) {
-          fc.dispatch.call(fc);
-        });
-      };
-    }
-
-    _top.asyncLoad = asyncLoad;
     logger.debugEnabled = false;
     logger.infoEnabled = true;
     _top.logger = logger;
@@ -4662,7 +4633,7 @@ import { _LegacyCopy } from "./LegacyCopy";
 
     if (!isBrowser) {
       if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "_fireAsyncLoad")) {
-        _top.global._fireAsyncLoad.call(_top);
+        _fireAsyncLoad.call(_top);
       }
       if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "onload")) {
         _top.global.onload.call(_top);
