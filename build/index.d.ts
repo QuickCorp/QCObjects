@@ -311,7 +311,20 @@ declare module "CONFIG" {
     export const CONFIG: any;
 }
 declare module "ComplexStorageCache" {
-    export const ComplexStorageCache: (params: any) => any;
+    export class ComplexStorageCache {
+        constructor(params: {
+            index: any;
+            load: any;
+            alternate: any;
+        });
+        getItem(cachedObjectID: string): any;
+        setItem(cachedObjectID: string, value: any): void;
+        isEmpty(object: string | number | null): boolean;
+        getID(object: any): string | undefined;
+        save(object: any, cachedNewResponse: any): void;
+        getCached(object: any): any;
+        clear(): void;
+    }
 }
 declare module "ComponentFactory" {
     /**
@@ -1108,6 +1121,7 @@ declare module "tag_filter" {
 declare module "QCObjects" {
     import "assign";
     import { Logger } from "Logger";
+    import { ComplexStorageCache } from "ComplexStorageCache";
     import { Processor } from "Processor";
     import { BackendMicroservice } from "BackendMicroservice";
     import { Component } from "Component";
@@ -1135,7 +1149,7 @@ declare module "QCObjects" {
         GlobalSettings: typeof GlobalSettings;
         GLOBAL: typeof GLOBAL;
         DDO: typeof DDO;
-        ComplexStorageCache: (params: any) => any;
+        ComplexStorageCache: typeof ComplexStorageCache;
         _ComponentWidget_: typeof _ComponentWidget_;
         asyncLoad: (callback: {
             (service: any, _async: any): Promise<unknown>;
