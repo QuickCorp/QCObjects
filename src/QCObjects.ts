@@ -225,8 +225,6 @@ import { Ready } from "./Ready";
     }
 
 
-    var ready = Ready; // case insensitive ready option
-
     /**
      * Default Ready event function for window. Executes all micro ready events of Import calls
      *

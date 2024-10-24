@@ -11,3 +11,5 @@ export const Ready = function Ready(e) {
         _QC_READY_LISTENERS.push(e.bind(global));
     }
 }
+
+export const ready = Ready; // case insensitive ready option
