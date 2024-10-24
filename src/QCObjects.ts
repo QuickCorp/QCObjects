@@ -45,7 +45,7 @@ import "./assign";
 import { __is_raw_class__ } from "./is_raw_class";
 import { _LegacyCopy } from "./LegacyCopy";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
-import { __instanceID, _QC_CLASSES, IncrementInstanceID } from "./PrimaryCollections";
+import { __instanceID, _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, IncrementInstanceID } from "./PrimaryCollections";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
