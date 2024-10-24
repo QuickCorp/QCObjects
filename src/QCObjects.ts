@@ -38,6 +38,8 @@ import { _methods_, _protected_code_ } from "./introspection";
 import { localStorage } from "./localStorage";
 import { logger, Logger } from "./Logger";
 import { _require_, isBrowser, isDeno, isNodeCommonJS } from "./platform";
+import { Promise } from "./Promise";
+import { subelements } from "./subelements";
 import { _top } from "./top";
 
 (function __qcobjects__(_top: any): void {
@@ -66,14 +68,11 @@ import { _top } from "./top";
     }
 
     if (isBrowser) {
-      const _subelements = function subelements(selector) {
-        return [...this.querySelectorAll(selector)];
-      };
-      Element.prototype.subelements = _subelements;
-      HTMLDocument.prototype.subelements = _subelements;
-      HTMLElement.prototype.subelements = _subelements;
+      Element.prototype.subelements = subelements;
+      HTMLDocument.prototype.subelements = subelements;
+      HTMLElement.prototype.subelements = subelements;
       if (typeof ShadowRoot !== "undefined") {
-        ShadowRoot.prototype.subelements = _subelements;
+        ShadowRoot.prototype.subelements = subelements;
       }
     }
     if (isBrowser) {
@@ -100,25 +99,6 @@ import { _top } from "./top";
     var _domain_, _basePath_;
     var _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
     if (isBrowser) {
-      /**
-       * Polyfilling Promise
-       */
-      if (!("Promise" in _top)) {
-        _top.Promise = function (_f) {
-          var _p = {
-            then() { },
-            catch() { },
-            _then(response) {
-              this.then.call(_p, response);
-            },
-            _catch(response) {
-              this.catch.call(_p, response);
-            }
-          };
-          _f.call(_p, _p._then, _p._catch);
-          return _p;
-        };
-      }
       if (typeof _top.console === "undefined") {
         _top.console = function () { };
         _top.console.prototype.log = function (message) { };
