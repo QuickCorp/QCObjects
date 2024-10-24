@@ -100,6 +100,3 @@ export class GlobalSettings extends InheritClass {
 Package("com.qcobjects", [
     GlobalSettings
   ]);
-  Export(ClassFactory("GlobalSettings"));
-
-  resetTop(_CastProps(New(ClassFactory("GlobalSettings")), _top));

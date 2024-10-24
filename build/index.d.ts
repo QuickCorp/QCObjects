@@ -1,12 +1,3 @@
-declare module "Base64" {
-    export const Base64: {
-        _keyStr: string;
-        encode(e: any): string;
-        decode(e: any): string;
-        _utf8_encode(e: any): string;
-        _utf8_decode(e: any): string;
-    };
-}
 declare module "platform" {
     export const isDeno: boolean;
     export const isBrowser: boolean;
@@ -14,13 +5,6 @@ declare module "platform" {
     export const deno_require: (name: string) => void;
     export const _require_: (name: string) => void;
     export const is_phonegap: boolean;
-}
-declare module "top" {
-    export var _top: any;
-}
-declare module "basePath" {
-    export var _basePath_: string;
-    export const setBasePath: (value: string) => void;
 }
 declare module "Logger" {
     export class Logger {
@@ -110,6 +94,87 @@ declare module "PrimaryCollections" {
     export var _QC_PACKAGES_IMPORTED: never[];
     export var _QC_READY_LISTENERS: never[];
 }
+declare module "top" {
+    type QCObjects = typeof self | typeof window | typeof global | {
+        Microservice: any;
+        Route: any;
+        BackendMicroservice: any;
+        QCObjectsElement: any;
+        QCObjectsShadowedElement: any;
+        Logger: any;
+        Class: any;
+        _Crypt: any;
+        TagElements: any;
+        DefaultTemplateHandler: any;
+        SourceJS: any;
+        SourceCSS: any;
+        ArrayList: any;
+        ArrayCollection: any;
+        GlobalSettings: any;
+        GLOBAL: any;
+        DDO: any;
+        CacheController: any;
+        ComplexCacheParams: any;
+        ComplexStorageCache: any;
+        ComponentWidget: any;
+        asyncLoad: any;
+        RegisterClass: any;
+        ComponentURI: any;
+        waitUntil: any;
+        super: any;
+        _DOMCreateElement: any;
+        shortCode: any;
+        getType: any;
+        is_a: any;
+        _DataStringify: any;
+        serviceLoader: any;
+        componentLoader: any;
+        ObjectName: any;
+        isQCObjects_Class: any;
+        isQCObjects_Object: any;
+        NamespaceRef: any;
+        RegisterWidget: any;
+        RegisterWidgets: any;
+        range: any;
+        getDocumentLayout: any;
+        Export: any;
+        New: any;
+        Tag: any;
+        Ready: any;
+        methods: any;
+        set: any;
+        get: any;
+        start: any;
+        InheritClass: any;
+        Processor: any;
+        ComponentParams: any;
+        ComponentDoneResponse: any;
+        Component: any;
+        CONFIG: any;
+        ControllerParams: any;
+        Controller: any;
+        ViewParams: any;
+        View: any;
+        Service: any;
+        JSONService: any;
+        ConfigService: any;
+        VO: any;
+        EffectParams: any;
+        Effect: any;
+        TransitionEffect: any;
+        TimerParams: any;
+        Timer: any;
+        Toggle: any;
+        logger: any;
+        sdk: any;
+        global: any;
+        ClassFactory: any;
+        Package: any;
+        Import: any;
+    };
+    export var _top: QCObjects;
+    export const resetTop: (_top_: QCObjects) => void;
+}
 declare module "Class" {
     /**
      * Creates new object class  of another object
@@ -143,9 +208,6 @@ declare module "Package" {
 declare module "ClassFactory" {
     export const ClassFactory: (className: any) => any;
 }
-declare module "DataStringify" {
-    export const _DataStringify: (data: any) => string;
-}
 declare module "New" {
     /**
      * Creates an object from a Class definition
@@ -155,6 +217,53 @@ declare module "New" {
      */
     export const New: (__class__: any, args?: {}) => any;
 }
+declare module "ArrayCollection" {
+    export const ArrayList: any;
+    export const ArrayCollection: any;
+}
+declare module "basePath" {
+    export var _basePath_: string;
+    export const setBasePath: (value: string) => void;
+}
+declare module "DataStringify" {
+    export const _DataStringify: (data: any) => string;
+}
+declare module "InheritClass" {
+    export const InheritClass: any;
+}
+declare module "BackendMicroservice" {
+    import { InheritClass } from "InheritClass";
+    export class BackendMicroservice extends InheritClass {
+        constructor({ domain, basePath, body, stream, request }: {
+            domain?: any;
+            basePath?: string | undefined;
+            body?: null | undefined;
+            stream?: null | undefined;
+            request?: null | undefined;
+        });
+        cors(): void;
+        head(formData: any): void;
+        get(formData: any): void;
+        post(formData: any): void;
+        put(formData: any): void;
+        delete(formData: any): void;
+        connect(formData: any): void;
+        options(formData: any): void;
+        trace(formData: any): void;
+        patch(formData: any): void;
+        finishWithBody(stream: any): void;
+        done(): void;
+    }
+}
+declare module "Base64" {
+    export const Base64: {
+        _keyStr: string;
+        encode(e: any): string;
+        decode(e: any): string;
+        _utf8_encode(e: any): string;
+        _utf8_decode(e: any): string;
+    };
+}
 declare module "secretKey" {
     export const _secretKey: string;
 }
@@ -162,9 +271,6 @@ declare module "Crypt" {
     export const _Crypt: any;
     export const _CryptObject: (o: any) => any;
     export const _DecryptObject: (s: any) => any;
-}
-declare module "InheritClass" {
-    export const InheritClass: any;
 }
 declare module "Processor" {
     import { InheritClass } from "InheritClass";
@@ -382,6 +488,18 @@ declare module "DefaultTemplateHandler" {
         assign(data: any): string;
     }
 }
+declare module "Effect" {
+    import { InheritClass } from "InheritClass";
+    export class Effect extends InheritClass {
+        duration: number;
+        constructor();
+        animate({ timing, draw, duration }: {
+            timing: any;
+            draw: any;
+            duration: any;
+        }): void;
+    }
+}
 declare module "findPackageNodePath" {
     export const findPackageNodePath: (packagename: any) => string | null;
 }
@@ -459,10 +577,409 @@ declare module "captureFalseTouch" {
         passive: boolean;
     };
 }
-declare module "QCObjects" {
-    import "assign";
-    import { _top } from "top";
-    export default _top;
+declare module "serviceLoader" {
+    /**
+     * Loads a simple component from a template
+     *
+     * @author: Jean Machuca <correojean@gmail.com>
+     * @param service a Service object
+     */
+    export const serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
+        func: any;
+        args: any;
+        dispatch(): void;
+    } | undefined;
+}
+declare module "componentLoader" {
+    /**
+     * Loads a simple component from a template
+     *
+     * @author: Jean Machuca <correojean@gmail.com>
+     * @param component a Component object
+     */
+    export const componentLoader: (component: any, _async: any) => Promise<unknown> | {
+        func: any;
+        args: any;
+        dispatch(): void;
+    };
+}
+declare module "defaultProcessors" {
+    export const setDefaultProcessors: () => void;
+}
+declare module "Tag" {
+    export const TagElements: any;
+    /**
+     * Gets the element of DOM found by tag name
+     *
+     * @param {Object} tagname
+     * @param {Object} innerHTML
+     */
+    export const Tag: (tagname: any, innerHTML: any) => any;
+}
+declare module "SourceJS" {
+    export const SourceJS: any;
+}
+declare module "SourceCSS" {
+    export const SourceCSS: any;
+}
+declare module "globalSettings" {
+    import { InheritClass } from "InheritClass";
+    export class GlobalSettings extends InheritClass {
+        _GLOBAL: {};
+        __definition: {};
+        __classType: string;
+        constructor();
+        static set(name: any, value: any): void;
+        static get(name: any, _default: any): any;
+        static __start__(): void;
+    }
+}
+declare module "WidgetsFactory" {
+    export const _ComponentWidget_: {
+        new (): {
+            accessKey: string;
+            readonly accessKeyLabel: string;
+            autocapitalize: string;
+            dir: string;
+            draggable: boolean;
+            hidden: boolean;
+            inert: boolean;
+            innerText: string;
+            lang: string;
+            readonly offsetHeight: number;
+            readonly offsetLeft: number;
+            readonly offsetParent: Element | null;
+            readonly offsetTop: number;
+            readonly offsetWidth: number;
+            outerText: string;
+            popover: string | null;
+            spellcheck: boolean;
+            title: string;
+            translate: boolean;
+            attachInternals(): ElementInternals;
+            click(): void;
+            hidePopover(): void;
+            showPopover(): void;
+            togglePopover(force?: boolean): boolean;
+            addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+            addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+            removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+            removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+            readonly attributes: NamedNodeMap;
+            readonly classList: DOMTokenList;
+            className: string;
+            readonly clientHeight: number;
+            readonly clientLeft: number;
+            readonly clientTop: number;
+            readonly clientWidth: number;
+            id: string;
+            innerHTML: string;
+            readonly localName: string;
+            readonly namespaceURI: string | null;
+            onfullscreenchange: ((this: Element, ev: Event) => any) | null;
+            onfullscreenerror: ((this: Element, ev: Event) => any) | null;
+            outerHTML: string;
+            readonly ownerDocument: Document;
+            readonly part: DOMTokenList;
+            readonly prefix: string | null;
+            readonly scrollHeight: number;
+            scrollLeft: number;
+            scrollTop: number;
+            readonly scrollWidth: number;
+            readonly shadowRoot: ShadowRoot | null;
+            slot: string;
+            readonly tagName: string;
+            attachShadow(init: ShadowRootInit): ShadowRoot;
+            checkVisibility(options?: CheckVisibilityOptions): boolean;
+            closest<K extends keyof HTMLElementTagNameMap>(selector: K): HTMLElementTagNameMap[K] | null;
+            closest<K extends keyof SVGElementTagNameMap>(selector: K): SVGElementTagNameMap[K] | null;
+            closest<K extends keyof MathMLElementTagNameMap>(selector: K): MathMLElementTagNameMap[K] | null;
+            closest<E extends Element = Element>(selectors: string): E | null;
+            computedStyleMap(): StylePropertyMapReadOnly;
+            getAttribute(qualifiedName: string): string | null;
+            getAttributeNS(namespace: string | null, localName: string): string | null;
+            getAttributeNames(): string[];
+            getAttributeNode(qualifiedName: string): Attr | null;
+            getAttributeNodeNS(namespace: string | null, localName: string): Attr | null;
+            getBoundingClientRect(): DOMRect;
+            getClientRects(): DOMRectList;
+            getElementsByClassName(classNames: string): HTMLCollectionOf<Element>;
+            getElementsByTagName<K extends keyof HTMLElementTagNameMap>(qualifiedName: K): HTMLCollectionOf<HTMLElementTagNameMap[K]>;
+            getElementsByTagName<K extends keyof SVGElementTagNameMap>(qualifiedName: K): HTMLCollectionOf<SVGElementTagNameMap[K]>;
+            getElementsByTagName<K extends keyof MathMLElementTagNameMap>(qualifiedName: K): HTMLCollectionOf<MathMLElementTagNameMap[K]>;
+            getElementsByTagName<K extends keyof HTMLElementDeprecatedTagNameMap>(qualifiedName: K): HTMLCollectionOf<HTMLElementDeprecatedTagNameMap[K]>;
+            getElementsByTagName(qualifiedName: string): HTMLCollectionOf<Element>;
+            getElementsByTagNameNS(namespaceURI: "http://www.w3.org/1999/xhtml", localName: string): HTMLCollectionOf<HTMLElement>;
+            getElementsByTagNameNS(namespaceURI: "http://www.w3.org/2000/svg", localName: string): HTMLCollectionOf<SVGElement>;
+            getElementsByTagNameNS(namespaceURI: "http://www.w3.org/1998/Math/MathML", localName: string): HTMLCollectionOf<MathMLElement>;
+            getElementsByTagNameNS(namespace: string | null, localName: string): HTMLCollectionOf<Element>;
+            getHTML(options?: GetHTMLOptions): string;
+            hasAttribute(qualifiedName: string): boolean;
+            hasAttributeNS(namespace: string | null, localName: string): boolean;
+            hasAttributes(): boolean;
+            hasPointerCapture(pointerId: number): boolean;
+            insertAdjacentElement(where: InsertPosition, element: Element): Element | null;
+            insertAdjacentHTML(position: InsertPosition, string: string): void;
+            insertAdjacentText(where: InsertPosition, data: string): void;
+            matches(selectors: string): boolean;
+            releasePointerCapture(pointerId: number): void;
+            removeAttribute(qualifiedName: string): void;
+            removeAttributeNS(namespace: string | null, localName: string): void;
+            removeAttributeNode(attr: Attr): Attr;
+            requestFullscreen(options?: FullscreenOptions): Promise<void>;
+            requestPointerLock(options?: PointerLockOptions): Promise<void>;
+            scroll(options?: ScrollToOptions): void;
+            scroll(x: number, y: number): void;
+            scrollBy(options?: ScrollToOptions): void;
+            scrollBy(x: number, y: number): void;
+            scrollIntoView(arg?: boolean | ScrollIntoViewOptions): void;
+            scrollTo(options?: ScrollToOptions): void;
+            scrollTo(x: number, y: number): void;
+            setAttribute(qualifiedName: string, value: string): void;
+            setAttributeNS(namespace: string | null, qualifiedName: string, value: string): void;
+            setAttributeNode(attr: Attr): Attr | null;
+            setAttributeNodeNS(attr: Attr): Attr | null;
+            setHTMLUnsafe(html: string): void;
+            setPointerCapture(pointerId: number): void;
+            toggleAttribute(qualifiedName: string, force?: boolean): boolean;
+            webkitMatchesSelector(selectors: string): boolean;
+            readonly baseURI: string;
+            readonly childNodes: NodeListOf<ChildNode>;
+            readonly firstChild: ChildNode | null;
+            readonly isConnected: boolean;
+            readonly lastChild: ChildNode | null;
+            readonly nextSibling: ChildNode | null;
+            readonly nodeName: string;
+            readonly nodeType: number;
+            nodeValue: string | null;
+            readonly parentElement: HTMLElement | null;
+            readonly parentNode: ParentNode | null;
+            readonly previousSibling: ChildNode | null;
+            textContent: string | null;
+            appendChild<T extends Node>(node: T): T;
+            cloneNode(deep?: boolean): Node;
+            compareDocumentPosition(other: Node): number;
+            contains(other: Node | null): boolean;
+            getRootNode(options?: GetRootNodeOptions): Node;
+            hasChildNodes(): boolean;
+            insertBefore<T extends Node>(node: T, child: Node | null): T;
+            isDefaultNamespace(namespace: string | null): boolean;
+            isEqualNode(otherNode: Node | null): boolean;
+            isSameNode(otherNode: Node | null): boolean;
+            lookupNamespaceURI(prefix: string | null): string | null;
+            lookupPrefix(namespace: string | null): string | null;
+            normalize(): void;
+            removeChild<T extends Node>(child: T): T;
+            replaceChild<T extends Node>(node: Node, child: T): T;
+            readonly ELEMENT_NODE: 1;
+            readonly ATTRIBUTE_NODE: 2;
+            readonly TEXT_NODE: 3;
+            readonly CDATA_SECTION_NODE: 4;
+            readonly ENTITY_REFERENCE_NODE: 5;
+            readonly ENTITY_NODE: 6;
+            readonly PROCESSING_INSTRUCTION_NODE: 7;
+            readonly COMMENT_NODE: 8;
+            readonly DOCUMENT_NODE: 9;
+            readonly DOCUMENT_TYPE_NODE: 10;
+            readonly DOCUMENT_FRAGMENT_NODE: 11;
+            readonly NOTATION_NODE: 12;
+            readonly DOCUMENT_POSITION_DISCONNECTED: 1;
+            readonly DOCUMENT_POSITION_PRECEDING: 2;
+            readonly DOCUMENT_POSITION_FOLLOWING: 4;
+            readonly DOCUMENT_POSITION_CONTAINS: 8;
+            readonly DOCUMENT_POSITION_CONTAINED_BY: 16;
+            readonly DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC: 32;
+            dispatchEvent(event: Event): boolean;
+            ariaAtomic: string | null;
+            ariaAutoComplete: string | null;
+            ariaBrailleLabel: string | null;
+            ariaBrailleRoleDescription: string | null;
+            ariaBusy: string | null;
+            ariaChecked: string | null;
+            ariaColCount: string | null;
+            ariaColIndex: string | null;
+            ariaColSpan: string | null;
+            ariaCurrent: string | null;
+            ariaDescription: string | null;
+            ariaDisabled: string | null;
+            ariaExpanded: string | null;
+            ariaHasPopup: string | null;
+            ariaHidden: string | null;
+            ariaInvalid: string | null;
+            ariaKeyShortcuts: string | null;
+            ariaLabel: string | null;
+            ariaLevel: string | null;
+            ariaLive: string | null;
+            ariaModal: string | null;
+            ariaMultiLine: string | null;
+            ariaMultiSelectable: string | null;
+            ariaOrientation: string | null;
+            ariaPlaceholder: string | null;
+            ariaPosInSet: string | null;
+            ariaPressed: string | null;
+            ariaReadOnly: string | null;
+            ariaRequired: string | null;
+            ariaRoleDescription: string | null;
+            ariaRowCount: string | null;
+            ariaRowIndex: string | null;
+            ariaRowSpan: string | null;
+            ariaSelected: string | null;
+            ariaSetSize: string | null;
+            ariaSort: string | null;
+            ariaValueMax: string | null;
+            ariaValueMin: string | null;
+            ariaValueNow: string | null;
+            ariaValueText: string | null;
+            role: string | null;
+            animate(keyframes: Keyframe[] | PropertyIndexedKeyframes | null, options?: number | KeyframeAnimationOptions): Animation;
+            getAnimations(options?: GetAnimationsOptions): Animation[];
+            after(...nodes: (Node | string)[]): void;
+            before(...nodes: (Node | string)[]): void;
+            remove(): void;
+            replaceWith(...nodes: (Node | string)[]): void;
+            readonly nextElementSibling: Element | null;
+            readonly previousElementSibling: Element | null;
+            readonly childElementCount: number;
+            readonly children: HTMLCollection;
+            readonly firstElementChild: Element | null;
+            readonly lastElementChild: Element | null;
+            append(...nodes: (Node | string)[]): void;
+            prepend(...nodes: (Node | string)[]): void;
+            querySelector<K extends keyof HTMLElementTagNameMap>(selectors: K): HTMLElementTagNameMap[K] | null;
+            querySelector<K extends keyof SVGElementTagNameMap>(selectors: K): SVGElementTagNameMap[K] | null;
+            querySelector<K extends keyof MathMLElementTagNameMap>(selectors: K): MathMLElementTagNameMap[K] | null;
+            querySelector<K extends keyof HTMLElementDeprecatedTagNameMap>(selectors: K): HTMLElementDeprecatedTagNameMap[K] | null;
+            querySelector<E extends Element = Element>(selectors: string): E | null;
+            querySelectorAll<K extends keyof HTMLElementTagNameMap>(selectors: K): NodeListOf<HTMLElementTagNameMap[K]>;
+            querySelectorAll<K extends keyof SVGElementTagNameMap>(selectors: K): NodeListOf<SVGElementTagNameMap[K]>;
+            querySelectorAll<K extends keyof MathMLElementTagNameMap>(selectors: K): NodeListOf<MathMLElementTagNameMap[K]>;
+            querySelectorAll<K extends keyof HTMLElementDeprecatedTagNameMap>(selectors: K): NodeListOf<HTMLElementDeprecatedTagNameMap[K]>;
+            querySelectorAll<E extends Element = Element>(selectors: string): NodeListOf<E>;
+            replaceChildren(...nodes: (Node | string)[]): void;
+            readonly assignedSlot: HTMLSlotElement | null;
+            readonly attributeStyleMap: StylePropertyMap;
+            readonly style: CSSStyleDeclaration;
+            contentEditable: string;
+            enterKeyHint: string;
+            inputMode: string;
+            readonly isContentEditable: boolean;
+            onabort: ((this: GlobalEventHandlers, ev: UIEvent) => any) | null;
+            onanimationcancel: ((this: GlobalEventHandlers, ev: AnimationEvent) => any) | null;
+            onanimationend: ((this: GlobalEventHandlers, ev: AnimationEvent) => any) | null;
+            onanimationiteration: ((this: GlobalEventHandlers, ev: AnimationEvent) => any) | null;
+            onanimationstart: ((this: GlobalEventHandlers, ev: AnimationEvent) => any) | null;
+            onauxclick: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            onbeforeinput: ((this: GlobalEventHandlers, ev: InputEvent) => any) | null;
+            onbeforetoggle: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onblur: ((this: GlobalEventHandlers, ev: FocusEvent) => any) | null;
+            oncancel: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            oncanplay: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            oncanplaythrough: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onchange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onclick: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            onclose: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            oncontextlost: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            oncontextmenu: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            oncontextrestored: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            oncopy: ((this: GlobalEventHandlers, ev: ClipboardEvent) => any) | null;
+            oncuechange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            oncut: ((this: GlobalEventHandlers, ev: ClipboardEvent) => any) | null;
+            ondblclick: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            ondrag: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
+            ondragend: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
+            ondragenter: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
+            ondragleave: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
+            ondragover: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
+            ondragstart: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
+            ondrop: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
+            ondurationchange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onemptied: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onended: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onerror: OnErrorEventHandler;
+            onfocus: ((this: GlobalEventHandlers, ev: FocusEvent) => any) | null;
+            onformdata: ((this: GlobalEventHandlers, ev: FormDataEvent) => any) | null;
+            ongotpointercapture: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            oninput: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            oninvalid: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onkeydown: ((this: GlobalEventHandlers, ev: KeyboardEvent) => any) | null;
+            onkeypress: ((this: GlobalEventHandlers, ev: KeyboardEvent) => any) | null;
+            onkeyup: ((this: GlobalEventHandlers, ev: KeyboardEvent) => any) | null;
+            onload: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onloadeddata: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onloadedmetadata: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onloadstart: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onlostpointercapture: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            onmousedown: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            onmouseenter: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            onmouseleave: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            onmousemove: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            onmouseout: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            onmouseover: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            onmouseup: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
+            onpaste: ((this: GlobalEventHandlers, ev: ClipboardEvent) => any) | null;
+            onpause: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onplay: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onplaying: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onpointercancel: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            onpointerdown: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            onpointerenter: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            onpointerleave: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            onpointermove: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            onpointerout: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            onpointerover: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            onpointerup: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
+            onprogress: ((this: GlobalEventHandlers, ev: ProgressEvent) => any) | null;
+            onratechange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onreset: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onresize: ((this: GlobalEventHandlers, ev: UIEvent) => any) | null;
+            onscroll: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onscrollend: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onsecuritypolicyviolation: ((this: GlobalEventHandlers, ev: SecurityPolicyViolationEvent) => any) | null;
+            onseeked: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onseeking: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onselect: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onselectionchange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onselectstart: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onslotchange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onstalled: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onsubmit: ((this: GlobalEventHandlers, ev: SubmitEvent) => any) | null;
+            onsuspend: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            ontimeupdate: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            ontoggle: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            ontouchcancel?: ((this: GlobalEventHandlers, ev: TouchEvent) => any) | null | undefined;
+            ontouchend?: ((this: GlobalEventHandlers, ev: TouchEvent) => any) | null | undefined;
+            ontouchmove?: ((this: GlobalEventHandlers, ev: TouchEvent) => any) | null | undefined;
+            ontouchstart?: ((this: GlobalEventHandlers, ev: TouchEvent) => any) | null | undefined;
+            ontransitioncancel: ((this: GlobalEventHandlers, ev: TransitionEvent) => any) | null;
+            ontransitionend: ((this: GlobalEventHandlers, ev: TransitionEvent) => any) | null;
+            ontransitionrun: ((this: GlobalEventHandlers, ev: TransitionEvent) => any) | null;
+            ontransitionstart: ((this: GlobalEventHandlers, ev: TransitionEvent) => any) | null;
+            onvolumechange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onwaiting: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onwebkitanimationend: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onwebkitanimationiteration: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onwebkitanimationstart: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onwebkittransitionend: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+            onwheel: ((this: GlobalEventHandlers, ev: WheelEvent) => any) | null;
+            autofocus: boolean;
+            readonly dataset: DOMStringMap;
+            nonce?: string;
+            tabIndex: number;
+            blur(): void;
+            focus(options?: FocusOptions): void;
+        };
+    };
+    export const RegisterWidget: (widgetName: any) => void;
+    export const RegisterWidgets: () => void;
+}
+declare module "View" {
+    import { InheritClass } from "InheritClass";
+    export class View extends InheritClass {
+        constructor({ component, dependencies }: {
+            component?: undefined;
+            dependencies?: never[] | undefined;
+        });
+    }
 }
 declare module "Service" {
     import { InheritClass } from "InheritClass";
@@ -504,31 +1021,156 @@ declare module "Service" {
         constructor();
     }
 }
-declare module "Tag" {
-    export const TagElements: any;
-    /**
-     * Gets the element of DOM found by tag name
-     *
-     * @param {Object} tagname
-     * @param {Object} innerHTML
-     */
-    export const Tag: (tagname: any, innerHTML: any) => any;
-}
 declare module "VO" {
     import { InheritClass } from "InheritClass";
     export class VO extends InheritClass {
         constructor();
     }
 }
-declare module "View" {
-    import { InheritClass } from "InheritClass";
-    export class View extends InheritClass {
-        constructor({ component, dependencies }: {
-            component?: undefined;
-            dependencies?: never[] | undefined;
-        });
+declare module "TransitionEffect" {
+    import { Effect } from "Effect";
+    export class TransitionEffect extends Effect {
+        duration: number;
+        defaultParams: {
+            alphaFrom: number;
+            alphaTo: number;
+            angleFrom: number;
+            angleTo: number;
+            radiusFrom: number;
+            radiusTo: number;
+            scaleFrom: number;
+            scaleTo: number;
+        };
+        fitToHeight: boolean;
+        fitToWidth: boolean;
+        effects: never[];
+        constructor();
+        apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: {
+            alphaFrom: any;
+            alphaTo: any;
+            angleFrom: any;
+            angleTo: any;
+            radiusFrom: any;
+            radiusTo: any;
+            scaleFrom: any;
+            scaleTo: any;
+        }): void;
     }
 }
+declare module "Timer" {
+    import { InheritClass } from "InheritClass";
+    export class Timer extends InheritClass {
+        constructor();
+        duration: number;
+        alive: boolean;
+        thread({ timing, intervalInterceptor, duration }: {
+            timing: any;
+            intervalInterceptor: any;
+            duration: any;
+        }): void;
+    }
+}
+declare module "QCObjects" {
+    import "assign";
+    import { Logger } from "Logger";
+    import { Processor } from "Processor";
+    import { BackendMicroservice } from "BackendMicroservice";
+    import { Component } from "Component";
+    import { DefaultTemplateHandler } from "DefaultTemplateHandler";
+    import { __start__, _ComponentWidget_, ArrayCollection, ArrayList, DDO, get, getDocumentLayout, GLOBAL, range, set, Toggle } from "types/PrimitiveTypes";
+    import { GlobalSettings } from "globalSettings";
+    import { Controller } from "Controller";
+    import { View } from "View";
+    import { ConfigService, JSONService, Service } from "Service";
+    import { VO } from "VO";
+    import { Effect } from "Effect";
+    import { TransitionEffect } from "TransitionEffect";
+    import { Timer } from "Timer";
+    const _default: {
+        BackendMicroservice: typeof BackendMicroservice;
+        Logger: typeof Logger;
+        Class: (name?: string, type?: undefined, definition?: undefined) => any;
+        _Crypt: any;
+        TagElements: any;
+        DefaultTemplateHandler: typeof DefaultTemplateHandler;
+        SourceJS: any;
+        SourceCSS: any;
+        ArrayList: typeof ArrayList;
+        ArrayCollection: typeof ArrayCollection;
+        GlobalSettings: typeof GlobalSettings;
+        GLOBAL: typeof GLOBAL;
+        DDO: typeof DDO;
+        ComplexStorageCache: (params: any) => any;
+        _ComponentWidget_: typeof _ComponentWidget_;
+        asyncLoad: (callback: any, args: any) => {
+            func: any;
+            args: any;
+            dispatch(): void;
+        };
+        RegisterClass: (_class_: any, __namespace: any) => any;
+        ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: {
+            TPL_SOURCE: any;
+            COMPONENTS_BASE_PATH: any;
+            COMPONENT_NAME: any;
+            TPLEXTENSION: any;
+        }) => string;
+        waitUntil: (func: any, exp: any) => void;
+        _super_: (className: any, classMethodName: any, params: any) => any;
+        _DOMCreateElement: (elementName: any) => any;
+        shortCode: () => any;
+        __getType__: (o_c: any) => string;
+        is_a: (obj: any, typeName: any) => boolean;
+        _DataStringify: (data: any) => string;
+        serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
+            func: any;
+            args: any;
+            dispatch(): void;
+        } | undefined;
+        componentLoader: (component: any, _async: any) => Promise<unknown> | {
+            func: any;
+            args: any;
+            dispatch(): void;
+        };
+        ObjectName: (o: any) => string;
+        isQCObjects_Class: (_: any) => boolean;
+        isQCObjects_Object: (_: any) => boolean;
+        NamespaceRef: (namespace: any) => any;
+        RegisterWidget: (widgetName: any) => void;
+        RegisterWidgets: () => void;
+        range: typeof range;
+        getDocumentLayout: typeof getDocumentLayout;
+        Export: (f: any) => void;
+        New: (__class__: any, args?: {}) => any;
+        Tag: (tagname: any, innerHTML: any) => any;
+        Ready: (e: any) => void;
+        _methods_: (_: any) => any[];
+        set: typeof set;
+        get: typeof get;
+        __start__: typeof __start__;
+        InheritClass: any;
+        Processor: typeof Processor;
+        Component: typeof Component;
+        CONFIG: any;
+        Controller: typeof Controller;
+        View: typeof View;
+        Service: typeof Service;
+        JSONService: typeof JSONService;
+        ConfigService: typeof ConfigService;
+        VO: typeof VO;
+        Effect: typeof Effect;
+        TransitionEffect: typeof TransitionEffect;
+        Timer: typeof Timer;
+        Toggle: typeof Toggle;
+        logger: Logger;
+        _sdk_: Promise<any>;
+        global: typeof globalThis;
+        ClassFactory: (className: any) => any;
+        Package: (namespace: any, classes?: never[]) => any;
+        Import: () => Promise<unknown> | undefined;
+    };
+    export default _default;
+}
+declare module "Toggle" { }
 declare module "index" {
     import QCObjects from "QCObjects";
     export default QCObjects;

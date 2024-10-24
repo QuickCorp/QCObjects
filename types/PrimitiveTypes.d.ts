@@ -470,5 +470,6 @@ declare namespace QCObjects {
 
 }
 
+  
 
 export = QCObjects;

@@ -41,7 +41,7 @@ import { localStorage } from "./localStorage";
 import { logger, Logger } from "./Logger";
 import { _require_, is_phonegap, isBrowser, isDeno, isNodeCommonJS } from "./platform";
 import { subelements } from "./subelements";
-import { _top } from "./top";
+import { _top, resetTop } from "./top";
 import { __is_raw_class__ } from "./is_raw_class";
 import { _LegacyCopy } from "./LegacyCopy";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
@@ -52,7 +52,7 @@ import { __getType__ } from "./getType";
 import { is_a } from "./is_a";
 import { ComplexStorageCache } from "./ComplexStorageCache";
 import { waitUntil } from "./waitUntil";
-import { _Cast } from "./Cast";
+import { _Cast, _CastProps } from "./Cast";
 import { isQCObjects_Class, isQCObjects_Object } from "./isQCObjects";
 import { Package } from "./Package";
 import { ClassFactory } from "./ClassFactory";
@@ -63,15 +63,35 @@ import { _super_ } from "./super";
 import { shortCode } from "./shortCode";
 import { Processor } from "./Processor";
 import { New } from "./New";
-import { _Ready, Ready } from "./Ready";
+import { _Ready, ready, Ready } from "./Ready";
 import { captureFalseTouch } from "./captureFalseTouch";
 import { serviceLoader } from "./serviceLoader";
 import { componentLoader } from "./componentLoader";
 import { _buildComponentsFromElements_, ComponentURI } from "./ComponentFactory";
 import { NamespaceRef } from "./NamespaceRef";
 import { setDefaultProcessors } from "./defaultProcessors";
+import { Tag, TagElements } from "./Tag";
+import { Import } from "./Import";
+import { BackendMicroservice } from "./BackendMicroservice";
+import { Component } from "./Component";
+import { _Crypt } from "./Crypt";
+import { DefaultTemplateHandler } from "./DefaultTemplateHandler";
+import { SourceJS } from "./SourceJS";
+import { SourceCSS } from "./SourceCSS";
+import { __start__, _ComponentWidget_, _sdk_, ArrayCollection, ArrayList, DDO, get, getDocumentLayout, GLOBAL, range, set, Toggle } from "types/PrimitiveTypes";
+import { GlobalSettings } from "./globalSettings";
+import { RegisterClass } from "./RegisterClass";
+import { RegisterWidget, RegisterWidgets } from "./WidgetsFactory";
+import { CONFIG } from "./CONFIG";
+import { Controller } from "./Controller";
+import { View } from "./View";
+import { ConfigService, JSONService, Service } from "./Service";
+import { VO } from "./VO";
+import { Effect } from "./Effect";
+import { TransitionEffect } from "./TransitionEffect";
+import { Timer } from "./Timer";
 
-(function __qcobjects__(_top: any): void {
+(function __qcobjects__(_top: any) {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
     try {
       Object.defineProperty(_top, "__qcobjects__", {
@@ -482,6 +502,9 @@ import { setDefaultProcessors } from "./defaultProcessors";
     Export(ready);
     Export(isBrowser);
     Export(_methods_);
+    Export(ClassFactory("GlobalSettings"));
+
+    resetTop(_CastProps(New(ClassFactory("GlobalSettings")), _top));
 
     (function (_top) {
 
@@ -715,6 +738,21 @@ import { setDefaultProcessors } from "./defaultProcessors";
       }
     })(isBrowser);
   }
+
 })(_top);
 
-export default _top;
+
+
+
+export default { BackendMicroservice, Logger, Class, 
+  _Crypt, TagElements, DefaultTemplateHandler, SourceJS, 
+  SourceCSS, ArrayList, ArrayCollection, GlobalSettings, GLOBAL, DDO, 
+   ComplexStorageCache, _ComponentWidget_, asyncLoad, 
+   RegisterClass, ComponentURI, waitUntil, _super_, _DOMCreateElement, 
+   shortCode, __getType__, is_a, 
+   _DataStringify, serviceLoader, componentLoader, ObjectName, isQCObjects_Class, isQCObjects_Object, NamespaceRef, 
+   RegisterWidget, RegisterWidgets, range, getDocumentLayout, Export, New, Tag, Ready, 
+   _methods_, set, get, __start__, InheritClass, Processor, 
+   Component, CONFIG, Controller, View, Service, JSONService, 
+   ConfigService, VO, Effect, TransitionEffect, Timer, Toggle, 
+   logger, _sdk_, global, ClassFactory, Package, Import };
