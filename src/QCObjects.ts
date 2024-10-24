@@ -56,6 +56,8 @@ import { _Cast } from "./Cast";
 import { isQCObjects_Object } from "./isQCObjects";
 import { Package } from "./Package";
 import { ClassFactory } from "./ClassFactory";
+import { Export } from "./Export";
+import { Class } from "./Class";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -223,14 +225,6 @@ import { ClassFactory } from "./ClassFactory";
 
     New.prototype.toString = function () {
       return "New(QCObjectsClassName, args) { [QCObjects native code] }";
-    };
-
-
-    var Export = function (f) {
-      return __make_global__(f);
-    };
-    Export.prototype.toString = function () {
-      return "Export(function or symbol) { [QCObjects native code] }";
     };
 
     if (!isBrowser) {
