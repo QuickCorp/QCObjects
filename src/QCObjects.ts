@@ -47,6 +47,11 @@ import { _LegacyCopy } from "./LegacyCopy";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
 import { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "./PrimaryCollections";
 import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
+import { ObjectName } from "./ObjectName";
+import { __getType__ } from "./getType";
+import { is_a } from "./is_a";
+import { ComplexStorageCache } from "./ComplexStorageCache";
+import { waitUntil } from "./waitUntil";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -147,22 +152,7 @@ import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
     }
 
 
-    /**
-     * Returns the object or function name
-     *
-     * @param Object or function
-     */
-    var ObjectName = function (o) {
-      var ret = "";
-      if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
-        ret = o.name;
-      } else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {
-        ret = o.constructor.name;
-      } else if (typeof o !== "undefined" && typeof o.constructor === "object") {
-        ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
-      }
-      return ret;
-    };
+
 
     /**
      * Casts an object to another object class type
@@ -220,51 +210,8 @@ import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
       return (["__proto__", "prototype", "Object", "Map", "defineProperty", "indexOf", "toString", "__instanceID"].indexOf(arguments[0]) !== -1) ? (true) : (false);
     };
 
-    /**
-     * Determine the type of the Object for any QCObjects Object
-     *
-     * @param {Object} object
-     */
-    var __getType__ = function __getType__(o_c) {
-      var _ret_ = "";
-      switch (true) {
-        case __is_raw_class__(o_c) && !!o_c.name:
-          _ret_ = o_c.name;
-          break;
-        case typeof o_c === "object" &&
-          (!!o_c.constructor &&
-            !!o_c.constructor.name)
-          && o_c.constructor.name !== "":
-          _ret_ = o_c.constructor.name;
-          break;
-        case (!!o_c && !!o_c.__classType) && o_c.__classType !== "":
-          _ret_ = o_c.__classType;
-          break;
-        case (!!o_c && !!o_c.__definition) && (!!o_c.__definition.__classType) && o_c.__definition.__classType !== "":
-          _ret_ = o_c.__definition.__classType;
-          break;
-        case typeof o_c === "function" && !!o_c.name:
-          _ret_ = o_c.name;
-          break;
-        default:
-          _ret_ = ObjectName(o_c);
-          break;
-      }
-      return _ret_;
-    };
 
-    /**
-     * Returns if a class or object is from a determinated type
-     * @param {Object} object
-     * @param {String} typeName
-     */
-    var is_a = function is_a(obj, typeName) {
-      return (typeof obj !== "undefined" && obj !== null &&
-        (((isQCObjects_Class(obj) || isQCObjects_Object(obj)) && (obj.hierarchy().includes(typeName))) ||
-          __getType__(obj) === typeName ||
-          ObjectName(obj) === typeName ||
-          typeof obj === typeName)) ? (true) : (false);
-    };
+
 
 
     var __make_global__ = function (f) {
@@ -953,23 +900,6 @@ import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
     Export(__getType__);
     Export(is_a);
 
-    var isQCObjects_Object = function (_) {
-      return (typeof _ === "object" &&
-        Object.hasOwnProperty.call(_, "__classType") &&
-        (!!_.__instanceID) &&
-        Object.hasOwnProperty.call(_, "__definition") &&
-        typeof _.__definition !== "undefined"
-      ) ? (true) : (false);
-    };
-
-    var isQCObjects_Class = function (_) {
-      return (typeof _ === "function" &&
-        (!_.__instanceID) &&
-        (!!_.__definition) &&
-        typeof _.__definition !== "undefined" &&
-        !!_.__definition.__classType
-      ) ? (true) : (false);
-    };
 
     /**
      * Defines a package for Class classification
