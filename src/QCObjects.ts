@@ -245,17 +245,6 @@ import { captureFalseTouch } from "./captureFalseTouch";
     }
 
 
-    Package("com.qcobjects.views", [
-      class View extends ClassFactory("InheritClass") {
-        constructor({ component = undefined, dependencies = [] }) {
-          super(...arguments);
-          if (typeof this.component === "undefined" || this.component === "null") {
-            throw Error(`${__getType__(this)} must be called with a component`);
-          }
-
-        }
-      }
-    ]);
 
     Package("com.qcobjects.api", [
       class Service extends ClassFactory("InheritClass") {

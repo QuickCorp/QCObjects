@@ -6,6 +6,7 @@ import { ComponentURI } from "./ComponentFactory";
 import { _DataStringify } from "./DataStringify";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { __getType__ } from "./getType";
+import { InheritClass } from "./InheritClass";
 import { _methods_, _protected_code_ } from "./introspection";
 import { is_a } from "./is_a";
 import { isQCObjects_Object } from "./isQCObjects";
@@ -16,7 +17,7 @@ import { isBrowser } from "./platform";
 import { Processor } from "./Processor";
 import { __routing_params__, __valid_routing_way__, __valid_routings__ } from "./routings";
 import { _top } from "./top";
-export class Component extends ClassFactory("InheritClass") {
+export class Component extends InheritClass {
     validRoutingWays = ["pathname", "hash", "search"];
     basePath = _basePath_;
     domain = _domain_;

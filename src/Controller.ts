@@ -1,10 +1,11 @@
 import { ClassFactory } from "./ClassFactory";
 import { __getType__ } from "./getType";
+import { InheritClass } from "./InheritClass";
 import { logger } from "./Logger";
 import { New } from "./New";
 import { Package } from "./Package";
 
-export class Controller extends ClassFactory("InheritClass") {
+export class Controller extends InheritClass {
     component = null;
     dependencies = [];
     constructor({
