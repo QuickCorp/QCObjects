@@ -44,7 +44,7 @@ import { _top } from "./top";
 import "./assign";
 import { __is_raw_class__ } from "./is_raw_class";
 import { _LegacyCopy } from "./LegacyCopy";
-import { _fireAsyncLoad } from "./asyncLoad";
+import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -127,7 +127,6 @@ import { _fireAsyncLoad } from "./asyncLoad";
     logger.debugEnabled = false;
     logger.infoEnabled = true;
     _top.logger = logger;
-
 
     /**
      * Basic Type of all elements
