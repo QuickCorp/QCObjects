@@ -18,7 +18,7 @@ export const CONFIG = Class("CONFIG", Object, {
       return ClassFactory("ConfigSettings").instance._CONFIG;
     },
 
-    set(name, value) {
+    set(name: string, value: any) {
       logger.debug(`CONFIG.set  ${name}: ${value}`);
       // hack to force update basePath from CONFIG
       if (name === "basePath") {
@@ -48,7 +48,7 @@ export const CONFIG = Class("CONFIG", Object, {
         ClassFactory("ConfigSettings").instance._CONFIG[name] = value;
       }
     },
-    get(name, _default) {
+    get(name: string, _default: any) {
       var _value;
       try {
         var _conf = (
