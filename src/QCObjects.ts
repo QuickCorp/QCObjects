@@ -39,7 +39,7 @@ import { _DOMCreateElement } from "./DOMCreateElement";
 import { _methods_, _protected_code_ } from "./introspection";
 import { localStorage } from "./localStorage";
 import { logger, Logger } from "./Logger";
-import { _require_, isBrowser, isDeno, isNodeCommonJS } from "./platform";
+import { _require_, is_phonegap, isBrowser, isDeno, isNodeCommonJS } from "./platform";
 import { subelements } from "./subelements";
 import { _top } from "./top";
 import { __is_raw_class__ } from "./is_raw_class";
@@ -63,7 +63,8 @@ import { _super_ } from "./super";
 import { shortCode } from "./shortCode";
 import { Processor } from "./Processor";
 import { New } from "./New";
-import { Ready } from "./Ready";
+import { _Ready, Ready } from "./Ready";
+import { captureFalseTouch } from "./captureFalseTouch";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -229,7 +230,7 @@ import { Ready } from "./Ready";
     if (isBrowser) {
       window.onload = _Ready;
       if (is_phonegap) {
-        document.addEventListener("deviceready", _Ready, captureFalse);
+        document.addEventListener("deviceready", _Ready, captureFalseTouch as any);
       }
     } else {
       global.onload = _Ready;
