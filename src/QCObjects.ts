@@ -41,6 +41,7 @@ import { _require_, isBrowser, isDeno, isNodeCommonJS } from "./platform";
 import { Promise } from "./Promise";
 import { subelements } from "./subelements";
 import { _top } from "./top";
+import "./assign";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -247,37 +248,6 @@ import { _top } from "./top";
       };
     })();
 
-    // Object.assign Polyfilling
-    // Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
-    if (typeof Object.assign !== "function") {
-      // Must be writable: true, enumerable: false, configurable: true
-      Object.defineProperty(Object, "assign", {
-        value: function assign(target, varArgs) { // .length of function is 2
-          "use strict";
-          if (target === null) { // TypeError if undefined or null
-            throw new TypeError("Cannot convert undefined or null to object");
-          }
-
-          var to = Object(target);
-
-          for (var index = 1; index < arguments.length; index++) {
-            var nextSource = arguments[index];
-
-            if (nextSource !== null) { // Skip over if undefined or null
-              for (var nextKey in nextSource) {
-                // Avoid bugs when hasOwnProperty is shadowed
-                if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                  to[nextKey] = nextSource[nextKey];
-                }
-              }
-            }
-          }
-          return to;
-        },
-        writable: true,
-        configurable: true
-      });
-    }
 
     var __is_raw_class__ = function (o_c) {
       return (typeof o_c === "function" && o_c.toString().startsWith("class")) ? (true) : (false);
