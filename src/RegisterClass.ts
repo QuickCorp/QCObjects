@@ -18,7 +18,7 @@ export const __register_class__ = function (_class_, __namespace) {
     return _top[name];
 };
 
-var RegisterClass = function (_class_, __namespace) {
+export const RegisterClass = function (_class_, __namespace) {
     return __register_class__(_class_, __namespace);
 };
 __make_global__(RegisterClass);
