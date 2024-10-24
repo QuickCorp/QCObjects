@@ -392,13 +392,14 @@ declare module "tag_filter" {
     export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
 }
 declare module "componentLoader" {
+    import { Component } from "Component";
     /**
      * Loads a simple component from a template
      *
      * @author: Jean Machuca <correojean@gmail.com>
      * @param component a Component object
      */
-    export const componentLoader: (component: any, _async: any) => Promise<unknown> | {
+    export const componentLoader: (component: Component, _async: boolean) => Promise<any> | {
         func: {
             (service: any, _async: any): Promise<unknown>;
             (component: any, _async: any): Promise<unknown>;
@@ -1174,7 +1175,7 @@ declare module "QCObjects" {
             args: any[];
             dispatch(): void;
         } | undefined;
-        componentLoader: (component: any, _async: any) => Promise<unknown> | {
+        componentLoader: (component: Component, _async: boolean) => Promise<any> | {
             func: {
                 (service: any, _async: any): Promise<unknown>;
                 (component: any, _async: any): Promise<unknown>;
