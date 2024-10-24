@@ -99,8 +99,9 @@ declare module "PrimaryCollections" {
     export var _QC_READY_LISTENERS: never[];
 }
 declare module "top" {
-    import { Component } from "types/global";
-    type QCObjects = typeof self | typeof window | typeof global | {
+    import { ComplexStorageCache, Component } from "types/global";
+    type QCObjects = {
+        lastCache?: ComplexStorageCache;
         componentsStack: Component[];
         Microservice: any;
         Route: any;
@@ -177,7 +178,7 @@ declare module "top" {
         ClassFactory: any;
         Package: any;
         Import: any;
-    };
+    } | typeof self | typeof window | typeof global;
     export var _top: QCObjects;
     export const componentsStack: Component[];
     export const resetTop: (_top_: QCObjects) => void;
@@ -355,19 +356,20 @@ declare module "Export" {
     export const Export: (f: any) => void;
 }
 declare module "asyncLoad" {
+    import { Component } from "Component";
     export const _asyncLoad: never[];
     export const asyncLoad: (callback: {
-        (service: any, _async: any): Promise<unknown>;
-        (component: any, _async: any): Promise<unknown>;
-        (): void;
-    }, args: any[]) => {
-        func: {
-            (service: any, _async: any): Promise<unknown>;
-            (component: any, _async: any): Promise<unknown>;
-            (): void;
+        (component: Component, _async?: any): Promise<any>;
+        (service: any, _async?: any): Promise<unknown>;
+    }, args?: any[]) => {
+        new (): {
+            func: {
+                (component: Component, _async?: any): Promise<any>;
+                (service: any, _async?: any): Promise<unknown>;
+            };
+            args: any[] | undefined;
+            dispatch(): void;
         };
-        args: any[];
-        dispatch(): void;
     };
     export const _fireAsyncLoad: () => void;
 }
@@ -379,13 +381,14 @@ declare module "serviceLoader" {
      * @param service a Service object
      */
     export const serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
-        func: {
-            (service: any, _async: any): Promise<unknown>;
-            (component: any, _async: any): Promise<unknown>;
-            (): void;
+        new (): {
+            func: {
+                (component: import("Component").Component, _async?: any): Promise<any>;
+                (service: any, _async?: any): Promise<unknown>;
+            };
+            args: any[] | undefined;
+            dispatch(): void;
         };
-        args: any[];
-        dispatch(): void;
     } | undefined;
 }
 declare module "tag_filter" {
@@ -400,13 +403,14 @@ declare module "componentLoader" {
      * @param component a Component object
      */
     export const componentLoader: (component: Component, _async: boolean) => Promise<any> | {
-        func: {
-            (service: any, _async: any): Promise<unknown>;
-            (component: any, _async: any): Promise<unknown>;
-            (): void;
+        new (): {
+            func: {
+                (component: Component, _async?: any): Promise<any>;
+                (service: any, _async?: any): Promise<unknown>;
+            };
+            args: any[] | undefined;
+            dispatch(): void;
         };
-        args: any[];
-        dispatch(): void;
     };
 }
 declare module "Component" {
@@ -1145,17 +1149,17 @@ declare module "QCObjects" {
         ComplexStorageCache: typeof ComplexStorageCache;
         _ComponentWidget_: typeof _ComponentWidget_;
         asyncLoad: (callback: {
-            (service: any, _async: any): Promise<unknown>;
-            (component: any, _async: any): Promise<unknown>;
-            (): void;
-        }, args: any[]) => {
-            func: {
-                (service: any, _async: any): Promise<unknown>;
-                (component: any, _async: any): Promise<unknown>;
-                (): void;
+            (component: Component, _async?: any): Promise<any>;
+            (service: any, _async?: any): Promise<unknown>;
+        }, args?: any[]) => {
+            new (): {
+                func: {
+                    (component: Component, _async?: any): Promise<any>;
+                    (service: any, _async?: any): Promise<unknown>;
+                };
+                args: any[] | undefined;
+                dispatch(): void;
             };
-            args: any[];
-            dispatch(): void;
         };
         RegisterClass: (_class_: any, __namespace: any) => any;
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").ComponentURIParams) => string;
@@ -1167,22 +1171,24 @@ declare module "QCObjects" {
         is_a: (obj: any, typeName: any) => boolean;
         _DataStringify: (data: any) => string;
         serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
-            func: {
-                (service: any, _async: any): Promise<unknown>;
-                (component: any, _async: any): Promise<unknown>;
-                (): void;
+            new (): {
+                func: {
+                    (component: Component, _async?: any): Promise<any>;
+                    (service: any, _async?: any): Promise<unknown>;
+                };
+                args: any[] | undefined;
+                dispatch(): void;
             };
-            args: any[];
-            dispatch(): void;
         } | undefined;
         componentLoader: (component: Component, _async: boolean) => Promise<any> | {
-            func: {
-                (service: any, _async: any): Promise<unknown>;
-                (component: any, _async: any): Promise<unknown>;
-                (): void;
+            new (): {
+                func: {
+                    (component: Component, _async?: any): Promise<any>;
+                    (service: any, _async?: any): Promise<unknown>;
+                };
+                args: any[] | undefined;
+                dispatch(): void;
             };
-            args: any[];
-            dispatch(): void;
         };
         ObjectName: (o: any) => string;
         isQCObjects_Class: (_: any) => boolean;

@@ -115,7 +115,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                                 return;
                             }
                         });
-                        _top.lastCache = cache;
+                        (_top as any).lastCache = cache;
                     } else {
                         logger.debug("NOT USING CACHE FOR COMPONENT: " + component.name);
                         _directLoad(is_file);
@@ -204,7 +204,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                             return;
                         }
                     });
-                    _top.lastCache = cache;
+                    (_top as any).lastCache = cache;
                 } else {
                     logger.debug("NOT USING CACHE FOR COMPONENT: " + component.name);
                     _directLoad();

@@ -7,15 +7,16 @@ export const _asyncLoad = [];
 export const asyncLoad = function (callback: { (component: Component, _async?: any) : Promise<any>;
                                               (service: any, _async?: any): Promise<unknown>
                                                 }, args?: any[]) {
-  var asyncCallback = {
-    "func": callback,
-    "args": args,
-    "dispatch"() {
-      this.func.apply(null, ...args as []);
+
+  class AsyncCallback {
+    func = callback;
+    args = args;
+    dispatch() {
+      (this.func as any).apply(null, ...args as []);
     }
-  };
-  _asyncLoad.push(asyncCallback as unknown as never);
-  return asyncCallback;
+  }
+  _asyncLoad.push((new AsyncCallback()) as unknown as never);
+  return AsyncCallback;
 };
 
 export const _fireAsyncLoad = function () {

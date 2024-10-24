@@ -96,7 +96,7 @@ declare class TagElements extends Array {
 declare class DefaultTemplateHandler {
     template: string;
     __definition: any;
-    constructor({ component, template });
+    constructor({ component, template }:{component:Component, template:string});
     assign(data: any): any;
 }
 declare class SourceJS {
@@ -151,6 +151,13 @@ declare class GlobalSettings {
     static __start__(): Promise<any>;
 }
 declare class GLOBAL extends GlobalSettings { }
+declare type DDOParams = {
+    instance:any,
+    name: string,
+    fget:Function,
+    fset:Function,
+    value: any
+};
 declare class DDO {
     constructor({
         instance,
@@ -158,7 +165,7 @@ declare class DDO {
         fget,
         fset,
         value: any
-    });
+    }:DDOParams);
 }
 declare type CacheController = {
     cache:ComplexStorageCache;
@@ -373,8 +380,8 @@ declare class Controller {
     createRoutingController(): void;
 
 
-    done(...args: any[]);
-    fail(...args: any[]);
+    done(...args: any[]):void;
+    fail(...args: any[]):void;
 }
 
 declare type ViewParams = {
@@ -390,8 +397,8 @@ declare class View {
     body: QCObjectsElement | HTMLElement;
     component: Component;
     constructor(view: ViewParams);
-    done(...args:any[]);
-    fail(...args:any[]);
+    done(...args:any[]):void;
+    fail(...args:any[]):void;
 }
 
 declare class Service extends InheritClass {
@@ -407,8 +414,8 @@ declare class Service extends InheritClass {
     template: any;
     set(name: string, value: any): void;
     get(name: string): any;
-    done({ request: XMLHttpRequest, service: Service });
-    fail(...args: any[]);
+    done({request, service}:{ request: XMLHttpRequest, service: Service }):void;
+    fail(...args: any[]):void;
 }
 declare class JSONService extends Service {
     JSONresponse: JSON;
@@ -420,13 +427,13 @@ declare class VO { }
 declare type EffectParams = {
     duration:number; 
     timing(timeFraction:number):number;
-    draw(progress:number);
+    draw(progress:number):void;
 };
 
 declare class Effect extends InheritClass {
     duration: number;
     apply(...args: any[]): any;
-    animate (effect:EffectParams);
+    animate (effect:EffectParams):void;
 }
 declare class TransitionEffect extends Effect {
     component: Component;
@@ -449,7 +456,7 @@ declare class TransitionEffect extends Effect {
 declare type TimerParams = {
     duration:number; 
     timing(timeFraction:number):number;
-    intervalInterceptor(progress:number);
+    intervalInterceptor(progress:number):void;
 };
 
 declare class Timer extends InheritClass {
@@ -535,3 +542,4 @@ interface String {
 }
 
 declare const componentsStack:Component[];
+declare const lastCache:ComplexStorageCache|undefined;
