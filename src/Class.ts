@@ -18,9 +18,8 @@ import { _top } from "./top";
      * @param {Object} type
      * @param {Object} definition
      */
-    export const Class = function () {
+    export const Class = function (name = "", type = undefined, definition = undefined) {
         var _types_ = {};
-        var name, type, definition;
   
         switch (arguments.length) {
           case 0:
