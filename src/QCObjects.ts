@@ -90,6 +90,8 @@ import { VO } from "./VO";
 import { Effect } from "./Effect";
 import { TransitionEffect } from "./TransitionEffect";
 import { Timer } from "./Timer";
+import { _tag_filter_ } from "./tag_filter";
+import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsElement, ShadowRoot, String } from "types/global";
 
 (function __qcobjects__(_top: any) {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -117,11 +119,11 @@ import { Timer } from "./Timer";
     }
 
     if (isBrowser) {
-      Element.prototype.subelements = subelements;
-      HTMLDocument.prototype.subelements = subelements;
-      HTMLElement.prototype.subelements = subelements;
+      (Element as unknown as Element).prototype.subelements = subelements;
+      (HTMLDocument as unknown as Document).prototype.subelements = subelements;
+      (HTMLElement as unknown as HTMLElement).prototype.subelements = subelements;
       if (typeof ShadowRoot !== "undefined") {
-        ShadowRoot.prototype.subelements = subelements;
+        (ShadowRoot as unknown as ShadowRoot).prototype.subelements = subelements;
       }
     }
     if (isBrowser) {
@@ -145,24 +147,16 @@ import { Timer } from "./Timer";
     } else if (typeof global !== "undefined") {
       _top = global;
     }
-    var _domain_, _basePath_;
-    var _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
     if (isBrowser) {
       if (typeof _top.console === "undefined") {
         _top.console = function () { };
         _top.console.prototype.log = function (message) { };
       }
 
-      _domain_ = (
-        function () {
-          return (typeof document !== "undefined" && document.domain !== "") ? (document.domain) : ("localhost");
-        }
-      )();
 
     } else {
       // This is only for code integrity purpose using non-browser implementations
       // like using node.js
-      _domain_ = "localhost";
     }
 
 
@@ -174,9 +168,9 @@ import { Timer } from "./Timer";
      * Basic Type of all elements
      */
     if (isBrowser) {
-      Element.prototype.find = function (tag: string): Element[] {
+      (Element as unknown as Element).prototype.find = function (tag: string): Array<HTMLElement | QCObjectsElement> {
         var _oo = [];
-        var _tags = document.subelements(tag);
+        var _tags = (document as unknown as Document).subelements(tag);
         _tags.map(function (_tt, _t) {
           if ((typeof _tags[_t] !== "undefined") && (_tags[_t].parentNode as Element).tagName === this.parentNode.tagName) {
             _oo.push(_Cast(_tt, (new Object())));
@@ -185,7 +179,6 @@ import { Timer } from "./Timer";
         return _oo;
       };
     }
-
 
     if (isBrowser) {
       Element.prototype.append = function QC_Append(child) {
@@ -201,13 +194,13 @@ import { Timer } from "./Timer";
        * use: [element].render('content') where 'content' is the string corresponding
        * to the DOM to insert in the element
        **/
-      Element.prototype.render = function QC_Render(content) {
+      (Element as unknown as Element).prototype.render = function QC_Render(content) {
         var _self = this;
         var _appendVDOM = function (_self, content) {
           if (typeof document.implementation.createHTMLDocument !== "undefined") {
             var doc = document.implementation.createHTMLDocument("");
-            (doc as any).innerHTML = content;
-            doc.body.subelements("*").map(function (element) {
+            (doc as unknown as Element).innerHTML = content;
+            (doc.body as unknown as Element).subelements("*").map(function (element) {
               return _self.append(element);
             });
           }
@@ -243,7 +236,7 @@ import { Timer } from "./Timer";
       /**
        * Adds a Cast functionality to every Element of DOM
        */
-      Element.prototype.Cast = function QC_Object(_o) {
+      (Element as unknown as Element).prototype.Cast = function QC_Object(_o) {
         _o.__definition.body = this;
         var _o = New(_o);
         return _o;
@@ -283,15 +276,15 @@ import { Timer } from "./Timer";
 
     if (isBrowser) {
 
-      Element.prototype.buildComponents = function (rebuildObjects = false) {
+      (Element as unknown as Element).prototype.buildComponents = function (rebuildObjects = false) {
         var tagFilter = _tag_filter_;
         var d = this;
         var elements = d.subelements(tagFilter);
         return _buildComponentsFromElements_(elements, null);
       };
 
-      HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
-      HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
+      (Document as unknown as Document).prototype.buildComponents = (Element as unknown as Element).prototype.buildComponents;
+      (HTMLElement as unknown as HTMLElement).prototype.buildComponents = (Element as unknown as Element).prototype.buildComponents;
 
     } else {
       // not yet implemented.
@@ -302,68 +295,68 @@ import { Timer } from "./Timer";
     /**
      * Array math functions
      */
-    var __to_number = function (value) {
-      return (isNaN(value)) ? (new Number(0)) : (new Number(value));
+    var __to_number = function (value): number | Number {
+      return ((isNaN(value)) ? (new Number(0)) : (new Number(value)) as number);
     };
-    Array.prototype.unique = function () {
+    (Array as unknown as Array<any>).prototype.unique = function () {
       return this.filter(function (value, index, self) {
         return self.indexOf(value) === index;
       });
     };
-    Array.unique = function (a) {
+    (Array as unknown as ArrayConstructor).unique = function (a) {
       return a.unique();
     };
-    (_protected_code_)(Array.unique);
-    (_protected_code_)(Array.prototype.unique);
-    Array.prototype.table = function () {
+    (_protected_code_)((Array as unknown as ArrayConstructor).unique);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.unique);
+    (Array as unknown as Array<any>).prototype.table = function () {
       console.table(this);
     };
-    Array.table = function (a) {
+    (Array as unknown as ArrayConstructor).table = function (a) {
       return a.table();
     };
-    (_protected_code_)(Array.table);
-    (_protected_code_)(Array.prototype.table);
-    Array.prototype.sum = function () {
+    (_protected_code_)((Array as unknown as ArrayConstructor).table);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.table);
+    (Array as unknown as Array<any>).prototype.sum = function () {
       return this.reduce(function (prev, current) {
-        return __to_number(prev) + __to_number(current);
+        return (__to_number(prev) as number) + (__to_number(current) as number);
       }, 0);
     };
-    Array.sum = function (a) {
+    (Array as unknown as ArrayConstructor).sum = function (a) {
       return a.sum();
     };
-    (_protected_code_)(Array.sum);
-    (_protected_code_)(Array.prototype.sum);
-    Array.prototype.avg = function () {
+    (_protected_code_)((Array as unknown as ArrayConstructor).sum);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.sum);
+    (Array as unknown as Array<any>).prototype.avg = function () {
       return (this.length < 1) ? (0) : (this.reduce(function (prev, current) {
-        return ((__to_number(prev) + __to_number(current)) / 2);
+        return (((__to_number(prev) as number) + (__to_number(current) as number)) / 2);
       }));
     };
-    Array.avg = function (a) {
+    (Array as unknown as ArrayConstructor).avg = function (a) {
       return a.avg();
     };
-    (_protected_code_)(Array.avg);
-    (_protected_code_)(Array.prototype.avg);
-    Array.prototype.min = function () {
+    (_protected_code_)((Array as unknown as ArrayConstructor).avg);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.avg);
+    (Array as unknown as Array<any>).prototype.min = function () {
       return this.reduce(function (prev, current) {
         return (__to_number(prev) <= __to_number(current)) ? (prev) : (current);
       }, Infinity);
     };
-    Array.min = function (a) {
+    (Array as unknown as ArrayConstructor).min = function (a) {
       return a.min();
     };
-    (_protected_code_)(Array.min);
-    (_protected_code_)(Array.prototype.min);
-    Array.prototype.max = function () {
+    (_protected_code_)((Array as unknown as ArrayConstructor).min);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.min);
+    (Array as unknown as Array<any>).prototype.max = function () {
       return this.reduce(function (prev, current) {
         return (__to_number(prev) >= __to_number(current)) ? (prev) : (current);
       }, 0);
     };
-    Array.max = function (a) {
+    (Array as unknown as ArrayConstructor).max = function (a) {
       return a.max();
     };
-    (_protected_code_)(Array.max);
-    (_protected_code_)(Array.prototype.max);
-    Array.prototype.sortBy = function (propName, sortAsc = true) {
+    (_protected_code_)((Array as unknown as ArrayConstructor).max);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.max);
+    (Array as unknown as Array<any>).prototype.sortBy = function (propName, sortAsc = true) {
       var sort_function = (sortAsc) ? (
         function (prev, current) {
           return current[propName] < prev[propName] ? 1 : -1;
@@ -375,23 +368,72 @@ import { Timer } from "./Timer";
       );
       return this.sort(sort_function);
     };
-    Array.sortBy = function (a, propName, sortAsc = true) {
+    (Array as unknown as ArrayConstructor).sortBy = function (a, propName, sortAsc = true) {
       return a.sortBy(propName, sortAsc);
     };
-    (_protected_code_)(Array.sortBy);
-    (_protected_code_)(Array.prototype.sortBy);
+    (_protected_code_)((Array as unknown as ArrayConstructor).sortBy);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.sortBy);
 
-    Array.matrix = function (_length, _fillValue = 0) {
-      var x_func = function (x) {
+    /**
+     * Extends the Array prototype to include a method that creates a matrix (2D array)
+     * with specified dimensions and fill value.
+     *
+     * @param {number} _length - The number of rows in the matrix.
+     * @param {any} [_fillValue=0] - The value to fill the matrix with (default is 0).
+     * @returns {Array<Array<any>>} A 2D array (matrix) filled with the specified value.
+     *
+     * @example
+     * // Create a 3x3 matrix filled with zeros
+     * const matrix = [].matrix(3);
+     * console.log(matrix);
+     * // Output: [0, 0, 0]
+     *
+     * @example
+     * // Create a 2x4 matrix filled with a specific value
+     * const matrix = [].matrix(2, 5);
+     * console.log(matrix);
+     * // Output: [5, 5]
+     *
+     * @example
+     * // Create a 4x2 matrix filled with null values
+     * const matrix = [].matrix(4, null);
+     * console.log(matrix);
+     * // Output: [null, null, null, null]
+     */
+    (Array as unknown as Array<any>).prototype.matrix = function (_length, _fillValue = 0) {
+      var x_func = function (x = undefined) {
         return _fillValue;
       };
       return Array.from({
         length: _length
       }, x_func);
     };
-    (_protected_code_)(Array.matrix);
 
-    Array.matrix2d = function (_length, _fillValue = 0) {
+    /**
+     * Creates a matrix (2D array) from a given array.
+     * 
+     * This function extends the Array constructor by adding a static method
+     * that generates a matrix with specified dimensions and fill value.
+     * 
+     * @function
+     * @param {Array} a - The input array used to generate the matrix.
+     * @param {number} _length - The length of the matrix (number of rows).
+     * @param {number} [_fillValue=0] - The value to fill the matrix with (default is 0).
+     * @returns {Array} A 2D array (matrix) created from the input parameters.
+     * 
+     * @example
+     * const myMatrix = Array.matrix(2, 5);
+     * // myMatrix will be [5, 5, 5]
+     */
+    (Array as unknown as ArrayConstructor).matrix = function (a, _length, _fillValue = 0) {
+      return a.matrix(_length, _fillValue);
+    };
+
+    (_protected_code_)((Array as unknown as ArrayConstructor).matrix);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.matrix);
+
+
+    (Array as unknown as Array<any>).prototype.matrix2d = function (_length, _fillValue = 0) {
       var y_func = function (y) {
         return _fillValue;
       };
@@ -404,9 +446,14 @@ import { Timer } from "./Timer";
         length: _length
       }, x_func);
     };
-    (_protected_code_)(Array.matrix2d);
+    (Array as unknown as ArrayConstructor).matrix2d = function (a, _length, _fillValue = 0) {
+      return a.matrix2d(_length, _fillValue);
+    };
 
-    Array.matrix3d = function (_length, _fillValue = 0) {
+    (_protected_code_)((Array as unknown as ArrayConstructor).matrix2d);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.matrix2d);
+
+    (Array as unknown as Array<any>).prototype.matrix3d = function (_length, _fillValue = 0) {
       var y_func = function (y) {
         return Array.from({
           length: _length
@@ -423,7 +470,14 @@ import { Timer } from "./Timer";
         length: _length
       }, x_func);
     };
-    (_protected_code_)(Array.matrix3d);
+
+    (Array as unknown as ArrayConstructor).matrix3d = function (a, _length, _fillValue = 0) {
+      return a.matrix3d(_length, _fillValue);
+    };
+
+
+    (_protected_code_)((Array as unknown as ArrayConstructor).matrix3d);
+    (_protected_code_)((Array as unknown as Array<any>).prototype.matrix3d);
 
     _top.range = function (start, stop = 0, step = 1) {
       if (stop === 0 || typeof stop === "undefined") {
@@ -438,13 +492,13 @@ import { Timer } from "./Timer";
     };
     (_protected_code_)(_top.range);
 
-    String.prototype.list = function () {
+    (String as unknown as String).prototype.list = function () {
       var __instance = this;
       return _top.range(0, __instance.length - 1).map(function (i) {
         return __instance[i];
       });
     };
-    (_protected_code_)(String.prototype.list);
+    (_protected_code_)((String as unknown as String).prototype.list);
 
     _top.getDocumentLayout = function () {
       var h = (w, h) => {
@@ -469,9 +523,9 @@ import { Timer } from "./Timer";
      */
 
 
-    ClassFactory("ArrayList").matrix = Array.matrix;
-    ClassFactory("ArrayList").matrix2d = Array.matrix2d;
-    ClassFactory("ArrayList").matrix3d = Array.matrix3d;
+    ClassFactory("ArrayList").matrix = (Array as unknown as ArrayConstructor).matrix;
+    ClassFactory("ArrayList").matrix2d = (Array as unknown as ArrayConstructor).matrix2d;
+    ClassFactory("ArrayList").matrix3d = (Array as unknown as ArrayConstructor).matrix3d;
     (_protected_code_)(ClassFactory("ArrayList").matrix);
     (_protected_code_)(ClassFactory("ArrayList").matrix2d);
     (_protected_code_)(ClassFactory("ArrayList").matrix3d);
@@ -744,15 +798,17 @@ import { Timer } from "./Timer";
 
 
 
-export default { BackendMicroservice, Logger, Class, 
-  _Crypt, TagElements, DefaultTemplateHandler, SourceJS, 
-  SourceCSS, ArrayList, ArrayCollection, GlobalSettings, GLOBAL, DDO, 
-   ComplexStorageCache, _ComponentWidget_, asyncLoad, 
-   RegisterClass, ComponentURI, waitUntil, _super_, _DOMCreateElement, 
-   shortCode, __getType__, is_a, 
-   _DataStringify, serviceLoader, componentLoader, ObjectName, isQCObjects_Class, isQCObjects_Object, NamespaceRef, 
-   RegisterWidget, RegisterWidgets, range, getDocumentLayout, Export, New, Tag, Ready, 
-   _methods_, set, get, __start__, InheritClass, Processor, 
-   Component, CONFIG, Controller, View, Service, JSONService, 
-   ConfigService, VO, Effect, TransitionEffect, Timer, Toggle, 
-   logger, _sdk_, global, ClassFactory, Package, Import };
+export default {
+  BackendMicroservice, Logger, Class,
+  _Crypt, TagElements, DefaultTemplateHandler, SourceJS,
+  SourceCSS, ArrayList, ArrayCollection, GlobalSettings, GLOBAL, DDO,
+  ComplexStorageCache, _ComponentWidget_, asyncLoad,
+  RegisterClass, ComponentURI, waitUntil, _super_, _DOMCreateElement,
+  shortCode, __getType__, is_a,
+  _DataStringify, serviceLoader, componentLoader, ObjectName, isQCObjects_Class, isQCObjects_Object, NamespaceRef,
+  RegisterWidget, RegisterWidgets, range, getDocumentLayout, Export, New, Tag, Ready,
+  _methods_, set, get, __start__, InheritClass, Processor,
+  Component, CONFIG, Controller, View, Service, JSONService,
+  ConfigService, VO, Effect, TransitionEffect, Timer, Toggle,
+  logger, _sdk_, global, ClassFactory, Package, Import
+};

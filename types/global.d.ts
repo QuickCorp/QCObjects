@@ -2,20 +2,6 @@ import { ClientRequest } from "http";
 import { Http2SecureServer, Http2Server, Http2ServerRequest, Http2Stream } from "http2";
 import { Stream } from "stream";
 
-declare const cordova: any;
-
-
-interface Element extends QCObjectsElement {
-
-}
-
-interface Document extends QCObjectsElement {
-}
-
-interface ShadowRoot extends QCObjectsElement {
-
-}
-
 declare class Microservice {
     domain: string;
     basePath: string;
@@ -63,13 +49,21 @@ declare class BackendMicroservice extends InheritClass {
 
 }
 
-
-declare class QCObjectsElement extends HTMLElement {
+declare class QCObjectsElement extends Element{
+    Cast(_o:any):any;
+    render(content:string):void;
+    find(tag: string): Array<HTMLElement | QCObjectsElement>;
+    buildComponents(rebuildObjects?:boolean):any[];
     subelements(query: string): Array<HTMLElement | QCObjectsElement>;
+    subelements(query: string): Array<any>;
 }
 declare class QCObjectsShadowedElement extends ShadowRoot {
     style: any;
+    render(content:string):void;
+    find(tag: string): Array<HTMLElement | QCObjectsElement>;
+    buildComponents(rebuildObjects?:boolean):any[];
     subelements(query: string): Array<ShadowRoot | HTMLElement | QCObjectsShadowedElement | QCObjectsElement>;
+    subelements(query: string): Array<any>;
 }
 
 declare class Logger {
@@ -475,3 +469,58 @@ declare function ClassFactory(className: string): any;
 declare function Package(packageName: string, classesList?: Array<any> | undefined): Array<any> | undefined;
 declare function Import(packageName: string, ready?: Function, external?: boolean): any;
 
+declare const cordova: any;
+
+
+interface Element extends QCObjectsElement {
+  prototype: any;
+
+}
+
+interface HTMLElement extends QCObjectsElement {
+    prototype: any;
+  
+  }
+  
+
+interface Document extends QCObjectsElement {
+    prototype: any;
+}
+
+interface ShadowRoot extends QCObjectsShadowedElement {
+    prototype: any;
+
+}
+
+interface Array<T> {
+    prototype: any;
+    unique(): T[];
+    table():T[];
+    sum():T[];
+    avg():T[];
+    min():T[];
+    max():T[];
+    sortBy(propName:string, sortAsc?:boolean):T[];
+    matrix(length: number, fillValue?: number): T[];
+    matrix2d(length: number, fillValue?: number): T[][];
+    matrix3d(length: number, fillValue?: number): T[][][];
+}
+
+interface ArrayConstructor {
+    unique<T>(a: Array<T>): T[];
+    table<T>(a: Array<T>): T[];
+    sum<T>(a: Array<T>): T[];
+    avg<T>(a: Array<T>): T[];
+    min<T>(a: Array<T>): T[];
+    max<T>(a: Array<T>): T[];
+    sortBy<T>(a: Array<T>, propName:string, sortAsc?:boolean):T[];
+    matrix<T>(a: Array<T>, length: number, fillValue?: number): T[];
+    matrix2d<T>(a: Array<T>, length: number, fillValue?: number): T[][];
+    matrix3d<T>(a: Array<T>, length: number, fillValue?: number): T[][][];
+
+}
+
+interface String {
+    prototype: any;
+    list ():string[];
+}
