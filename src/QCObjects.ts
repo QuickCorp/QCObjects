@@ -35,6 +35,7 @@ import { Base64 } from "./Base64";
 import { _DataStringify } from "./DataStringify";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { _methods_, _protected_code_ } from "./introspection";
+import { localStorage } from "./localStorage";
 import { logger, Logger } from "./Logger";
 import { _require_, isBrowser, isDeno, isNodeCommonJS } from "./platform";
 import { _top } from "./top";
@@ -172,21 +173,6 @@ import { _top } from "./top";
     logger.debugEnabled = false;
     logger.infoEnabled = true;
     _top.logger = logger;
-    if (typeof localStorage === "undefined") {
-      /* Polyfill for localStorage */
-      var localStorage = {
-        getItem(name) {
-          return (Object.hasOwnProperty.call(this, name)) ? (this[name]) : (null);
-        },
-        setItem(name, value) {
-          this[name] = value;
-        },
-        removeItem(name) {
-          delete this[name];
-        }
-      };
-      /* end Polyfill for localStorage */
-    }
     var ComplexStorageCache = function (params) {
       var object, load, alternate;
       object = params.index;
