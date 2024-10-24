@@ -4,7 +4,7 @@ import { New } from "./New";
 import { RegisterClass } from "./RegisterClass";
 import { _top } from "./top";
 
-class Processor extends InheritClass {
+export class Processor extends InheritClass {
     component = null;
     __definition = {};
     __classType = "Processor";

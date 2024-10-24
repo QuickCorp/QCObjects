@@ -1,7 +1,7 @@
 import { _require_, isBrowser } from "./platform";
 import { _top } from "./top";
 
-export const _basePath_ = (
+export var _basePath_ = (
     function () {
       var _basePath = "";
       if (isBrowser) {
@@ -24,3 +24,5 @@ export const _basePath_ = (
       return _basePath;
     }
   )();
+
+export const setBasePath = (value:string) => { _basePath_ = value;}
