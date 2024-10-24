@@ -53,7 +53,7 @@ import { is_a } from "./is_a";
 import { ComplexStorageCache } from "./ComplexStorageCache";
 import { waitUntil } from "./waitUntil";
 import { _Cast } from "./Cast";
-import { isQCObjects_Object } from "./isQCObjects";
+import { isQCObjects_Class, isQCObjects_Object } from "./isQCObjects";
 import { Package } from "./Package";
 import { ClassFactory } from "./ClassFactory";
 import { Export } from "./Export";
@@ -65,6 +65,10 @@ import { Processor } from "./Processor";
 import { New } from "./New";
 import { _Ready, Ready } from "./Ready";
 import { captureFalseTouch } from "./captureFalseTouch";
+import { serviceLoader } from "./serviceLoader";
+import { componentLoader } from "./componentLoader";
+import { _buildComponentsFromElements_, ComponentURI } from "./ComponentFactory";
+import { NamespaceRef } from "./NamespaceRef";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -267,57 +271,6 @@ import { captureFalseTouch } from "./captureFalseTouch";
 
       HTMLDocument.prototype.buildComponents = Element.prototype.buildComponents;
       HTMLElement.prototype.buildComponents = Element.prototype.buildComponents;
-      var _ComponentWidget_ = class extends HTMLElement {
-        constructor() {
-          super(...arguments);
-          const componentWidget = this;
-          const componentName = componentWidget.nodeName.toLowerCase();
-          const componentBody = _DOMCreateElement("quick-component");
-          const __enabled__atributes__ = componentWidget.getAttributeNames();
-          componentBody.setAttribute("name", componentName);
-
-          if (!componentWidget.hasAttribute("shadowed")) {
-            componentBody.setAttribute("shadowed", "true");
-          }
-          __enabled__atributes__.map(function (attributeName) {
-            if (componentWidget.hasAttribute(attributeName)) {
-              componentBody.setAttribute(attributeName, componentWidget.getAttribute(attributeName));
-              componentWidget.removeAttribute(attributeName);
-            }
-          });
-          var data_attributenames = componentWidget.getAttributeNames().filter(function (a) {
-            return a.startsWith("data-");
-          }).map(function (a) {
-            return a.split("-")[1];
-          });
-          data_attributenames.map(function (_attribute_name_) {
-            componentBody.setAttribute("data-" + _attribute_name_, componentWidget.getAttribute("data-" + _attribute_name_));
-            componentWidget.removeAttribute("data-" + _attribute_name_);
-          });
-          [...componentWidget.children].map(function (element) {
-            componentBody.appendChild(element.cloneNode(true));
-            element.remove();
-          });
-
-          componentWidget.append(componentBody);
-        }
-      };
-      Export(_ComponentWidget_);
-      var RegisterWidget = function (widgetName) {
-        customElements.define(widgetName, class extends _ComponentWidget_ { });
-      };
-      var RegisterWidgets = function () {
-        var widgetList = [...arguments];
-        widgetList.filter(function (widgetName) {
-          return typeof widgetName === "string";
-        }).map(function (widgetName) {
-          RegisterWidget(widgetName);
-        });
-      };
-      (_protected_code_)(RegisterWidget);
-      (_protected_code_)(RegisterWidgets);
-      Export(RegisterWidget);
-      Export(RegisterWidgets);
 
     } else {
       // not yet implemented.

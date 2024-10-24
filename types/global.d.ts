@@ -1,9 +1,11 @@
+
 declare const cordova: any;
 interface QCObjectsElement {
     find(tag: string): Element[];
     subelements(tag: string): Element[];
     render (content:string): any;
     Cast (o:any):any;
+    buildComponents(rebuildObjects?:boolean):any[]
 }
 
 interface Element extends QCObjectsElement {
