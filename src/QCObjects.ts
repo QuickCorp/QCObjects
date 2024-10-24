@@ -63,6 +63,7 @@ import { _super_ } from "./super";
 import { shortCode } from "./shortCode";
 import { Processor } from "./Processor";
 import { New } from "./New";
+import { Ready } from "./Ready";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -224,16 +225,6 @@ import { New } from "./New";
     }
 
 
-    /**
-     * Defines a Custom Ready listener
-     */
-    function Ready(e) {
-      if (isBrowser) {
-        _QC_READY_LISTENERS.push(e.bind(window));
-      } else if (typeof global !== "undefined") {
-        _QC_READY_LISTENERS.push(e.bind(global));
-      }
-    }
     var ready = Ready; // case insensitive ready option
 
     /**
