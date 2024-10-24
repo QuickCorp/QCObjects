@@ -42,6 +42,7 @@ import { Promise } from "./Promise";
 import { subelements } from "./subelements";
 import { _top } from "./top";
 import "./assign";
+import { __is_raw_class__ } from "./is_raw_class";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -207,9 +208,6 @@ import "./assign";
      */
     var __instanceID;
 
-    var __is_raw_class__ = function (o_c) {
-      return (typeof o_c === "function" && o_c.toString().startsWith("class")) ? (true) : (false);
-    };
 
     var _LegacyCopy = function (obj) {
       var _value_;
