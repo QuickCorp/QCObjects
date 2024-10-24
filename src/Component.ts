@@ -6,7 +6,7 @@ import { ComponentURI } from "./ComponentFactory";
 import { _DataStringify } from "./DataStringify";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { __getType__ } from "./getType";
-import { _methods_ } from "./introspection";
+import { _methods_, _protected_code_ } from "./introspection";
 import { is_a } from "./is_a";
 import { isQCObjects_Object } from "./isQCObjects";
 import { logger } from "./Logger";
@@ -1078,3 +1078,7 @@ export class Component extends ClassFactory("InheritClass") {
 Package("com.qcobjects", [
     Component
 ]);
+
+(_methods_)(ClassFactory("Component")).map(function (__c__) {
+    (_protected_code_)(__c__);
+  });

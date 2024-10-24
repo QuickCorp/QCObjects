@@ -242,9 +242,6 @@ import { captureFalseTouch } from "./captureFalseTouch";
 
 
 
-    (_methods_)(ClassFactory("Component")).map(function (__c__) {
-      (_protected_code_)(__c__);
-    });
 
     if (isBrowser) {
       window.addEventListener("popstate", function (popStateEvent) {
