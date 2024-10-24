@@ -59,6 +59,8 @@ import { ClassFactory } from "./ClassFactory";
 import { Export } from "./Export";
 import { Class } from "./Class";
 import { InheritClass } from "./InheritClass";
+import { _super_ } from "./super";
+import { shortCode } from "./shortCode";
 
 (function __qcobjects__(_top: any): void {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
