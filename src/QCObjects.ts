@@ -152,56 +152,6 @@ import { waitUntil } from "./waitUntil";
     }
 
 
-    /**
-     * Internal use to determine the forbidden names for classes
-     * Reserved words
-     *
-     * @param {String} name
-     * @param {Object} type
-     * @param {Object} definition
-     */
-    var __is__forbidden_name__ = function () {
-      return (["__proto__", "prototype", "Object", "Map", "defineProperty", "indexOf", "toString", "__instanceID"].indexOf(arguments[0]) !== -1) ? (true) : (false);
-    };
-
-
-
-
-
-    var __make_global__ = function (f) {
-      if (typeof f !== "undefined") {
-        if (isBrowser) {
-          try {
-            _top[f.name] = f;
-            window[f.name] = f;
-          } catch (e) { }
-        } else if (typeof global !== "undefined") {
-          if (!Object.hasOwnProperty.call(global, f.name)) {
-            global[f.name] = f;
-          }
-        }
-      }
-
-    };
-
-    var __register_class__ = function (_class_, __namespace) {
-      var name = _class_.name || __getType__(_class_);
-      if (typeof _class_.__definition === "undefined") {
-        _class_.__definition = {};
-      }
-      _class_.__definition.__classType = name;
-      if (typeof __namespace !== "undefined") {
-        _class_.__definition.__namespace = __namespace;
-      }
-      _QC_CLASSES[name] = _class_;
-      _top[name] = _QC_CLASSES[name];
-      return _top[name];
-    };
-
-    var RegisterClass = function (_class_, __namespace) {
-      return __register_class__(_class_, __namespace);
-    };
-    __make_global__(RegisterClass);
 
     /**
      * Creates new object class  of another object
