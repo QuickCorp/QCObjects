@@ -624,7 +624,7 @@ export class Component extends InheritClass {
                     case (_component.get("tplsource") === "none"):
                         logger.debug("Component " + _component.name + " has specified template-source=none, so no template load was done");
                         var standardResponse = {
-                            request: null,
+                            request: undefined,
                             component: _component
                         };
                         _component.__done__().then(function () {
@@ -642,12 +642,12 @@ export class Component extends InheritClass {
                             _component.feedComponent.bind(_component)();
                         })(_component);
                         var standardResponse = {
-                            request: null,
+                            request: undefined,
                             component: _component
                         };
                         _component.__done__().then(function () {
                             if (typeof _component.done === "function") {
-                                _component.done.call(_component, standardResponse);
+                                _component.done(standardResponse);
                             }
                             resolve.call(_promise, standardResponse);
                         }, function () {
@@ -815,7 +815,7 @@ export class Component extends InheritClass {
                             var attributeNames = routingNode.getAttributeNames();
                             var routing = {} as ComponentRouting;
                             attributeNames.map(function (attributeName: any, a: string | number) {
-                                (routing as any)[attributeNames[a]] = routingNode.getAttribute(attributeNames[a]);
+                                (routing as any)[attributeNames[a as any]] = routingNode.getAttribute(attributeNames[a as any]);
                             });
                             component.routings.push(routing as never);
                             if (!component.routingPaths) {
@@ -904,7 +904,7 @@ export class Component extends InheritClass {
             var _imgLazyLoaded = [..._componentRoot.subelements("img[lazy-src]")];
             var _lazyLoadImages = function (image: Element| HTMLElement) {
                 image.setAttribute("src", image.getAttribute("lazy-src")?.toString() as string);
-                (image as HTMLElement).onload = () => {
+                (image as HTMLImageElement).onload = () => {
                     image.removeAttribute("lazy-src");
                 };
             };

@@ -54,7 +54,7 @@ declare class QCObjectsElement extends Element{
     render(content:string):void;
     find(tag: string): Array<HTMLElement | QCObjectsElement>;
     buildComponents(rebuildObjects?:boolean):any[];
-    subelements(query: string): Array<HTMLElement | QCObjectsElement>;
+    subelements(query: string): (HTMLElement | QCObjectsElement)[];
     subelements(query: string): Array<any>;
 }
 declare class QCObjectsShadowedElement extends ShadowRoot {
@@ -273,8 +273,8 @@ declare type ComponentParams = {
 
 
 declare type ComponentDoneResponse = {
-    request?: XMLHttpRequest;
-    component?: Component;
+    request?: XMLHttpRequest|undefined;
+    component?: Component|any;
 };
 declare type ComponentRouting = {
     path:string, name:string
