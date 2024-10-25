@@ -298,30 +298,30 @@ export class Component extends InheritClass implements IComponent{
         if (!(_component_ as any)._bindroute_.loaded) {
             if (isBrowser) {
 
-                _component_.hostElements("a").map(function (a: { oldclick: any; onclick: (e: any) => boolean; }) {
-                    a.oldclick = a.onclick;
-                    a.onclick = function (e: { target: { [x: string]: any; href: string | URL | null | undefined; oldclick: { call: (arg0: any, arg1: any) => void; }; }; }) {
+                (_component_.hostElements("a") as unknown as  HTMLAnchorElement[]).map(function (a: HTMLAnchorElement) {
+                    (a as any).oldclick = a.onclick;
+                    a.onclick = function (e) {
                         var _ret_ = true;
                         if (!_top.global.get("routingPaths")) {
                             _top.global.set("routingPaths", []);
                         }
                         var routingWay = CONFIG.get("routingWay");
-                        var routingPath = e.target[routingWay];
+                        var routingPath = (e.target as any)[routingWay];
                         if (_top.global.get("routingPaths").includes(routingPath) &&
-                            e.target[routingWay] !== (location as any)[routingWay] &&
-                            e.target.href !== document.location.href
+                            (e.target as any)[routingWay] !== (location as any)[routingWay] &&
+                            (e.target as HTMLAnchorElement).href !== document.location.href
                         ) {
                             logger.debug("A ROUTING WAS FOUND: " + routingPath);
                             window.history.pushState({
-                                href: e.target.href
-                            }, e?.target?.href as string, e.target.href);
+                                href: (e.target as HTMLAnchorElement).href
+                            }, (e?.target as HTMLAnchorElement)?.href as string, (e.target as HTMLAnchorElement).href);
                             ClassFactory("Component").route();
                             _ret_ = false;
                         } else {
                             logger.debug("NO ROUTING FOUND FOR: " + routingPath);
                         }
-                        if (typeof e.target.oldclick !== "undefined" && typeof e.target.oldclick === "function") {
-                            e.target.oldclick.call(e.target, e);
+                        if (typeof (e.target as any).oldclick !== "undefined" && typeof (e.target as any).oldclick === "function") {
+                            (e.target as any).oldclick.call(e.target, e);
                         }
                         return _ret_;
                     };
@@ -389,7 +389,7 @@ export class Component extends InheritClass implements IComponent{
                     }
                 }
             }
-            resolve({ component: this, controller: this.controller });
+            resolve({ component: this, controller: this.controller as Controller });
         });
     }
 
@@ -406,7 +406,7 @@ export class Component extends InheritClass implements IComponent{
                     _component_.applyTransitionEffect(effectClassName);
                 }
             }
-            resolve({ component: _component_, effect: _component_.effect });
+            resolve({ component: _component_, effect: _component_.effect as Effect });
         });
     }
 
@@ -426,7 +426,7 @@ export class Component extends InheritClass implements IComponent{
                 }
 
             }
-            resolve({ component: _component_, view: _component_.view });
+            resolve({ component: _component_, view: _component_.view as View });
 
         });
     }
@@ -457,7 +457,7 @@ export class Component extends InheritClass implements IComponent{
 
             _component_._bindroute_();
             if (isBrowser) {
-                _component_.body.setAttribute("loaded", true);
+                _component_.body.setAttribute("loaded", "true");
             }
         };
 
@@ -507,7 +507,7 @@ export class Component extends InheritClass implements IComponent{
         const _component_:Component = this as Component;
         var elementList = _component_.subtags;
         if (!rebuildObjects) {
-            elementList = elementList.filter((t: { getAttribute: (arg0: string) => string; }) => t.getAttribute("loaded") !== "true");
+            elementList = (elementList as HTMLElement[]).filter((t: HTMLElement) => t.getAttribute("loaded") !== "true");
         }
         if ((typeof _component_ !== "undefined") || (_component_ as Component).subcomponents.length < 1) {
             _component_.subcomponents = _buildComponentsFromElements_(elementList, _component_);
@@ -515,12 +515,15 @@ export class Component extends InheritClass implements IComponent{
         return _component_.subcomponents;
     }
 
-    fail(standardResponse: { error: any; component: any; }) {
-        var _ret_;
-        if (typeof standardResponse !== "undefined") {
-            var { error, component } = standardResponse;
-            _ret_ = Promise.resolve({ error, component });
-        }
+    fail(standardResponse: { error: any; component: Component; }):Promise<{ error: any; component: Component; }> {
+        var _ret_ = new Promise<{ error: any; component: Component; }>((resolve, reject)=> {
+            if (typeof standardResponse !== "undefined") {
+                var { error, component } = standardResponse;
+                resolve({ error, component });
+            } else {
+                reject();
+            }
+        });
         return _ret_;
     }
 
@@ -622,9 +625,9 @@ export class Component extends InheritClass implements IComponent{
         return _ret_;
     }
 
-    rebuild():Promise<{ request: XMLHttpRequest, component: Component }> {
+    rebuild():Promise<{ request?: XMLHttpRequest, component: Component }> {
         var _component = this as Component;
-        var _promise = new Promise(function (resolve, reject) {
+        var _promise = new Promise<{ request?: XMLHttpRequest, component: Component }>(function (resolve, reject) {
             if (typeof _component === "undefined" || _component === null) {
                 reject("Component is undefined");
             }
@@ -780,15 +783,15 @@ export class Component extends InheritClass implements IComponent{
             var elem = this.body;
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) {
+            } else if ((elem as any).mozRequestFullScreen) {
                 /* Firefox */
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) {
+                (elem as any).mozRequestFullScreen();
+            } else if ((elem as any).webkitRequestFullscreen) {
                 /* Chrome, Safari & Opera */
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) {
+                (elem as any).webkitRequestFullscreen();
+            } else if ((elem as any).msRequestFullscreen) {
                 /* IE/Edge */
-                elem.msRequestFullscreen();
+                (elem as any).msRequestFullscreen();
             }
         } else {
             // not yet implemented.
@@ -927,10 +930,10 @@ export class Component extends InheritClass implements IComponent{
                     });
                 });
                 _imgLazyLoaded.map(function (img) {
-                    return observer.observe(img);
+                    return observer.observe(img as unknown as HTMLImageElement);
                 });
             } else {
-                _imgLazyLoaded.map(_lazyLoadImages);
+                (_imgLazyLoaded as (HTMLElement | Element)[]).map(_lazyLoadImages);
             }
 
         } else {
@@ -985,8 +988,8 @@ export class Component extends InheritClass implements IComponent{
             var component = this;
             if (document.location.hash !== "") {
                 var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
-                _componentRoot.subelements(document.location.hash).map(
-                    function (element: { scrollIntoView: (arg0: any) => void; }) {
+                (_componentRoot.subelements(document.location.hash) as unknown as Element[]).map(
+                    function (element: Element) {
                         if (typeof element.scrollIntoView === "function") {
                             element.scrollIntoView(
                                 CONFIG.get("scrollIntoHash", {

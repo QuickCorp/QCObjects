@@ -50,6 +50,7 @@ declare class BackendMicroservice extends InheritClass {
 }
 
 declare class QCObjectsElement extends Element{
+    enableServiceClass?:boolean;
     Cast(_o:any):any;
     render(content:string):void;
     find(tag: string): (HTMLElement | QCObjectsElement)[];
@@ -354,7 +355,7 @@ declare interface IComponent {
     set(name: string, value: any): void;
     get(name: string): any;
     feedComponent(): void;
-    rebuild(): Promise<{ request: XMLHttpRequest, component: Component }>;
+    rebuild(): Promise<{ request?: XMLHttpRequest, component: Component }>;
     Cast(oClass: any): any;
     fullscreen(): void;
     closefullscreen(): void;
@@ -427,7 +428,7 @@ declare class Component extends InheritClass implements IComponent {
     set(name: string, value: any): void;
     get(name: string): any;
     feedComponent(): void;
-    rebuild(): Promise<{ request: XMLHttpRequest, component: Component }>;
+    rebuild(): Promise<{ request?: XMLHttpRequest, component: Component }>;
     Cast(oClass: any): any;
     fullscreen(): void;
     closefullscreen(): void;

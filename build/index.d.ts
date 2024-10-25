@@ -494,16 +494,16 @@ declare module "Component" {
         __buildSubComponents__(rebuildObjects?: boolean): any[];
         fail(standardResponse: {
             error: any;
-            component: any;
+            component: Component;
         }): Promise<{
             error: any;
-            component: any;
-        }> | undefined;
+            component: Component;
+        }>;
         set(name: string, value: any): void;
         get(name: string, _defaultValue?: string): any;
         feedComponent(): void;
         rebuild(): Promise<{
-            request: XMLHttpRequest;
+            request?: XMLHttpRequest;
             component: Component;
         }>;
         Cast(oClass: any): any;
