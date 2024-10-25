@@ -291,45 +291,6 @@ declare module "Crypt" {
     export const _CryptObject: (o: any) => any;
     export const _DecryptObject: (s: any) => any;
 }
-declare module "Processor" {
-    import { InheritClass } from "InheritClass";
-    export class Processor extends InheritClass {
-        component: null;
-        __definition: {};
-        __classType: string;
-        static processors: {
-            config(component: any, arg: any): any;
-            ENV(component: any, arg: any): string | undefined;
-            global(component: any, arg: any): any;
-        };
-        static setProcessor(_proc_: any): void;
-        constructor({ component }: {
-            component: any;
-        });
-        static execute(component: any, processorName: any, args: any): any;
-        static process(template: any, component?: null): any;
-        static processObject(obj: any, component?: null): any;
-    }
-}
-declare module "CONFIG" {
-    export const CONFIG: any;
-}
-declare module "ComplexStorageCache" {
-    export class ComplexStorageCache {
-        constructor(params: {
-            index: any;
-            load: any;
-            alternate: any;
-        });
-        getItem(cachedObjectID: string): any;
-        setItem(cachedObjectID: string, value: any): void;
-        isEmpty(object: string | number | null): boolean;
-        getID(object: any): string | undefined;
-        save(object: any, cachedNewResponse: any): void;
-        getCached(object: any): any;
-        clear(): void;
-    }
-}
 declare module "ComponentFactory" {
     import { ComponentURIParams } from "types/global";
     import { Component } from "Component";
@@ -372,6 +333,22 @@ declare module "asyncLoad" {
         };
     };
     export const _fireAsyncLoad: () => void;
+}
+declare module "ComplexStorageCache" {
+    export class ComplexStorageCache {
+        constructor(params: {
+            index: any;
+            load: any;
+            alternate: any;
+        });
+        getItem(cachedObjectID: string): any;
+        setItem(cachedObjectID: string, value: any): void;
+        isEmpty(object: string | number | null): boolean;
+        getID(object: any): string | undefined;
+        save(object: any, cachedNewResponse: any): void;
+        getCached(object: any): any;
+        clear(): void;
+    }
 }
 declare module "serviceLoader" {
     /**
@@ -416,12 +393,13 @@ declare module "componentLoader" {
 declare module "Component" {
     import { ComponentParams, Controller, View } from "types/global";
     import { InheritClass } from "InheritClass";
+    import { Processor } from "Processor";
     export class Component extends InheritClass {
         validRoutingWays: string[];
         basePath: string;
         domain: string;
         templateHandler: string;
-        processorHandler: null;
+        processorHandler: Processor;
         routingWay: string | null;
         routingNodes: any[];
         routings: never[];
@@ -500,16 +478,39 @@ declare module "Component" {
         runComponentHelpers(): void;
     }
 }
+declare module "Processor" {
+    import { Component } from "Component";
+    import { InheritClass } from "InheritClass";
+    export class Processor extends InheritClass {
+        component: Component;
+        __definition: {};
+        __classType: string;
+        static processors: {
+            config(component: Component, arg: string): any;
+            ENV(component: Component, arg: string): string | undefined;
+            global(component: Component, arg: string): any;
+        };
+        static setProcessor(_proc_: Function): void;
+        constructor({ component }: {
+            component: Component | null;
+        });
+        static execute(component: Component, processorName: string, args: string): any;
+        static process(template: string, component?: Component | null): string;
+        static processObject(obj: any, component?: Component | null): any;
+    }
+}
+declare module "CONFIG" {
+    export const CONFIG: any;
+}
 declare module "ConfigSettings" { }
 declare module "Controller" {
+    import { ControllerParams } from "types/global";
     import { InheritClass } from "InheritClass";
+    import { Component } from "Component";
     export class Controller extends InheritClass {
-        component: null;
+        component: Component | null;
         dependencies: never[];
-        constructor({ component, dependencies }: {
-            component: any;
-            dependencies: any;
-        });
+        constructor({ component, dependencies }: ControllerParams);
         routingSelectedAttr(attrName: any): any;
         isTouchable(): boolean;
         onpress(subelementSelector: any, handler: any): void;

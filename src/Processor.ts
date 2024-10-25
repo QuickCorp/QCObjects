@@ -1,3 +1,5 @@
+import { Component } from "./Component";
+import { CONFIG } from "./CONFIG";
 import { InheritClass } from "./InheritClass";
 import { __make_global__ } from "./make_global";
 import { New } from "./New";
@@ -5,28 +7,28 @@ import { RegisterClass } from "./RegisterClass";
 import { _top } from "./top";
 
 export class Processor extends InheritClass {
-    component = null;
-    __definition = {};
-    __classType = "Processor";
+    component!:Component;
+    __definition?:any = {};
+    __classType?:string = "Processor";
 
     static processors = {
-      "config"(component, arg) {
-        return _top.CONFIG.get(arg, "");
+      "config"(component:Component, arg:string) {
+        return CONFIG.get(arg, "");
       },
-      "ENV"(component, arg) {
+      "ENV"(component:Component, arg:string) {
         return (typeof process !== "undefined") ? (process.env[arg]) : ("");
       },
-      "global"(component, arg) {
-        return (typeof global !== "undefined") ? (global[arg]) : ("");
+      "global"(component:Component, arg:string) {
+        return (typeof _top !== "undefined") ? ((_top as any)[arg]) : ("");
       }
     };
-    static setProcessor(_proc_) {
+    static setProcessor(_proc_:Function) {
       if (typeof _proc_ === "function" && _proc_.name !== "") {
-        this.processors[_proc_.name] = _proc_;
+        (this.processors as any)[_proc_.name] = _proc_;
       }
     }
 
-    constructor({component}) {
+    constructor({component}:{component:Component|null}) {
       super({component});
       this.processors = Processor.processors;
       this.process = Processor.process.bind(this);
@@ -35,12 +37,12 @@ export class Processor extends InheritClass {
       this.execute = Processor.execute.bind(this);
     }
 
-    static execute(component, processorName, args) {
+    static execute(component:Component, processorName:string, args:string) {
       var processorHandler = (typeof component !== "undefined" && component !== null) ? (component.processorHandler) : (this);
-      return processorHandler.processors[processorName].bind(processorHandler).apply(processorHandler, [component, ...args.split(",")]);
+      return processorHandler.processors[processorName].bind(processorHandler).apply(processorHandler, [component, args?.split(",")]);
     }
 
-    static process(template, component = null) {
+    static process(template:string, component:Component|null = null) {
       var processorHandler = (component !== null) ? (component.processorHandler) : (New(Processor, { component: null }));
       if (typeof template === "string") {
         Object.keys(processorHandler.processors).map(function (funcName) {
@@ -55,7 +57,7 @@ export class Processor extends InheritClass {
       return template;
     }
 
-    static processObject(obj, component = null) {
+    static processObject(obj:any, component:Component|null = null) {
       var __instance__ = (component === null) ? (this) : (component.processorHandler);
       if (typeof __instance__ === "undefined") {
         __instance__ = new Processor({ component: component });

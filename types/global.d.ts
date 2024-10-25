@@ -271,6 +271,7 @@ declare type ComponentParams = {
     view?: View;
 };
 
+
 declare type ComponentDoneResponse = {
     request?: XMLHttpRequest;
     component?: Component;
@@ -278,7 +279,7 @@ declare type ComponentDoneResponse = {
 declare type ComponentRouting = {
     path:string, name:string
 };
-declare type ComponentRoutings = Array<ComponentRouting>;
+declare type ComponentRoutings = ComponentRouting[];
 declare class Component extends InheritClass {
     name: string;
     cached?:boolean;
@@ -288,29 +289,29 @@ declare class Component extends InheritClass {
     tplsource: string;
     tplextension: string;
     template: string;
-    validRoutingWays: Array<string>;
+    validRoutingWays: string[];
     basePath: string;
     domain: string;
     templateHandler: string;
     processorHandler: Processor;
     routingWay: string;
-    routingNodes: Array<QCObjectsElement | HTMLElement>;
+    routingNodes:(QCObjectsElement | HTMLElement)[];
     routings: ComponentRoutings;
     routingPath: string;
-    routingPaths: Array<string>;
-    _componentHelpers: Array<any>;
-    subcomponents: Array<Component>;
+    routingPaths: string[];
+    _componentHelpers: any[];
+    subcomponents: Component[];
     splashScreenComponent?: Component;
-    controller: Controller | null;
-    view: View | null;
-    effect: Effect;
+    controller: Controller | undefined;
+    view: View | undefined;
+    effect?: Effect;
     effectClass: string;
     method: string;
     static cached: boolean;
     __promise__?: Promise<any>;
     data: any;
     shadowed?: boolean;
-    shadowRoot?: QCObjectsShadowedElement;
+    shadowRoot: QCObjectsShadowedElement;
     cacheIndex: string;
     parsedAssignmentText: string;
     routingSelected: Array<any>;
@@ -323,8 +324,8 @@ declare class Component extends InheritClass {
     constructor(component: ComponentParams);
     static route(): Promise<Component[]>;
     __done__(): Promise<void>;
-    _bindroute(): void;
-    __buildSubComponents__(rebuildObjects: boolean): Array<Component>;
+    _bindroute_(): void;
+    __buildSubComponents__(rebuildObjects: boolean): Component[];
     _generateRoutingPaths(componentBody: QCObjectsElement | HTMLElement): Promise<void>;
     _reroute_(): Promise<Component>;
     createServiceInstance(): Promise<JSON | string | null>;
@@ -332,7 +333,7 @@ declare class Component extends InheritClass {
     createEffectInstance(): Promise<{ component: Component, effect: Effect }>;
     createViewInstance(): Promise<{ component: Component, view: View }>;
     done(standardResponse: ComponentDoneResponse): Promise<ComponentDoneResponse>;
-    fail({error, component}:{ error: any, component: Component }):void;
+    fail({error, component}:{ error: any, component: Component }):Promise<{ error: any; component: any; }>;
     hostElements(tagFilter: string): Array<HTMLElement | QCObjectsElement | QCObjectsShadowedElement>;
     set(name: string, value: any): void;
     get(name: string): any;
@@ -344,7 +345,7 @@ declare class Component extends InheritClass {
     parseTemplate(template: string): string;
     lazyLoadImages(): any | null;
     applyTransitionEffect(effectClassName: string): void;
-    applyObserveTransitionEffect(effectClassName: string): void | null;
+    applyObserveTransitionEffect(effectClassName: string): void ;
     scrollIntoHash(): void;
     i18n_translate(): void;
     addComponentHelper(componentHelper: Function): void;
@@ -362,17 +363,17 @@ declare class CONFIG extends InheritClass {
 
 declare type ControllerParams = {
     component: Component;
-    dependencies: Array<any>;
+    dependencies: any[];
 };
 
 declare class Controller {
     __classType: string;
     __definition: any;
     __new__(): any;
-    __namespace: string;
+    __namespace?: string;
     body?: QCObjectsElement | HTMLElement;
     component: Component;
-    dependencies?: Array<any>;
+    dependencies?: any[];
     constructor(controller: ControllerParams);
     routingSelectedAttr(attrName: string): any;
     isTouchable(): boolean;

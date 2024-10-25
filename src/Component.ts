@@ -1,4 +1,4 @@
-import { ComponentParams, ComponentRouting, Controller, Route, View } from "types/global";
+import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global";
 import { Base64 } from "./Base64";
 import { _basePath_ } from "./basePath";
 import { _Cast } from "./Cast";
@@ -25,26 +25,26 @@ import { _tag_filter_ } from "./tag_filter";
 import { componentLoader } from "./componentLoader";
 
 export class Component extends InheritClass {
-    validRoutingWays = ["pathname", "hash", "search"];
+    validRoutingWays:string[] = ["pathname", "hash", "search"];
     basePath = _basePath_;
     domain = _domain_;
     templateHandler = "DefaultTemplateHandler";
-    processorHandler = null;
+    processorHandler!: Processor;
     routingWay:string|null = null;
-    routingNodes:any[] = [];
-    routings = [];
+    routingNodes:(QCObjectsElement | HTMLElement)[] = [];
+    routings:ComponentRouting[] = [];
     routingPath = "";
-    routingPaths = [];
-    _componentHelpers = [];
+    routingPaths:string[] = [];
+    _componentHelpers:any[] = [];
     subcomponents:any[] = [];
-    splashScreenComponent = undefined;
+    splashScreenComponent?:Component = undefined;
     controller?:Controller = undefined;
     view?:View = undefined;
-    effect = undefined;
+    effect?:Effect = undefined;
     method = "GET";
-    cached:boolean = true;
+    cached?:boolean = true;
     __promise__?:Promise<any>|null = null;
-    __namespace = undefined;
+    __namespace?:string = undefined;
 
     constructor({
         __parent__,
@@ -169,7 +169,7 @@ export class Component extends InheritClass {
     }
 
 
-    set shadowRoot(value) {
+    set shadowRoot(value:QCObjectsShadowedElement) {
         var self = this;
         if (typeof self.__shadowRoot == "undefined") {
             self.__shadowRoot = value;
@@ -178,7 +178,7 @@ export class Component extends InheritClass {
         }
     }
 
-    get shadowRoot() {
+    get shadowRoot():QCObjectsShadowedElement {
         var self = this;
         return self.__shadowRoot;
     }
@@ -329,12 +329,15 @@ export class Component extends InheritClass {
 
     }
 
-    done(standardResponse: { request: any; component: any; }) {
-        var _ret_;
-        if (typeof standardResponse !== "undefined") {
-            var { request, component } = standardResponse;
-            _ret_ = Promise.resolve({ request, component });
-        }
+    done(standardResponse?: ComponentDoneResponse):Promise<ComponentDoneResponse> {
+        var _ret_ = new Promise<ComponentDoneResponse> ((resolve, reject)=> {
+            if (typeof standardResponse !== "undefined") {
+                var { request, component } = standardResponse;
+                resolve({request, component});
+            } else {
+                resolve({request:undefined, component:undefined});
+            }
+        });
         return _ret_;
     }
 
@@ -799,7 +802,7 @@ export class Component extends InheritClass {
         }
     }
 
-    _generateRoutingPaths(componentBody: { innerHTML: any; subelements: (arg0: string) => any[]; }) {
+    _generateRoutingPaths(componentBody:  QCObjectsElement | HTMLElement) {
         var component = this;
         return new Promise<void>(function (resolve, reject) {
             if (isBrowser) {
@@ -965,7 +968,7 @@ export class Component extends InheritClass {
         } else {
             // not yet implemented
         }
-        return null;
+        return;
     }
 
     scrollIntoHash() {
