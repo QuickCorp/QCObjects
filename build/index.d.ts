@@ -510,6 +510,7 @@ declare module "Controller" {
     }
 }
 declare module "DDO" {
+    import { DDOParams } from "types/global";
     const DDO_base: any;
     /**
      * Dynamic Data Objects Class
@@ -530,20 +531,8 @@ declare module "DDO" {
      *
      */
     export class DDO extends DDO_base {
-        constructor({ instance, name, fget, fset, value }: {
-            instance: any;
-            name: any;
-            fget: any;
-            fset: any;
-            value: any;
-        });
-        _new_({ instance, name, fget, fset, value }: {
-            instance: any;
-            name: any;
-            fget: any;
-            fset: any;
-            value: any;
-        }): void;
+        constructor({ instance, name, fget, fset, value }: DDOParams);
+        _new_({ instance, name, fget, fset, value }: DDOParams): void;
     }
 }
 declare module "DefaultTemplateHandler" {

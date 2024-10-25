@@ -1,3 +1,4 @@
+import { DDOParams } from "types/global";
 import { ClassFactory } from "./ClassFactory";
 import { Export } from "./Export";
 import { logger } from "./Logger";
@@ -28,7 +29,7 @@ export class DDO extends ClassFactory("InheritClass") {
         fget,
         fset,
         value
-    }) {
+    }:DDOParams) {
         super({
             instance,
             name,
@@ -52,7 +53,7 @@ export class DDO extends ClassFactory("InheritClass") {
         fget,
         fset,
         value
-    }) {
+    }:DDOParams) {
         var ddoInstance = this;
         var name = (typeof name === "undefined") ? (ObjectName(ddoInstance)) : (name);
 
@@ -72,7 +73,7 @@ export class DDO extends ClassFactory("InheritClass") {
             get() {
                 let _value = instance["_" + name];
                 logger.debug("returning value " + name);
-                var is_ddo = function (v) {
+                var is_ddo = function (v:any) {
                     if (typeof v === "object" && Object.hasOwnProperty.call(v, "value")) {
                         return v.value;
                     }
