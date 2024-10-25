@@ -9,7 +9,7 @@ export const _Crypt = Class("_Crypt", Object, {
     last_string: "",
     last_key: "",
     construct: false,
-    _new_(o) {
+    _new_(o:any) {
         var string = o["string"];
         var key = (o.hasOwnProperty.call(o, "key")) ? (o["key"]) : (null);
         this.__new__(o);
@@ -18,7 +18,7 @@ export const _Crypt = Class("_Crypt", Object, {
         this.last_string = string;
         this.construct = true;
     },
-    _encrypt() {
+    _encrypt():string {
         var string = this.string;
         var key = this.key;
         var result = "";
@@ -33,7 +33,7 @@ export const _Crypt = Class("_Crypt", Object, {
         this.last_string = Base64.encode(result);
         return this.last_string;
     },
-    _decrypt() {
+    _decrypt():string {
         var string = this.string;
         var key = this.key;
         var result = "";
@@ -50,14 +50,14 @@ export const _Crypt = Class("_Crypt", Object, {
         this.last_string = result;
         return this.last_string;
     },
-    encrypt(string, key) {
+    encrypt(string:string, key:string) {
         var crypt = New(ClassFactory("_Crypt"), {
             string: string,
             key: (key !== "") ? (key) : ("12345678ABC")
         });
         return crypt._encrypt();
     },
-    decrypt(string, key) {
+    decrypt(string:string, key:string) {
         var crypt = New(ClassFactory("_Crypt"), {
             string: string,
             key: (key !== "") ? (key) : ("12345678ABC")
@@ -66,9 +66,9 @@ export const _Crypt = Class("_Crypt", Object, {
     }
 });
 
-export const _CryptObject = function (o) {
+export const _CryptObject = function (o:any):string {
     return ClassFactory("_Crypt").encrypt(_DataStringify(o), _secretKey);
 };
-export const _DecryptObject = function (s) {
+export const _DecryptObject = function (s:string):any {
     return (s === "") ? ({}) : (JSON.parse(ClassFactory("_Crypt").decrypt(s, _secretKey)));
 };

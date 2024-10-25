@@ -288,8 +288,8 @@ declare module "secretKey" {
 }
 declare module "Crypt" {
     export const _Crypt: any;
-    export const _CryptObject: (o: any) => any;
-    export const _DecryptObject: (s: any) => any;
+    export const _CryptObject: (o: any) => string;
+    export const _DecryptObject: (s: string) => any;
 }
 declare module "ComponentFactory" {
     import { ComponentURIParams } from "types/global";
@@ -391,7 +391,7 @@ declare module "componentLoader" {
     };
 }
 declare module "Component" {
-    import { ComponentParams, Controller, View } from "types/global";
+    import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global";
     import { InheritClass } from "InheritClass";
     import { Processor } from "Processor";
     export class Component extends InheritClass {
@@ -401,20 +401,20 @@ declare module "Component" {
         templateHandler: string;
         processorHandler: Processor;
         routingWay: string | null;
-        routingNodes: any[];
-        routings: never[];
+        routingNodes: (QCObjectsElement | HTMLElement)[];
+        routings: ComponentRouting[];
         routingPath: string;
-        routingPaths: never[];
-        _componentHelpers: never[];
+        routingPaths: string[];
+        _componentHelpers: any[];
         subcomponents: any[];
-        splashScreenComponent: undefined;
+        splashScreenComponent?: Component;
         controller?: Controller;
         view?: View;
-        effect: undefined;
+        effect?: Effect;
         method: string;
-        cached: boolean;
+        cached?: boolean;
         __promise__?: Promise<any> | null;
-        __namespace: undefined;
+        __namespace?: string;
         constructor({ __parent__, templateURI, template, tplsource, tplextension, url, name, method, data, reload, shadowed, cached, _body, __promise__, __shadowRoot, body, shadowRoot, splashScreenComponent, controller, view }: ComponentParams);
         set body(value: any);
         get body(): any;
@@ -422,21 +422,15 @@ declare module "Component" {
         get cacheIndex(): string;
         set parsedAssignmentText(value: any);
         get parsedAssignmentText(): any;
-        set shadowRoot(value: any);
-        get shadowRoot(): any;
+        set shadowRoot(value: QCObjectsShadowedElement);
+        get shadowRoot(): QCObjectsShadowedElement;
         set routingSelected(value: any);
         get routingSelected(): any;
         set routingParams(value: {});
         get routingParams(): {};
         createServiceInstance(): Promise<unknown>;
         _bindroute_(): void;
-        done(standardResponse: {
-            request: any;
-            component: any;
-        }): Promise<{
-            request: any;
-            component: any;
-        }> | undefined;
+        done(standardResponse?: ComponentDoneResponse): Promise<ComponentDoneResponse>;
         createControllerInstance(): Promise<unknown>;
         createEffectInstance(): Promise<unknown>;
         createViewInstance(): Promise<unknown>;
@@ -463,15 +457,12 @@ declare module "Component" {
         static route(): Promise<void>;
         fullscreen(): void;
         closefullscreen(): void;
-        _generateRoutingPaths(componentBody: {
-            innerHTML: any;
-            subelements: (arg0: string) => any[];
-        }): Promise<void>;
+        _generateRoutingPaths(componentBody: QCObjectsElement | HTMLElement): Promise<void>;
         parseTemplate(template: any): any;
         _reroute_(): Promise<unknown>;
         lazyLoadImages(): null;
         applyTransitionEffect(effectClassName: string): void;
-        applyObserveTransitionEffect(effectClassName: any): null;
+        applyObserveTransitionEffect(effectClassName: any): void;
         scrollIntoHash(): void;
         i18n_translate(): void;
         addComponentHelper(componentHelper: any): void;
@@ -483,8 +474,8 @@ declare module "Processor" {
     import { InheritClass } from "InheritClass";
     export class Processor extends InheritClass {
         component: Component;
-        __definition: {};
-        __classType: string;
+        __definition?: any;
+        __classType?: string;
         static processors: {
             config(component: Component, arg: string): any;
             ENV(component: Component, arg: string): string | undefined;
@@ -509,11 +500,11 @@ declare module "Controller" {
     import { Component } from "Component";
     export class Controller extends InheritClass {
         component: Component | null;
-        dependencies: never[];
+        dependencies?: any[];
         constructor({ component, dependencies }: ControllerParams);
-        routingSelectedAttr(attrName: any): any;
+        routingSelectedAttr(attrName: string): any;
         isTouchable(): boolean;
-        onpress(subelementSelector: any, handler: any): void;
+        onpress(subelementSelector: string, handler: Function): void;
         createRoutingController(): void;
         done(): void;
     }
