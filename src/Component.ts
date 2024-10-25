@@ -1,4 +1,4 @@
-import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global";
+import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, IComponent, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global";
 import { Base64 } from "./Base64";
 import { _basePath_ } from "./basePath";
 import { _Cast } from "./Cast";
@@ -24,12 +24,19 @@ import { serviceLoader } from "./serviceLoader";
 import { _tag_filter_ } from "./tag_filter";
 import { componentLoader } from "./componentLoader";
 
-export class Component extends InheritClass {
+export class Component extends InheritClass implements IComponent{
+    __instanceID!: number;
+    name!: string;
+    _body!:QCObjectsElement | HTMLElement;
+    templateURI!: string;
+    tplsource!: string;
+    tplextension!: string;
+    template!: string;
     validRoutingWays:string[] = ["pathname", "hash", "search"];
     basePath = _basePath_;
     domain = _domain_;
     templateHandler = "DefaultTemplateHandler";
-    processorHandler!: Processor;
+    processorHandler?: Processor;
     routingWay:string|null = null;
     routingNodes:(QCObjectsElement | HTMLElement)[] = [];
     routings:ComponentRouting[] = [];
@@ -41,9 +48,11 @@ export class Component extends InheritClass {
     controller?:Controller = undefined;
     view?:View = undefined;
     effect?:Effect = undefined;
+    effectClass!: string;
     method = "GET";
     cached?:boolean = true;
     __promise__?:Promise<any>|null = null;
+    data!: any;
     __namespace?:string = undefined;
 
     constructor({
@@ -206,7 +215,7 @@ export class Component extends InheritClass {
         });
     }
 
-    createServiceInstance() {
+    createServiceInstance():Promise<JSON | string | null> {
         var component = this;
         var body = component.body;
         var data = this.data;
@@ -341,7 +350,7 @@ export class Component extends InheritClass {
         return _ret_;
     }
 
-    createControllerInstance() {
+    createControllerInstance():Promise<{ component: Component, controller: Controller }> {
         var _Controller: any;
         if (isBrowser) {
             if (typeof this.body === "undefined") {
@@ -384,7 +393,7 @@ export class Component extends InheritClass {
         });
     }
 
-    createEffectInstance() {
+    createEffectInstance():Promise<{ component: Component, effect: Effect }> {
         var _component_ = this;
         return new Promise(function (resolve, reject) {
             if (isBrowser) {
@@ -401,7 +410,7 @@ export class Component extends InheritClass {
         });
     }
 
-    createViewInstance() {
+    createViewInstance():Promise<{ component: Component, view: View }> {
         var _component_ = this;
         return new Promise(function (resolve, reject) {
             var viewName = (isBrowser) ? (_component_.body.getAttribute("viewClass")) : (null);
@@ -422,7 +431,7 @@ export class Component extends InheritClass {
         });
     }
 
-    __done__() {
+    __done__():Promise<unknown> {
         var _component_ = this;
         var componentDone = function () {
             if (typeof _component_ === "undefined") {
@@ -462,9 +471,9 @@ export class Component extends InheritClass {
 
     }
 
-    hostElements(tagFilter: string) {
+    hostElements(tagFilter: string):(QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[] {
         var _component_ = this;
-        var elementList = [];
+        var elementList:(QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[] = [];
         if (isBrowser) {
             elementList = (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined")) ? (
                 _component_.shadowRoot.subelements(tagFilter)
@@ -476,7 +485,7 @@ export class Component extends InheritClass {
         return elementList;
     }
 
-    get subtags() {
+    get subtags():(HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[] {
         var _component_ = this;
         var tagFilter = _tag_filter_;
         return _component_.hostElements(tagFilter);
@@ -613,7 +622,7 @@ export class Component extends InheritClass {
         return _ret_;
     }
 
-    rebuild() {
+    rebuild():Promise<{ request: XMLHttpRequest, component: Component }> {
         var _component = this as Component;
         var _promise = new Promise(function (resolve, reject) {
             if (typeof _component === "undefined" || _component === null) {
@@ -870,7 +879,7 @@ export class Component extends InheritClass {
         return _parsedAssignmentText;
     }
 
-    _reroute_() {
+    _reroute_():Promise<Component> {
         /* This method set the selected routing and makes the switch to the templateURI */
         var rc = this;
         return new Promise(function (resolve, reject) {

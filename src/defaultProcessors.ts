@@ -1,3 +1,4 @@
+import { Component } from "types/global";
 import { logger } from "./Logger";
 import { Processor } from "./Processor";
 import { _top } from "./top";
@@ -6,7 +7,7 @@ import { _top } from "./top";
 export const setDefaultProcessors = () => {
     (function (_top) {
 
-        let mapper = function (componentInstance, componentName, valueName) {
+        let mapper = function (componentInstance:Component, componentName, valueName) {
             /*
              * Mapper processor
              * @usage
@@ -17,7 +18,6 @@ export const setDefaultProcessors = () => {
              * the component instance, the data object or a global value
              */
     
-            var self = this;
             if (typeof componentInstance === "undefined" || componentInstance === null) {
                 throw Error(`mapper.${componentName}.${valueName} does not have a component instance or it is null.`);
             }

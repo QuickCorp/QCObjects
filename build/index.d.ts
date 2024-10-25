@@ -291,6 +291,54 @@ declare module "Crypt" {
     export const _CryptObject: (o: any) => string;
     export const _DecryptObject: (s: string) => any;
 }
+declare module "Processor" {
+    import { Component, HTMLElement, IProcessor, QCObjectsElement, QCObjectsShadowedElement } from "types/global";
+    import { InheritClass } from "InheritClass";
+    export class Processor extends InheritClass implements IProcessor {
+        __definition?: any;
+        __classType?: string;
+        static processors: {
+            config(component: Component, arg: string): any;
+            ENV(component: Component, arg: string): string | undefined;
+            global(component: Component, arg: string): any;
+        };
+        static setProcessor(_proc_: Function): void;
+        constructor({ component }: {
+            component: Component | null;
+        });
+        __instanceID: number;
+        __new__?(): void;
+        __namespace?: string | undefined;
+        body?: string | QCObjectsElement | QCObjectsShadowedElement | HTMLElement | null | undefined;
+        component: Component;
+        processors: any;
+        process(template: string, component: Component): void;
+        processObject(obj: any, component: Component): void;
+        setProcessor(proc: Function): void;
+        static execute(component: Component, processorName: string, args: string): any;
+        static process(template: string, component?: Component | null): string;
+        static processObject(obj: any, component?: Component | null): any;
+    }
+}
+declare module "CONFIG" {
+    export const CONFIG: any;
+}
+declare module "ComplexStorageCache" {
+    export class ComplexStorageCache {
+        constructor(params: {
+            index: any;
+            load: any;
+            alternate: any;
+        });
+        getItem(cachedObjectID: string): any;
+        setItem(cachedObjectID: string, value: any): void;
+        isEmpty(object: string | number | null): boolean;
+        getID(object: any): string | undefined;
+        save(object: any, cachedNewResponse: any): void;
+        getCached(object: any): any;
+        clear(): void;
+    }
+}
 declare module "ComponentFactory" {
     import { ComponentURIParams } from "types/global";
     import { Component } from "Component";
@@ -334,22 +382,6 @@ declare module "asyncLoad" {
     };
     export const _fireAsyncLoad: () => void;
 }
-declare module "ComplexStorageCache" {
-    export class ComplexStorageCache {
-        constructor(params: {
-            index: any;
-            load: any;
-            alternate: any;
-        });
-        getItem(cachedObjectID: string): any;
-        setItem(cachedObjectID: string, value: any): void;
-        isEmpty(object: string | number | null): boolean;
-        getID(object: any): string | undefined;
-        save(object: any, cachedNewResponse: any): void;
-        getCached(object: any): any;
-        clear(): void;
-    }
-}
 declare module "serviceLoader" {
     /**
      * Loads a simple component from a template
@@ -391,15 +423,22 @@ declare module "componentLoader" {
     };
 }
 declare module "Component" {
-    import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global";
+    import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, IComponent, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global";
     import { InheritClass } from "InheritClass";
     import { Processor } from "Processor";
-    export class Component extends InheritClass {
+    export class Component extends InheritClass implements IComponent {
+        __instanceID: number;
+        name: string;
+        _body: QCObjectsElement | HTMLElement;
+        templateURI: string;
+        tplsource: string;
+        tplextension: string;
+        template: string;
         validRoutingWays: string[];
         basePath: string;
         domain: string;
         templateHandler: string;
-        processorHandler: Processor;
+        processorHandler?: Processor;
         routingWay: string | null;
         routingNodes: (QCObjectsElement | HTMLElement)[];
         routings: ComponentRouting[];
@@ -411,13 +450,15 @@ declare module "Component" {
         controller?: Controller;
         view?: View;
         effect?: Effect;
+        effectClass: string;
         method: string;
         cached?: boolean;
         __promise__?: Promise<any> | null;
+        data: any;
         __namespace?: string;
         constructor({ __parent__, templateURI, template, tplsource, tplextension, url, name, method, data, reload, shadowed, cached, _body, __promise__, __shadowRoot, body, shadowRoot, splashScreenComponent, controller, view }: ComponentParams);
-        set body(value: any);
-        get body(): any;
+        set body(value: QCObjectsElement | HTMLElement);
+        get body(): QCObjectsElement | HTMLElement;
         set cacheIndex(value: string);
         get cacheIndex(): string;
         set parsedAssignmentText(value: any);
@@ -428,17 +469,26 @@ declare module "Component" {
         get routingSelected(): any;
         set routingParams(value: {});
         get routingParams(): {};
-        createServiceInstance(): Promise<unknown>;
+        createServiceInstance(): Promise<JSON | string | null>;
         _bindroute_(): void;
         done(standardResponse?: ComponentDoneResponse): Promise<ComponentDoneResponse>;
-        createControllerInstance(): Promise<unknown>;
-        createEffectInstance(): Promise<unknown>;
-        createViewInstance(): Promise<unknown>;
+        createControllerInstance(): Promise<{
+            component: Component;
+            controller: Controller;
+        }>;
+        createEffectInstance(): Promise<{
+            component: Component;
+            effect: Effect;
+        }>;
+        createViewInstance(): Promise<{
+            component: Component;
+            view: View;
+        }>;
         __done__(): Promise<unknown>;
-        hostElements(tagFilter: string): any;
-        get subtags(): any;
+        hostElements(tagFilter: string): (QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[];
+        get subtags(): (HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[];
         get bodyAttributes(): {
-            [x: number]: any;
+            [x: string]: string | null;
         };
         get dataAttributes(): {};
         __buildSubComponents__(rebuildObjects?: boolean): any[];
@@ -452,14 +502,17 @@ declare module "Component" {
         set(name: string, value: any): void;
         get(name: string, _defaultValue?: string): any;
         feedComponent(): void;
-        rebuild(): Promise<unknown>;
+        rebuild(): Promise<{
+            request: XMLHttpRequest;
+            component: Component;
+        }>;
         Cast(oClass: any): any;
         static route(): Promise<void>;
         fullscreen(): void;
         closefullscreen(): void;
         _generateRoutingPaths(componentBody: QCObjectsElement | HTMLElement): Promise<void>;
         parseTemplate(template: any): any;
-        _reroute_(): Promise<unknown>;
+        _reroute_(): Promise<Component>;
         lazyLoadImages(): null;
         applyTransitionEffect(effectClassName: string): void;
         applyObserveTransitionEffect(effectClassName: any): void;
@@ -468,30 +521,6 @@ declare module "Component" {
         addComponentHelper(componentHelper: any): void;
         runComponentHelpers(): void;
     }
-}
-declare module "Processor" {
-    import { Component } from "Component";
-    import { InheritClass } from "InheritClass";
-    export class Processor extends InheritClass {
-        component: Component;
-        __definition?: any;
-        __classType?: string;
-        static processors: {
-            config(component: Component, arg: string): any;
-            ENV(component: Component, arg: string): string | undefined;
-            global(component: Component, arg: string): any;
-        };
-        static setProcessor(_proc_: Function): void;
-        constructor({ component }: {
-            component: Component | null;
-        });
-        static execute(component: Component, processorName: string, args: string): any;
-        static process(template: string, component?: Component | null): string;
-        static processObject(obj: any, component?: Component | null): any;
-    }
-}
-declare module "CONFIG" {
-    export const CONFIG: any;
 }
 declare module "ConfigSettings" { }
 declare module "Controller" {

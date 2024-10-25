@@ -52,7 +52,7 @@ declare class BackendMicroservice extends InheritClass {
 declare class QCObjectsElement extends Element{
     Cast(_o:any):any;
     render(content:string):void;
-    find(tag: string): Array<HTMLElement | QCObjectsElement>;
+    find(tag: string): (HTMLElement | QCObjectsElement)[];
     buildComponents(rebuildObjects?:boolean):any[];
     subelements(query: string): (HTMLElement | QCObjectsElement)[];
     subelements(query: string): Array<any>;
@@ -60,10 +60,10 @@ declare class QCObjectsElement extends Element{
 declare class QCObjectsShadowedElement extends ShadowRoot {
     style: any;
     render(content:string):void;
-    find(tag: string): Array<HTMLElement | QCObjectsElement>;
+    find(tag: string): (HTMLElement | QCObjectsElement)[];
     buildComponents(rebuildObjects?:boolean):any[];
-    subelements(query: string): Array<ShadowRoot | HTMLElement | QCObjectsShadowedElement | QCObjectsElement>;
-    subelements(query: string): Array<any>;
+    subelements(query: string): (ShadowRoot | HTMLElement | QCObjectsShadowedElement | QCObjectsElement)[];
+    subelements(query: string): any[];
 }
 
 declare class Logger {
@@ -227,8 +227,17 @@ declare function get(_: any, _defaultValue_: any): any;
 declare function __start__(): void;
 
 
+declare interface IInheritClass {
+    __instanceID: number;
+    __classType?: string;
+    __definition?: any;
+    __new__?(): void;
+    __namespace?: string;
+    body?: QCObjectsElement | QCObjectsShadowedElement | HTMLElement | string | null | undefined;
+}
 
-declare class InheritClass {
+
+declare class InheritClass implements IInheritClass{
     __instanceID: number;
     __classType?: string;
     __definition?: any;
@@ -238,9 +247,18 @@ declare class InheritClass {
     constructor(o?:any);
 }
 
-declare class Processor extends InheritClass {
+declare interface IProcessor extends IInheritClass{
     component: Component;
-    processors: Array<any>;
+    processors: any;
+    process(template: string, component: Component): any;
+    processObject(obj: any, component: Component): any;
+    setProcessor(proc: Function): any;
+}
+
+
+declare class Processor extends InheritClass implements IProcessor {
+    component: Component;
+    processors: any;
     process(template: string, component: Component): any;
     processObject(obj: any, component: Component): any;
     setProcessor(proc: Function): any;
@@ -280,7 +298,78 @@ declare type ComponentRouting = {
     path:string, name:string
 };
 declare type ComponentRoutings = ComponentRouting[];
-declare class Component extends InheritClass {
+
+declare interface IComponent {
+    cached?:boolean;
+    name: string;
+    _body: QCObjectsElement | HTMLElement;
+    body: QCObjectsElement | HTMLElement;
+    templateURI: string;
+    tplsource: string;
+    tplextension: string;
+    template: string;
+    validRoutingWays: string[];
+    basePath: string;
+    domain: string;
+    templateHandler: string;
+    processorHandler?: Processor;
+    routingWay: string|null;
+    routingNodes:(QCObjectsElement | HTMLElement)[];
+    routings: ComponentRoutings;
+    routingPath: string;
+    routingPaths: string[];
+    _componentHelpers: any[];
+    subcomponents: Component[];
+    splashScreenComponent?: Component;
+    controller?: Controller | undefined;
+    view?: View | undefined;
+    effect?: Effect;
+    effectClass: string;
+    method: string;
+    __promise__?: Promise<any> | null | undefined;
+    data: any;
+    shadowed?: boolean;
+    shadowRoot: QCObjectsShadowedElement;
+    cacheIndex: string;
+    parsedAssignmentText: string;
+    routingSelected: Array<any>;
+    routingParams: {};
+    subtags: (HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[];
+    bodyAttributes: any;
+    dataAttributes: any;
+    serviceData?:any;
+    container?: any;
+    __done__(): Promise<unknown>;
+    _bindroute_(): void;
+    __buildSubComponents__(rebuildObjects: boolean): Component[];
+    _generateRoutingPaths(componentBody: QCObjectsElement | HTMLElement): Promise<void>;
+    _reroute_(): Promise<Component>;
+    createServiceInstance(): Promise<JSON | string | null>;
+    createControllerInstance(): Promise<{ component: Component, controller: Controller }>;
+    createEffectInstance(): Promise<{ component: Component, effect: Effect }>;
+    createViewInstance(): Promise<{ component: Component, view: View }>;
+    done(standardResponse: ComponentDoneResponse): Promise<ComponentDoneResponse>;
+    fail({error, component}:{ error: any, component: Component }):Promise<{ error: any; component: any; }>;
+    hostElements(tagFilter: string): (QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[];
+    set(name: string, value: any): void;
+    get(name: string): any;
+    feedComponent(): void;
+    rebuild(): Promise<{ request: XMLHttpRequest, component: Component }>;
+    Cast(oClass: any): any;
+    fullscreen(): void;
+    closefullscreen(): void;
+    parseTemplate(template: string): string;
+    lazyLoadImages(): any | null;
+    applyTransitionEffect(effectClassName: string): void;
+    applyObserveTransitionEffect(effectClassName: string): void ;
+    scrollIntoHash(): void;
+    i18n_translate(): void;
+    addComponentHelper(componentHelper: Function): void;
+    runComponentHelpers(): void;
+
+}
+
+declare class Component extends InheritClass implements IComponent {
     name: string;
     cached?:boolean;
     _body: QCObjectsElement | HTMLElement;
@@ -293,8 +382,8 @@ declare class Component extends InheritClass {
     basePath: string;
     domain: string;
     templateHandler: string;
-    processorHandler: Processor;
-    routingWay: string;
+    processorHandler?: Processor;
+    routingWay: string|null;
     routingNodes:(QCObjectsElement | HTMLElement)[];
     routings: ComponentRoutings;
     routingPath: string;
@@ -302,13 +391,13 @@ declare class Component extends InheritClass {
     _componentHelpers: any[];
     subcomponents: Component[];
     splashScreenComponent?: Component;
-    controller: Controller | undefined;
-    view: View | undefined;
+    controller?: Controller | undefined;
+    view?: View | undefined;
     effect?: Effect;
     effectClass: string;
     method: string;
     static cached: boolean;
-    __promise__?: Promise<any>;
+    __promise__?: Promise<any> | null | undefined;
     data: any;
     shadowed?: boolean;
     shadowRoot: QCObjectsShadowedElement;
@@ -316,14 +405,14 @@ declare class Component extends InheritClass {
     parsedAssignmentText: string;
     routingSelected: Array<any>;
     routingParams: {};
-    subtags: Array<HTMLElement | QCObjectsElement | QCObjectsShadowedElement>;
+    subtags: (HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[];
     bodyAttributes: any;
     dataAttributes: any;
     serviceData?:any;
     container?: any;
     constructor(component: ComponentParams);
     static route(): Promise<Component[]>;
-    __done__(): Promise<void>;
+    __done__(): Promise<unknown>;
     _bindroute_(): void;
     __buildSubComponents__(rebuildObjects: boolean): Component[];
     _generateRoutingPaths(componentBody: QCObjectsElement | HTMLElement): Promise<void>;
@@ -334,7 +423,7 @@ declare class Component extends InheritClass {
     createViewInstance(): Promise<{ component: Component, view: View }>;
     done(standardResponse: ComponentDoneResponse): Promise<ComponentDoneResponse>;
     fail({error, component}:{ error: any, component: Component }):Promise<{ error: any; component: any; }>;
-    hostElements(tagFilter: string): Array<HTMLElement | QCObjectsElement | QCObjectsShadowedElement>;
+    hostElements(tagFilter: string): (QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[];
     set(name: string, value: any): void;
     get(name: string): any;
     feedComponent(): void;
