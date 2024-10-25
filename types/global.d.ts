@@ -456,13 +456,24 @@ declare type ControllerParams = {
     dependencies: any[];
 };
 
-declare class Controller {
-    __classType: string;
-    __definition: any;
-    __new__(): any;
-    __namespace?: string;
+declare interface IController{
     body?: QCObjectsElement | HTMLElement;
-    component: Component;
+    component: Component|null;
+    dependencies?: any[];
+    routingSelectedAttr(attrName: string): any;
+    isTouchable(): boolean;
+    onpress(subelementSelector: string, handler: EventListener): void;
+    createRoutingController(): void;
+
+
+    done(...args: any[]):void;
+    fail?(...args: any[]):void;
+}
+
+
+declare class Controller extends InheritClass implements IController{
+    body?: QCObjectsElement | HTMLElement;
+    component: Component|null;
     dependencies?: any[];
     constructor(controller: ControllerParams);
     routingSelectedAttr(attrName: string): any;
@@ -472,7 +483,7 @@ declare class Controller {
 
 
     done(...args: any[]):void;
-    fail(...args: any[]):void;
+    fail?(...args: any[]):void;
 }
 
 declare type ViewParams = {

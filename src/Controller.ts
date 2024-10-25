@@ -1,4 +1,4 @@
-import { ControllerParams } from "types/global";
+import { ControllerParams, HTMLElement, IController, QCObjectsElement } from "types/global";
 import { ClassFactory } from "./ClassFactory";
 import { __getType__ } from "./getType";
 import { InheritClass } from "./InheritClass";
@@ -7,7 +7,8 @@ import { New } from "./New";
 import { Package } from "./Package";
 import { Component } from "./Component";
 
-export class Controller extends InheritClass {
+export class Controller extends InheritClass implements IController{
+  __instanceID!: number;
   component: Component | null = null;
   dependencies?: any[] = [];
   constructor({
@@ -21,6 +22,7 @@ export class Controller extends InheritClass {
       throw Error(`${__getType__(this)} must be called with a component`);
     }
   }
+  body?: QCObjectsElement | HTMLElement | undefined;
 
   routingSelectedAttr(attrName: string) {
     return this.component?.routingSelected.map(function (r: any) {
@@ -39,11 +41,11 @@ export class Controller extends InheritClass {
   onpress(subelementSelector: string, handler: Function) {
     try {
       if (this.isTouchable()) {
-        this.component?.body.subelements(subelementSelector)[0].addEventListener("touchstart", handler, {
+        (this.component?.body.subelements(subelementSelector) as any[])[0].addEventListener("touchstart", handler, {
           passive: true
         });
       } else {
-        this.component?.body.subelements(subelementSelector)[0].addEventListener("click", handler, {
+        (this.component?.body.subelements(subelementSelector) as any[])[0].addEventListener("click", handler, {
           passive: true
         });
       }

@@ -524,13 +524,15 @@ declare module "Component" {
 }
 declare module "ConfigSettings" { }
 declare module "Controller" {
-    import { ControllerParams } from "types/global";
+    import { ControllerParams, HTMLElement, IController, QCObjectsElement } from "types/global";
     import { InheritClass } from "InheritClass";
     import { Component } from "Component";
-    export class Controller extends InheritClass {
+    export class Controller extends InheritClass implements IController {
+        __instanceID: number;
         component: Component | null;
         dependencies?: any[];
         constructor({ component, dependencies }: ControllerParams);
+        body?: QCObjectsElement | HTMLElement | undefined;
         routingSelectedAttr(attrName: string): any;
         isTouchable(): boolean;
         onpress(subelementSelector: string, handler: Function): void;
