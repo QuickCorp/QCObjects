@@ -1,8 +1,10 @@
-export const _DataStringify = function (data) {
+import { _LegacyCopy } from "./LegacyCopy";
+
+export const _DataStringify = function (data:any) {
     const getCircularReplacer = function () {
       const seen = new WeakSet();
       let _level = 0;
-      return function (key, value) {
+      return function (key:string, value:any) {
         if (typeof value === "object" && value !== null) {
           if (seen.has(value)) {
             _level += 1;
