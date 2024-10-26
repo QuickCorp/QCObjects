@@ -6,7 +6,7 @@ import { ObjectName } from "./ObjectName";
      *
      * @param {Object} object
      */
-    export const __getType__ = function __getType__(o_c) {
+    export const __getType__ = function __getType__(o_c:any) {
         var _ret_ = "";
         switch (true) {
           case __is_raw_class__(o_c) && !!o_c.name:
