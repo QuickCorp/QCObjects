@@ -1094,16 +1094,13 @@ declare module "TransitionEffect" {
     }
 }
 declare module "Timer" {
+    import { TimerParams } from "types/global";
     import { InheritClass } from "InheritClass";
     export class Timer extends InheritClass {
         constructor();
         duration: number;
         alive: boolean;
-        thread({ timing, intervalInterceptor, duration }: {
-            timing: any;
-            intervalInterceptor: any;
-            duration: any;
-        }): void;
+        thread({ timing, intervalInterceptor, duration }: TimerParams): void;
     }
 }
 declare module "Toggle" {

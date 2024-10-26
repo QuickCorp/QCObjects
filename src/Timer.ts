@@ -1,3 +1,4 @@
+import { TimerParams } from "types/global";
 import { ClassFactory } from "./ClassFactory";
 import { InheritClass } from "./InheritClass";
 import { Package } from "./Package";
@@ -14,7 +15,7 @@ export class Timer extends InheritClass {
       timing,
       intervalInterceptor,
       duration
-    }) {
+    }:TimerParams) {
       var timer = this;
 
       let start = performance.now();

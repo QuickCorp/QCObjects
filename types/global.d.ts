@@ -560,7 +560,7 @@ declare class TransitionEffect extends Effect {
 }
 declare type TimerParams = {
     duration:number; 
-    timing(timeFraction:number):number;
+    timing(timeFraction:number, elapsed?:number):number;
     intervalInterceptor(progress:number):void;
 };
 
