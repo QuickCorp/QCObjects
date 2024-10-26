@@ -91,4 +91,4 @@ export const resetTop = (_top_: QCObjects) => {
 
 export const buildComponentsStack = () => {
     componentsStack = buildComponents(document as unknown as QCObjectsElement);
-}
+};

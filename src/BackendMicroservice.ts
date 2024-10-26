@@ -19,7 +19,13 @@ export class BackendMicroservice extends InheritClass {
     stream = null,
     request = null
   }) {
-    super(...arguments);
+    super({
+      domain,
+      basePath,
+      body,
+      stream,
+      request
+    });
     logger.debug("Initializing BackendMicroservice...");
     const microservice = this;
     if (typeof this.body === "undefined") {
@@ -116,7 +122,7 @@ export class BackendMicroservice extends InheritClass {
         logger.debug(`CORS: allow_headers present. Allowing ${allow_headers}...`);
         microservice.route.responseHeaders["Access-Control-Allow-Headers"] = [...allow_headers].join(",");
       } else {
-        logger.debug(`CORS: No allow_headers present. Allowing all headers...`);
+        logger.debug("CORS: No allow_headers present. Allowing all headers...");
         microservice.route.responseHeaders["Access-Control-Allow-Headers"] = "*";
       }
     } else {
@@ -172,30 +178,30 @@ export class BackendMicroservice extends InheritClass {
       logger.debug(`[BackendMicroservice.finishWithBody] \n body: ${this.body} `);
       stream.write(this.body);
       stream.end();
-      logger.debug(`[BackendMicroservice.finishWithBody] Stream ended.`);
+      logger.debug("[BackendMicroservice.finishWithBody] Stream ended.");
     } catch (e) {
       logger.debug(`[BackendMicroservice.finishWithBody] Something went wrong ending the stream: ${e}`);
     }
   }
 
   done() {
-    logger.debug(`[BackendMicroservice.done] Finalizing the response...`);
+    logger.debug("[BackendMicroservice.done] Finalizing the response...");
     const microservice = this;
     const stream = microservice.stream;
     try {
-      logger.debug(`[BackendMicroservice.done] Sending response headers...`);
+      logger.debug("[BackendMicroservice.done] Sending response headers...");
       if (microservice.route.responseHeaders) {
         logger.debug(`[BackendMicroservice.done] Response headers present: ${Object.keys(microservice.route.responseHeaders)}`);
         stream.respond(microservice.route.responseHeaders);
       } else {
-        throw Error(`[BackendMicroservice.done] No headers present.`);
+        throw Error("[BackendMicroservice.done] No headers present.");
       }
     } catch (e) {
       logger.debug(`[BackendMicroservice.done] Something went wrong sending response headers: ${e}`);
     }
     if (microservice.body !== null) {
       try {
-        logger.debug(`[BackendMicroservice.done] A body of message is present. Finalizing the response...`);
+        logger.debug("[BackendMicroservice.done] A body of message is present. Finalizing the response...");
         microservice.finishWithBody.call(microservice, stream);
       } catch (e) {
         logger.debug(`[BackendMicroservice.done] Something went wrong finalizing the response: ${e}`);

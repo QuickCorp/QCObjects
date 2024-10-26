@@ -12,7 +12,7 @@ export const Ready = function Ready(e:any) {
     } else if (typeof global !== "undefined") {
         _QC_READY_LISTENERS.push(e.bind(global) as never);
     }
-}
+};
 
 export const ready = Ready; // case insensitive ready option
 

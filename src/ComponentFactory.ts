@@ -119,4 +119,4 @@ export const buildComponents = (element:QCObjectsElement,rebuildObjects = false)
     const tagFilter = _tag_filter_;
     const elements = element.subelements(tagFilter);
     return _buildComponentsFromElements_(elements, null);
-}
+};

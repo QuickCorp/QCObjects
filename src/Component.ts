@@ -78,7 +78,7 @@ export class Component extends InheritClass implements IComponent{
         view
     }:ComponentParams) {
         if (arguments.length < 1) {
-            throw Error(`No arguments in component. You must at least give one argument.`);
+            throw Error("No arguments in component. You must at least give one argument.");
         }
         super({
             __parent__,
@@ -779,7 +779,7 @@ export class Component extends InheritClass implements IComponent{
             _route_promise_ = __route__.call(componentClass, (isValidInstance) ? (componentClass.subcomponents) : (componentsStack));
         } else {
             logger.debug("An undetermined result expected if load routings. So will not be loaded this time.");
-            throw Error(`There is no valid instance and no components stack available to apply rountings`);
+            throw Error("There is no valid instance and no components stack available to apply rountings");
         }
         return _route_promise_;
     }

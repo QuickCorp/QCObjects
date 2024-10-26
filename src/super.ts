@@ -9,7 +9,7 @@ import { ClassFactory } from "./ClassFactory";
  * @param {String} classMethodName
  * @param {Object} params
  */
-export const _super_ = function (className: string, classMethodName: string, params?: any) {
+export const _super_ = function (className: string, classMethodName: string) {
   return ClassFactory(className)[classMethodName];
 };
 _super_.prototype.toString = function () {

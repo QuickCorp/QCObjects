@@ -17,5 +17,18 @@ module.exports = {
   ],
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint"],
-  root: true
+  root: true,
+  rules: {
+    semi: ["error", "always"],
+    quotes: ["error", "double"],
+    "@typescript-eslint/no-explicit-any":"off",
+    "@typescript-eslint/no-this-alias":"off",
+    "@typescript-eslint/no-unused-vars":"off",
+    "@typescript-eslint/ban-types":"off",
+    "array-callback-return":"warn",
+    "no-useless-call":"off",
+    "camelcase":"off",
+    "no-var":"off"
+  }
+
 };

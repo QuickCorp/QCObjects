@@ -2,7 +2,7 @@ import { ClientRequest } from "http";
 import { Http2SecureServer, Http2Server, Http2ServerRequest, Http2Stream } from "http2";
 import { Stream } from "stream";
 
-declare namespace QCObjects {
+declare namespace global {
         export class Microservice {
             domain: string;
             basePath: string;
@@ -654,4 +654,4 @@ declare namespace QCObjects {
         export const lastCache:ComplexStorageCache|undefined;    
 }
 
-export = QCObjects;
+export = global;

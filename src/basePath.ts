@@ -25,4 +25,4 @@ export var _basePath_ = (
     }
   )();
 
-export const setBasePath = (value:string) => { _basePath_ = value;}
+export const setBasePath = (value:string) => { _basePath_ = value;};
