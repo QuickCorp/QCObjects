@@ -540,18 +540,21 @@ declare class Effect extends InheritClass {
     apply(...args: any[]): any;
     animate (effect:EffectParams):void;
 }
+
+declare type TransitionEffectParams = {
+    alphaFrom?: number,
+    alphaTo?: number,
+    angleFrom?: number,
+    angleTo?: number,
+    radiusFrom?: number,
+    radiusTo?: number,
+    scaleFrom?: number,
+    scaleTo?: number
+};
+
 declare class TransitionEffect extends Effect {
     component: Component;
-    defaultParams: {
-        alphaFrom?: number,
-        alphaTo?: number,
-        angleFrom?: number,
-        angleTo?: number,
-        radiusFrom?: number,
-        radiusTo?: number,
-        scaleFrom?: number,
-        scaleTo?: number
-    };
+    defaultParams: TransitionEffectParams;
     duration: number;
     fitToHeight: boolean;
     fitToWidth: boolean;

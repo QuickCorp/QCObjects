@@ -1064,6 +1064,7 @@ declare module "VO" {
     }
 }
 declare module "TransitionEffect" {
+    import { TransitionEffectParams } from "types/global";
     import { Effect } from "Effect";
     export class TransitionEffect extends Effect {
         duration: number;
@@ -1081,16 +1082,7 @@ declare module "TransitionEffect" {
         fitToWidth: boolean;
         effects: never[];
         constructor();
-        apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: {
-            alphaFrom: any;
-            alphaTo: any;
-            angleFrom: any;
-            angleTo: any;
-            radiusFrom: any;
-            radiusTo: any;
-            scaleFrom: any;
-            scaleTo: any;
-        }): void;
+        apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: TransitionEffectParams): void;
     }
 }
 declare module "Timer" {
