@@ -1,4 +1,4 @@
-export const isQCObjects_Object = function (_) {
+export const isQCObjects_Object = function (_:any):boolean {
     return (typeof _ === "object" &&
       Object.hasOwnProperty.call(_, "__classType") &&
       (!!_.__instanceID) &&
@@ -7,7 +7,7 @@ export const isQCObjects_Object = function (_) {
     ) ? (true) : (false);
   };
 
-  export const isQCObjects_Class = function (_) {
+  export const isQCObjects_Class = function (_:any):boolean {
     return (typeof _ === "function" &&
       (!_.__instanceID) &&
       (!!_.__definition) &&
