@@ -1,10 +1,13 @@
+import { ServiceDoneResponse } from "types/global";
 import { _basePath_ } from "./basePath";
 import { _Crypt } from "./Crypt";
+import { _domain_ } from "./domain";
 import { InheritClass } from "./InheritClass";
 import { logger } from "./Logger";
 import { Package } from "./Package";
 import { _secretKey } from "./secretKey";
 import { _top } from "./top";
+import { CONFIG } from "./CONFIG";
 
 export class Service extends InheritClass {
     kind = "rest";
@@ -17,16 +20,16 @@ export class Service extends InheritClass {
     reload = false;
     cached = false;
 
-    constructor(...args) {
+    constructor(...args:any[]) {
         super(args);
     }
 
-    set(name, value) {
+    set(name:string, value:any) {
         this[name] = value;
     }
 
-    get(name) {
-        return this[name];
+    get(name:any, _default?:any) {
+        return this[name] || _default;
     }
 
 }
@@ -39,13 +42,13 @@ export class JSONService extends Service {
         "charset": "utf-8"
     };
     JSONresponse = null;
-    done(result) {
+    done(result:ServiceDoneResponse) {
         logger.debug("***** RECEIVED RESPONSE:");
         logger.debug(result.service.template);
         this.JSONresponse = JSON.parse(result.service.template);
     }
 
-    constructor(...args) {
+    constructor(...args:any[]) {
         super(args);
     }
 
@@ -60,19 +63,20 @@ export class ConfigService extends JSONService {
         "charset": "utf-8"
     };
     JSONresponse = null;
-    done(result) {
+    done(result:ServiceDoneResponse) {
         logger.debug("***** CONFIG LOADED:");
         logger.debug(result.service.template);
         this.JSONresponse = JSON.parse(result.service.template);
         if (Object.hasOwnProperty.call(this.JSONresponse, "__encoded__")) {
-            this.JSONresponse = JSON.parse(_Crypt.decrypt(this.JSONresponse.__encoded__, _secretKey));
+            this.JSONresponse = JSON.parse(_Crypt.decrypt((this.JSONresponse as any)?.__encoded__, _secretKey));
         }
-        for (var k in this.JSONresponse) {
-            _top.CONFIG.set(k, this.JSONresponse[k]);
+        var jsonResponse:any = this.JSONresponse;
+        for (var k in jsonResponse) {
+            CONFIG.set(k, jsonResponse[k]);
         }
         this.configLoaded.call(this);
     }
-    fail(result) {
+    fail(...args:any[]) {
         this.configLoaded.call(this);
     }
 

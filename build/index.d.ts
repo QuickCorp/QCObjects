@@ -1047,10 +1047,11 @@ declare module "View" {
     }
 }
 declare module "Service" {
+    import { ServiceDoneResponse } from "types/global";
     import { InheritClass } from "InheritClass";
     export class Service extends InheritClass {
         kind: string;
-        domain: any;
+        domain: string;
         basePath: string;
         url: string;
         method: string;
@@ -1058,8 +1059,8 @@ declare module "Service" {
         reload: boolean;
         cached: boolean;
         constructor(...args: any[]);
-        set(name: any, value: any): void;
-        get(name: any): any;
+        set(name: string, value: any): void;
+        get(name: any, _default?: any): any;
     }
     export class JSONService extends Service {
         method: string;
@@ -1069,7 +1070,7 @@ declare module "Service" {
             charset: string;
         };
         JSONresponse: null;
-        done(result: any): void;
+        done(result: ServiceDoneResponse): void;
         constructor(...args: any[]);
     }
     export class ConfigService extends JSONService {
@@ -1081,8 +1082,8 @@ declare module "Service" {
             charset: string;
         };
         JSONresponse: null;
-        done(result: any): void;
-        fail(result: any): void;
+        done(result: ServiceDoneResponse): void;
+        fail(...args: any[]): void;
         constructor();
     }
 }

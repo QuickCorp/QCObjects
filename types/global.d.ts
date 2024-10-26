@@ -505,7 +505,7 @@ declare class View {
     done(...args:any[]):void;
     fail(...args:any[]):void;
 }
-
+declare type ServiceDoneResponse = { request: XMLHttpRequest, service: Service };
 declare class Service extends InheritClass {
     kind: string;
     domain: string;
@@ -519,7 +519,7 @@ declare class Service extends InheritClass {
     template: any;
     set(name: string, value: any): void;
     get(name: string): any;
-    done({request, service}:{ request: XMLHttpRequest, service: Service }):void;
+    done({request, service}:ServiceDoneResponse):void;
     fail(...args: any[]):void;
 }
 declare class JSONService extends Service {
