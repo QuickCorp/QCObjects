@@ -16,7 +16,7 @@ export const _ComponentWidget_ = class extends HTMLElement {
       }
       __enabled__atributes__.map(function (attributeName) {
         if (componentWidget.hasAttribute(attributeName)) {
-          componentBody.setAttribute(attributeName, componentWidget.getAttribute(attributeName));
+          componentBody.setAttribute(attributeName, componentWidget?.getAttribute(attributeName) as any);
           componentWidget.removeAttribute(attributeName);
         }
       });
@@ -26,7 +26,7 @@ export const _ComponentWidget_ = class extends HTMLElement {
         return a.split("-")[1];
       });
       data_attributenames.map(function (_attribute_name_) {
-        componentBody.setAttribute("data-" + _attribute_name_, componentWidget.getAttribute("data-" + _attribute_name_));
+        componentBody.setAttribute("data-" + _attribute_name_, componentWidget?.getAttribute("data-" + _attribute_name_) as any);
         componentWidget.removeAttribute("data-" + _attribute_name_);
       });
       [...(componentWidget as any).children].map(function (element) {
@@ -38,7 +38,7 @@ export const _ComponentWidget_ = class extends HTMLElement {
     }
   };
   Export(_ComponentWidget_);
-  export const RegisterWidget = function (widgetName) {
+  export const RegisterWidget = function (widgetName:string) {
     customElements.define(widgetName, class extends _ComponentWidget_ { });
   };
   export const RegisterWidgets = function () {

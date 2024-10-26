@@ -1045,7 +1045,7 @@ declare module "WidgetsFactory" {
             focus(options?: FocusOptions): void;
         };
     };
-    export const RegisterWidget: (widgetName: any) => void;
+    export const RegisterWidget: (widgetName: string) => void;
     export const RegisterWidgets: () => void;
 }
 declare module "View" {
@@ -1501,7 +1501,7 @@ declare module "QCObjects" {
         NamespaceRef: (namespace: string) => {
             [x: string]: any;
         };
-        RegisterWidget: (widgetName: any) => void;
+        RegisterWidget: (widgetName: string) => void;
         RegisterWidgets: () => void;
         range: (start: number, stop?: number, step?: number) => number[];
         getDocumentLayout: () => string | undefined;
