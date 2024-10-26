@@ -1,6 +1,6 @@
 import { isBrowser } from "./platform";
 
-export const _DOMCreateElement = function (elementName) {
+export const _DOMCreateElement = function (elementName:string) {
     var _ret_;
     if (isBrowser) {
       _ret_ = document.createElement(elementName);
