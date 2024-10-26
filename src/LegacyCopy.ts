@@ -1,6 +1,6 @@
 import { __is_raw_class__ } from "./is_raw_class";
 
-export const _LegacyCopy = function (obj) {
+export const _LegacyCopy = function (obj:any):any {
     var _value_;
     switch (true) {
       case typeof obj === "string":
