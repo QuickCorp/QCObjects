@@ -588,7 +588,7 @@ declare module "Effect" {
     }
 }
 declare module "findPackageNodePath" {
-    export const findPackageNodePath: (packagename: any) => string | null;
+    export const findPackageNodePath: (packagename: string) => string | null;
 }
 declare module "Import" {
     /**

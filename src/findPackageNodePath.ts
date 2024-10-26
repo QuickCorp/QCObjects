@@ -1,20 +1,21 @@
+import { CONFIG } from "./CONFIG";
 import { Export } from "./Export";
 import { logger } from "./Logger";
 import { _require_, isBrowser } from "./platform";
 import { _top } from "./top";
 
-export const findPackageNodePath = function (packagename) {
+export const findPackageNodePath = function (packagename:string):string|null {
     var sdkPath = null;
     if (!isBrowser) {
         const fs = _require_("fs");
         try {
             var sdkPaths = [
-                `${_top.CONFIG.get("projectPath")}${_top.CONFIG.get("relativeImportPath")}`,
-                `${_top.CONFIG.get("basePath")}${_top.CONFIG.get("relativeImportPath")}`,
-                `${_top.CONFIG.get("projectPath")}`,
-                `${_top.CONFIG.get("basePath")}`,
-                `${_top.CONFIG.get("relativeImportPath")}`,
-                `${process.cwd()}${_top.CONFIG.get("relativeImportPath")}`,
+                `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
+                `${CONFIG.get("basePath")}${CONFIG.get("relativeImportPath")}`,
+                `${CONFIG.get("projectPath")}`,
+                `${CONFIG.get("basePath")}`,
+                `${CONFIG.get("relativeImportPath")}`,
+                `${process.cwd()}${CONFIG.get("relativeImportPath")}`,
                 `${process.cwd()}/node_modules/` + packagename,
                 `${process.cwd()}/node_modules`,
                 `${process.cwd()}`,
