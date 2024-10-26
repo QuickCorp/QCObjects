@@ -71,13 +71,17 @@ declare module "introspection" {
     export const _protected_code_: (_: any) => void;
     export const _methods_: (_: any) => any[];
 }
+declare module "isQCObjects" {
+    export const isQCObjects_Object: (_: any) => boolean;
+    export const isQCObjects_Class: (_: any) => boolean;
+}
 declare module "is_a" {
     /**
      * Returns if a class or object is from a determinated type
      * @param {Object} object
      * @param {String} typeName
      */
-    export const is_a: (obj: any, typeName: any) => boolean;
+    export const is_a: (obj: any, typeName: string) => boolean;
 }
 declare module "is_forbidden_name" {
     /**
@@ -98,10 +102,6 @@ declare module "PrimaryCollections" {
     export var _QC_PACKAGES: {};
     export var _QC_PACKAGES_IMPORTED: never[];
     export var _QC_READY_LISTENERS: never[];
-}
-declare module "isQCObjects" {
-    export const isQCObjects_Object: (_: any) => boolean;
-    export const isQCObjects_Class: (_: any) => boolean;
 }
 declare module "make_global" {
     export const __make_global__: (f: any) => void;
@@ -1538,7 +1538,7 @@ declare module "QCObjects" {
         _DOMCreateElement: (elementName: string) => QCObjectsElement;
         shortCode: () => any;
         __getType__: (o_c: any) => any;
-        is_a: (obj: any, typeName: any) => boolean;
+        is_a: (obj: any, typeName: string) => boolean;
         _DataStringify: (data: any) => string;
         serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
             new (): {
