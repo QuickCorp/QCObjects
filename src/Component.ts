@@ -102,7 +102,7 @@ export class Component extends InheritClass implements IComponent{
             controller,
             view
         });
-        var self = this;
+        const self = this;
 
         if (typeof self.name === "undefined") {
             logger.warn("A name is not defined for " + __getType__(self));
@@ -143,12 +143,12 @@ export class Component extends InheritClass implements IComponent{
     }
 
     set body(value) {
-        var self = this;
+        const self = this;
         self._body = value;
     }
 
     get body() {
-        var self = this;
+        const self = this;
         return self._body;
     }
 
@@ -158,8 +158,8 @@ export class Component extends InheritClass implements IComponent{
     }
 
     get cacheIndex() {
-        var self = this;
-        var __routing_path__ = _DataStringify(self.routingPath);
+        const self = this;
+        const __routing_path__ = _DataStringify(self.routingPath);
         return Base64.encode(self.name + __routing_path__);
     }
 
@@ -169,7 +169,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
     get parsedAssignmentText() {
-        var self = this;
+        const self = this;
         self._parsedAssignmentText = self.parseTemplate(self.template);
         if (typeof self._parsedAssignmentText === "undefined") {
             throw Error(`[Component][${this.name}][parsedAssignmentText] Could not generate content!`);
@@ -179,8 +179,8 @@ export class Component extends InheritClass implements IComponent{
 
 
     set shadowRoot(value:QCObjectsShadowedElement) {
-        var self = this;
-        if (typeof self.__shadowRoot == "undefined") {
+        const self = this;
+        if (typeof self.__shadowRoot === "undefined") {
             self.__shadowRoot = value;
         } else {
             logger.debug("[shadowRoot] This property can only be assigned once!");
@@ -188,7 +188,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
     get shadowRoot():QCObjectsShadowedElement {
-        var self = this;
+        const self = this;
         return self.__shadowRoot;
     }
 
@@ -198,7 +198,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
     get routingSelected():ComponentRouting[] {
-        var self = this;
+        const self = this;
         return __valid_routings__(self.routings, self.routingPath) as ComponentRouting[];
     }
 
@@ -207,7 +207,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
     get routingParams() {
-        var component = this;
+        const component = this;
         return [{}].concat(component.routingSelected.map(function (routing: any) {
             return __routing_params__(routing, component.routingPath);
         })).reduce(function (accumulator, colData, index) {
@@ -216,34 +216,34 @@ export class Component extends InheritClass implements IComponent{
     }
 
     createServiceInstance():Promise<JSON | string | null> {
-        var component = this;
-        var body = component.body;
-        var data = this.data;
-        var __serviceClass: any;
-        var __classDefinition = component.getClass().__definition;
-        var _serviceClassName = (isBrowser && body.getAttribute("serviceClass") !== null) ? (body.getAttribute("serviceClass")) : (null);
+        const component = this;
+        const body = component.body;
+        let data = this.data;
+        let __serviceClass: any;
+        const __classDefinition = component.getClass().__definition;
+        const _serviceClassName = (isBrowser && body.getAttribute("serviceClass") !== null) ? (body.getAttribute("serviceClass")) : (null);
 
         return new Promise(function (resolve, reject) {
             /* __enable_service_class__ = true by default */
-            var __enable_service_class__ = (
+            const __enable_service_class__ = !!((
                 (Object.hasOwnProperty.call(body, "enableServiceClass") && body.enableServiceClass) ||
                 (!Object.hasOwnProperty.call(body, "enableServiceClass"))
-            ) ? (true) : (false);
-            var _response_to_data_ = (isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "data") ? (true) : (false);
-            var _response_to_template_ = (isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "template") ? (true) : (false);
+            ));
+            let _response_to_data_ = !!((isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "data"));
+            let _response_to_template_ = !!((isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "template"));
 
             if (__enable_service_class__ && _serviceClassName !== null) {
                 __serviceClass = ClassFactory(_serviceClassName);
             }
             if (!_response_to_data_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
-                _response_to_data_ = (__classDefinition.responseTo === "data") ? (true) : (false);
+                _response_to_data_ = (__classDefinition.responseTo === "data");
             } else if (!_response_to_data_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
-                _response_to_data_ = (ClassFactory("Component").responseTo === "data") ? (true) : (false);
+                _response_to_data_ = (ClassFactory("Component").responseTo === "data");
             }
             if (!_response_to_template_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
-                _response_to_template_ = (__classDefinition.responseTo === "template") ? (true) : (false);
+                _response_to_template_ = (__classDefinition.responseTo === "template");
             } else if (!_response_to_template_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
-                _response_to_template_ = (ClassFactory("Component").responseTo === "template") ? (true) : (false);
+                _response_to_template_ = (ClassFactory("Component").responseTo === "template");
             }
 
             if (typeof __serviceClass !== "undefined" &&
@@ -252,14 +252,14 @@ export class Component extends InheritClass implements IComponent{
                 (_response_to_data_ || _response_to_template_)
             ) {
                 logger.info("Loading service " + _serviceClassName);
-                var serviceInstance = New(__serviceClass, {
-                    data: data
+                const serviceInstance = New(__serviceClass, {
+                    data
                 });
                 (serviceLoader(serviceInstance) as Promise<any>)?.then(function ({
                     request,
                     service
                 }:{request:any, service:any}) {
-                    var serviceResponse;
+                    let serviceResponse;
                     if (typeof service.JSONresponse !== "undefined" && service.JSONresponse !== null) {
                         serviceResponse = service.JSONresponse;
                     } else {
@@ -294,19 +294,19 @@ export class Component extends InheritClass implements IComponent{
     }
 
     _bindroute_() {
-        var _component_ = this;
+        const _component_ = this;
         if (!(_component_ as any)._bindroute_.loaded) {
             if (isBrowser) {
 
                 (_component_.hostElements("a") as unknown as  HTMLAnchorElement[]).map(function (a: HTMLAnchorElement) {
                     (a as any).oldclick = a.onclick;
                     a.onclick = function (e) {
-                        var _ret_ = true;
+                        let _ret_ = true;
                         if (!_top.global.get("routingPaths")) {
                             _top.global.set("routingPaths", []);
                         }
-                        var routingWay = CONFIG.get("routingWay");
-                        var routingPath = (e.target as any)[routingWay];
+                        const routingWay = CONFIG.get("routingWay");
+                        const routingPath = (e.target as any)[routingWay];
                         if (_top.global.get("routingPaths").includes(routingPath) &&
                             (e.target as any)[routingWay] !== (location as any)[routingWay] &&
                             (e.target as HTMLAnchorElement).href !== document.location.href
@@ -339,9 +339,9 @@ export class Component extends InheritClass implements IComponent{
     }
 
     done(standardResponse?: ComponentDoneResponse):Promise<ComponentDoneResponse> {
-        var _ret_ = new Promise<ComponentDoneResponse> ((resolve, reject)=> {
+        const _ret_ = new Promise<ComponentDoneResponse> ((resolve, reject)=> {
             if (typeof standardResponse !== "undefined") {
-                var { request, component } = standardResponse;
+                const { request, component } = standardResponse;
                 resolve({request, component});
             } else {
                 resolve({request:undefined, component:undefined});
@@ -351,7 +351,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
     createControllerInstance():Promise<{ component: Component, controller: Controller }> {
-        var _Controller: any;
+        let _Controller: any;
         if (isBrowser) {
             if (typeof this.body === "undefined") {
                 throw new Error("The component has no body");
@@ -394,11 +394,11 @@ export class Component extends InheritClass implements IComponent{
     }
 
     createEffectInstance():Promise<{ component: Component, effect: Effect }> {
-        var _component_ = this;
+        const _component_ = this;
         return new Promise(function (resolve, reject) {
             if (isBrowser) {
-                var effectClassName = _component_.body.getAttribute("effectClass");
-                var applyEffectTo = _component_.body.getAttribute("apply-effect-to");
+                const effectClassName = _component_.body.getAttribute("effectClass");
+                let applyEffectTo = _component_.body.getAttribute("apply-effect-to");
                 applyEffectTo = (applyEffectTo !== null) ? (applyEffectTo) : ("load");
                 if (effectClassName !== null && applyEffectTo === "observe") {
                     _component_.applyObserveTransitionEffect(effectClassName);
@@ -411,11 +411,11 @@ export class Component extends InheritClass implements IComponent{
     }
 
     createViewInstance():Promise<{ component: Component, view: View }> {
-        var _component_ = this;
+        const _component_ = this;
         return new Promise(function (resolve, reject) {
-            var viewName = (isBrowser) ? (_component_.body.getAttribute("viewClass")) : (null);
+            const viewName = (isBrowser) ? (_component_.body.getAttribute("viewClass")) : (null);
             if (viewName !== null) {
-                var _View = ClassFactory(viewName);
+                const _View = ClassFactory(viewName);
                 if (typeof _View !== "undefined") {
                     _component_.view = New(_View, {
                         component: _component_
@@ -432,8 +432,8 @@ export class Component extends InheritClass implements IComponent{
     }
 
     __done__():Promise<unknown> {
-        var _component_ = this;
-        var componentDone = function () {
+        const _component_ = this;
+        const componentDone = function () {
             if (typeof _component_ === "undefined") {
                 throw new Error("componentDone() has lost its context");
             }
@@ -472,8 +472,8 @@ export class Component extends InheritClass implements IComponent{
     }
 
     hostElements(tagFilter: string):(QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[] {
-        var _component_ = this;
-        var elementList:(QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[] = [];
+        const _component_ = this;
+        let elementList:(QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[] = [];
         if (isBrowser) {
             elementList = (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined")) ? (
                 _component_.shadowRoot.subelements(tagFilter)
@@ -486,26 +486,26 @@ export class Component extends InheritClass implements IComponent{
     }
 
     get subtags():(HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[] {
-        var _component_ = this;
-        var tagFilter = _tag_filter_;
+        const _component_ = this;
+        const tagFilter = _tag_filter_;
         return _component_.hostElements(tagFilter);
     }
 
     get bodyAttributes() {
-        var _component_ = this;
-        var c = _component_.body;
+        const _component_ = this;
+        const c = _component_.body;
         return (isBrowser) ? ([...c.getAttributeNames()].map(a => { return { [a]: c.getAttribute(a) }; }).reduce((accumulator, colData, index) => { return Object.assign(accumulator, colData); })) : ({});
     }
 
     get dataAttributes() {
-        var _component_ = this;
-        var c = _component_.body;
+        const _component_ = this;
+        const c = _component_.body;
         return (isBrowser) ? ([{}].concat([...c.getAttributeNames()].filter(n => n.startsWith("data-")).map(a => { return { [a.split("-")[1]]: c.getAttribute(a) }; })).reduce((accumulator, colData, index) => { return Object.assign(accumulator, colData); })) : ({});
     }
 
     __buildSubComponents__(rebuildObjects = false) {
         const _component_:Component = this as Component;
-        var elementList = _component_.subtags;
+        let elementList = _component_.subtags;
         if (!rebuildObjects) {
             elementList = (elementList as HTMLElement[]).filter((t: HTMLElement) => t.getAttribute("loaded") !== "true");
         }
@@ -516,9 +516,9 @@ export class Component extends InheritClass implements IComponent{
     }
 
     fail(standardResponse: { error: any; component: Component; }):Promise<{ error: any; component: Component; }> {
-        var _ret_ = new Promise<{ error: any; component: Component; }>((resolve, reject)=> {
+        const _ret_ = new Promise<{ error: any; component: Component; }>((resolve, reject)=> {
             if (typeof standardResponse !== "undefined") {
-                var { error, component } = standardResponse;
+                const { error, component } = standardResponse;
                 resolve({ error, component });
             } else {
                 reject();
@@ -536,20 +536,20 @@ export class Component extends InheritClass implements IComponent{
     }
 
     feedComponent() {
-        var _component_ = this;
+        const _component_ = this;
         logger.debug(`[Component][${this.name}][feedComponent] start feeding component...`);
-        var _feedComponent_InBrowser = function (_component_: Component) {
+        const _feedComponent_InBrowser = function (_component_: Component) {
             if (typeof _component_.container === "undefined" && typeof _component_.body === "undefined") {
                 logger.warn("COMPONENT {{NAME}} has an undefined container and body".replace("{{NAME}}", _component_.name));
                 return;
             }
-            var container = (typeof _component_.container === "undefined" || _component_.container === null) ? (_component_.body) : (_component_.container);
-            var parsedAssignmentText = _component_.parsedAssignmentText;
+            const container = (typeof _component_.container === "undefined" || _component_.container === null) ? (_component_.body) : (_component_.container);
+            const parsedAssignmentText = _component_.parsedAssignmentText;
             _component_.innerHTML = parsedAssignmentText;
             if (_component_.shadowed) {
                 logger.debug("COMPONENT {{NAME}} is shadowed".replace("{{NAME}}", _component_.name));
                 logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-                var tmp_shadowContainer = _DOMCreateElement("div");
+                const tmp_shadowContainer = _DOMCreateElement("div");
                 container.subelements("[slot]").map(
                     function (c: { parentElement: any; }) {
                         if (c.parentElement === container) {
@@ -557,7 +557,7 @@ export class Component extends InheritClass implements IComponent{
                         }
                     });
                 logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-                var shadowContainer = _DOMCreateElement("div");
+                const shadowContainer = _DOMCreateElement("div");
                 shadowContainer.classList.add("shadowHost");
                 try {
                     _component_.shadowRoot = shadowContainer.attachShadow({
@@ -587,7 +587,7 @@ export class Component extends InheritClass implements IComponent{
                     logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
                     shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
                     logger.debug("APPENDING Shadowed COMPONENT {{NAME}} to Container ".replace("{{NAME}}", _component_.name));
-                    var qs = container.querySelector(".shadowHost");
+                    const qs = container.querySelector(".shadowHost");
                     if (!(typeof qs !== "undefined" && qs !== null)) {
                         container.appendChild(shadowContainer);
                     } else {
@@ -613,12 +613,12 @@ export class Component extends InheritClass implements IComponent{
 
         };
 
-        var _feedComponent_InNode = function (_component_: Component) {
-            var parsedAssignmentText = _component_.parsedAssignmentText;
+        const _feedComponent_InNode = function (_component_: Component) {
+            const parsedAssignmentText = _component_.parsedAssignmentText;
             _component_.innerHTML = parsedAssignmentText;
         };
 
-        var _ret_;
+        let _ret_;
         if (!is_a(_component_, "Component")) {
             logger.warn("Trying to feed a non component object");
             return;
@@ -632,7 +632,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
     rebuild():Promise<{ request?: XMLHttpRequest, component: Component }> {
-        var _component = this as Component;
+        const _component = this as Component;
         var _promise = new Promise<{ request?: XMLHttpRequest, component: Component }>(function (resolve, reject) {
             if (typeof _component === "undefined" || _component === null) {
                 reject("Component is undefined");
@@ -714,7 +714,7 @@ export class Component extends InheritClass implements IComponent{
 
     Cast(oClass:any) {
         /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
-        let o = _methods_(oClass).map(m => m.name.replace(/bound /g, "")).map(m => {
+        const o = _methods_(oClass).map(m => m.name.replace(/bound /g, "")).map(m => {
             return {
                 [m]: oClass[m].bind(this)
             };
@@ -723,12 +723,12 @@ export class Component extends InheritClass implements IComponent{
     }
 
     static route() {
-        var componentClass = this; /* is can be class or object*/
-        var _route_promise_;
-        var isValidInstance = (isQCObjects_Object(componentClass) && is_a(componentClass, "Component")) ? (true) : (false);
-        var __route__ = function (componentList: any[]) {
-            var _componentNames_: any[] = [];
-            var _promises_ = componentList.filter(function (rc: any) {
+        const componentClass = this; /* is can be class or object */
+        let _route_promise_;
+        const isValidInstance = !!((isQCObjects_Object(componentClass) && is_a(componentClass, "Component")));
+        const __route__ = function (componentList: any[]) {
+            const _componentNames_: any[] = [];
+            const _promises_ = componentList.filter(function (rc: any) {
                 return typeof rc !== "undefined";
             }).map(function (rc: Component) {
                 if (typeof rc.name !== "undefined") {
@@ -737,7 +737,7 @@ export class Component extends InheritClass implements IComponent{
                     throw new Error(__getType__(rc) + " does not have a name");
                 }
                 return new Promise(function (resolve, reject) {
-                    var _promise_;
+                    let _promise_;
                     if (typeof rc !== "undefined" && !!rc._reroute_) {
                         _promise_ = rc._reroute_()
                             .then(function () {
@@ -786,7 +786,7 @@ export class Component extends InheritClass implements IComponent{
 
     fullscreen() {
         if (isBrowser) {
-            var elem = this.body;
+            const elem = this.body;
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
             } else if ((elem as any).mozRequestFullScreen) {
@@ -821,7 +821,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
     _generateRoutingPaths(componentBody:  QCObjectsElement | HTMLElement) {
-        var component = this;
+        const component = this;
         return new Promise<void>(function (resolve, reject) {
             if (isBrowser) {
                 if (__valid_routing_way__(component.validRoutingWays, component.routingWay || "")) {
@@ -830,8 +830,8 @@ export class Component extends InheritClass implements IComponent{
                         component.routingNodes = componentBody.subelements("routing");
                         component.routings = [];
                         component.routingNodes.map(function (routingNode, r) {
-                            var attributeNames = routingNode.getAttributeNames();
-                            var routing = {} as ComponentRouting;
+                            const attributeNames = routingNode.getAttributeNames();
+                            const routing = {} as ComponentRouting;
                             attributeNames.map(function (attributeName: any, a: string | number) {
                                 (routing as any)[attributeNames[a as any]] = routingNode.getAttribute(attributeNames[a as any]);
                             });
@@ -860,19 +860,19 @@ export class Component extends InheritClass implements IComponent{
     }
 
     parseTemplate(template: any) {
-        var _self = this;
-        var _parsedAssignmentText;
-        var value = template;
+        const _self = this;
+        let _parsedAssignmentText;
+        const value = template;
         if (Object.hasOwnProperty.call(_self, "templateHandler")) {
-            var templateHandlerName = _self.templateHandler;
+            const templateHandlerName = _self.templateHandler;
             logger.debug(`[Component][${this.name}][parseTemplate] Attempting to use ${templateHandlerName} ...`);
-            var templateHandlerClass = ClassFactory(templateHandlerName);
-            var templateInstance = New(templateHandlerClass, {
+            const templateHandlerClass = ClassFactory(templateHandlerName);
+            const templateInstance = New(templateHandlerClass, {
                 component: _self,
                 template: value
             });
             templateInstance.component = _self;
-            var selfData = _self.data;
+            let selfData = _self.data;
             if (Object.hasOwnProperty.call(_self, "assignRoutingParams") && _self.assignRoutingParams) {
                 try {
                     selfData = Object.assign(selfData, _self.routingParams);
@@ -890,13 +890,13 @@ export class Component extends InheritClass implements IComponent{
 
     _reroute_():Promise<Component> {
         /* This method set the selected routing and makes the switch to the templateURI */
-        var rc = this;
+        const rc = this;
         return new Promise(function (resolve, reject) {
             if (isBrowser) {
                 if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay || "")) {
                     rc.routingPath = (location as any)[rc.routingWay as string];
                     rc.routingSelected.map(function (routing: ComponentRouting, r: any) {
-                        var componentURI = ComponentURI({
+                        const componentURI = ComponentURI({
                             "COMPONENTS_BASE_PATH": CONFIG.get("componentsBasePath"),
                             "COMPONENT_NAME": routing.name.toString(),
                             "TPLEXTENSION": (Object.hasOwnProperty.call(routing, "tplextension")) ? (routing.tplextension || "") : (rc.tplextension),
@@ -917,17 +917,17 @@ export class Component extends InheritClass implements IComponent{
 
     lazyLoadImages() {
         if (isBrowser) {
-            var component = this;
-            var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
-            var _imgLazyLoaded = [..._componentRoot.subelements("img[lazy-src]")];
-            var _lazyLoadImages = function (image: Element| HTMLElement) {
+            const component = this;
+            const _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
+            const _imgLazyLoaded = [..._componentRoot.subelements("img[lazy-src]")];
+            const _lazyLoadImages = function (image: Element| HTMLElement) {
                 image.setAttribute("src", image.getAttribute("lazy-src")?.toString() as string);
                 (image as HTMLImageElement).onload = () => {
                     image.removeAttribute("lazy-src");
                 };
             };
             if ("IntersectionObserver" in window) {
-                var observer = new IntersectionObserver((items, observer) => {
+                const observer = new IntersectionObserver((items, observer) => {
                     items.forEach((item) => {
                         if (item.isIntersecting) {
                             _lazyLoadImages(item.target);
@@ -949,7 +949,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
     applyTransitionEffect(effectClassName: string) {
-        var _Effect = ClassFactory(effectClassName);
+        const _Effect = ClassFactory(effectClassName);
         if (typeof _Effect === "undefined") {
             throw Error(`${effectClassName} not found.`);
         }
@@ -965,13 +965,13 @@ export class Component extends InheritClass implements IComponent{
 
     applyObserveTransitionEffect(effectClassName: any) {
         if (isBrowser) {
-            var component = this;
-            var _componentRoot = (component.shadowed) ? (component.shadowRoot.host) : (component.body);
-            var _applyEffect_ = function (element: Element) {
+            const component = this;
+            const _componentRoot = (component.shadowed) ? (component.shadowRoot.host) : (component.body);
+            const _applyEffect_ = function (element: Element) {
                 component.applyTransitionEffect(effectClassName);
             };
             if ("IntersectionObserver" in window) {
-                var observer = new IntersectionObserver((items, observer) => {
+                const observer = new IntersectionObserver((items, observer) => {
                     items.forEach((item) => {
                         if (item.isIntersecting) {
                             _applyEffect_(item.target);
@@ -986,14 +986,14 @@ export class Component extends InheritClass implements IComponent{
         } else {
             // not yet implemented
         }
-        return;
+        
     }
 
     scrollIntoHash() {
         if (isBrowser) {
-            var component = this;
+            const component = this;
             if (document.location.hash !== "") {
-                var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
+                const _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
                 (_componentRoot.subelements(document.location.hash) as unknown as Element[]).map(
                     function (element: Element) {
                         if (typeof element.scrollIntoView === "function") {
@@ -1016,22 +1016,22 @@ export class Component extends InheritClass implements IComponent{
     i18n_translate() {
         if (isBrowser) {
             if (CONFIG.get("use_i18n")) {
-                var component = this;
-                var _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
-                var lang1 = CONFIG.get("lang", "en");
-                var lang2 = navigator.language.slice(0, 2);
-                var i18n = _top.global.get("i18n");
+                const component = this;
+                const _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
+                const lang1 = CONFIG.get("lang", "en");
+                const lang2 = navigator.language.slice(0, 2);
+                const i18n = _top.global.get("i18n");
                 if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwnProperty.call(i18n, "messages"))) {
-                    var callback_i18n = function (this: any) {
-                        var component = this;
+                    const callback_i18n = function (this: any) {
+                        const component = this;
                         return new Promise<void>(function (resolve, reject) {
-                            var messages = i18n.messages.filter(function (message: any) {
+                            const messages = i18n.messages.filter(function (message: any) {
                                 return Object.hasOwnProperty.call(message, lang1) && Object.hasOwnProperty.call(message, lang2);
                             });
                             _componentRoot.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component")
                                 .map(function (element: { innerHTML: any; }) {
                                     messages.map(function (message: { [x: string]: any; }) {
-                                        var _innerHTML = element.innerHTML;
+                                        let _innerHTML = element.innerHTML;
                                         _innerHTML = _innerHTML.replace(new RegExp(`${message[lang1]}`, "g"), message[lang2]);
                                         element.innerHTML = _innerHTML;
                                         return null;
@@ -1053,14 +1053,14 @@ export class Component extends InheritClass implements IComponent{
     }
 
     addComponentHelper(componentHelper: any) {
-        var component = this;
+        const component = this;
         component._componentHelpers.push(componentHelper as never);
     }
 
     runComponentHelpers() {
         if (isBrowser) {
-            var component = this;
-            var __component_helpers__ = [];
+            const component = this;
+            let __component_helpers__ = [];
             /*
              * BEGIN use i18n translation
              */

@@ -18,8 +18,8 @@ export const TagElements = Class("TagElements", Array, {
       });
     },
     effect() {
-      var effectArguments = [...arguments].slice(1);
-      var effectClass = arguments[0];
+      const effectArguments = [...arguments].slice(1);
+      let effectClass = arguments[0];
       if ((typeof effectClass).toLowerCase() === "string") {
         effectClass = ClassFactory(effectClass);
       }
@@ -28,9 +28,9 @@ export const TagElements = Class("TagElements", Array, {
       });
     },
     findElements(elementName:any) {
-      var _o = New(ClassFactory("TagElements"));
+      const _o = New(ClassFactory("TagElements"));
       if (isBrowser) {
-        for (var _k in this) {
+        for (const _k in this) {
           if (typeof _k === "number" && typeof this[_k] !== "function" && this[_k].hasOwnProperty.call(this[_k], "subelements")) {
             _o.push(this[_k].subelements(elementName));
           }
@@ -49,11 +49,11 @@ export const TagElements = Class("TagElements", Array, {
    * @param {Object} innerHTML
    */
   export const Tag = function (tagname:string, innerHTML?:string) {
-    var _o = New(ClassFactory("TagElements"));
+    const _o = New(ClassFactory("TagElements"));
     if (isBrowser) {
-      var o = (document as any).subelements(tagname);
-      var addedKeys = [];
-      for (var _i = 0; _i < o.length; _i++) {
+      const o = (document as any).subelements(tagname);
+      const addedKeys = [];
+      for (let _i = 0; _i < o.length; _i++) {
         if (typeof innerHTML !== "undefined" && o[_i].hasOwnProperty.call(o[_i], "innerHTML")) {
           o[_i].innerHTML = innerHTML;
         }

@@ -22,12 +22,12 @@
  * Everyone is permitted to copy and distribute verbatim copies of this
  * license document, but changing it is not allowed.
  */
-/*eslint no-unused-vars: "off"*/
-/*eslint no-redeclare: "off"*/
-/*eslint no-empty: "off"*/
-/*eslint strict: "off"*/
+/* eslint no-unused-vars: "off" */
+/* eslint no-redeclare: "off" */
+/* eslint no-empty: "off" */
+/* eslint strict: "off" */
 
-/*eslint no-mixed-operators: "off"*/
+/* eslint no-mixed-operators: "off" */
 
 "use strict";
 
@@ -87,13 +87,13 @@ import { Effect } from "./Effect";
 import { TransitionEffect } from "./TransitionEffect";
 import { Timer } from "./Timer";
 import { _tag_filter_ } from "./tag_filter";
-import { Array, ArrayConstructor, Document, Element, get, GLOBAL, HTMLElement, QCObjectsElement, set, ShadowRoot, String } from "types/global";
 import { range } from "./range";
 import { ArrayCollection, ArrayList } from "./ArrayCollection";
 import { DDO } from "./DDO";
 import { Toggle } from "./Toggle";
 import { findPackageNodePath } from "./findPackageNodePath";
 import { getDocumentLayout } from "./DocumentLayout";
+import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsElement, ShadowRoot, String } from "types/global";
 
 (function __qcobjects__(_top: any) {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -113,7 +113,7 @@ import { getDocumentLayout } from "./DocumentLayout";
   if (typeof _top.__qcobjects__.loaded === "undefined") {
     _top.__qcobjects__.loaded = true;
 
-    var global = _top;
+    const global = _top;
     _top.global = global;
 
     if (!isBrowser) {
@@ -139,9 +139,9 @@ import { getDocumentLayout } from "./DocumentLayout";
      */
     if (isBrowser) {
       (Element as unknown as Element).prototype.find = function (tag: string): (HTMLElement | QCObjectsElement)[] {
-        var _self = this;
-        var _oo:(HTMLElement | QCObjectsElement)[] = [];
-        var _tags = (document as unknown as Document).subelements(tag);
+        const _self = this;
+        const _oo:(HTMLElement | QCObjectsElement)[] = [];
+        const _tags = (document as unknown as Document).subelements(tag);
         _tags.map(function (_tt, _t) {
           if ((typeof _tags[_t] !== "undefined") && (_tags[_t].parentNode as Element).tagName === _self.parentNode.tagName) {
             _oo.push(_Cast(_tt, (new Object())));
@@ -166,10 +166,10 @@ import { getDocumentLayout } from "./DocumentLayout";
        * to the DOM to insert in the element
        **/
       (Element as unknown as Element).prototype.render = function QC_Render(content:string) {
-        var _self = this;
-        var _appendVDOM = function (_self:any, content:string) {
+        const _self = this;
+        const _appendVDOM = function (_self:any, content:string) {
           if (typeof document.implementation.createHTMLDocument !== "undefined") {
-            var doc = document.implementation.createHTMLDocument("");
+            const doc = document.implementation.createHTMLDocument("");
             (doc as unknown as Element).innerHTML = content;
             (doc.body as unknown as Element).subelements("*").map(function (element) {
               return _self.append(element);
@@ -250,8 +250,8 @@ import { getDocumentLayout } from "./DocumentLayout";
     /**
      * Array math functions
      */
-    var __to_number = function (value:any): number | Number {
-      return ((isNaN(value)) ? (new Number(0)) : (new Number(value)) as number);
+    const __to_number = function (value:any): number  {
+      return ((isNaN(value)) ? (new Number(0) as number) : (new Number(value) as number) as number);
     };
     (Array as unknown as Array<any>).prototype.unique = function () {
       return this.filter(function (value:any, index:any, self:any) {
@@ -312,7 +312,7 @@ import { getDocumentLayout } from "./DocumentLayout";
     (_protected_code_)((Array as unknown as ArrayConstructor).max);
     (_protected_code_)((Array as unknown as Array<any>).prototype.max);
     (Array as unknown as Array<any>).prototype.sortBy = function (propName:string, sortAsc = true) {
-      var sort_function = (sortAsc) ? (
+      const sort_function = (sortAsc) ? (
         function (prev:any, current:any) {
           return current[propName] < prev[propName] ? 1 : -1;
         }
@@ -356,7 +356,7 @@ import { getDocumentLayout } from "./DocumentLayout";
      * // Output: [null, null, null, null]
      */
     (Array as unknown as Array<any>).prototype.matrix = function (_length:number, _fillValue = 0) {
-      var x_func = function (x = undefined) {
+      const x_func = function (x = undefined) {
         return _fillValue;
       };
       return Array.from({
@@ -389,10 +389,10 @@ import { getDocumentLayout } from "./DocumentLayout";
 
 
     (Array as unknown as Array<any>).prototype.matrix2d = function (_length:number, _fillValue = 0) {
-      var y_func = function (y:any) {
+      const y_func = function (y:any) {
         return _fillValue;
       };
-      var x_func = function (x:any) {
+      const x_func = function (x:any) {
         return Array.from({
           length: _length
         }, y_func);
@@ -409,14 +409,14 @@ import { getDocumentLayout } from "./DocumentLayout";
     (_protected_code_)((Array as unknown as Array<any>).prototype.matrix2d);
 
     (Array as unknown as Array<any>).prototype.matrix3d = function (_length:number, _fillValue = 0) {
-      var y_func = function (y:any) {
+      const y_func = function (y:any) {
         return Array.from({
           length: _length
         }, function () {
           return _fillValue;
         });
       };
-      var x_func = function (x:any) {
+      const x_func = function (x:any) {
         return Array.from({
           length: _length
         }, y_func);
@@ -436,13 +436,13 @@ import { getDocumentLayout } from "./DocumentLayout";
 
 
 
-    (String as unknown as String).prototype.list = function () {
-      var __instance = this;
+    (String as unknown as any).prototype.list = function () {
+      const __instance = this;
       return _top.range(0, __instance.length - 1).map(function (i:any) {
         return __instance[i];
       });
     };
-    (_protected_code_)((String as unknown as String).prototype.list);
+    (_protected_code_)((String as unknown as any).prototype.list);
 
 
 
@@ -493,12 +493,12 @@ import { getDocumentLayout } from "./DocumentLayout";
       Object.defineProperty(_top, "PackagesNameList", {
         set(val) {
           logger.debug("PackagesNameList is readonly");
-          return;
+          
         },
         get() {
-          var _get_packages_names:Function = function (_packages:any[]) {
-            var _keys:any[] = [];
-            for (var _k in _packages) {
+          const _get_packages_names:Function = function (_packages:any[]) {
+            let _keys:any[] = [];
+            for (const _k in _packages) {
               if (
                 typeof _packages[_k] !== "undefined" &&
                 typeof _packages[_k] !== "function" &&
@@ -518,11 +518,11 @@ import { getDocumentLayout } from "./DocumentLayout";
       Object.defineProperty(_top, "PackagesList", {
         set(value) {
           logger.debug("PackagesList is readonly");
-          return;
+          
         },
         get() {
           return _top.PackagesNameList.map(function (packagename:string) {
-            let _classesList = Package(packagename);
+            const _classesList = Package(packagename);
             let _ret_;
             if (_classesList) {
               _ret_ = {
@@ -542,10 +542,10 @@ import { getDocumentLayout } from "./DocumentLayout";
       Object.defineProperty(_top, "ClassesList", {
         set(value) {
           logger.debug("ClassesList is readonly");
-          return;
+          
         },
         get() {
-          var _classesList:any[] = [];
+          let _classesList:any[] = [];
           _top.PackagesList.map(function (_package_element:any) {
             _classesList = _classesList.concat(_package_element.classesList.map(
               function (_class_element:any) {
@@ -566,7 +566,7 @@ import { getDocumentLayout } from "./DocumentLayout";
       Object.defineProperty(_top, "ClassesNameList", {
         set(value) {
           logger.debug("ClassesNameList is readonly");
-          return;
+          
         },
         get() {
           return _top.ClassesList.map(function (_class_element:any) {
@@ -578,23 +578,23 @@ import { getDocumentLayout } from "./DocumentLayout";
       if (isBrowser) {
         // use of GLOBAL word is deprecated in node.js
         // this is only for compatibility purpose with old versions of QCObjects in browsers
-        Class("GLOBAL", (_QC_CLASSES as any)["global"]); // case insensitive for compatibility con old versions;
+        Class("GLOBAL", (_QC_CLASSES as any).global); // case insensitive for compatibility con old versions;
         Export(ClassFactory("GLOBAL"));
       }
       Export(global);
 
       if (CONFIG.get("useSDK")) {
         (function (_top) {
-          var remoteImportsPath = CONFIG.get("remoteImportsPath");
-          var external = (!CONFIG.get("useLocalSDK")) ? (true) : (false);
+          const remoteImportsPath = CONFIG.get("remoteImportsPath");
+          const external = (!CONFIG.get("useLocalSDK"));
           CONFIG.set("remoteImportsPath", CONFIG.get("remoteSDKPath"));
 
-          var tryImportingSDK = false;
-          var sdkName = "QCObjects-SDK";
+          let tryImportingSDK = false;
+          let sdkName = "QCObjects-SDK";
           if (isBrowser) {
             tryImportingSDK = true;
           } else {
-            var sdkPath = findPackageNodePath("qcobjects-sdk");
+            const sdkPath = findPackageNodePath("qcobjects-sdk");
             if (sdkPath !== null) {
               sdkName = "qcobjects-sdk";
               tryImportingSDK = true;
@@ -607,7 +607,7 @@ import { getDocumentLayout } from "./DocumentLayout";
           if (tryImportingSDK) {
             logger.info("Importing SDK... " + sdkName);
             if (isNodeCommonJS && typeof require !== "undefined") {
-              let sdk = require("qcobjects-sdk");
+              const sdk = require("qcobjects-sdk");
             } else {
               Import(sdkName, function () {
                 if (external) {
@@ -636,40 +636,40 @@ import { getDocumentLayout } from "./DocumentLayout";
            */
 
           (function (_top) {
-            let lastKnownScrollPosition = 0;
+            const lastKnownScrollPosition = 0;
             let ticking = false;
-            let scrollHeight = Math.max(
+            const scrollHeight = Math.max(
               document.body.scrollHeight, document.documentElement.scrollHeight,
               document.body.offsetHeight, document.documentElement.offsetHeight,
               document.body.clientHeight, document.documentElement.clientHeight
             );
 
-            let scrollWidth = Math.max(
+            const scrollWidth = Math.max(
               document.body.scrollWidth, document.documentElement.scrollWidth,
               document.body.offsetWidth, document.documentElement.offsetWidth,
               document.body.clientWidth, document.documentElement.clientWidth
             );
 
             function scrollDispatcher(event:any) {
-              var percentY = Math.round(_top.scrollY * 100 / scrollHeight);
-              var percentX = Math.round(_top.scrollX * 100 / scrollWidth);
-              var scrollPercentEventEvent = new CustomEvent("scrollpercent", {
+              const percentY = Math.round(_top.scrollY * 100 / scrollHeight);
+              const percentX = Math.round(_top.scrollX * 100 / scrollWidth);
+              const scrollPercentEventEvent = new CustomEvent("scrollpercent", {
                 detail: {
-                  percentX: percentX,
-                  percentY: percentY
+                  percentX,
+                  percentY
                 }
               });
               event.target.dispatchEvent(scrollPercentEventEvent);
-              var secondaryEventName = "defaultscroll";
-              var __valid_scrolls__ = [0, 5, 10, 25, 50, 75, 90, 95, 100];
+              let secondaryEventName = "defaultscroll";
+              const __valid_scrolls__ = [0, 5, 10, 25, 50, 75, 90, 95, 100];
               __valid_scrolls__.filter(function (p) {
                 return p === percentY;
               }).map(function (pY) {
                 secondaryEventName = "percentY" + percentY.toString();
-                var secondaryCustomEvent = new CustomEvent(secondaryEventName, {
+                const secondaryCustomEvent = new CustomEvent(secondaryEventName, {
                   detail: {
-                    percentX: percentX,
-                    percentY: percentY
+                    percentX,
+                    percentY
                   }
                 });
                 event.target.dispatchEvent(secondaryCustomEvent);
@@ -707,7 +707,7 @@ import { getDocumentLayout } from "./DocumentLayout";
 
     /* Freezing Object && Object.prototype to prevent prototype pollution risks */
     (function (isBrowser) {
-      var __freeze__ = function () {
+      const __freeze__ = function () {
         Object.freeze(Object.prototype);
         Object.freeze(Object);
       };
@@ -729,13 +729,13 @@ import { getDocumentLayout } from "./DocumentLayout";
 export default {
   BackendMicroservice, Logger, Class,
   _Crypt, TagElements, DefaultTemplateHandler, SourceJS,
-  SourceCSS, ArrayList, ArrayCollection, GlobalSettings, GLOBAL, DDO,
+  SourceCSS, ArrayList, ArrayCollection, GlobalSettings, DDO,
   ComplexStorageCache, _ComponentWidget_, asyncLoad,
   RegisterClass, ComponentURI, waitUntil, _super_, _DOMCreateElement,
   shortCode, __getType__, is_a,
   _DataStringify, serviceLoader, componentLoader, ObjectName, isQCObjects_Class, isQCObjects_Object, NamespaceRef,
   RegisterWidget, RegisterWidgets, range, getDocumentLayout, Export, New, Tag, Ready,
-  _methods_, set, get, InheritClass, Processor,
+  _methods_, InheritClass, Processor,
   Component, CONFIG, Controller, View, Service, JSONService,
   ConfigService, VO, Effect, TransitionEffect, Timer, Toggle,
   logger, global, ClassFactory, Package, Import

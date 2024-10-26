@@ -10,7 +10,7 @@ export const captureFalseTouch = () => {
 // Test via a getter in the options object to see if the passive property is accessed
 if (isBrowser) {
     try {
-        var opts = Object.defineProperty({}, "passive", {
+        const opts = Object.defineProperty({}, "passive", {
             get() {
                 supportsPassive = true;
                 return supportsPassive;

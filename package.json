@@ -13,6 +13,7 @@
       "import": "./build/index.mjs",
       "types": "./types/index.d.ts"
     },
+    "./types/global":"./types/global.d.ts",
     "./package.json": "./package.json"
   },
   "license": "LGPL-3.0",

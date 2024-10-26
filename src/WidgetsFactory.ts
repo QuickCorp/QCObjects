@@ -20,7 +20,7 @@ export const _ComponentWidget_ = class extends HTMLElement {
           componentWidget.removeAttribute(attributeName);
         }
       });
-      var data_attributenames = componentWidget.getAttributeNames().filter(function (a) {
+      const data_attributenames = componentWidget.getAttributeNames().filter(function (a) {
         return a.startsWith("data-");
       }).map(function (a) {
         return a.split("-")[1];
@@ -42,7 +42,7 @@ export const _ComponentWidget_ = class extends HTMLElement {
     customElements.define(widgetName, class extends _ComponentWidget_ { });
   };
   export const RegisterWidgets = function () {
-    var widgetList = [...arguments];
+    const widgetList = [...arguments];
     widgetList.filter(function (widgetName) {
       return typeof widgetName === "string";
     }).map(function (widgetName) {

@@ -26,7 +26,7 @@ export class GlobalSettings extends InheritClass {
   }
 
   static get(name: string, _default?: any) {
-    var _value;
+    let _value;
     if (typeof this._GLOBAL[name] !== "undefined") {
       _value = this._GLOBAL[name];
     } else if (typeof _default !== "undefined") {
@@ -36,8 +36,8 @@ export class GlobalSettings extends InheritClass {
   }
 
   static __start__() {
-    var __load__serviceWorker = function () {
-      var _promise: Promise<ServiceWorkerRegistration> | Promise<unknown>;
+    const __load__serviceWorker = function () {
+      let _promise: Promise<ServiceWorkerRegistration> | Promise<unknown>;
       if (isBrowser) {
         _promise = new Promise<ServiceWorkerRegistration>(function (resolve, reject) {
           if (("serviceWorker" in navigator) &&
@@ -67,7 +67,7 @@ export class GlobalSettings extends InheritClass {
       }
       return _promise;
     };
-    var _buildComponents = function () {
+    const _buildComponents = function () {
       return new Promise<void>((resolve) => {
         if (isBrowser) {
           logger.debug("Starting to building components");

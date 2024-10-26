@@ -24,7 +24,7 @@ export const SourceJS = Class("SourceJS", Object, {
     done() { },
     fail() { },
     rebuild() {
-      var context = this;
+      const context = this;
       try {
         document.getElementsByTagName(context.containerTag)[0].appendChild(
           (function (s:any, url:string, context:any) {

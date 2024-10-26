@@ -41,6 +41,7 @@ export class JSONService extends Service {
         "Content-Type": "application/json",
         "charset": "utf-8"
     };
+
     JSONresponse = null;
     done(result:ServiceDoneResponse) {
         logger.debug("***** RECEIVED RESPONSE:");
@@ -62,6 +63,7 @@ export class ConfigService extends JSONService {
         "Content-Type": "application/json",
         "charset": "utf-8"
     };
+
     JSONresponse = null;
     done(result:ServiceDoneResponse) {
         logger.debug("***** CONFIG LOADED:");
@@ -70,12 +72,13 @@ export class ConfigService extends JSONService {
         if (Object.hasOwnProperty.call(this.JSONresponse, "__encoded__")) {
             this.JSONresponse = JSON.parse(_Crypt.decrypt((this.JSONresponse as any)?.__encoded__, _secretKey));
         }
-        var jsonResponse:any = this.JSONresponse;
-        for (var k in jsonResponse) {
+        const jsonResponse:any = this.JSONresponse;
+        for (const k in jsonResponse) {
             CONFIG.set(k, jsonResponse[k]);
         }
         this.configLoaded.call(this);
     }
+
     fail(...args:any[]) {
         this.configLoaded.call(this);
     }

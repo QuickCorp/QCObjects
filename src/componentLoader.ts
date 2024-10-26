@@ -13,26 +13,26 @@ import { _top } from "./top";
  * @param component a Component object
  */
 export const componentLoader = function (component: Component, _async: boolean) {
-    var __promise__: Promise<any>;
-    var _componentLoaderInBrowser = function (component: Component, _async?: any) {
+    let __promise__: Promise<any>;
+    const _componentLoaderInBrowser = function (component: Component, _async?: any) {
         __promise__ = new Promise(function (resolve, reject) {
-            var _promise = component.__promise__;
-            var container = (Object.hasOwnProperty.call(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
+            const _promise = component.__promise__;
+            const container = (Object.hasOwnProperty.call(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
             if (container !== null) {
-                var _feedComponent_ = function (component: { feedComponent: () => void; }) {
+                const _feedComponent_ = function (component: { feedComponent: () => void; }) {
                     component.feedComponent();
-                    var standardResponse = {
+                    const standardResponse = {
                         "request": xhr,
-                        "component": component
+                        component
                     };
                     resolve.call(_promise, standardResponse);
                 };
                 logger.debug("LOADING COMPONENT DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(component.data)).replace("{{URL}}", component.url));
 
-                var _componentLoaded = function (this: any) {
-                    var successStatus = (is_file) ? (0) : (200);
+                const _componentLoaded = function (this: any) {
+                    const successStatus = (is_file) ? (0) : (200);
                     if (xhr.status === successStatus) {
-                        var response = xhr.responseText;
+                        const response = xhr.responseText;
                         logger.debug("Data received {{DATA}}".replace("{{DATA}}", _DataStringify(response)));
                         logger.debug("CREATING COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
                         component.template = response;
@@ -41,9 +41,9 @@ export const componentLoader = function (component: Component, _async: boolean) 
                         }
                         _feedComponent_.call(this, component);
                     } else {
-                        var standardResponse = {
+                        const standardResponse = {
                             "request": xhr,
-                            "component": component
+                            component
                         };
                         reject.call(_promise, standardResponse);
 
@@ -53,7 +53,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                     // component already has a template it does not need to be reloaded
                     _feedComponent_(component);
                 } else {
-                    var is_file = (component.url.startsWith("file:")) ? (true) : (false);
+                    var is_file = !!(component.url.startsWith("file:"));
                     var xhr = new XMLHttpRequest();
                     if (!is_file) {
                         try {
@@ -66,7 +66,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                         if ("fetch" in _top) {
                             logger.debug("I can use fetch...");
                             logger.debug("It is a file to be loaded, so I will try to use fetch");
-                            var _p = fetch(component.url).then(response => {
+                            const _p = fetch(component.url).then(response => {
                                 logger.debug("I got a response from fetch, so I'll feed the component");
                                 response.text().then(text => {
                                     component.template = text;
@@ -81,8 +81,8 @@ export const componentLoader = function (component: Component, _async: boolean) 
                     if (!is_file) {
                         xhr.onload = _componentLoaded;
                     }
-                    var _directLoad = function (is_file: boolean) {
-                        is_file = (typeof is_file === "undefined" || !is_file) ? (false) : (true);
+                    const _directLoad = function (is_file: boolean) {
+                        is_file = !((typeof is_file === "undefined" || !is_file));
                         logger.debug("SENDING THE NORMAL REQUEST  ");
                         if (is_file) {
                             if (!("fetch" in _top)) {
@@ -112,7 +112,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                                 } else {
                                     _directLoad.call(this, is_file);
                                 }
-                                return;
+                                
                             }
                         });
                         (_top as any).lastCache = cache;
@@ -128,14 +128,14 @@ export const componentLoader = function (component: Component, _async: boolean) 
         });
         __promise__.then(function (standardResponse) {
             return component.__done__().then(function () {
-                var _ret_;
+                let _ret_;
                 if (typeof component.done === "function") {
                     _ret_ = component.done.call(component, standardResponse);
                 }
                 return Promise.resolve(_ret_);
             });
         }, function (standardResponse) {
-            var _ret_;
+            let _ret_;
             if (typeof component.fail === "function") {
                 _ret_ = component.fail.call(component, standardResponse);
             }
@@ -145,22 +145,22 @@ export const componentLoader = function (component: Component, _async: boolean) 
         });
         return __promise__;
     };
-    var _componentLoaderInNode = function (component: Component, _async: any) {
+    const _componentLoaderInNode = function (component: Component, _async: any) {
         __promise__ = new Promise(function (resolve, reject) {
-            var _promise = __promise__;
-            var _feedComponent_ = function (component: Component) {
+            const _promise = __promise__;
+            const _feedComponent_ = function (component: Component) {
                 component.feedComponent();
-                var standardResponse = {
+                const standardResponse = {
                     "request": null,
-                    "component": component
+                    component
                 };
                 resolve.call(_promise, standardResponse);
             };
             logger.debug("LOADING COMPONENT DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(component.data)).replace("{{URL}}", component.url));
 
-            var _componentLoaded = function (err: any, responseText: { toString: () => any; }) {
+            const _componentLoaded = function (err: any, responseText: { toString: () => any; }) {
                 if (!err) {
-                    var response = responseText.toString();
+                    const response = responseText.toString();
                     logger.debug("Data received {{DATA}}".replace("{{DATA}}", _DataStringify(response)));
                     logger.debug("CREATING COMPONENT {{NAME}}".replace("{{NAME}}", component.name));
                     component.template = response;
@@ -169,9 +169,9 @@ export const componentLoader = function (component: Component, _async: boolean) 
                     }
                     _feedComponent_(component);
                 } else {
-                    var standardResponse = {
+                    const standardResponse = {
                         "request": null,
-                        "component": component
+                        component
                     };
                     reject.call(_promise, standardResponse);
                 }
@@ -181,7 +181,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                 _feedComponent_(component);
             } else {
                 logger.debug("Loading the component as a local file in server...");
-                var _directLoad = function () {
+                const _directLoad = function () {
                     const fs = _require_("fs");
                     logger.debug("SENDING THE NORMAL REQUEST  ");
                     (fs as any).readFile(component.url, _componentLoaded);
@@ -201,7 +201,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                             } else {
                                 _directLoad.call(this);
                             }
-                            return;
+                            
                         }
                     });
                     (_top as any).lastCache = cache;
@@ -214,14 +214,14 @@ export const componentLoader = function (component: Component, _async: boolean) 
         });
         __promise__.then(function (standardResponse) {
             return component.__done__().then(function () {
-                var _ret_;
+                let _ret_;
                 if (typeof component.done === "function") {
                     _ret_ = component.done.call(component, standardResponse);
                 }
                 return Promise.resolve(_ret_);
             });
         }, function (standardResponse) {
-            var _ret_;
+            let _ret_;
             if (typeof component.fail === "function") {
                 _ret_ = component.fail.call(component, standardResponse);
             }
@@ -232,7 +232,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
         return __promise__;
     };
 
-    var _ret_;
+    let _ret_;
     if (isBrowser) {
         if (typeof _async !== "undefined" && _async) {
             _ret_ = asyncLoad(_componentLoaderInBrowser, [component, _async]);

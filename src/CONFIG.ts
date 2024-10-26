@@ -24,15 +24,15 @@ export const CONFIG = Class("CONFIG", Object, {
       if (name === "basePath") {
         setBasePath(value);
       }
-      var _conf;
+      let _conf;
       try {
         _conf = (
           function (config) {
             if (config._CONFIG_ENC === null) {
               config._CONFIG_ENC = ClassFactory("_Crypt").encrypt(_DataStringify({}), _secretKey);
             }
-            var _protectedEnc = config._CONFIG_ENC.valueOf();
-            var _protectedConf = config._CONFIG.valueOf();
+            const _protectedEnc = config._CONFIG_ENC.valueOf();
+            const _protectedConf = config._CONFIG.valueOf();
             return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
           }
         )(ClassFactory("ConfigSettings").instance);
@@ -49,15 +49,15 @@ export const CONFIG = Class("CONFIG", Object, {
       }
     },
     get(name: string, _default: any) {
-      var _value;
+      let _value;
       try {
-        var _conf = (
+        const _conf = (
           function (config) {
             if (config._CONFIG_ENC === null) {
               config._CONFIG_ENC = ClassFactory("_Crypt").encrypt(_DataStringify({}), _secretKey);
             }
-            var _protectedEnc = config._CONFIG_ENC.valueOf();
-            var _protectedConf = config._CONFIG.valueOf();
+            const _protectedEnc = config._CONFIG_ENC.valueOf();
+            const _protectedConf = config._CONFIG.valueOf();
             return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
           }
         )(ClassFactory("ConfigSettings").instance);

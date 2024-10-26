@@ -4,7 +4,7 @@
      * @param Object or function
      */
     export const ObjectName = function (o:any) {
-        var ret = "";
+        let ret = "";
         if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
           ret = o.name;
         } else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {

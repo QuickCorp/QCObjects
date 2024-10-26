@@ -21,7 +21,7 @@ export const SourceCSS = Class("SourceCSS", Object, {
     },
     done() { },
     rebuild() {
-      var context = this;
+      const context = this;
       if (isBrowser) {
         window.document.getElementsByTagName("head")[0].appendChild(
           (function (s:any, url:string, context:any) {

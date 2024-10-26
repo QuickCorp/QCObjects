@@ -3,13 +3,13 @@ import { _top } from "./top";
 
 export var _basePath_ = (
     function () {
-      var _basePath = "";
+      let _basePath = "";
       if (isBrowser) {
-        var baseURI = document.baseURI.split("?")[0].split("/");
+        const baseURI = document.baseURI.split("?")[0].split("/");
         baseURI.pop();
         _basePath = baseURI.join("/") + "/";
       } else {
-        var process;
+        let process;
         try {
           process = _require_("process");
         } catch (e) {

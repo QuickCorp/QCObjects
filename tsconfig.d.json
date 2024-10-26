@@ -11,6 +11,11 @@
     "noImplicitThis": true,
     "alwaysStrict": true,
     "outFile": "build/index.d.ts",
+    "baseUrl": ".",
+    "paths": {
+      "types/*": ["types/*"]
+    },
+
     "typeRoots": [
       "./node_modules/@types",
       "./types"

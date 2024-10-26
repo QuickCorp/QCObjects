@@ -16,18 +16,18 @@ export class Timer extends InheritClass {
       intervalInterceptor,
       duration
     }:TimerParams) {
-      var timer = this;
+      const timer = this;
 
-      let start = performance.now();
+      const start = performance.now();
 
       requestAnimationFrame(function thread(time) {
         // timeFraction goes from 0 to 1
-        let elapsed = (time - start);
+        const elapsed = (time - start);
         let timeFraction = elapsed / duration;
         if (timeFraction > 1) timeFraction = 1;
 
         // calculate the current progress state
-        let progress = timing(timeFraction, elapsed);
+        const progress = timing(timeFraction, elapsed);
 
         intervalInterceptor(Math.round(progress * 100)); // draw it
 

@@ -15,9 +15,9 @@ export class Effect extends InheritClass {
     draw,
     duration
   }: EffectParams) {
-    var _self: this = this;
+    const _self: this = this;
 
-    let start = performance.now();
+    const start = performance.now();
 
     requestAnimationFrame(function animate(time) {
       // timeFraction goes from 0 to 1
@@ -25,7 +25,7 @@ export class Effect extends InheritClass {
       if (timeFraction > 1) timeFraction = 1;
 
       // calculate the current animation state
-      let progress = timing(timeFraction);
+      const progress = timing(timeFraction);
 
       draw(Math.round(progress * 100)); // draw it
 

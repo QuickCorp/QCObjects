@@ -5,11 +5,11 @@ import { _require_, isBrowser } from "./platform";
 import { _top } from "./top";
 
 export const findPackageNodePath = function (packagename:string):string|null {
-    var sdkPath = null;
+    let sdkPath = null;
     if (!isBrowser) {
         const fs = _require_("fs");
         try {
-            var sdkPaths = [
+            let sdkPaths = [
                 `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
                 `${CONFIG.get("basePath")}${CONFIG.get("relativeImportPath")}`,
                 `${CONFIG.get("projectPath")}`,

@@ -11,7 +11,7 @@ export class Logger {
     }
 
     info(message:string) {
-        var color;
+        let color;
         if (this.infoEnabled) {
             if (isBrowser) {
                 color = "\x1b[103m%s\x1b[0m";

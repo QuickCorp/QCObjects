@@ -13,20 +13,21 @@ export class DefaultTemplateHandler {
       this.component = component;
       this.template = template;
     }
+
     assign(data:any) {
-      var templateInstance = this;
+      const templateInstance = this;
       if (typeof templateInstance.component === "undefined") {
         throw new Error("DefaultTemplateHandler.assign: component is undefined");
       }
       if (typeof templateInstance.component.processorHandler === "undefined") {
         throw new Error("DefaultTemplateHandler.assign: component.processorHandler is undefined");
       }
-      var processorHandler = templateInstance.component.processorHandler;
+      const processorHandler = templateInstance.component.processorHandler;
       processorHandler.component = templateInstance.component;
-      var parsedAssignmentText = (typeof templateInstance.template !== "undefined") ? (templateInstance.template) : ("");
+      let parsedAssignmentText = (typeof templateInstance.template !== "undefined") ? (templateInstance.template) : ("");
       if (typeof data === "object") {
         [...Object.keys(data)].map(function (k) {
-          var _value = data[k];
+          let _value = data[k];
           if (typeof _value === "string" || typeof _value === "number" || (!isNaN(_value))) {
             try {
               _value = Processor.processObject.bind(processorHandler).call(processorHandler, _value, templateInstance.component);

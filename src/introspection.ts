@@ -1,10 +1,10 @@
 export const _protected_code_ = function (_:any) {
-    var __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function () {
+    const __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function () {
       return "";
     });
     if (typeof _.prototype !== "undefined") {
       _.prototype.toString = function () {
-        var _protected_symbols = [
+        const _protected_symbols = [
           "__qcobjects__",
           "__qcobjects_sdk__",
           "__loaded__",
@@ -58,7 +58,7 @@ export const _protected_code_ = function (_:any) {
           "shortCode",
           "NamespaceRef"
         ];
-        var _ret_;
+        let _ret_;
         if (_protected_symbols.includes(this.name)) {
           _ret_ = this.name + "{ [QCObjects native code] }";
         } else {
@@ -70,8 +70,8 @@ export const _protected_code_ = function (_:any) {
   };
   (_protected_code_)(Function);
   export const _methods_ = function (_:any) {
-    var _m = [];
-    for (var i in _) {
+    const _m = [];
+    for (const i in _) {
       if ((typeof _[i]).toLowerCase() === "function") {
         _m.push(_[i]);
       }

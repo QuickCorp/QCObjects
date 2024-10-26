@@ -22,7 +22,7 @@ export const ready = Ready; // case insensitive ready option
  * @param {Object} e
  */
 export const _Ready = function (e:any) {
-    var _execReady = function () {
+    const _execReady = function () {
         _QC_READY_LISTENERS.map(function (_ready_listener_, _r) {
             if (typeof _ready_listener_ === "function") {
                 (_ready_listener_ as Function)();

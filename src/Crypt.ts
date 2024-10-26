@@ -10,8 +10,8 @@ export const _Crypt = Class("_Crypt", Object, {
     last_key: "",
     construct: false,
     _new_(o:any) {
-        var string = o["string"];
-        var key = (o.hasOwnProperty.call(o, "key")) ? (o["key"]) : (null);
+        const string = o.string;
+        let key = (o.hasOwnProperty.call(o, "key")) ? (o.key) : (null);
         this.__new__(o);
         key = (key === null) ? (this.__instanceID) : (key);
         this.last_key = key;
@@ -19,12 +19,12 @@ export const _Crypt = Class("_Crypt", Object, {
         this.construct = true;
     },
     _encrypt():string {
-        var string = this.string;
-        var key = this.key;
-        var result = "";
-        var char;
-        var keychar;
-        for (var i = 0; i < string.length; i++) {
+        const string = this.string;
+        const key = this.key;
+        let result = "";
+        let char;
+        let keychar;
+        for (let i = 0; i < string.length; i++) {
             char = string.substr(i, 1);
             keychar = key.substr((i % key.length) - 1, 1);
             char = String.fromCharCode(char.charCodeAt(0) + keychar.charCodeAt(0));
@@ -34,13 +34,13 @@ export const _Crypt = Class("_Crypt", Object, {
         return this.last_string;
     },
     _decrypt():string {
-        var string = this.string;
-        var key = this.key;
-        var result = "";
-        var char;
-        var keychar;
+        let string = this.string;
+        const key = this.key;
+        let result = "";
+        let char;
+        let keychar;
         string = Base64.decode(string);
-        for (var i = 0; i < string.length; i++) {
+        for (let i = 0; i < string.length; i++) {
             char = string.substr(i, 1);
             keychar = key.substr((i % key.length) - 1, 1);
             char = String.fromCharCode(char.charCodeAt(0) - keychar.charCodeAt(0));
@@ -51,15 +51,15 @@ export const _Crypt = Class("_Crypt", Object, {
         return this.last_string;
     },
     encrypt(string:string, key:string) {
-        var crypt = New(ClassFactory("_Crypt"), {
-            string: string,
+        const crypt = New(ClassFactory("_Crypt"), {
+            string,
             key: (key !== "") ? (key) : ("12345678ABC")
         });
         return crypt._encrypt();
     },
     decrypt(string:string, key:string) {
-        var crypt = New(ClassFactory("_Crypt"), {
-            string: string,
+        const crypt = New(ClassFactory("_Crypt"), {
+            string,
             key: (key !== "") ? (key) : ("12345678ABC")
         });
         return crypt._decrypt();

@@ -8,9 +8,9 @@ import { ObjectName } from "./ObjectName";
      * @param {String} typeName
      */
     export const is_a = function is_a(obj:any, typeName:string) {
-        return (typeof obj !== "undefined" && obj !== null &&
+        return !!((typeof obj !== "undefined" && obj !== null &&
           (((isQCObjects_Class(obj) || isQCObjects_Object(obj)) && (obj.hierarchy().includes(typeName))) ||
             __getType__(obj) === typeName ||
             ObjectName(obj) === typeName ||
-            typeof obj === typeName)) ? (true) : (false);
+            typeof obj === typeName)));
       };

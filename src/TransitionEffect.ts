@@ -16,6 +16,7 @@ export class TransitionEffect extends Effect {
     scaleFrom: 0,
     scaleTo: 1
   };
+
   fitToHeight = false;
   fitToWidth = false;
   effects = [];
@@ -36,9 +37,9 @@ export class TransitionEffect extends Effect {
     scaleFrom,
     scaleTo
   }: TransitionEffectParams) {
-    var _transition_ = this;
+    const _transition_ = this;
     logger.info("EXECUTING TransitionEffect  ");
-    var componentRoot = (_transition_.component.shadowed) ? (_transition_.component.shadowRoot.host) : (_transition_.component.body);
+    const componentRoot = (_transition_.component.shadowed) ? (_transition_.component.shadowRoot.host) : (_transition_.component.body);
     if (_transition_.fitToHeight) {
       componentRoot.height = (typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null) ? (componentRoot.offsetParent.scrollHeight) : (componentRoot.getBoundingClientRect().height);
     }
@@ -47,10 +48,10 @@ export class TransitionEffect extends Effect {
     }
     componentRoot.style.display = "block";
     _transition_.effects.map(function (effectClassName, eff) {
-      var __effectClass__ = ClassFactory(effectClassName);
-      var effectObj = new __effectClass__({});
-      var effectClassMethod = effectObj.apply;
-      var args = [componentRoot].concat(Object.values({
+      const __effectClass__ = ClassFactory(effectClassName);
+      const effectObj = new __effectClass__({});
+      const effectClassMethod = effectObj.apply;
+      const args = [componentRoot].concat(Object.values({
         alphaFrom,
         alphaTo,
         angleFrom,

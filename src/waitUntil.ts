@@ -1,9 +1,9 @@
 import { logger } from "./Logger";
 
-export const waitUntil = function (func:Function, exp:Function) {
-    var _waitUntil = function (func:Function, exp:Function) {
-      var maxWaitCycles = 2000;
-      var _w = 0;
+export const waitUntil = function (func:()=>void, exp:()=>any) {
+    const _waitUntil = function (func:()=>void, exp:()=>any) {
+      const maxWaitCycles = 2000;
+      let _w = 0;
       var _t = setInterval(function () {
         if (exp()) {
           clearInterval(_t);

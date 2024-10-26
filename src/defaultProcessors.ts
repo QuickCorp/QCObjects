@@ -8,7 +8,7 @@ import { range } from "./range";
 export const setDefaultProcessors = () => {
     (function (_top) {
 
-        let mapper = function (componentInstance:Component, componentName:string, valueName:string) {
+        const mapper = function (componentInstance:Component, componentName:string, valueName:string) {
             /*
              * Mapper processor
              * @usage
@@ -22,14 +22,14 @@ export const setDefaultProcessors = () => {
             if (typeof componentInstance === "undefined" || componentInstance === null) {
                 throw Error(`mapper.${componentName}.${valueName} does not have a component instance or it is null.`);
             }
-            let globalValue = _top.global.get(valueName);
-            let componentValue = componentInstance.get(valueName);
-            let dataValue = componentInstance.data[valueName];
-            let list = (typeof dataValue !== "undefined") ? (dataValue) : ((typeof componentValue !== "undefined") ? (componentValue) : (globalValue));
+            const globalValue = _top.global.get(valueName);
+            const componentValue = componentInstance.get(valueName);
+            const dataValue = componentInstance.data[valueName];
+            const list = (typeof dataValue !== "undefined") ? (dataValue) : ((typeof componentValue !== "undefined") ? (componentValue) : (globalValue));
             let listItems = "";
-            if (typeof list !== "undefined" && typeof list["map"] !== "undefined") {
+            if (typeof list !== "undefined" && typeof list.map !== "undefined") {
                 listItems = list.map(function (element:HTMLElement) {
-                    let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${(typeof (element as any)[k] !== "undefined" && (element as any)[k] !== null) ? ((element as any)[k].toString()) : ("")}"`).join("");
+                    const dataItems = [...Object.keys(element)].map(k => ` data-${k}="${(typeof (element as any)[k] !== "undefined" && (element as any)[k] !== null) ? ((element as any)[k].toString()) : ("")}"`).join("");
                     return `<quick-component name="${componentName}" ${dataItems} ></quick-component>`;
                 }).join("");
             } else {
@@ -39,7 +39,7 @@ export const setDefaultProcessors = () => {
         };
         Processor.setProcessor(mapper);
     
-        let layout = function (componentInstance:Component, layoutname:string, cssfile:string) {
+        const layout = function (componentInstance:Component, layoutname:string, cssfile:string) {
             /*
              * Layout processor
              * @usage
@@ -48,7 +48,7 @@ export const setDefaultProcessors = () => {
              * cssfile is the uri for the css file to import
              */
     
-            var layout_portrait = `
+            const layout_portrait = `
               /* CSS Document for Mobile Imports */
               @import url("${cssfile}") (orientation:portrait);
               @import url("${cssfile}") (max-width:460px);
@@ -58,7 +58,7 @@ export const setDefaultProcessors = () => {
               @import url("${cssfile}") (aspect-ratio: 3/4);
               @import url("${cssfile}") (aspect-ratio: 2/3);
               `;
-            var layout_landscape = `
+            const layout_landscape = `
               @import url("${cssfile}") (orientation:landscape) and (min-width:460px);
               @import url("${cssfile}") (aspect-ratio: 16/9) and (min-width:460px);
               @import url("${cssfile}") (aspect-ratio: 16/10) and (min-width:460px);
@@ -66,7 +66,7 @@ export const setDefaultProcessors = () => {
               @import url("${cssfile}") (aspect-ratio: 4/3) and (min-width:460px);
               @import url("${cssfile}") (aspect-ratio: 3/2) and (min-width:460px);
               `;
-            var layout_code = {
+            const layout_code = {
                 "landscape": layout_landscape,
                 "portrait": layout_portrait
             };
@@ -76,7 +76,7 @@ export const setDefaultProcessors = () => {
     
         Processor.setProcessor(layout);
     
-        let component = function () {
+        const component = function () {
             /*
              * component processor
              * @usage
@@ -84,14 +84,14 @@ export const setDefaultProcessors = () => {
              * Returns a component tag declaration like:
              * <component name=<name> ...></component>
              */
-            let arg = [...arguments].slice(1).map(function (a) {
+            const arg = [...arguments].slice(1).map(function (a) {
                 return {
                     [a.split("=")[0]]: a.split("=")[1]
                 };
             }).reduce(function (k1, k2) {
                 return Object.assign(k1, k2);
             });
-            let attrs = [...Object.keys(arg)].map(function (a) {
+            const attrs = [...Object.keys(arg)].map(function (a) {
                 return `${a}=${arg[a as any]}`;
             }).join(" ");
             return `<component ${attrs}></component>`;
@@ -99,7 +99,7 @@ export const setDefaultProcessors = () => {
     
         Processor.setProcessor(component);
     
-        let quick_component = function () {
+        const quick_component = function () {
             /*
              * component processor
              * @usage
@@ -107,14 +107,14 @@ export const setDefaultProcessors = () => {
              * Returns a component tag declaration like:
              * <quick-component name=<name> ...></quick-component>
              */
-            let arg = [...arguments].slice(1).map(function (a) {
+            const arg = [...arguments].slice(1).map(function (a) {
                 return {
                     [a.split("=")[0]]: a.split("=")[1]
                 };
             }).reduce(function (k1, k2) {
                 return Object.assign(k1, k2);
             });
-            let attrs = [...Object.keys(arg)].map(function (a) {
+            const attrs = [...Object.keys(arg)].map(function (a) {
                 return `${a}=${arg[a as any]}`;
             }).join(" ");
             return `<quick-component ${attrs}></quick-component>`;
@@ -123,7 +123,7 @@ export const setDefaultProcessors = () => {
         Processor.setProcessor(quick_component);
     
     
-        let repeat = function (componentInstance:Component, length:number, text:string) {
+        const repeat = function (componentInstance:Component, length:number, text:string) {
             /*
              * Repeat processor
              * @usage

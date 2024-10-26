@@ -21,6 +21,7 @@ export class Processor extends InheritClass implements IProcessor{
         return (typeof _top !== "undefined") ? ((_top as any)[arg]) : ("");
       }
     };
+
     static setProcessor(_proc_:Function) {
       if (typeof _proc_ === "function" && _proc_.name !== "") {
         (this.processors as any)[_proc_.name] = _proc_;
@@ -35,10 +36,12 @@ export class Processor extends InheritClass implements IProcessor{
       this.setProcessor = Processor.setProcessor.bind(this);
       this.execute = Processor.execute.bind(this);
     }
+
   __instanceID!: number;
   __new__?(): void {
     throw new Error("Method not implemented.");
   }
+
   __namespace?: string | undefined;
   body?: string | QCObjectsElement | QCObjectsShadowedElement | HTMLElement | null | undefined;
   component!: Component;
@@ -46,25 +49,27 @@ export class Processor extends InheritClass implements IProcessor{
   process(template: string, component: Component) {
     throw new Error("Method not implemented.");
   }
+
   processObject(obj: any, component: Component) {
     throw new Error("Method not implemented.");
   }
+
   setProcessor(proc: Function) {
     throw new Error("Method not implemented.");
   }
 
     static execute(component:Component, processorName:string, args:string) {
-      var processorHandler = (typeof component !== "undefined" && component !== null) ? (component.processorHandler) : (this);
+      const processorHandler = (typeof component !== "undefined" && component !== null) ? (component.processorHandler) : (this);
       return processorHandler?.processors[processorName].bind(processorHandler).apply(processorHandler, [component, args?.split(",")]);
     }
 
     static process(template:string, component:Component|null = null) {
-      var processorHandler = (component !== null) ? (component.processorHandler) : (New(Processor, { component: null }));
+      const processorHandler = (component !== null) ? (component.processorHandler) : (New(Processor, { component: null }));
       if (typeof template === "string") {
         Object.keys(processorHandler.processors).map(function (funcName) {
           [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
             function (procesorMatch) {
-              var match0 = `$${funcName}(${procesorMatch[1]})`;
+              const match0 = `$${funcName}(${procesorMatch[1]})`;
               template = template.replace(match0, processorHandler.execute.bind(processorHandler).call(processorHandler, component, funcName, procesorMatch[1]));
             }
           );
@@ -74,9 +79,9 @@ export class Processor extends InheritClass implements IProcessor{
     }
 
     static processObject(obj:any, component:Component|null = null) {
-      var __instance__:Processor| typeof Processor | undefined = (component === null) ? (this) : (component.processorHandler);
+      let __instance__:Processor| typeof Processor | undefined = (component === null) ? (this) : (component.processorHandler);
       if (typeof __instance__ === "undefined") {
-        __instance__ = new Processor({ component: component });
+        __instance__ = new Processor({ component });
       }
       if (typeof obj === "object") {
         Object.keys(obj).map(

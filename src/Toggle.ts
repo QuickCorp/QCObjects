@@ -16,7 +16,7 @@ export class Toggle extends InheritClass {
   }
 
   changeToggle() {
-    this._toggle = (this._toggle) ? (false) : (true);
+    this._toggle = !(this._toggle);
   }
 
   _new_({
@@ -30,7 +30,7 @@ export class Toggle extends InheritClass {
   }
 
   fire():Promise<Toggle> {
-    var toggle = this;
+    const toggle = this;
     var _promise = new Promise<Toggle>(function (resolve, reject) {
 
       if (typeof toggle._positive === "function" && typeof toggle._negative === "function") {

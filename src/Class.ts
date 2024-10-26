@@ -19,8 +19,8 @@ import { _top } from "./top";
  * @param {Object} type
  * @param {Object} definition
  */
-export const Class = function (name: string = "", type: any = undefined, definition: any = undefined) {
-  var _types_ = {};
+export const Class = function (name = "", type: any = undefined, definition: any = undefined) {
+  const _types_ = {};
 
   switch (arguments.length) {
     case 0:
@@ -52,8 +52,8 @@ export const Class = function (name: string = "", type: any = undefined, definit
     throw new Error(`${name} is not an allowed word in the name of a class`);
   }
 
-  if (typeof type["__definition"] !== "undefined") {
-    definition["__definition"] = Object.assign(_LegacyCopy(type.__definition), type);
+  if (typeof type.__definition !== "undefined") {
+    definition.__definition = Object.assign(_LegacyCopy(type.__definition), type);
   }
 
   (_types_ as any)[type.name] = type;
@@ -65,8 +65,8 @@ export const Class = function (name: string = "", type: any = undefined, definit
   }
 
   /* hack to prevent duplicate __instanceID */
-  if (typeof definition["__instanceID"] !== "undefined") {
-    delete definition["__instanceID"];
+  if (typeof definition.__instanceID !== "undefined") {
+    delete definition.__instanceID;
   }
 
   (_QC_CLASSES as any)[name] = class extends (_types_ as any)[type.name] {
@@ -76,17 +76,17 @@ export const Class = function (name: string = "", type: any = undefined, definit
     };
 
     static hierarchy(__class__:any) {
-      var __classType = function (o_c:any) {
+      const __classType = function (o_c:any) {
         return (Object.hasOwnProperty.call(o_c, "__classType")) ? (o_c.__classType) : (__getType__.call(__class__, o_c));
       };
-      var __hierarchy__proto__ = (c:any):any[] => {
+      const __hierarchy__proto__ = (c:any):any[] => {
         return (typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null) ? (((__classType(c) !== "") ? ([__classType(c)]) : ([])).concat(__hierarchy__proto__(c.__proto__))) : ([]);
       };
 
       if (typeof __class__ === "undefined" || __class__ === null) {
         __class__ = this;
       }
-      var __hierarchy = [];
+      let __hierarchy = [];
       __hierarchy.push(__classType(__class__));
       __hierarchy = __hierarchy.concat(__hierarchy__proto__(__class__.__proto__));
       return __hierarchy;
@@ -97,7 +97,7 @@ export const Class = function (name: string = "", type: any = undefined, definit
     }
 
     constructor() {
-      var _o_;
+      let _o_;
       if (arguments.length > 0) {
         _o_ = {
           ...arguments[0]
@@ -107,7 +107,7 @@ export const Class = function (name: string = "", type: any = undefined, definit
       }
       super(_o_);
 
-      let self = this;
+      const self = this;
       IncrementInstanceID();
       if (!(self as any).__instanceID) {
         Object.defineProperty(self, "__instanceID", {
@@ -134,19 +134,19 @@ export const Class = function (name: string = "", type: any = undefined, definit
         self[m.name] = m.bind(self);
       });
 
-      if (!!self["body"]) {
+      if (self.body) {
         if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition, "body")) || typeof self.__definition.body === "undefined") {
           try {
             if (isBrowser) {
-              self["body"] = _DOMCreateElement(self.__definition.__classType);
+              self.body = _DOMCreateElement(self.__definition.__classType);
             } else {
-              self["body"] = {};
+              self.body = {};
             }
           } catch (e) {
-            self["body"] = {};
+            self.body = {};
           }
         } else if (Object.hasOwnProperty.call(self.__definition, "body")) {
-          self["body"] = self.__definition.body;
+          self.body = self.__definition.body;
         }
       }
 
@@ -174,6 +174,7 @@ export const Class = function (name: string = "", type: any = undefined, definit
     __new__(_o_:any) {
       _CastProps(_o_, this);
     }
+
     _new_(_o_?:any) { }
 
     getClass() {
@@ -181,15 +182,15 @@ export const Class = function (name: string = "", type: any = undefined, definit
     }
 
     css(_css:any) {
-      if (typeof this["body"] !== "undefined" && this["body"]["style"] !== "undefined") {
+      if (typeof this.body !== "undefined" && this.body.style !== "undefined") {
         logger.debug("body style");
-        this["body"]["style"] = _Cast(_css, this["body"]["style"]);
+        this.body.style = _Cast(_css, this.body.style);
       }
-      return this["body"]["style"];
+      return this.body.style;
     }
 
     hierarchy() {
-      var __instance__ = this;
+      const __instance__ = this;
       return this.getClass().hierarchy(__instance__);
     }
 
@@ -200,16 +201,16 @@ export const Class = function (name: string = "", type: any = undefined, definit
         logger.debug("append: child is a Component");
         logger.debug(`appending the body of ${child.name}`);
       }
-      var child = (arguments.length > 0) ? (arguments[0]) : (this["body"]);
-      if (typeof this["body"] !== "undefined") {
+      var child = (arguments.length > 0) ? (arguments[0]) : (this.body);
+      if (typeof this.body !== "undefined") {
         logger.debug("append element");
         if (arguments.length > 0) {
           logger.debug("append to element");
-          this["body"].append(child);
-          if (typeof this["childs"] === "undefined") {
-            this["childs"] = [];
+          this.body.append(child);
+          if (typeof this.childs === "undefined") {
+            this.childs = [];
           }
-          this["childs"].push(child);
+          this.childs.push(child);
         } else {
           if (isBrowser) {
             logger.debug("append to body");
@@ -221,8 +222,8 @@ export const Class = function (name: string = "", type: any = undefined, definit
 
     attachIn(tag:any) {
       if (isBrowser) {
-        var tags = (document as unknown as Document).subelements(tag);
-        for (var i = 0, j = tags.length; i < j; i++) {
+        const tags = (document as unknown as Document).subelements(tag);
+        for (let i = 0, j = tags.length; i < j; i++) {
           (tags as any)[i].append(this as any);
         }
       } else {
@@ -235,9 +236,9 @@ export const Class = function (name: string = "", type: any = undefined, definit
   // remove the keys from definition that exist in the prototype
 
   (_QC_CLASSES as any)[name] = _CastProps(definition, (_QC_CLASSES as any)[name]);
-  (_QC_CLASSES as any)[name]["__definition"] = definition;
-  (_QC_CLASSES as any)[name]["__definition"]["__classType"] = name;
-  (_QC_CLASSES as any)[name]["__definition"]["__new__"] = function __new__(_o_:any) {
+  (_QC_CLASSES as any)[name].__definition = definition;
+  (_QC_CLASSES as any)[name].__definition.__classType = name;
+  (_QC_CLASSES as any)[name].__definition.__new__ = function __new__(_o_:any) {
     _CastProps(_o_, this);
   };
 

@@ -25,14 +25,14 @@ export const Import = function (packagename:string, ready?:Function, external?:b
     } else {
         logger.debug(`[Import] Registering local resource to import: ${packagename}`);
     }
-    var _promise_import_: Promise<any>;
+    let _promise_import_: Promise<any>;
     if (isBrowser) {
         _promise_import_ = new Promise(function (resolve, reject) {
 
-            var allPackagesImported = function () {
-                var ret = false;
-                var cp = 0;
-                for (var p in _QC_PACKAGES) {
+            const allPackagesImported = function () {
+                let ret = false;
+                let cp = 0;
+                for (const p in _QC_PACKAGES) {
                     cp++;
                 }
                 if (cp < _QC_PACKAGES_IMPORTED.length) {
@@ -43,7 +43,7 @@ export const Import = function (packagename:string, ready?:Function, external?:b
                 return ret;
             };
 
-            var readyImported = function (e: { target: { remove: () => void; }; }) {
+            const readyImported = function (e: { target: { remove: () => void; }; }) {
                 _QC_PACKAGES_IMPORTED.push(ready as never);
                 if (allPackagesImported()) {
                     _QC_PACKAGES_IMPORTED.map(function (_imported_) {
@@ -60,9 +60,9 @@ export const Import = function (packagename:string, ready?:Function, external?:b
             };
 
             if (!_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES, packagename)) {
-                var s1:HTMLScriptElement = _DOMCreateElement("script") as unknown as HTMLScriptElement;
+                const s1:HTMLScriptElement = _DOMCreateElement("script") as unknown as HTMLScriptElement;
                 s1.type = CONFIG.get("sourceType", "text/javascript");
-                s1.async = (CONFIG.get("asynchronousImportsLoad")) ? (true) : (false);
+                s1.async = !!(CONFIG.get("asynchronousImportsLoad"));
                 (s1 as any).onreadystatechange = function () {
                     if ((s1 as any).readyState === "complete") {
                         readyImported(s1 as any);
@@ -87,12 +87,12 @@ export const Import = function (packagename:string, ready?:Function, external?:b
         // support to be used in a nodejs environment
         _promise_import_ = new Promise(function (resolve, reject) {
             try {
-                var standardNodePath = findPackageNodePath(packagename);
-                var packageAbsoluteName = "";
+                const standardNodePath = findPackageNodePath(packagename);
+                let packageAbsoluteName = "";
                 if (standardNodePath !== null) {
                     packageAbsoluteName = standardNodePath + "/" + packagename;
                 } else {
-                    var jsNodePath = findPackageNodePath(packagename + ".js");
+                    const jsNodePath = findPackageNodePath(packagename + ".js");
                     if (jsNodePath !== null) {
                         packageAbsoluteName = jsNodePath + "/" + packagename + ".js";
                     } else {

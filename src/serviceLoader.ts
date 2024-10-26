@@ -13,16 +13,16 @@ import { _top } from "./top";
  * @param service a Service object
  */
 export const serviceLoader = function (service:Service, _async = false) {
-    var _serviceLoaderInBrowser:(service: Service, _async: any)=> Promise<unknown> = function (service:Service, _async:boolean):Promise<unknown> {
+    const _serviceLoaderInBrowser:(service: Service, _async: any)=> Promise<unknown> = function (service:Service, _async:boolean):Promise<unknown> {
         var _promise = new Promise(
             function (resolve, reject) {
 
                 logger.debug("LOADING SERVICE DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service.data)).replace("{{URL}}", service.url));
-                var xhr = new XMLHttpRequest();
+                const xhr = new XMLHttpRequest();
                 xhr.withCredentials = service.withCredentials;
-                var xhrasync = true; // always async because xhr sync is deprecated
+                const xhrasync = true; // always async because xhr sync is deprecated
                 xhr.open(service.method, service.url, xhrasync);
-                for (var header in service.headers) {
+                for (const header in service.headers) {
                     try {
                         if (typeof service.headers[header] !== "function") {
                             xhr.setRequestHeader(header, service.headers[header]);
@@ -33,7 +33,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                 }
                 xhr.onload = function () {
                     if (xhr.status === 200) {
-                        var response = xhr.responseText;
+                        const response = xhr.responseText;
                         logger.debug("Data received {{DATA}}".replace("{{DATA}}", _DataStringify(response)));
                         logger.debug("CREATING SERVICE {{NAME}}".replace("{{NAME}}", service.name));
                         service.template = response;
@@ -43,7 +43,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                         if (typeof service.done === "function") {
                             var standardResponse = {
                                 "request": xhr,
-                                "service": service
+                                service
                             };
                             service.done.call(service, standardResponse);
                             resolve.call(_promise, standardResponse);
@@ -52,7 +52,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                         if (typeof service.fail === "function") {
                             var standardResponse = {
                                 "request": xhr,
-                                "service": service
+                                service
                             };
                             service.fail.call(service, standardResponse);
                             reject.call(_promise, standardResponse);
@@ -60,7 +60,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                     }
                 };
 
-                var _directLoad = function () {
+                const _directLoad = function () {
                     logger.debug("SENDING THE NORMAL REQUEST  ");
                     try {
                         xhr.send(_DataStringify(service.data));
@@ -68,7 +68,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                         logger.debug("SOMETHING WRONG WITH REQUEST  ");
                         reject.call(_promise, {
                             request: xhr,
-                            service: service
+                            service
                         });
                     }
                 };
@@ -83,9 +83,9 @@ export const serviceLoader = function (service:Service, _async = false) {
                             if (service.method === "GET") {
                                 service.template = cacheController.cache.getCached(service.name);
                                 if (typeof service.done === "function") {
-                                    var standardResponse = {
+                                    const standardResponse = {
                                         "request": xhr,
-                                        "service": service
+                                        service
                                     };
                                     service.done.call(service, standardResponse);
                                     resolve.call(_promise, standardResponse);
@@ -93,7 +93,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                             } else {
                                 _directLoad();
                             }
-                            return;
+                            
                         }
                     });
                     (_top as any).lastCache = cache;
@@ -107,25 +107,25 @@ export const serviceLoader = function (service:Service, _async = false) {
         return _promise;
     };
 
-    var _serviceLoaderInNode = function (service:Service, _async:boolean) {
+    const _serviceLoaderInNode = function (service:Service, _async:boolean) {
         var _promise = new Promise(
             function (resolve, reject) {
                 if (typeof URL === "undefined") {
                     global.URL = (_require_("url") as any).URL;
-                    let URL = global.URL;
+                    const URL = global.URL;
                 }
-                var serviceURL = new URL(service.url);
+                const serviceURL = new URL(service.url);
                 var req;
                 service.useHTTP2 = Object.hasOwnProperty.call(service, "useHTTP2") && service.useHTTP2;
 
 
-                var captureEvents = function (req:any) {
+                const captureEvents = function (req:any) {
                     logger.debug("LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service.data)).replace("{{URL}}", service.url));
-                    var dataXML:any;
-                    var standardResponse = {
+                    let dataXML:any;
+                    const standardResponse = {
                         "http2Client": client,
                         "request": req,
-                        "service": service,
+                        service,
                         "responseHeaders": null
                     };
 
@@ -133,7 +133,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                         if (service.useHTTP2) {
                             try {
                                 logger.debug("Sending data...");
-                                let buffer = new Buffer(_DataStringify(service.data));
+                                const buffer = new Buffer(_DataStringify(service.data));
                                 req.write(buffer);
                             } catch (e) {
                                 logger.debug("It was not possible to send any data");
@@ -179,10 +179,10 @@ export const serviceLoader = function (service:Service, _async = false) {
                 };
 
                 try {
-                    var requestOptions;
+                    let requestOptions;
                     if (service.useHTTP2) {
                         logger.debug("using http2");
-                        var http2 = _require_("http2");
+                        const http2 = _require_("http2");
                         var client = (http2 as any).connect(serviceURL.origin);
                         requestOptions = Object.assign({
                             ":method": service.method,
@@ -194,8 +194,8 @@ export const serviceLoader = function (service:Service, _async = false) {
                         captureEvents(req);
                     } else {
                         if (serviceURL.protocol === "http:") {
-                            var http = _require_("http");
-                            var request = (http as any).request;
+                            const http = _require_("http");
+                            const request = (http as any).request;
                             requestOptions = Object.assign({
                                 "url": service.url,
                                 headers: service.headers
@@ -203,7 +203,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                             var req = request(service.url);
                             captureEvents(req);
                         } else if (serviceURL.protocol === "https:") {
-                            var https = _require_("https");
+                            const https = _require_("https");
                             requestOptions = Object.assign({
                                 hostname: serviceURL.hostname,
                                 port: serviceURL.port,
@@ -211,12 +211,12 @@ export const serviceLoader = function (service:Service, _async = false) {
                                 method: service.method,
                                 headers: service.headers
                             }, service.options);
-                            var _req_ = (https as any).request(requestOptions, function (req:any) {
+                            const _req_ = (https as any).request(requestOptions, function (req:any) {
                                 captureEvents(req);
                             });
                             _req_.end();
                         } else {
-                            var e = "Protocol not supported: " + serviceURL.protocol;
+                            const e = "Protocol not supported: " + serviceURL.protocol;
                             logger.debug(e);
                             throw new Error(e);
                         }
@@ -238,13 +238,13 @@ export const serviceLoader = function (service:Service, _async = false) {
 
     };
 
-    var _serviceLoaderMockup = function (service:Service, _async:boolean) {
+    const _serviceLoaderMockup = function (service:Service, _async:boolean) {
         var _promise = new Promise(
             function (resolve, reject) {
                 logger.debug(`Calling mockup service ${service.name} ...`);
-                var standardResponse = {
+                const standardResponse = {
                     "request": null,
-                    "service": service,
+                    service,
                     "responseHeaders": service.responseHeaders
                 };
                 if (typeof service.mockup === "function") {
@@ -256,13 +256,13 @@ export const serviceLoader = function (service:Service, _async = false) {
             });
         return _promise;
     };
-    var _serviceLoaderLocal = function (service:Service, _async:boolean) {
+    const _serviceLoaderLocal = function (service:Service, _async:boolean) {
         var _promise = new Promise(
             function (resolve, reject) {
                 logger.debug(`Calling local service ${service.name} ...`);
-                var standardResponse = {
+                const standardResponse = {
                     "request": null,
-                    "service": service,
+                    service,
                     "responseHeaders": service.responseHeaders
                 };
                 if (typeof service.local === "function") {
@@ -275,7 +275,7 @@ export const serviceLoader = function (service:Service, _async = false) {
         return _promise;
     };
 
-    var _ret_;
+    let _ret_;
     switch (service.kind) {
         case "rest":
             if (isBrowser) {

@@ -5,25 +5,25 @@ import { logger } from "./Logger";
 export class ComplexStorageCache {
 
   constructor(params: { index: any; load: any; alternate: any; }) {
-    var object, load, alternate;
+    let object, load, alternate;
     object = params.index;
     if (typeof object !== "undefined") {
       load = params.load;
       alternate = params.alternate;
-      var cachedObjectID = this.getID(object);
-      var cachedResponse = localStorage.getItem(cachedObjectID as string);
+      const cachedObjectID = this.getID(object);
+      const cachedResponse = localStorage.getItem(cachedObjectID as string);
       if (this.isEmpty(cachedResponse)) {
-        var cachedNewResponse = load.call(null, {
-          "cachedObjectID": cachedObjectID,
-          "cachedResponse": cachedResponse,
+        const cachedNewResponse = load.call(null, {
+          cachedObjectID,
+          cachedResponse,
           "cache": this
         });
         this.save(object, cachedNewResponse);
         logger.debug("RESPONSE OF {{cachedObjectID}} CACHED".replace("{{cachedObjectID}}", cachedObjectID as string));
       } else {
-        var alternateResponse = alternate.call(null, {
-          "cachedObjectID": cachedObjectID,
-          "cachedResponse": cachedResponse,
+        const alternateResponse = alternate.call(null, {
+          cachedObjectID,
+          cachedResponse,
           "cache": this
         });
         logger.debug("RESPONSE OF {{cachedObjectID}} IS ALREADY CACHED ".replace("{{cachedObjectID}}", cachedObjectID as string));
@@ -36,7 +36,7 @@ export class ComplexStorageCache {
   }
 
   getItem(cachedObjectID: string) {
-    var retrievedObject = localStorage.getItem(cachedObjectID);
+    const retrievedObject = localStorage.getItem(cachedObjectID);
     if (!this.isEmpty(retrievedObject)) {
       return JSON.parse(retrievedObject as string);
     } else {
@@ -50,7 +50,7 @@ export class ComplexStorageCache {
   }
 
   isEmpty(object: string | number | null) {
-    var r = false;
+    let r = false;
     switch (true) {
       case (typeof object === "undefined"):
       case (typeof object === "string" && object === ""):
@@ -67,7 +67,7 @@ export class ComplexStorageCache {
 
 
   getID(object: any) {
-    var cachedObjectID;
+    let cachedObjectID;
     if (typeof object !== "undefined") {
       cachedObjectID = "cachedObject_" + Base64.encode(_DataStringify(object).replace(/\{|\}|,/g, "_"));
     }
@@ -75,13 +75,13 @@ export class ComplexStorageCache {
   }
 
   save(object: any, cachedNewResponse: any) {
-    var cachedObjectID = this.getID(object);
+    const cachedObjectID = this.getID(object);
     logger.debug("CACHING THE RESPONSE OF {{cachedObjectID}} ".replace("{{cachedObjectID}}", cachedObjectID as string));
     this.setItem(cachedObjectID as string, cachedNewResponse);
   }
 
   getCached(object: any) {
-    var cachedObjectID = this.getID(object);
+    const cachedObjectID = this.getID(object);
     return this.getItem(cachedObjectID as string);
   }
 

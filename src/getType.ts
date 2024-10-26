@@ -7,7 +7,7 @@ import { ObjectName } from "./ObjectName";
      * @param {Object} object
      */
     export const __getType__ = function __getType__(o_c:any):any {
-        var _ret_ = "";
+        let _ret_ = "";
         switch (true) {
           case __is_raw_class__(o_c) && !!o_c.name:
             _ret_ = o_c.name;

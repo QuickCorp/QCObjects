@@ -20,6 +20,9 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "baseUrl": ".",
+    "paths": {
+      "types/*": ["types/*"]
+    },
     "typeRoots": [
       "./node_modules/@types",
       "./types"

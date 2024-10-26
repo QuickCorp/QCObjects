@@ -19,7 +19,7 @@ export function asyncLoad(callback: any, args?: any[]): any {
   }
   _asyncLoad.push((new AsyncCallback()) as unknown as never);
   return AsyncCallback;
-};
+}
 
 export const _fireAsyncLoad = function () {
         if (isBrowser){

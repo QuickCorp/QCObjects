@@ -5,7 +5,7 @@ import { _top } from "./top";
 
 
 export const __register_class__ = function (_class_:any, __namespace?:string) {
-    var name = _class_.name || __getType__(_class_);
+    const name = _class_.name || __getType__(_class_);
     if (typeof _class_.__definition === "undefined") {
         _class_.__definition = {};
     }

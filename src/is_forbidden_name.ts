@@ -7,6 +7,6 @@
      * @param {Object} definition
      */
     export const __is__forbidden_name__ = function (name:string) {
-        return (["__proto__", "prototype", "Object", "Map", "defineProperty", "indexOf", "toString", "__instanceID"].indexOf(name) !== -1) ? (true) : (false);
+        return (["__proto__", "prototype", "Object", "Map", "defineProperty", "indexOf", "toString", "__instanceID"].indexOf(name) !== -1);
       };
   

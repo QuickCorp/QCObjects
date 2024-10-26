@@ -54,32 +54,32 @@ export class DDO extends ClassFactory("InheritClass") {
         fset,
         value
     }:DDOParams) {
-        var ddoInstance = this;
+        const ddoInstance = this;
         var name = (typeof name === "undefined") ? (ObjectName(ddoInstance)) : (name);
 
         Object.defineProperty(instance, name, {
             set(val) {
-                let _value = val;
+                const _value = val;
                 logger.debug("value changed " + name);
-                var ret;
+                let ret;
                 if (typeof fset !== "undefined" && typeof fset === "function") {
                     ret = fset(_value);
                 } else {
                     ret = _value;
                 }
                 instance["_" + name] = ret;
-                return;
+                
             },
             get() {
-                let _value = instance["_" + name];
+                const _value = instance["_" + name];
                 logger.debug("returning value " + name);
-                var is_ddo = function (v:any) {
+                const is_ddo = function (v:any) {
                     if (typeof v === "object" && Object.hasOwnProperty.call(v, "value")) {
                         return v.value;
                     }
                     return v;
                 };
-                var ret;
+                let ret;
                 if (typeof fget !== "undefined" && typeof fget === "function") {
                     ret = fget(is_ddo(_value));
                 } else {

@@ -22,6 +22,7 @@ export class Controller extends InheritClass implements IController{
       throw Error(`${__getType__(this)} must be called with a component`);
     }
   }
+
   body?: QCObjectsElement | HTMLElement | undefined;
 
   routingSelectedAttr(attrName: string) {
@@ -55,14 +56,14 @@ export class Controller extends InheritClass implements IController{
   }
 
   createRoutingController() {
-    var controller = this;
-    var component = controller.component;
-    var controllerName = controller.routingSelectedAttr("controllerclass");
+    const controller = this;
+    const component = controller.component;
+    const controllerName = controller.routingSelectedAttr("controllerclass");
     if (typeof controllerName !== "undefined") {
-      var _Controller = ClassFactory(controllerName);
+      const _Controller = ClassFactory(controllerName);
       if (typeof _Controller !== "undefined" && component !== null) {
         component.routingController = New(_Controller, {
-          component: component
+          component
         }); // Initializes the main controller for the component
         if (Object.hasOwnProperty.call(component.routingController, "done") && typeof component.routingController.done === "function") {
           component.routingController.done.call(component.routingController);

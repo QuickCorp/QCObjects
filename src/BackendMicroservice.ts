@@ -21,7 +21,7 @@ export class BackendMicroservice extends InheritClass {
   }) {
     super(...arguments);
     logger.debug("Initializing BackendMicroservice...");
-    let microservice = this;
+    const microservice = this;
     if (typeof this.body === "undefined") {
       this.body = null;
     }
@@ -32,8 +32,8 @@ export class BackendMicroservice extends InheritClass {
     microservice.stream = stream;
     (stream as any)?.on("data", (data: any) => {
       // data from POST, GET
-      var requestMethod = (request as any)?.method.toLowerCase();
-      var supportedMethods = {
+      const requestMethod = (request as any)?.method.toLowerCase();
+      const supportedMethods = {
         "post": microservice.post,
       };
       if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
@@ -42,8 +42,8 @@ export class BackendMicroservice extends InheritClass {
     });
 
     // data from POST, GET
-    var requestMethod = (request as any)?.method.toLowerCase();
-    var supportedMethods = {
+    const requestMethod = (request as any)?.method.toLowerCase();
+    const supportedMethods = {
       "get": microservice.get,
       "head": microservice.head,
       "put": microservice.put,
@@ -63,13 +63,13 @@ export class BackendMicroservice extends InheritClass {
   cors() {
     if (this.route.cors) {
       logger.debug("Validating CORS...");
-      let {
+      const {
         allow_origins,
         allow_credentials,
         allow_methods,
         allow_headers
       } = this.route.cors;
-      var microservice = this;
+      const microservice = this;
       if (typeof microservice.headers !== "object") {
         microservice.headers = {};
       }
@@ -180,8 +180,8 @@ export class BackendMicroservice extends InheritClass {
 
   done() {
     logger.debug(`[BackendMicroservice.done] Finalizing the response...`);
-    var microservice = this;
-    var stream = microservice.stream;
+    const microservice = this;
+    const stream = microservice.stream;
     try {
       logger.debug(`[BackendMicroservice.done] Sending response headers...`);
       if (microservice.route.responseHeaders) {

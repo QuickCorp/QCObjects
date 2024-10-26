@@ -1,9 +1,9 @@
 export const Base64 = {
     _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
     encode(e: string) {
-      var t = "";
-      var n: number, r: number, i: number, s: number, o: number, u: number, a: number;
-      var f = 0;
+      let t = "";
+      let n: number, r: number, i: number, s: number, o: number, u: number, a: number;
+      let f = 0;
       e = Base64._utf8_encode(e);
       while (f < e.length) {
         n = e.charCodeAt(f++);
@@ -23,10 +23,10 @@ export const Base64 = {
       return t;
     },
     decode(e: string) {
-      var t = "";
-      var n: number, r: number, i: number;
-      var s: number, o: number, u: number, a: number;
-      var f = 0;
+      let t = "";
+      let n: number, r: number, i: number;
+      let s: number, o: number, u: number, a: number;
+      let f = 0;
       e = e.replace(/[^A-Za-z0-9+/=]/g, "");
       while (f < e.length) {
         s = this._keyStr.indexOf(e.charAt(f++));
@@ -49,9 +49,9 @@ export const Base64 = {
     },
     _utf8_encode(e: string) {
       e = e.replace(/rn/g, "n");
-      var t = "";
-      for (var n = 0; n < e.length; n++) {
-        var r = e.charCodeAt(n);
+      let t = "";
+      for (let n = 0; n < e.length; n++) {
+        const r = e.charCodeAt(n);
         if (r < 128) {
           t += String.fromCharCode(r);
         } else if (r > 127 && r < 2048) {
@@ -66,12 +66,12 @@ export const Base64 = {
       return t;
     },
     _utf8_decode(e: string) {
-      var t = "";
-      var n = 0;
-      var r = 0;
-      var c1 = 0;
-      var c2 = 0;
-      var c3: number;
+      let t = "";
+      let n = 0;
+      let r = 0;
+      const c1 = 0;
+      let c2 = 0;
+      let c3: number;
       while (n < e.length) {
         r = e.charCodeAt(n);
         if (r < 128) {

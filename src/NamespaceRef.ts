@@ -8,8 +8,8 @@ import { Package } from "./Package";
  * @param {Object} package
  */
 export const NamespaceRef = function (namespace:string) {
-    let packageInstance = Package(namespace);
-    let classes = packageInstance.filter((c:any) => isQCObjects_Class(c)).map((c:any) => {
+    const packageInstance = Package(namespace);
+    const classes = packageInstance.filter((c:any) => isQCObjects_Class(c)).map((c:any) => {
         return {
             [c.__definition.__classType]: c
         };

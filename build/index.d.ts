@@ -640,7 +640,7 @@ declare module "subelements" {
     export const subelements: (this: any, query: string) => any[];
 }
 declare module "waitUntil" {
-    export const waitUntil: (func: Function, exp: Function) => void;
+    export const waitUntil: (func: () => void, exp: () => any) => void;
 }
 declare module "super" {
     /**
@@ -1131,9 +1131,9 @@ declare module "QCObjects" {
     import { Effect } from "Effect";
     import { TransitionEffect } from "TransitionEffect";
     import { Timer } from "Timer";
-    import { get, GLOBAL, QCObjectsElement, set } from "types/global";
     import { DDO } from "DDO";
     import { Toggle } from "Toggle";
+    import { QCObjectsElement } from "types/global";
     const _default: {
         BackendMicroservice: typeof BackendMicroservice;
         Logger: typeof Logger;
@@ -1146,7 +1146,6 @@ declare module "QCObjects" {
         ArrayList: any;
         ArrayCollection: any;
         GlobalSettings: typeof GlobalSettings;
-        GLOBAL: typeof GLOBAL;
         DDO: typeof DDO;
         ComplexStorageCache: typeof ComplexStorageCache;
         _ComponentWidget_: {
@@ -1486,7 +1485,7 @@ declare module "QCObjects" {
         asyncLoad: typeof asyncLoad;
         RegisterClass: (_class_: any, __namespace?: string) => any;
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").ComponentURIParams) => string;
-        waitUntil: (func: Function, exp: Function) => void;
+        waitUntil: (func: () => void, exp: () => any) => void;
         _super_: (className: string, classMethodName: string, params?: any) => any;
         _DOMCreateElement: (elementName: string) => QCObjectsElement;
         shortCode: () => any;
@@ -1510,8 +1509,6 @@ declare module "QCObjects" {
         Tag: (tagname: string, innerHTML?: string) => any;
         Ready: (e: any) => void;
         _methods_: (_: any) => any[];
-        set: typeof set;
-        get: typeof get;
         InheritClass: any;
         Processor: typeof Processor;
         Component: typeof Component;

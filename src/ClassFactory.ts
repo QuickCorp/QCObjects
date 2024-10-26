@@ -9,12 +9,12 @@ import { Package } from "./Package";
 import { _QC_CLASSES } from "./PrimaryCollections";
 
 export const ClassFactory = function (className:string) {
-    var _classFactory;
+    let _classFactory;
     if (className !== null && className.indexOf(".") > -1) {
-        var packageName = className.split(".").slice(0, className.split(".").length - 1).join(".");
-        var _className = className.split(".").slice(-1).join("");
-        var _package = Package(packageName);
-        var packageClasses = (typeof _package !== "undefined") ? (_package.filter((classFactory:any) => {
+        const packageName = className.split(".").slice(0, className.split(".").length - 1).join(".");
+        const _className = className.split(".").slice(-1).join("");
+        const _package = Package(packageName);
+        const packageClasses = (typeof _package !== "undefined") ? (_package.filter((classFactory:any) => {
             return isQCObjects_Class(classFactory) &&
                 (classFactory.__definition.__classType === _className || (typeof classFactory === "function" && !!classFactory.name));
         }).reverse()) : ([]);

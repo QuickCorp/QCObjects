@@ -9,7 +9,7 @@ class ConfigSettings {
   static get instance() {
 
     if (this._instance === null) {
-      var _config_settings = new ConfigSettings();
+      const _config_settings = new ConfigSettings();
       _config_settings._CONFIG = {
         "relativeImportPath": "",
         "remoteImportsPath": "",
