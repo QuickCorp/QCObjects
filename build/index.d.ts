@@ -194,9 +194,10 @@ declare module "Processor" {
     }
 }
 declare module "routings" {
-    export const __routing_params__: (routing: any, routingPath: any) => any;
-    export const __valid_routings__: (routings: any, routingPath: any) => any;
-    export const __valid_routing_way__: (validRoutingWays: any, routingWay: any) => any;
+    import { ComponentRouting } from "types/global";
+    export const __routing_params__: any;
+    export const __valid_routings__: (routings: ComponentRouting[], routingPath: string) => ComponentRouting[];
+    export const __valid_routing_way__: (validRoutingWays: string[], routingWay: string) => boolean;
 }
 declare module "Export" {
     export const Export: (f: any) => void;
@@ -322,8 +323,8 @@ declare module "Component" {
         get parsedAssignmentText(): any;
         set shadowRoot(value: QCObjectsShadowedElement);
         get shadowRoot(): QCObjectsShadowedElement;
-        set routingSelected(value: any);
-        get routingSelected(): any;
+        set routingSelected(value: ComponentRouting[]);
+        get routingSelected(): ComponentRouting[];
         set routingParams(value: {});
         get routingParams(): {};
         createServiceInstance(): Promise<JSON | string | null>;
