@@ -2,12 +2,13 @@ import { Component } from "types/global";
 import { logger } from "./Logger";
 import { Processor } from "./Processor";
 import { _top } from "./top";
+import { range } from "./range";
 
 // Set Processors
 export const setDefaultProcessors = () => {
     (function (_top) {
 
-        let mapper = function (componentInstance:Component, componentName, valueName) {
+        let mapper = function (componentInstance:Component, componentName:string, valueName:string) {
             /*
              * Mapper processor
              * @usage
@@ -27,8 +28,8 @@ export const setDefaultProcessors = () => {
             let list = (typeof dataValue !== "undefined") ? (dataValue) : ((typeof componentValue !== "undefined") ? (componentValue) : (globalValue));
             let listItems = "";
             if (typeof list !== "undefined" && typeof list["map"] !== "undefined") {
-                listItems = list.map(function (element) {
-                    let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${(typeof element[k] !== "undefined" && element[k] !== null) ? (element[k].toString()) : ("")}"`).join("");
+                listItems = list.map(function (element:HTMLElement) {
+                    let dataItems = [...Object.keys(element)].map(k => ` data-${k}="${(typeof (element as any)[k] !== "undefined" && (element as any)[k] !== null) ? ((element as any)[k].toString()) : ("")}"`).join("");
                     return `<quick-component name="${componentName}" ${dataItems} ></quick-component>`;
                 }).join("");
             } else {
@@ -38,7 +39,7 @@ export const setDefaultProcessors = () => {
         };
         Processor.setProcessor(mapper);
     
-        let layout = function (componentInstance, layoutname, cssfile) {
+        let layout = function (componentInstance:Component, layoutname:string, cssfile:string) {
             /*
              * Layout processor
              * @usage
@@ -70,7 +71,7 @@ export const setDefaultProcessors = () => {
                 "portrait": layout_portrait
             };
     
-            return (Object.hasOwnProperty.call(layout_code, layoutname)) ? (layout_code[layoutname]) : ("");
+            return (Object.hasOwnProperty.call(layout_code, layoutname)) ? ((layout_code as any)[layoutname]) : ("");
         };
     
         Processor.setProcessor(layout);
@@ -91,7 +92,7 @@ export const setDefaultProcessors = () => {
                 return Object.assign(k1, k2);
             });
             let attrs = [...Object.keys(arg)].map(function (a) {
-                return `${a}=${arg[a]}`;
+                return `${a}=${arg[a as any]}`;
             }).join(" ");
             return `<component ${attrs}></component>`;
         };
@@ -114,7 +115,7 @@ export const setDefaultProcessors = () => {
                 return Object.assign(k1, k2);
             });
             let attrs = [...Object.keys(arg)].map(function (a) {
-                return `${a}=${arg[a]}`;
+                return `${a}=${arg[a as any]}`;
             }).join(" ");
             return `<quick-component ${attrs}></quick-component>`;
         };
@@ -122,14 +123,14 @@ export const setDefaultProcessors = () => {
         Processor.setProcessor(quick_component);
     
     
-        let repeat = function (componentInstance, length, text) {
+        let repeat = function (componentInstance:Component, length:number, text:string) {
             /*
              * Repeat processor
              * @usage
              *        $repeat(<length>, <text>)
              * Where length is the number of occurrences of text
              */
-            return _top.range(length).map(
+            return range(length).map(
                 function (index) {
                     return text.replace("{{index}}", index.toString());
                 }

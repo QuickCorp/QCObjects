@@ -78,10 +78,9 @@ import { _Crypt } from "./Crypt";
 import { DefaultTemplateHandler } from "./DefaultTemplateHandler";
 import { SourceJS } from "./SourceJS";
 import { SourceCSS } from "./SourceCSS";
-import { __start__, _ComponentWidget_, _sdk_, ArrayCollection, ArrayList, DDO, get, getDocumentLayout, GLOBAL, range, set, Toggle } from "types/PrimitiveTypes";
 import { GlobalSettings } from "./globalSettings";
 import { RegisterClass } from "./RegisterClass";
-import { RegisterWidget, RegisterWidgets } from "./WidgetsFactory";
+import { _ComponentWidget_, RegisterWidget, RegisterWidgets } from "./WidgetsFactory";
 import { CONFIG } from "./CONFIG";
 import { Controller } from "./Controller";
 import { View } from "./View";
@@ -91,7 +90,11 @@ import { Effect } from "./Effect";
 import { TransitionEffect } from "./TransitionEffect";
 import { Timer } from "./Timer";
 import { _tag_filter_ } from "./tag_filter";
-import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsElement, ShadowRoot, String } from "types/global";
+import { Array, ArrayConstructor, Document, Element, get, GLOBAL, HTMLElement, QCObjectsElement, set, ShadowRoot, String } from "types/global";
+import { range } from "./range";
+import { ArrayCollection, ArrayList } from "./ArrayCollection";
+import { DDO } from "./DDO";
+import { Toggle } from "./Toggle";
 
 (function __qcobjects__(_top: any) {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -168,11 +171,12 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
      * Basic Type of all elements
      */
     if (isBrowser) {
-      (Element as unknown as Element).prototype.find = function (tag: string): Array<HTMLElement | QCObjectsElement> {
-        var _oo = [];
+      (Element as unknown as Element).prototype.find = function (tag: string): (HTMLElement | QCObjectsElement)[] {
+        var _self = this;
+        var _oo:(HTMLElement | QCObjectsElement)[] = [];
         var _tags = (document as unknown as Document).subelements(tag);
         _tags.map(function (_tt, _t) {
-          if ((typeof _tags[_t] !== "undefined") && (_tags[_t].parentNode as Element).tagName === this.parentNode.tagName) {
+          if ((typeof _tags[_t] !== "undefined") && (_tags[_t].parentNode as Element).tagName === _self.parentNode.tagName) {
             _oo.push(_Cast(_tt, (new Object())));
           }
         });
@@ -185,7 +189,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
         if (isQCObjects_Object(child) || typeof (child as any).body !== "undefined") {
           this.appendChild((child as any).body);
         } else {
-          this.appendChild(child);
+          this.appendChild(child as any);
         }
       };
 
@@ -194,7 +198,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
        * use: [element].render('content') where 'content' is the string corresponding
        * to the DOM to insert in the element
        **/
-      (Element as unknown as Element).prototype.render = function QC_Render(content) {
+      (Element as unknown as Element).prototype.render = function QC_Render(content:string) {
         var _self = this;
         var _appendVDOM = function (_self, content) {
           if (typeof document.implementation.createHTMLDocument !== "undefined") {
@@ -479,18 +483,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
     (_protected_code_)((Array as unknown as ArrayConstructor).matrix3d);
     (_protected_code_)((Array as unknown as Array<any>).prototype.matrix3d);
 
-    _top.range = function (start, stop = 0, step = 1) {
-      if (stop === 0 || typeof stop === "undefined") {
-        stop = start;
-        start = 0;
-      }
-      return Array.from({
-        length: (stop - start) / step + 1
-      }, function (_, i) {
-        return start + (i * step);
-      });
-    };
-    (_protected_code_)(_top.range);
+
 
     (String as unknown as String).prototype.list = function () {
       var __instance = this;
