@@ -1,6 +1,7 @@
 import { _basePath_ } from "./basePath";
 import { _Cast } from "./Cast";
 import { Class } from "./Class";
+import { _domain_ } from "./domain";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { isBrowser } from "./platform";
 
@@ -12,18 +13,18 @@ export const SourceCSS = Class("SourceCSS", Object, {
     data: {},
     async: false,
     external: false,
-    set(name, value) {
+    set(name:string, value:any) {
       this[name] = value;
     },
-    get(name) {
-      return this[name];
+    get(name:string, _default?:any) {
+      return this[name] || _default;
     },
     done() { },
     rebuild() {
       var context = this;
       if (isBrowser) {
         window.document.getElementsByTagName("head")[0].appendChild(
-          (function (s, url, context) {
+          (function (s:any, url:string, context:any) {
             s.type = "text/css";
             s.rel = "stylesheet";
             s.href = url;
@@ -41,10 +42,10 @@ export const SourceCSS = Class("SourceCSS", Object, {
             (this.external) ? (this.url) : (this.basePath + this.url), context));
       }
     },
-    Cast(o) {
+    Cast(o:any) {
       return _Cast(this, o);
     },
-    _new_(properties) {
+    _new_(properties:any) {
       this.__new__(properties);
       this.rebuild();
     }

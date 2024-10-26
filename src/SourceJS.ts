@@ -1,5 +1,7 @@
 import { _basePath_ } from "./basePath";
+import { _Cast } from "./Cast";
 import { Class } from "./Class";
+import { _domain_ } from "./domain";
 import { _DOMCreateElement } from "./DOMCreateElement";
 
 export const SourceJS = Class("SourceJS", Object, {
@@ -12,11 +14,11 @@ export const SourceJS = Class("SourceJS", Object, {
     data: {},
     async: false,
     external: false,
-    set(name, value) {
+    set(name:string, value:any) {
       this[name] = value;
     },
-    get(name) {
-      return this[name];
+    get(name:string, _default?:any) {
+      return this[name] || _default;
     },
     status: false,
     done() { },
@@ -25,7 +27,7 @@ export const SourceJS = Class("SourceJS", Object, {
       var context = this;
       try {
         document.getElementsByTagName(context.containerTag)[0].appendChild(
-          (function (s, url, context) {
+          (function (s:any, url:string, context:any) {
             s.type = context.type;
             s.src = url;
             s.crossOrigin = (Object.hasOwnProperty.call(context, "crossOrigin")) ? (context.crossOrigin) : ("anonymous");
@@ -35,11 +37,11 @@ export const SourceJS = Class("SourceJS", Object, {
                 context.done.call(context);
               }
             };
-            s.onload = function (e) {
+            s.onload = function (e:any) {
               context.status = true;
               context.done.call(context, e);
             };
-            s.onerror = function (e) {
+            s.onerror = function (e:any) {
               context.status = false;
               context.fail.call(context, e);
             };
@@ -53,10 +55,10 @@ export const SourceJS = Class("SourceJS", Object, {
         context.fail.call(context, e);
       }
     },
-    Cast(o) {
+    Cast(o:any) {
       return _Cast(this, o);
     },
-    _new_(properties) {
+    _new_(properties:any) {
       this.__new__(properties);
       this.rebuild();
     }
