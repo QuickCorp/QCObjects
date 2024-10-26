@@ -32,21 +32,18 @@
 "use strict";
 
 import "./assign";
-import { Promise } from "./Promise";
-import { Base64 } from "./Base64";
 import { _DataStringify } from "./DataStringify";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { _methods_, _protected_code_ } from "./introspection";
-import { localStorage } from "./localStorage";
 import { logger, Logger } from "./Logger";
-import { _require_, is_phonegap, isBrowser, isDeno, isNodeCommonJS } from "./platform";
+import { _require_, is_phonegap, isBrowser, isNodeCommonJS } from "./platform";
 import { subelements } from "./subelements";
 import { _top, resetTop } from "./top";
 import { __is_raw_class__ } from "./is_raw_class";
 import { _LegacyCopy } from "./LegacyCopy";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
 import { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "./PrimaryCollections";
-import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
+import { __instanceID } from "./IncrementInstanceID";
 import { ObjectName } from "./ObjectName";
 import { __getType__ } from "./getType";
 import { is_a } from "./is_a";
@@ -95,6 +92,8 @@ import { range } from "./range";
 import { ArrayCollection, ArrayList } from "./ArrayCollection";
 import { DDO } from "./DDO";
 import { Toggle } from "./Toggle";
+import { findPackageNodePath } from "./findPackageNodePath";
+import { getDocumentLayout } from "./DocumentLayout";
 
 (function __qcobjects__(_top: any) {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -128,38 +127,6 @@ import { Toggle } from "./Toggle";
       if (typeof ShadowRoot !== "undefined") {
         (ShadowRoot as unknown as ShadowRoot).prototype.subelements = subelements;
       }
-    }
-    if (isBrowser) {
-      try {
-        _top = (typeof window.top !== "undefined") ? (window.top) : (window);
-        _top["_allowed_"] = true;
-      } catch (e) {
-        try {
-          _top = document;
-          _top["_allowed_"] = true;
-        } catch (e2) {
-          try {
-            _top = global;
-            _top["_allowed_"] = true;
-          } catch (e3) {
-            _top = {};
-            _top["_allowed_"] = true;
-          }
-        }
-      }
-    } else if (typeof global !== "undefined") {
-      _top = global;
-    }
-    if (isBrowser) {
-      if (typeof _top.console === "undefined") {
-        _top.console = function () { };
-        _top.console.prototype.log = function (message) { };
-      }
-
-
-    } else {
-      // This is only for code integrity purpose using non-browser implementations
-      // like using node.js
     }
 
 
@@ -200,7 +167,7 @@ import { Toggle } from "./Toggle";
        **/
       (Element as unknown as Element).prototype.render = function QC_Render(content:string) {
         var _self = this;
-        var _appendVDOM = function (_self, content) {
+        var _appendVDOM = function (_self:any, content:string) {
           if (typeof document.implementation.createHTMLDocument !== "undefined") {
             var doc = document.implementation.createHTMLDocument("");
             (doc as unknown as Element).innerHTML = content;
@@ -240,7 +207,7 @@ import { Toggle } from "./Toggle";
       /**
        * Adds a Cast functionality to every Element of DOM
        */
-      (Element as unknown as Element).prototype.Cast = function QC_Object(_o) {
+      (Element as unknown as Element).prototype.Cast = function QC_Object(_o:any) {
         _o.__definition.body = this;
         var _o = New(_o);
         return _o;
@@ -283,11 +250,11 @@ import { Toggle } from "./Toggle";
     /**
      * Array math functions
      */
-    var __to_number = function (value): number | Number {
+    var __to_number = function (value:any): number | Number {
       return ((isNaN(value)) ? (new Number(0)) : (new Number(value)) as number);
     };
     (Array as unknown as Array<any>).prototype.unique = function () {
-      return this.filter(function (value, index, self) {
+      return this.filter(function (value:any, index:any, self:any) {
         return self.indexOf(value) === index;
       });
     };
@@ -305,7 +272,7 @@ import { Toggle } from "./Toggle";
     (_protected_code_)((Array as unknown as ArrayConstructor).table);
     (_protected_code_)((Array as unknown as Array<any>).prototype.table);
     (Array as unknown as Array<any>).prototype.sum = function () {
-      return this.reduce(function (prev, current) {
+      return this.reduce(function (prev:any, current:any) {
         return (__to_number(prev) as number) + (__to_number(current) as number);
       }, 0);
     };
@@ -315,7 +282,7 @@ import { Toggle } from "./Toggle";
     (_protected_code_)((Array as unknown as ArrayConstructor).sum);
     (_protected_code_)((Array as unknown as Array<any>).prototype.sum);
     (Array as unknown as Array<any>).prototype.avg = function () {
-      return (this.length < 1) ? (0) : (this.reduce(function (prev, current) {
+      return (this.length < 1) ? (0) : (this.reduce(function (prev:any, current:any) {
         return (((__to_number(prev) as number) + (__to_number(current) as number)) / 2);
       }));
     };
@@ -325,7 +292,7 @@ import { Toggle } from "./Toggle";
     (_protected_code_)((Array as unknown as ArrayConstructor).avg);
     (_protected_code_)((Array as unknown as Array<any>).prototype.avg);
     (Array as unknown as Array<any>).prototype.min = function () {
-      return this.reduce(function (prev, current) {
+      return this.reduce(function (prev:any, current:any) {
         return (__to_number(prev) <= __to_number(current)) ? (prev) : (current);
       }, Infinity);
     };
@@ -335,7 +302,7 @@ import { Toggle } from "./Toggle";
     (_protected_code_)((Array as unknown as ArrayConstructor).min);
     (_protected_code_)((Array as unknown as Array<any>).prototype.min);
     (Array as unknown as Array<any>).prototype.max = function () {
-      return this.reduce(function (prev, current) {
+      return this.reduce(function (prev:any, current:any) {
         return (__to_number(prev) >= __to_number(current)) ? (prev) : (current);
       }, 0);
     };
@@ -344,13 +311,13 @@ import { Toggle } from "./Toggle";
     };
     (_protected_code_)((Array as unknown as ArrayConstructor).max);
     (_protected_code_)((Array as unknown as Array<any>).prototype.max);
-    (Array as unknown as Array<any>).prototype.sortBy = function (propName, sortAsc = true) {
+    (Array as unknown as Array<any>).prototype.sortBy = function (propName:string, sortAsc = true) {
       var sort_function = (sortAsc) ? (
-        function (prev, current) {
+        function (prev:any, current:any) {
           return current[propName] < prev[propName] ? 1 : -1;
         }
       ) : (
-        function (prev, current) {
+        function (prev:any, current:any) {
           return current[propName] > prev[propName] ? 1 : -1;
         }
       );
@@ -388,7 +355,7 @@ import { Toggle } from "./Toggle";
      * console.log(matrix);
      * // Output: [null, null, null, null]
      */
-    (Array as unknown as Array<any>).prototype.matrix = function (_length, _fillValue = 0) {
+    (Array as unknown as Array<any>).prototype.matrix = function (_length:number, _fillValue = 0) {
       var x_func = function (x = undefined) {
         return _fillValue;
       };
@@ -421,11 +388,11 @@ import { Toggle } from "./Toggle";
     (_protected_code_)((Array as unknown as Array<any>).prototype.matrix);
 
 
-    (Array as unknown as Array<any>).prototype.matrix2d = function (_length, _fillValue = 0) {
-      var y_func = function (y) {
+    (Array as unknown as Array<any>).prototype.matrix2d = function (_length:number, _fillValue = 0) {
+      var y_func = function (y:any) {
         return _fillValue;
       };
-      var x_func = function (x) {
+      var x_func = function (x:any) {
         return Array.from({
           length: _length
         }, y_func);
@@ -441,15 +408,15 @@ import { Toggle } from "./Toggle";
     (_protected_code_)((Array as unknown as ArrayConstructor).matrix2d);
     (_protected_code_)((Array as unknown as Array<any>).prototype.matrix2d);
 
-    (Array as unknown as Array<any>).prototype.matrix3d = function (_length, _fillValue = 0) {
-      var y_func = function (y) {
+    (Array as unknown as Array<any>).prototype.matrix3d = function (_length:number, _fillValue = 0) {
+      var y_func = function (y:any) {
         return Array.from({
           length: _length
         }, function () {
           return _fillValue;
         });
       };
-      var x_func = function (x) {
+      var x_func = function (x:any) {
         return Array.from({
           length: _length
         }, y_func);
@@ -471,28 +438,12 @@ import { Toggle } from "./Toggle";
 
     (String as unknown as String).prototype.list = function () {
       var __instance = this;
-      return _top.range(0, __instance.length - 1).map(function (i) {
+      return _top.range(0, __instance.length - 1).map(function (i:any) {
         return __instance[i];
       });
     };
     (_protected_code_)((String as unknown as String).prototype.list);
 
-    _top.getDocumentLayout = function () {
-      var h = (w, h) => {
-        return w > h ? "landscape" : null;
-      };
-      var v = (w, h) => {
-        return h > w ? "portrait" : null;
-      };
-      var square = (w, h) => {
-        return w === h ? "square" : null;
-      };
-      return [
-        h(document.documentElement.clientWidth, document.documentElement.clientHeight),
-        v(document.documentElement.clientWidth, document.documentElement.clientHeight),
-        square(document.documentElement.clientWidth, document.documentElement.clientHeight)
-      ].filter(e => e !== null).pop();
-    };
 
 
     /**
@@ -515,7 +466,7 @@ import { Toggle } from "./Toggle";
      * Load every component tag declared in the body
      **/
     Ready(function () {
-      if (!_top.CONFIG.get("useSDK")) {
+      if (!CONFIG.get("useSDK")) {
         _top.__start__();
       }
     });
@@ -545,8 +496,8 @@ import { Toggle } from "./Toggle";
           return;
         },
         get() {
-          var _get_packages_names = function (_packages) {
-            var _keys = [];
+          var _get_packages_names:Function = function (_packages:any[]) {
+            var _keys:any[] = [];
             for (var _k in _packages) {
               if (
                 typeof _packages[_k] !== "undefined" &&
@@ -570,19 +521,19 @@ import { Toggle } from "./Toggle";
           return;
         },
         get() {
-          return _top.PackagesNameList.map(function (packagename) {
+          return _top.PackagesNameList.map(function (packagename:string) {
             let _classesList = Package(packagename);
             let _ret_;
             if (_classesList) {
               _ret_ = {
                 packageName: packagename,
-                classesList: _classesList.filter(function (_packageClass) {
+                classesList: _classesList.filter(function (_packageClass:any) {
                   return isQCObjects_Class(_packageClass);
                 })
               };
             }
             return _ret_;
-          }).filter(function (_p) {
+          }).filter(function (_p:any) {
             return typeof _p !== "undefined";
           });
         }
@@ -594,10 +545,10 @@ import { Toggle } from "./Toggle";
           return;
         },
         get() {
-          var _classesList = [];
-          _top.PackagesList.map(function (_package_element) {
+          var _classesList:any[] = [];
+          _top.PackagesList.map(function (_package_element:any) {
             _classesList = _classesList.concat(_package_element.classesList.map(
-              function (_class_element) {
+              function (_class_element:any) {
                 return {
                   packageName: _package_element.packageName,
                   className: _package_element.packageName + "." + _class_element.__definition.__classType,
@@ -618,7 +569,7 @@ import { Toggle } from "./Toggle";
           return;
         },
         get() {
-          return _top.ClassesList.map(function (_class_element) {
+          return _top.ClassesList.map(function (_class_element:any) {
             return _class_element.className;
           });
         }
@@ -627,16 +578,16 @@ import { Toggle } from "./Toggle";
       if (isBrowser) {
         // use of GLOBAL word is deprecated in node.js
         // this is only for compatibility purpose with old versions of QCObjects in browsers
-        Class("GLOBAL", _QC_CLASSES["global"]); // case insensitive for compatibility con old versions;
+        Class("GLOBAL", (_QC_CLASSES as any)["global"]); // case insensitive for compatibility con old versions;
         Export(ClassFactory("GLOBAL"));
       }
       Export(global);
 
-      if (_top.CONFIG.get("useSDK")) {
+      if (CONFIG.get("useSDK")) {
         (function (_top) {
-          var remoteImportsPath = _top.CONFIG.get("remoteImportsPath");
-          var external = (!_top.CONFIG.get("useLocalSDK")) ? (true) : (false);
-          _top.CONFIG.set("remoteImportsPath", _top.CONFIG.get("remoteSDKPath"));
+          var remoteImportsPath = CONFIG.get("remoteImportsPath");
+          var external = (!CONFIG.get("useLocalSDK")) ? (true) : (false);
+          CONFIG.set("remoteImportsPath", CONFIG.get("remoteSDKPath"));
 
           var tryImportingSDK = false;
           var sdkName = "QCObjects-SDK";
@@ -664,7 +615,7 @@ import { Toggle } from "./Toggle";
                 } else {
                   logger.debug("QCObjects-SDK.js loaded from local");
                 }
-                _top.CONFIG.set("remoteImportsPath", remoteImportsPath);
+                CONFIG.set("remoteImportsPath", remoteImportsPath);
               }, external);
             }
           } else {
@@ -675,7 +626,7 @@ import { Toggle } from "./Toggle";
     })(_top);
 
     if (isBrowser) {
-      asyncLoad(function () {
+      asyncLoad(function ():any {
         Ready(function () {
 
           /*
@@ -699,7 +650,7 @@ import { Toggle } from "./Toggle";
               document.body.clientWidth, document.documentElement.clientWidth
             );
 
-            function scrollDispatcher(event) {
+            function scrollDispatcher(event:any) {
               var percentY = Math.round(_top.scrollY * 100 / scrollHeight);
               var percentX = Math.round(_top.scrollX * 100 / scrollWidth);
               var scrollPercentEventEvent = new CustomEvent("scrollpercent", {
@@ -741,7 +692,7 @@ import { Toggle } from "./Toggle";
           })(_top);
 
         });
-      }, null);
+      }, []);
     }
 
     if (!isBrowser) {
@@ -760,11 +711,11 @@ import { Toggle } from "./Toggle";
         Object.freeze(Object.prototype);
         Object.freeze(Object);
       };
-      if (isBrowser && _top.CONFIG.get("secureObjects", false)) {
+      if (isBrowser && CONFIG.get("secureObjects", false)) {
         Ready(function () {
           __freeze__();
         });
-      } else if (_top.CONFIG.get("secureObjects", false)) {
+      } else if (CONFIG.get("secureObjects", false)) {
         __freeze__();
       }
     })(isBrowser);
@@ -784,8 +735,8 @@ export default {
   shortCode, __getType__, is_a,
   _DataStringify, serviceLoader, componentLoader, ObjectName, isQCObjects_Class, isQCObjects_Object, NamespaceRef,
   RegisterWidget, RegisterWidgets, range, getDocumentLayout, Export, New, Tag, Ready,
-  _methods_, set, get, __start__, InheritClass, Processor,
+  _methods_, set, get, InheritClass, Processor,
   Component, CONFIG, Controller, View, Service, JSONService,
   ConfigService, VO, Effect, TransitionEffect, Timer, Toggle,
-  logger, _sdk_, global, ClassFactory, Package, Import
+  logger, global, ClassFactory, Package, Import
 };

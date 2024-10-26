@@ -5,7 +5,8 @@ import { _top } from "./top";
 
 export const _asyncLoad = [];
 export const asyncLoad = function (callback: { (component: Component, _async?: any) : Promise<any>;
-                                              (service: any, _async?: any): Promise<unknown>
+                                              (service: any, _async?: any): Promise<unknown>;
+                                              (_async?: any):any;
                                                 }, args?: any[]) {
 
   class AsyncCallback {

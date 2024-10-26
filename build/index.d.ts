@@ -207,11 +207,13 @@ declare module "asyncLoad" {
     export const asyncLoad: (callback: {
         (component: Component, _async?: any): Promise<any>;
         (service: any, _async?: any): Promise<unknown>;
+        (_async?: any): any;
     }, args?: any[]) => {
         new (): {
             func: {
                 (component: Component, _async?: any): Promise<any>;
                 (service: any, _async?: any): Promise<unknown>;
+                (_async?: any): any;
             };
             args: any[] | undefined;
             dispatch(): void;
@@ -247,6 +249,7 @@ declare module "serviceLoader" {
             func: {
                 (component: import("Component").Component, _async?: any): Promise<any>;
                 (service: any, _async?: any): Promise<unknown>;
+                (_async?: any): any;
             };
             args: any[] | undefined;
             dispatch(): void;
@@ -269,6 +272,7 @@ declare module "componentLoader" {
             func: {
                 (component: Component, _async?: any): Promise<any>;
                 (service: any, _async?: any): Promise<unknown>;
+                (_async?: any): any;
             };
             args: any[] | undefined;
             dispatch(): void;
@@ -580,6 +584,9 @@ declare module "DefaultTemplateHandler" {
         assign(data: any): string;
     }
 }
+declare module "DocumentLayout" {
+    export const getDocumentLayout: () => string | undefined;
+}
 declare module "Effect" {
     import { EffectParams } from "types/global";
     import { InheritClass } from "InheritClass";
@@ -617,9 +624,6 @@ declare module "NamespaceRef" {
     };
 }
 declare module "assign" { }
-declare module "localStorage" {
-    export var localStorage: any;
-}
 declare module "subelements" {
     export const subelements: (query: string) => Array<any>;
 }
@@ -1520,11 +1524,13 @@ declare module "QCObjects" {
         asyncLoad: (callback: {
             (component: Component, _async?: any): Promise<any>;
             (service: any, _async?: any): Promise<unknown>;
+            (_async?: any): any;
         }, args?: any[]) => {
             new (): {
                 func: {
                     (component: Component, _async?: any): Promise<any>;
                     (service: any, _async?: any): Promise<unknown>;
+                    (_async?: any): any;
                 };
                 args: any[] | undefined;
                 dispatch(): void;
@@ -1544,6 +1550,7 @@ declare module "QCObjects" {
                 func: {
                     (component: Component, _async?: any): Promise<any>;
                     (service: any, _async?: any): Promise<unknown>;
+                    (_async?: any): any;
                 };
                 args: any[] | undefined;
                 dispatch(): void;
@@ -1554,6 +1561,7 @@ declare module "QCObjects" {
                 func: {
                     (component: Component, _async?: any): Promise<any>;
                     (service: any, _async?: any): Promise<unknown>;
+                    (_async?: any): any;
                 };
                 args: any[] | undefined;
                 dispatch(): void;
@@ -1568,7 +1576,7 @@ declare module "QCObjects" {
         RegisterWidget: (widgetName: any) => void;
         RegisterWidgets: () => void;
         range: (start: number, stop?: number, step?: number) => number[];
-        getDocumentLayout: any;
+        getDocumentLayout: () => string | undefined;
         Export: (f: any) => void;
         New: (__class__: any, args?: {}) => any;
         Tag: (tagname: any, innerHTML: any) => any;
@@ -1576,7 +1584,6 @@ declare module "QCObjects" {
         _methods_: (_: any) => any[];
         set: typeof set;
         get: typeof get;
-        __start__: any;
         InheritClass: any;
         Processor: typeof Processor;
         Component: typeof Component;
@@ -1592,7 +1599,6 @@ declare module "QCObjects" {
         Timer: typeof Timer;
         Toggle: typeof Toggle;
         logger: Logger;
-        _sdk_: any;
         global: typeof globalThis;
         ClassFactory: (className: string) => any;
         Package: (namespace: string, classes?: any[]) => any;
@@ -1606,6 +1612,9 @@ declare module "QCObjects" {
 declare module "index" {
     import QCObjects from "QCObjects";
     export default QCObjects;
+}
+declare module "localStorage" {
+    export var localStorage: any;
 }
 declare module "uniqueID" {
     export const uniqueId: () => any;
