@@ -5,7 +5,7 @@
      * @param {Object} args
      */
 
-    export const New = function (__class__, args = {}) {
+    export const New = function (__class__:any, args = {}) {
         args = (arguments.length > 1) ? (args) : ({});
         return (typeof __class__ === "undefined") ? (new Object()) : (new __class__(args));
       };
