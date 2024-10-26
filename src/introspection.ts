@@ -1,4 +1,4 @@
-export const _protected_code_ = function (_) {
+export const _protected_code_ = function (_:any) {
     var __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function () {
       return "";
     });
