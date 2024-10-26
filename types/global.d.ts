@@ -94,10 +94,13 @@ declare class TagElements extends Array {
     effect(): void;
     findElements(elementName: string): TagElements;
 }
+
+declare type DefaultTemplateHandlerParams = {component:Component, template:string};
+
 declare class DefaultTemplateHandler {
     template: string;
     __definition: any;
-    constructor({ component, template }:{component:Component, template:string});
+    constructor({ component, template }:DefaultTemplateHandlerParams);
     assign(data: any): any;
 }
 declare class SourceJS {

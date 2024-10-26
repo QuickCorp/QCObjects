@@ -1,3 +1,4 @@
+import { DefaultTemplateHandlerParams } from "types/global";
 import { logger } from "./Logger";
 import { Processor } from "./Processor";
 import { RegisterClass } from "./RegisterClass";
@@ -8,11 +9,11 @@ export class DefaultTemplateHandler {
     static __definition = {};
     component;
 
-    constructor({ component, template }) {
+    constructor({ component, template }:DefaultTemplateHandlerParams) {
       this.component = component;
       this.template = template;
     }
-    assign(data) {
+    assign(data:any) {
       var templateInstance = this;
       if (typeof templateInstance.component === "undefined") {
         throw new Error("DefaultTemplateHandler.assign: component is undefined");
@@ -30,7 +31,7 @@ export class DefaultTemplateHandler {
             try {
               _value = Processor.processObject.bind(processorHandler).call(processorHandler, _value, templateInstance.component);
               parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
-            } catch (e) {
+            } catch (e:any) {
               logger.warn(`${templateInstance.component.name} could not parse processors.`);
               throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
             }
@@ -41,7 +42,7 @@ export class DefaultTemplateHandler {
       }
       try {
         parsedAssignmentText = Processor.processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
-      } catch (e) {
+      } catch (e:any) {
         logger.warn(`${templateInstance.component.name} could not parse processors.`);
         throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
       }
