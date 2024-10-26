@@ -637,7 +637,7 @@ declare module "NamespaceRef" {
 }
 declare module "assign" { }
 declare module "subelements" {
-    export const subelements: (query: string) => Array<any>;
+    export const subelements: (this: any, query: string) => any[];
 }
 declare module "waitUntil" {
     export const waitUntil: (func: any, exp: any) => void;

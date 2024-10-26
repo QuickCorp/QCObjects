@@ -1,5 +1,4 @@
-import { QCObjectsElement } from "types/global";
-
-export const subelements = function subelements(query: string): Array<any> {
-  return [...this.querySelectorAll(query)];
+export const subelements = function subelements(this: any, query: string): any[] {
+  var _self = this;
+  return [..._self.querySelectorAll(query)];
 };
