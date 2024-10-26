@@ -55,7 +55,7 @@ export class Processor extends InheritClass implements IProcessor{
 
     static execute(component:Component, processorName:string, args:string) {
       var processorHandler = (typeof component !== "undefined" && component !== null) ? (component.processorHandler) : (this);
-      return processorHandler.processors[processorName].bind(processorHandler).apply(processorHandler, [component, args?.split(",")]);
+      return processorHandler?.processors[processorName].bind(processorHandler).apply(processorHandler, [component, args?.split(",")]);
     }
 
     static process(template:string, component:Component|null = null) {
@@ -74,7 +74,7 @@ export class Processor extends InheritClass implements IProcessor{
     }
 
     static processObject(obj:any, component:Component|null = null) {
-      var __instance__:Processor| typeof Processor = (component === null) ? (this) : (component.processorHandler);
+      var __instance__:Processor| typeof Processor | undefined = (component === null) ? (this) : (component.processorHandler);
       if (typeof __instance__ === "undefined") {
         __instance__ = new Processor({ component: component });
       }
@@ -82,9 +82,9 @@ export class Processor extends InheritClass implements IProcessor{
         Object.keys(obj).map(
           function (_k) {
             if (typeof obj[_k] === "object" && !obj[_k].hasOwnProperty.call(obj[_k], "call")) {
-              obj[_k] = __instance__.processObject.bind(__instance__)(obj[_k], component as Component);
+              obj[_k] = __instance__?.processObject.bind(__instance__)(obj[_k], component as Component);
             } else if (typeof obj[_k] === "string") {
-              obj[_k] = __instance__.process.bind(__instance__)(obj[_k], component as Component);
+              obj[_k] = __instance__?.process.bind(__instance__)(obj[_k], component as Component);
             }
           }
         );
