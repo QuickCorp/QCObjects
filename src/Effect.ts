@@ -1,6 +1,8 @@
+import { EffectParams } from "types/global";
 import { ClassFactory } from "./ClassFactory";
 import { InheritClass } from "./InheritClass";
 import { Package } from "./Package";
+
 export class Effect extends InheritClass {
   duration = 1000;
 
@@ -12,7 +14,8 @@ export class Effect extends InheritClass {
     timing,
     draw,
     duration
-  }) {
+  }: EffectParams) {
+    var _self: this = this;
 
     let start = performance.now();
 
@@ -30,11 +33,11 @@ export class Effect extends InheritClass {
         requestAnimationFrame(animate);
       } else {
         // if this is an object with a done method
-        if (typeof this !== "undefined" &&
-          this !== null &&
-          Object.hasOwnProperty.call(this, "done") &&
-          (typeof this.done).toLowerCase() === "function") {
-          this.done.call(this);
+        if (typeof _self !== "undefined" &&
+          _self !== null &&
+          Object.hasOwnProperty.call(_self, "done") &&
+          (typeof _self.done).toLowerCase() === "function") {
+          _self.done.call(_self);
         }
       }
 
@@ -46,4 +49,4 @@ export class Effect extends InheritClass {
 
 Package("com.qcobjects.effects.base", [
   Effect
-  ]);
+]);
