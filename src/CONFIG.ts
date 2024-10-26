@@ -1,4 +1,4 @@
-import { _basePath_, setBasePath } from "./basePath";
+import { setBasePath } from "./basePath";
 import { _CastProps } from "./Cast";
 import { Class } from "./Class";
 import { ClassFactory } from "./ClassFactory";

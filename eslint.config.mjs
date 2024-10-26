@@ -1,4 +1,9 @@
 import globals from "globals";
+import pluginJs from "@eslint/js";
+import tseslint from "typescript-eslint";
+
+
+
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
@@ -12,16 +17,8 @@ const compat = new FlatCompat({
     allConfig: js.configs.all
 });
 
-export default [{
-    ignores: [
-        "**/*.js",
-        "src/*.js",
-        "src/**/*.js",
-        "node_modules/**/*",
-        "**/node_modules"   
-    ],
-}, ...compat.extends("eslint:recommended"), {
-    languageOptions: {
+export default [
+    { languageOptions: {
         globals: {
             ...globals.browser,
             ...globals.node,
@@ -30,25 +27,33 @@ export default [{
         },
 
         ecmaVersion: "latest",
-        sourceType: "module",
+        sourceType: "module"
 
-        parserOptions: {
-            ecmaFeatures: {},
-        },
-    },
-
-    rules: {
-        semi: ["error", "always"],
-        quotes: ["error", "double"],
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-this-alias": "off",
-        "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/ban-types": "off",
-        "array-callback-return": "warn",
-        "no-useless-call": "off",
-        camelcase: "off",
-        "no-var": "off",
-    },
-
+    } },
+    pluginJs.configs.recommended,
+    ...tseslint.configs.recommended,
+    { files: ["**/*.{js,mjs,cjs,ts}"] }
+    ,{
+    ignores: [
+        "**/*.js",
+        "src/*.js",
+        "src/**/*.js",
+        "node_modules/**/*",
+        "**/node_modules"   
+    ],
+}, ...compat.extends("eslint:recommended"), {
     files: ["**/*.ts", "**/*.d.ts", "**/*.d.tsx", "**/*.tsx"]
-}];
+},
+{    rules: {
+    semi: ["error", "always"],
+    quotes: ["error", "double"],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-this-alias": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/ban-types": "off",
+    "array-callback-return": "warn",
+    "no-useless-call": "off",
+    camelcase: "off",
+    "no-var": "off",
+}}
+];

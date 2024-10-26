@@ -200,7 +200,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                                 "url": service.url,
                                 headers: service.headers
                             }, service.options);
-                            var req = request(service.url);
+                            req = request(service.url);
                             captureEvents(req);
                         } else if (serviceURL.protocol === "https:") {
                             const https = _require_("https");

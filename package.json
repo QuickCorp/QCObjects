@@ -108,7 +108,7 @@
     "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
-    "eslint": "^8.40.0",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^8.10.0",
     "eslint-config-semistandard": "^17.0.0",
     "eslint-config-standard": "^17.1.0",
@@ -120,7 +120,8 @@
     "jasmine": "^3.7.0",
     "qcobjects-sdk": "^2.4.66",
     "qcobjects-tsconfig": "^2.4.10",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.11.0"
   },
   "peerDependencies": {
     "@types/qcobjects": "github:QCObjects/-types-qcobjects",

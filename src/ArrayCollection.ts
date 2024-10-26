@@ -24,7 +24,7 @@ export const ArrayCollection = Class("ArrayCollection", Object, {
       logger.debug(value);
       self.source.pop(value);
     },
-    _new_(source: {} | undefined) {
+    _new_(source: [] | undefined) {
       const self = this;
       let _index = 0;
       self.source = New(ClassFactory("ArrayList"), source);
