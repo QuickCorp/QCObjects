@@ -69,7 +69,7 @@ export const _protected_code_ = function (_:any) {
     }
   };
   (_protected_code_)(Function);
-  export const _methods_ = function (_) {
+  export const _methods_ = function (_:any) {
     var _m = [];
     for (var i in _) {
       if ((typeof _[i]).toLowerCase() === "function") {
