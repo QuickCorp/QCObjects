@@ -1,4 +1,5 @@
 import { _basePath_ } from "./basePath";
+import { CONFIG } from "./CONFIG";
 import { _DataStringify } from "./DataStringify";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { findPackageNodePath } from "./findPackageNodePath";
@@ -14,29 +15,17 @@ import { _top } from "./top";
  * @param {Object} ready
  * @param {Boolean} external
  */
-export const Import = function () {
-    var packagename;
-    var ready = function () { };
-    var external = false;
-    if (arguments.length < 1) {
-        return;
-    } else if (arguments.length === 1) {
-        packagename = arguments[0];
-    } else if (arguments.length === 2) {
-        packagename = arguments[0];
-        ready = arguments[1];
-    } else if (arguments.length > 2) {
-        packagename = arguments[0];
-        ready = arguments[1];
-        external = arguments[2];
-        logger.debug("[Import] Setting external=" + external.toString() + " resource to import: " + packagename);
-    }
+export const Import = function (packagename:string, ready?:Function, external?:boolean):Promise<{_imported_?:any, _package_name_?:string}> | undefined {
+
+    if (external !== undefined){
+        logger.debug(`[Import] Setting external=${external.toString()} resource to import: ${packagename}`);
+    }    
     if (external) {
-        logger.debug("[Import] Registering external resource to import: " + packagename);
+        logger.debug(`[Import] Registering external resource to import: ${packagename}`);
     } else {
-        logger.debug("[Import] Registering local resource to import: " + packagename);
+        logger.debug(`[Import] Registering local resource to import: ${packagename}`);
     }
-    var _promise_import_;
+    var _promise_import_: Promise<any>;
     if (isBrowser) {
         _promise_import_ = new Promise(function (resolve, reject) {
 
@@ -54,14 +43,14 @@ export const Import = function () {
                 return ret;
             };
 
-            var readyImported = function (e) {
-                _QC_PACKAGES_IMPORTED.push(ready);
+            var readyImported = function (e: { target: { remove: () => void; }; }) {
+                _QC_PACKAGES_IMPORTED.push(ready as never);
                 if (allPackagesImported()) {
                     _QC_PACKAGES_IMPORTED.map(function (_imported_) {
                         _QC_READY_LISTENERS.push(_imported_);
                     });
                 }
-                if (isBrowser && _top.CONFIG.get("removePackageScriptAfterLoading")) {
+                if (isBrowser && CONFIG.get("removePackageScriptAfterLoading")) {
                     e.target.remove();
                 }
                 resolve.call(_promise_import_, {
@@ -71,22 +60,22 @@ export const Import = function () {
             };
 
             if (!_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES, packagename)) {
-                var s1 = _DOMCreateElement("script");
-                s1.type = _top.CONFIG.get("sourceType", "text/javascript");
-                s1.async = (_top.CONFIG.get("asynchronousImportsLoad")) ? (true) : (false);
-                s1.onreadystatechange = function () {
-                    if (s1.readyState === "complete") {
-                        readyImported.call();
+                var s1:HTMLScriptElement = _DOMCreateElement("script") as unknown as HTMLScriptElement;
+                s1.type = CONFIG.get("sourceType", "text/javascript");
+                s1.async = (CONFIG.get("asynchronousImportsLoad")) ? (true) : (false);
+                (s1 as any).onreadystatechange = function () {
+                    if ((s1 as any).readyState === "complete") {
+                        readyImported(s1 as any);
                     }
                 };
-                s1.onload = readyImported;
-                s1.onerror = function (e) {
+                (s1 as any).onload = readyImported;
+                s1.onerror = function (e: any) {
                     reject.call(_promise_import_, {
                         "_imported_": s1,
                         "_package_name_": packagename
                     });
                 };
-                s1.src = (external) ? (_top.CONFIG.get("remoteImportsPath") + packagename + ".js") : (_basePath_ + _top.CONFIG.get("relativeImportPath") + packagename + ".js");
+                s1.src = (external) ? (CONFIG.get("remoteImportsPath") + packagename + ".js") : (_basePath_ + CONFIG.get("relativeImportPath") + packagename + ".js");
                 document.getElementsByTagName("head")[0].appendChild(s1);
             }
         });
@@ -107,7 +96,7 @@ export const Import = function () {
                     if (jsNodePath !== null) {
                         packageAbsoluteName = jsNodePath + "/" + packagename + ".js";
                     } else {
-                        packageAbsoluteName = _basePath_ + _top.CONFIG.get("relativeImportPath") + packagename;
+                        packageAbsoluteName = _basePath_ + CONFIG.get("relativeImportPath") + packagename;
                     }
                 }
                 try {

@@ -58,13 +58,13 @@ declare module "getType" {
      *
      * @param {Object} object
      */
-    export const __getType__: (o_c: any) => string;
+    export const __getType__: (o_c: any) => any;
 }
 declare module "IncrementInstanceID" {
     /**
      * Primary instance ID of all objects
      */
-    export var __instanceID: any;
+    export var __instanceID: number;
     export const IncrementInstanceID: () => void;
 }
 declare module "introspection" {
@@ -99,101 +99,6 @@ declare module "PrimaryCollections" {
     export var _QC_PACKAGES_IMPORTED: never[];
     export var _QC_READY_LISTENERS: never[];
 }
-declare module "top" {
-    import { ComplexStorageCache, Component } from "types/global";
-    type QCObjects = {
-        lastCache?: ComplexStorageCache;
-        componentsStack: Component[];
-        Microservice: any;
-        Route: any;
-        BackendMicroservice: any;
-        QCObjectsElement: any;
-        QCObjectsShadowedElement: any;
-        Logger: any;
-        Class: any;
-        _Crypt: any;
-        TagElements: any;
-        DefaultTemplateHandler: any;
-        SourceJS: any;
-        SourceCSS: any;
-        ArrayList: any;
-        ArrayCollection: any;
-        GlobalSettings: any;
-        GLOBAL: any;
-        DDO: any;
-        CacheController: any;
-        ComplexCacheParams: any;
-        ComplexStorageCache: any;
-        ComponentWidget: any;
-        asyncLoad: any;
-        RegisterClass: any;
-        ComponentURI: any;
-        waitUntil: any;
-        super: any;
-        _DOMCreateElement: any;
-        shortCode: any;
-        getType: any;
-        is_a: any;
-        _DataStringify: any;
-        serviceLoader: any;
-        componentLoader: any;
-        ObjectName: any;
-        isQCObjects_Class: any;
-        isQCObjects_Object: any;
-        NamespaceRef: any;
-        RegisterWidget: any;
-        RegisterWidgets: any;
-        range: any;
-        getDocumentLayout: any;
-        Export: any;
-        New: any;
-        Tag: any;
-        Ready: any;
-        methods: any;
-        set: any;
-        get: any;
-        start: any;
-        InheritClass: any;
-        Processor: any;
-        ComponentParams: any;
-        ComponentDoneResponse: any;
-        Component: any;
-        CONFIG: any;
-        ControllerParams: any;
-        Controller: any;
-        ViewParams: any;
-        View: any;
-        Service: any;
-        JSONService: any;
-        ConfigService: any;
-        VO: any;
-        EffectParams: any;
-        Effect: any;
-        TransitionEffect: any;
-        TimerParams: any;
-        Timer: any;
-        Toggle: any;
-        logger: any;
-        sdk: any;
-        global: any;
-        ClassFactory: any;
-        Package: any;
-        Import: any;
-    } | typeof self | typeof window | typeof global;
-    export var _top: QCObjects;
-    export const componentsStack: Component[];
-    export const resetTop: (_top_: QCObjects) => void;
-}
-declare module "Class" {
-    /**
-     * Creates new object class  of another object
-     *
-     * @param {String} name
-     * @param {Object} type
-     * @param {Object} definition
-     */
-    export const Class: (name?: string, type?: any, definition?: any) => any;
-}
 declare module "isQCObjects" {
     export const isQCObjects_Object: (_: any) => boolean;
     export const isQCObjects_Class: (_: any) => boolean;
@@ -217,18 +122,14 @@ declare module "Package" {
 declare module "ClassFactory" {
     export const ClassFactory: (className: string) => any;
 }
-declare module "New" {
-    /**
-     * Creates an object from a Class definition
-     *
-     * @param {QC_Object} o
-     * @param {Object} args
-     */
-    export const New: (__class__: any, args?: {}) => any;
-}
-declare module "ArrayCollection" {
-    export const ArrayList: any;
-    export const ArrayCollection: any;
+declare module "Base64" {
+    export const Base64: {
+        _keyStr: string;
+        encode(e: string): string;
+        decode(e: string): string;
+        _utf8_encode(e: string): string;
+        _utf8_decode(e: string): string;
+    };
 }
 declare module "basePath" {
     export var _basePath_: string;
@@ -243,46 +144,14 @@ declare module "domain" {
 declare module "InheritClass" {
     export const InheritClass: any;
 }
-declare module "BackendMicroservice" {
-    import { InheritClass } from "InheritClass";
-    export class BackendMicroservice extends InheritClass {
-        body: any;
-        stream: any;
-        route: any;
-        headers: any;
-        request: any;
-        constructor({ domain, basePath, body, stream, request }: {
-            domain?: string | undefined;
-            basePath?: string | undefined;
-            body?: null | undefined;
-            stream?: null | undefined;
-            request?: null | undefined;
-        });
-        cors(): void;
-        head(formData: any): void;
-        get(formData: any): void;
-        post(formData: any): void;
-        put(formData: any): void;
-        delete(formData: any): void;
-        connect(formData: any): void;
-        options(formData: any): void;
-        trace(formData: any): void;
-        patch(formData: any): void;
-        finishWithBody(stream: {
-            write: (arg0: any) => void;
-            end: () => void;
-        }): void;
-        done(): void;
-    }
-}
-declare module "Base64" {
-    export const Base64: {
-        _keyStr: string;
-        encode(e: string): string;
-        decode(e: string): string;
-        _utf8_encode(e: string): string;
-        _utf8_decode(e: string): string;
-    };
+declare module "New" {
+    /**
+     * Creates an object from a Class definition
+     *
+     * @param {QC_Object} o
+     * @param {Object} args
+     */
+    export const New: (__class__: any, args?: {}) => any;
 }
 declare module "secretKey" {
     export const _secretKey: string;
@@ -291,6 +160,9 @@ declare module "Crypt" {
     export const _Crypt: any;
     export const _CryptObject: (o: any) => string;
     export const _DecryptObject: (s: string) => any;
+}
+declare module "CONFIG" {
+    export const CONFIG: any;
 }
 declare module "Processor" {
     import { Component, HTMLElement, IProcessor, QCObjectsElement, QCObjectsShadowedElement } from "types/global";
@@ -321,42 +193,6 @@ declare module "Processor" {
         static processObject(obj: any, component?: Component | null): any;
     }
 }
-declare module "CONFIG" {
-    export const CONFIG: any;
-}
-declare module "ComplexStorageCache" {
-    export class ComplexStorageCache {
-        constructor(params: {
-            index: any;
-            load: any;
-            alternate: any;
-        });
-        getItem(cachedObjectID: string): any;
-        setItem(cachedObjectID: string, value: any): void;
-        isEmpty(object: string | number | null): boolean;
-        getID(object: any): string | undefined;
-        save(object: any, cachedNewResponse: any): void;
-        getCached(object: any): any;
-        clear(): void;
-    }
-}
-declare module "ComponentFactory" {
-    import { ComponentURIParams } from "types/global";
-    import { Component } from "Component";
-    /**
-     * Returns a standarized uri for a component
-     * @example
-     * templateURI = ComponentURI({'COMPONENTS_BASE_PATH':'','COMPONENT_NAME':'','TPLEXTENSION':'','TPL_SOURCE':''})
-     * @author: Jean Machuca <correojean@gmail.com>
-     * @param params an object with the params to build the uri path
-     */
-    export const ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: ComponentURIParams) => string;
-    export const _buildComponentFromElement_: (element: {
-        getAttribute: (arg0: string) => string | null;
-        append: (arg0: any) => void;
-    }, __parent__: any) => any;
-    export const _buildComponentsFromElements_: (elements: any[], __parent__: Component | null) => any[];
-}
 declare module "routings" {
     export const __routing_params__: (routing: any, routingPath: any) => any;
     export const __valid_routings__: (routings: any, routingPath: any) => any;
@@ -382,6 +218,22 @@ declare module "asyncLoad" {
         };
     };
     export const _fireAsyncLoad: () => void;
+}
+declare module "ComplexStorageCache" {
+    export class ComplexStorageCache {
+        constructor(params: {
+            index: any;
+            load: any;
+            alternate: any;
+        });
+        getItem(cachedObjectID: string): any;
+        setItem(cachedObjectID: string, value: any): void;
+        isEmpty(object: string | number | null): boolean;
+        getID(object: any): string | undefined;
+        save(object: any, cachedNewResponse: any): void;
+        getCached(object: any): any;
+        clear(): void;
+    }
 }
 declare module "serviceLoader" {
     /**
@@ -523,6 +375,156 @@ declare module "Component" {
         runComponentHelpers(): void;
     }
 }
+declare module "ComponentFactory" {
+    import { ComponentURIParams, QCObjectsElement } from "types/global";
+    import { Component } from "Component";
+    /**
+     * Returns a standarized uri for a component
+     * @example
+     * templateURI = ComponentURI({'COMPONENTS_BASE_PATH':'','COMPONENT_NAME':'','TPLEXTENSION':'','TPL_SOURCE':''})
+     * @author: Jean Machuca <correojean@gmail.com>
+     * @param params an object with the params to build the uri path
+     */
+    export const ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: ComponentURIParams) => string;
+    export const _buildComponentFromElement_: (element: {
+        getAttribute: (arg0: string) => string | null;
+        append: (arg0: any) => void;
+    }, __parent__: any) => any;
+    export const _buildComponentsFromElements_: (elements: any[], __parent__: Component | null) => any[];
+    export const buildComponents: (element: QCObjectsElement, rebuildObjects?: boolean) => Component[];
+}
+declare module "top" {
+    import { ComplexStorageCache, Component } from "types/global";
+    type QCObjects = {
+        lastCache?: ComplexStorageCache;
+        componentsStack: Component[];
+        Microservice: any;
+        Route: any;
+        BackendMicroservice: any;
+        QCObjectsElement: any;
+        QCObjectsShadowedElement: any;
+        Logger: any;
+        Class: any;
+        _Crypt: any;
+        TagElements: any;
+        DefaultTemplateHandler: any;
+        SourceJS: any;
+        SourceCSS: any;
+        ArrayList: any;
+        ArrayCollection: any;
+        GlobalSettings: any;
+        GLOBAL: any;
+        DDO: any;
+        CacheController: any;
+        ComplexCacheParams: any;
+        ComplexStorageCache: any;
+        ComponentWidget: any;
+        asyncLoad: any;
+        RegisterClass: any;
+        ComponentURI: any;
+        waitUntil: any;
+        super: any;
+        _DOMCreateElement: any;
+        shortCode: any;
+        getType: any;
+        is_a: any;
+        _DataStringify: any;
+        serviceLoader: any;
+        componentLoader: any;
+        ObjectName: any;
+        isQCObjects_Class: any;
+        isQCObjects_Object: any;
+        NamespaceRef: any;
+        RegisterWidget: any;
+        RegisterWidgets: any;
+        range: any;
+        getDocumentLayout: any;
+        Export: any;
+        New: any;
+        Tag: any;
+        Ready: any;
+        methods: any;
+        set: any;
+        get: any;
+        start: any;
+        InheritClass: any;
+        Processor: any;
+        ComponentParams: any;
+        ComponentDoneResponse: any;
+        Component: any;
+        CONFIG: any;
+        ControllerParams: any;
+        Controller: any;
+        ViewParams: any;
+        View: any;
+        Service: any;
+        JSONService: any;
+        ConfigService: any;
+        VO: any;
+        EffectParams: any;
+        Effect: any;
+        TransitionEffect: any;
+        TimerParams: any;
+        Timer: any;
+        Toggle: any;
+        logger: any;
+        sdk: any;
+        global: any;
+        ClassFactory: any;
+        Package: any;
+        Import: any;
+    } | typeof self | typeof window | typeof global;
+    export var _top: QCObjects;
+    export let componentsStack: Component[];
+    export const resetTop: (_top_: QCObjects) => void;
+    export const buildComponentsStack: () => void;
+}
+declare module "Class" {
+    /**
+     * Creates new object class  of another object
+     *
+     * @param {String} name
+     * @param {Object} type
+     * @param {Object} definition
+     */
+    export const Class: (name?: string, type?: any, definition?: any) => any;
+}
+declare module "ArrayCollection" {
+    export const ArrayList: any;
+    export const ArrayCollection: any;
+}
+declare module "BackendMicroservice" {
+    import { InheritClass } from "InheritClass";
+    export class BackendMicroservice extends InheritClass {
+        body: any;
+        stream: any;
+        route: any;
+        headers: any;
+        request: any;
+        constructor({ domain, basePath, body, stream, request }: {
+            domain?: string | undefined;
+            basePath?: string | undefined;
+            body?: null | undefined;
+            stream?: null | undefined;
+            request?: null | undefined;
+        });
+        cors(): void;
+        head(formData: any): void;
+        get(formData: any): void;
+        post(formData: any): void;
+        put(formData: any): void;
+        delete(formData: any): void;
+        connect(formData: any): void;
+        options(formData: any): void;
+        trace(formData: any): void;
+        patch(formData: any): void;
+        finishWithBody(stream: {
+            write: (arg0: any) => void;
+            end: () => void;
+        }): void;
+        done(): void;
+    }
+}
 declare module "ConfigSettings" { }
 declare module "Controller" {
     import { ControllerParams, HTMLElement, IController, QCObjectsElement } from "types/global";
@@ -598,7 +600,10 @@ declare module "Import" {
      * @param {Object} ready
      * @param {Boolean} external
      */
-    export const Import: () => Promise<unknown> | undefined;
+    export const Import: (packagename: string, ready?: Function, external?: boolean) => Promise<{
+        _imported_?: any;
+        _package_name_?: string;
+    }> | undefined;
 }
 declare module "NamespaceRef" {
     /**
@@ -685,8 +690,8 @@ declare module "globalSettings" {
         __definition: {};
         __classType: string;
         constructor();
-        static set(name: any, value: any): void;
-        static get(name: any, _default: any): any;
+        static set(name: string, value: any): void;
+        static get(name: string, _default?: any): any;
         static __start__(): void;
     }
 }
@@ -1532,7 +1537,7 @@ declare module "QCObjects" {
         _super_: (className: any, classMethodName: any, params: any) => any;
         _DOMCreateElement: (elementName: string) => QCObjectsElement;
         shortCode: () => any;
-        __getType__: (o_c: any) => string;
+        __getType__: (o_c: any) => any;
         is_a: (obj: any, typeName: any) => boolean;
         _DataStringify: (data: any) => string;
         serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
@@ -1590,7 +1595,10 @@ declare module "QCObjects" {
         global: typeof globalThis;
         ClassFactory: (className: string) => any;
         Package: (namespace: string, classes?: any[]) => any;
-        Import: () => Promise<unknown> | undefined;
+        Import: (packagename: string, ready?: Function, external?: boolean) => Promise<{
+            _imported_?: any;
+            _package_name_?: string;
+        }> | undefined;
     };
     export default _default;
 }
