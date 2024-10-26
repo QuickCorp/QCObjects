@@ -1,13 +1,13 @@
 import { logger } from "./Logger";
 
-export const waitUntil = function (func, exp) {
-    var _waitUntil = function (func, exp) {
+export const waitUntil = function (func:Function, exp:Function) {
+    var _waitUntil = function (func:Function, exp:Function) {
       var maxWaitCycles = 2000;
       var _w = 0;
       var _t = setInterval(function () {
-        if (exp.call()) {
+        if (exp()) {
           clearInterval(_t);
-          func.call();
+          func();
           logger.debug("Ejecuting " + func.name + " after wait");
         } else {
           if (_w < maxWaitCycles) {

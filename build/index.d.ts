@@ -640,7 +640,7 @@ declare module "subelements" {
     export const subelements: (this: any, query: string) => any[];
 }
 declare module "waitUntil" {
-    export const waitUntil: (func: any, exp: any) => void;
+    export const waitUntil: (func: Function, exp: Function) => void;
 }
 declare module "super" {
     /**
@@ -1486,7 +1486,7 @@ declare module "QCObjects" {
         asyncLoad: typeof asyncLoad;
         RegisterClass: (_class_: any, __namespace?: string) => any;
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").ComponentURIParams) => string;
-        waitUntil: (func: any, exp: any) => void;
+        waitUntil: (func: Function, exp: Function) => void;
         _super_: (className: string, classMethodName: string, params?: any) => any;
         _DOMCreateElement: (elementName: string) => QCObjectsElement;
         shortCode: () => any;
