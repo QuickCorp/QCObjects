@@ -1,13 +1,14 @@
+import { Service } from "types/global";
 import { Component } from "./Component";
 import { Export } from "./Export";
 import { isBrowser } from "./platform";
 import { _top } from "./top";
 
 export const _asyncLoad = [];
-export const asyncLoad = function (callback: { (component: Component, _async?: any) : Promise<any>;
-                                              (service: any, _async?: any): Promise<unknown>;
-                                              (_async?: any):any;
-                                                }, args?: any[]) {
+export function asyncLoad(callback: (component: Component, _async?: any) => Promise<any>, args?: any[]): any;
+export function asyncLoad(callback: (service: Service, _async?: any) => Promise<unknown>, args?: any[]): any;
+export function asyncLoad(callback: (_async?: any) => any, args?: any[]): any;
+export function asyncLoad(callback: any, args?: any[]): any {
 
   class AsyncCallback {
     func = callback;

@@ -203,23 +203,12 @@ declare module "Export" {
     export const Export: (f: any) => void;
 }
 declare module "asyncLoad" {
+    import { Service } from "types/global";
     import { Component } from "Component";
     export const _asyncLoad: never[];
-    export const asyncLoad: (callback: {
-        (component: Component, _async?: any): Promise<any>;
-        (service: any, _async?: any): Promise<unknown>;
-        (_async?: any): any;
-    }, args?: any[]) => {
-        new (): {
-            func: {
-                (component: Component, _async?: any): Promise<any>;
-                (service: any, _async?: any): Promise<unknown>;
-                (_async?: any): any;
-            };
-            args: any[] | undefined;
-            dispatch(): void;
-        };
-    };
+    export function asyncLoad(callback: (component: Component, _async?: any) => Promise<any>, args?: any[]): any;
+    export function asyncLoad(callback: (service: Service, _async?: any) => Promise<unknown>, args?: any[]): any;
+    export function asyncLoad(callback: (_async?: any) => any, args?: any[]): any;
     export const _fireAsyncLoad: () => void;
 }
 declare module "ComplexStorageCache" {
@@ -238,24 +227,56 @@ declare module "ComplexStorageCache" {
         clear(): void;
     }
 }
+declare module "Service" {
+    import { ServiceDoneResponse } from "types/global";
+    import { InheritClass } from "InheritClass";
+    export class Service extends InheritClass {
+        kind: string;
+        domain: string;
+        basePath: string;
+        url: string;
+        method: string;
+        data: {};
+        reload: boolean;
+        cached: boolean;
+        constructor(...args: any[]);
+        set(name: string, value: any): void;
+        get(name: any, _default?: any): any;
+    }
+    export class JSONService extends Service {
+        method: string;
+        cached: boolean;
+        headers: {
+            "Content-Type": string;
+            charset: string;
+        };
+        JSONresponse: null;
+        done(result: ServiceDoneResponse): void;
+        constructor(...args: any[]);
+    }
+    export class ConfigService extends JSONService {
+        method: string;
+        cached: boolean;
+        configFileName: string;
+        headers: {
+            "Content-Type": string;
+            charset: string;
+        };
+        JSONresponse: null;
+        done(result: ServiceDoneResponse): void;
+        fail(...args: any[]): void;
+        constructor();
+    }
+}
 declare module "serviceLoader" {
+    import { Service } from "Service";
     /**
      * Loads a simple component from a template
      *
      * @author: Jean Machuca <correojean@gmail.com>
      * @param service a Service object
      */
-    export const serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
-        new (): {
-            func: {
-                (component: import("Component").Component, _async?: any): Promise<any>;
-                (service: any, _async?: any): Promise<unknown>;
-                (_async?: any): any;
-            };
-            args: any[] | undefined;
-            dispatch(): void;
-        };
-    } | undefined;
+    export const serviceLoader: (service: Service, _async?: boolean) => any;
 }
 declare module "tag_filter" {
     export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
@@ -268,17 +289,7 @@ declare module "componentLoader" {
      * @author: Jean Machuca <correojean@gmail.com>
      * @param component a Component object
      */
-    export const componentLoader: (component: Component, _async: boolean) => Promise<any> | {
-        new (): {
-            func: {
-                (component: Component, _async?: any): Promise<any>;
-                (service: any, _async?: any): Promise<unknown>;
-                (_async?: any): any;
-            };
-            args: any[] | undefined;
-            dispatch(): void;
-        };
-    };
+    export const componentLoader: (component: Component, _async: boolean) => any;
 }
 declare module "Component" {
     import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, IComponent, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global";
@@ -1046,47 +1057,6 @@ declare module "View" {
         });
     }
 }
-declare module "Service" {
-    import { ServiceDoneResponse } from "types/global";
-    import { InheritClass } from "InheritClass";
-    export class Service extends InheritClass {
-        kind: string;
-        domain: string;
-        basePath: string;
-        url: string;
-        method: string;
-        data: {};
-        reload: boolean;
-        cached: boolean;
-        constructor(...args: any[]);
-        set(name: string, value: any): void;
-        get(name: any, _default?: any): any;
-    }
-    export class JSONService extends Service {
-        method: string;
-        cached: boolean;
-        headers: {
-            "Content-Type": string;
-            charset: string;
-        };
-        JSONresponse: null;
-        done(result: ServiceDoneResponse): void;
-        constructor(...args: any[]);
-    }
-    export class ConfigService extends JSONService {
-        method: string;
-        cached: boolean;
-        configFileName: string;
-        headers: {
-            "Content-Type": string;
-            charset: string;
-        };
-        JSONresponse: null;
-        done(result: ServiceDoneResponse): void;
-        fail(...args: any[]): void;
-        constructor();
-    }
-}
 declare module "VO" {
     import { InheritClass } from "InheritClass";
     export class VO extends InheritClass {
@@ -1158,6 +1128,7 @@ declare module "Toggle" {
 declare module "QCObjects" {
     import "assign";
     import { Logger } from "Logger";
+    import { asyncLoad } from "asyncLoad";
     import { ComplexStorageCache } from "ComplexStorageCache";
     import { Processor } from "Processor";
     import { BackendMicroservice } from "BackendMicroservice";
@@ -1523,21 +1494,7 @@ declare module "QCObjects" {
                 focus(options?: FocusOptions): void;
             };
         };
-        asyncLoad: (callback: {
-            (component: Component, _async?: any): Promise<any>;
-            (service: any, _async?: any): Promise<unknown>;
-            (_async?: any): any;
-        }, args?: any[]) => {
-            new (): {
-                func: {
-                    (component: Component, _async?: any): Promise<any>;
-                    (service: any, _async?: any): Promise<unknown>;
-                    (_async?: any): any;
-                };
-                args: any[] | undefined;
-                dispatch(): void;
-            };
-        };
+        asyncLoad: typeof asyncLoad;
         RegisterClass: (_class_: any, __namespace?: string) => any;
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").ComponentURIParams) => string;
         waitUntil: (func: any, exp: any) => void;
@@ -1547,28 +1504,8 @@ declare module "QCObjects" {
         __getType__: (o_c: any) => any;
         is_a: (obj: any, typeName: string) => boolean;
         _DataStringify: (data: any) => string;
-        serviceLoader: (service: any, _async?: boolean) => Promise<unknown> | {
-            new (): {
-                func: {
-                    (component: Component, _async?: any): Promise<any>;
-                    (service: any, _async?: any): Promise<unknown>;
-                    (_async?: any): any;
-                };
-                args: any[] | undefined;
-                dispatch(): void;
-            };
-        } | undefined;
-        componentLoader: (component: Component, _async: boolean) => Promise<any> | {
-            new (): {
-                func: {
-                    (component: Component, _async?: any): Promise<any>;
-                    (service: any, _async?: any): Promise<unknown>;
-                    (_async?: any): any;
-                };
-                args: any[] | undefined;
-                dispatch(): void;
-            };
-        };
+        serviceLoader: (service: Service, _async?: boolean) => any;
+        componentLoader: (component: Component, _async: boolean) => any;
         ObjectName: (o: any) => string;
         isQCObjects_Class: (_: any) => boolean;
         isQCObjects_Object: (_: any) => boolean;

@@ -3,6 +3,8 @@ import { ComplexStorageCache } from "./ComplexStorageCache";
 import { _DataStringify } from "./DataStringify";
 import { logger } from "./Logger";
 import { _require_, isBrowser } from "./platform";
+import { Service } from "./Service";
+import { _top } from "./top";
 
 /**
  * Loads a simple component from a template
@@ -10,8 +12,8 @@ import { _require_, isBrowser } from "./platform";
  * @author: Jean Machuca <correojean@gmail.com>
  * @param service a Service object
  */
-export const serviceLoader = function (service, _async = false) {
-    var _serviceLoaderInBrowser = function (service, _async) {
+export const serviceLoader = function (service:Service, _async = false) {
+    var _serviceLoaderInBrowser:(service: Service, _async: any)=> Promise<unknown> = function (service:Service, _async:boolean):Promise<unknown> {
         var _promise = new Promise(
             function (resolve, reject) {
 
@@ -74,10 +76,10 @@ export const serviceLoader = function (service, _async = false) {
                 if (service.cached) {
                     var cache = new ComplexStorageCache({
                         index: service.data,
-                        load(cacheController) {
+                        load() {
                             _directLoad.call(this);
                         },
-                        alternate(cacheController) {
+                        alternate(cacheController:{ cache: { getCached: (arg0: any) => any; }; }) {
                             if (service.method === "GET") {
                                 service.template = cacheController.cache.getCached(service.name);
                                 if (typeof service.done === "function") {
@@ -89,14 +91,14 @@ export const serviceLoader = function (service, _async = false) {
                                     resolve.call(_promise, standardResponse);
                                 }
                             } else {
-                                _directLoad.call(this);
+                                _directLoad();
                             }
                             return;
                         }
                     });
-                    global.lastCache = cache;
+                    (_top as any).lastCache = cache;
                 } else {
-                    _directLoad.call(this);
+                    _directLoad();
                 }
 
                 return xhr;
@@ -105,7 +107,7 @@ export const serviceLoader = function (service, _async = false) {
         return _promise;
     };
 
-    var _serviceLoaderInNode = function (service, _async) {
+    var _serviceLoaderInNode = function (service:Service, _async:boolean) {
         var _promise = new Promise(
             function (resolve, reject) {
                 if (typeof URL === "undefined") {
@@ -117,9 +119,9 @@ export const serviceLoader = function (service, _async = false) {
                 service.useHTTP2 = Object.hasOwnProperty.call(service, "useHTTP2") && service.useHTTP2;
 
 
-                var captureEvents = function (req) {
+                var captureEvents = function (req:any) {
                     logger.debug("LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service.data)).replace("{{URL}}", service.url));
-                    var dataXML;
+                    var dataXML:any;
                     var standardResponse = {
                         "http2Client": client,
                         "request": req,
@@ -140,7 +142,7 @@ export const serviceLoader = function (service, _async = false) {
                     }
 
                     dataXML = "";
-                    req.on("response", (responseHeaders, flags) => {
+                    req.on("response", (responseHeaders:any, flags:any) => {
                         logger.debug("receiving response...");
                         standardResponse.responseHeaders = responseHeaders;
                         /*
@@ -150,7 +152,7 @@ export const serviceLoader = function (service, _async = false) {
                         */
                         dataXML = "";
                     });
-                    req.on("data", (chunk) => {
+                    req.on("data", (chunk:any) => {
                         logger.debug("receiving data...");
                         // do something with the data
                         dataXML += "" + chunk.toString();
@@ -209,7 +211,7 @@ export const serviceLoader = function (service, _async = false) {
                                 method: service.method,
                                 headers: service.headers
                             }, service.options);
-                            var _req_ = (https as any).request(requestOptions, function (req) {
+                            var _req_ = (https as any).request(requestOptions, function (req:any) {
                                 captureEvents(req);
                             });
                             _req_.end();
@@ -221,7 +223,7 @@ export const serviceLoader = function (service, _async = false) {
                     }
 
 
-                } catch (e) {
+                } catch (e:any) {
                     logger.debug(e);
                     service.fail.call(service, e);
                     reject.call(_promise, e);
@@ -236,7 +238,7 @@ export const serviceLoader = function (service, _async = false) {
 
     };
 
-    var _serviceLoaderMockup = function (service, _async) {
+    var _serviceLoaderMockup = function (service:Service, _async:boolean) {
         var _promise = new Promise(
             function (resolve, reject) {
                 logger.debug(`Calling mockup service ${service.name} ...`);
@@ -254,7 +256,7 @@ export const serviceLoader = function (service, _async = false) {
             });
         return _promise;
     };
-    var _serviceLoaderLocal = function (service, _async) {
+    var _serviceLoaderLocal = function (service:Service, _async:boolean) {
         var _promise = new Promise(
             function (resolve, reject) {
                 logger.debug(`Calling local service ${service.name} ...`);
@@ -278,7 +280,7 @@ export const serviceLoader = function (service, _async = false) {
         case "rest":
             if (isBrowser) {
                 if (typeof _async !== "undefined" && _async) {
-                    _ret_ = asyncLoad(_serviceLoaderInBrowser, arguments);
+                    _ret_ = asyncLoad(_serviceLoaderInBrowser, [service, _async]);
                 } else {
                     _ret_ = _serviceLoaderInBrowser(service, _async);
                 }
