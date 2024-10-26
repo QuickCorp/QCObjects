@@ -299,7 +299,7 @@ declare type ComponentDoneResponse = {
     component?: Component|any;
 };
 declare type ComponentRouting = {
-    path:string, name:string
+    path:string, name:string, tplextension?:string
 };
 declare type ComponentRoutings = ComponentRouting[];
 
@@ -336,7 +336,7 @@ declare interface IComponent {
     shadowRoot: QCObjectsShadowedElement;
     cacheIndex: string;
     parsedAssignmentText: string;
-    routingSelected: Array<any>;
+    routingSelected: ComponentRouting[];
     routingParams: {};
     subtags: (HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[];
     bodyAttributes: any;
@@ -407,7 +407,7 @@ declare class Component extends InheritClass implements IComponent {
     shadowRoot: QCObjectsShadowedElement;
     cacheIndex: string;
     parsedAssignmentText: string;
-    routingSelected: Array<any>;
+    routingSelected: ComponentRouting[];
     routingParams: {};
     subtags: (HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[];
     bodyAttributes: any;

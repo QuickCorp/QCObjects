@@ -7,7 +7,7 @@ export const __routing_params__:any = function (routing:ComponentRouting, routin
     };
 };
 
-export const __valid_routings__ = function (routings:ComponentRouting[], routingPath:string) {
+export const __valid_routings__ = function (routings:ComponentRouting[], routingPath:string):ComponentRouting[] {
     return routings.filter(function (routing) {
         var standardRoutingPath = routing.path.replace(/{(.*?)}/g, "(?<$1>.*)");
         return (new RegExp(standardRoutingPath, "g")).test(routingPath);

@@ -193,13 +193,13 @@ export class Component extends InheritClass implements IComponent{
     }
 
 
-    set routingSelected(value) {
+    set routingSelected(value:ComponentRouting[]) {
         logger.debug("[routingSelected] This is a read-only property of the component");
     }
 
-    get routingSelected() {
+    get routingSelected():ComponentRouting[] {
         var self = this;
-        return __valid_routings__(self.routings, self.routingPath);
+        return __valid_routings__(self.routings, self.routingPath) as ComponentRouting[];
     }
 
     set routingParams(value) {
@@ -824,7 +824,7 @@ export class Component extends InheritClass implements IComponent{
         var component = this;
         return new Promise<void>(function (resolve, reject) {
             if (isBrowser) {
-                if (__valid_routing_way__(component.validRoutingWays, component.routingWay)) {
+                if (__valid_routing_way__(component.validRoutingWays, component.routingWay || "")) {
                     if (typeof componentBody !== "undefined") {
                         component.innerHTML = componentBody.innerHTML;
                         component.routingNodes = componentBody.subelements("routing");
@@ -893,13 +893,13 @@ export class Component extends InheritClass implements IComponent{
         var rc = this;
         return new Promise(function (resolve, reject) {
             if (isBrowser) {
-                if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay)) {
+                if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay || "")) {
                     rc.routingPath = (location as any)[rc.routingWay as string];
-                    rc.routingSelected.map(function (routing: { name: { toString: () => any; }; tplextension: any; }, r: any) {
+                    rc.routingSelected.map(function (routing: ComponentRouting, r: any) {
                         var componentURI = ComponentURI({
                             "COMPONENTS_BASE_PATH": CONFIG.get("componentsBasePath"),
                             "COMPONENT_NAME": routing.name.toString(),
-                            "TPLEXTENSION": (Object.hasOwnProperty.call(routing, "tplextension")) ? (routing.tplextension) : (rc.tplextension),
+                            "TPLEXTENSION": (Object.hasOwnProperty.call(routing, "tplextension")) ? (routing.tplextension || "") : (rc.tplextension),
                             "TPL_SOURCE": "default" /* here is always default in order to get the right uri */
                         });
                         rc.templateURI = componentURI;
