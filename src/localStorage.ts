@@ -3,13 +3,13 @@ if (typeof localStorage === "undefined") {
 
     /* Polyfill for localStorage */
     localStorage = {
-        getItem(name) {
+        getItem(name:string) {
             return (Object.hasOwnProperty.call(this, name)) ? (this[name]) : (null);
         },
-        setItem(name, value) {
+        setItem(name:string, value:any) {
             this[name] = value;
         },
-        removeItem(name) {
+        removeItem(name:string) {
             delete this[name];
         }
     };
