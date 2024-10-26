@@ -1,4 +1,4 @@
-import { ComponentURIParams } from "types/global";
+import { ComponentURIParams, QCObjectsElement } from "types/global";
 import { Class } from "./Class";
 import { ClassFactory } from "./ClassFactory";
 import { Component } from "./Component";
@@ -10,6 +10,7 @@ import { New } from "./New";
 import { Package } from "./Package";
 import { isBrowser } from "./platform";
 import { _top } from "./top";
+import { _tag_filter_ } from "./tag_filter";
 
 /**
  * Returns a standarized uri for a component
@@ -113,3 +114,9 @@ export const _buildComponentsFromElements_ = function (elements: any[], __parent
     }
     return componentsBuiltWith;
 };
+
+export const buildComponents = (element:QCObjectsElement,rebuildObjects:boolean = false):Component[] => {
+    var tagFilter = _tag_filter_;
+    var elements = element.subelements(tagFilter);
+    return _buildComponentsFromElements_(elements, null);
+}

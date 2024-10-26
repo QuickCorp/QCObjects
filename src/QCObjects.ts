@@ -278,22 +278,6 @@ import { Toggle } from "./Toggle";
     Export(NamespaceRef);
 
 
-    if (isBrowser) {
-
-      (Element as unknown as Element).prototype.buildComponents = function (rebuildObjects = false) {
-        var tagFilter = _tag_filter_;
-        var d = this;
-        var elements = d.subelements(tagFilter);
-        return _buildComponentsFromElements_(elements, null);
-      };
-
-      (Document as unknown as Document).prototype.buildComponents = (Element as unknown as Element).prototype.buildComponents;
-      (HTMLElement as unknown as HTMLElement).prototype.buildComponents = (Element as unknown as Element).prototype.buildComponents;
-
-    } else {
-      // not yet implemented.
-    }
-
 
 
     /**

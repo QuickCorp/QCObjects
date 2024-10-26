@@ -1,4 +1,5 @@
-import { ComplexStorageCache, Component } from "types/global";
+import { ComplexStorageCache, Component, QCObjectsElement } from "types/global";
+import { buildComponents } from "./ComponentFactory";
 
 type QCObjects = {
     lastCache?:ComplexStorageCache,
@@ -81,10 +82,13 @@ type QCObjects = {
 } |  typeof self | typeof window | typeof global ;
 
 export var _top: QCObjects = (self || window || global ) as QCObjects;
-export const componentsStack:Component[] = [];
-(_top as any).componentsStack = componentsStack;
 (_top as any).lastCache = undefined;
+export let componentsStack:Component[] = [];
 
 export const resetTop = (_top_: QCObjects) => {
     _top = _top_;
 };
+
+export const buildComponentsStack = () => {
+    componentsStack = buildComponents(document as unknown as QCObjectsElement);
+}
