@@ -652,7 +652,7 @@ declare module "super" {
      * @param {String} classMethodName
      * @param {Object} params
      */
-    export const _super_: (className: any, classMethodName: any, params: any) => any;
+    export const _super_: (className: string, classMethodName: string, params?: any) => any;
 }
 declare module "shortCode" {
     export const shortCode: () => any;
@@ -690,7 +690,7 @@ declare module "Tag" {
      * @param {Object} tagname
      * @param {Object} innerHTML
      */
-    export const Tag: (tagname: any, innerHTML: any) => any;
+    export const Tag: (tagname: string, innerHTML?: string) => any;
 }
 declare module "SourceJS" {
     export const SourceJS: any;
@@ -1498,7 +1498,7 @@ declare module "QCObjects" {
         RegisterClass: (_class_: any, __namespace?: string) => any;
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").ComponentURIParams) => string;
         waitUntil: (func: any, exp: any) => void;
-        _super_: (className: any, classMethodName: any, params: any) => any;
+        _super_: (className: string, classMethodName: string, params?: any) => any;
         _DOMCreateElement: (elementName: string) => QCObjectsElement;
         shortCode: () => any;
         __getType__: (o_c: any) => any;
@@ -1518,7 +1518,7 @@ declare module "QCObjects" {
         getDocumentLayout: () => string | undefined;
         Export: (f: any) => void;
         New: (__class__: any, args?: {}) => any;
-        Tag: (tagname: any, innerHTML: any) => any;
+        Tag: (tagname: string, innerHTML?: string) => any;
         Ready: (e: any) => void;
         _methods_: (_: any) => any[];
         set: typeof set;
