@@ -75,7 +75,8 @@ export default [
     rules: {
         "no-dupe-class-members":"off",
         "@typescript-eslint/no-unsafe-function-type":"off",
-        "no-redeclare": "off"
+        "no-redeclare": "off",
+        "no-unsafe-member-access":"off"
     }
 }
 ];

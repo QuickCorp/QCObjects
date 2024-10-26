@@ -507,7 +507,7 @@ declare namespace global {
             fail(...args:any[]):void;
         }
         export type ServiceDoneResponse = { request: XMLHttpRequest, service: Service };
-        export class Service extends InheritClass {
+        export interface IService extends InheritClass {
             kind: string;
             domain: string;
             basePath: string;
@@ -518,6 +518,22 @@ declare namespace global {
             cached: boolean;
             headers: any;
             template: any;
+            set(name: string, value: any): void;
+            get(name: string): any;
+            done({request, service}:ServiceDoneResponse):void;
+            fail(...args: any[]):void;
+        }
+        export class Service extends InheritClass implements IService {
+            kind: string;
+            domain: string;
+            basePath: string;
+            url: string;
+            method: string;
+            data: any;
+            reload: boolean;
+            cached: boolean;
+            headers: any;
+            template: unknown;
             set(name: string, value: any): void;
             get(name: string): any;
             done({request, service}:ServiceDoneResponse):void;

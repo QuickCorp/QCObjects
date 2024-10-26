@@ -224,9 +224,9 @@ declare module "ComplexStorageCache" {
     }
 }
 declare module "Service" {
-    import { ServiceDoneResponse } from "types/global";
+    import { HTMLElement, IService, QCObjectsElement, QCObjectsShadowedElement, ServiceDoneResponse } from "types/global";
     import { InheritClass } from "InheritClass";
-    export class Service extends InheritClass {
+    export class Service extends InheritClass implements IService {
         kind: string;
         domain: string;
         basePath: string;
@@ -235,9 +235,18 @@ declare module "Service" {
         data: {};
         reload: boolean;
         cached: boolean;
-        constructor(...args: any[]);
-        set(name: string, value: any): void;
-        get(name: any, _default?: any): any;
+        headers: any;
+        template: unknown;
+        done({ request, service }: ServiceDoneResponse): void;
+        fail(...args: any[]): void;
+        __instanceID: number;
+        __classType?: string | undefined;
+        __definition?: any;
+        __new__?(): void;
+        __namespace?: string | undefined;
+        body?: string | QCObjectsElement | QCObjectsShadowedElement | HTMLElement | null | undefined;
+        set(name: string, value: never): void;
+        get(name: string, _default?: never): never;
     }
     export class JSONService extends Service {
         method: string;
@@ -246,9 +255,8 @@ declare module "Service" {
             "Content-Type": string;
             charset: string;
         };
-        JSONresponse: null;
+        JSONresponse: unknown;
         done(result: ServiceDoneResponse): void;
-        constructor(...args: any[]);
     }
     export class ConfigService extends JSONService {
         method: string;
@@ -260,7 +268,7 @@ declare module "Service" {
         };
         JSONresponse: null;
         done(result: ServiceDoneResponse): void;
-        fail(...args: any[]): void;
+        fail(): void;
         constructor();
     }
 }

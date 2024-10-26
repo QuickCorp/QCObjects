@@ -1,4 +1,4 @@
-import { ServiceDoneResponse } from "types/global";
+import { HTMLElement, IService, QCObjectsElement, QCObjectsShadowedElement, ServiceDoneResponse } from "types/global";
 import { _basePath_ } from "./basePath";
 import { _Crypt } from "./Crypt";
 import { _domain_ } from "./domain";
@@ -6,10 +6,9 @@ import { InheritClass } from "./InheritClass";
 import { logger } from "./Logger";
 import { Package } from "./Package";
 import { _secretKey } from "./secretKey";
-import { _top } from "./top";
 import { CONFIG } from "./CONFIG";
 
-export class Service extends InheritClass {
+export class Service extends InheritClass implements IService{
     kind = "rest";
     /* it can be rest, mockup, local */
     domain = _domain_;
@@ -20,16 +19,32 @@ export class Service extends InheritClass {
     reload = false;
     cached = false;
 
-    constructor(...args:any[]) {
-        super(args);
+    headers: any;
+    template: unknown;
+    
+    // eslint-disable-next-line no-unused-vars
+    done({ request, service }: ServiceDoneResponse): void {
+        throw new Error("Method not implemented.");
     }
+    // eslint-disable-next-line no-unused-vars
+    fail(...args: any[]): void {
+        throw new Error("Method not implemented.");
+    }
+    __instanceID!: number;
+    __classType?: string | undefined;
+    __definition?: any;
+    __new__?(): void {
+        throw new Error("Method not implemented.");
+    }
+    __namespace?: string | undefined;
+    body?: string | QCObjectsElement | QCObjectsShadowedElement | HTMLElement | null | undefined;
 
-    set(name:string, value:any) {
+    set(name:string, value:never) {
         this[name] = value;
     }
 
-    get(name:any, _default?:any) {
-        return this[name] || _default;
+    get(name:string, _default?:never) {
+        return this[name] as never || _default;
     }
 
 }
@@ -42,16 +57,14 @@ export class JSONService extends Service {
         "charset": "utf-8"
     };
 
-    JSONresponse = null;
+    JSONresponse:unknown = null;
     done(result:ServiceDoneResponse) {
         logger.debug("***** RECEIVED RESPONSE:");
         logger.debug(result.service.template);
         this.JSONresponse = JSON.parse(result.service.template);
     }
 
-    constructor(...args:any[]) {
-        super(args);
-    }
+
 
 }
 
@@ -76,15 +89,15 @@ export class ConfigService extends JSONService {
         for (const k in jsonResponse) {
             CONFIG.set(k, jsonResponse[k]);
         }
-        this.configLoaded.call(this);
+        this.configLoaded();
     }
 
-    fail(...args:any[]) {
-        this.configLoaded.call(this);
+    fail() {
+        this.configLoaded();
     }
 
     constructor() {
-        super(...arguments);
+        super();
         this.set("url", this.get("basePath") + this.get("configFileName"));
     }
 }
