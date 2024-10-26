@@ -6,12 +6,12 @@
   "module": "build/index.mjs",
   "browser": "browser/index.js",
   "type": "commonjs",
-  "types": "types/index.d.ts",
+  "types": "build/index.d.ts",
   "exports": {
     ".": {
       "require": "./build/index.cjs",
       "import": "./build/index.mjs",
-      "types": "./types/index.d.ts"
+      "types": "./build/index.d.ts"
     },
     "./types/*":"./types/*",
     "./package.json": "./package.json"
