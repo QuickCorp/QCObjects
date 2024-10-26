@@ -612,7 +612,9 @@ declare module "NamespaceRef" {
      * @param {String} packageName
      * @param {Object} package
      */
-    export const NamespaceRef: (namespace: any) => any;
+    export const NamespaceRef: (namespace: string) => {
+        [x: string]: any;
+    };
 }
 declare module "Promise" {
     export var Promise: any;
@@ -1563,7 +1565,9 @@ declare module "QCObjects" {
         ObjectName: (o: any) => string;
         isQCObjects_Class: (_: any) => boolean;
         isQCObjects_Object: (_: any) => boolean;
-        NamespaceRef: (namespace: any) => any;
+        NamespaceRef: (namespace: string) => {
+            [x: string]: any;
+        };
         RegisterWidget: (widgetName: any) => void;
         RegisterWidgets: () => void;
         range: (start: number, stop?: number, step?: number) => number[];

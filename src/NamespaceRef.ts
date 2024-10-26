@@ -7,13 +7,13 @@ import { Package } from "./Package";
  * @param {String} packageName
  * @param {Object} package
  */
-export const NamespaceRef = function (namespace) {
+export const NamespaceRef = function (namespace:string) {
     let packageInstance = Package(namespace);
-    let classes = packageInstance.filter(c => isQCObjects_Class(c)).map(c => {
+    let classes = packageInstance.filter((c:any) => isQCObjects_Class(c)).map((c:any) => {
         return {
             [c.__definition.__classType]: c
         };
-    }).reduce((a, b) => Object.assign(a, b));
+    }).reduce((a:any, b:any) => Object.assign(a, b));
     return namespace.split(".").map(c => {
         return {
             [c]: classes

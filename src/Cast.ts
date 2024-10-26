@@ -36,7 +36,7 @@ export const _CastProps = function (obj_source: { [x: string]: { bind: (arg0: an
         } else if (typeof obj_source[v] === "function") {
             try {
                 obj_dest[v] = obj_source[v].bind(obj_dest);
-            } catch (e) {
+            } catch (e:any) {
                 logger.warn(e);
             }
         }

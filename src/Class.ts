@@ -166,7 +166,7 @@ export const Class = function (name: string = "", type: any = undefined, definit
             logger.warn(`${self.__classType}._new_() failed with error: ${e}`);
           }
         }
-      } catch (e) {
+      } catch (e:any) {
         logger.warn(e);
       }
     }
