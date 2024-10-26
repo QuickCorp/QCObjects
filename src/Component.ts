@@ -553,7 +553,7 @@ export class Component extends InheritClass implements IComponent{
                 container.subelements("[slot]").map(
                     function (c: { parentElement: any; }) {
                         if (c.parentElement === container) {
-                            tmp_shadowContainer.appendChild(c);
+                            tmp_shadowContainer.appendChild(c as any);
                         }
                     });
                 logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
@@ -562,11 +562,11 @@ export class Component extends InheritClass implements IComponent{
                 try {
                     _component_.shadowRoot = shadowContainer.attachShadow({
                         mode: "open"
-                    });
+                    }) as QCObjectsShadowedElement;
                 } catch (e) {
                     try {
                         logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", _component_.name));
-                        _component_.shadowRoot = shadowContainer.shadowRoot;
+                        _component_.shadowRoot = shadowContainer.shadowRoot as QCObjectsShadowedElement;
                     } catch (e) {
                         logger.warn("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
                     }
@@ -574,11 +574,15 @@ export class Component extends InheritClass implements IComponent{
                 if (typeof _component_.shadowRoot !== "undefined" && _component_.shadowRoot !== null) {
                     if (_component_.reload) {
                         logger.debug("FORCED RELOADING OF CONTAINER FOR Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
-                        shadowContainer.shadowRoot.innerHTML = _component_.innerHTML;
+                        if (shadowContainer !== null && shadowContainer.shadowRoot !== null) {
+                            shadowContainer.shadowRoot.innerHTML = _component_.innerHTML;
+                        }
                     } else {
                         tmp_shadowContainer.innerHTML = _component_.parseTemplate(tmp_shadowContainer.innerHTML);
                         logger.debug("ADDING Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
-                        shadowContainer.shadowRoot.innerHTML += _component_.innerHTML;
+                        if (shadowContainer !== null && shadowContainer.shadowRoot !== null) {
+                            shadowContainer.shadowRoot.innerHTML += _component_.innerHTML;
+                        }
                     }
                     logger.debug("ADDING Slots to Shadowed COMPONENT {{NAME}} ".replace("{{NAME}}", _component_.name));
                     shadowContainer.innerHTML += tmp_shadowContainer.innerHTML;
@@ -588,7 +592,9 @@ export class Component extends InheritClass implements IComponent{
                         container.appendChild(shadowContainer);
                     } else {
                         logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
-                        _component_.shadowRoot.innerHTML = shadowContainer.shadowRoot.innerHTML;
+                        if (_component_.shadowRoot !== null && shadowContainer.shadowRoot !== null){
+                            _component_.shadowRoot.innerHTML = shadowContainer.shadowRoot.innerHTML;
+                        }
                     }
                 } else {
                     logger.warn("Shadowed COMPONENT {{NAME}} is bad configured".replace("{{NAME}}", _component_.name));

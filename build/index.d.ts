@@ -38,7 +38,8 @@ declare module "Cast" {
     }, obj_dest: any) => any;
 }
 declare module "DOMCreateElement" {
-    export const _DOMCreateElement: (elementName: any) => any;
+    import { QCObjectsElement } from "types/global";
+    export const _DOMCreateElement: (elementName: string) => QCObjectsElement;
 }
 declare module "is_raw_class" {
     export const __is_raw_class__: (o_c: any) => boolean;
@@ -578,15 +579,12 @@ declare module "DefaultTemplateHandler" {
     }
 }
 declare module "Effect" {
+    import { EffectParams } from "types/global";
     import { InheritClass } from "InheritClass";
     export class Effect extends InheritClass {
         duration: number;
         constructor();
-        animate({ timing, draw, duration }: {
-            timing: any;
-            draw: any;
-            duration: any;
-        }): void;
+        animate({ timing, draw, duration }: EffectParams): void;
     }
 }
 declare module "findPackageNodePath" {
@@ -1163,7 +1161,7 @@ declare module "QCObjects" {
     import { Effect } from "Effect";
     import { TransitionEffect } from "TransitionEffect";
     import { Timer } from "Timer";
-    import { get, GLOBAL, set } from "types/global";
+    import { get, GLOBAL, QCObjectsElement, set } from "types/global";
     import { DDO } from "DDO";
     import { Toggle } from "Toggle";
     const _default: {
@@ -1532,7 +1530,7 @@ declare module "QCObjects" {
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").ComponentURIParams) => string;
         waitUntil: (func: any, exp: any) => void;
         _super_: (className: any, classMethodName: any, params: any) => any;
-        _DOMCreateElement: (elementName: any) => any;
+        _DOMCreateElement: (elementName: string) => QCObjectsElement;
         shortCode: () => any;
         __getType__: (o_c: any) => string;
         is_a: (obj: any, typeName: any) => boolean;
