@@ -616,9 +616,6 @@ declare module "NamespaceRef" {
         [x: string]: any;
     };
 }
-declare module "Promise" {
-    export var Promise: any;
-}
 declare module "assign" { }
 declare module "localStorage" {
     export var localStorage: any;
