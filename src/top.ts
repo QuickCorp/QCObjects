@@ -79,7 +79,7 @@ type QCObjects = {
     ClassFactory:any, 
     Package:any, 
     Import:any
-} |  typeof self | typeof window | typeof global ;
+} |  typeof self   | typeof global ;
 
 export var _top: QCObjects = (self || window || global ) as QCObjects;
 (_top as any).lastCache = undefined;

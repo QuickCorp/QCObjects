@@ -651,7 +651,11 @@ declare namespace global {
         }
         
         export const componentsStack:Component[];
-        export const lastCache:ComplexStorageCache|undefined;    
+        export const lastCache:ComplexStorageCache|undefined;
+
+
+        export type TServiceLoaderInBrowser = (service: Service, _async: any)=> Promise<unknown>;
+
 }
 
 export = global;

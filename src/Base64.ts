@@ -69,7 +69,6 @@ export const Base64 = {
       let t = "";
       let n = 0;
       let r = 0;
-      const c1 = 0;
       let c2 = 0;
       let c3: number;
       while (n < e.length) {

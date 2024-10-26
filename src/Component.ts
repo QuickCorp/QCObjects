@@ -199,7 +199,7 @@ export class Component extends InheritClass implements IComponent{
 
     get routingSelected():ComponentRouting[] {
         const self = this;
-        return __valid_routings__(self.routings, self.routingPath) as ComponentRouting[];
+        return __valid_routings__(self.routings, self.routingPath);
     }
 
     set routingParams(value) {
@@ -314,7 +314,7 @@ export class Component extends InheritClass implements IComponent{
                             logger.debug("A ROUTING WAS FOUND: " + routingPath);
                             window.history.pushState({
                                 href: (e.target as HTMLAnchorElement).href
-                            }, (e?.target as HTMLAnchorElement)?.href as string, (e.target as HTMLAnchorElement).href);
+                            }, (e?.target as HTMLAnchorElement)?.href, (e.target as HTMLAnchorElement).href);
                             ClassFactory("Component").route();
                             _ret_ = false;
                         } else {
@@ -372,7 +372,7 @@ export class Component extends InheritClass implements IComponent{
         return new Promise((resolve, reject) => {
             if (isBrowser) {
                 if (typeof _Controller !== "undefined" && typeof this.controller !== "undefined") {
-                    if (typeof (this.controller as Controller).done === "function") {
+                    if (typeof (this.controller).done === "function") {
                         try {
                             this.controller.done.call(this.controller);
                         } catch (e:any) {

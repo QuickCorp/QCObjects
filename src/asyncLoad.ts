@@ -14,7 +14,7 @@ export function asyncLoad(callback: any, args?: any[]): any {
     func = callback;
     args = args;
     dispatch() {
-      (this.func as any).apply(null, ...args as []);
+      (this.func).apply(null, ...args as []);
     }
   }
   _asyncLoad.push((new AsyncCallback()) as unknown as never);

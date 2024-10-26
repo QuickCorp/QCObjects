@@ -251,7 +251,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
      * Array math functions
      */
     const __to_number = function (value:any): number  {
-      return ((isNaN(value)) ? (new Number(0) as number) : (new Number(value) as number) as number);
+      return ((isNaN(value)) ? (new Number(0) as number) : (new Number(value) as number));
     };
     (Array as unknown as Array<any>).prototype.unique = function () {
       return this.filter(function (value:any, index:any, self:any) {
@@ -273,7 +273,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
     (_protected_code_)((Array as unknown as Array<any>).prototype.table);
     (Array as unknown as Array<any>).prototype.sum = function () {
       return this.reduce(function (prev:any, current:any) {
-        return (__to_number(prev) as number) + (__to_number(current) as number);
+        return (__to_number(prev)) + (__to_number(current));
       }, 0);
     };
     (Array as unknown as ArrayConstructor).sum = function (a) {
@@ -283,7 +283,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
     (_protected_code_)((Array as unknown as Array<any>).prototype.sum);
     (Array as unknown as Array<any>).prototype.avg = function () {
       return (this.length < 1) ? (0) : (this.reduce(function (prev:any, current:any) {
-        return (((__to_number(prev) as number) + (__to_number(current) as number)) / 2);
+        return (((__to_number(prev)) + (__to_number(current))) / 2);
       }));
     };
     (Array as unknown as ArrayConstructor).avg = function (a) {
@@ -607,7 +607,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
           if (tryImportingSDK) {
             logger.info("Importing SDK... " + sdkName);
             if (isNodeCommonJS && typeof require !== "undefined") {
-              const sdk = require("qcobjects-sdk");
+              const sdk = _require_("qcobjects-sdk");
             } else {
               Import(sdkName, function () {
                 if (external) {

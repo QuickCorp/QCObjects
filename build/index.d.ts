@@ -31,11 +31,7 @@ declare module "Cast" {
      * @param {Object} obj_source
      * @param {Object} obj_dest
      */
-    export const _CastProps: (obj_source: {
-        [x: string]: {
-            bind: (arg0: any) => any;
-        };
-    }, obj_dest: any) => any;
+    export const _CastProps: (obj_source: any, obj_dest: any) => any;
 }
 declare module "DOMCreateElement" {
     import { QCObjectsElement } from "types/global";
@@ -489,7 +485,7 @@ declare module "top" {
         ClassFactory: any;
         Package: any;
         Import: any;
-    } | typeof self | typeof window | typeof global;
+    } | typeof self | typeof global;
     export var _top: QCObjects;
     export let componentsStack: Component[];
     export const resetTop: (_top_: QCObjects) => void;
@@ -510,6 +506,8 @@ declare module "ArrayCollection" {
     export const ArrayCollection: any;
 }
 declare module "BackendMicroservice" {
+    import { Http2Stream } from "http2";
+    import { Stream } from "stream";
     import { InheritClass } from "InheritClass";
     export class BackendMicroservice extends InheritClass {
         body: any;
@@ -534,10 +532,7 @@ declare module "BackendMicroservice" {
         options(formData: any): void;
         trace(formData: any): void;
         patch(formData: any): void;
-        finishWithBody(stream: {
-            write: (arg0: any) => void;
-            end: () => void;
-        }): void;
+        finishWithBody(stream?: Http2Stream | Stream): void;
         done(): void;
     }
 }

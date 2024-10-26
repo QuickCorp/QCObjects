@@ -1,3 +1,4 @@
+import { TServiceLoaderInBrowser } from "types/global";
 import { asyncLoad } from "./asyncLoad";
 import { ComplexStorageCache } from "./ComplexStorageCache";
 import { _DataStringify } from "./DataStringify";
@@ -13,13 +14,13 @@ import { _top } from "./top";
  * @param service a Service object
  */
 export const serviceLoader = function (service:Service, _async = false) {
-    const _serviceLoaderInBrowser:(service: Service, _async: any)=> Promise<unknown> = function (service:Service, _async:boolean):Promise<unknown> {
+    const _serviceLoaderInBrowser:TServiceLoaderInBrowser = function (service:Service):Promise<unknown> {
         var _promise = new Promise(
             function (resolve, reject) {
 
                 logger.debug("LOADING SERVICE DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service.data)).replace("{{URL}}", service.url));
                 const xhr = new XMLHttpRequest();
-                xhr.withCredentials = service.withCredentials;
+                xhr.withCredentials = service.withCredentials as boolean;
                 const xhrasync = true; // always async because xhr sync is deprecated
                 xhr.open(service.method, service.url, xhrasync);
                 for (const header in service.headers) {
@@ -238,9 +239,9 @@ export const serviceLoader = function (service:Service, _async = false) {
 
     };
 
-    const _serviceLoaderMockup = function (service:Service, _async:boolean) {
+    const _serviceLoaderMockup = function (service:Service) {
         var _promise = new Promise(
-            function (resolve, reject) {
+            function (resolve) {
                 logger.debug(`Calling mockup service ${service.name} ...`);
                 const standardResponse = {
                     "request": null,
@@ -256,9 +257,9 @@ export const serviceLoader = function (service:Service, _async = false) {
             });
         return _promise;
     };
-    const _serviceLoaderLocal = function (service:Service, _async:boolean) {
+    const _serviceLoaderLocal = function (service:Service) {
         var _promise = new Promise(
-            function (resolve, reject) {
+            function (resolve) {
                 logger.debug(`Calling local service ${service.name} ...`);
                 const standardResponse = {
                     "request": null,
@@ -289,10 +290,10 @@ export const serviceLoader = function (service:Service, _async = false) {
             }
             break;
         case "mockup":
-            _ret_ = _serviceLoaderMockup(service, _async);
+            _ret_ = _serviceLoaderMockup(service);
             break;
         case "local":
-            _ret_ = _serviceLoaderLocal(service, _async);
+            _ret_ = _serviceLoaderLocal(service);
             break;
         default:
             logger.debug(`The value of the kind property of the service ${service.name} is not valid`);

@@ -2,6 +2,7 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 
+import * as parser from '@typescript-eslint/parser';
 
 
 import path from "node:path";
@@ -27,11 +28,18 @@ export default [
         },
 
         ecmaVersion: "latest",
-        sourceType: "module"
+        sourceType: "module",
+        parserOptions: {
+            projectService: true,
+            tsconfigRootDir: import.meta.dirname,
+            programs: [parser.createProgram('tsconfig.json')],
+        }
+        ,        
 
     } },
     pluginJs.configs.recommended,
     ...tseslint.configs.recommended,
+    ...tseslint.configs.recommendedTypeChecked,
     { files: ["**/*.{js,mjs,cjs,ts}"] }
     ,{
     ignores: [
@@ -41,9 +49,7 @@ export default [
         "node_modules/**/*",
         "**/node_modules"   
     ],
-}, ...compat.extends("eslint:recommended"), {
-    files: ["**/*.ts", "**/*.d.ts", "**/*.d.tsx", "**/*.tsx"]
-},
+}, ...compat.extends("eslint:recommended"), 
 {    rules: {
     semi: ["error", "always"],
     quotes: ["error", "double"],
@@ -55,5 +61,21 @@ export default [
     "no-useless-call": "off",
     camelcase: "off",
     "no-var": "off",
-}}
+}},
+{
+    files: ["**/*.ts", "**/*.d.ts", "**/*.d.tsx", "**/*.tsx"]
+},
+{   files: ["**/*.d.ts"],
+    rules: {
+        "no-unused-vars":"off"
+    }
+},
+{
+    files: ["**/*.ts", "**/*.d.ts"],
+    rules: {
+        "no-dupe-class-members":"off",
+        "@typescript-eslint/no-unsafe-function-type":"off",
+        "no-redeclare": "off"
+    }
+}
 ];

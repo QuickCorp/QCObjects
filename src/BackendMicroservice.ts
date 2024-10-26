@@ -1,3 +1,5 @@
+import { Http2Stream } from "http2";
+import { Stream } from "stream";
 import { _basePath_ } from "./basePath";
 import { _DataStringify } from "./DataStringify";
 import { _domain_ } from "./domain";
@@ -132,6 +134,7 @@ export class BackendMicroservice extends InheritClass {
 
 
   head(formData: any) {
+    logger.debug(`[BackendMicroservice.head] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
@@ -141,34 +144,41 @@ export class BackendMicroservice extends InheritClass {
   }
 
   post(formData: any) {
+    logger.debug(`[BackendMicroservice.post] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
   put(formData: any) {
+    logger.debug(`[BackendMicroservice.put] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
   delete(formData: any) {
+    logger.debug(`[BackendMicroservice.delete] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
   connect(formData: any) {
+    logger.debug(`[BackendMicroservice.connect] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
   options(formData: any) {
+    logger.debug(`[BackendMicroservice.options] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
   trace(formData: any) {
+    logger.debug(`[BackendMicroservice.trace] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
   patch(formData: any) {
+    logger.debug(`[BackendMicroservice.patch] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  finishWithBody(stream: { write: (arg0: any) => void; end: () => void; }) {
+  finishWithBody(stream?: Http2Stream | Stream) {
     try {
       logger.debug("[BackendMicroservice.finishWithBody] Ending the stream...");
       logger.debug(`[BackendMicroservice.finishWithBody] type of body is: ${typeof this.body}`);
@@ -176,8 +186,8 @@ export class BackendMicroservice extends InheritClass {
         this.body = _DataStringify(this.body);
       }
       logger.debug(`[BackendMicroservice.finishWithBody] \n body: ${this.body} `);
-      stream.write(this.body);
-      stream.end();
+      (stream as any)?.write(this.body);
+      (stream as any)?.end();
       logger.debug("[BackendMicroservice.finishWithBody] Stream ended.");
     } catch (e) {
       logger.debug(`[BackendMicroservice.finishWithBody] Something went wrong ending the stream: ${e}`);
