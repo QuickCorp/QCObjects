@@ -1,17 +1,18 @@
 import { ClassFactory } from "./ClassFactory";
 import { InheritClass } from "./InheritClass";
+import { logger } from "./Logger";
 import { Package } from "./Package";
 export class Toggle extends InheritClass {
   _toggle = false;
   _inverse = true;
-  _positive = null;
-  _negative = null;
-  _dispatched = null;
+  _positive:Function|null = null;
+  _negative:Function|null = null;
+  _dispatched:Function|null = null;
   _args = {};
 
-  constructor(...args:any[]) {
-    super(args);
-    this._new_(args as any);
+  constructor(positive: Function, negative: Function, args: Array<any>) {
+    super({positive, negative, args});
+    this._new_({positive, negative, args});
   }
 
   changeToggle() {
@@ -22,15 +23,15 @@ export class Toggle extends InheritClass {
     positive,
     negative,
     args
-  }) {
+  }:{positive: Function, negative: Function, args: Array<any>}) {
     this._positive = positive;
     this._negative = negative;
     this._args = args;
   }
 
-  fire() {
+  fire():Promise<Toggle> {
     var toggle = this;
-    var _promise = new Promise(function (resolve, reject) {
+    var _promise = new Promise<Toggle>(function (resolve, reject) {
 
       if (typeof toggle._positive === "function" && typeof toggle._negative === "function") {
         if (toggle._inverse) {
@@ -38,16 +39,21 @@ export class Toggle extends InheritClass {
         } else {
           toggle._dispatched = (toggle._toggle) ? (toggle._positive.bind(toggle)) : (toggle._negative.bind(toggle));
         }
-        toggle._dispatched.call(toggle, toggle._args);
+        toggle._dispatched?.call(toggle, toggle._args);
         resolve.call(_promise, toggle);
       } else {
         logger.debug("Toggle functions are not declared");
-        reject.call(_promise, toggle);
+        reject.call(_promise, toggle as Toggle);
       }
-    }).then(function (toggle) {
+      return toggle;
+    }).then(function (toggle:Toggle) {
       toggle.changeToggle();
+      return toggle;
     }).catch(function (e) {
       logger.debug(e.toString());
+      return toggle;
+    }).finally(()=> {
+      return toggle;
     });
     return _promise;
   }

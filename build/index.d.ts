@@ -1108,18 +1108,18 @@ declare module "Toggle" {
     export class Toggle extends InheritClass {
         _toggle: boolean;
         _inverse: boolean;
-        _positive: null;
-        _negative: null;
-        _dispatched: null;
+        _positive: Function | null;
+        _negative: Function | null;
+        _dispatched: Function | null;
         _args: {};
-        constructor(...args: any[]);
+        constructor(positive: Function, negative: Function, args: Array<any>);
         changeToggle(): void;
         _new_({ positive, negative, args }: {
-            positive: any;
-            negative: any;
-            args: any;
+            positive: Function;
+            negative: Function;
+            args: Array<any>;
         }): void;
-        fire(): Promise<void>;
+        fire(): Promise<Toggle>;
     }
 }
 declare module "QCObjects" {
