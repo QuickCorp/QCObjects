@@ -13,7 +13,7 @@
       "import": "./build/index.mjs",
       "types": "./build/index.d.ts"
     },
-    "./types/*":"./types/*",
+    "./types/*": "./types/*",
     "./package.json": "./package.json"
   },
   "license": "LGPL-3.0",
@@ -24,7 +24,7 @@
     "build:browser": "npx -y esbuild@0.17.19 build/*.js --bundle --outdir=browser --keep-names --minify --global-name=global --sourcemap --splitting --chunk-names=chunks/[name]-[hash] --format=esm --target=es2021",
     "start": "qcobjects-shell",
     "test": "(npm run lint && (npx jasmine))",
-    "lint": "(npx -y eslint@8.40.0 src/**/*.ts --fix --ext ts)",
+    "lint": "(npx -y eslint@latest src/**/*.ts --fix )",
     "preversion": "npm cache verify && npm test",
     "sync": "git add . && git commit -am ",
     "postversion": "git push && git push --tags",
@@ -101,6 +101,8 @@
   },
   "homepage": "https://qcobjects.com",
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.13.0",
     "@types/node": "^22.7.9",
     "@types/qcobjects": "github:QCObjects/-types-qcobjects",
     "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
@@ -113,6 +115,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-promise": "^6.1.1",
+    "globals": "^15.11.0",
     "hint": "^2.0.0",
     "jasmine": "^3.7.0",
     "qcobjects-sdk": "^2.4.66",

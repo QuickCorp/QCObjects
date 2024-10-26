@@ -652,7 +652,7 @@ declare module "super" {
      * @param {String} classMethodName
      * @param {Object} params
      */
-    export const _super_: (className: string, classMethodName: string, params?: any) => any;
+    export const _super_: (className: string, classMethodName: string) => any;
 }
 declare module "shortCode" {
     export const shortCode: () => any;
@@ -1486,7 +1486,7 @@ declare module "QCObjects" {
         RegisterClass: (_class_: any, __namespace?: string) => any;
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").ComponentURIParams) => string;
         waitUntil: (func: () => void, exp: () => any) => void;
-        _super_: (className: string, classMethodName: string, params?: any) => any;
+        _super_: (className: string, classMethodName: string) => any;
         _DOMCreateElement: (elementName: string) => QCObjectsElement;
         shortCode: () => any;
         __getType__: (o_c: any) => any;

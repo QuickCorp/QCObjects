@@ -7,7 +7,7 @@ export const ArrayList = Class("ArrayList", Array, []);
 
 export const ArrayCollection = Class("ArrayCollection", Object, {
     source: New(ClassFactory("ArrayList"), []),
-    changed(prop: any, value: any) {
+    changed(prop: string, value: any) {
       logger.debug("VALUE CHANGED");
       logger.debug(prop);
       logger.debug(value);
