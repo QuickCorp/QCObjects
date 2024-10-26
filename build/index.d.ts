@@ -11,9 +11,9 @@ declare module "Logger" {
         debugEnabled: boolean;
         infoEnabled: boolean;
         warnEnabled: boolean;
-        debug(message: any): void;
-        info(message: any): void;
-        warn(message: any): void;
+        debug(message: string): void;
+        info(message: string): void;
+        warn(message: string): void;
     }
     export const logger: Logger;
 }
