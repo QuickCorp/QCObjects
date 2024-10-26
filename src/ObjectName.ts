@@ -3,7 +3,7 @@
      *
      * @param Object or function
      */
-    export const ObjectName = function (o) {
+    export const ObjectName = function (o:any) {
         var ret = "";
         if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
           ret = o.name;
