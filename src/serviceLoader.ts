@@ -1,4 +1,3 @@
-import { TServiceLoaderInBrowser } from "types/global";
 import { asyncLoad } from "./asyncLoad";
 import { ComplexStorageCache } from "./ComplexStorageCache";
 import { _DataStringify } from "./DataStringify";
@@ -13,8 +12,8 @@ import { _top } from "./top";
  * @author: Jean Machuca <correojean@gmail.com>
  * @param service a Service object
  */
-export const serviceLoader = function (service:Service, _async = false) {
-    const _serviceLoaderInBrowser:TServiceLoaderInBrowser = function (service:Service):Promise<unknown> {
+export const serviceLoader = function (service:Service, _async = false):Promise<unknown>|undefined {
+    const _serviceLoaderInBrowser = function (service:Service):Promise<unknown> {
         var _promise = new Promise(
             function (resolve, reject) {
 
@@ -108,11 +107,12 @@ export const serviceLoader = function (service:Service, _async = false) {
         return _promise;
     };
 
-    const _serviceLoaderInNode = function (service:Service, _async:boolean) {
+    const _serviceLoaderInNode = function (service:Service) {
         var _promise = new Promise(
             function (resolve, reject) {
                 if (typeof URL === "undefined") {
                     global.URL = (_require_("url") as any).URL;
+                    // eslint-disable-next-line no-unused-vars
                     const URL = global.URL;
                 }
                 const serviceURL = new URL(service.url);
@@ -143,7 +143,7 @@ export const serviceLoader = function (service:Service, _async = false) {
                     }
 
                     dataXML = "";
-                    req.on("response", (responseHeaders:any, flags:any) => {
+                    req.on("response", (responseHeaders:any) => {
                         logger.debug("receiving response...");
                         standardResponse.responseHeaders = responseHeaders;
                         /*
@@ -276,17 +276,17 @@ export const serviceLoader = function (service:Service, _async = false) {
         return _promise;
     };
 
-    let _ret_;
+    let _ret_: Promise<unknown>;
     switch (service.kind) {
         case "rest":
             if (isBrowser) {
                 if (typeof _async !== "undefined" && _async) {
                     _ret_ = asyncLoad(_serviceLoaderInBrowser, [service, _async]);
                 } else {
-                    _ret_ = _serviceLoaderInBrowser(service, _async);
+                    _ret_ = _serviceLoaderInBrowser(service);
                 }
             } else {
-                _ret_ = _serviceLoaderInNode(service, _async);
+                _ret_ = _serviceLoaderInNode(service);
             }
             break;
         case "mockup":
@@ -297,6 +297,7 @@ export const serviceLoader = function (service:Service, _async = false) {
             break;
         default:
             logger.debug(`The value of the kind property of the service ${service.name} is not valid`);
+            _ret_ = Promise.resolve();
             break;
     }
     return _ret_;

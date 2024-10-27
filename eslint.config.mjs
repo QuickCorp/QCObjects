@@ -76,7 +76,10 @@ export default [
         "no-dupe-class-members":"off",
         "@typescript-eslint/no-unsafe-function-type":"off",
         "no-redeclare": "off",
-        "no-unsafe-member-access":"off"
+        "@typescript-eslint/no-unsafe-member-access":"off",
+        "@typescript-eslint/no-unsafe-assignment":"off",
+        "@typescript-eslint/no-unsafe-call":"off",
+        "@typescript-eslint/no-unsafe-argument":"off"
     }
 }
 ];

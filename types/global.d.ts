@@ -78,6 +78,17 @@ declare namespace global {
         
         }
         export function Class(className: string, extendsFrom: any, definition: any): any;
+        export interface _ICrypt {
+            last_string: string;
+            last_key: string;
+            construct: boolean;
+            _new_(o: any): void;
+            _encrypt(): string;
+            _decrypt(): string;
+            encrypt(_string_: string, key: string): string;
+            decrypt(_string_: string, key: string): string;
+        }
+
         export class _Crypt {
             last_string: string;
             last_key: string;
@@ -447,9 +458,17 @@ declare namespace global {
         
         }
         
+        export interface ICONFIG extends IInheritClass {
+            _CONFIG_ENC: string;
+            _CONFIG: unknown;
+            set(_: any, _value_: any): any;
+            get(_: any, _defaultValue_: any): any;
+            __definition: any;
+        }
+
         export class CONFIG extends InheritClass {
             _CONFIG_ENC: string;
-            _CONFIG: any;
+            _CONFIG: unknown;
             static set(_: any, _value_: any): any;
             static get(_: any, _defaultValue_: any): any;
             __definition: any;
@@ -506,7 +525,7 @@ declare namespace global {
             done(...args:any[]):void;
             fail(...args:any[]):void;
         }
-        export type ServiceDoneResponse = { request: XMLHttpRequest, service: Service };
+        export type ServiceDoneResponse = { request: XMLHttpRequest|null, service: Service };
         export interface IService extends InheritClass {
             kind: string;
             domain: string;

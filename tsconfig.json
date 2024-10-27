@@ -8,7 +8,6 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-
     "target": "ESNext",
     "lib": [
       "ESNext",

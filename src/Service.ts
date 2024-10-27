@@ -60,8 +60,8 @@ export class JSONService extends Service {
     JSONresponse:unknown = null;
     done(result:ServiceDoneResponse) {
         logger.debug("***** RECEIVED RESPONSE:");
-        logger.debug(result.service.template);
-        this.JSONresponse = JSON.parse(result.service.template);
+        logger.debug(result.service.template as string);
+        this.JSONresponse = JSON.parse(result.service.template as string);
     }
 
 
@@ -77,18 +77,19 @@ export class ConfigService extends JSONService {
         "charset": "utf-8"
     };
 
-    JSONresponse = null;
+    JSONresponse:unknown = null;
     done(result:ServiceDoneResponse) {
         logger.debug("***** CONFIG LOADED:");
-        logger.debug(result.service.template);
-        this.JSONresponse = JSON.parse(result.service.template);
+        logger.debug(result.service.template as string);
+        this.JSONresponse = JSON.parse(result.service.template as string);
         if (Object.hasOwnProperty.call(this.JSONresponse, "__encoded__")) {
-            this.JSONresponse = JSON.parse(_Crypt.decrypt((this.JSONresponse as any)?.__encoded__, _secretKey));
+            const decodedValue:string = _Crypt.decrypt((this.JSONresponse as any)?.__encoded__, _secretKey) as string;
+            this.JSONresponse = JSON.parse(decodedValue);
         }
         const jsonResponse:any = this.JSONresponse;
-        for (const k in jsonResponse) {
-            CONFIG.set(k, jsonResponse[k]);
-        }
+        Object.keys(jsonResponse as object).map((k:string|number) => {
+            CONFIG.set(k, (jsonResponse as never)[k]);
+        });
         this.configLoaded();
     }
 
@@ -98,7 +99,7 @@ export class ConfigService extends JSONService {
 
     constructor() {
         super();
-        this.set("url", this.get("basePath") + this.get("configFileName"));
+        this.set("url", `${this.get("basePath") as string}${this.get("configFileName") as string}` as never);
     }
 }
 

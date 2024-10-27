@@ -153,12 +153,32 @@ declare module "secretKey" {
     export const _secretKey: string;
 }
 declare module "Crypt" {
-    export const _Crypt: any;
+    import { _ICrypt } from "types/global";
+    import { InheritClass } from "InheritClass";
+    export class _Crypt extends InheritClass implements _ICrypt {
+        last_string: string;
+        last_key: string;
+        construct: boolean;
+        _new_(o: {
+            string?: string;
+            key: string;
+        }): void;
+        _encrypt(): string;
+        _decrypt(): string;
+        encrypt(string: string, key: string): any;
+        decrypt(string: string, key: string): any;
+    }
     export const _CryptObject: (o: any) => string;
     export const _DecryptObject: (s: string) => any;
 }
 declare module "CONFIG" {
-    export const CONFIG: any;
+    import { InheritClass } from "InheritClass";
+    export class CONFIG extends InheritClass {
+        get _CONFIG_ENC(): string;
+        get _CONFIG(): unknown;
+        set(name: string, value: unknown): void;
+        get(name: string, _default: any): any;
+    }
 }
 declare module "Processor" {
     import { Component, HTMLElement, IProcessor, QCObjectsElement, QCObjectsShadowedElement } from "types/global";
@@ -266,7 +286,7 @@ declare module "Service" {
             "Content-Type": string;
             charset: string;
         };
-        JSONresponse: null;
+        JSONresponse: unknown;
         done(result: ServiceDoneResponse): void;
         fail(): void;
         constructor();
@@ -280,7 +300,7 @@ declare module "serviceLoader" {
      * @author: Jean Machuca <correojean@gmail.com>
      * @param service a Service object
      */
-    export const serviceLoader: (service: Service, _async?: boolean) => any;
+    export const serviceLoader: (service: Service, _async?: boolean) => Promise<unknown> | undefined;
 }
 declare module "tag_filter" {
     export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
@@ -1125,8 +1145,10 @@ declare module "QCObjects" {
     import { Processor } from "Processor";
     import { BackendMicroservice } from "BackendMicroservice";
     import { Component } from "Component";
+    import { _Crypt } from "Crypt";
     import { DefaultTemplateHandler } from "DefaultTemplateHandler";
     import { GlobalSettings } from "globalSettings";
+    import { CONFIG } from "CONFIG";
     import { Controller } from "Controller";
     import { View } from "View";
     import { ConfigService, JSONService, Service } from "Service";
@@ -1141,7 +1163,7 @@ declare module "QCObjects" {
         BackendMicroservice: typeof BackendMicroservice;
         Logger: typeof Logger;
         Class: (name?: string, type?: any, definition?: any) => any;
-        _Crypt: any;
+        _Crypt: typeof _Crypt;
         TagElements: any;
         DefaultTemplateHandler: typeof DefaultTemplateHandler;
         SourceJS: any;
@@ -1495,7 +1517,7 @@ declare module "QCObjects" {
         __getType__: (o_c: any) => any;
         is_a: (obj: any, typeName: string) => boolean;
         _DataStringify: (data: any) => string;
-        serviceLoader: (service: Service, _async?: boolean) => any;
+        serviceLoader: (service: Service, _async?: boolean) => Promise<unknown> | undefined;
         componentLoader: (component: Component, _async: boolean) => any;
         ObjectName: (o: any) => string;
         isQCObjects_Class: (_: any) => boolean;
@@ -1515,7 +1537,7 @@ declare module "QCObjects" {
         InheritClass: any;
         Processor: typeof Processor;
         Component: typeof Component;
-        CONFIG: any;
+        CONFIG: typeof CONFIG;
         Controller: typeof Controller;
         View: typeof View;
         Service: typeof Service;
