@@ -14,8 +14,8 @@ export const __register_class__ = function (_class_:any, __namespace?:string) {
         _class_.__definition.__namespace = __namespace;
     }
     (_QC_CLASSES as any)[name] = _class_;
-    (_top as any)[name] = (_QC_CLASSES as any)[name];
-    return (_top as any)[name];
+    __make_global__((_QC_CLASSES as any)[name]);
+    return (_QC_CLASSES as any)[name];
 };
 
 export const RegisterClass = function (_class_:any, __namespace?:string) {

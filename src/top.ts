@@ -81,7 +81,12 @@ type QCObjects = {
     Import:any
 } |  typeof self   | typeof global ;
 
-export var _top: QCObjects = (self || window || global ) as QCObjects;
+export var _top: QCObjects = (
+    (typeof self !== "undefined" && self) ||
+           (typeof window !== "undefined" && window) ||
+           (typeof global !== "undefined" && global) ||
+           this
+ ) as QCObjects;
 (_top as any).lastCache = undefined;
 export let componentsStack:Component[] = [];
 

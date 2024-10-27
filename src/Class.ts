@@ -11,6 +11,7 @@ import { logger } from "./Logger";
 import { isBrowser } from "./platform";
 import { _QC_CLASSES } from "./PrimaryCollections";
 import { _top } from "./top";
+import { __make_global__ } from "./make_global";
 
 /**
  * Creates new object class  of another object
@@ -242,9 +243,9 @@ export const Class = function (name = "", type: any = undefined, definition: any
     _CastProps(_o_, this);
   };
 
-  (_top as any)[name] = (_QC_CLASSES as any)[name];
+  __make_global__((_QC_CLASSES as any)[name]);
 
-  return (_top as any)[name];
+  return (_QC_CLASSES as any)[name];
 };
 
 Class.prototype.toString = function () {

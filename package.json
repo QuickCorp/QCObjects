@@ -10,8 +10,7 @@
   "exports": {
     ".": {
       "require": "./build/index.cjs",
-      "import": "./build/index.mjs",
-      "types": "./build/index.d.ts"
+      "import": "./build/index.mjs"
     },
     "./types/*": "./types/*",
     "./package.json": "./package.json"
@@ -108,6 +107,8 @@
     "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
+    "esbuild": "^0.24.0",
+    "esbuild-plugin-alias": "^0.2.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^8.10.0",
     "eslint-config-semistandard": "^17.0.0",
@@ -117,6 +118,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "globals": "^15.11.0",
     "hint": "^2.0.0",
+    "install": "^0.13.0",
     "jasmine": "^3.7.0",
     "qcobjects-sdk": "^2.4.66",
     "qcobjects-tsconfig": "^2.4.10",
