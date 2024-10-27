@@ -102,9 +102,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
-    "@types/node": "^22.7.9",
-    "@types/qcobjects": "github:QCObjects/-types-qcobjects",
-    "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
+    "@types/node": "^22.8.1",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
     "esbuild": "^0.24.0",
@@ -120,15 +118,8 @@
     "hint": "^2.0.0",
     "install": "^0.13.0",
     "jasmine": "^3.7.0",
-    "qcobjects-sdk": "^2.4.66",
-    "qcobjects-tsconfig": "^2.4.10",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.11.0"
-  },
-  "peerDependencies": {
-    "@types/qcobjects": "github:QCObjects/-types-qcobjects",
-    "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
-    "qcobjects-sdk": ">=2.4.64"
   },
   "engines": {
     "npm": ">=10",

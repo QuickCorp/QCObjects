@@ -3578,7 +3578,7 @@ Package("com.qcobjects", [
 ]);
 
 // src/WidgetsFactory.ts
-var _ComponentWidget_ = class extends window.HTMLElement {
+var _ComponentWidget_ = class extends HTMLElement {
   constructor() {
     super();
     const componentWidget = this;

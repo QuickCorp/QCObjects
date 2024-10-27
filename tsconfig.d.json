@@ -10,26 +10,21 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
+    "rootDir": "./src",
     "outFile": "build/index.d.ts",
-    "baseUrl": ".",
-    "paths": {
-      "types/*": ["types/*"]
-    },
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
-    ],
-    "types": [
-      "node"
-    ],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "declaration": true,
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types"],
+    "paths": {
+      "types": ["types/global"]
+    }
   },
   "include": [
     "src/**/*",
     "types/**/*"
   ],
-  "exclude": ["src/**/*.mts", "src/**/*.cts"]
+  "exclude": ["src/**/*.mts", "src/**/*.cts", "node_modules/**/*"]
 }

@@ -15,8 +15,5 @@ esbuild.build({
         alias({
             'types/global': path.join(__dirname, 'types/global.d.ts')
         })
-    ],
-    define: {
-        'HTMLElement': 'window.HTMLElement'
-    }    
+    ]    
 }).catch(() => process.exit(1));

@@ -1,8 +1,9 @@
+import { I_ComponentWidget_ } from "types";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { Export } from "./Export";
 import { _protected_code_ } from "./introspection";
 
-export const _ComponentWidget_ = class extends HTMLElement {
+export class _ComponentWidget_ extends HTMLElement implements I_ComponentWidget_ {
     constructor() {
       super();
       const componentWidget = this;
