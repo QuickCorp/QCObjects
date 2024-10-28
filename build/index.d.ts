@@ -430,6 +430,7 @@ declare module "../types/global/index" {
         done(...args: any[]): void;
         fail(...args: any[]): void;
     }
+    export type TAsyncLoadCallback = ((component: IComponent, _async?: any) => Promise<any>) | ((service: IService, _async?: any) => Promise<unknown>) | ((_async?: any) => any);
     export type ServiceDoneResponse = {
         request: XMLHttpRequest | null;
         service: IService;
@@ -781,12 +782,9 @@ declare module "Export" {
     export const Export: (f: any) => void;
 }
 declare module "asyncLoad" {
-    import { Service } from "types/global";
-    import { Component } from "Component";
+    import { TAsyncLoadCallback } from "types/global";
     export const _asyncLoad: never[];
-    export function asyncLoad(callback: (component: Component, _async?: any) => Promise<any>, args?: any[]): any;
-    export function asyncLoad(callback: (service: Service, _async?: any) => Promise<unknown>, args?: any[]): any;
-    export function asyncLoad(callback: (_async?: any) => any, args?: any[]): any;
+    export function asyncLoad(callback: TAsyncLoadCallback, args?: any[]): any;
     export const _fireAsyncLoad: () => void;
 }
 declare module "ComplexStorageCache" {

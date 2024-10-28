@@ -79,7 +79,12 @@ export interface ILogger {
     info(message: any): string;
 
 }
-export type Class = (className: string, extendsFrom: any, definition: any) => any;
+export type TClass = 
+| (( className?:string,   extendsFrom?:unknown,   definition?:unknown) => unknown )
+| (( className?:string,  extendsFrom?:unknown ) => unknown)
+| (( className?:string, definition?:unknown ) => unknown )
+| (() => unknown );
+
 export interface _ICrypt {
     last_string: string;
     last_key: string;
@@ -456,6 +461,10 @@ export interface IView {
     done(...args: any[]): void;
     fail(...args: any[]): void;
 }
+export type TAsyncLoadCallback = 
+  | ((component: IComponent, _async?: any) => Promise<any>)
+  | ((service: IService, _async?: any) => Promise<unknown>)
+  | ((_async?: any) => any);
 export type ServiceDoneResponse = { request: XMLHttpRequest | null, service: IService };
 export interface IService extends IInheritClass {
     kind: string;

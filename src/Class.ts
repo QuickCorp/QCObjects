@@ -1,4 +1,3 @@
-import { Document } from "types/global";
 import { _Cast, _CastProps } from "./Cast";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { __getType__ } from "./getType";
@@ -10,8 +9,8 @@ import { _LegacyCopy } from "./LegacyCopy";
 import { logger } from "./Logger";
 import { isBrowser } from "./platform";
 import { _QC_CLASSES } from "./PrimaryCollections";
-import { _top } from "./top";
 import { __make_global__ } from "./make_global";
+import { TClass } from "types";
 
 /**
  * Creates new object class  of another object
@@ -19,30 +18,53 @@ import { __make_global__ } from "./make_global";
  * @param {String} name
  * @param {Object} type
  * @param {Object} definition
+ * 
+ * @example 
+ * Class (name, type, definition)
+ * Class (name, type)
+ * Class (name, definition)
+ * Class ()
+ * 
+ * 
+ * const MyClass = Class ("MyComponent", Component, {
+ *  name: "one_component",
+ *  method1 : () => {console.log ("done") }
+ * })
+ * const myClassInstance = new MyClass ({name: "one_component"})
+ * 
+ * const MyClass = Class ("MyService",{
+ *  name: "myservice",
+ * })
+ * 
+ * const myClassInstance = new MyClass ({name: "myservice"})
  */
-export const Class = function (name = "", type: any = undefined, definition: any = undefined) {
+
+
+
+export const Class:TClass = function (_name = "", _type: unknown = undefined, _definition: unknown = undefined) {
   const _types_ = {};
+  let name:string, type:unknown, definition:unknown;
 
   switch (arguments.length) {
     case 0:
       return class { };
     case 1:
-      name = arguments[0];
+      name = _name;
       type = class { };
-      definition = {};
+      definition = _definition;
       break;
     case 2:
-      name = arguments[0];
+      name = _name;
       type = class { };
-      definition = arguments[1];
+      definition = _definition;
       break;
     case 3:
-      name = arguments[0];
-      type = arguments[1];
-      definition = arguments[2];
+      name = _name;
+      type = _type;
+      definition = _definition;
       break;
     default:
-      break;
+      return () => {};
   }
 
   if (typeof type !== "function") {
