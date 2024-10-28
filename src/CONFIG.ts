@@ -83,7 +83,7 @@ export class CONFIG extends InheritClass implements ICONFIG{
   static set (name:string, value:unknown){
     (new CONFIG().set(name, value));
   }  
-  static get (name:string, value:unknown):any{
+  static get (name:string, value?:unknown):any{
     return (new CONFIG().set(name, value));
   }
 

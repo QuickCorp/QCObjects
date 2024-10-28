@@ -53,12 +53,14 @@ export interface IBackendMicroservice extends IInheritClass {
 
 export interface IQCObjectsElement {
     enableServiceClass?: boolean;
+    style?:object;
     Cast(_o: any): any;
     render(content: string): void;
     find(tag: string): (HTMLElement | IQCObjectsElement)[];
     buildComponents(rebuildObjects?: boolean): any[];
     subelements(query: string): (HTMLElement | IQCObjectsElement)[];
     subelements(query: string): Array<any>;
+    append?(_child?: any):void;
 }
 
 export interface IQCObjectsShadowedElement {
@@ -68,6 +70,7 @@ export interface IQCObjectsShadowedElement {
     buildComponents(rebuildObjects?: boolean): any[];
     subelements(query: string): (ShadowRoot | HTMLElement | IQCObjectsShadowedElement | IQCObjectsElement)[];
     subelements(query: string): any[];
+    append?(_child?: any):void;
 }
 
 export interface ILogger {
@@ -252,12 +255,14 @@ export type T__start__ = () => void;
 
 
 export interface IInheritClass {
+    responseTo?: string;
     __instanceID: number;
     __classType?: string;
     __definition?: any;
-    __new__?(): void;
+    __new__?(o?:any): void;
     __namespace?: string;
     body?: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
+    new (_o_?: any): IInheritClass;
 }
 
 
@@ -265,7 +270,7 @@ export interface IInheritClass {
     __instanceID: number;
     __classType?: string;
     __definition?: any;
-    __new__?(): void;
+    __new__?(o?:any): void;
     __namespace?: string;
     body?: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
     new(o?: any): IInheritClass;
@@ -292,7 +297,7 @@ export interface IProcessor extends IInheritClass {
 
 }
 
-export type ComponentParams = {
+export type TComponentParams = {
     __parent__?: IComponent;
     name: string;
     template?: string;
@@ -349,6 +354,13 @@ export interface IComponent extends IInheritClass{
     shadowRoot: IQCObjectsShadowedElement;
     cacheIndex: string;
     parsedAssignmentText: string;
+    _parsedAssignmentText:string, 
+    __shadowRoot:IQCObjectsShadowedElement, 
+    serviceInstance:IService, 
+    innerHTML:string;
+    reload:boolean, 
+    assignRoutingParams:boolean, 
+    getClass():any;
     routingSelected: TComponentRouting[];
     routingParams: object;
     subtags: (HTMLElement | IQCObjectsElement | IQCObjectsShadowedElement)[];
@@ -400,7 +412,7 @@ export interface ICONFIG extends IInheritClass {
     _CONFIG_ENC: string;
     _CONFIG: unknown;
     set(_: string, _value_: unknown): any;
-    get(_: string, _defaultValue_: unknown): any;
+    get(_: string, _defaultValue_?: unknown): any;
     __definition: any;
 }
 

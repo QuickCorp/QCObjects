@@ -22,7 +22,7 @@ import { CONFIG } from "./CONFIG";
 import { serviceLoader } from "./serviceLoader";
 import { _tag_filter_ } from "./tag_filter";
 import { componentLoader } from "./componentLoader";
-import { IComponent, IQCObjectsElement, TComponentRoutings } from "types";
+import { IComponent, IQCObjectsElement, TComponentDoneResponse, TComponentRoutings } from "types";
 
 export class Component extends InheritClass implements IComponent{
     __instanceID!: number;
@@ -54,6 +54,16 @@ export class Component extends InheritClass implements IComponent{
     __promise__?:Promise<any>|null = null;
     data!: any;
     __namespace?:string = undefined;
+    _parsedAssignmentText: any;
+    __shadowRoot: any;
+    serviceInstance: any;
+    serviceData: any;
+    shadowed: boolean;
+    container: any;
+    innerHTML: any;
+    reload: any;
+    static subcomponents: any;
+    assignRoutingParams: boolean;
 
     constructor({
         __parent__,
@@ -76,7 +86,7 @@ export class Component extends InheritClass implements IComponent{
         splashScreenComponent,
         controller,
         view
-    }:ComponentParams) {
+    }:TComponentParams) {
         if (arguments.length < 1) {
             throw Error("No arguments in component. You must at least give one argument.");
         }
@@ -110,7 +120,7 @@ export class Component extends InheritClass implements IComponent{
 
         self.routingWay = CONFIG.get("routingWay");
 
-        self.processorHandler = New(Processor, {
+        self.processorHandler = new Processor ({
             component: self
         });
 
@@ -119,9 +129,9 @@ export class Component extends InheritClass implements IComponent{
         self.data = Object.assign(self.data, self.dataAttributes);
 
         self.createServiceInstance()
-            .then(function (serviceResponse) {
+            .then( () => {
                 if (typeof self.__new__ === "function") {
-                    self.__new__.call(self, self);
+                    self.__new__( self);
                 }
 
                 self._generateRoutingPaths(self.body)
@@ -135,9 +145,15 @@ export class Component extends InheritClass implements IComponent{
                                         logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
                                         console.error(standardResponse);
                                     });
+                            }).catch ((e:any) => {
+                                throw Error (`Unexpected error ${e}`);
                             });
+                    }).catch ((e:any)=> {
+                        throw Error (`Unexpected error ${e}`);
                     });
 
+            }).catch((e:any) => {
+                throw Error(`Unexpected error. ${e}`);
             });
 
     }
@@ -315,7 +331,7 @@ export class Component extends InheritClass implements IComponent{
                             window.history.pushState({
                                 href: (e.target as HTMLAnchorElement).href
                             }, (e?.target as HTMLAnchorElement)?.href, (e.target as HTMLAnchorElement).href);
-                            ClassFactory("Component").route();
+                            Component.route().catch((e)=> {throw Error (`Unexpected error: ${e}`);});
                             _ret_ = false;
                         } else {
                             logger.debug("NO ROUTING FOUND FOR: " + routingPath);
@@ -338,8 +354,8 @@ export class Component extends InheritClass implements IComponent{
 
     }
 
-    done(standardResponse?: ComponentDoneResponse):Promise<ComponentDoneResponse> {
-        const _ret_ = new Promise<ComponentDoneResponse> ((resolve, reject)=> {
+    done(standardResponse?: TComponentDoneResponse):Promise<TComponentDoneResponse> {
+        const _ret_ = new Promise<TComponentDoneResponse> ((resolve, reject)=> {
             if (typeof standardResponse !== "undefined") {
                 const { request, component } = standardResponse;
                 resolve({request, component});

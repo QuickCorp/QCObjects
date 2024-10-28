@@ -1,4 +1,4 @@
-import {IComponent, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement } from "types";
+import {IProcessor, IQCObjectsElement, IQCObjectsShadowedElement } from "types";
 import { CONFIG } from "./CONFIG";
 import { InheritClass } from "./InheritClass";
 import { New } from "./New";
@@ -29,27 +29,8 @@ export class Processor extends InheritClass implements IProcessor {
   constructor({ component }: { component: Component | null }) {
     super({ component });
     this.processors = Processor.processors;
-    this.process = Processor.process.bind(this);
-    this.processObject = Processor.processObject.bind(this);
-    this.setProcessor = Processor.setProcessor.bind(this);
-    this.execute = Processor.execute.bind(this);
   }
-  component: IComponent;
-  process(template: string, component: IComponent);
-  process(template: string, component: IComponent);
-  process(template: unknown, component: unknown): any {
-    throw new Error("Method not implemented.");
-  }
-  processObject(obj: any, component: IComponent);
-  processObject(obj: any, component: IComponent);
-  processObject(obj: unknown, component: unknown): any {
-    throw new Error("Method not implemented.");
-  }
-  execute(component: IComponent, processorName: string, args: string);
-  execute(component: IComponent, processorName: string, args: string);
-  execute(component: unknown, processorName: unknown, args: unknown): any {
-    throw new Error("Method not implemented.");
-  }
+  component: Component;
 
   __instanceID!: number;
   __new__?(): void {
@@ -61,17 +42,12 @@ export class Processor extends InheritClass implements IProcessor {
   processors: any;
 
 
-  // eslint-disable-next-line no-unused-vars
-  setProcessor(proc: Function) {
-    throw new Error("Method not implemented.");
-  }
-
-  static execute(component: Component, processorName: string, args: string):string {
+   execute(component: Component, processorName: string, args: string):string {
     const processorHandler = (typeof component !== "undefined" && component !== null) ? (component.processorHandler) : (this);
     return processorHandler?.processors[processorName].bind(processorHandler).apply(processorHandler, [component, args?.split(",")]) as string;
   }
 
-  static process(template: string, component: Component | null = null) {
+   process(template: string, component: Component | null = null) {
     const processorHandler = (component !== null) ? (component.processorHandler) : (New(Processor, { component: null }));
     if (typeof template === "string") {
       Object.keys(processorHandler.processors).map(function (funcName) {
@@ -87,19 +63,20 @@ export class Processor extends InheritClass implements IProcessor {
     return template;
   }
 
-  static processObject(obj: any, component: Component | null = null) {
+   processObject(obj: any, component: Component | null = null) {
     let __instance__: Processor | typeof Processor | undefined = (component === null) ? (this) : (component.processorHandler);
     if (typeof __instance__ === "undefined") {
       __instance__ = new Processor({ component });
     }
     if (typeof obj === "object") {
       Object.keys(obj).map(
-        function (_k) {
+         (_k) => {
           if (typeof obj[_k] === "object" && !obj[_k].hasOwnProperty.call(obj[_k], "call")) {
             obj[_k] = __instance__?.processObject.bind(__instance__)(obj[_k], component as Component);
           } else if (typeof obj[_k] === "string") {
             obj[_k] = __instance__?.process.bind(__instance__)(obj[_k], component as Component);
           }
+          return _k;
         }
       );
     } else if (typeof obj === "string") {
