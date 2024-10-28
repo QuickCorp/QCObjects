@@ -250,9 +250,6 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
     /**
      * Array math functions
      */
-    const __to_number = function (value:any): number  {
-      return ((isNaN(value)) ? (new Number(0) as number) : (new Number(value) as number));
-    };
     (Array as unknown as Array<any>).prototype.unique = function () {
       return this.filter(function (value:any, index:any, self:any) {
         return self.indexOf(value) === index;

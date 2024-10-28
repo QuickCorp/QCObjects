@@ -10,7 +10,7 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "rootDir": "./src",
+    "rootDir": "./",
     "outFile": "build/index.d.ts",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

@@ -1,4 +1,4 @@
-declare module "../types/global/index" {
+declare module "types/global/index" {
     import { ClientRequest } from "http";
     import { Http2SecureServer, Http2Server, Http2ServerRequest, Http2Stream } from "http2";
     import { Stream } from "stream";
@@ -68,7 +68,7 @@ declare module "../types/global/index" {
         warn(message: any): string;
         info(message: any): string;
     }
-    export type Class = (className: string, extendsFrom: any, definition: any) => any;
+    export type TClass = ((className?: string, extendsFrom?: unknown, definition?: unknown) => unknown) | ((className?: string, extendsFrom?: unknown) => unknown) | ((className?: string, definition?: unknown) => unknown) | (() => unknown);
     export interface _ICrypt {
         last_string: string;
         last_key: string;
@@ -532,11 +532,11 @@ declare module "../types/global/index" {
         length: any;
         prototype: any;
         unique(): T[];
-        table(): T[];
-        sum(): T[];
-        avg(): T[];
-        min(): T[];
-        max(): T[];
+        table(): void;
+        sum(): number;
+        avg(): number;
+        min(): number;
+        max(): number;
         sortBy(propName: string, sortAsc?: boolean): T[];
         matrix(length: number, fillValue?: number): T[];
         matrix2d(length: number, fillValue?: number): T[][];
@@ -544,11 +544,11 @@ declare module "../types/global/index" {
     }
     export interface ArrayConstructor {
         unique<T>(a: Array<T>): T[];
-        table<T>(a: Array<T>): T[];
-        sum<T>(a: Array<T>): T[];
-        avg<T>(a: Array<T>): T[];
-        min<T>(a: Array<T>): T[];
-        max<T>(a: Array<T>): T[];
+        table<T>(a: Array<T>): void;
+        sum<T>(a: Array<T>): number;
+        avg<T>(a: Array<T>): number;
+        min<T>(a: Array<T>): number;
+        max<T>(a: Array<T>): number;
         sortBy<T>(a: Array<T>, propName: string, sortAsc?: boolean): T[];
         matrix<T>(a: Array<T>, length: number, fillValue?: number): T[];
         matrix2d<T>(a: Array<T>, length: number, fillValue?: number): T[][];
@@ -561,7 +561,36 @@ declare module "../types/global/index" {
     export const componentsStack: IComponent[];
     export const lastCache: IComplexStorageCache | undefined;
 }
-declare module "platform" {
+declare module "src/isQCObjects" {
+    export const isQCObjects_Object: (_: any) => boolean;
+    export const isQCObjects_Class: (_: any) => boolean;
+}
+declare module "src/PrimaryCollections" {
+    export var _QC_CLASSES: {};
+    export var _QC_PACKAGES: {};
+    export var _QC_PACKAGES_IMPORTED: never[];
+    export var _QC_READY_LISTENERS: never[];
+}
+declare module "src/is_raw_class" {
+    export const __is_raw_class__: (o_c: any) => boolean;
+}
+declare module "src/ObjectName" {
+    /**
+     * Returns the object or function name
+     *
+     * @param Object or function
+     */
+    export const ObjectName: (o: any) => string;
+}
+declare module "src/getType" {
+    /**
+     * Determine the type of the Object for any QCObjects Object
+     *
+     * @param {Object} object
+     */
+    export const __getType__: (o_c: any) => any;
+}
+declare module "src/platform" {
     export const isDeno: boolean;
     export const isBrowser: boolean;
     export const isNodeCommonJS: boolean;
@@ -569,7 +598,7 @@ declare module "platform" {
     export const _require_: (name: string) => void;
     export const is_phonegap: boolean;
 }
-declare module "Logger" {
+declare module "src/Logger" {
     export class Logger {
         debugEnabled: boolean;
         infoEnabled: boolean;
@@ -580,7 +609,7 @@ declare module "Logger" {
     }
     export const logger: Logger;
 }
-declare module "Cast" {
+declare module "src/Cast" {
     /**
      * Casts an object to another object class type
      *
@@ -596,45 +625,22 @@ declare module "Cast" {
      */
     export const _CastProps: (obj_source: any, obj_dest: any) => any;
 }
-declare module "DOMCreateElement" {
-    import { QCObjectsElement } from "types/global";
+declare module "src/DOMCreateElement" {
+    import { QCObjectsElement } from "types/global/index";
     export const _DOMCreateElement: (elementName: string) => QCObjectsElement;
 }
-declare module "is_raw_class" {
-    export const __is_raw_class__: (o_c: any) => boolean;
-}
-declare module "ObjectName" {
-    /**
-     * Returns the object or function name
-     *
-     * @param Object or function
-     */
-    export const ObjectName: (o: any) => string;
-}
-declare module "getType" {
-    /**
-     * Determine the type of the Object for any QCObjects Object
-     *
-     * @param {Object} object
-     */
-    export const __getType__: (o_c: any) => any;
-}
-declare module "IncrementInstanceID" {
+declare module "src/IncrementInstanceID" {
     /**
      * Primary instance ID of all objects
      */
     export var __instanceID: number;
     export const IncrementInstanceID: () => void;
 }
-declare module "introspection" {
+declare module "src/introspection" {
     export const _protected_code_: (_: any) => void;
     export const _methods_: (_: any) => any[];
 }
-declare module "isQCObjects" {
-    export const isQCObjects_Object: (_: any) => boolean;
-    export const isQCObjects_Class: (_: any) => boolean;
-}
-declare module "is_a" {
+declare module "src/is_a" {
     /**
      * Returns if a class or object is from a determinated type
      * @param {Object} object
@@ -642,7 +648,7 @@ declare module "is_a" {
      */
     export const is_a: (obj: any, typeName: string) => boolean;
 }
-declare module "is_forbidden_name" {
+declare module "src/is_forbidden_name" {
     /**
      * Internal use to determine the forbidden names for classes
      * Reserved words
@@ -653,35 +659,40 @@ declare module "is_forbidden_name" {
      */
     export const __is__forbidden_name__: (name: string) => boolean;
 }
-declare module "LegacyCopy" {
+declare module "src/LegacyCopy" {
     export const _LegacyCopy: (obj: any) => any;
 }
-declare module "PrimaryCollections" {
-    export var _QC_CLASSES: {};
-    export var _QC_PACKAGES: {};
-    export var _QC_PACKAGES_IMPORTED: never[];
-    export var _QC_READY_LISTENERS: never[];
-}
-declare module "make_global" {
-    export const __make_global__: (f: any) => void;
-}
-declare module "RegisterClass" {
-    export const __register_class__: (_class_: any, __namespace?: string) => any;
-    export const RegisterClass: (_class_: any, __namespace?: string) => any;
-}
-declare module "Package" {
+declare module "src/Class" {
+    import { TClass } from "types/global/index";
     /**
-     * Defines a package for Class classification
+     * Creates new object class  of another object
      *
-     * @param {Object} namespace
-     * @param {Object} classes
+     * @param {String} name
+     * @param {Object} type
+     * @param {Object} definition
+     *
+     * @example
+     * Class (name, type, definition)
+     * Class (name, type)
+     * Class (name, definition)
+     * Class ()
+     *
+     *
+     * const MyClass = Class ("MyComponent", Component, {
+     *  name: "one_component",
+     *  method1 : () => {console.log ("done") }
+     * })
+     * const myClassInstance = new MyClass ({name: "one_component"})
+     *
+     * const MyClass = Class ("MyService",{
+     *  name: "myservice",
+     * })
+     *
+     * const myClassInstance = new MyClass ({name: "myservice"})
      */
-    export const Package: (namespace: string, classes?: any[]) => any;
+    export const Class: TClass;
 }
-declare module "ClassFactory" {
-    export const ClassFactory: (className: string) => any;
-}
-declare module "Base64" {
+declare module "src/Base64" {
     export const Base64: {
         _keyStr: string;
         encode(e: string): string;
@@ -690,20 +701,20 @@ declare module "Base64" {
         _utf8_decode(e: string): string;
     };
 }
-declare module "basePath" {
+declare module "src/basePath" {
     export var _basePath_: string;
     export const setBasePath: (value: string) => void;
 }
-declare module "DataStringify" {
+declare module "src/DataStringify" {
     export const _DataStringify: (data: any) => string;
 }
-declare module "domain" {
+declare module "src/domain" {
     export const _domain_: string;
 }
-declare module "InheritClass" {
-    export const InheritClass: any;
+declare module "src/InheritClass" {
+    export const InheritClass: unknown;
 }
-declare module "New" {
+declare module "src/New" {
     /**
      * Creates an object from a Class definition
      *
@@ -712,12 +723,12 @@ declare module "New" {
      */
     export const New: (__class__: any, args?: {}) => any;
 }
-declare module "secretKey" {
+declare module "src/secretKey" {
     export const _secretKey: string;
 }
-declare module "Crypt" {
-    import { _ICrypt } from "types/global";
-    import { InheritClass } from "InheritClass";
+declare module "src/Crypt" {
+    import { _ICrypt } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
     export class _Crypt extends InheritClass implements _ICrypt {
         last_string: string;
         last_key: string;
@@ -734,8 +745,8 @@ declare module "Crypt" {
     export const _CryptObject: (o: any) => string;
     export const _DecryptObject: (s: string) => any;
 }
-declare module "CONFIG" {
-    import { InheritClass } from "InheritClass";
+declare module "src/CONFIG" {
+    import { InheritClass } from "src/InheritClass";
     export class CONFIG extends InheritClass {
         get _CONFIG_ENC(): string;
         get _CONFIG(): unknown;
@@ -743,9 +754,9 @@ declare module "CONFIG" {
         get(name: string, _default: any): any;
     }
 }
-declare module "Processor" {
-    import { Component, HTMLElement, IProcessor, QCObjectsElement, QCObjectsShadowedElement } from "types/global";
-    import { InheritClass } from "InheritClass";
+declare module "src/Processor" {
+    import { Component, HTMLElement, IProcessor, QCObjectsElement, QCObjectsShadowedElement } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
     export class Processor extends InheritClass implements IProcessor {
         __definition?: any;
         __classType?: string;
@@ -772,22 +783,22 @@ declare module "Processor" {
         static processObject(obj: any, component?: Component | null): any;
     }
 }
-declare module "routings" {
-    import { ComponentRouting } from "types/global";
+declare module "src/routings" {
+    import { ComponentRouting } from "types/global/index";
     export const __routing_params__: any;
     export const __valid_routings__: (routings: ComponentRouting[], routingPath: string) => ComponentRouting[];
     export const __valid_routing_way__: (validRoutingWays: string[], routingWay: string) => boolean;
 }
-declare module "Export" {
+declare module "src/Export" {
     export const Export: (f: any) => void;
 }
-declare module "asyncLoad" {
-    import { TAsyncLoadCallback } from "types/global";
+declare module "src/asyncLoad" {
+    import { TAsyncLoadCallback } from "types/global/index";
     export const _asyncLoad: never[];
     export function asyncLoad(callback: TAsyncLoadCallback, args?: any[]): any;
     export const _fireAsyncLoad: () => void;
 }
-declare module "ComplexStorageCache" {
+declare module "src/ComplexStorageCache" {
     export class ComplexStorageCache {
         constructor(params: {
             index: any;
@@ -803,9 +814,9 @@ declare module "ComplexStorageCache" {
         clear(): void;
     }
 }
-declare module "Service" {
-    import { HTMLElement, IService, QCObjectsElement, QCObjectsShadowedElement, ServiceDoneResponse } from "types/global";
-    import { InheritClass } from "InheritClass";
+declare module "src/Service" {
+    import { HTMLElement, IService, QCObjectsElement, QCObjectsShadowedElement, ServiceDoneResponse } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
     export class Service extends InheritClass implements IService {
         kind: string;
         domain: string;
@@ -852,8 +863,8 @@ declare module "Service" {
         constructor();
     }
 }
-declare module "serviceLoader" {
-    import { Service } from "Service";
+declare module "src/serviceLoader" {
+    import { Service } from "src/Service";
     /**
      * Loads a simple component from a template
      *
@@ -862,11 +873,11 @@ declare module "serviceLoader" {
      */
     export const serviceLoader: (service: Service, _async?: boolean) => Promise<unknown> | undefined;
 }
-declare module "tag_filter" {
+declare module "src/tag_filter" {
     export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
 }
-declare module "componentLoader" {
-    import { Component } from "Component";
+declare module "src/componentLoader" {
+    import { Component } from "src/Component";
     /**
      * Loads a simple component from a template
      *
@@ -875,10 +886,10 @@ declare module "componentLoader" {
      */
     export const componentLoader: (component: Component, _async: boolean) => any;
 }
-declare module "Component" {
-    import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, IComponent, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global";
-    import { InheritClass } from "InheritClass";
-    import { Processor } from "Processor";
+declare module "src/Component" {
+    import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, IComponent, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
+    import { Processor } from "src/Processor";
     export class Component extends InheritClass implements IComponent {
         __instanceID: number;
         name: string;
@@ -975,9 +986,9 @@ declare module "Component" {
         runComponentHelpers(): void;
     }
 }
-declare module "ComponentFactory" {
-    import { type ComponentURIParams, type QCObjectsElement } from "types";
-    import { Component } from "Component";
+declare module "src/ComponentFactory" {
+    import { type ComponentURIParams, type QCObjectsElement } from "types/global/index";
+    import { Component } from "src/Component";
     /**
      * Returns a standarized uri for a component
      * @example
@@ -993,8 +1004,8 @@ declare module "ComponentFactory" {
     export const _buildComponentsFromElements_: (elements: any[], __parent__: Component | null) => any[];
     export const buildComponents: (element: QCObjectsElement) => Component[];
 }
-declare module "top" {
-    import { ComplexStorageCache, Component } from "types/global";
+declare module "src/top" {
+    import { ComplexStorageCache, Component } from "types/global/index";
     type QCObjects = {
         lastCache?: ComplexStorageCache;
         componentsStack: Component[];
@@ -1079,24 +1090,55 @@ declare module "top" {
     export const resetTop: (_top_: QCObjects) => void;
     export const buildComponentsStack: () => void;
 }
-declare module "Class" {
+declare module "src/make_global" {
+    export const __make_global__: (f: any) => void;
+}
+declare module "src/RegisterClass" {
+    export const __register_class__: (_class_: any, __namespace?: string) => any;
+    export const RegisterClass: (_class_: any, __namespace?: string) => any;
+}
+declare module "src/Package" {
     /**
-     * Creates new object class  of another object
+     * Defines a package for Class classification
      *
-     * @param {String} name
-     * @param {Object} type
-     * @param {Object} definition
+     * @param {Object} namespace
+     * @param {Object} classes
      */
-    export const Class: (name?: string, type?: any, definition?: any) => any;
+    export const Package: (namespace: string, classes?: any[]) => any;
 }
-declare module "ArrayCollection" {
-    export const ArrayList: any;
-    export const ArrayCollection: any;
+declare module "src/ClassFactory" {
+    export const ClassFactory: (className: string) => any;
 }
-declare module "BackendMicroservice" {
+declare module "src/mathFunctions" {
+    export const __to_number: (value: any) => number;
+}
+declare module "src/ArrayCollection" {
+    import { IArrayCollection, IArrayList } from "types/global/index";
+    export class ArrayList extends Array implements IArrayList {
+        prototype: any;
+        unique(): any[];
+        table(): void;
+        sum(): number;
+        avg(): number;
+        min(): number;
+        max(): number;
+        sortBy(propName: string, sortAsc?: boolean): any[];
+        matrix(length: number, fillValue?: number): any[];
+        matrix2d(length: number, fillValue?: number): any[][];
+        matrix3d(length: number, fillValue?: number): any[][][];
+    }
+    export class ArrayCollection implements IArrayCollection {
+        source: ArrayList;
+        changed(prop: string, value: any): void;
+        push(value: any): void;
+        pop(): void;
+        _new_(source: ArrayList): void;
+    }
+}
+declare module "src/BackendMicroservice" {
     import { Http2Stream } from "http2";
     import { Stream } from "stream";
-    import { InheritClass } from "InheritClass";
+    import { InheritClass } from "src/InheritClass";
     export class BackendMicroservice extends InheritClass {
         body: any;
         stream: any;
@@ -1124,11 +1166,11 @@ declare module "BackendMicroservice" {
         done(): void;
     }
 }
-declare module "ConfigSettings" { }
-declare module "Controller" {
-    import { ControllerParams, HTMLElement, IController, QCObjectsElement } from "types/global";
-    import { InheritClass } from "InheritClass";
-    import { Component } from "Component";
+declare module "src/ConfigSettings" { }
+declare module "src/Controller" {
+    import { ControllerParams, HTMLElement, IController, QCObjectsElement } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
+    import { Component } from "src/Component";
     export class Controller extends InheritClass implements IController {
         __instanceID: number;
         component: Component | null;
@@ -1142,8 +1184,8 @@ declare module "Controller" {
         done(): void;
     }
 }
-declare module "DDO" {
-    import { DDOParams } from "types/global";
+declare module "src/DDO" {
+    import { DDOParams } from "types/global/index";
     const DDO_base: any;
     /**
      * Dynamic Data Objects Class
@@ -1168,8 +1210,8 @@ declare module "DDO" {
         _new_({ instance, name, fget, fset, value }: DDOParams): void;
     }
 }
-declare module "DefaultTemplateHandler" {
-    import { DefaultTemplateHandlerParams } from "types/global";
+declare module "src/DefaultTemplateHandler" {
+    import { DefaultTemplateHandlerParams } from "types/global/index";
     export class DefaultTemplateHandler {
         template: string;
         __definition: {};
@@ -1179,22 +1221,22 @@ declare module "DefaultTemplateHandler" {
         assign(data: any): string;
     }
 }
-declare module "DocumentLayout" {
+declare module "src/DocumentLayout" {
     export const getDocumentLayout: () => string | undefined;
 }
-declare module "Effect" {
-    import { EffectParams } from "types/global";
-    import { InheritClass } from "InheritClass";
+declare module "src/Effect" {
+    import { EffectParams } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
     export class Effect extends InheritClass {
         duration: number;
         constructor();
         animate({ timing, draw, duration }: EffectParams): void;
     }
 }
-declare module "findPackageNodePath" {
+declare module "src/findPackageNodePath" {
     export const findPackageNodePath: (packagename: string) => string | null;
 }
-declare module "Import" {
+declare module "src/Import" {
     /**
      * Imports a script with the package nomenclature
      *
@@ -1207,7 +1249,7 @@ declare module "Import" {
         _package_name_?: string;
     }> | undefined;
 }
-declare module "NamespaceRef" {
+declare module "src/NamespaceRef" {
     /**
      * Declare Namespace
      *
@@ -1218,14 +1260,14 @@ declare module "NamespaceRef" {
         [x: string]: any;
     };
 }
-declare module "assign" { }
-declare module "subelements" {
+declare module "src/assign" { }
+declare module "src/subelements" {
     export const subelements: (this: any, query: string) => any[];
 }
-declare module "waitUntil" {
+declare module "src/waitUntil" {
     export const waitUntil: (func: () => void, exp: () => any) => void;
 }
-declare module "super" {
+declare module "src/super" {
     /**
      * Returns a method from a superior QCObjects Class
      * It is useful for Class Inheritance in the _new_ and __new__ method constructors
@@ -1237,10 +1279,10 @@ declare module "super" {
      */
     export const _super_: (className: string, classMethodName: string) => any;
 }
-declare module "shortCode" {
+declare module "src/shortCode" {
     export const shortCode: () => any;
 }
-declare module "Ready" {
+declare module "src/Ready" {
     /**
      * Defines a Custom Ready listener
      */
@@ -1253,20 +1295,20 @@ declare module "Ready" {
      */
     export const _Ready: (e: any) => void;
 }
-declare module "captureFalseTouch" {
+declare module "src/captureFalseTouch" {
     export let supportsPassive: boolean;
     export const captureFalseTouch: () => false | {
         passive: boolean;
     };
 }
-declare module "range" {
+declare module "src/range" {
     export const range: (start: number, stop?: number, step?: number) => number[];
 }
-declare module "defaultProcessors" {
+declare module "src/defaultProcessors" {
     export const setDefaultProcessors: () => void;
 }
-declare module "Tag" {
-    export const TagElements: any;
+declare module "src/Tag" {
+    export const TagElements: unknown;
     /**
      * Gets the element of DOM found by tag name
      *
@@ -1275,14 +1317,14 @@ declare module "Tag" {
      */
     export const Tag: (tagname: string, innerHTML?: string) => any;
 }
-declare module "SourceJS" {
-    export const SourceJS: any;
+declare module "src/SourceJS" {
+    export const SourceJS: unknown;
 }
-declare module "SourceCSS" {
-    export const SourceCSS: any;
+declare module "src/SourceCSS" {
+    export const SourceCSS: unknown;
 }
-declare module "globalSettings" {
-    import { InheritClass } from "InheritClass";
+declare module "src/globalSettings" {
+    import { InheritClass } from "src/InheritClass";
     export class GlobalSettings extends InheritClass {
         _GLOBAL: {};
         __definition: {};
@@ -1293,16 +1335,16 @@ declare module "globalSettings" {
         static __start__(): void;
     }
 }
-declare module "WidgetsFactory" {
-    import { I_ComponentWidget_ } from "types";
+declare module "src/WidgetsFactory" {
+    import { I_ComponentWidget_ } from "types/global/index";
     export class _ComponentWidget_ extends HTMLElement implements I_ComponentWidget_ {
         constructor();
     }
     export const RegisterWidget: (widgetName: string) => void;
     export const RegisterWidgets: () => void;
 }
-declare module "View" {
-    import { InheritClass } from "InheritClass";
+declare module "src/View" {
+    import { InheritClass } from "src/InheritClass";
     export class View extends InheritClass {
         constructor({ component, dependencies }: {
             component?: undefined;
@@ -1310,15 +1352,15 @@ declare module "View" {
         });
     }
 }
-declare module "VO" {
-    import { InheritClass } from "InheritClass";
+declare module "src/VO" {
+    import { InheritClass } from "src/InheritClass";
     export class VO extends InheritClass {
         constructor();
     }
 }
-declare module "TransitionEffect" {
-    import { TransitionEffectParams } from "types/global";
-    import { Effect } from "Effect";
+declare module "src/TransitionEffect" {
+    import { TransitionEffectParams } from "types/global/index";
+    import { Effect } from "src/Effect";
     export class TransitionEffect extends Effect {
         duration: number;
         defaultParams: {
@@ -1338,9 +1380,9 @@ declare module "TransitionEffect" {
         apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: TransitionEffectParams): void;
     }
 }
-declare module "Timer" {
-    import { TimerParams } from "types/global";
-    import { InheritClass } from "InheritClass";
+declare module "src/Timer" {
+    import { TimerParams } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
     export class Timer extends InheritClass {
         constructor();
         duration: number;
@@ -1348,8 +1390,8 @@ declare module "Timer" {
         thread({ timing, intervalInterceptor, duration }: TimerParams): void;
     }
 }
-declare module "Toggle" {
-    import { InheritClass } from "InheritClass";
+declare module "src/Toggle" {
+    import { InheritClass } from "src/InheritClass";
     export class Toggle extends InheritClass {
         _toggle: boolean;
         _inverse: boolean;
@@ -1367,40 +1409,41 @@ declare module "Toggle" {
         fire(): Promise<Toggle>;
     }
 }
-declare module "QCObjects" {
-    import "assign";
-    import { Logger } from "Logger";
-    import { asyncLoad } from "asyncLoad";
-    import { ComplexStorageCache } from "ComplexStorageCache";
-    import { Processor } from "Processor";
-    import { BackendMicroservice } from "BackendMicroservice";
-    import { Component } from "Component";
-    import { _Crypt } from "Crypt";
-    import { DefaultTemplateHandler } from "DefaultTemplateHandler";
-    import { GlobalSettings } from "globalSettings";
-    import { _ComponentWidget_ } from "WidgetsFactory";
-    import { CONFIG } from "CONFIG";
-    import { Controller } from "Controller";
-    import { View } from "View";
-    import { ConfigService, JSONService, Service } from "Service";
-    import { VO } from "VO";
-    import { Effect } from "Effect";
-    import { TransitionEffect } from "TransitionEffect";
-    import { Timer } from "Timer";
-    import { DDO } from "DDO";
-    import { Toggle } from "Toggle";
-    import { QCObjectsElement } from "types/global";
+declare module "src/QCObjects" {
+    import "src/assign";
+    import { Logger } from "src/Logger";
+    import { asyncLoad } from "src/asyncLoad";
+    import { ComplexStorageCache } from "src/ComplexStorageCache";
+    import { Processor } from "src/Processor";
+    import { BackendMicroservice } from "src/BackendMicroservice";
+    import { Component } from "src/Component";
+    import { _Crypt } from "src/Crypt";
+    import { DefaultTemplateHandler } from "src/DefaultTemplateHandler";
+    import { GlobalSettings } from "src/globalSettings";
+    import { _ComponentWidget_ } from "src/WidgetsFactory";
+    import { CONFIG } from "src/CONFIG";
+    import { Controller } from "src/Controller";
+    import { View } from "src/View";
+    import { ConfigService, JSONService, Service } from "src/Service";
+    import { VO } from "src/VO";
+    import { Effect } from "src/Effect";
+    import { TransitionEffect } from "src/TransitionEffect";
+    import { Timer } from "src/Timer";
+    import { ArrayCollection, ArrayList } from "src/ArrayCollection";
+    import { DDO } from "src/DDO";
+    import { Toggle } from "src/Toggle";
+    import { QCObjectsElement } from "types/global/index";
     const _default: {
         BackendMicroservice: typeof BackendMicroservice;
         Logger: typeof Logger;
-        Class: (name?: string, type?: any, definition?: any) => any;
+        Class: import("types/global").TClass;
         _Crypt: typeof _Crypt;
-        TagElements: any;
+        TagElements: unknown;
         DefaultTemplateHandler: typeof DefaultTemplateHandler;
-        SourceJS: any;
-        SourceCSS: any;
-        ArrayList: any;
-        ArrayCollection: any;
+        SourceJS: unknown;
+        SourceCSS: unknown;
+        ArrayList: typeof ArrayList;
+        ArrayCollection: typeof ArrayCollection;
         GlobalSettings: typeof GlobalSettings;
         DDO: typeof DDO;
         ComplexStorageCache: typeof ComplexStorageCache;
@@ -1432,7 +1475,7 @@ declare module "QCObjects" {
         Tag: (tagname: string, innerHTML?: string) => any;
         Ready: (e: any) => void;
         _methods_: (_: any) => any[];
-        InheritClass: any;
+        InheritClass: unknown;
         Processor: typeof Processor;
         Component: typeof Component;
         CONFIG: typeof CONFIG;
@@ -1457,13 +1500,13 @@ declare module "QCObjects" {
     };
     export default _default;
 }
-declare module "index" {
-    import QCObjects from "QCObjects";
+declare module "src/index" {
+    import QCObjects from "src/QCObjects";
     export default QCObjects;
 }
-declare module "localStorage" {
+declare module "src/localStorage" {
     export var localStorage: any;
 }
-declare module "uniqueID" {
+declare module "src/uniqueID" {
     export const uniqueId: () => any;
 }

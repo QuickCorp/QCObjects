@@ -14,7 +14,7 @@
       "DOM"
     ],
     "module": "NodeNext",
-    "rootDir": "./src",
+    "rootDir": "./",
     "allowJs": true,
     "outDir": "build",
     "allowSyntheticDefaultImports": true,

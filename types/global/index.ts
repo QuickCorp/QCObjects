@@ -570,28 +570,28 @@ export type Import = (packageName: string, ready?: Function, external?: boolean)
 
 export declare const cordova: any;
 
-export interface Array<T> {
+export declare interface Array<T> {
     length: any;
     prototype: any;
     unique(): T[];
-    table(): T[];
-    sum(): T[];
-    avg(): T[];
-    min(): T[];
-    max(): T[];
+    table(): void;
+    sum(): number;
+    avg(): number;
+    min(): number;
+    max(): number;
     sortBy(propName: string, sortAsc?: boolean): T[];
     matrix(length: number, fillValue?: number): T[];
     matrix2d(length: number, fillValue?: number): T[][];
     matrix3d(length: number, fillValue?: number): T[][][];
 }
 
-export interface ArrayConstructor {
+export declare interface ArrayConstructor {
     unique<T>(a: Array<T>): T[];
-    table<T>(a: Array<T>): T[];
-    sum<T>(a: Array<T>): T[];
-    avg<T>(a: Array<T>): T[];
-    min<T>(a: Array<T>): T[];
-    max<T>(a: Array<T>): T[];
+    table<T>(a: Array<T>): void;
+    sum<T>(a: Array<T>): number;
+    avg<T>(a: Array<T>): number;
+    min<T>(a: Array<T>): number;
+    max<T>(a: Array<T>): number;
     sortBy<T>(a: Array<T>, propName: string, sortAsc?: boolean): T[];
     matrix<T>(a: Array<T>, length: number, fillValue?: number): T[];
     matrix2d<T>(a: Array<T>, length: number, fillValue?: number): T[][];
