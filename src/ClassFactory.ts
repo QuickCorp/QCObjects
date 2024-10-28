@@ -4,11 +4,12 @@
  * @param {String} name
  */
 
+import { IInheritClass } from "types";
 import { isQCObjects_Class } from "./isQCObjects";
 import { Package } from "./Package";
 import { _QC_CLASSES } from "./PrimaryCollections";
 
-export const ClassFactory = function (className:string) {
+export const ClassFactory = function (className:string):IInheritClass {
     let _classFactory;
     if (className !== null && className.indexOf(".") > -1) {
         const packageName = className.split(".").slice(0, className.split(".").length - 1).join(".");
@@ -25,6 +26,8 @@ export const ClassFactory = function (className:string) {
         }
     } else if (className !== null && Object.hasOwnProperty.call(_QC_CLASSES, className)) {
         _classFactory = (_QC_CLASSES as any)[className];
+    } else {
+        throw Error(`Undefined class ${className}. Unable to retrieve the class factory.`);
     }
-    return _classFactory;
+    return _classFactory as IInheritClass;
 };

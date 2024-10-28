@@ -9,6 +9,16 @@ import { _secretKey } from "./secretKey";
 
 
 export class _Crypt extends InheritClass implements _ICrypt{
+    string: string = "";
+    key: string = "";
+    // eslint-disable-next-line no-unused-vars
+    encrypt(_string_: string, key: string): string {
+        throw new Error("Method not implemented.");
+    }
+    // eslint-disable-next-line no-unused-vars
+    decrypt(_string_: string, key: string): string {
+        throw new Error("Method not implemented.");
+    }
     last_string= "";
     last_key= "";
     construct= false;
@@ -53,15 +63,15 @@ export class _Crypt extends InheritClass implements _ICrypt{
         this.last_string = result;
         return this.last_string;
     } 
-    encrypt(string:string, key:string) {
-        const crypt = New(ClassFactory("_Crypt"), {
+    static encrypt(string:string, key:string):string {
+        const crypt = new _Crypt({
             string,
             key: (key !== "") ? (key) : ("12345678ABC")
         });
         return crypt._encrypt();
     } 
-    decrypt(string:string, key:string) {
-        const crypt = New(ClassFactory("_Crypt"), {
+    static decrypt(string:string, key:string) {
+        const crypt = new _Crypt({
             string,
             key: (key !== "") ? (key) : ("12345678ABC")
         });
@@ -70,10 +80,10 @@ export class _Crypt extends InheritClass implements _ICrypt{
 }
 
 export const _CryptObject = function (o:any):string {
-    return ClassFactory("_Crypt").encrypt(_DataStringify(o), _secretKey);
+    return _Crypt.encrypt(_DataStringify(o), _secretKey);
 };
 export const _DecryptObject = function (s:string):any {
-    return (s === "") ? ({}) : (JSON.parse(ClassFactory("_Crypt").decrypt(s, _secretKey)));
+    return (s === "") ? ({}) : (JSON.parse(_Crypt.decrypt(s, _secretKey)));
 };
 
 Package( "com.qcobjects", [_Crypt]);

@@ -8,9 +8,11 @@ import { Processor } from "./Processor";
 import { _secretKey } from "./secretKey";
 import { Package } from "./Package";
 import { InheritClass } from "./InheritClass";
+import { ICONFIG } from "types";
 
 
-export class CONFIG extends InheritClass {
+export class CONFIG extends InheritClass implements ICONFIG{
+  __definition!: any;
 
   get _CONFIG_ENC():string {
     return ClassFactory("ConfigSettings")?.instance?._CONFIG_ENC as string;
@@ -29,9 +31,9 @@ export class CONFIG extends InheritClass {
     let _conf;
     try {
       _conf = (
-        function (config) {
+        function (config) :any{
           if (config._CONFIG_ENC === null) {
-            config._CONFIG_ENC = _Crypt.encrypt(_DataStringify({}), _secretKey) as string;
+            config._CONFIG_ENC = _Crypt.encrypt(_DataStringify({}), _secretKey);
           }
           const _protectedEnc = config._CONFIG_ENC.valueOf();
           const _protectedConf = config._CONFIG.valueOf();
@@ -51,11 +53,11 @@ export class CONFIG extends InheritClass {
     }
   }
 
-  get(name: string, _default: any) {
+  get(name: string, _default: unknown):any {
     let _value;
     try {
       const _conf = (
-        function (config) {
+        function (config):any {
           if (config._CONFIG_ENC === null) {
             config._CONFIG_ENC = ClassFactory("_Crypt").encrypt(_DataStringify({}), _secretKey) as string;
           }
@@ -77,6 +79,14 @@ export class CONFIG extends InheritClass {
     }
     return Processor.processObject.call(Processor, _value);
   }
+
+  static set (name:string, value:unknown){
+    (new CONFIG().set(name, value));
+  }  
+  static get (name:string, value:unknown):any{
+    return (new CONFIG().set(name, value));
+  }
+
 }
 
 

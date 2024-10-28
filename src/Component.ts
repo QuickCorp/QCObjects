@@ -1,4 +1,3 @@
-import { ComponentDoneResponse, ComponentParams, ComponentRouting, Controller, Effect, HTMLElement, IComponent, QCObjectsElement, QCObjectsShadowedElement, View } from "types/global";
 import { Base64 } from "./Base64";
 import { _basePath_ } from "./basePath";
 import { _Cast } from "./Cast";
@@ -23,11 +22,12 @@ import { CONFIG } from "./CONFIG";
 import { serviceLoader } from "./serviceLoader";
 import { _tag_filter_ } from "./tag_filter";
 import { componentLoader } from "./componentLoader";
+import { IComponent, IQCObjectsElement, TComponentRoutings } from "types";
 
 export class Component extends InheritClass implements IComponent{
     __instanceID!: number;
     name!: string;
-    _body!:QCObjectsElement | HTMLElement;
+    _body!:IQCObjectsElement | HTMLElement;
     templateURI!: string;
     tplsource!: string;
     tplextension!: string;
@@ -38,8 +38,8 @@ export class Component extends InheritClass implements IComponent{
     templateHandler = "DefaultTemplateHandler";
     processorHandler?: Processor;
     routingWay:string|null = null;
-    routingNodes:(QCObjectsElement | HTMLElement)[] = [];
-    routings:ComponentRouting[] = [];
+    routingNodes:(IQCObjectsElement | HTMLElement)[] = [];
+    routings:TComponentRoutings = [];
     routingPath = "";
     routingPaths:string[] = [];
     _componentHelpers:any[] = [];

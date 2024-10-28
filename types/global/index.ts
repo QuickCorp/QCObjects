@@ -175,7 +175,7 @@ export interface IGlobalSettings {
     __start__(): Promise<any>; //static
 }
 export type IGLOBAL = IGlobalSettings;
-export type DDOParams = {
+export type TDDOParams = {
     instance: any,
     name: string,
     fget: Function,
@@ -189,17 +189,17 @@ export interface IDDO {
         fget,
         fset,
         value
-    }: DDOParams): IDDO;
+    }: TDDOParams): IDDO;
 }
-export type CacheController = {
+export type TCacheController = {
     cache: IComplexStorageCache;
     cachedObjectID: string;
     cachedResponse?: any;
 }
-export type ComplexCacheParams = {
+export type TComplexCacheParams = {
     index: string;
-    load(cacheController?: CacheController): any;
-    alternate(cacheController?: CacheController): any;
+    load(cacheController?: TCacheController): any;
+    alternate(cacheController?: TCacheController): any;
 }
 export interface IComplexStorageCache {
     object: any;
@@ -214,41 +214,41 @@ export interface IComplexStorageCache {
     isEmpty(object: any): boolean;
     save(object: any, cachedNewResponse: string): void;
 
-    new(cache: ComplexCacheParams): IComplexStorageCache;
+    new(cache: TComplexCacheParams): IComplexStorageCache;
 
 }
 
-export type ComponentURIParams = { COMPONENTS_BASE_PATH: string, COMPONENT_NAME: string, TPLEXTENSION: string, TPL_SOURCE: string };
+export type TComponentURIParams = { COMPONENTS_BASE_PATH: string, COMPONENT_NAME: string, TPLEXTENSION: string, TPL_SOURCE: string };
 export type I_ComponentWidget_ = HTMLElement;
 
-export type asyncLoad = (callback: Function, args: Array<any>) => any;
-export type RegisterClass = (_class_: any, namespace: string) => void;
-export type ComponentURI = ({ COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION, TPL_SOURCE }: ComponentURIParams) => string;
-export type waitUntil = (func: Function, exp: Function) => void;
-export type _super_ = (className: string, classMethodName: string, params?: Array<any>) => any;
-export type _DOMCreateElement = (elementName: string) => IQCObjectsElement | HTMLElement;
-export type shortCode = () => string;
-export type __getType__ = (_class_: any) => string;
-export type is_a = (obj: any, typeName: string) => boolean;
-export type _DataStringify = (data: any) => string;
-export type serviceLoader = (service: IService, _async: boolean) => Promise<any>;
-export type componentLoader = (component: IComponent, _async: boolean) => Promise<any>;
-export type ObjectName = (o: any) => string;
-export type isQCObjects_Class = (_: any) => boolean;
-export type isQCObjects_Object = (_: any) => boolean;
-export type NamespaceRef = (namespace: string) => any;
-export type RegisterWidget = (widgetName: string) => void;
-export type RegisterWidgets = (...widgetList: string[]) => void;
-export type range = (start: number, stop: number, step: number) => Array<any>;
-export type getDocumentLayout = () => string;
-export type Export = (fn: Function) => Function;
-export type New = (__class__: any, args: any) => any;
-export type Tag = (tagName: string, innerHTML?: string) => ITagElements;
-export type Ready = (e: Function) => void;
-export type _methods_ = (_: any) => Array<any>;
-export type set = (_: any, _value_: any) => any;
-export type get = (_: any, _defaultValue_: any) => any;
-export type __start__ = () => void;
+export type TasyncLoad = (callback: Function, args: Array<any>) => any;
+export type TRegisterClass = (_class_: any, namespace: string) => void;
+export type TComponentURI = ({ COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION, TPL_SOURCE }: TComponentURIParams) => string;
+export type TwaitUntil = (func: Function, exp: Function) => void;
+export type T_super_ = (className: string, classMethodName: string, params?: Array<any>) => any;
+export type T_DOMCreateElement = (elementName: string) => IQCObjectsElement | HTMLElement;
+export type TshortCode = () => string;
+export type T__getType__ = (_class_: any) => string;
+export type Tis_a = (obj: any, typeName: string) => boolean;
+export type T_DataStringify = (data: any) => string;
+export type TserviceLoader = (service: IService, _async: boolean) => Promise<any>;
+export type TcomponentLoader = (component: IComponent, _async: boolean) => Promise<any>;
+export type TObjectName = (o: any) => string;
+export type TisQCObjects_Class = (_: any) => boolean;
+export type TisQCObjects_Object = (_: any) => boolean;
+export type TNamespaceRef = (namespace: string) => any;
+export type TRegisterWidget = (widgetName: string) => void;
+export type TRegisterWidgets = (...widgetList: string[]) => void;
+export type Trange = (start: number, stop: number, step: number) => Array<any>;
+export type TgetDocumentLayout = () => string;
+export type TExport = (fn: Function) => Function;
+export type TNew = (__class__: any, args: any) => any;
+export type TTag = (tagName: string, innerHTML?: string) => ITagElements;
+export type TReady = (e: Function) => void;
+export type T_methods_ = (_: any) => Array<any>;
+export type Tset = (_: any, _value_: any) => any;
+export type Tget = (_: any, _defaultValue_: any) => any;
+export type T__start__ = () => void;
 
 
 export interface IInheritClass {
@@ -277,6 +277,7 @@ export interface IProcessor extends IInheritClass {
     process(template: string, component: IComponent): any;
     processObject(obj: any, component: IComponent): any;
     setProcessor(proc: Function): any;
+    execute (component:IComponent, processorName:string, args:string):any;
 }
 
 
@@ -286,7 +287,8 @@ export interface IProcessor extends IInheritClass {
     process(template: string, component: IComponent): any;
     processObject(obj: any, component: IComponent): any;
     setProcessor(proc: Function): any;
-    new(...args: any[]): IProcessor;
+    execute (component:IComponent, processorName:string, args:string):any;
+    new({component}:{component:IComponent|null}): IProcessor;
 
 }
 
@@ -314,7 +316,7 @@ export type ComponentParams = {
 };
 
 
-export interface IComponent {
+export interface IComponent extends IInheritClass{
     cached?: boolean;
     name: string;
     _body: IQCObjectsElement | HTMLElement;
@@ -330,7 +332,7 @@ export interface IComponent {
     processorHandler?: IProcessor;
     routingWay: string | null;
     routingNodes: (IQCObjectsElement | HTMLElement)[];
-    routings: ComponentRoutings;
+    routings: TComponentRoutings;
     routingPath: string;
     routingPaths: string[];
     _componentHelpers: any[];
@@ -347,7 +349,7 @@ export interface IComponent {
     shadowRoot: IQCObjectsShadowedElement;
     cacheIndex: string;
     parsedAssignmentText: string;
-    routingSelected: ComponentRouting[];
+    routingSelected: TComponentRouting[];
     routingParams: object;
     subtags: (HTMLElement | IQCObjectsElement | IQCObjectsShadowedElement)[];
     bodyAttributes: any;
@@ -363,7 +365,7 @@ export interface IComponent {
     createControllerInstance(): Promise<{ component: IComponent, controller: IController }>;
     createEffectInstance(): Promise<{ component: IComponent, effect: IEffect }>;
     createViewInstance(): Promise<{ component: IComponent, view: IView }>;
-    done(standardResponse: ComponentDoneResponse): Promise<ComponentDoneResponse>;
+    done(standardResponse: TComponentDoneResponse): Promise<TComponentDoneResponse>;
     fail({ error, component }: { error: any, component: IComponent }): Promise<{ error: any; component: any; }>;
     hostElements(tagFilter: string): (IQCObjectsElement | HTMLElement | IQCObjectsShadowedElement)[];
     set(name: string, value: any): void;
@@ -385,20 +387,20 @@ export interface IComponent {
 }
 
 
-export type ComponentDoneResponse = {
+export type TComponentDoneResponse = {
     request?: XMLHttpRequest | undefined;
     component?: IComponent ;
 };
-export type ComponentRouting = {
+export type TComponentRouting = {
     path: string, name: string, tplextension?: string
 };
-export type ComponentRoutings = ComponentRouting[];
+export type TComponentRoutings = TComponentRouting[];
 
 export interface ICONFIG extends IInheritClass {
     _CONFIG_ENC: string;
     _CONFIG: unknown;
-    set(_: any, _value_: any): any;
-    get(_: any, _defaultValue_: any): any;
+    set(_: string, _value_: unknown): any;
+    get(_: string, _defaultValue_: unknown): any;
     __definition: any;
 }
 
@@ -410,7 +412,7 @@ export interface ICONFIG extends IInheritClass {
     __definition: any;
 }
 
-export type ControllerParams = {
+export type TControllerParams = {
     component: IComponent;
     dependencies: any[];
 };
@@ -434,7 +436,7 @@ export interface IController extends IInheritClass {
     body?: IQCObjectsElement | HTMLElement;
     component: IComponent | null;
     dependencies?: any[];
-    new(controller: ControllerParams): IController;
+    new(controller: TControllerParams): IController;
     routingSelectedAttr(attrName: string): any;
     isTouchable(): boolean;
     onpress(subelementSelector: string, handler: EventListener): void;
@@ -445,7 +447,7 @@ export interface IController extends IInheritClass {
     fail?(...args: any[]): void;
 }
 
-export type ViewParams = {
+export type TViewParams = {
     component: IComponent;
     dependencies: Array<any>;
 };
@@ -457,7 +459,7 @@ export interface IView {
     __namespace: string;
     body: IQCObjectsElement | HTMLElement;
     component: IComponent;
-    new(view: ViewParams): IView;
+    new(view: TViewParams): IView;
     done(...args: any[]): void;
     fail(...args: any[]): void;
 }
@@ -465,7 +467,7 @@ export type TAsyncLoadCallback =
   | ((component: IComponent, _async?: any) => Promise<any>)
   | ((service: IService, _async?: any) => Promise<unknown>)
   | ((_async?: any) => any);
-export type ServiceDoneResponse = { request: XMLHttpRequest | null, service: IService };
+export type TServiceDoneResponse = { request: XMLHttpRequest | null, service: IService };
 export interface IService extends IInheritClass {
     kind: string;
     domain: string;
@@ -479,7 +481,7 @@ export interface IService extends IInheritClass {
     template: unknown;
     set(name: string, value: any): void;
     get(name: string): any;
-    done({ request, service }: ServiceDoneResponse): void;
+    done({ request, service }: TServiceDoneResponse): void;
     fail(...args: any[]): void;
 }
 export interface IService extends IInheritClass {
@@ -495,7 +497,7 @@ export interface IService extends IInheritClass {
     template: unknown;
     set(name: string, value: any): void;
     get(name: string): any;
-    done({ request, service }: ServiceDoneResponse): void;
+    done({ request, service }: TServiceDoneResponse): void;
     fail(...args: any[]): void;
 }
 export interface IJSONService extends IService {
@@ -504,8 +506,8 @@ export interface IJSONService extends IService {
 export interface IConfigService extends IJSONService {
     configFileName: string;
 }
-export type IVO = object;
-export type EffectParams = {
+export type TIVO = object;
+export type TEffectParams = {
     duration: number;
     timing(timeFraction: number): number;
     draw(progress: number): void;
@@ -514,10 +516,10 @@ export type EffectParams = {
 export interface IEffect extends IInheritClass {
     duration: number;
     apply(...args: any[]): any;
-    animate(effect: EffectParams): void;
+    animate(effect: TEffectParams): void;
 }
 
-export type TransitionEffectParams = {
+export type TTransitionEffectParams = {
     alphaFrom?: number,
     alphaTo?: number,
     angleFrom?: number,
@@ -530,14 +532,14 @@ export type TransitionEffectParams = {
 
 export interface ITransitionEffect extends IEffect {
     component: IComponent;
-    defaultParams: TransitionEffectParams;
+    defaultParams: TTransitionEffectParams;
     duration: number;
     fitToHeight: boolean;
     fitToWidth: boolean;
     effects: Array<string>;
 
 }
-export type TimerParams = {
+export type TTimerParams = {
     duration: number;
     timing(timeFraction: number, elapsed?: number): number;
     intervalInterceptor(progress: number): void;
@@ -546,7 +548,7 @@ export type TimerParams = {
 export interface ITimer extends IInheritClass {
     duration: number;
     alive: boolean;
-    thread(timer: TimerParams): void;
+    thread(timer: TTimerParams): void;
 }
 export interface IToggle {
     _toggle: boolean;
@@ -564,9 +566,9 @@ export let logger: ILogger;
 export let _sdk_: Promise<any>;
 export var global: typeof globalThis | IGLOBAL;
 
-export type ClassFactory = (className: string) => any;
-export type Package = (packageName: string, classesList?: Array<any> ) => Array<any> | undefined;
-export type Import = (packageName: string, ready?: Function, external?: boolean) => any;
+export type TClassFactory = (className: string) => any;
+export type TPackage = (packageName: string, classesList?: Array<any> ) => Array<any> | undefined;
+export type TImport = (packageName: string, ready?: Function, external?: boolean) => any;
 
 export declare const cordova: any;
 
