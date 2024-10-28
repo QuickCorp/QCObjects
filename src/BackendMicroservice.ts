@@ -42,7 +42,7 @@ export class BackendMicroservice extends InheritClass {
       // data from POST, GET
       const requestMethod = (request as any)?.method.toLowerCase();
       const supportedMethods = {
-        "post": microservice.post,
+        "post": microservice.post.bind(microservice),
       };
       if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
         (supportedMethods as any)[requestMethod].call(microservice, data);
@@ -52,14 +52,14 @@ export class BackendMicroservice extends InheritClass {
     // data from POST, GET
     const requestMethod = (request as any)?.method.toLowerCase();
     const supportedMethods = {
-      "get": microservice.get,
-      "head": microservice.head,
-      "put": microservice.put,
-      "delete": microservice.delete,
-      "connect": microservice.connect,
-      "options": microservice.options,
-      "trace": microservice.trace,
-      "patch": microservice.patch
+      "get": microservice.get.bind(microservice),
+      "head": microservice.head.bind(microservice),
+      "put": microservice.put.bind(microservice),
+      "delete": microservice.delete.bind(microservice),
+      "connect": microservice.connect.bind(microservice),
+      "options": microservice.options.bind(microservice),
+      "trace": microservice.trace.bind(microservice),
+      "patch": microservice.patch.bind(microservice)
     };
     if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
       (supportedMethods as any)[requestMethod].call(microservice);
@@ -97,7 +97,7 @@ export class BackendMicroservice extends InheritClass {
           this.body = {};
           try {
             this.done();
-          } catch (e) {
+          } catch (e:any) {
             logger.debug(`It was not possible to finish the call to the microservice: ${e}`);
           }
         }
@@ -189,7 +189,7 @@ export class BackendMicroservice extends InheritClass {
       (stream as any)?.write(this.body);
       (stream as any)?.end();
       logger.debug("[BackendMicroservice.finishWithBody] Stream ended.");
-    } catch (e) {
+    } catch (e:any) {
       logger.debug(`[BackendMicroservice.finishWithBody] Something went wrong ending the stream: ${e}`);
     }
   }
@@ -201,19 +201,19 @@ export class BackendMicroservice extends InheritClass {
     try {
       logger.debug("[BackendMicroservice.done] Sending response headers...");
       if (microservice.route.responseHeaders) {
-        logger.debug(`[BackendMicroservice.done] Response headers present: ${Object.keys(microservice.route.responseHeaders)}`);
+        logger.debug(`[BackendMicroservice.done] Response headers present: ${Object.keys(microservice.route.responseHeaders).join(",")}`);
         stream.respond(microservice.route.responseHeaders);
       } else {
         throw Error("[BackendMicroservice.done] No headers present.");
       }
-    } catch (e) {
+    } catch (e:any) {
       logger.debug(`[BackendMicroservice.done] Something went wrong sending response headers: ${e}`);
     }
     if (microservice.body !== null) {
       try {
         logger.debug("[BackendMicroservice.done] A body of message is present. Finalizing the response...");
         microservice.finishWithBody.call(microservice, stream);
-      } catch (e) {
+      } catch (e:any) {
         logger.debug(`[BackendMicroservice.done] Something went wrong finalizing the response: ${e}`);
       }
     } else {

@@ -712,7 +712,8 @@ declare module "src/domain" {
     export const _domain_: string;
 }
 declare module "src/InheritClass" {
-    export const InheritClass: unknown;
+    import { IInheritClass } from "types/global/index";
+    export const InheritClass: IInheritClass;
 }
 declare module "src/New" {
     /**
@@ -1475,7 +1476,7 @@ declare module "src/QCObjects" {
         Tag: (tagname: string, innerHTML?: string) => any;
         Ready: (e: any) => void;
         _methods_: (_: any) => any[];
-        InheritClass: unknown;
+        InheritClass: import("types/global").IInheritClass;
         Processor: typeof Processor;
         Component: typeof Component;
         CONFIG: typeof CONFIG;

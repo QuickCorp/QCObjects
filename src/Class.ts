@@ -41,30 +41,30 @@ import { TClass } from "types";
 
 
 
-export const Class:TClass = function (_name = "", _type: unknown = undefined, _definition: unknown = undefined) {
+export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unknown):any => {
   const _types_ = {};
   let name:string, type:unknown, definition:unknown;
 
-  switch (arguments.length) {
-    case 0:
-      return class { };
-    case 1:
+  switch (true) {
+    case !_name && !_type && !_definition:
+      return class {};
+    case !!_name && !_type && !_definition:
       name = _name;
-      type = class { };
+      type = class {};
+      definition = {};
+      break;
+    case !!_name && !_type && !!_definition :
+      name = _name;
+      type = class {};
       definition = _definition;
       break;
-    case 2:
-      name = _name;
-      type = class { };
-      definition = _definition;
-      break;
-    case 3:
+    case !!_name && !!_type && !!_definition:
       name = _name;
       type = _type;
       definition = _definition;
       break;
     default:
-      return () => {};
+      return class {};
   }
 
   if (typeof type !== "function") {
@@ -75,8 +75,8 @@ export const Class:TClass = function (_name = "", _type: unknown = undefined, _d
     throw new Error(`${name} is not an allowed word in the name of a class`);
   }
 
-  if (typeof type.__definition !== "undefined") {
-    definition.__definition = Object.assign(_LegacyCopy(type.__definition), type);
+  if (typeof (type as any).__definition !== "undefined") {
+    (definition as any).__definition = Object.assign(_LegacyCopy((type as any).__definition), type);
   }
 
   (_types_ as any)[type.name] = type;
@@ -88,18 +88,18 @@ export const Class:TClass = function (_name = "", _type: unknown = undefined, _d
   }
 
   /* hack to prevent duplicate __instanceID */
-  if (typeof definition.__instanceID !== "undefined") {
-    delete definition.__instanceID;
+  if (typeof (definition as any).__instanceID !== "undefined") {
+    delete (definition as any).__instanceID;
   }
 
   (_QC_CLASSES as any)[name] = class extends (_types_ as any)[type.name] {
     __classType = name;
     __definition = {
-      ...definition
+      ...(definition as any)
     };
 
-    static hierarchy(__class__:any) {
-      const __classType = function (o_c:any) {
+    static hierarchy(__class__:any):any[] {
+      const __classType = function (o_c:any):any {
         return (Object.hasOwnProperty.call(o_c, "__classType")) ? (o_c.__classType) : (__getType__.call(__class__, o_c));
       };
       const __hierarchy__proto__ = (c:any):any[] => {
@@ -115,20 +115,12 @@ export const Class:TClass = function (_name = "", _type: unknown = undefined, _d
       return __hierarchy;
     }
 
-    static getParentClass() {
+    static getParentClass():any {
       return Object.getPrototypeOf(this.prototype.constructor);
     }
 
-    constructor() {
-      let _o_;
-      if (arguments.length > 0) {
-        _o_ = {
-          ...arguments[0]
-        };
-      } else {
-        _o_ = {};
-      }
-      super(_o_);
+    constructor(_o_?:any) {
+      super(_o_ || {});
 
       const self = this;
       IncrementInstanceID();
@@ -150,11 +142,13 @@ export const Class:TClass = function (_name = "", _type: unknown = undefined, _d
           }
         });
       }
-      _methods_((_QC_CLASSES as any)[self.__classType]).map(function (m) {
+      _methods_((_QC_CLASSES as any)[self.__classType]).map(function (m):any {
         self[m.name] = m.bind(self);
+        return m;
       });
-      _methods_(self.__definition).map(function (m) {
+      _methods_(self.__definition).map(function (m):any {
         self[m.name] = m.bind(self);
+        return m;
       });
 
       if (self.body) {
@@ -185,7 +179,7 @@ export const Class:TClass = function (_name = "", _type: unknown = undefined, _d
           try {
             self._new_(_o_);
             (self._new_ as any).isCalled = true;
-          } catch (e) {
+          } catch (e:any) {
             logger.warn(`${self.__classType}._new_() failed with error: ${e}`);
           }
         }
@@ -198,13 +192,14 @@ export const Class:TClass = function (_name = "", _type: unknown = undefined, _d
       _CastProps(_o_, this);
     }
 
+    // eslint-disable-next-line no-unused-vars
     _new_(_o_?:any) { }
 
-    getClass() {
+    getClass():any {
       return Object.getPrototypeOf(this.constructor);
     }
 
-    css(_css:any) {
+    css(_css:any):any {
       if (typeof this.body !== "undefined" && this.body.style !== "undefined") {
         logger.debug("body style");
         this.body.style = _Cast(_css, this.body.style);
@@ -212,19 +207,19 @@ export const Class:TClass = function (_name = "", _type: unknown = undefined, _d
       return this.body.style;
     }
 
-    hierarchy() {
+    hierarchy():any {
       const __instance__ = this;
       return this.getClass().hierarchy(__instance__);
     }
 
 
-    append(child:any) {
+    append(_child?:any) {
+      const child:any = _child || this.body;
       logger.debug("append: start");
       if (is_a(child, "Component")) {
         logger.debug("append: child is a Component");
         logger.debug(`appending the body of ${child.name}`);
       }
-      var child = (arguments.length > 0) ? (arguments[0]) : (this.body);
       if (typeof this.body !== "undefined") {
         logger.debug("append element");
         if (arguments.length > 0) {
@@ -245,9 +240,9 @@ export const Class:TClass = function (_name = "", _type: unknown = undefined, _d
 
     attachIn(tag:any) {
       if (isBrowser) {
-        const tags = (document as unknown as Document).subelements(tag);
+        const tags = (document as any).subelements(tag);
         for (let i = 0, j = tags.length; i < j; i++) {
-          (tags as any)[i].append(this as any);
+          tags[i].append(this as any);
         }
       } else {
         throw new Error("attachIn not yet implemented for non browser platforms");
