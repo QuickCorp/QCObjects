@@ -253,48 +253,29 @@ export type Tset = (_: any, _value_: any) => any;
 export type Tget = (_: any, _defaultValue_: any) => any;
 export type T__start__ = () => void;
 
-
-export interface IInheritClass {
-    responseTo?: string;
-    __instanceID: number;
-    __classType?: string;
-    __definition?: any;
-    __new__?(o?:any): void;
-    __namespace?: string;
-    body?: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
-    new (_o_?: any): IInheritClass;
-}
-
-
 export interface IInheritClass {
     __instanceID: number;
     __classType?: string;
     __definition?: any;
     __new__?(o?:any): void;
+    _new_(_o_?: any):void;
+    getParentClass():any;
+    getClass():any;
+    css(_css: any): any ;
+    hierarchy(): any;
+    append(_child?: any):any;
+    attachIn(tag: any):any;
     __namespace?: string;
     body?: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
-    new(o?: any): IInheritClass;
 }
 
 export interface IProcessor extends IInheritClass {
-    component: IComponent;
+    component: IComponent|null;
     processors: any;
     process(template: string, component: IComponent): any;
     processObject(obj: any, component: IComponent): any;
     setProcessor(proc: Function): any;
     execute (component:IComponent, processorName:string, args:string):any;
-}
-
-
-export interface IProcessor extends IInheritClass {
-    component: IComponent;
-    processors: any;
-    process(template: string, component: IComponent): any;
-    processObject(obj: any, component: IComponent): any;
-    setProcessor(proc: Function): any;
-    execute (component:IComponent, processorName:string, args:string):any;
-    new({component}:{component:IComponent|null}): IProcessor;
-
 }
 
 export type TComponentParams = {
@@ -310,6 +291,8 @@ export type TComponentParams = {
     reload?: boolean;
     shadowed?: boolean;
     cached?: boolean;
+    enableServiceClass?:boolean| undefined;
+    assignRoutingParams?:boolean;
     _body?: IQCObjectsElement;
     __promise__?: Promise<any> | null;
     __shadowRoot?: IQCObjectsShadowedElement;
@@ -324,8 +307,6 @@ export type TComponentParams = {
 export interface IComponent extends IInheritClass{
     cached?: boolean;
     name: string;
-    _body: IQCObjectsElement | HTMLElement;
-    body: IQCObjectsElement | HTMLElement;
     templateURI: string;
     tplsource: string;
     tplextension: string;
@@ -354,12 +335,10 @@ export interface IComponent extends IInheritClass{
     shadowRoot: IQCObjectsShadowedElement;
     cacheIndex: string;
     parsedAssignmentText: string;
-    _parsedAssignmentText:string, 
-    __shadowRoot:IQCObjectsShadowedElement, 
-    serviceInstance:IService, 
+    serviceInstance:IService;
     innerHTML:string;
-    reload:boolean, 
-    assignRoutingParams:boolean, 
+    reload:boolean;
+    assignRoutingParams?:boolean;
     getClass():any;
     routingSelected: TComponentRouting[];
     routingParams: object;
@@ -368,11 +347,16 @@ export interface IComponent extends IInheritClass{
     dataAttributes: any;
     serviceData?: any;
     container?: any;
+    serviceClassName?:string|null;
+    enableServiceClass?:boolean;
+    route():unknown;
+    responseTo?:string;
     __done__(): Promise<unknown>;
     _bindroute_(): void;
     __buildSubComponents__(rebuildObjects: boolean): IComponent[];
     _generateRoutingPaths(componentBody: IQCObjectsElement | HTMLElement): Promise<void>;
     _reroute_(): Promise<IComponent>;
+    route():void;
     createServiceInstance(): Promise<JSON | string | null>;
     createControllerInstance(): Promise<{ component: IComponent, controller: IController }>;
     createEffectInstance(): Promise<{ component: IComponent, effect: IEffect }>;

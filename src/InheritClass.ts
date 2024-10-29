@@ -11,7 +11,13 @@ import { Package } from "./Package";
 
 export class InheritClass implements IInheritClass {
     __definition: any;
-    body: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
+    private _body: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
+    public get body(): IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined {
+        return this._body;
+    }
+    public set body(value: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined) {
+        this._body = value;
+    }
     childs: any;
     __instanceID!: number;
 
@@ -105,14 +111,7 @@ export class InheritClass implements IInheritClass {
         return __hierarchy;
     }
 
-    static getParentClass(): any {
-        return Object.getPrototypeOf(this.prototype.constructor);
-    }
 
-    responseTo?: string | undefined;
-    route(): unknown {
-        throw new Error("Method not implemented.");
-    }
     __namespace?: string | undefined;
 
     __new__(_o_: any) {
@@ -122,9 +121,21 @@ export class InheritClass implements IInheritClass {
     // eslint-disable-next-line no-unused-vars
     _new_(_o_?: any) { }
 
-    getClass(): any {
+    static getParentClass(): any {
+        return Object.getPrototypeOf(this.prototype.constructor);
+    }
+    getParentClass():any {
+        return (this.constructor as typeof InheritClass).getParentClass();
+    }
+
+    
+    static getClass(): any {
         return Object.getPrototypeOf(this.constructor);
     }
+
+    getClass(): any {
+        return (this.constructor as typeof InheritClass).getClass();
+    }    
 
     css(_css: any): any {
         if (typeof this.body !== "undefined" && typeof this?.body !== "string" && this?.body?.style !== "undefined") {

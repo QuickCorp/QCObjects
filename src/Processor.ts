@@ -1,4 +1,4 @@
-import {IProcessor, IQCObjectsElement, IQCObjectsShadowedElement } from "types";
+import {IComponent, IProcessor } from "types";
 import { CONFIG } from "./CONFIG";
 import { InheritClass } from "./InheritClass";
 import { New } from "./New";
@@ -7,8 +7,12 @@ import { Component } from "./Component";
 import { Package } from "./Package";
 
 export class Processor extends InheritClass implements IProcessor {
+  constructor({ component }: { component: IComponent | null }) {
+    super({ component });
+    this.processors = Object.assign (this.processors,Processor.instance.processors);
+  }
 
-  static processors = {
+  processors:any = {
     "config"(component: Component, arg: string):string {
       return CONFIG.get(arg, "") as string;
     },
@@ -20,34 +24,25 @@ export class Processor extends InheritClass implements IProcessor {
     }
   };
 
-  static setProcessor(_proc_: Function) {
+  static get instance ():Processor {
+    return new Processor({component:null});
+  }
+
+  setProcessor(_proc_: Function) {
     if (typeof _proc_ === "function" && _proc_.name !== "") {
-      (this.processors as any)[_proc_.name] = _proc_;
+      this.processors[_proc_.name] = _proc_;
     }
   }
 
-  constructor({ component }: { component: Component | null }) {
-    super({ component });
-    this.processors = Processor.processors;
-  }
-  component: Component;
-
-  __instanceID!: number;
-  __new__?(): void {
-    throw new Error("Method not implemented.");
-  }
-
-  __namespace?: string | undefined;
-  body?: string | IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | null | undefined;
-  processors: any;
+  component!: IComponent|null;
 
 
-   execute(component: Component, processorName: string, args: string):string {
+   execute(component: IComponent, processorName: string, args: string):string {
     const processorHandler = (typeof component !== "undefined" && component !== null) ? (component.processorHandler) : (this);
     return processorHandler?.processors[processorName].bind(processorHandler).apply(processorHandler, [component, args?.split(",")]) as string;
   }
 
-   process(template: string, component: Component | null = null) {
+   process(template: string, component: IComponent | null = null) {
     const processorHandler = (component !== null) ? (component.processorHandler) : (New(Processor, { component: null }));
     if (typeof template === "string") {
       Object.keys(processorHandler.processors).map(function (funcName) {
@@ -63,8 +58,8 @@ export class Processor extends InheritClass implements IProcessor {
     return template;
   }
 
-   processObject(obj: any, component: Component | null = null) {
-    let __instance__: Processor | typeof Processor | undefined = (component === null) ? (this) : (component.processorHandler);
+   processObject(obj: any, component: IComponent | null = null):any {
+    let __instance__: Processor | IProcessor | undefined = (component === null) ? (this) : (component.processorHandler);
     if (typeof __instance__ === "undefined") {
       __instance__ = new Processor({ component });
     }
@@ -72,19 +67,21 @@ export class Processor extends InheritClass implements IProcessor {
       Object.keys(obj).map(
          (_k) => {
           if (typeof obj[_k] === "object" && !obj[_k].hasOwnProperty.call(obj[_k], "call")) {
-            obj[_k] = __instance__?.processObject.bind(__instance__)(obj[_k], component as Component);
+            obj[_k] = __instance__?.processObject.bind(__instance__)(obj[_k], component as IComponent);
           } else if (typeof obj[_k] === "string") {
-            obj[_k] = __instance__?.process.bind(__instance__)(obj[_k], component as Component);
+            obj[_k] = __instance__?.process.bind(__instance__)(obj[_k], component as IComponent);
           }
           return _k;
         }
       );
     } else if (typeof obj === "string") {
-      obj = __instance__.process.bind(__instance__)(obj, component as Component);
+      obj = __instance__.process.bind(__instance__)(obj, component as IComponent);
     }
     return obj;
   }
 
 }
+
+export const GlobalProcessor:Processor = Processor.instance;
 
 Package("com.qcobjects", [Processor]);

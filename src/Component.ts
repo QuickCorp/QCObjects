@@ -22,48 +22,50 @@ import { CONFIG } from "./CONFIG";
 import { serviceLoader } from "./serviceLoader";
 import { _tag_filter_ } from "./tag_filter";
 import { componentLoader } from "./componentLoader";
-import { IComponent, IQCObjectsElement, TComponentDoneResponse, TComponentRoutings } from "types";
+import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types";
 
-export class Component extends InheritClass implements IComponent{
-    __instanceID!: number;
+export class Component extends InheritClass implements IComponent {
     name!: string;
-    _body!:IQCObjectsElement | HTMLElement;
     templateURI!: string;
     tplsource!: string;
     tplextension!: string;
     template!: string;
-    validRoutingWays:string[] = ["pathname", "hash", "search"];
+    validRoutingWays: string[] = ["pathname", "hash", "search"];
     basePath = _basePath_;
     domain = _domain_;
     templateHandler = "DefaultTemplateHandler";
-    processorHandler?: Processor;
-    routingWay:string|null = null;
-    routingNodes:(IQCObjectsElement | HTMLElement)[] = [];
-    routings:TComponentRoutings = [];
+    processorHandler?: IProcessor;
+    routingWay: string | null = null;
+    routingNodes: (IQCObjectsElement | HTMLElement)[] = [];
+    routings: TComponentRoutings = [];
     routingPath = "";
-    routingPaths:string[] = [];
-    _componentHelpers:any[] = [];
-    subcomponents:any[] = [];
-    splashScreenComponent?:Component = undefined;
-    controller?:Controller = undefined;
-    view?:View = undefined;
-    effect?:Effect = undefined;
+    routingPaths: string[] = [];
+    _componentHelpers: any[] = [];
+    subcomponents: any[] = [];
+    splashScreenComponent?: IComponent = undefined;
+    controller?: IController = undefined;
+    view?: IView = undefined;
+    effect?: IEffect = undefined;
     effectClass!: string;
     method = "GET";
-    cached?:boolean = true;
-    __promise__?:Promise<any>|null = null;
+    cached?: boolean = true;
+    __promise__?: Promise<any> | null = null;
     data!: any;
-    __namespace?:string = undefined;
-    _parsedAssignmentText: any;
-    __shadowRoot: any;
+    __namespace?: string = undefined;
+    protected _parsedAssignmentText!: string;
+    protected __shadowRoot: any;
+    protected _serviceClassName: string | null = null;
+    enableServiceClass?: boolean | undefined = true;
     serviceInstance: any;
     serviceData: any;
-    shadowed: boolean;
+    shadowed?: boolean = false;
     container: any;
     innerHTML: any;
     reload: any;
     static subcomponents: any;
-    assignRoutingParams: boolean;
+    assignRoutingParams?: boolean = true;
+    responseTo?: string | undefined;
+    static responseTo?: string | undefined;
 
     constructor({
         __parent__,
@@ -78,6 +80,8 @@ export class Component extends InheritClass implements IComponent{
         reload = false,
         shadowed = false,
         cached = true,
+        enableServiceClass,
+        assignRoutingParams = true,
         _body = _DOMCreateElement("div"),
         __promise__ = null,
         __shadowRoot,
@@ -86,7 +90,7 @@ export class Component extends InheritClass implements IComponent{
         splashScreenComponent,
         controller,
         view
-    }:TComponentParams) {
+    }: TComponentParams) {
         if (arguments.length < 1) {
             throw Error("No arguments in component. You must at least give one argument.");
         }
@@ -94,8 +98,8 @@ export class Component extends InheritClass implements IComponent{
             __parent__,
             templateURI,
             template,
-            tplextension,
             tplsource,
+            tplextension,
             url,
             name,
             method,
@@ -103,6 +107,8 @@ export class Component extends InheritClass implements IComponent{
             reload,
             shadowed,
             cached,
+            enableServiceClass,
+            assignRoutingParams,
             _body,
             __promise__,
             __shadowRoot,
@@ -120,7 +126,7 @@ export class Component extends InheritClass implements IComponent{
 
         self.routingWay = CONFIG.get("routingWay");
 
-        self.processorHandler = new Processor ({
+        self.processorHandler = new Processor({
             component: self
         });
 
@@ -129,9 +135,9 @@ export class Component extends InheritClass implements IComponent{
         self.data = Object.assign(self.data, self.dataAttributes);
 
         self.createServiceInstance()
-            .then( () => {
+            .then(() => {
                 if (typeof self.__new__ === "function") {
-                    self.__new__( self);
+                    self.__new__(self);
                 }
 
                 self._generateRoutingPaths(self.body)
@@ -145,27 +151,17 @@ export class Component extends InheritClass implements IComponent{
                                         logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
                                         console.error(standardResponse);
                                     });
-                            }).catch ((e:any) => {
-                                throw Error (`Unexpected error ${e}`);
+                            }).catch((e: any) => {
+                                throw Error(`Unexpected error ${e}`);
                             });
-                    }).catch ((e:any)=> {
-                        throw Error (`Unexpected error ${e}`);
+                    }).catch((e: any) => {
+                        throw Error(`Unexpected error ${e}`);
                     });
 
-            }).catch((e:any) => {
+            }).catch((e: any) => {
                 throw Error(`Unexpected error. ${e}`);
             });
 
-    }
-
-    set body(value) {
-        const self = this;
-        self._body = value;
-    }
-
-    get body() {
-        const self = this;
-        return self._body;
     }
 
     set cacheIndex(value) {
@@ -179,12 +175,12 @@ export class Component extends InheritClass implements IComponent{
         return Base64.encode(self.name + __routing_path__);
     }
 
-    set parsedAssignmentText(value) {
+    set parsedAssignmentText(value: string) {
         // readonly
         logger.debug("[parsedAssignmentText] This property is readonly");
     }
 
-    get parsedAssignmentText() {
+    get parsedAssignmentText(): string {
         const self = this;
         self._parsedAssignmentText = self.parseTemplate(self.template);
         if (typeof self._parsedAssignmentText === "undefined") {
@@ -194,7 +190,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
 
-    set shadowRoot(value:QCObjectsShadowedElement) {
+    set shadowRoot(value: IQCObjectsShadowedElement) {
         const self = this;
         if (typeof self.__shadowRoot === "undefined") {
             self.__shadowRoot = value;
@@ -203,17 +199,17 @@ export class Component extends InheritClass implements IComponent{
         }
     }
 
-    get shadowRoot():QCObjectsShadowedElement {
+    get shadowRoot(): IQCObjectsShadowedElement {
         const self = this;
-        return self.__shadowRoot;
+        return self.__shadowRoot as IQCObjectsShadowedElement;
     }
 
 
-    set routingSelected(value:ComponentRouting[]) {
+    set routingSelected(value: TComponentRouting[]) {
         logger.debug("[routingSelected] This is a read-only property of the component");
     }
 
-    get routingSelected():ComponentRouting[] {
+    get routingSelected(): TComponentRouting[] {
         const self = this;
         return __valid_routings__(self.routings, self.routingPath);
     }
@@ -222,31 +218,67 @@ export class Component extends InheritClass implements IComponent{
         logger.debug("[routingParams] This is a read-only property of the component");
     }
 
-    get routingParams() {
+    get routingParams(): object {
         const component = this;
         return [{}].concat(component.routingSelected.map(function (routing: any) {
             return __routing_params__(routing, component.routingPath);
-        })).reduce(function (accumulator, colData, index) {
+        })).reduce(function (accumulator, colData) {
             return Object.assign(accumulator, colData);
         });
     }
 
-    createServiceInstance():Promise<JSON | string | null> {
+
+    set serviceClassName(_serviceClassName: string) {
+        this._serviceClassName = _serviceClassName;
+    }
+
+    get serviceClassName(): string | null {
+        let _serviceClassName: string | null = "";
+        if (isBrowser) {
+            _serviceClassName = ((this.body as HTMLElement).getAttribute("serviceClass") !== null) ? ((this.body as HTMLElement).getAttribute("serviceClass")) : (
+                this._serviceClassName
+            );
+        } else {
+            _serviceClassName = this._serviceClassName;
+        }
+        return _serviceClassName;
+    }
+
+    protected get responseToData ():boolean {
+        let _response_to_data_:boolean = false;
+        if (isBrowser) {
+            const responseToAttr = (this.body as HTMLElement).getAttribute("response-to");
+            _response_to_data_ = responseToAttr === "data" || this.responseTo === "data";
+        } else {
+            _response_to_data_ = this.responseTo === "data";
+        }
+        return _response_to_data_;
+    }
+
+    protected get responseToTemplate ():boolean {
+        let _response_to_template_:boolean = false;
+        if (isBrowser) {
+            const responseToAttr = (this.body as HTMLElement).getAttribute("response-to");
+            _response_to_template_ = responseToAttr === "template" || this.responseTo === "template";
+        } else {
+            _response_to_template_ = this.responseTo === "template";
+        }
+        return _response_to_template_;
+    }    
+
+    createServiceInstance(): Promise<JSON | string | null> {
         const component = this;
         const body = component.body;
         let data = this.data;
         let __serviceClass: any;
         const __classDefinition = component.getClass().__definition;
-        const _serviceClassName = (isBrowser && body.getAttribute("serviceClass") !== null) ? (body.getAttribute("serviceClass")) : (null);
+        const _serviceClassName = component.serviceClassName;
 
         return new Promise(function (resolve, reject) {
             /* __enable_service_class__ = true by default */
-            const __enable_service_class__ = !!((
-                (Object.hasOwnProperty.call(body, "enableServiceClass") && body.enableServiceClass) ||
-                (!Object.hasOwnProperty.call(body, "enableServiceClass"))
-            ));
-            let _response_to_data_ = !!((isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "data"));
-            let _response_to_template_ = !!((isBrowser && body.getAttribute("response-to") !== null && body.getAttribute("response-to") === "template"));
+            const __enable_service_class__ = component.enableServiceClass;
+            let _response_to_data_ = component.responseToData;
+            let _response_to_template_ = component.responseToTemplate;
 
             if (__enable_service_class__ && _serviceClassName !== null) {
                 __serviceClass = ClassFactory(_serviceClassName);
@@ -254,7 +286,7 @@ export class Component extends InheritClass implements IComponent{
             if (!_response_to_data_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
                 _response_to_data_ = (__classDefinition.responseTo === "data");
             } else if (!_response_to_data_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
-                _response_to_data_ = (ClassFactory("Component").responseTo === "data");
+                _response_to_data_ = ((ClassFactory("Component") as Component).responseTo === "data");
             }
             if (!_response_to_template_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
                 _response_to_template_ = (__classDefinition.responseTo === "template");
@@ -274,7 +306,7 @@ export class Component extends InheritClass implements IComponent{
                 (serviceLoader(serviceInstance) as Promise<any>)?.then(function ({
                     request,
                     service
-                }:{request:any, service:any}) {
+                }: { request: any, service: any }) {
                     let serviceResponse;
                     if (typeof service.JSONresponse !== "undefined" && service.JSONresponse !== null) {
                         serviceResponse = service.JSONresponse;
@@ -314,7 +346,7 @@ export class Component extends InheritClass implements IComponent{
         if (!(_component_ as any)._bindroute_.loaded) {
             if (isBrowser) {
 
-                (_component_.hostElements("a") as unknown as  HTMLAnchorElement[]).map(function (a: HTMLAnchorElement) {
+                (_component_.hostElements("a") as unknown as HTMLAnchorElement[]).map(function (a: HTMLAnchorElement) {
                     (a as any).oldclick = a.onclick;
                     a.onclick = function (e) {
                         let _ret_ = true;
@@ -331,7 +363,7 @@ export class Component extends InheritClass implements IComponent{
                             window.history.pushState({
                                 href: (e.target as HTMLAnchorElement).href
                             }, (e?.target as HTMLAnchorElement)?.href, (e.target as HTMLAnchorElement).href);
-                            Component.route().catch((e)=> {throw Error (`Unexpected error: ${e}`);});
+                            Component.route().catch((e) => { throw Error(`Unexpected error: ${e}`); });
                             _ret_ = false;
                         } else {
                             logger.debug("NO ROUTING FOUND FOR: " + routingPath);
@@ -354,19 +386,19 @@ export class Component extends InheritClass implements IComponent{
 
     }
 
-    done(standardResponse?: TComponentDoneResponse):Promise<TComponentDoneResponse> {
-        const _ret_ = new Promise<TComponentDoneResponse> ((resolve, reject)=> {
+    done(standardResponse?: TComponentDoneResponse): Promise<TComponentDoneResponse> {
+        const _ret_ = new Promise<TComponentDoneResponse>((resolve, reject) => {
             if (typeof standardResponse !== "undefined") {
                 const { request, component } = standardResponse;
-                resolve({request, component});
+                resolve({ request, component });
             } else {
-                resolve({request:undefined, component:undefined});
+                resolve({ request: undefined, component: undefined });
             }
         });
         return _ret_;
     }
 
-    createControllerInstance():Promise<{ component: Component, controller: Controller }> {
+    createControllerInstance(): Promise<{ component: Component, controller: Controller }> {
         let _Controller: any;
         if (isBrowser) {
             if (typeof this.body === "undefined") {
@@ -391,7 +423,7 @@ export class Component extends InheritClass implements IComponent{
                     if (typeof (this.controller).done === "function") {
                         try {
                             this.controller.done.call(this.controller);
-                        } catch (e:any) {
+                        } catch (e: any) {
                             throw Error(e);
                         }
                     } else {
@@ -409,7 +441,7 @@ export class Component extends InheritClass implements IComponent{
         });
     }
 
-    createEffectInstance():Promise<{ component: Component, effect: Effect }> {
+    createEffectInstance(): Promise<{ component: Component, effect: Effect }> {
         const _component_ = this;
         return new Promise(function (resolve, reject) {
             if (isBrowser) {
@@ -426,7 +458,7 @@ export class Component extends InheritClass implements IComponent{
         });
     }
 
-    createViewInstance():Promise<{ component: Component, view: View }> {
+    createViewInstance(): Promise<{ component: Component, view: View }> {
         const _component_ = this;
         return new Promise(function (resolve, reject) {
             const viewName = (isBrowser) ? (_component_.body.getAttribute("viewClass")) : (null);
@@ -447,7 +479,7 @@ export class Component extends InheritClass implements IComponent{
         });
     }
 
-    __done__():Promise<unknown> {
+    __done__(): Promise<unknown> {
         const _component_ = this;
         const componentDone = function () {
             if (typeof _component_ === "undefined") {
@@ -464,7 +496,7 @@ export class Component extends InheritClass implements IComponent{
             try {
                 _component_.runComponentHelpers();
                 logger.debug(`Component helpers for ${_component_.name} executed.`);
-            } catch (e:any) {
+            } catch (e: any) {
                 logger.debug(`Component helpers for ${_component_.name} could not be executed.`);
                 throw Error(e);
             }
@@ -487,9 +519,9 @@ export class Component extends InheritClass implements IComponent{
 
     }
 
-    hostElements(tagFilter: string):(QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[] {
+    hostElements(tagFilter: string): (QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[] {
         const _component_ = this;
-        let elementList:(QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[] = [];
+        let elementList: (QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[] = [];
         if (isBrowser) {
             elementList = (_component_.shadowed && (typeof _component_.shadowRoot !== "undefined")) ? (
                 _component_.shadowRoot.subelements(tagFilter)
@@ -501,7 +533,7 @@ export class Component extends InheritClass implements IComponent{
         return elementList;
     }
 
-    get subtags():(HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[] {
+    get subtags(): (HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[] {
         const _component_ = this;
         const tagFilter = _tag_filter_;
         return _component_.hostElements(tagFilter);
@@ -520,7 +552,7 @@ export class Component extends InheritClass implements IComponent{
     }
 
     __buildSubComponents__(rebuildObjects = false) {
-        const _component_:Component = this as Component;
+        const _component_: Component = this as Component;
         let elementList = _component_.subtags;
         if (!rebuildObjects) {
             elementList = (elementList as HTMLElement[]).filter((t: HTMLElement) => t.getAttribute("loaded") !== "true");
@@ -531,8 +563,8 @@ export class Component extends InheritClass implements IComponent{
         return _component_.subcomponents;
     }
 
-    fail(standardResponse: { error: any; component: Component; }):Promise<{ error: any; component: Component; }> {
-        const _ret_ = new Promise<{ error: any; component: Component; }>((resolve, reject)=> {
+    fail(standardResponse: { error: any; component: Component; }): Promise<{ error: any; component: Component; }> {
+        const _ret_ = new Promise<{ error: any; component: Component; }>((resolve, reject) => {
             if (typeof standardResponse !== "undefined") {
                 const { error, component } = standardResponse;
                 resolve({ error, component });
@@ -547,7 +579,7 @@ export class Component extends InheritClass implements IComponent{
         this[name] = value;
     }
 
-    get(name: string, _defaultValue?:string) {
+    get(name: string, _defaultValue?: string) {
         return this[name] || _defaultValue;
     }
 
@@ -608,7 +640,7 @@ export class Component extends InheritClass implements IComponent{
                         container.appendChild(shadowContainer);
                     } else {
                         logger.debug("Shadowed Container for COMPONENT {{NAME}} is already present in the tree ".replace("{{NAME}}", _component_.name));
-                        if (_component_.shadowRoot !== null && shadowContainer.shadowRoot !== null){
+                        if (_component_.shadowRoot !== null && shadowContainer.shadowRoot !== null) {
                             _component_.shadowRoot.innerHTML = shadowContainer.shadowRoot.innerHTML;
                         }
                     }
@@ -647,7 +679,7 @@ export class Component extends InheritClass implements IComponent{
         return _ret_;
     }
 
-    rebuild():Promise<{ request?: XMLHttpRequest, component: Component }> {
+    rebuild(): Promise<{ request?: XMLHttpRequest, component: Component }> {
         const _component = this as Component;
         var _promise = new Promise<{ request?: XMLHttpRequest, component: Component }>(function (resolve, reject) {
             if (typeof _component === "undefined" || _component === null) {
@@ -728,7 +760,7 @@ export class Component extends InheritClass implements IComponent{
         return _promise;
     }
 
-    Cast(oClass:any) {
+    Cast(oClass: any) {
         /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
         const o = _methods_(oClass).map(m => m.name.replace(/bound /g, "")).map(m => {
             return {
@@ -836,7 +868,7 @@ export class Component extends InheritClass implements IComponent{
         }
     }
 
-    _generateRoutingPaths(componentBody:  QCObjectsElement | HTMLElement) {
+    _generateRoutingPaths(componentBody: QCObjectsElement | HTMLElement) {
         const component = this;
         return new Promise<void>(function (resolve, reject) {
             if (isBrowser) {
@@ -904,7 +936,7 @@ export class Component extends InheritClass implements IComponent{
         return _parsedAssignmentText;
     }
 
-    _reroute_():Promise<Component> {
+    _reroute_(): Promise<Component> {
         /* This method set the selected routing and makes the switch to the templateURI */
         const rc = this;
         return new Promise(function (resolve, reject) {
@@ -936,7 +968,7 @@ export class Component extends InheritClass implements IComponent{
             const component = this;
             const _componentRoot = (component.shadowed) ? (component.shadowRoot) : (component.body);
             const _imgLazyLoaded = [..._componentRoot.subelements("img[lazy-src]")];
-            const _lazyLoadImages = function (image: Element| HTMLElement) {
+            const _lazyLoadImages = function (image: Element | HTMLElement) {
                 image.setAttribute("src", image.getAttribute("lazy-src")?.toString() as string);
                 (image as HTMLImageElement).onload = () => {
                     image.removeAttribute("lazy-src");
@@ -1002,7 +1034,7 @@ export class Component extends InheritClass implements IComponent{
         } else {
             // not yet implemented
         }
-        
+
     }
 
     scrollIntoHash() {

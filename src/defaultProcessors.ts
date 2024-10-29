@@ -1,6 +1,6 @@
 import { Component } from "types/global";
 import { logger } from "./Logger";
-import { Processor } from "./Processor";
+import { GlobalProcessor as Processor } from "./Processor";
 import { _top } from "./top";
 import { range } from "./range";
 

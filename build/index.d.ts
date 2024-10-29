@@ -235,7 +235,6 @@ declare module "types/global/index" {
         __new__?(o?: any): void;
         __namespace?: string;
         body?: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
-        new (_o_?: any): IInheritClass;
     }
     export interface IInheritClass {
         __instanceID: number;
@@ -247,23 +246,13 @@ declare module "types/global/index" {
         new (o?: any): IInheritClass;
     }
     export interface IProcessor extends IInheritClass {
-        component: IComponent;
+        component: IComponent | null;
         processors: any;
         process(template: string, component: IComponent): any;
         processObject(obj: any, component: IComponent): any;
         setProcessor(proc: Function): any;
         execute(component: IComponent, processorName: string, args: string): any;
-    }
-    export interface IProcessor extends IInheritClass {
-        component: IComponent;
-        processors: any;
-        process(template: string, component: IComponent): any;
-        processObject(obj: any, component: IComponent): any;
-        setProcessor(proc: Function): any;
-        execute(component: IComponent, processorName: string, args: string): any;
-        new ({ component }: {
-            component: IComponent | null;
-        }): IProcessor;
+        new (o?: any): IProcessor;
     }
     export type TComponentParams = {
         __parent__?: IComponent;
@@ -799,29 +788,21 @@ declare module "src/CONFIG" {
     }
 }
 declare module "src/Processor" {
-    import { IProcessor, IQCObjectsElement, IQCObjectsShadowedElement } from "types/global/index";
+    import { IComponent, IProcessor } from "types/global/index";
     import { InheritClass } from "src/InheritClass";
-    import { Component } from "src/Component";
     export class Processor extends InheritClass implements IProcessor {
-        static processors: {
-            config(component: Component, arg: string): string;
-            ENV(component: Component, arg: string): string;
-            global(component: Component, arg: string): string;
-        };
-        static setProcessor(_proc_: Function): void;
         constructor({ component }: {
-            component: Component | null;
+            component: IComponent | null;
         });
-        component: Component;
-        __instanceID: number;
-        __new__?(): void;
-        __namespace?: string | undefined;
-        body?: string | IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | null | undefined;
         processors: any;
-        execute(component: Component, processorName: string, args: string): string;
-        process(template: string, component?: Component | null): string;
-        processObject(obj: any, component?: Component | null): any;
+        static get instance(): Processor;
+        setProcessor(_proc_: Function): void;
+        component: IComponent | null;
+        execute(component: IComponent, processorName: string, args: string): string;
+        process(template: string, component?: IComponent | null): string;
+        processObject(obj: any, component?: IComponent | null): any;
     }
+    export const GlobalProcessor: Processor;
 }
 declare module "src/routings" {
     import { ComponentRouting } from "types/global/index";
