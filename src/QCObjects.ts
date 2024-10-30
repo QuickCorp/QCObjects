@@ -30,7 +30,6 @@
 /* eslint no-mixed-operators: "off" */
 
 "use strict";
-/// <reference path="types/math-functions" />
 
 import "./assign";
 import { _DataStringify } from "./DataStringify";
