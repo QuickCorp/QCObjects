@@ -397,7 +397,7 @@ declare module "types/global/index" {
     }
     export type TControllerParams = {
         component: IComponent;
-        dependencies: any[];
+        dependencies?: any[];
     };
     export interface IController extends IInheritClass {
         component: IComponent;

@@ -1,9 +1,7 @@
 import { _ICrypt } from "types/global";
 import { Base64 } from "./Base64";
-import { ClassFactory } from "./ClassFactory";
 import { _DataStringify } from "./DataStringify";
 import { InheritClass } from "./InheritClass";
-import { New } from "./New";
 import { Package } from "./Package";
 import { _secretKey } from "./secretKey";
 
@@ -24,10 +22,10 @@ export class _Crypt extends InheritClass implements _ICrypt{
     construct= false;
     _new_(o: { string?: string; key: string; }) {
         const string = o.string;
-        let key = (o.hasOwnProperty.call(o, "key")) ? (o.key) : (null);
+        let key:string = (o.hasOwnProperty.call(o, "key")) ? (o.key) : ("");
         this.__new__(o);
-        key = (key === null) ? (this.__instanceID) : (key);
-        this.last_key = key as string;
+        key = (key === "") ? (this.__instanceID.toString()) : (key);
+        this.last_key = key;
         this.last_string = string as string;
         this.construct = true;
     }
