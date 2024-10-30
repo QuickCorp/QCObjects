@@ -1,20 +1,24 @@
-import { EffectParams } from "types/global";
-import { ClassFactory } from "./ClassFactory";
+import { IEffect, TEffectParams } from "types";
 import { InheritClass } from "./InheritClass";
 import { Package } from "./Package";
 
-export class Effect extends InheritClass {
+export class Effect extends InheritClass implements IEffect{
+  // eslint-disable-next-line no-unused-vars
+  done (...args: any[]): any {
+    throw new Error("Method not implemented.");
+  };
+  // eslint-disable-next-line no-unused-vars
+  apply(...args: any[]) {
+    throw new Error("Method not implemented.");
+  }
   duration = 1000;
 
-  constructor() {
-    super(...arguments);
-  }
 
   animate({
     timing,
     draw,
     duration
-  }: EffectParams) {
+  }: TEffectParams) {
     const _self: this = this;
 
     const start = performance.now();

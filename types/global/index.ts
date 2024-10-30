@@ -509,13 +509,14 @@ export interface IConfigService extends IJSONService {
 export type TIVO = object;
 export type TEffectParams = {
     duration: number;
-    timing(timeFraction: number): number;
-    draw(progress: number): void;
+    timing: (timeFraction: number)=> number;
+    draw: (progress: number)=> void;
 };
 
 export interface IEffect extends IInheritClass {
     duration: number;
     apply(...args: any[]): any;
+    done?(...args: any[]): any;
     animate(effect: TEffectParams): void;
 }
 

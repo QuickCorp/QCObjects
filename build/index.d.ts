@@ -482,12 +482,13 @@ declare module "types/global/index" {
     export type TIVO = object;
     export type TEffectParams = {
         duration: number;
-        timing(timeFraction: number): number;
-        draw(progress: number): void;
+        timing: (timeFraction: number) => number;
+        draw: (progress: number) => void;
     };
     export interface IEffect extends IInheritClass {
         duration: number;
         apply(...args: any[]): any;
+        done?(...args: any[]): any;
         animate(effect: TEffectParams): void;
     }
     export type TTransitionEffectParams = {
@@ -1293,12 +1294,13 @@ declare module "src/DocumentLayout" {
     export const getDocumentLayout: () => string | undefined;
 }
 declare module "src/Effect" {
-    import { EffectParams } from "types/global/index";
+    import { IEffect, TEffectParams } from "types/global/index";
     import { InheritClass } from "src/InheritClass";
-    export class Effect extends InheritClass {
+    export class Effect extends InheritClass implements IEffect {
+        done(...args: any[]): any;
+        apply(...args: any[]): void;
         duration: number;
-        constructor();
-        animate({ timing, draw, duration }: EffectParams): void;
+        animate({ timing, draw, duration }: TEffectParams): void;
     }
 }
 declare module "src/findPackageNodePath" {
