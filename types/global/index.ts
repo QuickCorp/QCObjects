@@ -131,7 +131,6 @@ export interface IDefaultTemplateHandler {
 export interface ISourceJS {
     domain: string;
     basePath: string;
-    body: IQCObjectsElement | HTMLElement;
     type: string;
     containerTag: string;
     url: string;
@@ -151,7 +150,6 @@ export interface ISourceJS {
 export interface ISourceCSS {
     domain: string;
     basePath: string;
-    body: IQCObjectsElement | HTMLElement;
     url: string;
     data: any;
     async: boolean;

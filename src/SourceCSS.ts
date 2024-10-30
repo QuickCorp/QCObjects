@@ -1,30 +1,42 @@
+import { ISourceCSS, TBody } from "types";
 import { _basePath_ } from "./basePath";
 import { _Cast } from "./Cast";
-import { Class } from "./Class";
 import { _domain_ } from "./domain";
 import { _DOMCreateElement } from "./DOMCreateElement";
+import { InheritClass } from "./InheritClass";
 import { isBrowser } from "./platform";
+import { Package } from "./Package";
 
-export const SourceCSS = Class("SourceCSS", Object, {
-    domain: _domain_,
-    basePath: _basePath_,
-    body: _DOMCreateElement("link"),
-    url: "",
-    data: {},
-    async: false,
-    external: false,
+export class SourceCSS extends InheritClass implements ISourceCSS  {
+    domain= _domain_;
+    basePath= _basePath_;
+    url= "";
+    data= {};
+    async= false;
+    external= false;
+
+    constructor(o:any){
+      super(o);
+      this.body = _DOMCreateElement("link") as TBody;
+    }
+  fail(): void {
+    throw new Error("Method not implemented.");
+  }
+  Cast(o: any):any {
+    return _Cast(this, o);
+  }
     set(name:string, value:any) {
       this[name] = value;
-    },
-    get(name:string, _default?:any) {
+    }
+    get(name:string, _default?:any):any {
       return this[name] || _default;
-    },
-    done() { },
+    }
+    done() { }
     rebuild() {
       const context = this;
       if (isBrowser) {
         window.document.getElementsByTagName("head")[0].appendChild(
-          (function (s:any, url:string, context:any) {
+          (function (s:any, url:string, context:any):any {
             s.type = "text/css";
             s.rel = "stylesheet";
             s.href = url;
@@ -41,12 +53,7 @@ export const SourceCSS = Class("SourceCSS", Object, {
             _DOMCreateElement("link"),
             (this.external) ? (this.url) : (this.basePath + this.url), context));
       }
-    },
-    Cast(o:any) {
-      return _Cast(this, o);
-    },
-    _new_(properties:any) {
-      this.__new__(properties);
-      this.rebuild();
     }
-  });
+  }
+
+  Package("com.qcobjects", [SourceCSS]);

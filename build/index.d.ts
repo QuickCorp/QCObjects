@@ -114,7 +114,6 @@ declare module "types/global/index" {
     export interface ISourceJS {
         domain: string;
         basePath: string;
-        body: IQCObjectsElement | HTMLElement;
         type: string;
         containerTag: string;
         url: string;
@@ -133,7 +132,6 @@ declare module "types/global/index" {
     export interface ISourceCSS {
         domain: string;
         basePath: string;
-        body: IQCObjectsElement | HTMLElement;
         url: string;
         data: any;
         async: boolean;
@@ -1376,10 +1374,46 @@ declare module "src/Tag" {
     export const Tag: (tagname: string, innerHTML?: string) => any;
 }
 declare module "src/SourceJS" {
-    export const SourceJS: unknown;
+    import { ISourceJS } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
+    export class SourceJS extends InheritClass implements ISourceJS {
+        domain: string;
+        basePath: string;
+        type: string;
+        containerTag: string;
+        url: string;
+        data: {};
+        async: boolean;
+        external: boolean;
+        constructor(o: any);
+        set(name: string, value: any): void;
+        get(name: string, _default?: any): any;
+        status: boolean;
+        done(): void;
+        fail(): void;
+        rebuild(): void;
+        Cast(o: any): any;
+        _new_(properties: any): void;
+    }
 }
 declare module "src/SourceCSS" {
-    export const SourceCSS: unknown;
+    import { ISourceCSS } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
+    export class SourceCSS extends InheritClass implements ISourceCSS {
+        domain: string;
+        basePath: string;
+        url: string;
+        data: {};
+        async: boolean;
+        external: boolean;
+        constructor(o: any);
+        fail(): void;
+        Cast(o: any): any;
+        set(name: string, value: any): void;
+        get(name: string, _default?: any): any;
+        done(): void;
+        rebuild(): void;
+    }
 }
 declare module "src/globalSettings" {
     import { IGlobalSettings } from "types/global/index";
@@ -1479,6 +1513,8 @@ declare module "src/QCObjects" {
     import { Component } from "src/Component";
     import { _Crypt } from "src/Crypt";
     import { DefaultTemplateHandler } from "src/DefaultTemplateHandler";
+    import { SourceJS } from "src/SourceJS";
+    import { SourceCSS } from "src/SourceCSS";
     import { GlobalSettings } from "src/globalSettings";
     import { _ComponentWidget_ } from "src/WidgetsFactory";
     import { CONFIG } from "src/CONFIG";
@@ -1500,8 +1536,8 @@ declare module "src/QCObjects" {
         _Crypt: typeof _Crypt;
         TagElements: unknown;
         DefaultTemplateHandler: typeof DefaultTemplateHandler;
-        SourceJS: unknown;
-        SourceCSS: unknown;
+        SourceJS: typeof SourceJS;
+        SourceCSS: typeof SourceCSS;
         ArrayList: typeof ArrayList;
         ArrayCollection: typeof ArrayCollection;
         GlobalSettings: typeof GlobalSettings;
