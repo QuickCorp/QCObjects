@@ -1333,7 +1333,7 @@ declare module "src/super" {
      * @param {String} classMethodName
      * @param {Object} params
      */
-    export const _super_: (className: string, classMethodName: string) => any;
+    export const _super_: <T>(className: string, classMethodName: string) => T;
 }
 declare module "src/shortCode" {
     export const shortCode: () => string;
@@ -1364,14 +1364,21 @@ declare module "src/defaultProcessors" {
     export const setDefaultProcessors: () => void;
 }
 declare module "src/Tag" {
-    export const TagElements: unknown;
+    import { ITagElements } from "types/global/index";
+    import { ArrayList } from "src/ArrayCollection";
+    export class TagElements extends ArrayList implements ITagElements {
+        show(): void;
+        hide(): void;
+        effect<T>(...args: T[]): void;
+        findElements(elementName: any): any;
+    }
     /**
      * Gets the element of DOM found by tag name
      *
      * @param {Object} tagname
      * @param {Object} innerHTML
      */
-    export const Tag: (tagname: string, innerHTML?: string) => any;
+    export const Tag: <T>(tagname: string, innerHTML?: string) => T[];
 }
 declare module "src/SourceJS" {
     import { ISourceJS } from "types/global/index";
@@ -1509,6 +1516,7 @@ declare module "src/QCObjects" {
     import { ComplexStorageCache } from "src/ComplexStorageCache";
     import { InheritClass } from "src/InheritClass";
     import { Processor } from "src/Processor";
+    import { TagElements } from "src/Tag";
     import { BackendMicroservice } from "src/BackendMicroservice";
     import { Component } from "src/Component";
     import { _Crypt } from "src/Crypt";
@@ -1534,7 +1542,7 @@ declare module "src/QCObjects" {
         Logger: typeof Logger;
         Class: import("types").TClass;
         _Crypt: typeof _Crypt;
-        TagElements: unknown;
+        TagElements: typeof TagElements;
         DefaultTemplateHandler: typeof DefaultTemplateHandler;
         SourceJS: typeof SourceJS;
         SourceCSS: typeof SourceCSS;
@@ -1548,7 +1556,7 @@ declare module "src/QCObjects" {
         RegisterClass: (_class_: any, __namespace?: string) => any;
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types").TComponentURIParams) => string;
         waitUntil: (func: () => void, exp: () => any) => void;
-        _super_: (className: string, classMethodName: string) => any;
+        _super_: <T>(className: string, classMethodName: string) => T;
         _DOMCreateElement: (elementName: string) => IQCObjectsElement;
         shortCode: () => string;
         __getType__: (o_c: any) => any;
@@ -1568,7 +1576,7 @@ declare module "src/QCObjects" {
         getDocumentLayout: () => string | undefined;
         Export: (f: any) => void;
         New: (__class__: any, args?: {}) => any;
-        Tag: (tagname: string, innerHTML?: string) => any;
+        Tag: <T>(tagname: string, innerHTML?: string) => T[];
         Ready: (e: any) => void;
         _methods_: (_: any) => any[];
         InheritClass: typeof InheritClass;
