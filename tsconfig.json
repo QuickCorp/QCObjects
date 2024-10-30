@@ -14,7 +14,7 @@
       "DOM"
     ],
     "module": "NodeNext",
-    "rootDir": "./",
+    "rootDir": "./src",
     "allowJs": true,
     "outDir": "build",
     "allowSyntheticDefaultImports": true,
@@ -22,12 +22,12 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types"],
     "paths": {
-      "types": ["types/global"]
+      "types": ["src/types/global"]
 
     }
   },
   "include": [
     "src/**/*",
-    "types/**/*"
+    "src/types/**/*"
   ]
 }

@@ -1,572 +1,17 @@
-declare module "types/global/index" {
-    import { ClientRequest } from "http";
-    import { Http2SecureServer, Http2Server, Http2ServerRequest, Http2Stream } from "http2";
-    import { Stream } from "stream";
-    export interface IMicroservice {
-        domain: string;
-        basePath: string;
-        body: any;
-        stream?: Http2Stream | Stream;
-        request?: Http2ServerRequest | ClientRequest;
-    }
-    export interface IRoute {
-        name: string;
-        description?: string;
-        path: string;
-        microservice: string;
-        redirect_to?: string;
-        headers?: any;
-        responseHeaders?: any;
-        cors?: any;
-    }
-    export interface IBackendMicroservice extends IInheritClass {
-        domain: string;
-        body: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | undefined;
-        basePath: string;
-        route: IRoute;
-        projectPath?: string;
-        stream?: Http2Stream | Stream;
-        request?: Http2ServerRequest | ClientRequest;
-        routeParams?: any;
-        server: Http2SecureServer | Http2Server;
-        new (microservice: IMicroservice): IBackendMicroservice;
-        cors(): void;
-        head(formData?: object | string): void;
-        get(formData?: object | string): void;
-        post(formData?: object | string): void;
-        put(formData?: object | string): void;
-        delete(formData?: object | string): void;
-        connect(formData?: object | string): void;
-        options(formData?: object | string): void;
-        trace(formData?: object | string): void;
-        patch(formData?: object | string): void;
-        finishWithBody(stream?: Http2Stream | Stream): void;
-        done(): void;
-    }
-    export interface IQCObjectsElement extends HTMLElement {
-        prototype: any;
-        enableServiceClass?: boolean;
-        style: CSSStyleDeclaration;
-        Cast<T>(_o: T): T;
-        render(content: string): void;
-        find(tag: string): (HTMLElement | IQCObjectsElement)[];
-        buildComponents(rebuildObjects?: boolean): any[];
-        subelements(query: string): (HTMLElement | IQCObjectsElement)[];
-        subelements(query: string): Array<any>;
-        append(_child?: any): void;
-    }
-    export interface IQCObjectsShadowedElement extends ShadowRoot {
-        prototype: any;
-        style?: any;
-        render(content: string): void;
-        find(tag: string): (HTMLElement | IQCObjectsElement)[];
-        buildComponents(rebuildObjects?: boolean): any[];
-        subelements(query: string): (ShadowRoot | HTMLElement | IQCObjectsShadowedElement | IQCObjectsElement)[];
-        subelements(query: string): any[];
-        append: (...nodes: (string | Node)[]) => void;
-        innerHTML: string;
-    }
-    export interface ILogger {
-        debugEnabled: boolean;
-        infoEnabled: boolean;
-        warnEnabled: boolean;
-        debug(message: any): string;
-        warn(message: any): string;
-        info(message: any): string;
-    }
-    export type TClass = ((className?: string, extendsFrom?: unknown, definition?: unknown) => unknown) | ((className?: string, extendsFrom?: unknown) => unknown) | ((className?: string, definition?: unknown) => unknown) | (() => unknown);
-    export interface _ICrypt {
-        last_string: string;
-        last_key: string;
-        construct: boolean;
-        _new_(o: any): void;
-        _encrypt(): string;
-        _decrypt(): string;
-        encrypt(_string_: string, key: string): string;
-        decrypt(_string_: string, key: string): string;
-    }
-    export interface I_Crypt {
-        last_string: string;
-        last_key: string;
-        construct: boolean;
-        _new_(o: any): I_Crypt;
-        _encrypt(): string;
-        _decrypt(): string;
-        encrypt(_string_: string, key: string): string;
-        decrypt(_string_: string, key: string): string;
-    }
-    export interface ITagElements extends Array<any> {
-        show(): void;
-        hide(): void;
-        effect(): void;
-        findElements(elementName: string): ITagElements;
-    }
-    export type DefaultTemplateHandlerParams = {
-        component: IComponent;
-        template: string;
-    };
-    export interface IDefaultTemplateHandler {
-        template: string;
-        __definition: any;
-        new ({ component, template }: DefaultTemplateHandlerParams): IDefaultTemplateHandler;
-        assign(data: any): any;
-    }
-    export interface ISourceJS {
-        domain: string;
-        basePath: string;
-        type: string;
-        containerTag: string;
-        url: string;
-        data: any;
-        async: boolean;
-        external: boolean;
-        set(name: string, value: any): void;
-        get(name: string): any;
-        status: boolean;
-        done(): void;
-        fail(): void;
-        rebuild(): void;
-        Cast(o: any): any;
-        _new_(properties: any): void;
-    }
-    export interface ISourceCSS {
-        domain: string;
-        basePath: string;
-        url: string;
-        data: any;
-        async: boolean;
-        external: boolean;
-        set(name: string, value: any): void;
-        get(name: string): any;
-        done(): void;
-        fail(): void;
-        rebuild(): void;
-        Cast(o: any): any;
-        _new_(properties: any): void;
-    }
-    export type IArrayList = Array<any>;
-    export interface IArrayCollection {
-        source: IArrayList;
-        changed(prop: string, value: any): any;
-        push(value: any): void;
-        pop(value: any): void;
-        _new_(source: IArrayList): void;
-    }
-    export interface IGlobalSettings {
-        _GLOBAL: any;
-        set(name: string, value: any): void;
-        get(name: string, _default: any): any;
-        __start__(): Promise<any>;
-    }
-    export type IGLOBAL = IGlobalSettings;
-    export type TDDOParams = {
-        instance: any;
-        name: string;
-        fget: Function;
-        fset: Function;
-        value: any;
-    };
-    export interface IDDO {
-        new ({ instance, name, fget, fset, value }: TDDOParams): IDDO;
-    }
-    export type TCacheController = {
-        cache: IComplexStorageCache;
-        cachedObjectID: string;
-        cachedResponse?: any;
-    };
-    export type TComplexCacheParams = {
-        index: string;
-        load(cacheController?: TCacheController): any;
-        alternate(cacheController?: TCacheController): any;
-    };
-    export interface IComplexStorageCache {
-        object: any;
-        index: string;
-        load(cacheController: IComplexStorageCache): void;
-        alternate(cacheController: IComplexStorageCache): void;
-        clear(): void;
-        getCached(object: any): any;
-        getID(object: any): any;
-        getItem(cachedObjectID: string): JSON | null;
-        setItem(cachedObjectID: string, value: any): void;
-        isEmpty(object: any): boolean;
-        save(object: any, cachedNewResponse: string): void;
-        new (cache: TComplexCacheParams): IComplexStorageCache;
-    }
-    export type TComponentURIParams = {
-        COMPONENTS_BASE_PATH: string;
-        COMPONENT_NAME: string;
-        TPLEXTENSION: string;
-        TPL_SOURCE: string;
-    };
-    export type I_ComponentWidget_ = HTMLElement;
-    export type TasyncLoad = (callback: Function, args: Array<any>) => any;
-    export type TRegisterClass = (_class_: any, namespace: string) => void;
-    export type TComponentURI = ({ COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION, TPL_SOURCE }: TComponentURIParams) => string;
-    export type TwaitUntil = (func: Function, exp: Function) => void;
-    export type T_super_ = (className: string, classMethodName: string, params?: Array<any>) => any;
-    export type T_DOMCreateElement = (elementName: string) => IQCObjectsElement | HTMLElement;
-    export type TshortCode = () => string;
-    export type T__getType__ = (_class_: any) => string;
-    export type Tis_a = (obj: any, typeName: string) => boolean;
-    export type T_DataStringify = (data: any) => string;
-    export type TserviceLoader = (service: IService, _async: boolean) => Promise<any>;
-    export type TcomponentLoader = (component: IComponent, _async: boolean) => Promise<any>;
-    export type TObjectName = (o: any) => string;
-    export type TisQCObjects_Class = (_: any) => boolean;
-    export type TisQCObjects_Object = (_: any) => boolean;
-    export type TNamespaceRef = (namespace: string) => any;
-    export type TRegisterWidget = (widgetName: string) => void;
-    export type TRegisterWidgets = (...widgetList: string[]) => void;
-    export type Trange = (start: number, stop: number, step: number) => Array<any>;
-    export type TgetDocumentLayout = () => string;
-    export type TExport = (fn: Function) => Function;
-    export type TNew = (__class__: any, args: any) => any;
-    export type TTag = (tagName: string, innerHTML?: string) => ITagElements;
-    export type TReady = (e: Function) => void;
-    export type T_methods_ = (_: any) => Array<any>;
-    export type Tset = (_: any, _value_: any) => any;
-    export type Tget = (_: any, _defaultValue_: any) => any;
-    export type T__start__ = () => void;
-    export type TBody = IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined | object;
-    export interface IInheritClass {
-        __instanceID: number;
-        __classType?: string;
-        __definition?: any;
-        __new__?(o?: any): void;
-        _new_(_o_?: any): void;
-        getParentClass(): any;
-        getClass(): any;
-        css(_css: any): any;
-        hierarchy(): any;
-        append(_child?: any): any;
-        attachIn(tag: any): any;
-        __namespace?: string;
-        body?: TBody;
-    }
-    export interface IProcessor extends IInheritClass {
-        component: IComponent | null;
-        processors: any;
-        process(template: string, component: IComponent): any;
-        processObject(obj: any, component: IComponent): any;
-        setProcessor(proc: Function): any;
-        execute(component: IComponent, processorName: string, args: string): any;
-    }
-    export type TComponentParams = {
-        __parent__?: IComponent;
-        name: string;
-        template?: string;
-        templateURI?: string;
-        tplsource?: string;
-        tplextension?: string;
-        url?: string;
-        method?: string;
-        data?: any;
-        reload?: boolean;
-        shadowed?: boolean;
-        cached?: boolean;
-        enableServiceClass?: boolean | undefined;
-        assignRoutingParams?: boolean;
-        _body?: IQCObjectsElement;
-        __promise__?: Promise<any> | null;
-        __shadowRoot?: IQCObjectsShadowedElement;
-        body?: IQCObjectsElement;
-        shadowRoot?: IQCObjectsShadowedElement;
-        splashScreenComponent?: IComponent;
-        controller?: IController;
-        view?: IView;
-    };
-    export interface IComponent extends IInheritClass {
-        cached?: boolean;
-        name: string;
-        templateURI: string;
-        tplsource: string;
-        tplextension: string;
-        template: string;
-        validRoutingWays: string[];
-        basePath: string;
-        domain: string;
-        templateHandler: string;
-        processorHandler?: IProcessor;
-        routingWay: string | null;
-        routingNodes: (IQCObjectsElement | HTMLElement)[];
-        routings: TComponentRoutings;
-        routingPath: string;
-        routingPaths: string[];
-        _componentHelpers: any[];
-        subcomponents: IComponent[];
-        splashScreenComponent?: IComponent;
-        controller?: IController | undefined;
-        routingController?: IController | undefined;
-        view?: IView | undefined;
-        effect?: IEffect;
-        effectClass: string;
-        method: string;
-        __promise__?: Promise<any> | null | undefined;
-        data: any;
-        shadowed?: boolean;
-        shadowRoot: IQCObjectsShadowedElement;
-        cacheIndex: string;
-        parsedAssignmentText: string;
-        serviceInstance: IService;
-        innerHTML: string;
-        reload: boolean;
-        assignRoutingParams?: boolean;
-        routingSelected: TComponentRouting[];
-        routingParams: object;
-        subtags: (HTMLElement | IQCObjectsElement | IQCObjectsShadowedElement)[];
-        bodyAttributes: any;
-        dataAttributes: any;
-        serviceData?: any;
-        container?: any;
-        serviceClassName?: string | null;
-        enableServiceClass?: boolean;
-        componentRoot?: TBody;
-        route(): Promise<void>;
-        responseTo?: string;
-        __done__(): Promise<unknown>;
-        _bindroute_(): void;
-        __buildSubComponents__(rebuildObjects: boolean): IComponent[];
-        _generateRoutingPaths(componentBody: IQCObjectsElement | HTMLElement): Promise<void>;
-        _reroute_(): Promise<IComponent>;
-        route(): void;
-        createServiceInstance(): Promise<JSON | string | null>;
-        createControllerInstance(): Promise<{
-            component: IComponent;
-            controller: IController;
-        }>;
-        createEffectInstance(): Promise<{
-            component: IComponent;
-            effect: IEffect;
-        }>;
-        createViewInstance(): Promise<{
-            component: IComponent;
-            view: IView;
-        }>;
-        done(standardResponse: TComponentDoneResponse): Promise<TComponentDoneResponse>;
-        fail({ error, component }: {
-            error: any;
-            component: IComponent;
-        }): Promise<{
-            error: any;
-            component: any;
-        }>;
-        hostElements(tagFilter: string): (IQCObjectsElement | HTMLElement | IQCObjectsShadowedElement)[];
-        set(name: string, value: any): void;
-        get(name: string): any;
-        feedComponent(): Promise<any>;
-        rebuild(): Promise<{
-            request?: XMLHttpRequest;
-            component: IComponent;
-        }>;
-        Cast(oClass: any): any;
-        fullscreen(): void;
-        closefullscreen(): void;
-        parseTemplate(template: string): string;
-        lazyLoadImages(): object | null;
-        applyTransitionEffect(effectClassName: string): void;
-        applyObserveTransitionEffect(effectClassName: string): void;
-        scrollIntoHash(): void;
-        i18n_translate(): void;
-        addComponentHelper(componentHelper: Function): void;
-        runComponentHelpers(): void;
-    }
-    export type TComponentDoneResponse = {
-        request?: XMLHttpRequest | undefined;
-        component?: IComponent;
-    };
-    export type TComponentRouting = {
-        path: string;
-        name: string;
-        tplextension?: string;
-    };
-    export type TComponentRoutings = TComponentRouting[];
-    export interface ICONFIG extends IInheritClass {
-        _CONFIG_ENC: string;
-        _CONFIG: unknown;
-        set(_: string, _value_: unknown): any;
-        get(_: string, _defaultValue_?: unknown): any;
-        __definition: any;
-    }
-    export interface ICONFIG extends IInheritClass {
-        _CONFIG_ENC: string;
-        _CONFIG: unknown;
-        set(_: any, _value_: any): any;
-        get(_: any, _defaultValue_: any): any;
-        __definition: any;
-    }
-    export type TControllerParams = {
-        component: IComponent;
-        dependencies?: any[];
-    };
-    export interface IController extends IInheritClass {
-        component: IComponent;
-        dependencies?: any[];
-        routingSelectedAttr(attrName: string): any;
-        isTouchable(): boolean;
-        onpress(subelementSelector: string, handler: EventListener): void;
-        createRoutingController(): void;
-        done(...args: any[]): void;
-        fail?(...args: any[]): void;
-    }
-    export type TViewParams = {
-        component: IComponent;
-        dependencies: Array<any>;
-    };
-    export interface IView {
-        __classType: string;
-        __definition: any;
-        __new__(): any;
-        __namespace: string;
-        body: IQCObjectsElement | HTMLElement;
-        component: IComponent;
-        new (view: TViewParams): IView;
-        done(...args: any[]): void;
-        fail(...args: any[]): void;
-    }
-    export type TAsyncLoadCallback = ((component: IComponent, _async?: any) => Promise<any>) | ((service: IService, _async?: any) => Promise<unknown>) | ((_async?: any) => any);
-    export type TServiceDoneResponse = {
-        request: XMLHttpRequest | null;
-        service: IService;
-    };
-    export type TServiceStandardResponse = {
-        request: XMLHttpRequest | null;
-        service: IService;
-        responseHeaders: any[];
-    };
-    export interface IService extends IInheritClass {
-        withCredentials: boolean;
-        useHTTP2: any;
-        options: object;
-        name: string;
-        kind: string;
-        domain: string;
-        basePath: string;
-        url: string;
-        method: string;
-        data: any;
-        reload: boolean;
-        cached: boolean;
-        headers: any;
-        responseHeaders: any;
-        local({ request, service }: TServiceStandardResponse): void;
-        mockup({ request, service }: TServiceStandardResponse): void;
-        template: unknown;
-        set(name: string, value: any): void;
-        get(name: string): any;
-        done({ request, service }: TServiceDoneResponse): void;
-        fail(...args: any[]): void;
-    }
-    export interface IJSONService extends IService {
-        JSONresponse?: JSON;
-    }
-    export interface IConfigService extends IJSONService {
-        configFileName: string;
-        configLoaded(): Promise<void>;
-    }
-    export type TIVO = object;
-    export type TEffectParams = {
-        duration: number;
-        timing: (timeFraction: number) => number;
-        draw: (progress: number) => void;
-    };
-    export interface IEffect extends IInheritClass {
-        duration: number;
-        apply(...args: any[]): any;
-        done?(...args: any[]): any;
-        animate(effect: TEffectParams): void;
-    }
-    export type TTransitionEffectParams = {
-        alphaFrom?: number;
-        alphaTo?: number;
-        angleFrom?: number;
-        angleTo?: number;
-        radiusFrom?: number;
-        radiusTo?: number;
-        scaleFrom?: number;
-        scaleTo?: number;
-    };
-    export interface ITransitionEffect extends IEffect {
-        component: IComponent;
-        defaultParams: TTransitionEffectParams;
-        duration: number;
-        fitToHeight: boolean;
-        fitToWidth: boolean;
-        effects: string[];
-    }
-    export type TTimerParams = {
-        duration: number;
-        timing: (timeFraction: number, elapsed?: number) => number;
-        intervalInterceptor: (progress: number) => void;
-    };
-    export interface ITimer extends IInheritClass {
-        duration: number;
-        alive: boolean;
-        thread(timer: TTimerParams): void;
-    }
-    export interface IToggle {
-        _toggle: boolean;
-        _inverse: boolean;
-        _positive: Function;
-        _negative: Function;
-        _dispatched?: boolean;
-        _args: Array<any>;
-        new (positive: Function, negative: Function, args: Array<any>): IToggle;
-    }
-    export let logger: ILogger;
-    export let _sdk_: Promise<any>;
-    export var global: typeof globalThis | IGLOBAL;
-    export type TClassFactory = (className: string) => any;
-    export type TPackage = (packageName: string, classesList?: Array<any>) => Array<any> | undefined;
-    export type TImport = (packageName: string, ready?: Function, external?: boolean) => any;
-    export const cordova: any;
-    export interface Array<T> {
-        length: any;
-        prototype: any;
-        unique(): T[];
-        table(): void;
-        sum(): number;
-        avg(): number;
-        min(): number;
-        max(): number;
-        sortBy(propName: string, sortAsc?: boolean): T[];
-        matrix(length: number, fillValue?: number): T[];
-        matrix2d(length: number, fillValue?: number): T[][];
-        matrix3d(length: number, fillValue?: number): T[][][];
-    }
-    export interface ArrayConstructor {
-        unique<T>(a: Array<T>): T[];
-        table<T>(a: Array<T>): void;
-        sum<T>(a: Array<T>): number;
-        avg<T>(a: Array<T>): number;
-        min<T>(a: Array<T>): number;
-        max<T>(a: Array<T>): number;
-        sortBy<T>(a: Array<T>, propName: string, sortAsc?: boolean): T[];
-        matrix<T>(a: Array<T>, length: number, fillValue?: number): T[];
-        matrix2d<T>(a: Array<T>, length: number, fillValue?: number): T[][];
-        matrix3d<T>(a: Array<T>, length: number, fillValue?: number): T[][][];
-    }
-    export interface String {
-        prototype: any;
-        list(): string[];
-    }
-    export const componentsStack: IComponent[];
-    export const lastCache: IComplexStorageCache | undefined;
-}
-declare module "src/isQCObjects" {
+declare module "isQCObjects" {
     export const isQCObjects_Object: (_: any) => boolean;
     export const isQCObjects_Class: (_: any) => boolean;
 }
-declare module "src/PrimaryCollections" {
+declare module "PrimaryCollections" {
     export var _QC_CLASSES: {};
     export var _QC_PACKAGES: {};
     export var _QC_PACKAGES_IMPORTED: never[];
     export var _QC_READY_LISTENERS: never[];
 }
-declare module "src/is_raw_class" {
+declare module "is_raw_class" {
     export const __is_raw_class__: (o_c: any) => boolean;
 }
-declare module "src/ObjectName" {
+declare module "ObjectName" {
     /**
      * Returns the object or function name
      *
@@ -574,7 +19,7 @@ declare module "src/ObjectName" {
      */
     export const ObjectName: (o: any) => string;
 }
-declare module "src/getType" {
+declare module "getType" {
     /**
      * Determine the type of the Object for any QCObjects Object
      *
@@ -582,15 +27,15 @@ declare module "src/getType" {
      */
     export const __getType__: (o_c: any) => any;
 }
-declare module "src/platform" {
+declare module "platform" {
     export const isDeno: boolean;
     export const isBrowser: boolean;
     export const isNodeCommonJS: boolean;
     export const deno_require: (name: string) => void;
-    export const _require_: (name: string) => void;
+    export const _require_: (name: string) => any;
     export const is_phonegap: boolean;
 }
-declare module "src/Logger" {
+declare module "Logger" {
     export class Logger {
         debugEnabled: boolean;
         infoEnabled: boolean;
@@ -601,7 +46,7 @@ declare module "src/Logger" {
     }
     export const logger: Logger;
 }
-declare module "src/Cast" {
+declare module "Cast" {
     /**
      * Casts an object to another object class type
      *
@@ -617,22 +62,22 @@ declare module "src/Cast" {
      */
     export const _CastProps: (obj_source: any, obj_dest: any) => any;
 }
-declare module "src/DOMCreateElement" {
-    import { IQCObjectsElement } from "types/global/index";
+declare module "DOMCreateElement" {
+    import { IQCObjectsElement } from "types";
     export const _DOMCreateElement: (elementName: string) => IQCObjectsElement;
 }
-declare module "src/IncrementInstanceID" {
+declare module "IncrementInstanceID" {
     /**
      * Primary instance ID of all objects
      */
     export var __instanceID: number;
     export const IncrementInstanceID: () => void;
 }
-declare module "src/introspection" {
+declare module "introspection" {
     export const _protected_code_: (_: any) => void;
     export const _methods_: (_: any) => any[];
 }
-declare module "src/is_a" {
+declare module "is_a" {
     /**
      * Returns if a class or object is from a determinated type
      * @param {Object} object
@@ -640,7 +85,7 @@ declare module "src/is_a" {
      */
     export const is_a: (obj: any, typeName: string) => boolean;
 }
-declare module "src/is_forbidden_name" {
+declare module "is_forbidden_name" {
     /**
      * Internal use to determine the forbidden names for classes
      * Reserved words
@@ -651,11 +96,11 @@ declare module "src/is_forbidden_name" {
      */
     export const __is__forbidden_name__: (name: string) => boolean;
 }
-declare module "src/LegacyCopy" {
+declare module "LegacyCopy" {
     export const _LegacyCopy: (obj: any) => any;
 }
-declare module "src/Class" {
-    import { TClass } from "types/global/index";
+declare module "Class" {
+    import { TClass } from "types";
     /**
      * Creates new object class  of another object
      *
@@ -684,7 +129,7 @@ declare module "src/Class" {
      */
     export const Class: TClass;
 }
-declare module "src/Base64" {
+declare module "Base64" {
     export const Base64: {
         _keyStr: string;
         encode(e: string): string;
@@ -693,18 +138,18 @@ declare module "src/Base64" {
         _utf8_decode(e: string): string;
     };
 }
-declare module "src/basePath" {
+declare module "basePath" {
     export var _basePath_: string;
     export const setBasePath: (value: string) => void;
 }
-declare module "src/DataStringify" {
+declare module "DataStringify" {
     export const _DataStringify: (data: any) => string;
 }
-declare module "src/domain" {
+declare module "domain" {
     export const _domain_: string;
 }
-declare module "src/InheritClass" {
-    import { IInheritClass, TBody } from "types/global/index";
+declare module "InheritClass" {
+    import { IInheritClass, TBody } from "types";
     export class InheritClass implements IInheritClass {
         [key: string]: any;
         __definition: any;
@@ -729,7 +174,7 @@ declare module "src/InheritClass" {
         attachIn(tag: any): void;
     }
 }
-declare module "src/New" {
+declare module "New" {
     /**
      * Creates an object from a Class definition
      *
@@ -738,12 +183,12 @@ declare module "src/New" {
      */
     export const New: (__class__: any, args?: {}) => any;
 }
-declare module "src/secretKey" {
+declare module "secretKey" {
     export const _secretKey: string;
 }
-declare module "src/Crypt" {
-    import { _ICrypt } from "types/global/index";
-    import { InheritClass } from "src/InheritClass";
+declare module "Crypt" {
+    import { _ICrypt } from "types";
+    import { InheritClass } from "InheritClass";
     export class _Crypt extends InheritClass implements _ICrypt {
         string: string;
         key: string;
@@ -764,8 +209,8 @@ declare module "src/Crypt" {
     export const _CryptObject: (o: any) => string;
     export const _DecryptObject: (s: string) => any;
 }
-declare module "src/ConfigSettings" {
-    import { InheritClass } from "src/InheritClass";
+declare module "ConfigSettings" {
+    import { InheritClass } from "InheritClass";
     type TConfigSettings = {
         relativeImportPath: string;
         remoteImportsPath: string;
@@ -791,9 +236,9 @@ declare module "src/ConfigSettings" {
         static get instance(): ConfigSettings;
     }
 }
-declare module "src/CONFIG" {
-    import { InheritClass } from "src/InheritClass";
-    import { ICONFIG } from "types/global/index";
+declare module "CONFIG" {
+    import { InheritClass } from "InheritClass";
+    import { ICONFIG } from "types";
     export class CONFIG extends InheritClass implements ICONFIG {
         get _CONFIG_ENC(): string;
         get _CONFIG(): unknown;
@@ -803,9 +248,9 @@ declare module "src/CONFIG" {
         static get(name: string, value?: unknown): any;
     }
 }
-declare module "src/Processor" {
-    import { IComponent, IProcessor } from "types/global/index";
-    import { InheritClass } from "src/InheritClass";
+declare module "Processor" {
+    import { IComponent, IProcessor } from "types";
+    import { InheritClass } from "InheritClass";
     export class Processor extends InheritClass implements IProcessor {
         constructor({ component }: {
             component: IComponent | null;
@@ -820,22 +265,22 @@ declare module "src/Processor" {
     }
     export const GlobalProcessor: Processor;
 }
-declare module "src/routings" {
-    import { TComponentRouting } from "types/global/index";
+declare module "routings" {
+    import { TComponentRouting } from "types";
     export const __routing_params__: (routing: TComponentRouting, routingPath: string) => object;
     export const __valid_routings__: (routings: TComponentRouting[], routingPath: string) => TComponentRouting[];
     export const __valid_routing_way__: (validRoutingWays: string[], routingWay: string) => boolean;
 }
-declare module "src/Export" {
+declare module "Export" {
     export const Export: (f: any) => void;
 }
-declare module "src/asyncLoad" {
-    import { TAsyncLoadCallback } from "types/global/index";
+declare module "asyncLoad" {
+    import { TAsyncLoadCallback } from "types";
     export const _asyncLoad: never[];
     export function asyncLoad(callback: TAsyncLoadCallback, args?: any[]): any;
     export const _fireAsyncLoad: () => void;
 }
-declare module "src/ComplexStorageCache" {
+declare module "ComplexStorageCache" {
     export class ComplexStorageCache {
         constructor(params: {
             index: any;
@@ -851,8 +296,8 @@ declare module "src/ComplexStorageCache" {
         clear(): void;
     }
 }
-declare module "src/serviceLoader" {
-    import { IService } from "types/global/index";
+declare module "serviceLoader" {
+    import { IService } from "types";
     /**
      * Loads a simple component from a template
      *
@@ -861,11 +306,11 @@ declare module "src/serviceLoader" {
      */
     export const serviceLoader: (service: IService, _async?: boolean) => Promise<unknown> | undefined;
 }
-declare module "src/tag_filter" {
+declare module "tag_filter" {
     export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
 }
-declare module "src/componentLoader" {
-    import { Component } from "src/Component";
+declare module "componentLoader" {
+    import { Component } from "Component";
     /**
      * Loads a simple component from a template
      *
@@ -874,9 +319,9 @@ declare module "src/componentLoader" {
      */
     export const componentLoader: (component: Component, _async: boolean) => any;
 }
-declare module "src/Component" {
-    import { InheritClass } from "src/InheritClass";
-    import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types/global/index";
+declare module "Component" {
+    import { InheritClass } from "InheritClass";
+    import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types";
     export class Component extends InheritClass implements IComponent {
         static shadowed: boolean | undefined;
         static cached: any;
@@ -993,9 +438,9 @@ declare module "src/Component" {
         runComponentHelpers(): void;
     }
 }
-declare module "src/ComponentFactory" {
-    import { TComponentURIParams } from "types/global/index";
-    import { Component } from "src/Component";
+declare module "ComponentFactory" {
+    import { TComponentURIParams } from "types";
+    import { Component } from "Component";
     /**
      * Returns a standarized uri for a component
      * @example
@@ -1008,8 +453,8 @@ declare module "src/ComponentFactory" {
     export const _buildComponentsFromElements_: (elements: HTMLElement[], __parent__: Component | null) => Component[];
     export const buildComponents: (element: HTMLElement) => Component[];
 }
-declare module "src/top" {
-    import { IComplexStorageCache, IComponent, IConfigService } from "types/global/index";
+declare module "top" {
+    import { IComplexStorageCache, IComponent, IConfigService } from "types";
     type QCObjects = {
         lastCache?: IComplexStorageCache;
         componentsStack: IComponent[];
@@ -1096,14 +541,14 @@ declare module "src/top" {
     export let configService: IConfigService;
     export const setConfigService: (_configService: IConfigService) => void;
 }
-declare module "src/make_global" {
+declare module "make_global" {
     export const __make_global__: (f: any) => void;
 }
-declare module "src/RegisterClass" {
+declare module "RegisterClass" {
     export const __register_class__: (_class_: any, __namespace?: string) => any;
     export const RegisterClass: (_class_: any, __namespace?: string) => any;
 }
-declare module "src/Package" {
+declare module "Package" {
     /**
      * Defines a package for Class classification
      *
@@ -1112,20 +557,20 @@ declare module "src/Package" {
      */
     export const Package: (namespace: string, classes?: any[]) => any;
 }
-declare module "src/ClassFactory" {
+declare module "ClassFactory" {
     /**
      * Returns the QCObjects Class Factory of a given ClassName
      *
      * @param {String} name
      */
-    import { IInheritClass } from "types/global/index";
+    import { IInheritClass } from "types";
     export const ClassFactory: (className: string) => IInheritClass;
 }
-declare module "src/mathFunctions" {
+declare module "mathFunctions" {
     export const __to_number: (value: any) => number;
 }
-declare module "src/ArrayCollection" {
-    import { IArrayCollection, IArrayList } from "types/global/index";
+declare module "ArrayCollection" {
+    import { IArrayCollection, IArrayList } from "types";
     export class ArrayList extends Array implements IArrayList {
         prototype: any;
         unique(): any[];
@@ -1147,10 +592,10 @@ declare module "src/ArrayCollection" {
         _new_(source: ArrayList): void;
     }
 }
-declare module "src/BackendMicroservice" {
+declare module "BackendMicroservice" {
     import { Http2Stream } from "http2";
     import { Stream } from "stream";
-    import { InheritClass } from "src/InheritClass";
+    import { InheritClass } from "InheritClass";
     export class BackendMicroservice extends InheritClass {
         stream: any;
         route: any;
@@ -1177,9 +622,9 @@ declare module "src/BackendMicroservice" {
         done(): void;
     }
 }
-declare module "src/Controller" {
-    import { IController, IComponent, TControllerParams } from "types/global/index";
-    import { InheritClass } from "src/InheritClass";
+declare module "Controller" {
+    import { IController, IComponent, TControllerParams } from "types";
+    import { InheritClass } from "InheritClass";
     export class Controller extends InheritClass implements IController {
         component: IComponent;
         dependencies?: any[];
@@ -1192,9 +637,9 @@ declare module "src/Controller" {
         done(): void;
     }
 }
-declare module "src/DDO" {
-    import { TDDOParams } from "types/global/index";
-    import { InheritClass } from "src/InheritClass";
+declare module "DDO" {
+    import { TDDOParams } from "types";
+    import { InheritClass } from "InheritClass";
     /**
      * Dynamic Data Objects Class
      * Usage:
@@ -1218,23 +663,23 @@ declare module "src/DDO" {
         _new_({ instance, name, fget, fset }: TDDOParams): void;
     }
 }
-declare module "src/DefaultTemplateHandler" {
-    import { DefaultTemplateHandlerParams } from "types/global/index";
+declare module "DefaultTemplateHandler" {
+    import { DefaultTemplateHandlerParams } from "types";
     export class DefaultTemplateHandler {
         template: string;
         __definition: {};
         static __definition: {};
-        component: import("types/global").IComponent;
+        component: import("types").IComponent;
         constructor({ component, template }: DefaultTemplateHandlerParams);
         assign(data: any): string;
     }
 }
-declare module "src/DocumentLayout" {
+declare module "DocumentLayout" {
     export const getDocumentLayout: () => string | undefined;
 }
-declare module "src/Effect" {
-    import { IEffect, TEffectParams } from "types/global/index";
-    import { InheritClass } from "src/InheritClass";
+declare module "Effect" {
+    import { IEffect, TEffectParams } from "types";
+    import { InheritClass } from "InheritClass";
     export class Effect extends InheritClass implements IEffect {
         done(...args: any[]): any;
         apply(...args: any[]): void;
@@ -1242,10 +687,10 @@ declare module "src/Effect" {
         animate({ timing, draw, duration }: TEffectParams): void;
     }
 }
-declare module "src/findPackageNodePath" {
+declare module "findPackageNodePath" {
     export const findPackageNodePath: (packagename: string) => string | null;
 }
-declare module "src/Import" {
+declare module "Import" {
     /**
      * Imports a script with the package nomenclature
      *
@@ -1258,7 +703,7 @@ declare module "src/Import" {
         _package_name_?: string;
     }> | undefined;
 }
-declare module "src/NamespaceRef" {
+declare module "NamespaceRef" {
     /**
      * Declare Namespace
      *
@@ -1269,14 +714,14 @@ declare module "src/NamespaceRef" {
         [x: string]: any;
     };
 }
-declare module "src/assign" { }
-declare module "src/subelements" {
+declare module "assign" { }
+declare module "subelements" {
     export const subelements: (this: any, query: string) => any[];
 }
-declare module "src/waitUntil" {
+declare module "waitUntil" {
     export const waitUntil: (func: () => void, exp: () => any) => void;
 }
-declare module "src/super" {
+declare module "super" {
     /**
      * Returns a method from a superior QCObjects Class
      * It is useful for Class Inheritance in the _new_ and __new__ method constructors
@@ -1288,10 +733,10 @@ declare module "src/super" {
      */
     export const _super_: <T>(className: string, classMethodName: string) => T;
 }
-declare module "src/shortCode" {
+declare module "shortCode" {
     export const shortCode: () => string;
 }
-declare module "src/Ready" {
+declare module "Ready" {
     /**
      * Defines a Custom Ready listener
      */
@@ -1304,21 +749,21 @@ declare module "src/Ready" {
      */
     export const _Ready: (e: any) => void;
 }
-declare module "src/captureFalseTouch" {
+declare module "captureFalseTouch" {
     export let supportsPassive: boolean;
     export const captureFalseTouch: () => false | {
         passive: boolean;
     };
 }
-declare module "src/range" {
+declare module "range" {
     export const range: (start: number, stop?: number, step?: number) => number[];
 }
-declare module "src/defaultProcessors" {
+declare module "defaultProcessors" {
     export const setDefaultProcessors: () => void;
 }
-declare module "src/Tag" {
-    import { ITagElements } from "types/global/index";
-    import { ArrayList } from "src/ArrayCollection";
+declare module "Tag" {
+    import { ITagElements } from "types";
+    import { ArrayList } from "ArrayCollection";
     export class TagElements extends ArrayList implements ITagElements {
         show(): void;
         hide(): void;
@@ -1333,9 +778,9 @@ declare module "src/Tag" {
      */
     export const Tag: <T>(tagname: string, innerHTML?: string) => T[];
 }
-declare module "src/SourceJS" {
-    import { ISourceJS } from "types/global/index";
-    import { InheritClass } from "src/InheritClass";
+declare module "SourceJS" {
+    import { ISourceJS } from "types";
+    import { InheritClass } from "InheritClass";
     export class SourceJS extends InheritClass implements ISourceJS {
         domain: string;
         basePath: string;
@@ -1356,9 +801,9 @@ declare module "src/SourceJS" {
         _new_(properties: any): void;
     }
 }
-declare module "src/SourceCSS" {
-    import { ISourceCSS } from "types/global/index";
-    import { InheritClass } from "src/InheritClass";
+declare module "SourceCSS" {
+    import { ISourceCSS } from "types";
+    import { InheritClass } from "InheritClass";
     export class SourceCSS extends InheritClass implements ISourceCSS {
         domain: string;
         basePath: string;
@@ -1375,9 +820,9 @@ declare module "src/SourceCSS" {
         rebuild(): void;
     }
 }
-declare module "src/Service" {
-    import { InheritClass } from "src/InheritClass";
-    import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "types/global/index";
+declare module "Service" {
+    import { InheritClass } from "InheritClass";
+    import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "types";
     export class Service extends InheritClass implements IService {
         options: object;
         withCredentials: boolean;
@@ -1426,9 +871,9 @@ declare module "src/Service" {
         constructor();
     }
 }
-declare module "src/globalSettings" {
-    import { IGlobalSettings } from "types/global/index";
-    import { InheritClass } from "src/InheritClass";
+declare module "globalSettings" {
+    import { IGlobalSettings } from "types";
+    import { InheritClass } from "InheritClass";
     export class GlobalSettings extends InheritClass implements IGlobalSettings {
         [key: string]: any;
         _GLOBAL: any;
@@ -1439,16 +884,16 @@ declare module "src/globalSettings" {
         __start__(): Promise<any>;
     }
 }
-declare module "src/WidgetsFactory" {
-    import { I_ComponentWidget_ } from "types/global/index";
+declare module "WidgetsFactory" {
+    import { I_ComponentWidget_ } from "types";
     export class _ComponentWidget_ extends HTMLElement implements I_ComponentWidget_ {
         constructor();
     }
     export const RegisterWidget: (widgetName: string) => void;
     export const RegisterWidgets: () => void;
 }
-declare module "src/View" {
-    import { InheritClass } from "src/InheritClass";
+declare module "View" {
+    import { InheritClass } from "InheritClass";
     export class View extends InheritClass {
         constructor({ component, dependencies }: {
             component?: undefined;
@@ -1456,15 +901,15 @@ declare module "src/View" {
         });
     }
 }
-declare module "src/VO" {
-    import { InheritClass } from "src/InheritClass";
+declare module "VO" {
+    import { InheritClass } from "InheritClass";
     export class VO extends InheritClass {
         constructor();
     }
 }
-declare module "src/TransitionEffect" {
-    import { Effect } from "src/Effect";
-    import { IComponent, ITransitionEffect, TTransitionEffectParams } from "types/global/index";
+declare module "TransitionEffect" {
+    import { Effect } from "Effect";
+    import { IComponent, ITransitionEffect, TTransitionEffectParams } from "types";
     export class TransitionEffect extends Effect implements ITransitionEffect {
         duration: number;
         defaultParams: {
@@ -1484,17 +929,17 @@ declare module "src/TransitionEffect" {
         apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: TTransitionEffectParams): void;
     }
 }
-declare module "src/Timer" {
-    import { TTimerParams } from "types/global/index";
-    import { InheritClass } from "src/InheritClass";
-    export class Timer extends InheritClass {
+declare module "Timer" {
+    import { ITimer, TTimerParams } from "types";
+    import { InheritClass } from "InheritClass";
+    export class Timer extends InheritClass implements ITimer {
         duration: number;
         alive: boolean;
         thread({ timing, intervalInterceptor, duration }: TTimerParams): void;
     }
 }
-declare module "src/Toggle" {
-    import { InheritClass } from "src/InheritClass";
+declare module "Toggle" {
+    import { InheritClass } from "InheritClass";
     export class Toggle extends InheritClass {
         _toggle: boolean;
         _inverse: boolean;
@@ -1512,34 +957,34 @@ declare module "src/Toggle" {
         fire(): Promise<Toggle>;
     }
 }
-declare module "src/QCObjects" {
-    import "src/assign";
-    import { Logger } from "src/Logger";
-    import { asyncLoad } from "src/asyncLoad";
-    import { ComplexStorageCache } from "src/ComplexStorageCache";
-    import { InheritClass } from "src/InheritClass";
-    import { Processor } from "src/Processor";
-    import { TagElements } from "src/Tag";
-    import { BackendMicroservice } from "src/BackendMicroservice";
-    import { Component } from "src/Component";
-    import { _Crypt } from "src/Crypt";
-    import { DefaultTemplateHandler } from "src/DefaultTemplateHandler";
-    import { SourceJS } from "src/SourceJS";
-    import { SourceCSS } from "src/SourceCSS";
-    import { GlobalSettings } from "src/globalSettings";
-    import { _ComponentWidget_ } from "src/WidgetsFactory";
-    import { CONFIG } from "src/CONFIG";
-    import { Controller } from "src/Controller";
-    import { View } from "src/View";
-    import { ConfigService, JSONService, Service } from "src/Service";
-    import { VO } from "src/VO";
-    import { Effect } from "src/Effect";
-    import { TransitionEffect } from "src/TransitionEffect";
-    import { Timer } from "src/Timer";
-    import { ArrayCollection, ArrayList } from "src/ArrayCollection";
-    import { DDO } from "src/DDO";
-    import { Toggle } from "src/Toggle";
-    import { IQCObjectsElement } from "types/global/index";
+declare module "QCObjects" {
+    import "assign";
+    import { Logger } from "Logger";
+    import { asyncLoad } from "asyncLoad";
+    import { ComplexStorageCache } from "ComplexStorageCache";
+    import { InheritClass } from "InheritClass";
+    import { Processor } from "Processor";
+    import { TagElements } from "Tag";
+    import { BackendMicroservice } from "BackendMicroservice";
+    import { Component } from "Component";
+    import { _Crypt } from "Crypt";
+    import { DefaultTemplateHandler } from "DefaultTemplateHandler";
+    import { SourceJS } from "SourceJS";
+    import { SourceCSS } from "SourceCSS";
+    import { GlobalSettings } from "globalSettings";
+    import { _ComponentWidget_ } from "WidgetsFactory";
+    import { CONFIG } from "CONFIG";
+    import { Controller } from "Controller";
+    import { View } from "View";
+    import { ConfigService, JSONService, Service } from "Service";
+    import { VO } from "VO";
+    import { Effect } from "Effect";
+    import { TransitionEffect } from "TransitionEffect";
+    import { Timer } from "Timer";
+    import { ArrayCollection, ArrayList } from "ArrayCollection";
+    import { DDO } from "DDO";
+    import { Toggle } from "Toggle";
+    import { IQCObjectsElement } from "types";
     const _default: {
         BackendMicroservice: typeof BackendMicroservice;
         Logger: typeof Logger;
@@ -1607,13 +1052,13 @@ declare module "src/QCObjects" {
     };
     export default _default;
 }
-declare module "src/index" {
-    import QCObjects from "src/QCObjects";
+declare module "index" {
+    import QCObjects from "QCObjects";
     export default QCObjects;
 }
-declare module "src/localStorage" {
+declare module "localStorage" {
     export var localStorage: any;
 }
-declare module "src/uniqueID" {
+declare module "uniqueID" {
     export const uniqueId: () => string;
 }

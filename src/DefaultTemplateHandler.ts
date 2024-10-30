@@ -1,4 +1,4 @@
-import { DefaultTemplateHandlerParams } from "types/global";
+import { DefaultTemplateHandlerParams } from "types";
 import { logger } from "./Logger";
 import { GlobalProcessor as Processor } from "./Processor";
 import { RegisterClass } from "./RegisterClass";

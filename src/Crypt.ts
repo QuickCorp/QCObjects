@@ -1,4 +1,4 @@
-import { _ICrypt } from "types/global";
+import { _ICrypt } from "types";
 import { Base64 } from "./Base64";
 import { _DataStringify } from "./DataStringify";
 import { InheritClass } from "./InheritClass";

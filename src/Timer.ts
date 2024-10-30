@@ -1,8 +1,8 @@
-import { TTimerParams } from "types/global";
+import { ITimer, TTimerParams } from "types";
 import { InheritClass } from "./InheritClass";
 import { Package } from "./Package";
 
-export class Timer extends InheritClass {
+export class Timer extends InheritClass implements ITimer {
 
 
     duration = 1000;
