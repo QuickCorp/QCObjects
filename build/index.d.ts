@@ -1253,8 +1253,8 @@ declare module "src/Controller" {
     }
 }
 declare module "src/DDO" {
-    import { DDOParams } from "types/global/index";
-    const DDO_base: import("types/global").IInheritClass;
+    import { TDDOParams } from "types/global/index";
+    import { InheritClass } from "src/InheritClass";
     /**
      * Dynamic Data Objects Class
      * Usage:
@@ -1273,9 +1273,9 @@ declare module "src/DDO" {
      * });
      *
      */
-    export class DDO extends DDO_base {
-        constructor({ instance, name, fget, fset, value }: DDOParams);
-        _new_({ instance, name, fget, fset, value }: DDOParams): void;
+    export class DDO extends InheritClass {
+        constructor({ instance, name, fget, fset, value }: TDDOParams);
+        _new_({ instance, name, fget, fset }: TDDOParams): void;
     }
 }
 declare module "src/DefaultTemplateHandler" {
