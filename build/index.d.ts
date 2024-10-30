@@ -75,7 +75,7 @@ declare module "IncrementInstanceID" {
 }
 declare module "introspection" {
     export const _protected_code_: (_: any) => void;
-    export const _methods_: (_: any) => any[];
+    export const _methods_: <T>(_: any) => T[];
 }
 declare module "is_a" {
     /**
@@ -310,14 +310,14 @@ declare module "tag_filter" {
     export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
 }
 declare module "componentLoader" {
-    import { Component } from "Component";
+    import { IComponent } from "types";
     /**
      * Loads a simple component from a template
      *
      * @author: Jean Machuca <correojean@gmail.com>
      * @param component a Component object
      */
-    export const componentLoader: (component: Component, _async: boolean) => any;
+    export const componentLoader: (component: IComponent, _async: boolean) => Promise<any>;
 }
 declare module "Component" {
     import { InheritClass } from "InheritClass";
@@ -328,6 +328,7 @@ declare module "Component" {
         [key: string]: any;
         name: string;
         templateURI: string;
+        url: string;
         tplsource: string;
         tplextension: string;
         template: string;
@@ -555,7 +556,7 @@ declare module "Package" {
      * @param {Object} namespace
      * @param {Object} classes
      */
-    export const Package: (namespace: string, classes?: any[]) => any;
+    export const Package: (namespace: string, classes?: any[]) => any[] | undefined;
 }
 declare module "ClassFactory" {
     /**
@@ -710,13 +711,11 @@ declare module "NamespaceRef" {
      * @param {String} packageName
      * @param {Object} package
      */
-    export const NamespaceRef: (namespace: string) => {
-        [x: string]: any;
-    };
+    export const NamespaceRef: (namespace: string) => any;
 }
 declare module "assign" { }
 declare module "subelements" {
-    export const subelements: (this: any, query: string) => any[];
+    export const subelements: <T>(this: any, query: string) => T[];
 }
 declare module "waitUntil" {
     export const waitUntil: (func: () => void, exp: () => any) => void;
@@ -890,7 +889,7 @@ declare module "WidgetsFactory" {
         constructor();
     }
     export const RegisterWidget: (widgetName: string) => void;
-    export const RegisterWidgets: () => void;
+    export const RegisterWidgets: (...args: string[]) => void;
 }
 declare module "View" {
     import { InheritClass } from "InheritClass";
@@ -904,7 +903,6 @@ declare module "View" {
 declare module "VO" {
     import { InheritClass } from "InheritClass";
     export class VO extends InheritClass {
-        constructor();
     }
 }
 declare module "TransitionEffect" {
@@ -1011,22 +1009,20 @@ declare module "QCObjects" {
         is_a: (obj: any, typeName: string) => boolean;
         _DataStringify: (data: any) => string;
         serviceLoader: (service: import("types").IService, _async?: boolean) => Promise<unknown> | undefined;
-        componentLoader: (component: Component, _async: boolean) => any;
+        componentLoader: (component: import("types").IComponent, _async: boolean) => Promise<any>;
         ObjectName: (o: any) => string;
         isQCObjects_Class: (_: any) => boolean;
         isQCObjects_Object: (_: any) => boolean;
-        NamespaceRef: (namespace: string) => {
-            [x: string]: any;
-        };
+        NamespaceRef: (namespace: string) => any;
         RegisterWidget: (widgetName: string) => void;
-        RegisterWidgets: () => void;
+        RegisterWidgets: (...args: string[]) => void;
         range: (start: number, stop?: number, step?: number) => number[];
         getDocumentLayout: () => string | undefined;
         Export: (f: any) => void;
         New: (__class__: any, args?: {}) => any;
         Tag: <T>(tagname: string, innerHTML?: string) => T[];
         Ready: (e: any) => void;
-        _methods_: (_: any) => any[];
+        _methods_: <T>(_: any) => T[];
         InheritClass: typeof InheritClass;
         Processor: typeof Processor;
         Component: typeof Component;
@@ -1044,7 +1040,7 @@ declare module "QCObjects" {
         logger: Logger;
         global: typeof globalThis;
         ClassFactory: (className: string) => import("types").IInheritClass;
-        Package: (namespace: string, classes?: any[]) => any;
+        Package: (namespace: string, classes?: any[]) => any[] | undefined;
         Import: (packagename: string, ready?: Function, external?: boolean) => Promise<{
             _imported_?: any;
             _package_name_?: string;

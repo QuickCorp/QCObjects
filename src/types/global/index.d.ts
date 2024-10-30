@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-new */
-/* eslint-disable no-unused-vars */
+ 
 import { ClientRequest } from "http";
 import { Http2SecureServer, Http2Server, Http2ServerRequest, Http2Stream } from "http2";
 import { Stream } from "stream";
@@ -308,6 +308,7 @@ export type TComponentParams = {
 
 
 export interface IComponent extends IInheritClass{
+    url: string;
     cached?: boolean;
     name: string;
     templateURI: string;

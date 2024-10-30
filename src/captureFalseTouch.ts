@@ -1,3 +1,4 @@
+import { logger } from "./Logger";
 import { isBrowser } from "./platform";
 
 export let supportsPassive = false;
@@ -18,7 +19,8 @@ if (isBrowser) {
         });
         (window as any).addEventListener("testPassive", null, opts);
         (window as any).removeEventListener("testPassive", null, opts);
-    } catch (e) {
+    } catch (e:any) {
+        logger.debug(`An error ocurred: ${e}.`);
         supportsPassive = false;
     }
 

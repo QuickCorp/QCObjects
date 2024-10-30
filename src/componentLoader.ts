@@ -1,6 +1,6 @@
+import { IComponent, TCacheController } from "types";
 import { asyncLoad } from "./asyncLoad";
 import { ComplexStorageCache } from "./ComplexStorageCache";
-import { Component } from "./Component";
 import { _DataStringify } from "./DataStringify";
 import { logger } from "./Logger";
 import { _require_, is_phonegap, isBrowser } from "./platform";
@@ -12,9 +12,9 @@ import { _top } from "./top";
  * @author: Jean Machuca <correojean@gmail.com>
  * @param component a Component object
  */
-export const componentLoader = function (component: Component, _async: boolean) {
+export const componentLoader = function (component: IComponent, _async: boolean):Promise<any> {
     let __promise__: Promise<any>;
-    const _componentLoaderInBrowser = function (component: Component, _async?: any) {
+    const _componentLoaderInBrowser = function (component: IComponent) {
         __promise__ = new Promise(function (resolve, reject) {
             const _promise = component.__promise__;
             const container = (Object.hasOwnProperty.call(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
@@ -29,7 +29,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                 };
                 logger.debug("LOADING COMPONENT DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(component.data)).replace("{{URL}}", component.url));
 
-                const _componentLoaded = function (this: any) {
+                const _componentLoaded = function () {
                     const successStatus = (is_file) ? (0) : (200);
                     if (xhr.status === successStatus) {
                         const response = xhr.responseText;
@@ -39,7 +39,7 @@ export const componentLoader = function (component: Component, _async: boolean) 
                         if (component.cached && (typeof cache !== "undefined")) {
                             cache.save(component.name, component.template);
                         }
-                        _feedComponent_.call(this, component);
+                        _feedComponent_(component);
                     } else {
                         const standardResponse = {
                             "request": xhr,
@@ -59,20 +59,22 @@ export const componentLoader = function (component: Component, _async: boolean) 
                         try {
                             logger.debug("Calling the url of component in async mode.");
                             xhr.open(component.method, component.url, true);
-                        } catch (e) {
+                        } catch (e:any) {
+                            logger.debug(`An error ocurred: ${e}.`);
                             logger.debug("Last try has failed... The component cannot be loaded.");
                         }
                     } else {
                         if ("fetch" in _top) {
                             logger.debug("I can use fetch...");
                             logger.debug("It is a file to be loaded, so I will try to use fetch");
-                            const _p = fetch(component.url).then(response => {
+                            fetch(component.url).then(response => {
                                 logger.debug("I got a response from fetch, so I'll feed the component");
                                 response.text().then(text => {
                                     component.template = text;
                                     _feedComponent_(component);
-                                });
-                            });
+                                })
+                                .catch((e:any) => {throw new Error (`An error ocurred: ${e}`);});
+                            }).catch ((e:any) => {throw new Error (`An error ocurred: ${e}`);});
                         }
                     }
                     if (!is_phonegap && !is_file) {
@@ -102,10 +104,10 @@ export const componentLoader = function (component: Component, _async: boolean) 
                         logger.debug("USING CACHE FOR COMPONENT: " + component.name);
                         var cache = new ComplexStorageCache({
                             index: component.cacheIndex,
-                            load(cacheController: any) {
+                            load() {
                                 _directLoad.call(this, is_file);
                             },
-                            alternate(cacheController: { cache: { getCached: (arg0: any) => any; }; }) {
+                            alternate(cacheController: TCacheController) {
                                 if (component.method === "GET") {
                                     component.template = cacheController.cache.getCached(component.cacheIndex);
                                     _feedComponent_.call(this, component);
@@ -135,21 +137,25 @@ export const componentLoader = function (component: Component, _async: boolean) 
                 return Promise.resolve(_ret_);
             });
         }, function (standardResponse) {
-            let _ret_;
             if (typeof component.fail === "function") {
-                _ret_ = component.fail.call(component, standardResponse);
+                component.fail.call(component, standardResponse)
+                .catch ((e:any)=> {throw new Error (`${e}`);});
             }
-            return Promise.reject(_ret_);
-        }).catch(function (e) {
+            return Promise.reject(new Error ("An error ocurred"));
+        }).catch(function (e:any) {
             logger.debug("Something wrong loading the component");
+            throw new Error (`An error ocurred: ${e}`);
         });
         return __promise__;
     };
-    const _componentLoaderInNode = function (component: Component, _async: any) {
+    const _componentLoaderInNode = function (component: IComponent) {
         __promise__ = new Promise(function (resolve, reject) {
             const _promise = __promise__;
-            const _feedComponent_ = function (component: Component) {
-                component.feedComponent();
+            const _feedComponent_ = function (component: IComponent) {
+                component.feedComponent()
+                .catch ((e:any) => {
+                    throw new Error (`An error ocurred trying to feed the component: ${component.name}. Error: ${e}`);
+                });
                 const standardResponse = {
                     "request": null,
                     component
@@ -184,17 +190,17 @@ export const componentLoader = function (component: Component, _async: boolean) 
                 const _directLoad = function () {
                     const fs = _require_("fs");
                     logger.debug("SENDING THE NORMAL REQUEST  ");
-                    (fs as any).readFile(component.url, _componentLoaded);
+                    (fs).readFile(component.url, _componentLoaded);
                 };
 
                 if (component.cached) {
                     logger.debug("USING CACHE FOR COMPONENT: " + component.name);
                     var cache = new ComplexStorageCache({
                         index: component.cacheIndex,
-                        load(cacheController: any) {
+                        load() {
                             _directLoad();
                         },
-                        alternate(cacheController: { cache: { getCached: (arg0: any) => any; }; }) {
+                        alternate(cacheController: TCacheController) {
                             if (component.method === "GET") {
                                 component.template = cacheController.cache.getCached(component.cacheIndex);
                                 _feedComponent_.call(this, component);
@@ -221,11 +227,11 @@ export const componentLoader = function (component: Component, _async: boolean) 
                 return Promise.resolve(_ret_);
             });
         }, function (standardResponse) {
-            let _ret_;
             if (typeof component.fail === "function") {
-                _ret_ = component.fail.call(component, standardResponse);
+                component.fail.call(component, standardResponse)
+                .catch((e:any) => {throw new Error (`An error ocurred: ${e}`);});
             }
-            return Promise.reject(_ret_);
+            return Promise.reject(new Error ("An error ocurred."));
         }).catch(function (e) {
             logger.debug(`Something wrong loading the component: ${e}`);
         });
@@ -237,10 +243,10 @@ export const componentLoader = function (component: Component, _async: boolean) 
         if (typeof _async !== "undefined" && _async) {
             _ret_ = asyncLoad(_componentLoaderInBrowser, [component, _async]);
         } else {
-            _ret_ = _componentLoaderInBrowser(component, _async);
+            _ret_ = _componentLoaderInBrowser(component);
         }
     } else {
-        _ret_ = _componentLoaderInNode(component, _async);
+        _ret_ = _componentLoaderInNode(component);
     }
-    return _ret_;
+    return _ret_ as Promise<any>;
 };

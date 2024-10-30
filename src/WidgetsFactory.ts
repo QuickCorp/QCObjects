@@ -42,12 +42,12 @@ export class _ComponentWidget_ extends HTMLElement implements I_ComponentWidget_
   export const RegisterWidget = function (widgetName:string) {
     customElements.define(widgetName, class extends _ComponentWidget_ { });
   };
-  export const RegisterWidgets = function () {
-    const widgetList = [...arguments];
+  export const RegisterWidgets = function (...args:string[]) {
+    const widgetList = [...args];
     widgetList.filter(function (widgetName) {
       return typeof widgetName === "string";
     }).map(function (widgetName) {
-      RegisterWidget(widgetName);
+     return RegisterWidget(widgetName);
     });
   };
   (_protected_code_)(RegisterWidget);

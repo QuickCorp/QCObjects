@@ -6,12 +6,13 @@ import { logger } from "./Logger";
  * @param {Object} obj_source
  * @param {Object} obj_dest
  */
-export const _Cast = function (obj_source: any, obj_dest: any) {
+export const _Cast = function (obj_source: any, obj_dest: any):any {
     for (const v in obj_source) {
         if (typeof obj_source[v] !== "undefined") {
             try {
                 obj_dest[v] = obj_source[v];
-            } catch (e) {
+            } catch (e:any) {
+                logger.debug(`An error ocurred: ${e}.`);
                 logger.warn(`Unable to cast ${(typeof obj_source).toString()}.${typeof v.toString()} to ${(typeof obj_dest).toString()}.${typeof v.toString()}`);
             }
         }
@@ -25,13 +26,13 @@ export const _Cast = function (obj_source: any, obj_dest: any) {
  * @param {Object} obj_source
  * @param {Object} obj_dest
  */
-export const _CastProps = function (obj_source: any, obj_dest: any) {
+export const _CastProps = function (obj_source: any, obj_dest: any):any {
     for (const v in obj_source) {
         if (typeof obj_source[v] !== "undefined" && typeof obj_source[v] !== "function") {
             try {
                 obj_dest[v] = obj_source[v];
-            } catch (e) {
-                // DO NOTHING
+            } catch (e:any) {
+                logger.debug(`An error ocurred: ${e}.`);
             }
         } else if (typeof obj_source[v] === "function") {
             try {

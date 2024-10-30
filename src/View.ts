@@ -4,7 +4,7 @@ import { Package } from "./Package";
 
 export class View extends InheritClass {
     constructor({ component = undefined, dependencies = [] }) {
-      super(...arguments);
+      super({component, dependencies});
       if (typeof this.component === "undefined" || this.component === "null") {
         throw Error(`${__getType__(this)} must be called with a component`);
       }

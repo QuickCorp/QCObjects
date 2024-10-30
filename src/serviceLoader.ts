@@ -27,8 +27,9 @@ export const serviceLoader = function (service:IService, _async = false):Promise
                         if (typeof service.headers[header] !== "function") {
                             xhr.setRequestHeader(header, service.headers[header]);
                         }
-                    } catch (e) {
+                    } catch (e:any) {
                         logger.debug("Something went wrong when assign the header " + header);
+                        logger.debug(`An error ocurred: ${e}`);
                     }
                 }
                 xhr.onload = function () {
@@ -64,8 +65,9 @@ export const serviceLoader = function (service:IService, _async = false):Promise
                     logger.debug("SENDING THE NORMAL REQUEST  ");
                     try {
                         xhr.send(_DataStringify(service.data));
-                    } catch (e) {
+                    } catch (e:any) {
                         logger.debug("SOMETHING WRONG WITH REQUEST  ");
+                        logger.debug(`An error ocurred: ${e}`);
                         reject.call(_promise, {
                             request: xhr,
                             service
@@ -111,7 +113,7 @@ export const serviceLoader = function (service:IService, _async = false):Promise
         var _promise = new Promise(
             function (resolve, reject) {
                 if (typeof URL === "undefined") {
-                    global.URL = (_require_("url") as any).URL;
+                    global.URL = (_require_("url")).URL;
                     // eslint-disable-next-line no-unused-vars
                     const URL = global.URL;
                 }
@@ -136,8 +138,9 @@ export const serviceLoader = function (service:IService, _async = false):Promise
                                 logger.debug("Sending data...");
                                 const buffer = new Buffer(_DataStringify(service.data));
                                 req.write(buffer);
-                            } catch (e) {
+                            } catch (e:any) {
                                 logger.debug("It was not possible to send any data");
+                                logger.debug(`An error ocurred: ${e}`);
                             }
                         }
                     }
@@ -184,7 +187,7 @@ export const serviceLoader = function (service:IService, _async = false):Promise
                     if (service.useHTTP2) {
                         logger.debug("using http2");
                         const http2 = _require_("http2");
-                        var client = (http2 as any).connect(serviceURL.origin);
+                        var client = (http2).connect(serviceURL.origin);
                         requestOptions = Object.assign({
                             ":method": service.method,
                             ":path": serviceURL.pathname
@@ -196,7 +199,7 @@ export const serviceLoader = function (service:IService, _async = false):Promise
                     } else {
                         if (serviceURL.protocol === "http:") {
                             const http = _require_("http");
-                            const request = (http as any).request;
+                            const request = (http).request;
                             requestOptions = Object.assign({
                                 "url": service.url,
                                 headers: service.headers
@@ -212,7 +215,7 @@ export const serviceLoader = function (service:IService, _async = false):Promise
                                 method: service.method,
                                 headers: service.headers
                             }, service.options);
-                            const _req_ = (https as any).request(requestOptions, function (req:any) {
+                            const _req_ = (https).request(requestOptions, function (req:any) {
                                 captureEvents(req);
                             });
                             _req_.end();

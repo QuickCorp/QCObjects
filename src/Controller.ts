@@ -54,7 +54,8 @@ export class Controller extends InheritClass implements IController{
             passive: true
           });
         }
-      } catch (e) {
+      } catch (e:any) {
+        logger.debug(`An error ocurred: ${e}.`);
         logger.debug("No button to assign press event");
       }
   

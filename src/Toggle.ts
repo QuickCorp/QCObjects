@@ -1,4 +1,3 @@
-import { ClassFactory } from "./ClassFactory";
 import { InheritClass } from "./InheritClass";
 import { logger } from "./Logger";
 import { Package } from "./Package";

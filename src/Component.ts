@@ -30,6 +30,7 @@ export class Component extends InheritClass implements IComponent {
     [key: string]: any;
     name!: string;
     templateURI!: string;
+    url!:string;
     tplsource!: string;
     tplextension!: string;
     template!: string;
@@ -621,11 +622,13 @@ export class Component extends InheritClass implements IComponent {
                     _component_.shadowRoot = shadowContainer.attachShadow({
                         mode: "open"
                     }) as IQCObjectsShadowedElement;
-                } catch (e) {
+                } catch (e:any) {
+                    logger.debug(`An error ocurred: ${e}.`);
                     try {
                         logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", _component_.name));
                         _component_.shadowRoot = shadowContainer.shadowRoot as IQCObjectsShadowedElement;
-                    } catch (e) {
+                    } catch (e:any) {
+                        logger.debug(`An error ocurred: ${e}.`);
                         logger.warn("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
                     }
                 }
@@ -752,7 +755,7 @@ export class Component extends InheritClass implements IComponent {
                     case (_component.get("tplsource") === "default" &&
                         _component.get("templateURI") !== ""):
                         _component.set("url", _component.get("basePath") + _component.get("templateURI"));
-                        (componentLoader(_component, false) as Promise<any>)?.then(
+                        (componentLoader(_component, false))?.then(
                             function (standardResponse: any) {
                                 resolve.call(_promise, standardResponse);
                             },
@@ -763,7 +766,7 @@ export class Component extends InheritClass implements IComponent {
                     case (_component.get("tplsource") === "external" &&
                         _component.get("templateURI") !== ""):
                         _component.set("url", _component.get("templateURI"));
-                        (componentLoader(_component, false) as Promise<any>).then(
+                        (componentLoader(_component, false)).then(
                             function (standardResponse: any) {
                                 resolve.call(_promise, standardResponse);
                             },
@@ -791,7 +794,7 @@ export class Component extends InheritClass implements IComponent {
 
     Cast(oClass: any):any {
         /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
-        const o = _methods_(oClass).map((m):any => m.name.replace(/bound /g, "")).map(m => {
+        const o = _methods_(oClass).map((m):any => (m as Function).name.replace(/bound /g, "")).map(m => {
             return {
                 [m]: oClass[m].bind(this)
             };
@@ -971,7 +974,8 @@ export class Component extends InheritClass implements IComponent {
             if (Object.hasOwnProperty.call(_self, "assignRoutingParams") && _self.assignRoutingParams) {
                 try {
                     selfData = Object.assign(selfData, _self.routingParams);
-                } catch (e) {
+                } catch (e:any) {
+                    logger.debug(`An error ocurred: ${e}.`);
                     logger.debug("[parseTemplate] it was not possible to assign the routing params to the template");
                 }
             }

@@ -3,7 +3,7 @@ export const _protected_code_ = function (_:any) {
       return "";
     });
     if (typeof _.prototype !== "undefined") {
-      _.prototype.toString = function () {
+      _.prototype.toString = function ():string {
         const _protected_symbols = [
           "__qcobjects__",
           "__qcobjects_sdk__",
@@ -64,17 +64,17 @@ export const _protected_code_ = function (_:any) {
         } else {
           _ret_ = __oldtoString.call(this);
         }
-        return _ret_;
+        return _ret_ as string;
       };
     }
   };
   (_protected_code_)(Function);
-  export const _methods_ = function (_:any) {
+  export const _methods_ = function <T>(_:any):T[] {
     const _m = [];
     for (const i in _) {
       if ((typeof _[i]).toLowerCase() === "function") {
         _m.push(_[i]);
       }
     }
-    return _m;
+    return _m as T[];
   };

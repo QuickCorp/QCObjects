@@ -4,7 +4,7 @@ export const _DataStringify = function (data:any) {
     const getCircularReplacer = function () {
       const seen = new WeakSet();
       let _level = 0;
-      return function (key:string, value:any) {
+      return function (key:string, value:any):any {
         if (typeof value === "object" && value !== null) {
           if (seen.has(value)) {
             _level += 1;

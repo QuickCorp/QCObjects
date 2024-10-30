@@ -44,6 +44,7 @@ export default [
     ,{
     ignores: [
         "**/*.js",
+        "spec/**/*",
         "src/*.js",
         "src/**/*.js",
         "node_modules/**/*",

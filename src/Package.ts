@@ -8,7 +8,7 @@ import { __register_class__ } from "./RegisterClass";
      * @param {Object} namespace
      * @param {Object} classes
      */
-    export const Package = function (namespace:string, classes:any[] = []) {
+    export const Package = function (namespace:string, classes:any[] = []):any[]|undefined {
         if (_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES, namespace) &&
           typeof (_QC_PACKAGES as any)[namespace] !== "undefined" &&
           (_QC_PACKAGES as any)[namespace].hasOwnProperty.call((_QC_PACKAGES as any)[namespace], "length") &&
@@ -47,7 +47,7 @@ import { __register_class__ } from "./RegisterClass";
             __register_class__(_class_, namespace);
           });
         }
-        return (Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) ? ((_QC_PACKAGES as any)[namespace]) : (undefined);
+        return ((Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) ? ((_QC_PACKAGES as any)[namespace]) : (undefined)) as any[] | undefined;
       };
       Package.prototype.toString = function () {
         return "Package(namespace, classes) { [QCObjects native code] }";

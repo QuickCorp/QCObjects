@@ -1,5 +1,5 @@
+import { logger } from "./Logger";
 import { _require_, isBrowser } from "./platform";
-import { _top } from "./top";
 
 export var _basePath_ = (
     function () {
@@ -12,11 +12,12 @@ export var _basePath_ = (
         let process;
         try {
           process = _require_("process");
-        } catch (e) {
+        } catch (e:any) {
+          logger.debug(`An error ocurred: ${e}.`);
           // not a process module
         }
         if (typeof process !== "undefined") {
-          _basePath = `${(process as any).cwd()}/`;
+          _basePath = `${(process).cwd()}/`;
         } else {
           _basePath = "";
         }

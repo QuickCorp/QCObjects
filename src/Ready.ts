@@ -21,12 +21,14 @@ export const ready = Ready; // case insensitive ready option
  *
  * @param {Object} e
  */
+// eslint-disable-next-line no-unused-vars
 export const _Ready = function (e:any) {
     const _execReady = function () {
-        _QC_READY_LISTENERS.map(function (_ready_listener_, _r) {
+        // eslint-disable-next-line array-callback-return
+        _QC_READY_LISTENERS.map(function (_ready_listener_, _r):any {
             if (typeof _ready_listener_ === "function") {
                 (_ready_listener_ as Function)();
-                delete _QC_READY_LISTENERS[_r];
+                _QC_READY_LISTENERS.splice(_r, 1);
             }
         });
     };

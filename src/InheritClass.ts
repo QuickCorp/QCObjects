@@ -49,11 +49,11 @@ export class InheritClass implements IInheritClass {
             });
         }
         _methods_((_QC_CLASSES as any)[self.__classType]).map(function (m): any {
-            self[m.name] = m.bind(self);
+            self[(m as Function).name] = (m as Function).bind(self);
             return m;
         });
         _methods_(self.__definition).map(function (m): any {
-            self[m.name] = m.bind(self);
+            self[(m as Function).name] = (m as Function).bind(self);
             return m;
         });
 
@@ -65,7 +65,8 @@ export class InheritClass implements IInheritClass {
                     } else {
                         self.body = {};
                     }
-                } catch (e) {
+                } catch (e:any) {
+                    logger.debug(`An error ocurred: ${e}.`);
                     self.body = {};
                 }
             } else if (Object.hasOwnProperty.call(self.__definition, "body")) {

@@ -7,13 +7,14 @@ import { Package } from "./Package";
  * @param {String} packageName
  * @param {Object} package
  */
-export const NamespaceRef = function (namespace:string) {
-    const packageInstance = Package(namespace);
+export const NamespaceRef = function (namespace:string):any {
+    const packageInstance = Package(namespace) || [];
     const classes = packageInstance.filter((c:any) => isQCObjects_Class(c)).map((c:any) => {
         return {
             [c.__definition.__classType]: c
         };
-    }).reduce((a:any, b:any) => Object.assign(a, b));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    }).reduce((a:any, b:any):any => {return Object.assign(a, b);});
     return namespace.split(".").map(c => {
         return {
             [c]: classes

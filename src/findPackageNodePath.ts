@@ -2,7 +2,6 @@ import { CONFIG } from "./CONFIG";
 import { Export } from "./Export";
 import { logger } from "./Logger";
 import { _require_, isBrowser } from "./platform";
-import { _top } from "./top";
 
 export const findPackageNodePath = function (packagename:string):string|null {
     let sdkPath = null;
@@ -24,7 +23,7 @@ export const findPackageNodePath = function (packagename:string):string|null {
                 ""
             ].concat(module.paths);
             sdkPaths = sdkPaths.filter(p => {
-                return (fs as any).existsSync(p + "/" + packagename);
+                return (fs).existsSync(p + "/" + packagename);
             });
             if (sdkPaths.length > 0) {
                 sdkPath = sdkPaths[0];

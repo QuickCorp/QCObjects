@@ -6,7 +6,6 @@ import { findPackageNodePath } from "./findPackageNodePath";
 import { logger } from "./Logger";
 import { _require_, isBrowser } from "./platform";
 import { _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "./PrimaryCollections";
-import { _top } from "./top";
 
 /**
  * Imports a script with the package nomenclature
@@ -32,6 +31,7 @@ export const Import = function (packagename:string, ready?:Function, external?:b
             const allPackagesImported = function () {
                 let ret = false;
                 let cp = 0;
+                // eslint-disable-next-line no-unused-vars
                 for (const p in _QC_PACKAGES) {
                     cp++;
                 }
@@ -70,6 +70,7 @@ export const Import = function (packagename:string, ready?:Function, external?:b
                 };
                 (s1 as any).onload = readyImported;
                 s1.onerror = function (e: any) {
+                    logger.debug(`An error ocurred: ${e}.`);
                     reject.call(_promise_import_, {
                         "_imported_": s1,
                         "_package_name_": packagename

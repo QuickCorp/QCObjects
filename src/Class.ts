@@ -142,12 +142,12 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
           }
         });
       }
-      _methods_((_QC_CLASSES as any)[self.__classType]).map(function (m):any {
-        self[m.name] = m.bind(self);
-        return m;
+      _methods_((_QC_CLASSES as any)[self.__classType]).map(function <T>(m:unknown):T {
+        self[(m as Function).name] = (m as Function).bind(self);
+        return m as T;
       });
       _methods_(self.__definition).map(function (m):any {
-        self[m.name] = m.bind(self);
+        self[(m as Function).name] = (m as Function).bind(self);
         return m;
       });
 
@@ -159,7 +159,8 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
             } else {
               self.body = {};
             }
-          } catch (e) {
+          } catch (e:any) {
+            logger.debug(`An error ocurred: ${e}.`);
             self.body = {};
           }
         } else if (Object.hasOwnProperty.call(self.__definition, "body")) {
