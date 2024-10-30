@@ -23,8 +23,11 @@ import { serviceLoader } from "./serviceLoader";
 import { _tag_filter_ } from "./tag_filter";
 import { componentLoader } from "./componentLoader";
 import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types";
+import { error } from "console";
 
 export class Component extends InheritClass implements IComponent {
+    static shadowed: boolean | undefined = true;
+    static cached: any = true;
     [key: string]: any;
     name!: string;
     templateURI!: string;
@@ -59,7 +62,7 @@ export class Component extends InheritClass implements IComponent {
     enableServiceClass?: boolean | undefined = true;
     serviceInstance: any;
     serviceData: any;
-    shadowed?: boolean = false;
+    shadowed?: boolean = true;
     container: any;
     innerHTML: any;
     reload: any;
@@ -560,10 +563,10 @@ export class Component extends InheritClass implements IComponent {
         const _component_: Component = this as Component;
         let elementList = _component_.subtags;
         if (!rebuildObjects) {
-            elementList = (elementList as HTMLElement[]).filter((t: HTMLElement) => t.getAttribute("loaded") !== "true");
+            elementList = (elementList as HTMLElement[]).filter((t: HTMLElement) => t.getAttribute("loaded") !== "true") as unknown[] as IQCObjectsElement[];
         }
         if ((typeof _component_ !== "undefined") || (_component_ as Component).subcomponents.length < 1) {
-            _component_.subcomponents = _buildComponentsFromElements_(elementList, _component_);
+            _component_.subcomponents = _buildComponentsFromElements_(elementList as HTMLElement[], _component_);
         }
         return _component_.subcomponents;
     }
@@ -574,7 +577,7 @@ export class Component extends InheritClass implements IComponent {
                 const { error, component } = standardResponse;
                 resolve({ error, component });
             } else {
-                reject();
+                reject( new Error (" Unknown error."));
             }
         });
         return _ret_;

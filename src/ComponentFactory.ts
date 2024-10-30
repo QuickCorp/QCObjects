@@ -1,4 +1,4 @@
-import { type ComponentURIParams, type QCObjectsElement } from "types";
+import { IQCObjectsElement, TComponentURIParams } from "types";
 import { Class } from "./Class";
 import { ClassFactory } from "./ClassFactory";
 import { Component } from "./Component";
@@ -18,12 +18,12 @@ import { _tag_filter_ } from "./tag_filter";
  * @author: Jean Machuca <correojean@gmail.com>
  * @param params an object with the params to build the uri path
  */
-export const ComponentURI = ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }:ComponentURIParams) => {
+export const ComponentURI = ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }:TComponentURIParams) => {
     const templateURI = (TPL_SOURCE === "default") ? (`${COMPONENTS_BASE_PATH}${COMPONENT_NAME}.${TPLEXTENSION}`) : ("");
     return templateURI;
 };
 
-export const _buildComponentFromElement_ = function (element: { getAttribute: (arg0: string) => string | null; append: (arg0: any) => void; }, __parent__: any) {
+export const _buildComponentFromElement_ = function (element: Element, __parent__: any) {
     const __shadowed_not_set = (element.getAttribute("shadowed") === null);
     const __tplsource_attr_not_set = (element.getAttribute("template-source") === null);
     const shadowed = (element.getAttribute("shadowed") === "true");
@@ -38,27 +38,26 @@ export const _buildComponentFromElement_ = function (element: { getAttribute: (a
     ) : (_componentClassName);
     _componentName = (_componentName !== null) ? (_componentName) : (
         (ClassFactory(__componentClassName as string) &&
-            typeof ClassFactory(__componentClassName as string).name !== "undefined"
+            typeof (ClassFactory(__componentClassName as string) as unknown as typeof Component).name !== "undefined"
         ) ? (
-            ClassFactory(__componentClassName as string).name
+            (ClassFactory(__componentClassName as string) as unknown as Component).name
         ) : ("")
     );
-    const __classDefinition = ClassFactory(__componentClassName as string);
+    const __classDefinition = ClassFactory(__componentClassName as string) as Component;
     const __tplsource_prop_set = !!((__componentClassName !== "Component" && ((typeof __classDefinition !== "undefined" && typeof __classDefinition.tplsource === "string") && __classDefinition.tplsource !== "")));
     const tplsource = (__tplsource_attr_not_set && __tplsource_prop_set) ? (__classDefinition.tplsource) : ((__tplsource_attr_not_set) ? ("default") : (element.getAttribute("template-source")));
     logger.debug(`template source for  ${_componentName} is ${tplsource} `);
     logger.debug(`type for ${_componentName} is ${__getType__(__classDefinition)} `);
 
-    let componentURI: string;
-    componentURI = ComponentURI({
+    const componentURI: string = ComponentURI({
         "COMPONENTS_BASE_PATH": CONFIG.get("componentsBasePath"),
-        "COMPONENT_NAME": _componentName as string,
+        "COMPONENT_NAME": _componentName ,
         "TPLEXTENSION": tplextension,
-        "TPL_SOURCE": tplsource
+        "TPL_SOURCE": tplsource as string
     });
     if (CONFIG.get("preserveComponentBodyTag")) {
         Package((_componentName !== "") ? ("com.qcobjects.components." + _componentName + "") : ("com.qcobjects.components"), [
-            Class("ComponentBody", ClassFactory("Component"), {
+            Class("ComponentBody", Component, {
                 name: _componentName,
                 tplsource,
                 tplextension,
@@ -67,12 +66,12 @@ export const _buildComponentFromElement_ = function (element: { getAttribute: (a
         ]);
     }
 
-    const __create_component_instance_ = function () {
-        const __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || ClassFactory("Component").shadowed) : (shadowed);
+    const __create_component_instance_ = function ():Component {
+        const __shadowed = (__shadowed_not_set) ? ((__classDefinition && __classDefinition.shadowed) || Component.shadowed) : (shadowed);
         const __definition = {
             __parent__,
             name: _componentName,
-            cached: (__cached_not_set) ? (ClassFactory("Component").cached) : (cached),
+            cached: (__cached_not_set) ? (Component.cached) : (cached),
             shadowed: __shadowed,
             tplextension,
             body: (CONFIG.get("preserveComponentBodyTag")) ? (_DOMCreateElement("componentBody")) : (element),
@@ -89,10 +88,12 @@ export const _buildComponentFromElement_ = function (element: { getAttribute: (a
             in the component definition if it is not present in the tag */
             delete (__definition as any).templateURI;
         }
-        const newComponent = New(__classDefinition, __definition);
+        const newComponent = New(__classDefinition, __definition) as Component;
 
         if (CONFIG.get("preserveComponentBodyTag")) {
-            element.append(newComponent);
+            if (typeof newComponent !== "undefined") {
+                element.append(newComponent.body as string | Node);
+            }
         }
         return newComponent;
     };
@@ -100,8 +101,8 @@ export const _buildComponentFromElement_ = function (element: { getAttribute: (a
     return newComponent;
 };
 
-export const _buildComponentsFromElements_ = function (elements: any[], __parent__: Component | null) {
-    let componentsBuiltWith = [];
+export const _buildComponentsFromElements_ = function (elements: HTMLElement[], __parent__: Component | null) {
+    let componentsBuiltWith:Component[] = [];
     if (isBrowser) {
         componentsBuiltWith = elements.map(
             function (element: any) {
@@ -114,8 +115,8 @@ export const _buildComponentsFromElements_ = function (elements: any[], __parent
     return componentsBuiltWith;
 };
 
-export const buildComponents = (element:QCObjectsElement):Component[] => {
+export const buildComponents = (element:HTMLElement):Component[] => {
     const tagFilter = _tag_filter_;
-    const elements = element.subelements(tagFilter);
+    const elements = (element as unknown as IQCObjectsElement).subelements(tagFilter) as HTMLElement[];
     return _buildComponentsFromElements_(elements, null);
 };

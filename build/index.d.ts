@@ -43,16 +43,16 @@ declare module "types/global/index" {
         finishWithBody(stream?: Http2Stream | Stream): void;
         done(): void;
     }
-    export interface IQCObjectsElement {
+    export interface IQCObjectsElement extends HTMLElement {
         enableServiceClass?: boolean;
-        style?: object;
+        style: CSSStyleDeclaration;
         Cast(_o: any): any;
         render(content: string): void;
         find(tag: string): (HTMLElement | IQCObjectsElement)[];
         buildComponents(rebuildObjects?: boolean): any[];
         subelements(query: string): (HTMLElement | IQCObjectsElement)[];
         subelements(query: string): Array<any>;
-        append?(_child?: any): void;
+        append(_child?: any): void;
     }
     export interface IQCObjectsShadowedElement {
         style?: any;
@@ -913,6 +913,8 @@ declare module "src/Component" {
     import { InheritClass } from "src/InheritClass";
     import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types/global/index";
     export class Component extends InheritClass implements IComponent {
+        static shadowed: boolean | undefined;
+        static cached: any;
         [key: string]: any;
         name: string;
         templateURI: string;
@@ -1026,7 +1028,7 @@ declare module "src/Component" {
     }
 }
 declare module "src/ComponentFactory" {
-    import { type ComponentURIParams, type QCObjectsElement } from "types/global/index";
+    import { TComponentURIParams } from "types/global/index";
     import { Component } from "src/Component";
     /**
      * Returns a standarized uri for a component
@@ -1035,13 +1037,10 @@ declare module "src/ComponentFactory" {
      * @author: Jean Machuca <correojean@gmail.com>
      * @param params an object with the params to build the uri path
      */
-    export const ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: ComponentURIParams) => string;
-    export const _buildComponentFromElement_: (element: {
-        getAttribute: (arg0: string) => string | null;
-        append: (arg0: any) => void;
-    }, __parent__: any) => any;
-    export const _buildComponentsFromElements_: (elements: any[], __parent__: Component | null) => any[];
-    export const buildComponents: (element: QCObjectsElement) => Component[];
+    export const ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: TComponentURIParams) => string;
+    export const _buildComponentFromElement_: (element: Element, __parent__: any) => Component;
+    export const _buildComponentsFromElements_: (elements: HTMLElement[], __parent__: Component | null) => Component[];
+    export const buildComponents: (element: HTMLElement) => Component[];
 }
 declare module "src/top" {
     import { ComplexStorageCache, Component } from "types/global/index";
@@ -1477,7 +1476,7 @@ declare module "src/QCObjects" {
     import { ArrayCollection, ArrayList } from "src/ArrayCollection";
     import { DDO } from "src/DDO";
     import { Toggle } from "src/Toggle";
-    import { Document, QCObjectsElement } from "types/global/index";
+    import { QCObjectsElement } from "types/global/index";
     const _default: {
         BackendMicroservice: typeof BackendMicroservice;
         Logger: typeof Logger;
@@ -1495,7 +1494,7 @@ declare module "src/QCObjects" {
         _ComponentWidget_: typeof _ComponentWidget_;
         asyncLoad: typeof asyncLoad;
         RegisterClass: (_class_: any, __namespace?: string) => any;
-        ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: Document) => string;
+        ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").TComponentURIParams) => string;
         waitUntil: (func: () => void, exp: () => any) => void;
         _super_: (className: string, classMethodName: string) => any;
         _DOMCreateElement: (elementName: string) => QCObjectsElement;

@@ -51,16 +51,16 @@ export interface IBackendMicroservice extends IInheritClass {
 
 }
 
-export interface IQCObjectsElement {
+export interface IQCObjectsElement extends HTMLElement {
     enableServiceClass?: boolean;
-    style?:object;
+    style:CSSStyleDeclaration;
     Cast(_o: any): any;
     render(content: string): void;
     find(tag: string): (HTMLElement | IQCObjectsElement)[];
     buildComponents(rebuildObjects?: boolean): any[];
     subelements(query: string): (HTMLElement | IQCObjectsElement)[];
     subelements(query: string): Array<any>;
-    append?(_child?: any):void;
+    append(_child?: any):void;
 }
 
 export interface IQCObjectsShadowedElement {
