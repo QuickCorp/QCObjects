@@ -524,8 +524,8 @@ export interface ITransitionEffect extends IEffect {
 }
 export type TTimerParams = {
     duration: number;
-    timing(timeFraction: number, elapsed?: number): number;
-    intervalInterceptor(progress: number): void;
+    timing:(timeFraction: number, elapsed?: number)=> number;
+    intervalInterceptor:(progress: number)=> void;
 };
 
 export interface ITimer extends IInheritClass {

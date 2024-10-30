@@ -499,8 +499,8 @@ declare module "types/global/index" {
     }
     export type TTimerParams = {
         duration: number;
-        timing(timeFraction: number, elapsed?: number): number;
-        intervalInterceptor(progress: number): void;
+        timing: (timeFraction: number, elapsed?: number) => number;
+        intervalInterceptor: (progress: number) => void;
     };
     export interface ITimer extends IInheritClass {
         duration: number;
@@ -1481,13 +1481,12 @@ declare module "src/TransitionEffect" {
     }
 }
 declare module "src/Timer" {
-    import { TimerParams } from "types/global/index";
+    import { TTimerParams } from "types/global/index";
     import { InheritClass } from "src/InheritClass";
     export class Timer extends InheritClass {
-        constructor();
         duration: number;
         alive: boolean;
-        thread({ timing, intervalInterceptor, duration }: TimerParams): void;
+        thread({ timing, intervalInterceptor, duration }: TTimerParams): void;
     }
 }
 declare module "src/Toggle" {

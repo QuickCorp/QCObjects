@@ -1,13 +1,9 @@
-import { TimerParams } from "types/global";
-import { ClassFactory } from "./ClassFactory";
+import { TTimerParams } from "types/global";
 import { InheritClass } from "./InheritClass";
 import { Package } from "./Package";
 
 export class Timer extends InheritClass {
 
-    constructor() {
-      super(...arguments);
-    }
 
     duration = 1000;
     alive = true;
@@ -15,7 +11,7 @@ export class Timer extends InheritClass {
       timing,
       intervalInterceptor,
       duration
-    }:TimerParams) {
+    }:TTimerParams) {
       const timer = this;
 
       const start = performance.now();
