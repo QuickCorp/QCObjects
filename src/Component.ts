@@ -23,7 +23,6 @@ import { serviceLoader } from "./serviceLoader";
 import { _tag_filter_ } from "./tag_filter";
 import { componentLoader } from "./componentLoader";
 import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types";
-import { error } from "console";
 
 export class Component extends InheritClass implements IComponent {
     static shadowed: boolean | undefined = true;
@@ -48,6 +47,8 @@ export class Component extends InheritClass implements IComponent {
     subcomponents: any[] = [];
     splashScreenComponent?: IComponent = undefined;
     controller?: IController = undefined;
+    routingController?: IController = undefined;
+
     view?: IView = undefined;
     effect?: IEffect = undefined;
     effectClass!: string;
@@ -400,7 +401,7 @@ export class Component extends InheritClass implements IComponent {
         return _ret_;
     }
 
-    createControllerInstance(): Promise<{ component: Component, controller: IController }> {
+    createControllerInstance(): Promise<{ component: IComponent, controller: IController }> {
         let _Controller: any;
         if (isBrowser) {
             if (typeof this.body === "undefined") {
@@ -607,10 +608,11 @@ export class Component extends InheritClass implements IComponent {
                 logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
                 const tmp_shadowContainer = _DOMCreateElement("div");
                 container.subelements("[slot]").map(
-                    function (c: { parentElement: any; }) {
+                     (c: { parentElement: any; }):any => {
                         if (c.parentElement === container) {
                             tmp_shadowContainer.appendChild(c as any);
                         }
+                        return c;
                     });
                 logger.debug("Creating shadowedContainer for COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
                 const shadowContainer = _DOMCreateElement("div");
@@ -787,9 +789,9 @@ export class Component extends InheritClass implements IComponent {
         return _promise;
     }
 
-    Cast(oClass: any) {
+    Cast(oClass: any):any {
         /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
-        const o = _methods_(oClass).map(m => m.name.replace(/bound /g, "")).map(m => {
+        const o = _methods_(oClass).map((m):any => m.name.replace(/bound /g, "")).map(m => {
             return {
                 [m]: oClass[m].bind(this)
             };
@@ -897,7 +899,8 @@ export class Component extends InheritClass implements IComponent {
     closefullscreen() {
         if (isBrowser) {
             if (document.exitFullscreen) {
-                document.exitFullscreen();
+                document.exitFullscreen()
+                .catch((e:any) => {throw new Error (`An error ocurred when trying to exit fullscrenn ${e}.`);});
             } else if ((document as any).mozCancelFullScreen) {
                 (document as any).mozCancelFullScreen();
             } else if ((document as any).webkitExitFullscreen) {
@@ -924,6 +927,7 @@ export class Component extends InheritClass implements IComponent {
                             const routing = {} as TComponentRouting;
                             attributeNames.map( (attributeName: any, a: string | number):any => {
                                 (routing as any)[attributeNames[a as any]] = (routingNode as HTMLElement).getAttribute(attributeNames[a as any]);
+                                return attributeName;
                             });
                             component.routings.push(routing as never);
                             if (!component.routingPaths) {
@@ -1189,9 +1193,10 @@ export class Component extends InheritClass implements IComponent {
             __component_helpers__ = __component_helpers__.concat(component._componentHelpers);
 
             __component_helpers__.map(
-                function (_component_helper_) {
+                 (_component_helper_):any => {
                     logger.debug(`Executing ${_component_helper_.name} as component helper for ${component.name}...`);
                     _component_helper_();
+                    return _component_helper_;
                 }
             );
 
@@ -1207,6 +1212,7 @@ Package("com.qcobjects", [
     Component
 ]);
 
-(_methods_)(ClassFactory("Component")).map(function (__c__) {
+(_methods_)(ClassFactory("Component")).map( (__c__):any  => {
     (_protected_code_)(__c__);
+    return __c__;
 });

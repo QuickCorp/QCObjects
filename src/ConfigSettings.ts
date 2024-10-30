@@ -1,41 +1,60 @@
 import { _basePath_ } from "./basePath";
-import { _QC_CLASSES } from "./PrimaryCollections";
-import { RegisterClass } from "./RegisterClass";
+import { InheritClass } from "./InheritClass";
+import { Package } from "./Package";
 
-class ConfigSettings {
+type TConfigSettings = {
+  relativeImportPath:string,
+  remoteImportsPath:string,
+  remoteSDKPath:string,
+  asynchronousImportsLoad:boolean,
+  removePackageScriptAfterLoading:boolean,
+  componentsBasePath:string,
+  delayForReady:number,
+  preserveComponentBodyTag:false,
+  useConfigService:false,
+  routingWay:string,
+  useSDK:boolean,
+  useLocalSDK:boolean,
+  basePath:string
+};
+
+
+export class ConfigSettings extends InheritClass {
   _CONFIG: any;
-  static _instance: ConfigSettings | null = null;
-  static _CONFIG_ENC = null;
+  private static _instance: ConfigSettings;
+  _CONFIG_ENC = "";
+
+  
+  constructor (_config_settings:{_CONFIG:TConfigSettings}) {
+    super(_config_settings);
+  }
+
   static get instance() {
 
-    if (this._instance === null) {
-      const _config_settings = new ConfigSettings();
-      _config_settings._CONFIG = {
-        "relativeImportPath": "",
-        "remoteImportsPath": "",
-        "remoteSDKPath": "https://sdk.qcobjects.dev/",
-        "asynchronousImportsLoad": false,
-        "removePackageScriptAfterLoading": true,
-        "componentsBasePath": "",
-        "delayForReady": 0,
-        "preserveComponentBodyTag": false,
-        "useConfigService": false,
-        "routingWay": "hash",
-        "useSDK": true,
-        "useLocalSDK": false,
-        "basePath": _basePath_
-      };
-      ConfigSettings._CONFIG_ENC = null;
-      this._instance = _config_settings;
+    if (typeof ConfigSettings._instance === "undefined") {
+      ConfigSettings._instance = new ConfigSettings({
+        _CONFIG:{
+          "relativeImportPath": "",
+          "remoteImportsPath": "",
+          "remoteSDKPath": "https://sdk.qcobjects.dev/",
+          "asynchronousImportsLoad": false,
+          "removePackageScriptAfterLoading": true,
+          "componentsBasePath": "",
+          "delayForReady": 0,
+          "preserveComponentBodyTag": false,
+          "useConfigService": false,
+          "routingWay": "hash",
+          "useSDK": true,
+          "useLocalSDK": false,
+          "basePath": _basePath_
+        }
+      });
     }
 
-    return this._instance;
+    return ConfigSettings._instance;
   }
 
-  static set instance(value) {
-    this._instance = value;
-  }
 
 }
 
-RegisterClass(ConfigSettings, "com.qcobjects");
+Package("com.qcobjects", [ConfigSettings]);

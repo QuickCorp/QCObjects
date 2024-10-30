@@ -297,6 +297,7 @@ declare module "types/global/index" {
         subcomponents: IComponent[];
         splashScreenComponent?: IComponent;
         controller?: IController | undefined;
+        routingController?: IController | undefined;
         view?: IView | undefined;
         effect?: IEffect;
         effectClass: string;
@@ -320,6 +321,7 @@ declare module "types/global/index" {
         container?: any;
         serviceClassName?: string | null;
         enableServiceClass?: boolean;
+        componentRoot?: TBody;
         route(): Promise<void>;
         responseTo?: string;
         __done__(): Promise<unknown>;
@@ -397,9 +399,8 @@ declare module "types/global/index" {
         component: IComponent;
         dependencies: any[];
     };
-    export interface IController {
-        body?: IQCObjectsElement | HTMLElement;
-        component: IComponent | null;
+    export interface IController extends IInheritClass {
+        component: IComponent;
         dependencies?: any[];
         routingSelectedAttr(attrName: string): any;
         isTouchable(): boolean;
@@ -410,7 +411,7 @@ declare module "types/global/index" {
     }
     export interface IController extends IInheritClass {
         body?: IQCObjectsElement | HTMLElement;
-        component: IComponent | null;
+        component: IComponent;
         dependencies?: any[];
         new (controller: TControllerParams): IController;
         routingSelectedAttr(attrName: string): any;
@@ -776,11 +777,37 @@ declare module "src/Crypt" {
     export const _CryptObject: (o: any) => string;
     export const _DecryptObject: (s: string) => any;
 }
+declare module "src/ConfigSettings" {
+    import { InheritClass } from "src/InheritClass";
+    type TConfigSettings = {
+        relativeImportPath: string;
+        remoteImportsPath: string;
+        remoteSDKPath: string;
+        asynchronousImportsLoad: boolean;
+        removePackageScriptAfterLoading: boolean;
+        componentsBasePath: string;
+        delayForReady: number;
+        preserveComponentBodyTag: false;
+        useConfigService: false;
+        routingWay: string;
+        useSDK: boolean;
+        useLocalSDK: boolean;
+        basePath: string;
+    };
+    export class ConfigSettings extends InheritClass {
+        _CONFIG: any;
+        private static _instance;
+        _CONFIG_ENC: string;
+        constructor(_config_settings: {
+            _CONFIG: TConfigSettings;
+        });
+        static get instance(): ConfigSettings;
+    }
+}
 declare module "src/CONFIG" {
     import { InheritClass } from "src/InheritClass";
     import { ICONFIG } from "types/global/index";
     export class CONFIG extends InheritClass implements ICONFIG {
-        __definition: any;
         get _CONFIG_ENC(): string;
         get _CONFIG(): unknown;
         set(name: string, value: unknown): void;
@@ -935,6 +962,7 @@ declare module "src/Component" {
         subcomponents: any[];
         splashScreenComponent?: IComponent;
         controller?: IController;
+        routingController?: IController;
         view?: IView;
         effect?: IEffect;
         effectClass: string;
@@ -976,7 +1004,7 @@ declare module "src/Component" {
         _bindroute_(): void;
         done(standardResponse?: TComponentDoneResponse): Promise<TComponentDoneResponse>;
         createControllerInstance(): Promise<{
-            component: Component;
+            component: IComponent;
             controller: IController;
         }>;
         createEffectInstance(): Promise<{
@@ -1209,17 +1237,14 @@ declare module "src/BackendMicroservice" {
         done(): void;
     }
 }
-declare module "src/ConfigSettings" { }
 declare module "src/Controller" {
-    import { ControllerParams, HTMLElement, IController, QCObjectsElement } from "types/global/index";
+    import { TControllerParams, IController, IComponent } from "types/global/index";
     import { InheritClass } from "src/InheritClass";
-    import { Component } from "src/Component";
     export class Controller extends InheritClass implements IController {
-        __instanceID: number;
-        component: Component | null;
+        component: IComponent;
         dependencies?: any[];
-        constructor({ component, dependencies }: ControllerParams);
-        body?: QCObjectsElement | HTMLElement | undefined;
+        constructor({ component, dependencies }: TControllerParams);
+        fail?(...args: [...args: any[]]): void;
         routingSelectedAttr(attrName: string): any;
         isTouchable(): boolean;
         onpress(subelementSelector: string, handler: Function): void;

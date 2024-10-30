@@ -328,6 +328,8 @@ export interface IComponent extends IInheritClass{
     subcomponents: IComponent[];
     splashScreenComponent?: IComponent;
     controller?: IController | undefined;
+    routingController?: IController | undefined;
+
     view?: IView | undefined;
     effect?: IEffect;
     effectClass: string;
@@ -351,6 +353,7 @@ export interface IComponent extends IInheritClass{
     container?: any;
     serviceClassName?:string|null;
     enableServiceClass?:boolean;
+    componentRoot?:TBody;
     route():Promise<void>;
     responseTo?:string;
     __done__(): Promise<unknown>;
@@ -412,12 +415,11 @@ export interface ICONFIG extends IInheritClass {
 
 export type TControllerParams = {
     component: IComponent;
-    dependencies: any[];
+    dependencies?: any[];
 };
 
-export interface IController {
-    body?: IQCObjectsElement | HTMLElement;
-    component: IComponent | null;
+export interface IController extends IInheritClass{
+    component: IComponent ;
     dependencies?: any[];
     routingSelectedAttr(attrName: string): any;
     isTouchable(): boolean;
@@ -432,7 +434,7 @@ export interface IController {
 
 export interface IController extends IInheritClass {
     body?: IQCObjectsElement | HTMLElement;
-    component: IComponent | null;
+    component: IComponent;
     dependencies?: any[];
     new(controller: TControllerParams): IController;
     routingSelectedAttr(attrName: string): any;
