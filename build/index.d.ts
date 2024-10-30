@@ -44,9 +44,10 @@ declare module "types/global/index" {
         done(): void;
     }
     export interface IQCObjectsElement extends HTMLElement {
+        prototype: any;
         enableServiceClass?: boolean;
         style: CSSStyleDeclaration;
-        Cast(_o: any): any;
+        Cast<T>(_o: T): T;
         render(content: string): void;
         find(tag: string): (HTMLElement | IQCObjectsElement)[];
         buildComponents(rebuildObjects?: boolean): any[];
@@ -55,6 +56,7 @@ declare module "types/global/index" {
         append(_child?: any): void;
     }
     export interface IQCObjectsShadowedElement extends ShadowRoot {
+        prototype: any;
         style?: any;
         render(content: string): void;
         find(tag: string): (HTMLElement | IQCObjectsElement)[];
@@ -1496,10 +1498,11 @@ declare module "src/QCObjects" {
     import { ArrayCollection, ArrayList } from "src/ArrayCollection";
     import { DDO } from "src/DDO";
     import { Toggle } from "src/Toggle";
+    import { IQCObjectsElement } from "types/global/index";
     const _default: {
         BackendMicroservice: typeof BackendMicroservice;
         Logger: typeof Logger;
-        Class: import("types/global").TClass;
+        Class: import("types").TClass;
         _Crypt: typeof _Crypt;
         TagElements: unknown;
         DefaultTemplateHandler: typeof DefaultTemplateHandler;
@@ -1513,10 +1516,10 @@ declare module "src/QCObjects" {
         _ComponentWidget_: typeof _ComponentWidget_;
         asyncLoad: typeof asyncLoad;
         RegisterClass: (_class_: any, __namespace?: string) => any;
-        ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").TComponentURIParams) => string;
+        ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types").TComponentURIParams) => string;
         waitUntil: (func: () => void, exp: () => any) => void;
         _super_: (className: string, classMethodName: string) => any;
-        _DOMCreateElement: (elementName: string) => import("types/global").IQCObjectsElement;
+        _DOMCreateElement: (elementName: string) => IQCObjectsElement;
         shortCode: () => any;
         __getType__: (o_c: any) => any;
         is_a: (obj: any, typeName: string) => boolean;
@@ -1554,7 +1557,7 @@ declare module "src/QCObjects" {
         Toggle: typeof Toggle;
         logger: Logger;
         global: typeof globalThis;
-        ClassFactory: (className: string) => import("types/global").IInheritClass;
+        ClassFactory: (className: string) => import("types").IInheritClass;
         Package: (namespace: string, classes?: any[]) => any;
         Import: (packagename: string, ready?: Function, external?: boolean) => Promise<{
             _imported_?: any;

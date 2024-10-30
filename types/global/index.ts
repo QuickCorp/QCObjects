@@ -52,9 +52,10 @@ export interface IBackendMicroservice extends IInheritClass {
 }
 
 export interface IQCObjectsElement extends HTMLElement {
+    prototype: any;
     enableServiceClass?: boolean;
     style:CSSStyleDeclaration;
-    Cast(_o: any): any;
+    Cast<T>(_o: T): T;
     render(content: string): void;
     find(tag: string): (HTMLElement | IQCObjectsElement)[];
     buildComponents(rebuildObjects?: boolean): any[];
@@ -64,6 +65,7 @@ export interface IQCObjectsElement extends HTMLElement {
 }
 
 export interface IQCObjectsShadowedElement extends ShadowRoot{
+    prototype: any;
     style?: any;
     render(content: string): void;
     find(tag: string): (HTMLElement | IQCObjectsElement)[];

@@ -30,6 +30,7 @@
 /* eslint no-mixed-operators: "off" */
 
 "use strict";
+/// <reference path="types/math-functions" />
 
 import "./assign";
 import { _DataStringify } from "./DataStringify";
@@ -93,7 +94,8 @@ import { DDO } from "./DDO";
 import { Toggle } from "./Toggle";
 import { findPackageNodePath } from "./findPackageNodePath";
 import { getDocumentLayout } from "./DocumentLayout";
-import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsElement, ShadowRoot, String } from "types/global";
+import { IQCObjectsElement, IQCObjectsShadowedElement } from "types";
+import { __to_number } from "./mathFunctions";
 
 (function __qcobjects__(_top: any) {
   if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -121,11 +123,11 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
     }
 
     if (isBrowser) {
-      (Element as unknown as Element).prototype.subelements = subelements;
-      (HTMLDocument as unknown as Document).prototype.subelements = subelements;
-      (HTMLElement as unknown as HTMLElement).prototype.subelements = subelements;
+      (Element as unknown as IQCObjectsElement).prototype.subelements = subelements;
+      (Document as unknown as IQCObjectsElement).prototype.subelements = subelements;
+      (HTMLElement as unknown as IQCObjectsElement).prototype.subelements = subelements;
       if (typeof ShadowRoot !== "undefined") {
-        (ShadowRoot as unknown as ShadowRoot).prototype.subelements = subelements;
+        (ShadowRoot as unknown as IQCObjectsShadowedElement).prototype.subelements = subelements;
       }
     }
 
@@ -138,14 +140,15 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
      * Basic Type of all elements
      */
     if (isBrowser) {
-      (Element as unknown as Element).prototype.find = function (tag: string): (HTMLElement | QCObjectsElement)[] {
+      (Element as unknown as IQCObjectsElement).prototype.find = function (tag: string): IQCObjectsElement[] {
         const _self = this;
-        const _oo:(HTMLElement | QCObjectsElement)[] = [];
-        const _tags = (document as unknown as Document).subelements(tag);
-        _tags.map(function (_tt, _t) {
+        const _oo:IQCObjectsElement[] = [];
+        const _tags = (document as unknown as IQCObjectsElement).subelements(tag);
+        _tags.map( (_tt, _t) => {
           if ((typeof _tags[_t] !== "undefined") && (_tags[_t].parentNode as Element).tagName === _self.parentNode.tagName) {
             _oo.push(_Cast(_tt, (new Object())));
           }
+          return _tt;
         });
         return _oo;
       };
@@ -165,13 +168,13 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
        * use: [element].render('content') where 'content' is the string corresponding
        * to the DOM to insert in the element
        **/
-      (Element as unknown as Element).prototype.render = function QC_Render(content:string) {
+      (Element as unknown as IQCObjectsElement).prototype.render = function QC_Render(content:string) {
         const _self = this;
-        const _appendVDOM = function (_self:any, content:string) {
+        const _appendVDOM = (_self:any, content:string):any => {
           if (typeof document.implementation.createHTMLDocument !== "undefined") {
             const doc = document.implementation.createHTMLDocument("");
-            (doc as unknown as Element).innerHTML = content;
-            (doc.body as unknown as Element).subelements("*").map(function (element) {
+            doc.body.innerHTML = content;
+            (doc.body as unknown as IQCObjectsElement).subelements("*").map( (element):any => {
               return _self.append(element);
             });
           }
@@ -207,10 +210,9 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
       /**
        * Adds a Cast functionality to every Element of DOM
        */
-      (Element as unknown as Element).prototype.Cast = function QC_Object(_o:any) {
-        _o.__definition.body = this;
-        var _o = New(_o);
-        return _o;
+      (Element as unknown as IQCObjectsElement).prototype.Cast = function QC_Cast<T>(_o: T): T {
+        const _self: any = this;
+        return _Cast(_self, _o) as T;
       };
     }
 
@@ -229,7 +231,8 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
       window.addEventListener("popstate", function (popStateEvent) {
         popStateEvent.stopImmediatePropagation();
         popStateEvent.stopPropagation();
-        ClassFactory("Component").route();
+        Component.route()
+        .catch((e:any) => {throw new Error (`An error ocurred when trying to load initial routes. ${e}`);});
       });
     }
 
@@ -243,72 +246,70 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
     Export(isQCObjects_Class);
     Export(isQCObjects_Object);
     Export(NamespaceRef);
-
-
-
-
+  
     /**
      * Array math functions
      */
-    (Array as unknown as Array<any>).prototype.unique = function () {
+    (Array as any).prototype.unique = function <T>(this: T[]): T[]{
       return this.filter(function (value:any, index:any, self:any) {
         return self.indexOf(value) === index;
       });
     };
-    (Array as unknown as ArrayConstructor).unique = function (a) {
-      return a.unique();
+    (Array as any).unique = function <T>(a: Array<T>): T[] {
+      return (a as any).unique() as T[];
     };
-    (_protected_code_)((Array as unknown as ArrayConstructor).unique);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.unique);
-    (Array as unknown as Array<any>).prototype.table = function () {
+    (_protected_code_)((Array as any).unique);
+    (_protected_code_)((Array as any).prototype.unique);
+    (Array as any).prototype.table = function ():void {
       console.table(this);
     };
-    (Array as unknown as ArrayConstructor).table = function (a) {
-      return a.table();
+    (Array as any).table = function (a:any):void {
+      a.table();
+      return;
     };
-    (_protected_code_)((Array as unknown as ArrayConstructor).table);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.table);
-    (Array as unknown as Array<any>).prototype.sum = function () {
+    (_protected_code_)((Array as any).table);
+    (_protected_code_)((Array as any).prototype.table);
+    (Array as any).prototype.sum = function ():number {
       return this.reduce(function (prev:any, current:any) {
         return (__to_number(prev)) + (__to_number(current));
-      }, 0);
+      }, 0) as number;
     };
-    (Array as unknown as ArrayConstructor).sum = function (a) {
-      return a.sum();
+    (Array as any).sum = function (a:any):number {
+      return a.sum() as number;
     };
-    (_protected_code_)((Array as unknown as ArrayConstructor).sum);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.sum);
-    (Array as unknown as Array<any>).prototype.avg = function () {
+    (_protected_code_)((Array as any).sum);
+    (_protected_code_)((Array as any).prototype.sum);
+    (Array as any).prototype.avg = function ():number {
       return (this.length < 1) ? (0) : (this.reduce(function (prev:any, current:any) {
         return (((__to_number(prev)) + (__to_number(current))) / 2);
-      }));
+      })) as number;
     };
-    (Array as unknown as ArrayConstructor).avg = function (a) {
-      return a.avg();
+    (Array as any).avg = function (a:any):number {
+      return a.avg() as number;
     };
-    (_protected_code_)((Array as unknown as ArrayConstructor).avg);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.avg);
-    (Array as unknown as Array<any>).prototype.min = function () {
-      return this.reduce(function (prev:any, current:any) {
+    (_protected_code_)((Array as any).avg);
+    (_protected_code_)((Array as any).prototype.avg);
+    (Array as any).prototype.min = function ():number {
+      return this.reduce(function (prev:number, current:number) {
         return (__to_number(prev) <= __to_number(current)) ? (prev) : (current);
-      }, Infinity);
+      }, Infinity) as number;
     };
-    (Array as unknown as ArrayConstructor).min = function (a) {
-      return a.min();
+    (Array as any).min = function (a:any):number {
+      return a.min() as number;
     };
-    (_protected_code_)((Array as unknown as ArrayConstructor).min);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.min);
-    (Array as unknown as Array<any>).prototype.max = function () {
-      return this.reduce(function (prev:any, current:any) {
+    (_protected_code_)((Array as any).min);
+    (_protected_code_)((Array as any).prototype.min);
+    (Array as any).prototype.max = function ():number {
+      return this.reduce(function (prev:number, current:number) {
         return (__to_number(prev) >= __to_number(current)) ? (prev) : (current);
-      }, 0);
+      }, 0) as number;
     };
-    (Array as unknown as ArrayConstructor).max = function (a) {
-      return a.max();
+    (Array as any).max = function (a:any):number {
+      return a.max() as number;
     };
-    (_protected_code_)((Array as unknown as ArrayConstructor).max);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.max);
-    (Array as unknown as Array<any>).prototype.sortBy = function (propName:string, sortAsc = true) {
+    (_protected_code_)((Array as any).max);
+    (_protected_code_)((Array as any).prototype.max);
+    (Array as any).prototype.sortBy = function (propName:string, sortAsc = true):Array<any>[] {
       const sort_function = (sortAsc) ? (
         function (prev:any, current:any) {
           return current[propName] < prev[propName] ? 1 : -1;
@@ -318,13 +319,13 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
           return current[propName] > prev[propName] ? 1 : -1;
         }
       );
-      return this.sort(sort_function);
+      return this.sort(sort_function) as Array<any>[];
     };
-    (Array as unknown as ArrayConstructor).sortBy = function (a, propName, sortAsc = true) {
-      return a.sortBy(propName, sortAsc);
+    (Array as any).sortBy = function (a:any, propName:string, sortAsc = true):Array<any>[] {
+      return a.sortBy(propName, sortAsc) as Array<any>[];
     };
-    (_protected_code_)((Array as unknown as ArrayConstructor).sortBy);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.sortBy);
+    (_protected_code_)((Array as any).sortBy);
+    (_protected_code_)((Array as any).prototype.sortBy);
 
     /**
      * Extends the Array prototype to include a method that creates a matrix (2D array)
@@ -352,7 +353,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
      * console.log(matrix);
      * // Output: [null, null, null, null]
      */
-    (Array as unknown as Array<any>).prototype.matrix = function (_length:number, _fillValue = 0) {
+    (Array as any).prototype.matrix = function (_length:number, _fillValue = 0) {
       const x_func = function (x = undefined) {
         return _fillValue;
       };
@@ -377,15 +378,15 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
      * const myMatrix = Array.matrix(2, 5);
      * // myMatrix will be [5, 5, 5]
      */
-    (Array as unknown as ArrayConstructor).matrix = function (a, _length, _fillValue = 0) {
-      return a.matrix(_length, _fillValue);
+    (Array as any).matrix = function <T>(a:any, _length:number, _fillValue = 0):T[] {
+      return a.matrix(_length, _fillValue) as T[];
     };
 
-    (_protected_code_)((Array as unknown as ArrayConstructor).matrix);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.matrix);
+    (_protected_code_)((Array as any).matrix);
+    (_protected_code_)((Array as any).prototype.matrix);
 
 
-    (Array as unknown as Array<any>).prototype.matrix2d = function (_length:number, _fillValue = 0) {
+    (Array as any).prototype.matrix2d = function (_length:number, _fillValue = 0) {
       const y_func = function (y:any) {
         return _fillValue;
       };
@@ -398,14 +399,14 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
         length: _length
       }, x_func);
     };
-    (Array as unknown as ArrayConstructor).matrix2d = function (a, _length, _fillValue = 0) {
-      return a.matrix2d(_length, _fillValue);
+    (Array as any).matrix2d = function <T>(a:any, _length:number, _fillValue = 0):T[][] {
+      return a.matrix2d(_length, _fillValue) as T[][];
     };
 
-    (_protected_code_)((Array as unknown as ArrayConstructor).matrix2d);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.matrix2d);
+    (_protected_code_)((Array as any).matrix2d);
+    (_protected_code_)((Array as any).prototype.matrix2d);
 
-    (Array as unknown as Array<any>).prototype.matrix3d = function (_length:number, _fillValue = 0) {
+    (Array as any).prototype.matrix3d = function (_length:number, _fillValue = 0) {
       const y_func = function (y:any) {
         return Array.from({
           length: _length
@@ -423,21 +424,21 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
       }, x_func);
     };
 
-    (Array as unknown as ArrayConstructor).matrix3d = function (a, _length, _fillValue = 0) {
-      return a.matrix3d(_length, _fillValue);
+    (Array as any).matrix3d = function <T>(a:any, _length:number, _fillValue = 0):T[][][] {
+      return a.matrix3d(_length, _fillValue) as T[][][];
     };
 
 
-    (_protected_code_)((Array as unknown as ArrayConstructor).matrix3d);
-    (_protected_code_)((Array as unknown as Array<any>).prototype.matrix3d);
+    (_protected_code_)((Array as any).matrix3d);
+    (_protected_code_)((Array as any).prototype.matrix3d);
 
 
 
-    (String as unknown as any).prototype.list = function () {
+    (String as unknown as any).prototype.list = function ():string[] {
       const __instance = this;
-      return _top.range(0, __instance.length - 1).map(function (i:any) {
-        return __instance[i];
-      });
+      return _top.range(0, __instance.length - 1).map(function <T>(i:any):T {
+        return __instance[i] as T;
+      }) as string[];
     };
     (_protected_code_)((String as unknown as any).prototype.list);
 
@@ -447,13 +448,6 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
      * End of array math functions
      */
 
-
-    ClassFactory("ArrayList").matrix = (Array as unknown as ArrayConstructor).matrix;
-    ClassFactory("ArrayList").matrix2d = (Array as unknown as ArrayConstructor).matrix2d;
-    ClassFactory("ArrayList").matrix3d = (Array as unknown as ArrayConstructor).matrix3d;
-    (_protected_code_)(ClassFactory("ArrayList").matrix);
-    (_protected_code_)(ClassFactory("ArrayList").matrix2d);
-    (_protected_code_)(ClassFactory("ArrayList").matrix3d);
 
 
     setDefaultProcessors();
@@ -493,9 +487,9 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
           
         },
         get() {
-          const _get_packages_names:Function = function (_packages:any[]) {
+          const _get_packages_names = function <T>(_packages:any):T[] {
             let _keys:any[] = [];
-            for (const _k in _packages) {
+            for (const _k of _packages) {
               if (
                 typeof _packages[_k] !== "undefined" &&
                 typeof _packages[_k] !== "function" &&
@@ -506,7 +500,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
                 _keys = _keys.concat(_get_packages_names(_packages[_k]));
               }
             }
-            return _keys;
+            return _keys as T[];
           };
           return _get_packages_names(_QC_PACKAGES);
         }
@@ -517,20 +511,20 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
           logger.debug("PackagesList is readonly");
           
         },
-        get() {
-          return _top.PackagesNameList.map(function (packagename:string) {
-            const _classesList = Package(packagename);
-            let _ret_;
+        get():any {
+          return _top.PackagesNameList.map(function <T>(packagename:string):T {
+            const _classesList:any[] = Package(packagename) as any[];
+            let _ret_:any = undefined;
             if (_classesList) {
-              _ret_ = {
+              _ret_= {
                 packageName: packagename,
-                classesList: _classesList.filter(function (_packageClass:any) {
+                classesList: _classesList.filter(function (_packageClass:any):boolean {
                   return isQCObjects_Class(_packageClass);
                 })
               };
             }
-            return _ret_;
-          }).filter(function (_p:any) {
+            return _ret_ as T;
+          }).filter(function (_p:any):boolean {
             return typeof _p !== "undefined";
           });
         }
@@ -541,9 +535,9 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
           logger.debug("ClassesList is readonly");
           
         },
-        get() {
+        get():any {
           let _classesList:any[] = [];
-          _top.PackagesList.map(function (_package_element:any) {
+          _top.PackagesList.map(function <T>(_package_element:any):T {
             _classesList = _classesList.concat(_package_element.classesList.map(
               function (_class_element:any) {
                 return {
@@ -553,7 +547,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
                 };
               }
             ));
-            return _package_element;
+            return _package_element as T;
           });
 
           return _classesList;
@@ -565,9 +559,9 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
           logger.debug("ClassesNameList is readonly");
           
         },
-        get() {
-          return _top.ClassesList.map(function (_class_element:any) {
-            return _class_element.className;
+        get():any {
+          return _top.ClassesList.map(function <T>(_class_element:any):T {
+            return _class_element.className as T;
           });
         }
       });
@@ -613,7 +607,8 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
                   logger.debug("QCObjects-SDK.js loaded from local");
                 }
                 CONFIG.set("remoteImportsPath", remoteImportsPath);
-              }, external);
+              }, external)
+              ?.catch ((e:any) => {throw new Error (`An error ocurred when trying to import: ${e}`);});
             }
           } else {
             logger.debug("SDK has not been imported as it is not available at the moment");
@@ -661,7 +656,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
               const __valid_scrolls__ = [0, 5, 10, 25, 50, 75, 90, 95, 100];
               __valid_scrolls__.filter(function (p) {
                 return p === percentY;
-              }).map(function (pY) {
+              }).map(function <T>(pY:T):T {
                 secondaryEventName = "percentY" + percentY.toString();
                 const secondaryCustomEvent = new CustomEvent(secondaryEventName, {
                   detail: {
@@ -670,6 +665,7 @@ import { Array, ArrayConstructor, Document, Element, HTMLElement, QCObjectsEleme
                   }
                 });
                 event.target.dispatchEvent(secondaryCustomEvent);
+                return pY;
               });
 
             }
