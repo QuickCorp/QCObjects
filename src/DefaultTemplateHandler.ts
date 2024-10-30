@@ -1,6 +1,6 @@
 import { DefaultTemplateHandlerParams } from "types/global";
 import { logger } from "./Logger";
-import { Processor } from "./Processor";
+import { GlobalProcessor as Processor } from "./Processor";
 import { RegisterClass } from "./RegisterClass";
 
 export class DefaultTemplateHandler {
@@ -26,7 +26,7 @@ export class DefaultTemplateHandler {
       processorHandler.component = templateInstance.component;
       let parsedAssignmentText = (typeof templateInstance.template !== "undefined") ? (templateInstance.template) : ("");
       if (typeof data === "object") {
-        [...Object.keys(data)].map(function (k) {
+        [...Object.keys(data)].map( (k):any => {
           let _value = data[k];
           if (typeof _value === "string" || typeof _value === "number" || (!isNaN(_value))) {
             try {
@@ -37,6 +37,7 @@ export class DefaultTemplateHandler {
               throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
             }
           }
+          return k;
         });
       } else {
         logger.debug(`${templateInstance.component.name}.data is not an object`);
