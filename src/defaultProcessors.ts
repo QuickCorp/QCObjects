@@ -1,14 +1,14 @@
-import { Component } from "types/global";
 import { logger } from "./Logger";
 import { GlobalProcessor as Processor } from "./Processor";
 import { _top } from "./top";
 import { range } from "./range";
+import { IComponent } from "types";
 
 // Set Processors
 export const setDefaultProcessors = () => {
     (function (_top) {
 
-        const mapper = function (componentInstance:Component, componentName:string, valueName:string) {
+        const mapper = (componentInstance:IComponent, componentName:string, valueName:string):string => {
             /*
              * Mapper processor
              * @usage
@@ -39,7 +39,7 @@ export const setDefaultProcessors = () => {
         };
         Processor.setProcessor(mapper);
     
-        const layout = function (componentInstance:Component, layoutname:string, cssfile:string) {
+        const layout = function (componentInstance:IComponent, layoutname:string, cssfile:string):string {
             /*
              * Layout processor
              * @usage
@@ -71,12 +71,12 @@ export const setDefaultProcessors = () => {
                 "portrait": layout_portrait
             };
     
-            return (Object.hasOwnProperty.call(layout_code, layoutname)) ? ((layout_code as any)[layoutname]) : ("");
+            return (Object.hasOwnProperty.call(layout_code, layoutname)) ? ((layout_code as any)[layoutname] as string) : ("");
         };
     
         Processor.setProcessor(layout);
     
-        const component = function () {
+        const component = (componentInstance:IComponent ,name:string, componentClass:string, ...args:string[]):string => {
             /*
              * component processor
              * @usage
@@ -84,7 +84,7 @@ export const setDefaultProcessors = () => {
              * Returns a component tag declaration like:
              * <component name=<name> ...></component>
              */
-            const arg = [...arguments].slice(1).map(function (a) {
+            const arg = [...args].map(function (a) {
                 return {
                     [a.split("=")[0]]: a.split("=")[1]
                 };
@@ -94,12 +94,12 @@ export const setDefaultProcessors = () => {
             const attrs = [...Object.keys(arg)].map(function (a) {
                 return `${a}=${arg[a as any]}`;
             }).join(" ");
-            return `<component ${attrs}></component>`;
+            return `<component name="${name}" componentClass="${componentClass}" ${attrs}></component>`;
         };
     
         Processor.setProcessor(component);
     
-        const quick_component = function () {
+        const quick_component = (componentInstance: IComponent,name:string, componentClass:string, ...args:string[]):string => {
             /*
              * component processor
              * @usage
@@ -107,7 +107,7 @@ export const setDefaultProcessors = () => {
              * Returns a component tag declaration like:
              * <quick-component name=<name> ...></quick-component>
              */
-            const arg = [...arguments].slice(1).map(function (a) {
+            const arg = [...args].map(function (a) {
                 return {
                     [a.split("=")[0]]: a.split("=")[1]
                 };
@@ -117,13 +117,13 @@ export const setDefaultProcessors = () => {
             const attrs = [...Object.keys(arg)].map(function (a) {
                 return `${a}=${arg[a as any]}`;
             }).join(" ");
-            return `<quick-component ${attrs}></quick-component>`;
+            return `<quick-component name="${name}" componentClass="${componentClass}" ${attrs}></quick-component>`;
         };
     
         Processor.setProcessor(quick_component);
     
     
-        const repeat = function (componentInstance:Component, length:number, text:string) {
+        const repeat = (componentInstance:IComponent, length:number, text:string):string => {
             /*
              * Repeat processor
              * @usage
