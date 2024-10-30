@@ -1,4 +1,5 @@
 import { ClassFactory } from "./ClassFactory";
+import { InheritClass } from "./InheritClass";
 
 /**
  * Returns a method from a superior QCObjects Class
@@ -9,8 +10,8 @@ import { ClassFactory } from "./ClassFactory";
  * @param {String} classMethodName
  * @param {Object} params
  */
-export const _super_ = function (className: string, classMethodName: string) {
-  return ClassFactory(className)[classMethodName];
+export const _super_ = function <T>(className: string, classMethodName: string):T {
+  return (ClassFactory(className) as InheritClass)[classMethodName] as T;
 };
 _super_.prototype.toString = function () {
   return "_super_(className,classMethodName,params) { [QCObjects native code] }";
