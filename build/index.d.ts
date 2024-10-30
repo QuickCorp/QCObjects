@@ -54,15 +54,15 @@ declare module "types/global/index" {
         subelements(query: string): Array<any>;
         append(_child?: any): void;
     }
-    export interface IQCObjectsShadowedElement {
+    export interface IQCObjectsShadowedElement extends ShadowRoot {
         style?: any;
         render(content: string): void;
         find(tag: string): (HTMLElement | IQCObjectsElement)[];
         buildComponents(rebuildObjects?: boolean): any[];
         subelements(query: string): (ShadowRoot | HTMLElement | IQCObjectsShadowedElement | IQCObjectsElement)[];
         subelements(query: string): any[];
-        append?(_child?: any): void;
-        innerHTML?: string;
+        append: (...nodes: (string | Node)[]) => void;
+        innerHTML: string;
     }
     export interface ILogger {
         debugEnabled: boolean;
@@ -409,18 +409,6 @@ declare module "types/global/index" {
         done(...args: any[]): void;
         fail?(...args: any[]): void;
     }
-    export interface IController extends IInheritClass {
-        body?: IQCObjectsElement | HTMLElement;
-        component: IComponent;
-        dependencies?: any[];
-        new (controller: TControllerParams): IController;
-        routingSelectedAttr(attrName: string): any;
-        isTouchable(): boolean;
-        onpress(subelementSelector: string, handler: EventListener): void;
-        createRoutingController(): void;
-        done(...args: any[]): void;
-        fail?(...args: any[]): void;
-    }
     export type TViewParams = {
         component: IComponent;
         dependencies: Array<any>;
@@ -721,6 +709,7 @@ declare module "src/domain" {
 declare module "src/InheritClass" {
     import { IInheritClass, TBody } from "types/global/index";
     export class InheritClass implements IInheritClass {
+        [key: string]: any;
         __definition: any;
         private _body;
         get body(): TBody;
@@ -1073,6 +1062,7 @@ declare module "src/ComponentFactory" {
 }
 declare module "src/top" {
     import { ComplexStorageCache, Component } from "types/global/index";
+    import { ConfigService } from "src/Service";
     type QCObjects = {
         lastCache?: ComplexStorageCache;
         componentsStack: Component[];
@@ -1156,6 +1146,8 @@ declare module "src/top" {
     export let componentsStack: Component[];
     export const resetTop: (_top_: QCObjects) => void;
     export const buildComponentsStack: () => void;
+    export let configService: ConfigService;
+    export const setConfigService: (_configService: ConfigService) => void;
 }
 declare module "src/make_global" {
     export const __make_global__: (f: any) => void;
@@ -1239,7 +1231,7 @@ declare module "src/BackendMicroservice" {
     }
 }
 declare module "src/Controller" {
-    import { TControllerParams, IController, IComponent } from "types/global/index";
+    import { IController, IComponent, TControllerParams } from "types/global/index";
     import { InheritClass } from "src/InheritClass";
     export class Controller extends InheritClass implements IController {
         component: IComponent;
@@ -1394,15 +1386,16 @@ declare module "src/SourceCSS" {
     export const SourceCSS: unknown;
 }
 declare module "src/globalSettings" {
+    import { IGlobalSettings } from "types/global/index";
     import { InheritClass } from "src/InheritClass";
-    export class GlobalSettings extends InheritClass {
-        _GLOBAL: {};
-        __definition: {};
-        __classType: string;
-        constructor();
-        static set(name: string, value: any): void;
-        static get(name: string, _default?: any): any;
-        static __start__(): void;
+    export class GlobalSettings extends InheritClass implements IGlobalSettings {
+        [key: string]: any;
+        _GLOBAL: any;
+        private static _instance;
+        get instance(): GlobalSettings;
+        set(name: string, value: any): void;
+        get(name: string, _default?: any): any;
+        __start__(): Promise<any>;
     }
 }
 declare module "src/WidgetsFactory" {

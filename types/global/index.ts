@@ -63,15 +63,15 @@ export interface IQCObjectsElement extends HTMLElement {
     append(_child?: any):void;
 }
 
-export interface IQCObjectsShadowedElement {
+export interface IQCObjectsShadowedElement extends ShadowRoot{
     style?: any;
     render(content: string): void;
     find(tag: string): (HTMLElement | IQCObjectsElement)[];
     buildComponents(rebuildObjects?: boolean): any[];
     subelements(query: string): (ShadowRoot | HTMLElement | IQCObjectsShadowedElement | IQCObjectsElement)[];
     subelements(query: string): any[];
-    append?(_child?: any):void;
-    innerHTML?:string;
+    append: (...nodes: (string | Node)[]) => void;
+    innerHTML:string;
 }
 
 export interface ILogger {
@@ -425,24 +425,6 @@ export interface IController extends IInheritClass{
     isTouchable(): boolean;
     onpress(subelementSelector: string, handler: EventListener): void;
     createRoutingController(): void;
-
-
-    done(...args: any[]): void;
-    fail?(...args: any[]): void;
-}
-
-
-export interface IController extends IInheritClass {
-    body?: IQCObjectsElement | HTMLElement;
-    component: IComponent;
-    dependencies?: any[];
-    new(controller: TControllerParams): IController;
-    routingSelectedAttr(attrName: string): any;
-    isTouchable(): boolean;
-    onpress(subelementSelector: string, handler: EventListener): void;
-    createRoutingController(): void;
-
-
     done(...args: any[]): void;
     fail?(...args: any[]): void;
 }

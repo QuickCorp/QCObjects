@@ -10,6 +10,7 @@ import { _QC_CLASSES } from "./PrimaryCollections";
 import { Package } from "./Package";
 
 export class InheritClass implements IInheritClass {
+    [key: string]: any;
     __definition: any;
     private _body: TBody;
     public get body(): TBody {

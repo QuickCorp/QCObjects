@@ -1,5 +1,6 @@
 import { ComplexStorageCache, Component, QCObjectsElement } from "types/global";
 import { buildComponents } from "./ComponentFactory";
+import { ConfigService } from "./Service";
 
 type QCObjects = {
     lastCache?:ComplexStorageCache,
@@ -96,4 +97,9 @@ export const resetTop = (_top_: QCObjects) => {
 
 export const buildComponentsStack = () => {
     componentsStack = buildComponents(document as unknown as QCObjectsElement);
+};
+export let configService:ConfigService;
+export const setConfigService = (_configService:ConfigService) => {
+    _top.global.configService = _configService;
+    configService = _configService;
 };

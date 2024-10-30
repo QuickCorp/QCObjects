@@ -1,32 +1,31 @@
-import { _CastProps } from "./Cast";
-import { ClassFactory } from "./ClassFactory";
+import { IGlobalSettings } from "types";
 import { CONFIG } from "./CONFIG";
 import { InheritClass } from "./InheritClass";
 import { logger } from "./Logger";
-import { New } from "./New";
 import { Package } from "./Package";
 import { isBrowser } from "./platform";
 import { serviceLoader } from "./serviceLoader";
-import { _top, buildComponentsStack } from "./top";
+import { _top, buildComponentsStack, configService, setConfigService } from "./top";
+import { ConfigService } from "./Service";
 
-export class GlobalSettings extends InheritClass {
-  _GLOBAL = {};
-  __definition = {};
-  __classType = "GlobalSettings";
+export class GlobalSettings extends InheritClass implements IGlobalSettings{
+  [key: string]: any;
 
-  constructor() {
-    super(...arguments);
-    this.set = GlobalSettings.set.bind(this);
-    this.get = GlobalSettings.get.bind(this);
-    this.__start__ = GlobalSettings.__start__.bind(this);
+  _GLOBAL:any = {};
+  private static _instance:GlobalSettings;
+  get instance ():GlobalSettings{
+    if (typeof GlobalSettings._instance === "undefined"){
+      GlobalSettings._instance = new GlobalSettings();
+    }
+    return GlobalSettings._instance;
   }
 
-  static set(name: string, value: any) {
+  set(name: string, value: any) {
     this._GLOBAL[name] = value;
   }
 
-  static get(name: string, _default?: any) {
-    let _value;
+  get(name: string, _default?: any):any {
+    let _value:any;
     if (typeof this._GLOBAL[name] !== "undefined") {
       _value = this._GLOBAL[name];
     } else if (typeof _default !== "undefined") {
@@ -35,7 +34,7 @@ export class GlobalSettings extends InheritClass {
     return _value;
   }
 
-  static __start__() {
+  __start__():Promise<any> {
     const __load__serviceWorker = function () {
       let _promise: Promise<ServiceWorkerRegistration> | Promise<unknown>;
       if (isBrowser) {
@@ -85,16 +84,28 @@ export class GlobalSettings extends InheritClass {
         resolve();
       });
     };
-    logger.debug("Starting to load the config settings...");
-    if (CONFIG.get("useConfigService", false)) {
-      logger.debug("Loading settings using local configuration file...");
-      _top.global.configService = New(ClassFactory("ConfigService"));
-      _top.global.configService.configLoaded = _buildComponents;
-      serviceLoader(_top.global.configService);
-    } else {
-      logger.debug("Starting to load the components...");
-      _buildComponents.call(this);
-    }
+
+    return new Promise<any> ((resolve) => {
+      logger.debug("Starting to load the config settings...");
+      if (CONFIG.get("useConfigService", false)) {
+        logger.debug("Loading settings using local configuration file...");
+        setConfigService(new ConfigService());
+        configService.configLoaded = _buildComponents;
+        serviceLoader(configService)
+        ?.then((standardResponse:any)=> {
+          resolve(standardResponse);
+        })
+        ?.catch ((e:any) => {throw new Error (`An error ocurred while trying to load ${configService.url}: ${e}`);});
+      } else {
+        logger.debug("Starting to load the components...");
+        _buildComponents.call(this)
+        .then(()=> {
+          resolve({});
+        })
+        .catch((e:any) => {throw new Error (`An error ocurred while trying to build the components stack. ${e}`);});
+      }
+  
+    });
   }
 
 }
