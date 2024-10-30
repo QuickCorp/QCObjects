@@ -632,8 +632,8 @@ declare module "src/Cast" {
     export const _CastProps: (obj_source: any, obj_dest: any) => any;
 }
 declare module "src/DOMCreateElement" {
-    import { QCObjectsElement } from "types/global/index";
-    export const _DOMCreateElement: (elementName: string) => QCObjectsElement;
+    import { IQCObjectsElement } from "types/global/index";
+    export const _DOMCreateElement: (elementName: string) => IQCObjectsElement;
 }
 declare module "src/IncrementInstanceID" {
     /**
@@ -1501,7 +1501,6 @@ declare module "src/QCObjects" {
     import { ArrayCollection, ArrayList } from "src/ArrayCollection";
     import { DDO } from "src/DDO";
     import { Toggle } from "src/Toggle";
-    import { QCObjectsElement } from "types/global/index";
     const _default: {
         BackendMicroservice: typeof BackendMicroservice;
         Logger: typeof Logger;
@@ -1522,7 +1521,7 @@ declare module "src/QCObjects" {
         ComponentURI: ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }: import("types/global").TComponentURIParams) => string;
         waitUntil: (func: () => void, exp: () => any) => void;
         _super_: (className: string, classMethodName: string) => any;
-        _DOMCreateElement: (elementName: string) => QCObjectsElement;
+        _DOMCreateElement: (elementName: string) => import("types/global").IQCObjectsElement;
         shortCode: () => any;
         __getType__: (o_c: any) => any;
         is_a: (obj: any, typeName: string) => boolean;
