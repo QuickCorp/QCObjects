@@ -1,4 +1,4 @@
-import { IInheritClass, logger, TBody } from "types";
+import { IInheritClass, IQCObjectsElement, logger, TBody } from "types";
 import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
 import { _CastProps, _Cast } from "./Cast";
 import { _DOMCreateElement } from "./DOMCreateElement";
@@ -139,13 +139,13 @@ export class InheritClass implements IInheritClass {
     }    
 
     css(_css: any): any {
-        if (typeof this.body !== "undefined" && typeof this?.body !== "string" && this?.body?.style !== "undefined") {
+        if (typeof this.body !== "undefined" && typeof this?.body !== "string" && typeof (this?.body as HTMLElement)?.style !== "undefined") {
             logger.debug("body style");
             if (this.body){
-                (this.body as any).style = _Cast(_css, this?.body?.style);
+                (this.body as any).style = _Cast(_css, (this?.body as HTMLElement)?.style);
             }
         }
-        return (typeof this.body !== "string")? this?.body?.style :{};
+        return (typeof this.body !== "string")? (this?.body as HTMLElement)?.style :{};
     }
 
     hierarchy(): any {
@@ -166,8 +166,8 @@ export class InheritClass implements IInheritClass {
             if (arguments.length > 0) {
                 logger.debug("append to element");
                 if (typeof this.body !== "string"){
-                    if (typeof this.body?.append !== "undefined") {
-                        this?.body?.append(child);
+                    if (typeof (this.body as IQCObjectsElement)?.append !== "undefined") {
+                        (this?.body as IQCObjectsElement)?.append(child);
                     } else {
                         throw Error ("body.append is undefined. That means the body is not well formed.");
                     }
