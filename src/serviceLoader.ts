@@ -1,9 +1,9 @@
+import { IService, TCacheController } from "types";
 import { asyncLoad } from "./asyncLoad";
 import { ComplexStorageCache } from "./ComplexStorageCache";
 import { _DataStringify } from "./DataStringify";
 import { logger } from "./Logger";
 import { _require_, isBrowser } from "./platform";
-import { Service } from "./Service";
 import { _top } from "./top";
 
 /**
@@ -12,14 +12,14 @@ import { _top } from "./top";
  * @author: Jean Machuca <correojean@gmail.com>
  * @param service a Service object
  */
-export const serviceLoader = function (service:Service, _async = false):Promise<unknown>|undefined {
-    const _serviceLoaderInBrowser = function (service:Service):Promise<unknown> {
+export const serviceLoader = function (service:IService, _async = false):Promise<unknown>|undefined {
+    const _serviceLoaderInBrowser = function (service:IService):Promise<unknown> {
         var _promise = new Promise(
             function (resolve, reject) {
 
                 logger.debug("LOADING SERVICE DATA {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service.data)).replace("{{URL}}", service.url));
                 const xhr = new XMLHttpRequest();
-                xhr.withCredentials = service.withCredentials as boolean;
+                xhr.withCredentials = service.withCredentials;
                 const xhrasync = true; // always async because xhr sync is deprecated
                 xhr.open(service.method, service.url, xhrasync);
                 for (const header in service.headers) {
@@ -79,7 +79,7 @@ export const serviceLoader = function (service:Service, _async = false):Promise<
                         load() {
                             _directLoad.call(this);
                         },
-                        alternate(cacheController:{ cache: { getCached: (arg0: any) => any; }; }) {
+                        alternate(cacheController:TCacheController) {
                             if (service.method === "GET") {
                                 service.template = cacheController.cache.getCached(service.name);
                                 if (typeof service.done === "function") {
@@ -107,7 +107,7 @@ export const serviceLoader = function (service:Service, _async = false):Promise<
         return _promise;
     };
 
-    const _serviceLoaderInNode = function (service:Service) {
+    const _serviceLoaderInNode = function (service:IService) {
         var _promise = new Promise(
             function (resolve, reject) {
                 if (typeof URL === "undefined") {
@@ -239,7 +239,7 @@ export const serviceLoader = function (service:Service, _async = false):Promise<
 
     };
 
-    const _serviceLoaderMockup = function (service:Service) {
+    const _serviceLoaderMockup = function (service:IService) {
         var _promise = new Promise(
             function (resolve) {
                 logger.debug(`Calling mockup service ${service.name} ...`);
@@ -257,7 +257,7 @@ export const serviceLoader = function (service:Service, _async = false):Promise<
             });
         return _promise;
     };
-    const _serviceLoaderLocal = function (service:Service) {
+    const _serviceLoaderLocal = function (service:IService) {
         var _promise = new Promise(
             function (resolve) {
                 logger.debug(`Calling local service ${service.name} ...`);

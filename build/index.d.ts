@@ -429,7 +429,16 @@ declare module "types/global/index" {
         request: XMLHttpRequest | null;
         service: IService;
     };
+    export type TServiceStandardResponse = {
+        request: XMLHttpRequest | null;
+        service: IService;
+        responseHeaders: any[];
+    };
     export interface IService extends IInheritClass {
+        withCredentials: boolean;
+        useHTTP2: any;
+        options: object;
+        name: string;
         kind: string;
         domain: string;
         basePath: string;
@@ -439,22 +448,9 @@ declare module "types/global/index" {
         reload: boolean;
         cached: boolean;
         headers: any;
-        template: unknown;
-        set(name: string, value: any): void;
-        get(name: string): any;
-        done({ request, service }: TServiceDoneResponse): void;
-        fail(...args: any[]): void;
-    }
-    export interface IService extends IInheritClass {
-        kind: string;
-        domain: string;
-        basePath: string;
-        url: string;
-        method: string;
-        data: any;
-        reload: boolean;
-        cached: boolean;
-        headers: any;
+        responseHeaders: any;
+        local({ request, service }: TServiceStandardResponse): void;
+        mockup({ request, service }: TServiceStandardResponse): void;
         template: unknown;
         set(name: string, value: any): void;
         get(name: string): any;
@@ -462,10 +458,11 @@ declare module "types/global/index" {
         fail(...args: any[]): void;
     }
     export interface IJSONService extends IService {
-        JSONresponse: JSON;
+        JSONresponse?: JSON;
     }
     export interface IConfigService extends IJSONService {
         configFileName: string;
+        configLoaded(): Promise<void>;
     }
     export type TIVO = object;
     export type TEffectParams = {
@@ -495,7 +492,7 @@ declare module "types/global/index" {
         duration: number;
         fitToHeight: boolean;
         fitToWidth: boolean;
-        effects: Array<string>;
+        effects: string[];
     }
     export type TTimerParams = {
         duration: number;
@@ -854,58 +851,15 @@ declare module "src/ComplexStorageCache" {
         clear(): void;
     }
 }
-declare module "src/Service" {
-    import { InheritClass } from "src/InheritClass";
-    import { IService, TServiceDoneResponse } from "types/global/index";
-    export class Service extends InheritClass implements IService {
-        kind: string;
-        domain: string;
-        basePath: string;
-        url: string;
-        method: string;
-        data: {};
-        reload: boolean;
-        cached: boolean;
-        headers: any;
-        template: unknown;
-        done({ request, service }: TServiceDoneResponse): void;
-        fail(...args: any[]): void;
-        set(name: string, value: never): void;
-        get(name: string, _default?: never): never;
-    }
-    export class JSONService extends Service {
-        method: string;
-        cached: boolean;
-        headers: {
-            "Content-Type": string;
-            charset: string;
-        };
-        JSONresponse: unknown;
-        done(result: TServiceDoneResponse): void;
-    }
-    export class ConfigService extends JSONService {
-        method: string;
-        cached: boolean;
-        configFileName: string;
-        headers: {
-            "Content-Type": string;
-            charset: string;
-        };
-        JSONresponse: unknown;
-        done(result: TServiceDoneResponse): void;
-        fail(): void;
-        constructor();
-    }
-}
 declare module "src/serviceLoader" {
-    import { Service } from "src/Service";
+    import { IService } from "types/global/index";
     /**
      * Loads a simple component from a template
      *
      * @author: Jean Machuca <correojean@gmail.com>
      * @param service a Service object
      */
-    export const serviceLoader: (service: Service, _async?: boolean) => Promise<unknown> | undefined;
+    export const serviceLoader: (service: IService, _async?: boolean) => Promise<unknown> | undefined;
 }
 declare module "src/tag_filter" {
     export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
@@ -1421,6 +1375,57 @@ declare module "src/SourceCSS" {
         rebuild(): void;
     }
 }
+declare module "src/Service" {
+    import { InheritClass } from "src/InheritClass";
+    import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "types/global/index";
+    export class Service extends InheritClass implements IService {
+        options: object;
+        withCredentials: boolean;
+        useHTTP2: any;
+        mockup({ request, service }: TServiceStandardResponse): void;
+        name: string;
+        responseHeaders: any;
+        local({ request, service }: TServiceStandardResponse): void;
+        kind: string;
+        domain: string;
+        basePath: string;
+        url: string;
+        method: string;
+        data: {};
+        reload: boolean;
+        cached: boolean;
+        headers: any;
+        template: unknown;
+        done({ request, service }: TServiceDoneResponse): void;
+        fail(...args: any[]): void;
+        set(name: string, value: never): void;
+        get(name: string, _default?: never): never;
+    }
+    export class JSONService extends Service implements IJSONService {
+        method: string;
+        cached: boolean;
+        headers: {
+            "Content-Type": string;
+            charset: string;
+        };
+        JSONresponse?: JSON;
+        done(result: TServiceDoneResponse): void;
+    }
+    export class ConfigService extends JSONService {
+        method: string;
+        cached: boolean;
+        configFileName: string;
+        headers: {
+            "Content-Type": string;
+            charset: string;
+        };
+        configLoaded(): Promise<void>;
+        JSONresponse?: JSON;
+        done(result: TServiceDoneResponse): void;
+        fail(): void;
+        constructor();
+    }
+}
 declare module "src/globalSettings" {
     import { IGlobalSettings } from "types/global/index";
     import { InheritClass } from "src/InheritClass";
@@ -1458,9 +1463,9 @@ declare module "src/VO" {
     }
 }
 declare module "src/TransitionEffect" {
-    import { TransitionEffectParams } from "types/global/index";
     import { Effect } from "src/Effect";
-    export class TransitionEffect extends Effect {
+    import { IComponent, ITransitionEffect, TTransitionEffectParams } from "types/global/index";
+    export class TransitionEffect extends Effect implements ITransitionEffect {
         duration: number;
         defaultParams: {
             alphaFrom: number;
@@ -1474,9 +1479,9 @@ declare module "src/TransitionEffect" {
         };
         fitToHeight: boolean;
         fitToWidth: boolean;
-        effects: never[];
-        constructor();
-        apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: TransitionEffectParams): void;
+        component: IComponent;
+        effects: string[];
+        apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: TTransitionEffectParams): void;
     }
 }
 declare module "src/Timer" {
@@ -1560,7 +1565,7 @@ declare module "src/QCObjects" {
         __getType__: (o_c: any) => any;
         is_a: (obj: any, typeName: string) => boolean;
         _DataStringify: (data: any) => string;
-        serviceLoader: (service: Service, _async?: boolean) => Promise<unknown> | undefined;
+        serviceLoader: (service: import("types").IService, _async?: boolean) => Promise<unknown> | undefined;
         componentLoader: (component: Component, _async: boolean) => any;
         ObjectName: (o: any) => string;
         isQCObjects_Class: (_: any) => boolean;

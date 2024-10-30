@@ -450,7 +450,16 @@ export type TAsyncLoadCallback =
   | ((service: IService, _async?: any) => Promise<unknown>)
   | ((_async?: any) => any);
 export type TServiceDoneResponse = { request: XMLHttpRequest | null, service: IService };
+export type TServiceStandardResponse = {
+    request: XMLHttpRequest | null,
+    service: IService,
+    responseHeaders:any[]
+};
 export interface IService extends IInheritClass {
+    withCredentials: boolean;
+    useHTTP2: any;
+    options: object;
+    name:string;
     kind: string;
     domain: string;
     basePath: string;
@@ -460,22 +469,9 @@ export interface IService extends IInheritClass {
     reload: boolean;
     cached: boolean;
     headers: any;
-    template: unknown;
-    set(name: string, value: any): void;
-    get(name: string): any;
-    done({ request, service }: TServiceDoneResponse): void;
-    fail(...args: any[]): void;
-}
-export interface IService extends IInheritClass {
-    kind: string;
-    domain: string;
-    basePath: string;
-    url: string;
-    method: string;
-    data: any;
-    reload: boolean;
-    cached: boolean;
-    headers: any;
+    responseHeaders:any;
+    local({request, service}:TServiceStandardResponse):void;
+    mockup({request, service}:TServiceStandardResponse):void;
     template: unknown;
     set(name: string, value: any): void;
     get(name: string): any;
@@ -483,10 +479,11 @@ export interface IService extends IInheritClass {
     fail(...args: any[]): void;
 }
 export interface IJSONService extends IService {
-    JSONresponse: JSON;
+    JSONresponse?: JSON;
 }
 export interface IConfigService extends IJSONService {
     configFileName: string;
+    configLoaded():Promise<void>;
 }
 export type TIVO = object;
 export type TEffectParams = {
@@ -519,7 +516,7 @@ export interface ITransitionEffect extends IEffect {
     duration: number;
     fitToHeight: boolean;
     fitToWidth: boolean;
-    effects: Array<string>;
+    effects: string[];
 
 }
 export type TTimerParams = {

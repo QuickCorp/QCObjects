@@ -5,8 +5,8 @@ import { logger } from "./Logger";
 export class ComplexStorageCache {
 
   constructor(params: { index: any; load: any; alternate: any; }) {
-    let object, load, alternate;
-    object = params.index;
+    let load, alternate;
+    const object = params.index;
     if (typeof object !== "undefined") {
       load = params.load;
       alternate = params.alternate;
@@ -21,7 +21,7 @@ export class ComplexStorageCache {
         this.save(object, cachedNewResponse);
         logger.debug("RESPONSE OF {{cachedObjectID}} CACHED".replace("{{cachedObjectID}}", cachedObjectID as string));
       } else {
-        const alternateResponse = alternate.call(null, {
+        alternate.call(null, {
           cachedObjectID,
           cachedResponse,
           "cache": this
@@ -35,7 +35,7 @@ export class ComplexStorageCache {
     return this;
   }
 
-  getItem(cachedObjectID: string) {
+  getItem(cachedObjectID: string):any {
     const retrievedObject = localStorage.getItem(cachedObjectID);
     if (!this.isEmpty(retrievedObject)) {
       return JSON.parse(retrievedObject as string);
@@ -80,7 +80,7 @@ export class ComplexStorageCache {
     this.setItem(cachedObjectID as string, cachedNewResponse);
   }
 
-  getCached(object: any) {
+  getCached(object: any):any {
     const cachedObjectID = this.getID(object);
     return this.getItem(cachedObjectID as string);
   }
@@ -88,8 +88,9 @@ export class ComplexStorageCache {
   clear() {
     Object.keys(localStorage).filter(function (k) {
       return k.startsWith("cachedObject_");
-    }).map(function (c) {
+    }).map(function (c):any {
       localStorage.removeItem(c);
+      return c;
     });
   }
 

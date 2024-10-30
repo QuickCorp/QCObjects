@@ -1,10 +1,10 @@
-import { TransitionEffectParams } from "types/global";
 import { Effect } from "./Effect";
 import { logger } from "./Logger";
 import { Package } from "./Package";
 import { ClassFactory } from "./ClassFactory";
+import { IComponent, IQCObjectsElement, IQCObjectsShadowedElement, ITransitionEffect, TTransitionEffectParams } from "types";
 
-export class TransitionEffect extends Effect {
+export class TransitionEffect extends Effect implements ITransitionEffect{
   duration = 385;
   defaultParams = {
     alphaFrom: 0,
@@ -19,13 +19,9 @@ export class TransitionEffect extends Effect {
 
   fitToHeight = false;
   fitToWidth = false;
-  effects = [];
 
-  constructor() {
-    super();
-    logger.info("DECLARING TransitionEffect  ");
-    this.component.defaultParams = this.defaultParams;
-  }
+  component!: IComponent;
+  effects!: string[];
 
   apply({
     alphaFrom,
@@ -36,33 +32,45 @@ export class TransitionEffect extends Effect {
     radiusTo,
     scaleFrom,
     scaleTo
-  }: TransitionEffectParams) {
+  }: TTransitionEffectParams) {
     const _transition_ = this;
     logger.info("EXECUTING TransitionEffect  ");
-    const componentRoot = (_transition_.component.shadowed) ? (_transition_.component.shadowRoot.host) : (_transition_.component.body);
-    if (_transition_.fitToHeight) {
-      componentRoot.height = (typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null) ? (componentRoot.offsetParent.scrollHeight) : (componentRoot.getBoundingClientRect().height);
+    const componentRoot =_transition_.component.componentRoot as IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | ShadowRoot;
+
+    if (typeof componentRoot !== "undefined" && componentRoot !== null){
+      if (_transition_.fitToHeight) {
+        (componentRoot as any).height = (typeof (componentRoot as HTMLElement).offsetParent === "object" && (componentRoot as HTMLElement).offsetParent !== null) ? ((componentRoot as HTMLElement).offsetParent?.scrollHeight) : ((componentRoot as HTMLElement).getBoundingClientRect().height);
+      }
+      if (_transition_.fitToWidth) {
+        (componentRoot as any).width = (typeof (componentRoot as HTMLElement).offsetParent === "object" && (componentRoot as HTMLElement).offsetParent !== null) ? ((componentRoot as HTMLElement).offsetParent?.scrollWidth) : ((componentRoot as HTMLElement).getBoundingClientRect().width);
+      }
+      if (_transition_.component.shadowed){
+        ((componentRoot as ShadowRoot).host as HTMLElement).style.display = "block";
+      } else {
+        (componentRoot as HTMLElement).style.display = "block";
+      }
+      _transition_.effects.map( (effectClassName:string):string => {
+
+        const __effectClass__ = ClassFactory(effectClassName) as unknown as typeof Effect;
+        const effectObj = new __effectClass__({});
+        const effectClassMethod = effectObj.apply.bind(_transition_);
+        const componentHost = (_transition_.component.shadowed)? ((componentRoot as ShadowRoot).host) : (componentRoot);
+        const effectParams = {
+          alphaFrom,
+          alphaTo,
+          angleFrom,
+          angleTo,
+          radiusFrom,
+          radiusTo,
+          scaleFrom,
+          scaleTo
+        };        
+        effectClassMethod(componentHost,...Object.values(effectParams));
+        return effectClassName;
+      });
+  
     }
-    if (_transition_.fitToWidth) {
-      componentRoot.width = (typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null) ? (componentRoot.offsetParent.scrollWidth) : (componentRoot.getBoundingClientRect().width);
-    }
-    componentRoot.style.display = "block";
-    _transition_.effects.map(function (effectClassName, eff) {
-      const __effectClass__ = ClassFactory(effectClassName);
-      const effectObj = new __effectClass__({});
-      const effectClassMethod = effectObj.apply;
-      const args = [componentRoot].concat(Object.values({
-        alphaFrom,
-        alphaTo,
-        angleFrom,
-        angleTo,
-        radiusFrom,
-        radiusTo,
-        scaleFrom,
-        scaleTo
-      }));
-      effectClassMethod.apply(_transition_, args);
-    });
+
   }
 
 }

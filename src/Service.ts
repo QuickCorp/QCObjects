@@ -6,9 +6,22 @@ import { logger } from "./Logger";
 import { Package } from "./Package";
 import { _secretKey } from "./secretKey";
 import { CONFIG } from "./CONFIG";
-import { IService, TServiceDoneResponse } from "types";
+import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "types";
 
 export class Service extends InheritClass implements IService{
+    options!: object;
+    withCredentials!: boolean;
+    useHTTP2: any;
+    // eslint-disable-next-line no-unused-vars
+    mockup({ request, service }: TServiceStandardResponse): void {
+        throw new Error("Method not implemented.");
+    }
+    name!: string;
+    responseHeaders: any;
+    // eslint-disable-next-line no-unused-vars
+    local({ request, service }: TServiceStandardResponse): void {
+        throw new Error("Method not implemented.");
+    }
     kind = "rest";
     /* it can be rest, mockup, local */
     domain = _domain_;
@@ -41,7 +54,7 @@ export class Service extends InheritClass implements IService{
 
 }
 
-export class JSONService extends Service {
+export class JSONService extends Service implements IJSONService{
     method = "GET";
     cached = false;
     headers = {
@@ -49,7 +62,7 @@ export class JSONService extends Service {
         "charset": "utf-8"
     };
 
-    JSONresponse:unknown = null;
+    JSONresponse?:JSON = undefined;
     done(result:TServiceDoneResponse) {
         logger.debug("***** RECEIVED RESPONSE:");
         logger.debug(result.service.template as string);
@@ -69,7 +82,11 @@ export class ConfigService extends JSONService {
         "charset": "utf-8"
     };
 
-    JSONresponse:unknown = null;
+    configLoaded():Promise<void>{
+        throw Error ("Method not implemented.");
+    }
+
+    JSONresponse?:JSON = undefined;
     done(result:TServiceDoneResponse) {
         logger.debug("***** CONFIG LOADED:");
         logger.debug(result.service.template as string);
@@ -83,11 +100,11 @@ export class ConfigService extends JSONService {
             CONFIG.set(k, (jsonResponse as never)[k]);
             return k;
         });
-        this.configLoaded();
+        this.configLoaded().catch((e:any)=>{throw new Error (`An error ocurred: ${e}`);});
     }
 
     fail() {
-        this.configLoaded();
+        this.configLoaded().catch((e:any)=>{throw new Error (`An error ocurred: ${e}`);});
     }
 
     constructor() {
