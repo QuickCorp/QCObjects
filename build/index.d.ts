@@ -857,8 +857,8 @@ declare module "src/ComplexStorageCache" {
     }
 }
 declare module "src/Service" {
-    import { HTMLElement, IService, QCObjectsElement, QCObjectsShadowedElement, ServiceDoneResponse } from "types/global/index";
     import { InheritClass } from "src/InheritClass";
+    import { IService, TServiceDoneResponse } from "types/global/index";
     export class Service extends InheritClass implements IService {
         kind: string;
         domain: string;
@@ -870,14 +870,8 @@ declare module "src/Service" {
         cached: boolean;
         headers: any;
         template: unknown;
-        done({ request, service }: ServiceDoneResponse): void;
+        done({ request, service }: TServiceDoneResponse): void;
         fail(...args: any[]): void;
-        __instanceID: number;
-        __classType?: string | undefined;
-        __definition?: any;
-        __new__?(): void;
-        __namespace?: string | undefined;
-        body?: string | QCObjectsElement | QCObjectsShadowedElement | HTMLElement | null | undefined;
         set(name: string, value: never): void;
         get(name: string, _default?: never): never;
     }
@@ -889,7 +883,7 @@ declare module "src/Service" {
             charset: string;
         };
         JSONresponse: unknown;
-        done(result: ServiceDoneResponse): void;
+        done(result: TServiceDoneResponse): void;
     }
     export class ConfigService extends JSONService {
         method: string;
@@ -900,7 +894,7 @@ declare module "src/Service" {
             charset: string;
         };
         JSONresponse: unknown;
-        done(result: ServiceDoneResponse): void;
+        done(result: TServiceDoneResponse): void;
         fail(): void;
         constructor();
     }
@@ -1344,7 +1338,7 @@ declare module "src/super" {
     export const _super_: (className: string, classMethodName: string) => any;
 }
 declare module "src/shortCode" {
-    export const shortCode: () => any;
+    export const shortCode: () => string;
 }
 declare module "src/Ready" {
     /**
@@ -1520,7 +1514,7 @@ declare module "src/QCObjects" {
         waitUntil: (func: () => void, exp: () => any) => void;
         _super_: (className: string, classMethodName: string) => any;
         _DOMCreateElement: (elementName: string) => IQCObjectsElement;
-        shortCode: () => any;
+        shortCode: () => string;
         __getType__: (o_c: any) => any;
         is_a: (obj: any, typeName: string) => boolean;
         _DataStringify: (data: any) => string;
@@ -1574,5 +1568,5 @@ declare module "src/localStorage" {
     export var localStorage: any;
 }
 declare module "src/uniqueID" {
-    export const uniqueId: () => any;
+    export const uniqueId: () => string;
 }

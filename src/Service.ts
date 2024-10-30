@@ -6,6 +6,7 @@ import { logger } from "./Logger";
 import { Package } from "./Package";
 import { _secretKey } from "./secretKey";
 import { CONFIG } from "./CONFIG";
+import { IService, TServiceDoneResponse } from "types";
 
 export class Service extends InheritClass implements IService{
     kind = "rest";
@@ -22,21 +23,13 @@ export class Service extends InheritClass implements IService{
     template: unknown;
     
     // eslint-disable-next-line no-unused-vars
-    done({ request, service }: ServiceDoneResponse): void {
+    done({ request, service }: TServiceDoneResponse): void {
         throw new Error("Method not implemented.");
     }
     // eslint-disable-next-line no-unused-vars
     fail(...args: any[]): void {
         throw new Error("Method not implemented.");
     }
-    __instanceID!: number;
-    __classType?: string | undefined;
-    __definition?: any;
-    __new__?(): void {
-        throw new Error("Method not implemented.");
-    }
-    __namespace?: string | undefined;
-    body?: string | QCObjectsElement | QCObjectsShadowedElement | HTMLElement | null | undefined;
 
     set(name:string, value:never) {
         this[name] = value;
@@ -57,7 +50,7 @@ export class JSONService extends Service {
     };
 
     JSONresponse:unknown = null;
-    done(result:ServiceDoneResponse) {
+    done(result:TServiceDoneResponse) {
         logger.debug("***** RECEIVED RESPONSE:");
         logger.debug(result.service.template as string);
         this.JSONresponse = JSON.parse(result.service.template as string);
@@ -77,17 +70,18 @@ export class ConfigService extends JSONService {
     };
 
     JSONresponse:unknown = null;
-    done(result:ServiceDoneResponse) {
+    done(result:TServiceDoneResponse) {
         logger.debug("***** CONFIG LOADED:");
         logger.debug(result.service.template as string);
         this.JSONresponse = JSON.parse(result.service.template as string);
         if (Object.hasOwnProperty.call(this.JSONresponse, "__encoded__")) {
-            const decodedValue:string = _Crypt.decrypt((this.JSONresponse as any)?.__encoded__, _secretKey) as string;
+            const decodedValue:string = _Crypt.decrypt((this.JSONresponse as any)?.__encoded__, _secretKey);
             this.JSONresponse = JSON.parse(decodedValue);
         }
         const jsonResponse:any = this.JSONresponse;
-        Object.keys(jsonResponse as object).map((k:string|number) => {
+        Object.keys(jsonResponse as object).map((k:string) => {
             CONFIG.set(k, (jsonResponse as never)[k]);
+            return k;
         });
         this.configLoaded();
     }
