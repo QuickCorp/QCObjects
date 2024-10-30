@@ -1055,11 +1055,10 @@ declare module "src/ComponentFactory" {
     export const buildComponents: (element: HTMLElement) => Component[];
 }
 declare module "src/top" {
-    import { ComplexStorageCache, Component } from "types/global/index";
-    import { ConfigService } from "src/Service";
+    import { IComplexStorageCache, IComponent, IConfigService } from "types/global/index";
     type QCObjects = {
-        lastCache?: ComplexStorageCache;
-        componentsStack: Component[];
+        lastCache?: IComplexStorageCache;
+        componentsStack: IComponent[];
         Microservice: any;
         Route: any;
         BackendMicroservice: any;
@@ -1137,11 +1136,11 @@ declare module "src/top" {
         Import: any;
     } | typeof self | typeof global;
     export var _top: QCObjects;
-    export let componentsStack: Component[];
+    export let componentsStack: IComponent[];
     export const resetTop: (_top_: QCObjects) => void;
     export const buildComponentsStack: () => void;
-    export let configService: ConfigService;
-    export const setConfigService: (_configService: ConfigService) => void;
+    export let configService: IConfigService;
+    export const setConfigService: (_configService: IConfigService) => void;
 }
 declare module "src/make_global" {
     export const __make_global__: (f: any) => void;

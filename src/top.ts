@@ -1,10 +1,9 @@
-import { ComplexStorageCache, Component, QCObjectsElement } from "types/global";
+import { IComplexStorageCache, IComponent, IConfigService, IQCObjectsElement } from "types";
 import { buildComponents } from "./ComponentFactory";
-import { ConfigService } from "./Service";
 
 type QCObjects = {
-    lastCache?:ComplexStorageCache,
-    componentsStack:Component[],
+    lastCache?:IComplexStorageCache,
+    componentsStack:IComponent[],
     Microservice:any,
     Route:any,
     BackendMicroservice:any,
@@ -89,17 +88,17 @@ export var _top: QCObjects = (
            this
  ) as QCObjects;
 (_top as any).lastCache = undefined;
-export let componentsStack:Component[] = [];
+export let componentsStack:IComponent[] = [];
 
 export const resetTop = (_top_: QCObjects) => {
     _top = _top_;
 };
 
 export const buildComponentsStack = () => {
-    componentsStack = buildComponents(document as unknown as QCObjectsElement);
+    componentsStack = buildComponents(document as unknown as IQCObjectsElement);
 };
-export let configService:ConfigService;
-export const setConfigService = (_configService:ConfigService) => {
+export let configService:IConfigService;
+export const setConfigService = (_configService:IConfigService) => {
     _top.global.configService = _configService;
     configService = _configService;
 };
