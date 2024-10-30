@@ -717,10 +717,8 @@ import { __to_number } from "./mathFunctions";
 })(_top);
 
 
-
-
-export default {
-  BackendMicroservice, Logger, Class,
+const QCObjects = {
+  BackendMicroservice, Logger, logger, Class,
   _Crypt, TagElements, DefaultTemplateHandler, SourceJS,
   SourceCSS, ArrayList, ArrayCollection, GlobalSettings, DDO,
   ComplexStorageCache, _ComponentWidget_, asyncLoad,
@@ -730,6 +728,7 @@ export default {
   RegisterWidget, RegisterWidgets, range, getDocumentLayout, Export, New, Tag, Ready,
   _methods_, InheritClass, Processor,
   Component, CONFIG, Controller, View, Service, JSONService,
-  ConfigService, VO, Effect, TransitionEffect, Timer, Toggle,
-  logger, global, ClassFactory, Package, Import
+  ConfigService, VO, Effect, TransitionEffect, Timer, Toggle, global, ClassFactory, Package, Import
 };
+
+export default QCObjects;

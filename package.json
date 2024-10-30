@@ -22,7 +22,8 @@
     "build:ts-types": "npx tsc --project tsconfig.d.json",
     "build:browser": "npx -y esbuild@0.17.19 build/*.js --bundle --outdir=browser --keep-names --minify --global-name=global --sourcemap --splitting --chunk-names=chunks/[name]-[hash] --format=esm --target=es2021",
     "start": "qcobjects-shell",
-    "test": "(npm run lint && (npx jasmine))",
+    "test:jasmine": "ts-node ./node_modules/jasmine/bin/jasmine",
+    "test": "(npm run lint && npm run test:jasmine)",
     "lint": "(npx -y eslint@latest src/**/*.ts --fix )",
     "preversion": "npm cache verify && npm test",
     "sync": "git add . && git commit -am ",
@@ -102,6 +103,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
+    "@types/jasmine": "^5.1.4",
     "@types/node": "^22.8.1",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
@@ -118,6 +120,7 @@
     "hint": "^2.0.0",
     "install": "^0.13.0",
     "jasmine": "^3.7.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.11.0"
   },

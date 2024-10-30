@@ -983,9 +983,10 @@ declare module "QCObjects" {
     import { DDO } from "DDO";
     import { Toggle } from "Toggle";
     import { IQCObjectsElement } from "types";
-    const _default: {
+    const QCObjects: {
         BackendMicroservice: typeof BackendMicroservice;
         Logger: typeof Logger;
+        logger: Logger;
         Class: import("types").TClass;
         _Crypt: typeof _Crypt;
         TagElements: typeof TagElements;
@@ -1037,7 +1038,6 @@ declare module "QCObjects" {
         TransitionEffect: typeof TransitionEffect;
         Timer: typeof Timer;
         Toggle: typeof Toggle;
-        logger: Logger;
         global: typeof globalThis;
         ClassFactory: (className: string) => import("types").IInheritClass;
         Package: (namespace: string, classes?: any[]) => any[] | undefined;
@@ -1046,7 +1046,7 @@ declare module "QCObjects" {
             _package_name_?: string;
         }> | undefined;
     };
-    export default _default;
+    export default QCObjects;
 }
 declare module "index" {
     import QCObjects from "QCObjects";

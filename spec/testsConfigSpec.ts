@@ -1,8 +1,18 @@
 #!/usr/bin/env node
 /* eslint-disable no-undef */
 
+import QCObjects from "../src/QCObjects";
+const logger = QCObjects.logger;
+const Class = QCObjects.Class;
+const ClassFactory = QCObjects.ClassFactory;
+const __getType__ = QCObjects.__getType__;
+const New = QCObjects.New;
+const Component = QCObjects.Component;
+const Effect = QCObjects.Effect;
+const _DataStringify = QCObjects._DataStringify;
+const CONFIG = QCObjects.CONFIG;
+
 describe("QCObjects Config", function () {
-  require("../src/QCObjects.js");
   logger.debugEnabled=true;
   logger.infoEnabled=true;
   logger.warnEnabled=true;

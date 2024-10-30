@@ -1,14 +1,24 @@
 #!/usr/bin/env node
 /* eslint-disable no-undef */
 
+import QCObjects from "../src/QCObjects";
+const logger = QCObjects.logger;
+const Class = QCObjects.Class;
+const ClassFactory = QCObjects.ClassFactory;
+const __getType__ = QCObjects.__getType__;
+const New = QCObjects.New;
+const Component = QCObjects.Component;
+const Effect = QCObjects.Effect;
+const _DataStringify = QCObjects._DataStringify;
+const CONFIG = QCObjects.CONFIG;
+
 describe("QCObjects Main Test", function () {
-  require("../src/QCObjects.js");
   logger.debugEnabled=true;
   logger.infoEnabled=true;
   logger.warnEnabled=true;
 
   it("Class Declaration Test Spec", function () {
-    Class("Main", Object, {
+    const Main = Class("Main", Object, {
       _new_: () => {
       }
     });
@@ -18,6 +28,10 @@ describe("QCObjects Main Test", function () {
   });
 
   it("Main intance Test Spec", function () {
+    const Main = Class("Main", Object, {
+      _new_: () => {
+      }
+    });    
     let __main__ = New(Main, {});
     expect(typeof __main__.__instanceID).toEqual("number");
     expect(__main__.__classType).toEqual("Main");
@@ -40,12 +54,12 @@ describe("QCObjects Main Test", function () {
   });
 
   it("Existence of CONFIG global Class", function () {
-    expect(typeof CONFIG.__definition).toEqual("object");
+    expect(typeof CONFIG).toEqual("CONFIG");
     logger.debug("Existence of CONFIG global Class... OK");
   });
 
   it("global as QCObjects global", function () {
-    expect(typeof global.__definition).toEqual("object");
+    expect(typeof global).toEqual("global");
     logger.debug("global as QCObjects global... OK");
   });
 
