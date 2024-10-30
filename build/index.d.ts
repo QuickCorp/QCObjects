@@ -55,13 +55,14 @@ declare module "types/global/index" {
         append?(_child?: any): void;
     }
     export interface IQCObjectsShadowedElement {
-        style: any;
+        style?: any;
         render(content: string): void;
         find(tag: string): (HTMLElement | IQCObjectsElement)[];
         buildComponents(rebuildObjects?: boolean): any[];
         subelements(query: string): (ShadowRoot | HTMLElement | IQCObjectsShadowedElement | IQCObjectsElement)[];
         subelements(query: string): any[];
         append?(_child?: any): void;
+        innerHTML?: string;
     }
     export interface ILogger {
         debugEnabled: boolean;
@@ -227,23 +228,21 @@ declare module "types/global/index" {
     export type Tset = (_: any, _value_: any) => any;
     export type Tget = (_: any, _defaultValue_: any) => any;
     export type T__start__ = () => void;
-    export interface IInheritClass {
-        responseTo?: string;
-        __instanceID: number;
-        __classType?: string;
-        __definition?: any;
-        __new__?(o?: any): void;
-        __namespace?: string;
-        body?: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
-    }
+    export type TBody = IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined | object;
     export interface IInheritClass {
         __instanceID: number;
         __classType?: string;
         __definition?: any;
         __new__?(o?: any): void;
+        _new_(_o_?: any): void;
+        getParentClass(): any;
+        getClass(): any;
+        css(_css: any): any;
+        hierarchy(): any;
+        append(_child?: any): any;
+        attachIn(tag: any): any;
         __namespace?: string;
-        body?: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
-        new (o?: any): IInheritClass;
+        body?: TBody;
     }
     export interface IProcessor extends IInheritClass {
         component: IComponent | null;
@@ -252,7 +251,6 @@ declare module "types/global/index" {
         processObject(obj: any, component: IComponent): any;
         setProcessor(proc: Function): any;
         execute(component: IComponent, processorName: string, args: string): any;
-        new (o?: any): IProcessor;
     }
     export type TComponentParams = {
         __parent__?: IComponent;
@@ -267,6 +265,8 @@ declare module "types/global/index" {
         reload?: boolean;
         shadowed?: boolean;
         cached?: boolean;
+        enableServiceClass?: boolean | undefined;
+        assignRoutingParams?: boolean;
         _body?: IQCObjectsElement;
         __promise__?: Promise<any> | null;
         __shadowRoot?: IQCObjectsShadowedElement;
@@ -279,8 +279,6 @@ declare module "types/global/index" {
     export interface IComponent extends IInheritClass {
         cached?: boolean;
         name: string;
-        _body: IQCObjectsElement | HTMLElement;
-        body: IQCObjectsElement | HTMLElement;
         templateURI: string;
         tplsource: string;
         tplextension: string;
@@ -309,13 +307,10 @@ declare module "types/global/index" {
         shadowRoot: IQCObjectsShadowedElement;
         cacheIndex: string;
         parsedAssignmentText: string;
-        _parsedAssignmentText: string;
-        __shadowRoot: IQCObjectsShadowedElement;
         serviceInstance: IService;
         innerHTML: string;
         reload: boolean;
-        assignRoutingParams: boolean;
-        getClass(): any;
+        assignRoutingParams?: boolean;
         routingSelected: TComponentRouting[];
         routingParams: object;
         subtags: (HTMLElement | IQCObjectsElement | IQCObjectsShadowedElement)[];
@@ -323,11 +318,16 @@ declare module "types/global/index" {
         dataAttributes: any;
         serviceData?: any;
         container?: any;
+        serviceClassName?: string | null;
+        enableServiceClass?: boolean;
+        route(): Promise<void>;
+        responseTo?: string;
         __done__(): Promise<unknown>;
         _bindroute_(): void;
         __buildSubComponents__(rebuildObjects: boolean): IComponent[];
         _generateRoutingPaths(componentBody: IQCObjectsElement | HTMLElement): Promise<void>;
         _reroute_(): Promise<IComponent>;
+        route(): void;
         createServiceInstance(): Promise<JSON | string | null>;
         createControllerInstance(): Promise<{
             component: IComponent;
@@ -352,7 +352,7 @@ declare module "types/global/index" {
         hostElements(tagFilter: string): (IQCObjectsElement | HTMLElement | IQCObjectsShadowedElement)[];
         set(name: string, value: any): void;
         get(name: string): any;
-        feedComponent(): void;
+        feedComponent(): Promise<any>;
         rebuild(): Promise<{
             request?: XMLHttpRequest;
             component: IComponent;
@@ -717,21 +717,23 @@ declare module "src/domain" {
     export const _domain_: string;
 }
 declare module "src/InheritClass" {
-    import { IInheritClass, IQCObjectsElement, IQCObjectsShadowedElement } from "types/global/index";
+    import { IInheritClass, TBody } from "types/global/index";
     export class InheritClass implements IInheritClass {
         __definition: any;
-        body: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
+        private _body;
+        get body(): TBody;
+        set body(value: TBody);
         childs: any;
         __instanceID: number;
         constructor(_o_?: any);
         get __classType(): string;
         static hierarchy(__class__: any): any[];
-        static getParentClass(): any;
-        responseTo?: string | undefined;
-        route(): unknown;
         __namespace?: string | undefined;
         __new__(_o_: any): void;
         _new_(_o_?: any): void;
+        static getParentClass(): any;
+        getParentClass(): any;
+        static getClass(): any;
         getClass(): any;
         css(_css: any): any;
         hierarchy(): any;
@@ -805,9 +807,9 @@ declare module "src/Processor" {
     export const GlobalProcessor: Processor;
 }
 declare module "src/routings" {
-    import { ComponentRouting } from "types/global/index";
-    export const __routing_params__: any;
-    export const __valid_routings__: (routings: ComponentRouting[], routingPath: string) => ComponentRouting[];
+    import { TComponentRouting } from "types/global/index";
+    export const __routing_params__: (routing: TComponentRouting, routingPath: string) => object;
+    export const __valid_routings__: (routings: TComponentRouting[], routingPath: string) => TComponentRouting[];
     export const __valid_routing_way__: (validRoutingWays: string[], routingWay: string) => boolean;
 }
 declare module "src/Export" {
@@ -909,12 +911,10 @@ declare module "src/componentLoader" {
 }
 declare module "src/Component" {
     import { InheritClass } from "src/InheritClass";
-    import { Processor } from "src/Processor";
-    import { IComponent, IQCObjectsElement, TComponentDoneResponse, TComponentRoutings } from "types/global/index";
+    import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types/global/index";
     export class Component extends InheritClass implements IComponent {
-        __instanceID: number;
+        [key: string]: any;
         name: string;
-        _body: IQCObjectsElement | HTMLElement;
         templateURI: string;
         tplsource: string;
         tplextension: string;
@@ -923,7 +923,7 @@ declare module "src/Component" {
         basePath: string;
         domain: string;
         templateHandler: string;
-        processorHandler?: Processor;
+        processorHandler?: IProcessor;
         routingWay: string | null;
         routingNodes: (IQCObjectsElement | HTMLElement)[];
         routings: TComponentRoutings;
@@ -931,62 +931,68 @@ declare module "src/Component" {
         routingPaths: string[];
         _componentHelpers: any[];
         subcomponents: any[];
-        splashScreenComponent?: Component;
-        controller?: Controller;
-        view?: View;
-        effect?: Effect;
+        splashScreenComponent?: IComponent;
+        controller?: IController;
+        view?: IView;
+        effect?: IEffect;
         effectClass: string;
         method: string;
         cached?: boolean;
         __promise__?: Promise<any> | null;
         data: any;
         __namespace?: string;
-        _parsedAssignmentText: any;
-        __shadowRoot: any;
+        protected _parsedAssignmentText: string;
+        protected __shadowRoot: any;
+        protected _serviceClassName: string | null;
+        enableServiceClass?: boolean | undefined;
         serviceInstance: any;
         serviceData: any;
-        shadowed: boolean;
+        shadowed?: boolean;
         container: any;
         innerHTML: any;
         reload: any;
         static subcomponents: any;
-        assignRoutingParams: boolean;
-        constructor({ __parent__, templateURI, template, tplsource, tplextension, url, name, method, data, reload, shadowed, cached, _body, __promise__, __shadowRoot, body, shadowRoot, splashScreenComponent, controller, view }: TComponentParams);
-        set body(value: HTMLElement | IQCObjectsElement);
-        get body(): HTMLElement | IQCObjectsElement;
+        assignRoutingParams?: boolean;
+        responseTo?: string | undefined;
+        static responseTo?: string | undefined;
+        constructor({ __parent__, templateURI, template, tplsource, tplextension, url, name, method, data, reload, shadowed, cached, enableServiceClass, assignRoutingParams, _body, __promise__, __shadowRoot, body, shadowRoot, splashScreenComponent, controller, view }: TComponentParams);
         set cacheIndex(value: string);
         get cacheIndex(): string;
-        set parsedAssignmentText(value: any);
-        get parsedAssignmentText(): any;
-        set shadowRoot(value: QCObjectsShadowedElement);
-        get shadowRoot(): QCObjectsShadowedElement;
-        set routingSelected(value: ComponentRouting[]);
-        get routingSelected(): ComponentRouting[];
-        set routingParams(value: {});
-        get routingParams(): {};
+        set parsedAssignmentText(value: string);
+        get parsedAssignmentText(): string;
+        set shadowRoot(value: IQCObjectsShadowedElement);
+        get shadowRoot(): IQCObjectsShadowedElement;
+        set routingSelected(value: TComponentRouting[]);
+        get routingSelected(): TComponentRouting[];
+        set routingParams(value: object);
+        get routingParams(): object;
+        set serviceClassName(_serviceClassName: string);
+        get serviceClassName(): string | null;
+        protected get responseToData(): boolean;
+        protected get responseToTemplate(): boolean;
         createServiceInstance(): Promise<JSON | string | null>;
         _bindroute_(): void;
         done(standardResponse?: TComponentDoneResponse): Promise<TComponentDoneResponse>;
         createControllerInstance(): Promise<{
             component: Component;
-            controller: Controller;
+            controller: IController;
         }>;
         createEffectInstance(): Promise<{
             component: Component;
-            effect: Effect;
+            effect: IEffect;
         }>;
         createViewInstance(): Promise<{
             component: Component;
-            view: View;
+            view: IView;
         }>;
         __done__(): Promise<unknown>;
-        hostElements(tagFilter: string): (QCObjectsElement | HTMLElement | QCObjectsShadowedElement)[];
-        get subtags(): (HTMLElement | QCObjectsElement | QCObjectsShadowedElement)[];
+        hostElements(tagFilter: string): (IQCObjectsElement | HTMLElement | IQCObjectsShadowedElement)[];
+        get subtags(): (HTMLElement | IQCObjectsElement | IQCObjectsShadowedElement)[];
         get bodyAttributes(): {
-            [x: number]: any;
+            [x: string]: string | null;
         };
         get dataAttributes(): {};
-        __buildSubComponents__(rebuildObjects?: boolean): any[];
+        __buildSubComponents__(rebuildObjects?: boolean): any;
         fail(standardResponse: {
             error: any;
             component: Component;
@@ -994,23 +1000,25 @@ declare module "src/Component" {
             error: any;
             component: Component;
         }>;
-        set(name: string, value: any): void;
-        get(name: string, _defaultValue?: string): any;
-        feedComponent(): void;
+        set(key: string, value: any): void;
+        get(key: string, _defaultValue?: string): any;
+        feedComponent(): Promise<any>;
         rebuild(): Promise<{
             request?: XMLHttpRequest;
             component: Component;
         }>;
         Cast(oClass: any): any;
+        route(): Promise<void>;
         static route(): Promise<void>;
         fullscreen(): void;
         closefullscreen(): void;
-        _generateRoutingPaths(componentBody: QCObjectsElement | HTMLElement): Promise<void>;
-        parseTemplate(template: any): any;
+        _generateRoutingPaths(componentBody: TBody): Promise<void>;
+        parseTemplate(template: any): string;
         _reroute_(): Promise<Component>;
         lazyLoadImages(): null;
         applyTransitionEffect(effectClassName: string): void;
         applyObserveTransitionEffect(effectClassName: any): void;
+        get componentRoot(): TBody;
         scrollIntoHash(): void;
         i18n_translate(): void;
         addComponentHelper(componentHelper: any): void;
@@ -1177,7 +1185,6 @@ declare module "src/BackendMicroservice" {
     import { Stream } from "stream";
     import { InheritClass } from "src/InheritClass";
     export class BackendMicroservice extends InheritClass {
-        body: any;
         stream: any;
         route: any;
         headers: any;

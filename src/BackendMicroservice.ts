@@ -8,7 +8,6 @@ import { logger } from "./Logger";
 import { Package } from "./Package";
 
 export class BackendMicroservice extends InheritClass {
-  body: any;
   stream: any;
   route: any;
   headers: any;

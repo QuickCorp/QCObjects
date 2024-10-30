@@ -1,4 +1,4 @@
-import { IInheritClass, IQCObjectsElement, IQCObjectsShadowedElement, logger } from "types";
+import { IInheritClass, logger, TBody } from "types";
 import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
 import { _CastProps, _Cast } from "./Cast";
 import { _DOMCreateElement } from "./DOMCreateElement";
@@ -11,11 +11,11 @@ import { Package } from "./Package";
 
 export class InheritClass implements IInheritClass {
     __definition: any;
-    private _body: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
-    public get body(): IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined {
+    private _body: TBody;
+    public get body(): TBody {
         return this._body;
     }
-    public set body(value: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined) {
+    public set body(value: TBody) {
         this._body = value;
     }
     childs: any;

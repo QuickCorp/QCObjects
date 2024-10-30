@@ -64,13 +64,14 @@ export interface IQCObjectsElement {
 }
 
 export interface IQCObjectsShadowedElement {
-    style: any;
+    style?: any;
     render(content: string): void;
     find(tag: string): (HTMLElement | IQCObjectsElement)[];
     buildComponents(rebuildObjects?: boolean): any[];
     subelements(query: string): (ShadowRoot | HTMLElement | IQCObjectsShadowedElement | IQCObjectsElement)[];
     subelements(query: string): any[];
     append?(_child?: any):void;
+    innerHTML?:string;
 }
 
 export interface ILogger {
@@ -253,6 +254,8 @@ export type Tset = (_: any, _value_: any) => any;
 export type Tget = (_: any, _defaultValue_: any) => any;
 export type T__start__ = () => void;
 
+export type TBody = IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined | object;
+
 export interface IInheritClass {
     __instanceID: number;
     __classType?: string;
@@ -266,7 +269,7 @@ export interface IInheritClass {
     append(_child?: any):any;
     attachIn(tag: any):any;
     __namespace?: string;
-    body?: IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined;
+    body?: TBody;
 }
 
 export interface IProcessor extends IInheritClass {
@@ -339,7 +342,6 @@ export interface IComponent extends IInheritClass{
     innerHTML:string;
     reload:boolean;
     assignRoutingParams?:boolean;
-    getClass():any;
     routingSelected: TComponentRouting[];
     routingParams: object;
     subtags: (HTMLElement | IQCObjectsElement | IQCObjectsShadowedElement)[];
@@ -349,7 +351,7 @@ export interface IComponent extends IInheritClass{
     container?: any;
     serviceClassName?:string|null;
     enableServiceClass?:boolean;
-    route():unknown;
+    route():Promise<void>;
     responseTo?:string;
     __done__(): Promise<unknown>;
     _bindroute_(): void;
@@ -366,7 +368,7 @@ export interface IComponent extends IInheritClass{
     hostElements(tagFilter: string): (IQCObjectsElement | HTMLElement | IQCObjectsShadowedElement)[];
     set(name: string, value: any): void;
     get(name: string): any;
-    feedComponent(): void;
+    feedComponent(): Promise<any>;
     rebuild(): Promise<{ request?: XMLHttpRequest, component: IComponent }>;
     Cast(oClass: any): any;
     fullscreen(): void;
