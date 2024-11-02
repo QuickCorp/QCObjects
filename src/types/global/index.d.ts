@@ -86,10 +86,10 @@ export interface ILogger {
 
 }
 export type TClass = 
-| (( className?:string,   extendsFrom?:unknown,   definition?:unknown) => unknown )
-| (( className?:string,  extendsFrom?:unknown ) => unknown)
-| (( className?:string, definition?:unknown ) => unknown )
-| (() => unknown );
+| (( className?:string,   extendsFrom?:unknown,   definition?:unknown) => IInheritClass )
+| (( className?:string,  extendsFrom?:unknown ) => IInheritClass)
+| (( className?:string, definition?:unknown ) => IInheritClass )
+| (() => IInheritClass );
 
 export interface _ICrypt {
     last_string: string;
@@ -276,7 +276,7 @@ export interface IProcessor extends IInheritClass {
     component: IComponent|null;
     processors: any;
     process(template: string, component: IComponent): any;
-    processObject(obj: any, component: IComponent): any;
+    processObject(obj: any, component?: IComponent): any;
     setProcessor(proc: Function): any;
     execute (component:IComponent, processorName:string, args:string):any;
 }

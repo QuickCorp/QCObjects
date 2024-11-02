@@ -1,15 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable no-undef */
-import QCObjects from "../src/QCObjects";
-const logger = QCObjects.logger;
-const Class = QCObjects.Class;
-const ClassFactory = QCObjects.ClassFactory;
-const __getType__ = QCObjects.__getType__;
-const New = QCObjects.New;
-const Component = QCObjects.Component;
-const Effect = QCObjects.Effect;
-const _DataStringify = QCObjects._DataStringify;
-const CONFIG = QCObjects.CONFIG;
+import {Class, ClassFactory, Export, logger, Package, RegisterClass} from "./../src/QCObjects";
+import {global} from "./../src/QCObjects";
 
 describe("Global Features Spec", function () {
     logger.debugEnabled=true;
@@ -25,8 +17,9 @@ describe("Global Features Spec", function () {
 
     it("Global Class Factory using Class Function, no parent class Spec", function () {
         var classFactory = Class ("MyClass", {});
+        Export(classFactory);
 
-        expect(global.MyClass).toBe( classFactory );
+        expect((global as any).MyClass).toBe( classFactory );
         logger.debug("Global Class Factory using Class Function, no parent class Spec... OK");
     });
 
@@ -36,11 +29,7 @@ describe("Global Features Spec", function () {
                 propertyName1:"propertyValue1",
             })
         ]);
-        try {
-            var classFactory = ClassFactory("com.qcobjects.tests.MyClass");
-        } catch (e) {
-            logger.warn(e);
-        }
+        var classFactory = ClassFactory("com.qcobjects.tests.MyClass");
 
         expect(ClassFactory("MyClass")).toBe( classFactory );
         logger.debug("Class Factory inside a package, no parent class Spec... OK");

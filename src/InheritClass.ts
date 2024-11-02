@@ -1,4 +1,5 @@
-import { IInheritClass, IQCObjectsElement, logger, TBody } from "types";
+import { type IInheritClass, type IQCObjectsElement, type TBody } from "types";
+import { logger } from "./Logger";
 import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
 import { _CastProps, _Cast } from "./Cast";
 import { _DOMCreateElement } from "./DOMCreateElement";

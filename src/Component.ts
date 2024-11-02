@@ -25,7 +25,7 @@ import { componentLoader } from "./componentLoader";
 import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types";
 
 export class Component extends InheritClass implements IComponent {
-    static shadowed: boolean | undefined = true;
+    static shadowed: boolean | undefined = false;
     static cached: any = true;
     [key: string]: any;
     name!: string;
@@ -64,7 +64,7 @@ export class Component extends InheritClass implements IComponent {
     enableServiceClass?: boolean | undefined = true;
     serviceInstance: any;
     serviceData: any;
-    shadowed?: boolean = true;
+    shadowed?: boolean = false;
     container: any;
     innerHTML: any;
     reload: any;

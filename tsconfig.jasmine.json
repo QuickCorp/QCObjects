@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "forceConsistentCasingInFileNames":true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -14,35 +14,24 @@
       "DOM"
     ],
     "module": "NodeNext",
-    "rootDir": "./src",
+    "rootDir": "./",
     "allowJs": true,
-    "outDir": "build",
+    "outDir": "spec",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "paths": {
-      "types": ["src/types/global"]
-
+      "types": [
+        "src/types/global"
+      ]
     }
   },
   "include": [
+    "spec/**/*",
     "src/**/*",
     "src/types/**/*"
-  ],
-"ts-node": {
-    // It is faster to skip typechecking.
-    // Remove if you want ts-node to do typechecking.
-    "transpileOnly": true,
-    "files": true,
-    "compilerOptions": {
-      "rootDir": "./src",
-      "baseUrl": ".",
-      "paths": {
-        "types": ["types/global"]
-  
-      }
-       
-    }
-  }  
+  ]
 }

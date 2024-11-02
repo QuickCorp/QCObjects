@@ -76,7 +76,7 @@ export class CONFIG extends InheritClass implements ICONFIG{
       logger.debug("No config value for: " + name);
       _value = _default;
     }
-    return Processor.processObject.call(Processor, _value);
+    return Processor.processObject(_value);
   }
 
   static set (name:string, value:unknown){

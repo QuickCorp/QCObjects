@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 declare module "isQCObjects" {
     export const isQCObjects_Object: (_: any) => boolean;
     export const isQCObjects_Class: (_: any) => boolean;
@@ -1058,3 +1059,8 @@ declare module "localStorage" {
 declare module "uniqueID" {
     export const uniqueId: () => string;
 }
+declare module "spec/testsClassFactorySpec" { }
+declare module "spec/testsConfigSpec" { }
+declare module "spec/testsGlobalFeaturesSpec" { }
+declare module "spec/testsSpec" { }
+declare module "spec/testsTypeSpec" { }

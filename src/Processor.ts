@@ -1,4 +1,4 @@
-import {IComponent, IProcessor } from "types";
+import {type IComponent, type IProcessor } from "types";
 import { CONFIG } from "./CONFIG";
 import { InheritClass } from "./InheritClass";
 import { New } from "./New";
@@ -7,9 +7,12 @@ import { Component } from "./Component";
 import { Package } from "./Package";
 
 export class Processor extends InheritClass implements IProcessor {
-  constructor({ component }: { component: IComponent | null }) {
+  protected static _instance:IProcessor | undefined;
+  constructor({ component, processors }: { component: IComponent | null, processors?:any }) {
     super({ component });
-    this.processors = Object.assign (this.processors,Processor.instance.processors);
+    if (typeof processors !== "undefined"){
+      this.processors = Object.assign (processors,Processor.instance.processors);
+    }
   }
 
   processors:any = {
@@ -24,8 +27,11 @@ export class Processor extends InheritClass implements IProcessor {
     }
   };
 
-  static get instance ():Processor {
-    return new Processor({component:null});
+  static get instance ():IProcessor {
+    if (typeof Processor._instance === "undefined"){
+      Processor._instance = new Processor({component:null});
+    }
+    return Processor._instance;
   }
 
   setProcessor(_proc_: Function) {
@@ -59,7 +65,7 @@ export class Processor extends InheritClass implements IProcessor {
   }
 
    processObject(obj: any, component: IComponent | null = null):any {
-    let __instance__: Processor | IProcessor | undefined = (component === null) ? (this) : (component.processorHandler);
+    let __instance__: IProcessor | undefined = (component === null) ? (this) : (component.processorHandler);
     if (typeof __instance__ === "undefined") {
       __instance__ = new Processor({ component });
     }
@@ -82,6 +88,6 @@ export class Processor extends InheritClass implements IProcessor {
 
 }
 
-export const GlobalProcessor:Processor = Processor.instance;
+export const GlobalProcessor:IProcessor = Processor.instance;
 
 Package("com.qcobjects", [Processor]);

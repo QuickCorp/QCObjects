@@ -1,16 +1,9 @@
 #!/usr/bin/env node
+
+import { _DataStringify, Class, ClassFactory, Component, CONFIG, Effect, logger, New, global } from "../src/QCObjects";
+
 /* eslint-disable no-undef */
 
-import QCObjects from "../src/QCObjects";
-const logger = QCObjects.logger;
-const Class = QCObjects.Class;
-const ClassFactory = QCObjects.ClassFactory;
-const __getType__ = QCObjects.__getType__;
-const New = QCObjects.New;
-const Component = QCObjects.Component;
-const Effect = QCObjects.Effect;
-const _DataStringify = QCObjects._DataStringify;
-const CONFIG = QCObjects.CONFIG;
 
 describe("QCObjects Main Test", function () {
   logger.debugEnabled=true;

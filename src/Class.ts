@@ -11,6 +11,7 @@ import { isBrowser } from "./platform";
 import { _QC_CLASSES } from "./PrimaryCollections";
 import { __make_global__ } from "./make_global";
 import { TClass } from "types";
+import { InheritClass } from "./InheritClass";
 
 /**
  * Creates new object class  of another object
@@ -41,13 +42,13 @@ import { TClass } from "types";
 
 
 
-export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unknown):any => {
+export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unknown):InheritClass => {
   const _types_ = {};
   let name:string, type:unknown, definition:unknown;
 
   switch (true) {
     case !_name && !_type && !_definition:
-      return class {};
+      return class {} as unknown as InheritClass;
     case !!_name && !_type && !_definition:
       name = _name;
       type = class {};
@@ -64,7 +65,7 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
       definition = _definition;
       break;
     default:
-      return class {};
+      return class {} as unknown as InheritClass;
   }
 
   if (typeof type !== "function") {
@@ -263,9 +264,11 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
 
   __make_global__((_QC_CLASSES as any)[name]);
 
-  return (_QC_CLASSES as any)[name];
+  return (_QC_CLASSES as any)[name] as InheritClass;
 };
+if (typeof Class.prototype !== "undefined"){
+  Class.prototype.toString = function () {
+    return "Class(name, type, definition) { [QCObjects native code] }";
+  };
+}
 
-Class.prototype.toString = function () {
-  return "Class(name, type, definition) { [QCObjects native code] }";
-};

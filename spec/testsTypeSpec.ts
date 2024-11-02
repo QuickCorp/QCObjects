@@ -1,11 +1,9 @@
 #!/usr/bin/env node
+
+import { __getType__, Class, ClassFactory, logger } from "../src/QCObjects";
+
 /* eslint-disable no-undef */
 
-import QCObjects from "../src/QCObjects";
-const logger = QCObjects.logger;
-const Class = QCObjects.Class;
-const ClassFactory = QCObjects.ClassFactory;
-const __getType__ = QCObjects.__getType__;
 describe("Type Spec", function () {
   logger.debugEnabled=true;
   logger.infoEnabled=true;
