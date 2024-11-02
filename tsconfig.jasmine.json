@@ -16,7 +16,7 @@
     "module": "NodeNext",
     "rootDir": "./",
     "allowJs": true,
-    "outDir": "spec",
+    "outDir": "build/spec",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "baseUrl": ".",
@@ -30,8 +30,6 @@
     }
   },
   "include": [
-    "spec/**/*",
-    "src/**/*",
-    "src/types/**/*"
+    "spec/**/*"
   ]
 }
