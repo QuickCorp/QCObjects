@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../build/PrimaryCollections.js"],
+  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports._QC_READY_LISTENERS = exports._QC_PACKAGES_IMPORTED = exports._QC_PACKAGES = exports._QC_CLASSES = void 0;\nexports._QC_CLASSES = {};\nexports._QC_PACKAGES = {};\nexports._QC_PACKAGES_IMPORTED = [];\nexports._QC_READY_LISTENERS = [];\n"],
+  "mappings": "wCAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,oBAAsBA,EAAQ,sBAAwBA,EAAQ,aAAeA,EAAQ,YAAc,OAC3GA,EAAQ,YAAc,CAAC,EACvBA,EAAQ,aAAe,CAAC,EACxBA,EAAQ,sBAAwB,CAAC,EACjCA,EAAQ,oBAAsB,CAAC",
+  "names": ["require_PrimaryCollections", "__commonJSMin", "exports"]
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../build/View.js"],
+  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.View = void 0;\nconst getType_1 = require(\"./getType\");\nconst InheritClass_1 = require(\"./InheritClass\");\nconst Package_1 = require(\"./Package\");\nclass View extends InheritClass_1.InheritClass {\n    constructor({ component = undefined, dependencies = [] }) {\n        super({ component, dependencies });\n        if (typeof this.component === \"undefined\" || this.component === \"null\") {\n            throw Error(`${(0, getType_1.__getType__)(this)} must be called with a component`);\n        }\n    }\n}\nexports.View = View;\n(0, Package_1.Package)(\"com.qcobjects.views\", [\n    View\n]);\n"],
+  "mappings": "sIAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,KAAO,OACf,IAAMC,EAAY,IACZC,EAAiB,IACjBC,EAAY,IACZC,EAAN,cAAmBF,EAAe,YAAa,CAC3C,YAAY,CAAE,UAAAG,EAAY,OAAW,aAAAC,EAAe,CAAC,CAAE,EAAG,CAEtD,GADA,MAAM,CAAE,UAAAD,EAAW,aAAAC,CAAa,CAAC,EAC7B,OAAO,KAAK,UAAc,KAAe,KAAK,YAAc,OAC5D,MAAM,MAAM,MAAOL,EAAU,aAAa,IAAI,mCAAmC,CAEzF,CACJ,EAPMM,EAAAH,EAAA,QAQNJ,EAAQ,KAAOI,KACXD,EAAU,SAAS,sBAAuB,CAC1CC,CACJ,CAAC",
+  "names": ["require_View", "__commonJSMin", "exports", "getType_1", "InheritClass_1", "Package_1", "View", "component", "dependencies", "__name"]
+}

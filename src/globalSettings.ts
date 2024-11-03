@@ -9,11 +9,14 @@ import { _top, buildComponentsStack, configService, setConfigService } from "./t
 import { ConfigService } from "./Service";
 
 export class GlobalSettings extends InheritClass implements IGlobalSettings{
+  static __start__() {
+    return GlobalSettings.instance.__start__();
+  }
   [key: string]: any;
 
   _GLOBAL:any = {};
   private static _instance:GlobalSettings;
-  get instance ():GlobalSettings{
+  static get instance ():GlobalSettings{
     if (typeof GlobalSettings._instance === "undefined"){
       GlobalSettings._instance = new GlobalSettings();
     }

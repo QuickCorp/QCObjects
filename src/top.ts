@@ -78,8 +78,13 @@ type QCObjects = {
     global:any, 
     ClassFactory:any, 
     Package:any, 
-    Import:any
-} |  typeof self   | typeof global ;
+    Import:any,
+    _sdk_:any,
+    ClassesList:any[], 
+    PackagesList:any[],
+    PackagesNameList:any[],
+    ClassesNameList:any[]
+} &  typeof self   & typeof global ;
 
 export var _top: QCObjects = (
     (typeof self !== "undefined" && self) ||

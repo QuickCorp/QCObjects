@@ -1,0 +1,2 @@
+import{p as u}from"./chunk-Q3ZBXOFX.js";import{a as i}from"./chunk-HFZSLQFW.js";import{a as r,c as n}from"./chunk-5VYRFZ7X.js";var f=n(t=>{Object.defineProperty(t,"__esModule",{value:!0});t.NamespaceRef=void 0;var o=i(),p=u(),_=r(function(c){let a=((0,p.Package)(c)||[]).filter(e=>(0,o.isQCObjects_Class)(e)).map(e=>({[e.__definition.__classType]:e})).reduce((e,s)=>Object.assign(e,s));return c.split(".").map(e=>({[e]:a})).reverse().reduce((e,s)=>(s[Object.keys(s).join(".")]=e,s))},"NamespaceRef");t.NamespaceRef=_});export{f as a};
+//# sourceMappingURL=chunk-UWUS5GVC.js.map

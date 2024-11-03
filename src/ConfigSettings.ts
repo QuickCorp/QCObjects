@@ -20,9 +20,9 @@ type TConfigSettings = {
 
 
 export class ConfigSettings extends InheritClass {
-  _CONFIG: any;
+  public _CONFIG: any = {};
   private static _instance: ConfigSettings;
-  _CONFIG_ENC = "";
+  public _CONFIG_ENC = "";
 
   
   constructor (_config_settings:{_CONFIG:TConfigSettings}) {

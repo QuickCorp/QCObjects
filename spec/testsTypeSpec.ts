@@ -15,8 +15,8 @@ describe("Type Spec", function () {
         return "method1";
       }
     }
-    const Main = ClassFactory("Main");
     Class("Main", CustomType, {});
+    const Main = ClassFactory("Main");
     class CustomMain extends Main {}
     var main = new CustomMain();
 

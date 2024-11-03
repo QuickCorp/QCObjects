@@ -35,7 +35,7 @@ export class CONFIG extends InheritClass implements ICONFIG{
             config._CONFIG_ENC = _Crypt.encrypt(_DataStringify({}), _secretKey);
           }
           const _protectedEnc = config._CONFIG_ENC.valueOf();
-          const _protectedConf = config._CONFIG.valueOf();
+          const _protectedConf = config._CONFIG?.valueOf();
           return _CastProps(_protectedConf, _DecryptObject(_protectedEnc));
         }
       )(ConfigSettings.instance);

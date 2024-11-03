@@ -1,0 +1,2 @@
+import{a as r}from"./chunk-2ELFNMIS.js";import{a as t,c}from"./chunk-5VYRFZ7X.js";var i=c(s=>{Object.defineProperty(s,"__esModule",{value:!0});s._LegacyCopy=void 0;var _=r(),n=t(function(e){let a;switch(!0){case typeof e=="string":a=e;break;case typeof e=="number":a=e;break;case typeof e=="object":a=Object.assign({},e);break;case typeof e=="function":a=e.bind({});break;case(0,_.__is_raw_class__)(e):a=t(class extends e{},"_value_");break;default:break}return a},"_LegacyCopy");s._LegacyCopy=n});export{i as a};
+//# sourceMappingURL=chunk-4NQAZJVU.js.map

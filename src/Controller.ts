@@ -22,6 +22,7 @@ export class Controller extends InheritClass implements IController{
       throw Error(`${__getType__(this)} must be called with a component`);
     }
   }
+
   // eslint-disable-next-line no-unused-vars
   fail?(...args: [...args: any[]]  ): void {
     throw new Error("Method not implemented.");
@@ -67,7 +68,7 @@ export class Controller extends InheritClass implements IController{
     const component = controller.component;
     const controllerName = controller.routingSelectedAttr("controllerclass");
     if (typeof controllerName !== "undefined") {
-      const _Controller = ClassFactory(controllerName) as IController;
+      const _Controller = ClassFactory(controllerName) as unknown as IController;
       if (typeof _Controller !== "undefined" && component !== null) {
         component.routingController = New(_Controller, {
           component

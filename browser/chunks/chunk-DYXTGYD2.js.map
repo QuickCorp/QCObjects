@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../build/mathFunctions.js"],
+  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.__to_number = void 0;\nconst __to_number = function (value) {\n    return ((isNaN(value)) ? new Number(0) : new Number(value));\n};\nexports.__to_number = __to_number;\n"],
+  "mappings": "+CAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,YAAc,OACtB,IAAMC,EAAcC,EAAA,SAAUC,EAAO,CACjC,OAAS,MAAMA,CAAK,EAAK,IAAI,OAAO,CAAC,EAAI,IAAI,OAAOA,CAAK,CAC7D,EAFoB,eAGpBH,EAAQ,YAAcC",
+  "names": ["require_mathFunctions", "__commonJSMin", "exports", "__to_number", "__name", "value"]
+}

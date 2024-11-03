@@ -1,31 +1,30 @@
 #!/usr/bin/env node
 
-import { __getType__, logger } from "../src/QCObjects";
+import { __getType__, logger, global } from "../src/QCObjects";
 
 /* eslint-disable no-undef */
 
 describe("Global Features Spec", function () {
-    require("../src/QCObjects.js");
-    logger.debugEnabled=true;
-    logger.infoEnabled=true;
-    logger.warnEnabled=true;
   
     it("Existence of global.ClassesList Spec", function () {
-        let classesList = global.ClassesList;
+        logger.debugEnabled=true;
+        logger.infoEnabled=true;
+        logger.warnEnabled=true;
+        let classesList:any[] = global.ClassesList;
         expect(__getType__(classesList)).toBe("Array");
   
         logger.debug("Existence of global.ClassesList Spec... OK");
     });
   
     it("Existence of global.PackagesNameList Spec", function () {
-        let packagesNameList = global.PackagesNameList;
+        let packagesNameList:any[] = global.PackagesNameList;
         expect(__getType__(packagesNameList)).toBe("Array");
   
         logger.debug("Existence of global.PackagesNameList Spec... OK");
     });
 
     it("Existence of global.PackagesList Spec", function () {
-        let packagesList = global.PackagesList;
+        let packagesList:any[] = global.PackagesList;
         expect(__getType__(packagesList)).toBe("Array");
   
         logger.debug("Existence of global.PackagesList Spec... OK");

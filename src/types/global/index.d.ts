@@ -257,6 +257,7 @@ export type T__start__ = () => void;
 export type TBody = IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | string | null | undefined | object;
 
 export interface IInheritClass {
+    [key: string]: any;
     __instanceID: number;
     __classType?: string;
     __definition?: any;

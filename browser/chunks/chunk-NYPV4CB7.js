@@ -1,0 +1,2 @@
+import{a as c,c as r}from"./chunk-5VYRFZ7X.js";var i=r(n=>{Object.defineProperty(n,"__esModule",{value:!0});n.ObjectName=void 0;var o=c(function(e){let t="";return typeof e=="function"&&Object.hasOwnProperty.call(e,"name")&&e.name!==""?t=e.name:typeof e<"u"&&typeof e.constructor=="function"&&e.constructor.name!==""?t=e.constructor.name:typeof e<"u"&&typeof e.constructor=="object"&&(t=e.constructor.toString().replace(/\[(.*?)\]/g,"$1").split(" ").slice(1).join("")),t},"ObjectName");n.ObjectName=o});export{i as a};
+//# sourceMappingURL=chunk-NYPV4CB7.js.map

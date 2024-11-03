@@ -36,6 +36,7 @@ import { ComplexStorageCache } from "./ComplexStorageCache";
 import { _super_ } from "./super";
 import { waitUntil } from "./waitUntil";
 import { subelements } from "./subelements";
+import { GlobalSettings } from "./globalSettings";
 
 (function __qcobjects__(_top: any) {
     if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -402,7 +403,10 @@ import { subelements } from "./subelements";
        **/
       Ready(function () {
         if (!CONFIG.get("useSDK")) {
-          _top.__start__();
+          GlobalSettings.__start__()
+          .catch ((e:any) => {
+            throw Error (e);
+          });
         }
       });
   

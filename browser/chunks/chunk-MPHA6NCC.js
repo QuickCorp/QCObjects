@@ -1,0 +1,2 @@
+import{a as u,c as i}from"./chunk-5VYRFZ7X.js";var s=i(c=>{Object.defineProperty(c,"__esModule",{value:!0});typeof Object.assign!="function"&&Object.defineProperty(Object,"assign",{value:u(function(r,f){"use strict";if(r===null)throw new TypeError("Cannot convert undefined or null to object");let o=Object(r);for(let t=1;t<arguments.length;t++){let e=arguments[t];if(e!==null)for(let n in e)Object.prototype.hasOwnProperty.call(e,n)&&(o[n]=e[n])}return o},"assign"),writable:!0,configurable:!0})});export{s as a};
+//# sourceMappingURL=chunk-MPHA6NCC.js.map

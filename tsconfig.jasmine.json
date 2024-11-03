@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
@@ -31,5 +32,6 @@
   },
   "include": [
     "spec/**/*"
-  ]
+  ],
+  "exclude": ["src/**/*"]
 }

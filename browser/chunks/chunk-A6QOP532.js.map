@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../build/is_a.js"],
+  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.is_a = void 0;\nconst getType_1 = require(\"./getType\");\nconst isQCObjects_1 = require(\"./isQCObjects\");\nconst ObjectName_1 = require(\"./ObjectName\");\n/**\n * Returns if a class or object is from a determinated type\n * @param {Object} object\n * @param {String} typeName\n */\nconst is_a = function is_a(obj, typeName) {\n    return !!((typeof obj !== \"undefined\" && obj !== null &&\n        ((((0, isQCObjects_1.isQCObjects_Class)(obj) || (0, isQCObjects_1.isQCObjects_Object)(obj)) && (obj.hierarchy().includes(typeName))) ||\n            (0, getType_1.__getType__)(obj) === typeName ||\n            (0, ObjectName_1.ObjectName)(obj) === typeName ||\n            typeof obj === typeName)));\n};\nexports.is_a = is_a;\n"],
+  "mappings": "uKAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,KAAO,OACf,IAAMC,EAAY,IACZC,EAAgB,IAChBC,EAAe,IAMfC,EAAOC,EAAA,SAAcC,EAAKC,EAAU,CACtC,MAAO,CAAC,EAAG,OAAOD,EAAQ,KAAeA,IAAQ,WACtCJ,EAAc,mBAAmBI,CAAG,MAASJ,EAAc,oBAAoBI,CAAG,IAAOA,EAAI,UAAU,EAAE,SAASC,CAAQ,MACzHN,EAAU,aAAaK,CAAG,IAAMC,MAChCJ,EAAa,YAAYG,CAAG,IAAMC,GACtC,OAAOD,IAAQC,GAC3B,EANa,QAObP,EAAQ,KAAOI",
+  "names": ["require_is_a", "__commonJSMin", "exports", "getType_1", "isQCObjects_1", "ObjectName_1", "is_a", "__name", "obj", "typeName"]
+}
