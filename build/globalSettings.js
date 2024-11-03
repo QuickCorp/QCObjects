@@ -10,9 +10,12 @@ const serviceLoader_1 = require("./serviceLoader");
 const top_1 = require("./top");
 const Service_1 = require("./Service");
 class GlobalSettings extends InheritClass_1.InheritClass {
+    static __start__() {
+        return GlobalSettings.instance.__start__();
+    }
     _GLOBAL = {};
     static _instance;
-    get instance() {
+    static get instance() {
         if (typeof GlobalSettings._instance === "undefined") {
             GlobalSettings._instance = new GlobalSettings();
         }

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../build/isQCObjects.js"],
-  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.isQCObjects_Class = exports.isQCObjects_Object = void 0;\nconst isQCObjects_Object = function (_) {\n    return !!((typeof _ === \"object\" &&\n        Object.hasOwnProperty.call(_, \"__classType\") &&\n        (!!_.__instanceID) &&\n        Object.hasOwnProperty.call(_, \"__definition\") &&\n        typeof _.__definition !== \"undefined\"));\n};\nexports.isQCObjects_Object = isQCObjects_Object;\nconst isQCObjects_Class = function (_) {\n    return !!((typeof _ === \"function\" &&\n        (!_.__instanceID) &&\n        (!!_.__definition) &&\n        typeof _.__definition !== \"undefined\" &&\n        !!_.__definition.__classType));\n};\nexports.isQCObjects_Class = isQCObjects_Class;\n"],
-  "mappings": "+CAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,kBAAoBA,EAAQ,mBAAqB,OACzD,IAAMC,EAAqBC,EAAA,SAAUC,EAAG,CACpC,MAAO,CAAC,EAAG,OAAOA,GAAM,UACpB,OAAO,eAAe,KAAKA,EAAG,aAAa,GACxCA,EAAE,cACL,OAAO,eAAe,KAAKA,EAAG,cAAc,GAC5C,OAAOA,EAAE,aAAiB,IAClC,EAN2B,sBAO3BH,EAAQ,mBAAqBC,EAC7B,IAAMG,EAAoBF,EAAA,SAAUC,EAAG,CACnC,MAAO,CAAC,EAAG,OAAOA,GAAM,YACnB,CAACA,EAAE,cACDA,EAAE,cACL,OAAOA,EAAE,aAAiB,KACxBA,EAAE,aAAa,YACzB,EAN0B,qBAO1BH,EAAQ,kBAAoBI",
-  "names": ["require_isQCObjects", "__commonJSMin", "exports", "isQCObjects_Object", "__name", "_", "isQCObjects_Class"]
-}

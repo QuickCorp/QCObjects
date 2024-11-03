@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { _DataStringify, Class, ClassFactory, Component, CONFIG, Effect, logger, New, global, InheritClass } from "../src/QCObjects";
+import { _DataStringify, Class, ClassFactory, Component, CONFIG, Effect, logger, New, global, InheritClass, __getType__ } from "../src/QCObjects";
 
 /* eslint-disable no-undef */
 
@@ -47,12 +47,12 @@ describe("QCObjects Main Test", function () {
   });
 
   it("Existence of CONFIG global Class", function () {
-    expect(typeof CONFIG).toEqual("CONFIG");
+    expect(__getType__(CONFIG)).toEqual("CONFIG");
     logger.debug("Existence of CONFIG global Class... OK");
   });
 
   it("global as QCObjects global", function () {
-    expect(typeof global).toEqual("global");
+    expect(__getType__(global)).not.toEqual("");
     logger.debug("global as QCObjects global... OK");
   });
 

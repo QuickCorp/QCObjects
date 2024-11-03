@@ -778,50 +778,6 @@ declare module "waitUntil" {
 declare module "subelements" {
     export const subelements: <T>(this: any, query: string) => T[];
 }
-declare module "MainProcess" { }
-declare module "assign" { }
-declare module "SourceJS" {
-    import { ISourceJS } from "types";
-    import { InheritClass } from "InheritClass";
-    export class SourceJS extends InheritClass implements ISourceJS {
-        domain: string;
-        basePath: string;
-        type: string;
-        containerTag: string;
-        url: string;
-        data: {};
-        async: boolean;
-        external: boolean;
-        constructor(o: any);
-        set(name: string, value: any): void;
-        get(name: string, _default?: any): any;
-        status: boolean;
-        done(): void;
-        fail(): void;
-        rebuild(): void;
-        Cast(o: any): any;
-        _new_(properties: any): void;
-    }
-}
-declare module "SourceCSS" {
-    import { ISourceCSS } from "types";
-    import { InheritClass } from "InheritClass";
-    export class SourceCSS extends InheritClass implements ISourceCSS {
-        domain: string;
-        basePath: string;
-        url: string;
-        data: {};
-        async: boolean;
-        external: boolean;
-        constructor(o: any);
-        fail(): void;
-        Cast(o: any): any;
-        set(name: string, value: any): void;
-        get(name: string, _default?: any): any;
-        done(): void;
-        rebuild(): void;
-    }
-}
 declare module "Service" {
     import { InheritClass } from "InheritClass";
     import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "types";
@@ -877,20 +833,62 @@ declare module "globalSettings" {
     import { IGlobalSettings } from "types";
     import { InheritClass } from "InheritClass";
     export class GlobalSettings extends InheritClass implements IGlobalSettings {
+        static __start__(): Promise<any>;
         [key: string]: any;
         _GLOBAL: any;
         private static _instance;
-        get instance(): GlobalSettings;
+        static get instance(): GlobalSettings;
         set(name: string, value: any): void;
         get(name: string, _default?: any): any;
         __start__(): Promise<any>;
     }
 }
-declare module "WidgetsFactory" {
-    import { I_ComponentWidget_ } from "types";
-    export class _ComponentWidget_ extends HTMLElement implements I_ComponentWidget_ {
-        constructor();
+declare module "MainProcess" { }
+declare module "assign" { }
+declare module "SourceJS" {
+    import { ISourceJS } from "types";
+    import { InheritClass } from "InheritClass";
+    export class SourceJS extends InheritClass implements ISourceJS {
+        domain: string;
+        basePath: string;
+        type: string;
+        containerTag: string;
+        url: string;
+        data: {};
+        async: boolean;
+        external: boolean;
+        constructor(o: any);
+        set(name: string, value: any): void;
+        get(name: string, _default?: any): any;
+        status: boolean;
+        done(): void;
+        fail(): void;
+        rebuild(): void;
+        Cast(o: any): any;
+        _new_(properties: any): void;
     }
+}
+declare module "SourceCSS" {
+    import { ISourceCSS } from "types";
+    import { InheritClass } from "InheritClass";
+    export class SourceCSS extends InheritClass implements ISourceCSS {
+        domain: string;
+        basePath: string;
+        url: string;
+        data: {};
+        async: boolean;
+        external: boolean;
+        constructor(o: any);
+        fail(): void;
+        Cast(o: any): any;
+        set(name: string, value: any): void;
+        get(name: string, _default?: any): any;
+        done(): void;
+        rebuild(): void;
+    }
+}
+declare module "WidgetsFactory" {
+    export let _ComponentWidget_: CustomElementConstructor;
     export const RegisterWidget: (widgetName: string) => void;
     export const RegisterWidgets: (...args: string[]) => void;
 }
@@ -1023,8 +1021,9 @@ declare module "QCObjects" {
     export { getDocumentLayout } from "DocumentLayout";
     export { IQCObjectsElement, IQCObjectsShadowedElement } from "types";
     export { __to_number } from "mathFunctions";
-    export * as QCObjects from "MainProcess";
     export { _top as global } from "top";
+    export { __make_global__ } from "make_global";
+    export * as QCObjects from "MainProcess";
 }
 declare module "index" {
     import * as QCObjects from "QCObjects";

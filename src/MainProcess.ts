@@ -438,7 +438,7 @@ import { GlobalSettings } from "./globalSettings";
           get() {
             const _get_packages_names = function <T>(_packages:any):T[] {
               let _keys:any[] = [];
-              for (const _k of _packages) {
+              for (const _k of Object.keys(_packages)) {
                 if (
                   typeof _packages[_k] !== "undefined" &&
                   typeof _packages[_k] !== "function" &&

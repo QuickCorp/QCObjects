@@ -9,8 +9,11 @@ exports.ClassFactory = void 0;
 const isQCObjects_1 = require("./isQCObjects");
 const Package_1 = require("./Package");
 const PrimaryCollections_1 = require("./PrimaryCollections");
-const ClassFactory = function (className) {
+const ClassFactory = (className) => {
     let _classFactory;
+    if (typeof className === "undefined" || className === null) {
+        throw Error("You need to pass a parameter {className}");
+    }
     if (className !== null && className.indexOf(".") > -1) {
         const packageName = className.split(".").slice(0, className.split(".").length - 1).join(".");
         const _className = className.split(".").slice(-1).join("");
@@ -26,11 +29,11 @@ const ClassFactory = function (className) {
             throw Error(`Class ${className} not found.`);
         }
     }
-    else if (className !== null && Object.hasOwnProperty.call(PrimaryCollections_1._QC_CLASSES, className)) {
+    else if (className !== null && Object.hasOwn(PrimaryCollections_1._QC_CLASSES, className)) {
         _classFactory = PrimaryCollections_1._QC_CLASSES[className];
     }
     else {
-        throw Error(`Undefined class ${className}. Unable to retrieve the class factory.`);
+        throw Error(`Unable to determine class ${className}. Unable to retrieve the class factory.`);
     }
     return _classFactory;
 };

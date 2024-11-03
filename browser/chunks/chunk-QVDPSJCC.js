@@ -1,2 +1,0 @@
-import{c as s}from"./chunk-Q3ZBXOFX.js";import{a as o,c as i}from"./chunk-5VYRFZ7X.js";var l=i(e=>{Object.defineProperty(e,"__esModule",{value:!0});e.shortCode=void 0;var r=s(),d=o(function(){let n=r._Crypt.encrypt((Math.random()*1e3).toString().replace(".",""),new Date().getTime().toString());return[...r._Crypt.encrypt((Math.random()*1e3).toString().replace(".",""),new Date(new Date().getTime()-1e3*1e3).getTime().toString())].map((t,c)=>[...n][c]===t?null:t).filter(t=>t!==null).join("")},"shortCode");e.shortCode=d});export{l as a};
-//# sourceMappingURL=chunk-QVDPSJCC.js.map

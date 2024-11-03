@@ -9,8 +9,11 @@ import { Package } from "./Package";
 import { _QC_CLASSES } from "./PrimaryCollections";
 import { TClassFactory } from "types";
 
-export const ClassFactory:TClassFactory = function (className:string):any {
+export const ClassFactory:TClassFactory =  (className:string):any => {
     let _classFactory;
+    if (typeof className === "undefined" || className === null) {
+        throw Error ("You need to pass a parameter {className}");
+    }
     if (className !== null && className.indexOf(".") > -1) {
         const packageName = className.split(".").slice(0, className.split(".").length - 1).join(".");
         const _className = className.split(".").slice(-1).join("");
@@ -24,10 +27,10 @@ export const ClassFactory:TClassFactory = function (className:string):any {
         } else {
             throw Error(`Class ${className} not found.`);
         }
-    } else if (className !== null && Object.hasOwnProperty.call(_QC_CLASSES, className)) {
+    } else if (className !== null && Object.hasOwn(_QC_CLASSES, className)) {
         _classFactory = (_QC_CLASSES as any)[className];
     } else {
-        throw Error(`Undefined class ${className}. Unable to retrieve the class factory.`);
+        throw Error(`Unable to determine class ${className}. Unable to retrieve the class factory.`);
     }
     return _classFactory;
 };

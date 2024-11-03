@@ -23,9 +23,11 @@ class InheritClass {
     childs;
     __instanceID;
     constructor(_o_) {
-        this.__definition = {
-            ...(_o_.__definition)
-        };
+        if (typeof _o_ !== "undefined" && typeof _o_.__definition !== "undefined") {
+            this.__definition = {
+                ...(_o_.__definition)
+            };
+        }
         const self = this;
         (0, IncrementInstanceID_1.IncrementInstanceID)();
         if (!self.__instanceID) {

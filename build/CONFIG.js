@@ -31,7 +31,7 @@ class CONFIG extends InheritClass_1.InheritClass {
                     config._CONFIG_ENC = Crypt_1._Crypt.encrypt((0, DataStringify_1._DataStringify)({}), secretKey_1._secretKey);
                 }
                 const _protectedEnc = config._CONFIG_ENC.valueOf();
-                const _protectedConf = config._CONFIG.valueOf();
+                const _protectedConf = config._CONFIG?.valueOf();
                 return (0, Cast_1._CastProps)(_protectedConf, (0, Crypt_1._DecryptObject)(_protectedEnc));
             })(ConfigSettings_1.ConfigSettings.instance);
         }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-undef */
-import {Class, ClassFactory, Export, logger, Package, RegisterClass} from "./../src/QCObjects";
+import {Class, ClassFactory, Export, logger, Package, __make_global__} from "./../src/QCObjects";
 import {global} from "./../src/QCObjects";
 
 describe("Global Features Spec", function () {
@@ -17,7 +17,7 @@ describe("Global Features Spec", function () {
 
     it("Global Class Factory using Class Function, no parent class Spec", function () {
         var classFactory = Class ("MyClass", {});
-        Export(classFactory);
+        Package("com.qcobjects", [classFactory]);
 
         expect((global as any).MyClass).toBe( classFactory );
         logger.debug("Global Class Factory using Class Function, no parent class Spec... OK");

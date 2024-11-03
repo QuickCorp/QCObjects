@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../build/super.js"],
-  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports._super_ = void 0;\nconst ClassFactory_1 = require(\"./ClassFactory\");\n/**\n * Returns a method from a superior QCObjects Class\n * It is useful for Class Inheritance in the _new_ and __new__ method constructors\n * @example _super_('MySuperClass','MySuperMethod').call(this,params) #where this is the current instance and params are method parameters\n *\n * @param {String} className\n * @param {String} classMethodName\n * @param {Object} params\n */\nconst _super_ = function (className, classMethodName) {\n    return ((0, ClassFactory_1.ClassFactory)(className))[classMethodName];\n};\nexports._super_ = _super_;\nexports._super_.prototype.toString = function () {\n    return \"_super_(className,classMethodName,params) { [QCObjects native code] }\";\n};\n"],
-  "mappings": "uFAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,QAAU,OAClB,IAAMC,EAAiB,IAUjBC,EAAUC,EAAA,SAAUC,EAAWC,EAAiB,CAClD,SAAYJ,EAAe,cAAcG,CAAS,EAAGC,CAAe,CACxE,EAFgB,WAGhBL,EAAQ,QAAUE,EAClBF,EAAQ,QAAQ,UAAU,SAAW,UAAY,CAC7C,MAAO,uEACX",
-  "names": ["require_super", "__commonJSMin", "exports", "ClassFactory_1", "_super_", "__name", "className", "classMethodName"]
-}

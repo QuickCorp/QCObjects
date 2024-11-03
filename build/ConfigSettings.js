@@ -5,7 +5,7 @@ const basePath_1 = require("./basePath");
 const InheritClass_1 = require("./InheritClass");
 const Package_1 = require("./Package");
 class ConfigSettings extends InheritClass_1.InheritClass {
-    _CONFIG;
+    _CONFIG = {};
     static _instance;
     _CONFIG_ENC = "";
     constructor(_config_settings) {

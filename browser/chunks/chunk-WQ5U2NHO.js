@@ -1,2 +1,0 @@
-import{a as e,c as t}from"./chunk-5VYRFZ7X.js";var o=t(_=>{Object.defineProperty(_,"__esModule",{value:!0});_.__is__forbidden_name__=void 0;var i=e(function(n){return["__proto__","prototype","Object","Map","defineProperty","indexOf","toString","__instanceID"].indexOf(n)!==-1},"__is__forbidden_name__");_.__is__forbidden_name__=i});export{o as a};
-//# sourceMappingURL=chunk-WQ5U2NHO.js.map

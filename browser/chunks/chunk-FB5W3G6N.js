@@ -1,2 +1,0 @@
-import{a}from"./chunk-4NQAZJVU.js";import{a as r,c as o}from"./chunk-5VYRFZ7X.js";var y=o(t=>{Object.defineProperty(t,"__esModule",{value:!0});t._DataStringify=void 0;var f=a(),u=r(function(c){return JSON.stringify(c,r(function(){let n=new WeakSet,i=0;return function(g,e){if(typeof e=="object"&&e!==null){if(n.has(e))return i+=1,i<=3?(0,f._LegacyCopy)(e):null;n.add(e)}return e}},"getCircularReplacer")())},"_DataStringify");t._DataStringify=u});export{y as a};
-//# sourceMappingURL=chunk-FB5W3G6N.js.map

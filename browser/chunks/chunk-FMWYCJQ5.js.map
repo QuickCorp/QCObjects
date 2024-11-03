@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../build/IncrementInstanceID.js"],
-  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.IncrementInstanceID = exports.__instanceID = void 0;\n/**\n * Primary instance ID of all objects\n */\nexports.__instanceID = 0;\nconst IncrementInstanceID = () => {\n    exports.__instanceID = (typeof exports.__instanceID === \"undefined\" || exports.__instanceID === null) ? (0) : (exports.__instanceID + 1);\n};\nexports.IncrementInstanceID = IncrementInstanceID;\n"],
-  "mappings": "+CAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,oBAAsBA,EAAQ,aAAe,OAIrDA,EAAQ,aAAe,EACvB,IAAMC,EAAsBC,EAAA,IAAM,CAC9BF,EAAQ,aAAgB,OAAOA,EAAQ,aAAiB,KAAeA,EAAQ,eAAiB,KAAS,EAAMA,EAAQ,aAAe,CAC1I,EAF4B,uBAG5BA,EAAQ,oBAAsBC",
-  "names": ["require_IncrementInstanceID", "__commonJSMin", "exports", "IncrementInstanceID", "__name"]
-}

@@ -37,6 +37,7 @@ const ComplexStorageCache_1 = require("./ComplexStorageCache");
 const super_1 = require("./super");
 const waitUntil_1 = require("./waitUntil");
 const subelements_1 = require("./subelements");
+const globalSettings_1 = require("./globalSettings");
 (function __qcobjects__(_top) {
     if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
         try {
@@ -360,7 +361,10 @@ const subelements_1 = require("./subelements");
          **/
         (0, Ready_1.Ready)(function () {
             if (!CONFIG_1.CONFIG.get("useSDK")) {
-                _top.__start__();
+                globalSettings_1.GlobalSettings.__start__()
+                    .catch((e) => {
+                    throw Error(e);
+                });
             }
         });
         /*
@@ -387,7 +391,7 @@ const subelements_1 = require("./subelements");
                 get() {
                     const _get_packages_names = function (_packages) {
                         let _keys = [];
-                        for (const _k of _packages) {
+                        for (const _k of Object.keys(_packages)) {
                             if (typeof _packages[_k] !== "undefined" &&
                                 typeof _packages[_k] !== "function" &&
                                 Object.hasOwnProperty.call(_packages[_k], "length") &&

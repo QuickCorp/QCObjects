@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../build/DataStringify.js"],
-  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports._DataStringify = void 0;\nconst LegacyCopy_1 = require(\"./LegacyCopy\");\nconst _DataStringify = function (data) {\n    const getCircularReplacer = function () {\n        const seen = new WeakSet();\n        let _level = 0;\n        return function (key, value) {\n            if (typeof value === \"object\" && value !== null) {\n                if (seen.has(value)) {\n                    _level += 1;\n                    return (_level <= 3) ? ((0, LegacyCopy_1._LegacyCopy)(value)) : (null);\n                }\n                seen.add(value);\n            }\n            return value;\n        };\n    };\n    return JSON.stringify(data, getCircularReplacer());\n};\nexports._DataStringify = _DataStringify;\n"],
-  "mappings": "kFAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,eAAiB,OACzB,IAAMC,EAAe,IACfC,EAAiBC,EAAA,SAAUC,EAAM,CAenC,OAAO,KAAK,UAAUA,EAdMD,EAAA,UAAY,CACpC,IAAME,EAAO,IAAI,QACbC,EAAS,EACb,OAAO,SAAUC,EAAKC,EAAO,CACzB,GAAI,OAAOA,GAAU,UAAYA,IAAU,KAAM,CAC7C,GAAIH,EAAK,IAAIG,CAAK,EACd,OAAAF,GAAU,EACFA,GAAU,KAAUL,EAAa,aAAaO,CAAK,EAAM,KAErEH,EAAK,IAAIG,CAAK,EAElB,OAAOA,CACX,CACJ,EAb4B,uBAcoB,CAAC,CACrD,EAhBuB,kBAiBvBR,EAAQ,eAAiBE",
-  "names": ["require_DataStringify", "__commonJSMin", "exports", "LegacyCopy_1", "_DataStringify", "__name", "data", "seen", "_level", "key", "value"]
-}

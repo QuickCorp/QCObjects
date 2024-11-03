@@ -95,5 +95,6 @@ export { findPackageNodePath } from "./findPackageNodePath";
 export { getDocumentLayout } from "./DocumentLayout";
 export { IQCObjectsElement, IQCObjectsShadowedElement } from "types";
 export { __to_number } from "./mathFunctions";
-export * as QCObjects from "./MainProcess";
 export {_top as global} from "./top";
+export {__make_global__} from "./make_global";
+export * as QCObjects from "./MainProcess";
