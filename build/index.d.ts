@@ -98,7 +98,7 @@ declare module "is_forbidden_name" {
     export const __is__forbidden_name__: (name: string) => boolean;
 }
 declare module "LegacyCopy" {
-    export const _LegacyCopy: (obj: any) => any;
+    export const _LegacyCopy: (obj: any, _ignore?: string[]) => any;
 }
 declare module "InheritClass" {
     import { type IInheritClass, type TBody } from "types";

@@ -42,30 +42,30 @@ import { _top } from "./top";
 
 
 
-export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unknown):InheritClass => {
+export const Class: TClass = (name?: string, _type?: unknown, _definition?: unknown): InheritClass => {
   const _types_ = {};
-  let name:string, type:unknown, definition:unknown;
+  let type: unknown, definition: unknown;
 
   switch (true) {
-    case !_name && !_type && !_definition:
-      return class {} as unknown as InheritClass;
-    case !!_name && !_type && !_definition:
-      name = _name;
-      type = class {};
+    case !name && !_type && !_definition:
+      return class { } as unknown as InheritClass;
+    case !!name && !_type && !_definition:
+      type = class { };
       definition = {};
       break;
-    case !!_name && !_type && !!_definition :
-      name = _name;
-      type = class {};
+    case !!name && !_type && !!_definition:
+      type = class { };
       definition = _definition;
       break;
-    case !!_name && !!_type && !!_definition:
-      name = _name;
+    case !!name && !!_type && !!_definition:
       type = _type;
       definition = _definition;
       break;
     default:
-      return class {} as unknown as InheritClass;
+      return class { } as unknown as InheritClass;
+  }
+  if (typeof name !== "string") {
+    throw new Error("Class name must be a string");
   }
 
   if (typeof type !== "function") {
@@ -76,8 +76,10 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
     throw new Error(`${name} is not an allowed word in the name of a class`);
   }
 
-  if (typeof (type as any).__definition !== "undefined") {
-    (definition as any).__definition = Object.assign(_LegacyCopy((type as any).__definition), type);
+  if (typeof (type as any).__definition === "object"
+    && (type as any).__definition
+    && Object.keys((type as any).__definition).length !== 0) {
+    (definition as any).__definition = Object.assign(_LegacyCopy((type as any).__definition,["name"]), type);
   }
 
   (_types_ as any)[type.name] = type;
@@ -85,7 +87,7 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
   if (typeof definition === "undefined" || definition === null) {
     definition = {};
   } else {
-    definition = _LegacyCopy(definition);
+    definition = { ...definition };
   }
 
   /* hack to prevent duplicate __instanceID */
@@ -93,19 +95,19 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
     delete (definition as any).__instanceID;
   }
 
-  _QC_CLASSES[_name] = class extends (_types_ as any)[type.name] {
+  _QC_CLASSES[name] = class extends (_types_ as any)[type.name] {
     __instanceID!: number;
     __namespace?: string | undefined;
-    __definition:any = {
+    __definition: any = {
       ...(definition as any)
     };
     childs: any;
     private _body: TBody;
     public get body(): TBody {
-        return this._body;
+      return this._body;
     }
     public set body(value: TBody) {
-        this._body = value;
+      this._body = value;
     }
 
     static get __classType(): any {
@@ -116,11 +118,11 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
       return this.constructor.name;
     }
 
-    static hierarchy(__class__:any):any[] {
-      const __classType = function (o_c:any):any {
+    static hierarchy(__class__: any): any[] {
+      const __classType = function (o_c: any): any {
         return (Object.hasOwnProperty.call(o_c, "__classType")) ? (o_c.__classType) : (__getType__.call(__class__, o_c));
       };
-      const __hierarchy__proto__ = (c:any):any[] => {
+      const __hierarchy__proto__ = (c: any): any[] => {
         return (typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null) ? (((__classType(c) !== "") ? ([__classType(c)]) : ([])).concat(__hierarchy__proto__(c.__proto__))) : ([]);
       };
 
@@ -133,11 +135,11 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
       return __hierarchy;
     }
 
-    static getParentClass():any {
+    static getParentClass(): any {
       return Object.getPrototypeOf(this.prototype.constructor);
     }
 
-    constructor(_o_?:any) {
+    constructor(_o_?: any) {
       super(_o_ || {});
 
       const self = this;
@@ -160,11 +162,11 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
           }
         });
       }
-      _methods_(_QC_CLASSES[self.__classType]).map(function <T>(m:unknown):T {
+      _methods_(_QC_CLASSES[self.__classType]).map(function <T>(m: unknown): T {
         self[(m as Function).name] = (m as Function).bind(self);
         return m as T;
       });
-      _methods_(self.__definition).map(function (m):any {
+      _methods_(self.__definition).map(function (m): any {
         self[(m as Function).name] = (m as Function).bind(self);
         return m;
       });
@@ -177,7 +179,7 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
             } else {
               self.body = {};
             }
-          } catch (e:any) {
+          } catch (e: any) {
             logger.debug(`An error ocurred: ${e}.`);
             self.body = {};
           }
@@ -198,37 +200,37 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
           try {
             self._new_(_o_);
             (self._new_ as any).isCalled = true;
-          } catch (e:any) {
+          } catch (e: any) {
             logger.warn(`${self.__classType}._new_() failed with error: ${e}`);
           }
         }
-      } catch (e:any) {
+      } catch (e: any) {
         logger.warn(e);
       }
     }
 
-    __new__(_o_:any) {
+    __new__(_o_: any) {
       _CastProps(_o_, this);
     }
 
     // eslint-disable-next-line no-unused-vars
-    _new_(_o_?:any) { }
+    _new_(_o_?: any) { }
 
-    getClass():any {
+    getClass(): any {
       return Object.getPrototypeOf(this.constructor);
     }
 
     css(_css: any): any {
       if (typeof this.body !== "undefined" && typeof this?.body !== "string" && typeof (this?.body as HTMLElement)?.style !== "undefined") {
-          logger.debug("body style");
-          if (this.body){
-              (this.body as any).style = _Cast(_css, (this?.body as HTMLElement)?.style);
-          }
+        logger.debug("body style");
+        if (this.body) {
+          (this.body as any).style = _Cast(_css, (this?.body as HTMLElement)?.style);
+        }
       }
-      return (typeof this.body !== "string")? (this?.body as HTMLElement)?.style :{};
+      return (typeof this.body !== "string") ? (this?.body as HTMLElement)?.style : {};
     }
 
-    hierarchy():any {
+    hierarchy(): any {
       const __instance__ = this;
       return this.getClass().hierarchy(__instance__);
     }
@@ -238,64 +240,64 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
       const child: any = _child || this.body;
       logger.debug("append: start");
       if (is_a(child, "Component")) {
-          logger.debug("append: child is a Component");
-          logger.debug(`appending the body of ${child.name}`);
+        logger.debug("append: child is a Component");
+        logger.debug(`appending the body of ${child.name}`);
       }
       if (typeof this.body !== "undefined") {
-          logger.debug("append element");
-          if (arguments.length > 0) {
-              logger.debug("append to element");
-              if (typeof this.body !== "string"){
-                  if (typeof (this.body as IQCObjectsElement)?.append !== "undefined") {
-                      (this?.body as IQCObjectsElement)?.append(child);
-                  } else {
-                      throw Error ("body.append is undefined. That means the body is not well formed.");
-                  }
-              } else {
-                  this.append(child);
-              }
-              if (typeof this.childs === "undefined") {
-                  this.childs = [];
-              }
-              this.childs.push(child);
+        logger.debug("append element");
+        if (arguments.length > 0) {
+          logger.debug("append to element");
+          if (typeof this.body !== "string") {
+            if (typeof (this.body as IQCObjectsElement)?.append !== "undefined") {
+              (this?.body as IQCObjectsElement)?.append(child);
+            } else {
+              throw Error("body.append is undefined. That means the body is not well formed.");
+            }
           } else {
-              if (isBrowser) {
-                  logger.debug("append to body");
-                  document.body.append(child);
-              }
+            this.append(child);
           }
+          if (typeof this.childs === "undefined") {
+            this.childs = [];
+          }
+          this.childs.push(child);
+        } else {
+          if (isBrowser) {
+            logger.debug("append to body");
+            document.body.append(child);
+          }
+        }
       }
     }
 
     attachIn(tag: any) {
       if (isBrowser) {
-          const tags = (document as any).subelements(tag);
-          for (let i = 0, j = tags.length; i < j; i++) {
-              tags[i].append(this as any);
-          }
+        const tags = (document as any).subelements(tag);
+        for (let i = 0, j = tags.length; i < j; i++) {
+          tags[i].append(this as any);
+        }
       } else {
-          throw new Error("attachIn not yet implemented for non browser platforms");
+        throw new Error("attachIn not yet implemented for non browser platforms");
       }
     }
 
   };
 
-  console.log("QC_CLASSES en Class: ",_QC_CLASSES);
+  console.log("QC_CLASSES en Class: ", _QC_CLASSES);
 
   // remove the keys from definition that exist in the prototype
 
-  _QC_CLASSES[_name] = _CastProps(definition, _QC_CLASSES[_name]);
-  _QC_CLASSES[_name].__definition = definition;
-  _QC_CLASSES[_name].__definition.__classType = _name;
-  _QC_CLASSES[_name].__definition.__new__ = function __new__(_o_:any) {
+  _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
+  _QC_CLASSES[name].__definition = definition;
+  _QC_CLASSES[name].__definition.__classType = name;
+  _QC_CLASSES[name].__definition.__new__ = function __new__(_o_: any) {
     _CastProps(_o_, this);
   };
 
-  (_top as any)[_name] = _QC_CLASSES[_name];
+  (_top as any)[name] = _QC_CLASSES[name];
 
-  return _QC_CLASSES[_name] as InheritClass;
+  return _QC_CLASSES[name] as InheritClass;
 };
-if (typeof Class.prototype !== "undefined"){
+if (typeof Class.prototype !== "undefined") {
   Class.prototype.toString = function () {
     return "Class(name, type, definition) { [QCObjects native code] }";
   };

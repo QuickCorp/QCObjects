@@ -1,6 +1,6 @@
 import { __is_raw_class__ } from "./is_raw_class";
 
-export const _LegacyCopy = function (obj:any):any {
+export const _LegacyCopy = function (obj:any, _ignore?:string[]):any {
     let _value_;
     switch (true) {
       case typeof obj === "string":
@@ -10,7 +10,9 @@ export const _LegacyCopy = function (obj:any):any {
         _value_ = obj;
         break;
       case typeof obj === "object":
-        _value_ = Object.assign({}, obj);
+        _value_ = [{...Object.keys(obj).filter(k => !_ignore?.includes(k))}]
+        .map(k => {return {[k as never]:obj[k as never]}; })
+        .reduce ((p, c) => Object.assign(p, c)) as any;
         break;
       case typeof obj === "function":
         _value_ = obj.bind({});
