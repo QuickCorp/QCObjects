@@ -32,17 +32,17 @@
 "use strict";
 
 export * as AssignPolyfill from "./assign";
+export { _top, resetTop } from "./top";
+export { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "./PrimaryCollections";
 export { _DataStringify } from "./DataStringify";
 export { _DOMCreateElement } from "./DOMCreateElement";
 export { _methods_, _protected_code_ } from "./introspection";
 export { logger, Logger } from "./Logger";
 export { _require_, is_phonegap, isBrowser, isNodeCommonJS } from "./platform";
 export { subelements } from "./subelements";
-export { _top, resetTop } from "./top";
 export { __is_raw_class__ } from "./is_raw_class";
 export { _LegacyCopy } from "./LegacyCopy";
 export { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
-export { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "./PrimaryCollections";
 export { __instanceID } from "./IncrementInstanceID";
 export { ObjectName } from "./ObjectName";
 export { __getType__ } from "./getType";
