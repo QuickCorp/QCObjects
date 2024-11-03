@@ -13,7 +13,7 @@ esbuild.build({
     tsconfig: 'tsconfig.json', // Path to your tsconfig.json,
     plugins: [
         alias({
-            'types': path.join(__dirname, 'src/types/index.d.ts')
+            'types': path.join(__dirname, 'src/types/global/index.d.ts')
         })
     ]    
 }).catch(() => process.exit(1));

@@ -80,7 +80,7 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
     (definition as any).__definition = Object.assign(_LegacyCopy((type as any).__definition), type);
   }
 
-  (_types_ as any)[type.name] = type;
+  (_types_ as any)[name] = type;
 
   if (typeof definition === "undefined" || definition === null) {
     definition = {};
@@ -93,7 +93,7 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
     delete (definition as any).__instanceID;
   }
 
-  (_QC_CLASSES as any)[name] = class extends (_types_ as any)[type.name] {
+  (_QC_CLASSES as any)[name] = class extends (_types_ as any)[name] {
     __classType = name;
     __definition = {
       ...(definition as any)

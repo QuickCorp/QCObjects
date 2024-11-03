@@ -552,6 +552,9 @@ export type TClassFactory = (className: string) => any;
 export type TPackage = (packageName: string, classesList?: Array<any> ) => Array<any> | undefined;
 export type TImport = (packageName: string, ready?: Function, external?: boolean) => any;
 
+export type T_QC_PACKAGES = { [key: string]: any };
+export type T_QC_CLASSES = { [key: string]: any };
+
 export declare const cordova: any;
 
 export declare interface Array<T> {

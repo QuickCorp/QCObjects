@@ -423,9 +423,9 @@ import { GlobalSettings } from "./globalSettings";
       Export(ready);
       Export(isBrowser);
       Export(_methods_);
-      Export(ClassFactory("GlobalSettings"));
+      Export(GlobalSettings);
   
-      resetTop(_CastProps(New(ClassFactory("GlobalSettings")), _top));
+      resetTop(_CastProps(New(GlobalSettings), _top));
   
       (function (_top) {
   

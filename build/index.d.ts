@@ -3,10 +3,11 @@ declare module "isQCObjects" {
     export const isQCObjects_Class: (_: any) => boolean;
 }
 declare module "PrimaryCollections" {
-    export var _QC_CLASSES: {};
-    export var _QC_PACKAGES: {};
-    export var _QC_PACKAGES_IMPORTED: never[];
-    export var _QC_READY_LISTENERS: never[];
+    import { T_QC_CLASSES, T_QC_PACKAGES } from "types";
+    export var _QC_CLASSES: T_QC_CLASSES;
+    export var _QC_PACKAGES: T_QC_PACKAGES;
+    export var _QC_PACKAGES_IMPORTED: any[];
+    export var _QC_READY_LISTENERS: any[];
 }
 declare module "is_raw_class" {
     export const __is_raw_class__: (o_c: any) => boolean;
@@ -507,8 +508,8 @@ declare module "top" {
         Tag: any;
         Ready: any;
         methods: any;
-        set: any;
-        get: any;
+        set: (name: string, value: any) => void;
+        get: (name: string, _default?: any) => any;
         start: any;
         InheritClass: any;
         Processor: any;

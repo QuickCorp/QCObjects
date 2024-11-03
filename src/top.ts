@@ -50,8 +50,10 @@ type QCObjects = {
     Tag:any, 
     Ready:any, 
     methods:any, 
-    set:any, 
-    get:any, 
+    // eslint-disable-next-line no-unused-vars
+    set:(name:string, value:any) => void, 
+    // eslint-disable-next-line no-unused-vars
+    get:(name:string, _default?:any) => any, 
     start:any, 
     InheritClass:any, 
     Processor:any, 

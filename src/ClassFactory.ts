@@ -28,7 +28,7 @@ export const ClassFactory:TClassFactory =  (className:string):any => {
             throw Error(`Class ${className} not found.`);
         }
     } else if (className !== null && Object.hasOwn(_QC_CLASSES, className)) {
-        _classFactory = (_QC_CLASSES as any)[className];
+        _classFactory = _QC_CLASSES[className];
     } else {
         throw Error(`Unable to determine class ${className}. Unable to retrieve the class factory.`);
     }

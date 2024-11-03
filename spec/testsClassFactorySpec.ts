@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-undef */
-import {Class, ClassFactory, Export, logger, Package, __make_global__} from "./../src/QCObjects";
+import {Class, ClassFactory, Export, logger, Package, __make_global__, _top, _QC_PACKAGES, _QC_CLASSES} from "./../src/QCObjects";
 import {global} from "./../src/QCObjects";
 
 describe("Global Features Spec", function () {
@@ -10,6 +10,10 @@ describe("Global Features Spec", function () {
   
     it("Class Factory using Class Function, no parent class Spec", function () {
         var classFactory = Class ("MyClass", {});
+
+        Package("myclass", [classFactory]);
+
+        console.log("QC_CLASSES: ",_QC_CLASSES);
 
         expect(ClassFactory("MyClass")).toBe( classFactory );
         logger.debug("Class Factory using Class Function, no parent class Spec... OK");
