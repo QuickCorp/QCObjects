@@ -280,6 +280,8 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
 
   };
 
+  console.log("QC_CLASSES en Class: ",_QC_CLASSES);
+
   // remove the keys from definition that exist in the prototype
 
   _QC_CLASSES[_name] = _CastProps(definition, _QC_CLASSES[_name]);
