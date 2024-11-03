@@ -93,6 +93,9 @@ export class InheritClass implements IInheritClass {
         }
     }
 
+    static get __classType(): any {
+        return (Object.getPrototypeOf(this.constructor) as Function).name;
+    }
 
     get __classType(): string {
         return this.constructor.name;

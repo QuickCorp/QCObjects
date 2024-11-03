@@ -111,6 +111,7 @@ declare module "InheritClass" {
         childs: any;
         __instanceID: number;
         constructor(_o_?: any);
+        static get __classType(): any;
         get __classType(): string;
         static hierarchy(__class__: any): any[];
         __namespace?: string | undefined;

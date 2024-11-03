@@ -4,7 +4,10 @@ import { _QC_CLASSES } from "./PrimaryCollections";
 
 
 export const __register_class__ = function (_class_:any, __namespace?:string):any {
-    const name = _class_.name || __getType__(_class_);
+    let name = _class_.name || __getType__(_class_);
+    if (name.toLowerCase() === "function" && typeof _class_.__classType !== "undefined"){
+        name = _class_.__classType;
+    }
     if (typeof _class_.__definition === "undefined") {
         _class_.__definition = {};
     }

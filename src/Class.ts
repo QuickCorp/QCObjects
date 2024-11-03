@@ -1,3 +1,4 @@
+import { _QC_CLASSES } from "./PrimaryCollections";
 import { _Cast, _CastProps } from "./Cast";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { __getType__ } from "./getType";
@@ -8,10 +9,9 @@ import { __is__forbidden_name__ } from "./is_forbidden_name";
 import { _LegacyCopy } from "./LegacyCopy";
 import { logger } from "./Logger";
 import { isBrowser } from "./platform";
-import { _QC_CLASSES } from "./PrimaryCollections";
-import { __make_global__ } from "./make_global";
-import { TClass } from "types";
+import { IQCObjectsElement, TBody, TClass } from "types";
 import { InheritClass } from "./InheritClass";
+import { _top } from "./top";
 
 /**
  * Creates new object class  of another object
@@ -93,11 +93,28 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
     delete (definition as any).__instanceID;
   }
 
-  (_QC_CLASSES as any)[name] = class extends (_types_ as any)[type.name] {
-    __classType = name;
-    __definition = {
+  _QC_CLASSES[_name] = class extends (_types_ as any)[type.name] {
+    __instanceID!: number;
+    __namespace?: string | undefined;
+    __definition:any = {
       ...(definition as any)
     };
+    childs: any;
+    private _body: TBody;
+    public get body(): TBody {
+        return this._body;
+    }
+    public set body(value: TBody) {
+        this._body = value;
+    }
+
+    static get __classType(): any {
+      return (Object.getPrototypeOf(this.constructor) as Function).name;
+    }
+
+    get __classType(): string {
+      return this.constructor.name;
+    }
 
     static hierarchy(__class__:any):any[] {
       const __classType = function (o_c:any):any {
@@ -143,7 +160,7 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
           }
         });
       }
-      _methods_((_QC_CLASSES as any)[self.__classType]).map(function <T>(m:unknown):T {
+      _methods_(_QC_CLASSES[self.__classType]).map(function <T>(m:unknown):T {
         self[(m as Function).name] = (m as Function).bind(self);
         return m as T;
       });
@@ -201,12 +218,14 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
       return Object.getPrototypeOf(this.constructor);
     }
 
-    css(_css:any):any {
-      if (typeof this.body !== "undefined" && this.body.style !== "undefined") {
-        logger.debug("body style");
-        this.body.style = _Cast(_css, this.body.style);
+    css(_css: any): any {
+      if (typeof this.body !== "undefined" && typeof this?.body !== "string" && typeof (this?.body as HTMLElement)?.style !== "undefined") {
+          logger.debug("body style");
+          if (this.body){
+              (this.body as any).style = _Cast(_css, (this?.body as HTMLElement)?.style);
+          }
       }
-      return this.body.style;
+      return (typeof this.body !== "string")? (this?.body as HTMLElement)?.style :{};
     }
 
     hierarchy():any {
@@ -215,39 +234,47 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
     }
 
 
-    append(_child?:any) {
-      const child:any = _child || this.body;
+    append(_child?: any) {
+      const child: any = _child || this.body;
       logger.debug("append: start");
       if (is_a(child, "Component")) {
-        logger.debug("append: child is a Component");
-        logger.debug(`appending the body of ${child.name}`);
+          logger.debug("append: child is a Component");
+          logger.debug(`appending the body of ${child.name}`);
       }
       if (typeof this.body !== "undefined") {
-        logger.debug("append element");
-        if (arguments.length > 0) {
-          logger.debug("append to element");
-          this.body.append(child);
-          if (typeof this.childs === "undefined") {
-            this.childs = [];
+          logger.debug("append element");
+          if (arguments.length > 0) {
+              logger.debug("append to element");
+              if (typeof this.body !== "string"){
+                  if (typeof (this.body as IQCObjectsElement)?.append !== "undefined") {
+                      (this?.body as IQCObjectsElement)?.append(child);
+                  } else {
+                      throw Error ("body.append is undefined. That means the body is not well formed.");
+                  }
+              } else {
+                  this.append(child);
+              }
+              if (typeof this.childs === "undefined") {
+                  this.childs = [];
+              }
+              this.childs.push(child);
+          } else {
+              if (isBrowser) {
+                  logger.debug("append to body");
+                  document.body.append(child);
+              }
           }
-          this.childs.push(child);
-        } else {
-          if (isBrowser) {
-            logger.debug("append to body");
-            document.body.append(child);
-          }
-        }
       }
     }
 
-    attachIn(tag:any) {
+    attachIn(tag: any) {
       if (isBrowser) {
-        const tags = (document as any).subelements(tag);
-        for (let i = 0, j = tags.length; i < j; i++) {
-          tags[i].append(this as any);
-        }
+          const tags = (document as any).subelements(tag);
+          for (let i = 0, j = tags.length; i < j; i++) {
+              tags[i].append(this as any);
+          }
       } else {
-        throw new Error("attachIn not yet implemented for non browser platforms");
+          throw new Error("attachIn not yet implemented for non browser platforms");
       }
     }
 
@@ -255,16 +282,16 @@ export const Class:TClass = (_name?:string, _type?: unknown, _definition?: unkno
 
   // remove the keys from definition that exist in the prototype
 
-  (_QC_CLASSES as any)[name] = _CastProps(definition, (_QC_CLASSES as any)[name]);
-  (_QC_CLASSES as any)[name].__definition = definition;
-  (_QC_CLASSES as any)[name].__definition.__classType = name;
-  (_QC_CLASSES as any)[name].__definition.__new__ = function __new__(_o_:any) {
+  _QC_CLASSES[_name] = _CastProps(definition, _QC_CLASSES[_name]);
+  _QC_CLASSES[_name].__definition = definition;
+  _QC_CLASSES[_name].__definition.__classType = _name;
+  _QC_CLASSES[_name].__definition.__new__ = function __new__(_o_:any) {
     _CastProps(_o_, this);
   };
 
-  __make_global__((_QC_CLASSES as any)[name]);
+  (_top as any)[_name] = _QC_CLASSES[_name];
 
-  return (_QC_CLASSES as any)[name] as InheritClass;
+  return _QC_CLASSES[_name] as InheritClass;
 };
 if (typeof Class.prototype !== "undefined"){
   Class.prototype.toString = function () {

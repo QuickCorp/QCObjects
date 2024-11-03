@@ -11,8 +11,6 @@ describe("Global Features Spec", function () {
     it("Class Factory using Class Function, no parent class Spec", function () {
         var classFactory = Class ("MyClass", {});
 
-        Package("myclass", [classFactory]);
-
         console.log("QC_CLASSES: ",_QC_CLASSES);
 
         expect(ClassFactory("MyClass")).toBe( classFactory );
