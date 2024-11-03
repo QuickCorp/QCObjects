@@ -91,6 +91,9 @@ class InheritClass {
             Logger_1.logger.warn(e);
         }
     }
+    static get __classType() {
+        return Object.getPrototypeOf(this.constructor).name;
+    }
     get __classType() {
         return this.constructor.name;
     }

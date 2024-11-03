@@ -380,8 +380,8 @@ const globalSettings_1 = require("./globalSettings");
         (0, Export_1.Export)(Ready_1.ready);
         (0, Export_1.Export)(platform_1.isBrowser);
         (0, Export_1.Export)(introspection_1._methods_);
-        (0, Export_1.Export)((0, ClassFactory_1.ClassFactory)("GlobalSettings"));
-        (0, top_1.resetTop)((0, Cast_1._CastProps)((0, New_1.New)((0, ClassFactory_1.ClassFactory)("GlobalSettings")), _top));
+        (0, Export_1.Export)(globalSettings_1.GlobalSettings);
+        (0, top_1.resetTop)((0, Cast_1._CastProps)((0, New_1.New)(globalSettings_1.GlobalSettings), _top));
         (function (_top) {
             Object.defineProperty(_top, "PackagesNameList", {
                 // eslint-disable-next-line no-unused-vars

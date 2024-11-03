@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Class = void 0;
+const PrimaryCollections_1 = require("./PrimaryCollections");
 const Cast_1 = require("./Cast");
 const DOMCreateElement_1 = require("./DOMCreateElement");
 const getType_1 = require("./getType");
@@ -11,8 +12,7 @@ const is_forbidden_name_1 = require("./is_forbidden_name");
 const LegacyCopy_1 = require("./LegacyCopy");
 const Logger_1 = require("./Logger");
 const platform_1 = require("./platform");
-const PrimaryCollections_1 = require("./PrimaryCollections");
-const make_global_1 = require("./make_global");
+const top_1 = require("./top");
 /**
  * Creates new object class  of another object
  *
@@ -39,27 +39,24 @@ const make_global_1 = require("./make_global");
  *
  * const myClassInstance = new MyClass ({name: "myservice"})
  */
-const Class = (_name, _type, _definition) => {
+const Class = (name, _type, _definition) => {
     const _types_ = {};
-    let name, type, definition;
+    let type, definition;
     switch (true) {
-        case !_name && !_type && !_definition:
+        case !name && !_type && !_definition:
             return class {
             };
-        case !!_name && !_type && !_definition:
-            name = _name;
+        case !!name && !_type && !_definition:
             type = class {
             };
             definition = {};
             break;
-        case !!_name && !_type && !!_definition:
-            name = _name;
+        case !!name && !_type && !!_definition:
             type = class {
             };
             definition = _definition;
             break;
-        case !!_name && !!_type && !!_definition:
-            name = _name;
+        case !!name && !!_type && !!_definition:
             type = _type;
             definition = _definition;
             break;
@@ -67,31 +64,51 @@ const Class = (_name, _type, _definition) => {
             return class {
             };
     }
+    if (typeof name !== "string") {
+        throw new Error("Class name must be a string");
+    }
     if (typeof type !== "function") {
         throw new Error("Class type must be a function or class");
     }
     if ((0, is_forbidden_name_1.__is__forbidden_name__)(name)) {
         throw new Error(`${name} is not an allowed word in the name of a class`);
     }
-    if (typeof type.__definition !== "undefined") {
-        definition.__definition = Object.assign((0, LegacyCopy_1._LegacyCopy)(type.__definition), type);
+    if (typeof type.__definition === "object"
+        && type.__definition
+        && Object.keys(type.__definition).length !== 0) {
+        definition.__definition = Object.assign((0, LegacyCopy_1._LegacyCopy)(type.__definition, ["name"]), type);
     }
     _types_[type.name] = type;
     if (typeof definition === "undefined" || definition === null) {
         definition = {};
     }
     else {
-        definition = (0, LegacyCopy_1._LegacyCopy)(definition);
+        definition = { ...definition };
     }
     /* hack to prevent duplicate __instanceID */
     if (typeof definition.__instanceID !== "undefined") {
         delete definition.__instanceID;
     }
     PrimaryCollections_1._QC_CLASSES[name] = class extends _types_[type.name] {
-        __classType = name;
+        __instanceID;
+        __namespace;
         __definition = {
             ...definition
         };
+        childs;
+        _body;
+        get body() {
+            return this._body;
+        }
+        set body(value) {
+            this._body = value;
+        }
+        static get __classType() {
+            return Object.getPrototypeOf(this.constructor).name;
+        }
+        get __classType() {
+            return this.constructor.name;
+        }
         static hierarchy(__class__) {
             const __classType = function (o_c) {
                 return (Object.hasOwnProperty.call(o_c, "__classType")) ? (o_c.__classType) : (getType_1.__getType__.call(__class__, o_c));
@@ -190,11 +207,13 @@ const Class = (_name, _type, _definition) => {
             return Object.getPrototypeOf(this.constructor);
         }
         css(_css) {
-            if (typeof this.body !== "undefined" && this.body.style !== "undefined") {
+            if (typeof this.body !== "undefined" && typeof this?.body !== "string" && typeof this?.body?.style !== "undefined") {
                 Logger_1.logger.debug("body style");
-                this.body.style = (0, Cast_1._Cast)(_css, this.body.style);
+                if (this.body) {
+                    this.body.style = (0, Cast_1._Cast)(_css, this?.body?.style);
+                }
             }
-            return this.body.style;
+            return (typeof this.body !== "string") ? this?.body?.style : {};
         }
         hierarchy() {
             const __instance__ = this;
@@ -211,7 +230,17 @@ const Class = (_name, _type, _definition) => {
                 Logger_1.logger.debug("append element");
                 if (arguments.length > 0) {
                     Logger_1.logger.debug("append to element");
-                    this.body.append(child);
+                    if (typeof this.body !== "string") {
+                        if (typeof this.body?.append !== "undefined") {
+                            this?.body?.append(child);
+                        }
+                        else {
+                            throw Error("body.append is undefined. That means the body is not well formed.");
+                        }
+                    }
+                    else {
+                        this.append(child);
+                    }
                     if (typeof this.childs === "undefined") {
                         this.childs = [];
                     }
@@ -237,6 +266,7 @@ const Class = (_name, _type, _definition) => {
             }
         }
     };
+    console.log("QC_CLASSES en Class: ", PrimaryCollections_1._QC_CLASSES);
     // remove the keys from definition that exist in the prototype
     PrimaryCollections_1._QC_CLASSES[name] = (0, Cast_1._CastProps)(definition, PrimaryCollections_1._QC_CLASSES[name]);
     PrimaryCollections_1._QC_CLASSES[name].__definition = definition;
@@ -244,7 +274,7 @@ const Class = (_name, _type, _definition) => {
     PrimaryCollections_1._QC_CLASSES[name].__definition.__new__ = function __new__(_o_) {
         (0, Cast_1._CastProps)(_o_, this);
     };
-    (0, make_global_1.__make_global__)(PrimaryCollections_1._QC_CLASSES[name]);
+    top_1._top[name] = PrimaryCollections_1._QC_CLASSES[name];
     return PrimaryCollections_1._QC_CLASSES[name];
 };
 exports.Class = Class;

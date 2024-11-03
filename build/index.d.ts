@@ -214,6 +214,7 @@ declare module "Crypt" {
 declare module "ConfigSettings" {
     import { InheritClass } from "InheritClass";
     type TConfigSettings = {
+        [key: string]: any;
         relativeImportPath: string;
         remoteImportsPath: string;
         remoteSDKPath: string;
@@ -229,12 +230,9 @@ declare module "ConfigSettings" {
         basePath: string;
     };
     export class ConfigSettings extends InheritClass {
-        _CONFIG: any;
+        _CONFIG: TConfigSettings;
         private static _instance;
         _CONFIG_ENC: string;
-        constructor(_config_settings: {
-            _CONFIG: TConfigSettings;
-        });
         static get instance(): ConfigSettings;
     }
 }
@@ -245,7 +243,9 @@ declare module "CONFIG" {
         get _CONFIG_ENC(): string;
         get _CONFIG(): unknown;
         set(name: string, value: unknown): void;
-        get(name: string, _default: unknown): any;
+        get(name: string, _default?: unknown): any;
+        private static _instance;
+        static get instance(): CONFIG;
         static set(name: string, value: unknown): void;
         static get(name: string, value?: unknown): any;
     }
@@ -960,17 +960,17 @@ declare module "Toggle" {
 }
 declare module "QCObjects" {
     export * as AssignPolyfill from "assign";
+    export { _top, resetTop } from "top";
+    export { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "PrimaryCollections";
     export { _DataStringify } from "DataStringify";
     export { _DOMCreateElement } from "DOMCreateElement";
     export { _methods_, _protected_code_ } from "introspection";
     export { logger, Logger } from "Logger";
     export { _require_, is_phonegap, isBrowser, isNodeCommonJS } from "platform";
     export { subelements } from "subelements";
-    export { _top, resetTop } from "top";
     export { __is_raw_class__ } from "is_raw_class";
     export { _LegacyCopy } from "LegacyCopy";
     export { _fireAsyncLoad, asyncLoad } from "asyncLoad";
-    export { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "PrimaryCollections";
     export { __instanceID } from "IncrementInstanceID";
     export { ObjectName } from "ObjectName";
     export { __getType__ } from "getType";

@@ -11,13 +11,13 @@ import { ICONFIG } from "types";
 import { ConfigSettings } from "./ConfigSettings";
 
 
-export class CONFIG extends InheritClass implements ICONFIG{
+export class CONFIG extends InheritClass implements ICONFIG {
 
-  get _CONFIG_ENC():string {
+  get _CONFIG_ENC(): string {
     return ConfigSettings.instance._CONFIG_ENC;
   }
 
-  get _CONFIG():unknown {
+  get _CONFIG(): unknown {
     return ConfigSettings.instance._CONFIG as unknown;
   }
 
@@ -30,7 +30,7 @@ export class CONFIG extends InheritClass implements ICONFIG{
     let _conf;
     try {
       _conf = (
-        function (config) :any{
+        function (config): any {
           if (config._CONFIG_ENC === null) {
             config._CONFIG_ENC = _Crypt.encrypt(_DataStringify({}), _secretKey);
           }
@@ -52,11 +52,11 @@ export class CONFIG extends InheritClass implements ICONFIG{
     }
   }
 
-  get(name: string, _default: unknown):any {
+  get(name: string, _default?: unknown): any {
     let _value;
     try {
       const _conf = (
-        function (config):any {
+        function (config): any {
           if (config._CONFIG_ENC === null) {
             config._CONFIG_ENC = _Crypt.encrypt(_DataStringify({}), _secretKey);
           }
@@ -67,8 +67,6 @@ export class CONFIG extends InheritClass implements ICONFIG{
       )(ConfigSettings.instance);
       if (typeof _conf[name] !== "undefined") {
         _value = _conf[name];
-      } else if (typeof _default !== "undefined") {
-        _value = _default;
       }
     } catch (e) {
       console.error(e);
@@ -76,17 +74,25 @@ export class CONFIG extends InheritClass implements ICONFIG{
       logger.debug("No config value for: " + name);
       _value = _default;
     }
-    return Processor.processObject(_value);
+    return Processor.processObject(_value) || _default;
   }
 
-  static set (name:string, value:unknown){
-    (new CONFIG().set(name, value));
-  }  
-  static get (name:string, value?:unknown):any{
-    return (new CONFIG().set(name, value));
+  private static _instance:CONFIG;
+  static get instance ():CONFIG {
+    if (typeof CONFIG._instance === "undefined") {
+      CONFIG._instance = new CONFIG();
+    }
+    return CONFIG._instance;
+  }
+
+  static set(name: string, value: unknown) {
+    (CONFIG.instance.set(name, value));
+  }
+  static get(name: string, value?: unknown): any {
+    return (CONFIG.instance.get(name, value));
   }
 
 }
 
 
-  Package("com.qcobjects", [CONFIG]);
+Package("com.qcobjects", [CONFIG]);

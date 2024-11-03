@@ -5,7 +5,10 @@ const getType_1 = require("./getType");
 const make_global_1 = require("./make_global");
 const PrimaryCollections_1 = require("./PrimaryCollections");
 const __register_class__ = function (_class_, __namespace) {
-    const name = _class_.name || (0, getType_1.__getType__)(_class_);
+    let name = _class_.name || (0, getType_1.__getType__)(_class_);
+    if (name.toLowerCase() === "function" && typeof _class_.__classType !== "undefined") {
+        name = _class_.__classType;
+    }
     if (typeof _class_.__definition === "undefined") {
         _class_.__definition = {};
     }

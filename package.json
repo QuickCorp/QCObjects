@@ -21,6 +21,7 @@
     "build:ts": "npm test && npx tsc",
     "build:ts-types": "npx tsc --project tsconfig.d.json",
     "build:browser": "npx -y esbuild@0.17.19 build/*.js --bundle --outdir=browser --keep-names --minify --global-name=global --sourcemap --splitting --chunk-names=chunks/[name]-[hash] --format=esm --target=es2021",
+    "build:esbuild": "node ./build-esbuild.js",
     "start": "qcobjects-shell",
     "test:ts-types": "npx tsc --project ./tsconfig.jasmine.json ",
     "test:jasmine": "npm run test:ts-types && npx ts-node --project ./tsconfig.jasmine.json ./node_modules/jasmine/bin/jasmine",

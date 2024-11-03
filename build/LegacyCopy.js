@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports._LegacyCopy = void 0;
 const is_raw_class_1 = require("./is_raw_class");
-const _LegacyCopy = function (obj) {
+const _LegacyCopy = function (obj, _ignore) {
     let _value_;
     switch (true) {
         case typeof obj === "string":
@@ -12,7 +12,9 @@ const _LegacyCopy = function (obj) {
             _value_ = obj;
             break;
         case typeof obj === "object":
-            _value_ = Object.assign({}, obj);
+            _value_ = [{ ...Object.keys(obj).filter(k => !_ignore?.includes(k)) }]
+                .map(k => { return { [k]: obj[k] }; })
+                .reduce((p, c) => Object.assign(p, c));
             break;
         case typeof obj === "function":
             _value_ = obj.bind({});

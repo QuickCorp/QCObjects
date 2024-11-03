@@ -65,73 +65,15 @@ var require_assign = __commonJS({
   }
 });
 
-// src/is_raw_class.ts
-var __is_raw_class__;
-var init_is_raw_class = __esm({
-  "src/is_raw_class.ts"() {
+// src/PrimaryCollections.ts
+var _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS;
+var init_PrimaryCollections = __esm({
+  "src/PrimaryCollections.ts"() {
     "use strict";
-    __is_raw_class__ = function(o_c) {
-      return !!(typeof o_c === "function" && o_c.toString().startsWith("class"));
-    };
-  }
-});
-
-// src/LegacyCopy.ts
-var _LegacyCopy;
-var init_LegacyCopy = __esm({
-  "src/LegacyCopy.ts"() {
-    "use strict";
-    init_is_raw_class();
-    _LegacyCopy = function(obj) {
-      let _value_;
-      switch (true) {
-        case typeof obj === "string":
-          _value_ = obj;
-          break;
-        case typeof obj === "number":
-          _value_ = obj;
-          break;
-        case typeof obj === "object":
-          _value_ = Object.assign({}, obj);
-          break;
-        case typeof obj === "function":
-          _value_ = obj.bind({});
-          break;
-        case __is_raw_class__(obj):
-          _value_ = class extends obj {
-          };
-          break;
-        default:
-          break;
-      }
-      return _value_;
-    };
-  }
-});
-
-// src/DataStringify.ts
-var _DataStringify;
-var init_DataStringify = __esm({
-  "src/DataStringify.ts"() {
-    "use strict";
-    init_LegacyCopy();
-    _DataStringify = function(data) {
-      const getCircularReplacer = function() {
-        const seen = /* @__PURE__ */ new WeakSet();
-        let _level = 0;
-        return function(key, value) {
-          if (typeof value === "object" && value !== null) {
-            if (seen.has(value)) {
-              _level += 1;
-              return _level <= 3 ? _LegacyCopy(value) : null;
-            }
-            seen.add(value);
-          }
-          return value;
-        };
-      };
-      return JSON.stringify(data, getCircularReplacer());
-    };
+    _QC_CLASSES = {};
+    _QC_PACKAGES = {};
+    _QC_PACKAGES_IMPORTED = [];
+    _QC_READY_LISTENERS = [];
   }
 });
 
@@ -154,6 +96,82 @@ var init_platform = __esm({
   }
 });
 
+// src/Logger.ts
+var Logger, logger;
+var init_Logger = __esm({
+  "src/Logger.ts"() {
+    "use strict";
+    init_platform();
+    Logger = class {
+      debugEnabled = true;
+      infoEnabled = true;
+      warnEnabled = true;
+      debug(message) {
+        if (this.debugEnabled) {
+          console.log("\x1B[35m%s\x1B[0m", `[DEBUG][${performance.now().toLocaleString()}] ${message}`);
+        }
+      }
+      info(message) {
+        let color;
+        if (this.infoEnabled) {
+          if (isBrowser) {
+            color = "\x1B[103m%s\x1B[0m";
+          } else {
+            color = "\x1B[33m%s\x1B[0m";
+          }
+          console.info(color, `[INFO][${performance.now().toLocaleString()}] ${message}`);
+        }
+      }
+      warn(message) {
+        if (this.warnEnabled) {
+          console.warn("\x1B[31m%s\x1B[0m", `[WARN][${performance.now().toLocaleString()}] ${message}`);
+        }
+      }
+    };
+    logger = new Logger();
+  }
+});
+
+// src/Cast.ts
+var _Cast, _CastProps;
+var init_Cast = __esm({
+  "src/Cast.ts"() {
+    "use strict";
+    init_Logger();
+    _Cast = function(obj_source, obj_dest) {
+      for (const v in obj_source) {
+        if (typeof obj_source[v] !== "undefined") {
+          try {
+            obj_dest[v] = obj_source[v];
+          } catch (e) {
+            logger.debug(`An error ocurred: ${e}.`);
+            logger.warn(`Unable to cast ${(typeof obj_source).toString()}.${typeof v.toString()} to ${(typeof obj_dest).toString()}.${typeof v.toString()}`);
+          }
+        }
+      }
+      return obj_dest;
+    };
+    _CastProps = function(obj_source, obj_dest) {
+      for (const v in obj_source) {
+        if (typeof obj_source[v] !== "undefined" && typeof obj_source[v] !== "function") {
+          try {
+            obj_dest[v] = obj_source[v];
+          } catch (e) {
+            logger.debug(`An error ocurred: ${e}.`);
+          }
+        } else if (typeof obj_source[v] === "function") {
+          try {
+            obj_dest[v] = obj_source[v].bind(obj_dest);
+          } catch (e) {
+            logger.warn(e);
+          }
+        }
+      }
+      return obj_dest;
+    };
+  }
+});
+
 // src/DOMCreateElement.ts
 var _DOMCreateElement;
 var init_DOMCreateElement = __esm({
@@ -168,6 +186,82 @@ var init_DOMCreateElement = __esm({
         _ret_ = {};
       }
       return _ret_;
+    };
+  }
+});
+
+// src/is_raw_class.ts
+var __is_raw_class__;
+var init_is_raw_class = __esm({
+  "src/is_raw_class.ts"() {
+    "use strict";
+    __is_raw_class__ = function(o_c) {
+      return !!(typeof o_c === "function" && o_c.toString().startsWith("class"));
+    };
+  }
+});
+
+// src/ObjectName.ts
+var ObjectName;
+var init_ObjectName = __esm({
+  "src/ObjectName.ts"() {
+    "use strict";
+    ObjectName = function(o) {
+      let ret = "";
+      if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
+        ret = o.name;
+      } else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {
+        ret = o.constructor.name;
+      } else if (typeof o !== "undefined" && typeof o.constructor === "object") {
+        ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
+      }
+      return ret;
+    };
+  }
+});
+
+// src/getType.ts
+var __getType__;
+var init_getType = __esm({
+  "src/getType.ts"() {
+    "use strict";
+    init_is_raw_class();
+    init_ObjectName();
+    __getType__ = function __getType__2(o_c) {
+      let _ret_ = "";
+      switch (true) {
+        case (__is_raw_class__(o_c) && !!o_c.name):
+          _ret_ = o_c.name;
+          break;
+        case (typeof o_c === "object" && (!!o_c.constructor && !!o_c.constructor.name) && o_c.constructor.name !== ""):
+          _ret_ = o_c.constructor.name;
+          break;
+        case (!!o_c && !!o_c.__classType && o_c.__classType !== ""):
+          _ret_ = o_c.__classType;
+          break;
+        case (!!o_c && !!o_c.__definition && !!o_c.__definition.__classType && o_c.__definition.__classType !== ""):
+          _ret_ = o_c.__definition.__classType;
+          break;
+        case (typeof o_c === "function" && !!o_c.name):
+          _ret_ = o_c.name;
+          break;
+        default:
+          _ret_ = ObjectName(o_c);
+          break;
+      }
+      return _ret_;
+    };
+  }
+});
+
+// src/IncrementInstanceID.ts
+var __instanceID, IncrementInstanceID;
+var init_IncrementInstanceID = __esm({
+  "src/IncrementInstanceID.ts"() {
+    "use strict";
+    __instanceID = 0;
+    IncrementInstanceID = () => {
+      __instanceID = typeof __instanceID === "undefined" || __instanceID === null ? 0 : __instanceID + 1;
     };
   }
 });
@@ -260,159 +354,6 @@ var init_introspection = __esm({
   }
 });
 
-// src/Logger.ts
-var Logger, logger;
-var init_Logger = __esm({
-  "src/Logger.ts"() {
-    "use strict";
-    init_platform();
-    Logger = class {
-      debugEnabled = true;
-      infoEnabled = true;
-      warnEnabled = true;
-      debug(message) {
-        if (this.debugEnabled) {
-          console.log("\x1B[35m%s\x1B[0m", `[DEBUG][${performance.now().toLocaleString()}] ${message}`);
-        }
-      }
-      info(message) {
-        let color;
-        if (this.infoEnabled) {
-          if (isBrowser) {
-            color = "\x1B[103m%s\x1B[0m";
-          } else {
-            color = "\x1B[33m%s\x1B[0m";
-          }
-          console.info(color, `[INFO][${performance.now().toLocaleString()}] ${message}`);
-        }
-      }
-      warn(message) {
-        if (this.warnEnabled) {
-          console.warn("\x1B[31m%s\x1B[0m", `[WARN][${performance.now().toLocaleString()}] ${message}`);
-        }
-      }
-    };
-    logger = new Logger();
-  }
-});
-
-// src/subelements.ts
-var subelements;
-var init_subelements = __esm({
-  "src/subelements.ts"() {
-    "use strict";
-    subelements = function subelements2(query) {
-      const _self = this;
-      return [..._self.querySelectorAll(query)];
-    };
-  }
-});
-
-// src/Cast.ts
-var _Cast, _CastProps;
-var init_Cast = __esm({
-  "src/Cast.ts"() {
-    "use strict";
-    init_Logger();
-    _Cast = function(obj_source, obj_dest) {
-      for (const v in obj_source) {
-        if (typeof obj_source[v] !== "undefined") {
-          try {
-            obj_dest[v] = obj_source[v];
-          } catch (e) {
-            logger.debug(`An error ocurred: ${e}.`);
-            logger.warn(`Unable to cast ${(typeof obj_source).toString()}.${typeof v.toString()} to ${(typeof obj_dest).toString()}.${typeof v.toString()}`);
-          }
-        }
-      }
-      return obj_dest;
-    };
-    _CastProps = function(obj_source, obj_dest) {
-      for (const v in obj_source) {
-        if (typeof obj_source[v] !== "undefined" && typeof obj_source[v] !== "function") {
-          try {
-            obj_dest[v] = obj_source[v];
-          } catch (e) {
-            logger.debug(`An error ocurred: ${e}.`);
-          }
-        } else if (typeof obj_source[v] === "function") {
-          try {
-            obj_dest[v] = obj_source[v].bind(obj_dest);
-          } catch (e) {
-            logger.warn(e);
-          }
-        }
-      }
-      return obj_dest;
-    };
-  }
-});
-
-// src/ObjectName.ts
-var ObjectName;
-var init_ObjectName = __esm({
-  "src/ObjectName.ts"() {
-    "use strict";
-    ObjectName = function(o) {
-      let ret = "";
-      if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
-        ret = o.name;
-      } else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {
-        ret = o.constructor.name;
-      } else if (typeof o !== "undefined" && typeof o.constructor === "object") {
-        ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
-      }
-      return ret;
-    };
-  }
-});
-
-// src/getType.ts
-var __getType__;
-var init_getType = __esm({
-  "src/getType.ts"() {
-    "use strict";
-    init_is_raw_class();
-    init_ObjectName();
-    __getType__ = function __getType__2(o_c) {
-      let _ret_ = "";
-      switch (true) {
-        case (__is_raw_class__(o_c) && !!o_c.name):
-          _ret_ = o_c.name;
-          break;
-        case (typeof o_c === "object" && (!!o_c.constructor && !!o_c.constructor.name) && o_c.constructor.name !== ""):
-          _ret_ = o_c.constructor.name;
-          break;
-        case (!!o_c && !!o_c.__classType && o_c.__classType !== ""):
-          _ret_ = o_c.__classType;
-          break;
-        case (!!o_c && !!o_c.__definition && !!o_c.__definition.__classType && o_c.__definition.__classType !== ""):
-          _ret_ = o_c.__definition.__classType;
-          break;
-        case (typeof o_c === "function" && !!o_c.name):
-          _ret_ = o_c.name;
-          break;
-        default:
-          _ret_ = ObjectName(o_c);
-          break;
-      }
-      return _ret_;
-    };
-  }
-});
-
-// src/IncrementInstanceID.ts
-var __instanceID, IncrementInstanceID;
-var init_IncrementInstanceID = __esm({
-  "src/IncrementInstanceID.ts"() {
-    "use strict";
-    __instanceID = 0;
-    IncrementInstanceID = () => {
-      __instanceID = typeof __instanceID === "undefined" || __instanceID === null ? 0 : __instanceID + 1;
-    };
-  }
-});
-
 // src/isQCObjects.ts
 var isQCObjects_Object, isQCObjects_Class;
 var init_isQCObjects = __esm({
@@ -447,45 +388,42 @@ var init_is_forbidden_name = __esm({
   "src/is_forbidden_name.ts"() {
     "use strict";
     __is__forbidden_name__ = function(name) {
-      return ["__proto__", "prototype", "Object", "Map", "defineProperty", "indexOf", "toString", "__instanceID"].indexOf(name) !== -1;
+      return ["__proto__", "prototype", "Object", "Map", "defineProperty", "indexOf", "toString", "__instanceID", "function", "Function"].indexOf(name) !== -1;
     };
   }
 });
 
-// src/PrimaryCollections.ts
-var _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS;
-var init_PrimaryCollections = __esm({
-  "src/PrimaryCollections.ts"() {
+// src/LegacyCopy.ts
+var _LegacyCopy;
+var init_LegacyCopy = __esm({
+  "src/LegacyCopy.ts"() {
     "use strict";
-    _QC_CLASSES = {};
-    _QC_PACKAGES = {};
-    _QC_PACKAGES_IMPORTED = [];
-    _QC_READY_LISTENERS = [];
-  }
-});
-
-// src/make_global.ts
-var __make_global__;
-var init_make_global = __esm({
-  "src/make_global.ts"() {
-    "use strict";
-    init_platform();
-    init_top();
-    __make_global__ = function(f) {
-      if (typeof f !== "undefined") {
-        if (isBrowser) {
-          try {
-            _top[f.name] = f;
-            window[f.name] = f;
-          } catch (e) {
-            throw Error(`An error ocurred: ${e}`);
-          }
-        } else if (typeof global !== "undefined") {
-          if (!Object.hasOwnProperty.call(global, f.name)) {
-            global[f.name] = f;
-          }
-        }
+    init_is_raw_class();
+    _LegacyCopy = function(obj, _ignore) {
+      let _value_;
+      switch (true) {
+        case typeof obj === "string":
+          _value_ = obj;
+          break;
+        case typeof obj === "number":
+          _value_ = obj;
+          break;
+        case typeof obj === "object":
+          _value_ = [{ ...Object.keys(obj).filter((k) => !_ignore?.includes(k)) }].map((k) => {
+            return { [k]: obj[k] };
+          }).reduce((p, c) => Object.assign(p, c));
+          break;
+        case typeof obj === "function":
+          _value_ = obj.bind({});
+          break;
+        case __is_raw_class__(obj):
+          _value_ = class extends obj {
+          };
+          break;
+        default:
+          break;
       }
+      return _value_;
     };
   }
 });
@@ -495,6 +433,7 @@ var Class;
 var init_Class = __esm({
   "src/Class.ts"() {
     "use strict";
+    init_PrimaryCollections();
     init_Cast();
     init_DOMCreateElement();
     init_getType();
@@ -505,29 +444,25 @@ var init_Class = __esm({
     init_LegacyCopy();
     init_Logger();
     init_platform();
-    init_PrimaryCollections();
-    init_make_global();
-    Class = (_name, _type, _definition) => {
+    init_top();
+    Class = (name, _type, _definition) => {
       const _types_ = {};
-      let name, type, definition;
+      let type, definition;
       switch (true) {
-        case (!_name && !_type && !_definition):
+        case (!name && !_type && !_definition):
           return class {
           };
-        case (!!_name && !_type && !_definition):
-          name = _name;
+        case (!!name && !_type && !_definition):
           type = class {
           };
           definition = {};
           break;
-        case (!!_name && !_type && !!_definition):
-          name = _name;
+        case (!!name && !_type && !!_definition):
           type = class {
           };
           definition = _definition;
           break;
-        case (!!_name && !!_type && !!_definition):
-          name = _name;
+        case (!!name && !!_type && !!_definition):
           type = _type;
           definition = _definition;
           break;
@@ -535,25 +470,47 @@ var init_Class = __esm({
           return class {
           };
       }
+      if (typeof name !== "string") {
+        throw new Error("Class name must be a string");
+      }
       if (typeof type !== "function") {
         throw new Error("Class type must be a function or class");
       }
       if (__is__forbidden_name__(name)) {
         throw new Error(`${name} is not an allowed word in the name of a class`);
       }
-      if (typeof type.__definition !== "undefined") {
-        definition.__definition = Object.assign(_LegacyCopy(type.__definition), type);
+      if (typeof type.__definition === "object" && type.__definition && Object.keys(type.__definition).length !== 0) {
+        definition.__definition = Object.assign(_LegacyCopy(type.__definition, ["name"]), type);
       }
       _types_[type.name] = type;
       if (typeof definition === "undefined" || definition === null) {
         definition = {};
       } else {
-        definition = _LegacyCopy(definition);
+        definition = { ...definition };
       }
       if (typeof definition.__instanceID !== "undefined") {
         delete definition.__instanceID;
       }
       _QC_CLASSES[name] = class extends _types_[type.name] {
+        __instanceID;
+        __namespace;
+        __definition = {
+          ...definition
+        };
+        childs;
+        _body;
+        get body() {
+          return this._body;
+        }
+        set body(value) {
+          this._body = value;
+        }
+        static get __classType() {
+          return Object.getPrototypeOf(this.constructor).name;
+        }
+        get __classType() {
+          return this.constructor.name;
+        }
         static hierarchy(__class__) {
           const __classType = function(o_c) {
             return Object.hasOwnProperty.call(o_c, "__classType") ? o_c.__classType : __getType__.call(__class__, o_c);
@@ -646,11 +603,13 @@ var init_Class = __esm({
           return Object.getPrototypeOf(this.constructor);
         }
         css(_css) {
-          if (typeof this.body !== "undefined" && this.body.style !== "undefined") {
+          if (typeof this.body !== "undefined" && typeof this?.body !== "string" && typeof this?.body?.style !== "undefined") {
             logger.debug("body style");
-            this.body.style = _Cast(_css, this.body.style);
+            if (this.body) {
+              this.body.style = _Cast(_css, this?.body?.style);
+            }
           }
-          return this.body.style;
+          return typeof this.body !== "string" ? this?.body?.style : {};
         }
         hierarchy() {
           const __instance__ = this;
@@ -667,7 +626,15 @@ var init_Class = __esm({
             logger.debug("append element");
             if (arguments.length > 0) {
               logger.debug("append to element");
-              this.body.append(child);
+              if (typeof this.body !== "string") {
+                if (typeof this.body?.append !== "undefined") {
+                  this?.body?.append(child);
+                } else {
+                  throw Error("body.append is undefined. That means the body is not well formed.");
+                }
+              } else {
+                this.append(child);
+              }
               if (typeof this.childs === "undefined") {
                 this.childs = [];
               }
@@ -691,13 +658,14 @@ var init_Class = __esm({
           }
         }
       };
+      console.log("QC_CLASSES en Class: ", _QC_CLASSES);
       _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
       _QC_CLASSES[name].__definition = definition;
       _QC_CLASSES[name].__definition.__classType = name;
       _QC_CLASSES[name].__definition.__new__ = function __new__(_o_) {
         _CastProps(_o_, this);
       };
-      __make_global__(_QC_CLASSES[name]);
+      _top[name] = _QC_CLASSES[name];
       return _QC_CLASSES[name];
     };
     if (typeof Class.prototype !== "undefined") {
@@ -705,6 +673,32 @@ var init_Class = __esm({
         return "Class(name, type, definition) { [QCObjects native code] }";
       };
     }
+  }
+});
+
+// src/make_global.ts
+var __make_global__;
+var init_make_global = __esm({
+  "src/make_global.ts"() {
+    "use strict";
+    init_platform();
+    init_top();
+    __make_global__ = function(f) {
+      if (typeof f !== "undefined") {
+        if (isBrowser) {
+          try {
+            _top[f.name] = f;
+            window[f.name] = f;
+          } catch (e) {
+            throw Error(`An error ocurred: ${e}`);
+          }
+        } else if (typeof global !== "undefined") {
+          if (!Object.hasOwnProperty.call(global, f.name)) {
+            global[f.name] = f;
+          }
+        }
+      }
+    };
   }
 });
 
@@ -717,7 +711,10 @@ var init_RegisterClass = __esm({
     init_make_global();
     init_PrimaryCollections();
     __register_class__ = function(_class_, __namespace) {
-      const name = _class_.name || __getType__(_class_);
+      let name = _class_.name || __getType__(_class_);
+      if (name.toLowerCase() === "function" && typeof _class_.__classType !== "undefined") {
+        name = _class_.__classType;
+      }
       if (typeof _class_.__definition === "undefined") {
         _class_.__definition = {};
       }
@@ -953,6 +950,32 @@ var init_basePath = __esm({
   }
 });
 
+// src/DataStringify.ts
+var _DataStringify;
+var init_DataStringify = __esm({
+  "src/DataStringify.ts"() {
+    "use strict";
+    init_LegacyCopy();
+    _DataStringify = function(data) {
+      const getCircularReplacer = function() {
+        const seen = /* @__PURE__ */ new WeakSet();
+        let _level = 0;
+        return function(key, value) {
+          if (typeof value === "object" && value !== null) {
+            if (seen.has(value)) {
+              _level += 1;
+              return _level <= 3 ? _LegacyCopy(value) : null;
+            }
+            seen.add(value);
+          }
+          return value;
+        };
+      };
+      return JSON.stringify(data, getCircularReplacer());
+    };
+  }
+});
+
 // src/domain.ts
 var _domain_;
 var init_domain = __esm({
@@ -1050,6 +1073,9 @@ var init_InheritClass = __esm({
         } catch (e) {
           logger.warn(e);
         }
+      }
+      static get __classType() {
+        return Object.getPrototypeOf(this.constructor).name;
       }
       get __classType() {
         return this.constructor.name;
@@ -3387,6 +3413,18 @@ var init_top = __esm({
   }
 });
 
+// src/subelements.ts
+var subelements;
+var init_subelements = __esm({
+  "src/subelements.ts"() {
+    "use strict";
+    subelements = function subelements2(query) {
+      const _self = this;
+      return [..._self.querySelectorAll(query)];
+    };
+  }
+});
+
 // src/waitUntil.ts
 var waitUntil;
 var init_waitUntil = __esm({
@@ -4909,17 +4947,17 @@ __export(QCObjects_exports, {
 });
 module.exports = __toCommonJS(QCObjects_exports);
 var AssignPolyfill = __toESM(require_assign());
+init_top();
+init_PrimaryCollections();
 init_DataStringify();
 init_DOMCreateElement();
 init_introspection();
 init_Logger();
 init_platform();
 init_subelements();
-init_top();
 init_is_raw_class();
 init_LegacyCopy();
 init_asyncLoad();
-init_PrimaryCollections();
 init_IncrementInstanceID();
 init_ObjectName();
 init_getType();

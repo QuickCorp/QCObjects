@@ -8,7 +8,7 @@ describe("Global Features Spec", function () {
     logger.warnEnabled=true;
   
     it("Class Factory using Class Function, no parent class Spec",  () => {
-        var MyClass = Class ("MyClass", {});
+        const MyClass = Class ("MyClass", class {}, {});
 
 
         expect(ClassFactory("MyClass")).toBe( MyClass );
@@ -16,7 +16,7 @@ describe("Global Features Spec", function () {
     });
 
     it("Global Class Factory using Class Function, no parent class Spec", () => {
-        var classFactory = Class ("MyClass", {});
+        const classFactory = Class ("MyClass", class {}, {});
         Package("com.qcobjects", [classFactory]);
 
         expect((global as any).MyClass).toBe( classFactory );
@@ -25,13 +25,13 @@ describe("Global Features Spec", function () {
 
     it("Class Factory inside a package, no parent class Spec",  () => {
         Package("com.qcobjects.tests",[
-            Class("MyClass",{
+            Class("MyNewClass",class {},{
                 propertyName1:"propertyValue1",
             })
         ]);
-        var classFactory = ClassFactory("com.qcobjects.tests.MyClass");
+        const classFactory = ClassFactory("com.qcobjects.tests.MyNewClass");
 
-        expect(ClassFactory("MyClass")).toBe( classFactory );
+        expect(ClassFactory("MyNewClass")).toBe( classFactory );
         logger.debug("Class Factory inside a package, no parent class Spec... OK");
     });
     

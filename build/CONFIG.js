@@ -60,9 +60,6 @@ class CONFIG extends InheritClass_1.InheritClass {
             if (typeof _conf[name] !== "undefined") {
                 _value = _conf[name];
             }
-            else if (typeof _default !== "undefined") {
-                _value = _default;
-            }
         }
         catch (e) {
             console.error(e);
@@ -70,13 +67,20 @@ class CONFIG extends InheritClass_1.InheritClass {
             Logger_1.logger.debug("No config value for: " + name);
             _value = _default;
         }
-        return Processor_1.GlobalProcessor.processObject(_value);
+        return Processor_1.GlobalProcessor.processObject(_value) || _default;
+    }
+    static _instance;
+    static get instance() {
+        if (typeof CONFIG._instance === "undefined") {
+            CONFIG._instance = new CONFIG();
+        }
+        return CONFIG._instance;
     }
     static set(name, value) {
-        (new CONFIG().set(name, value));
+        (CONFIG.instance.set(name, value));
     }
     static get(name, value) {
-        return (new CONFIG().set(name, value));
+        return (CONFIG.instance.get(name, value));
     }
 }
 exports.CONFIG = CONFIG;

@@ -21,10 +21,7 @@ describe("QCObjects Main Test", function () {
   });
 
   it("Main intance Test Spec", function () {
-    const Main = Class("Main", Object, {
-      _new_: () => {
-      }
-    });    
+    class Main extends InheritClass {}
     let __main__ = New(Main, {});
     expect(typeof __main__.__instanceID).toEqual("number");
     expect(__main__.__classType).toEqual("Main");
