@@ -72,7 +72,7 @@ export class Processor extends InheritClass implements IProcessor {
     if (typeof obj === "object") {
       Object.keys(obj).map(
          (_k) => {
-          if (typeof obj[_k] === "object" && !obj[_k].hasOwnProperty.call(obj[_k], "call")) {
+          if (typeof obj[_k] === "object" && !Object.hasOwn(obj[_k], "call")) {
             obj[_k] = __instance__?.processObject.bind(__instance__)(obj[_k], component as IComponent);
           } else if (typeof obj[_k] === "string") {
             obj[_k] = __instance__?.process.bind(__instance__)(obj[_k], component as IComponent);

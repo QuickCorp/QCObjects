@@ -32,7 +32,7 @@ export class TagElements extends ArrayList implements ITagElements {
       const _o = New(ClassFactory("TagElements"));
       if (isBrowser) {
         for (const _k in this) {
-          if (typeof _k === "number" && typeof this[_k] !== "function" && this[_k].hasOwnProperty.call(this[_k], "subelements")) {
+          if (typeof _k === "number" && typeof this[_k] !== "function" && Object.hasOwn(this[_k], "subelements")) {
             _o.push(this[_k].subelements(elementName));
           }
         }
@@ -55,7 +55,7 @@ export class TagElements extends ArrayList implements ITagElements {
       const o = (document as unknown as IQCObjectsElement).subelements(tagname);
       const addedKeys = [];
       for (let _i = 0; _i < o.length; _i++) {
-        if (typeof innerHTML !== "undefined" && o[_i].hasOwnProperty.call(o[_i], "innerHTML")) {
+        if (typeof innerHTML !== "undefined" && Object.hasOwn(o[_i], "innerHTML")) {
           o[_i].innerHTML = innerHTML;
         }
         if (addedKeys.indexOf(_i) < 0) {

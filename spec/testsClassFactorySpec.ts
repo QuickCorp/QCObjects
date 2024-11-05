@@ -29,6 +29,8 @@ describe("qcobjects", function () {
                 propertyName1:"propertyValue1",
             })
         ]);
+
+        console.log(_QC_PACKAGES["com.qcobjects.tests"]);
         const classFactory = ClassFactory("com.qcobjects.tests.MyNewClass");
 
         expect(ClassFactory("MyNewClass")).toBe( classFactory );

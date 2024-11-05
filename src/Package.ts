@@ -1,4 +1,5 @@
 import { InheritClass } from "./InheritClass";
+import { __is_raw_class__ } from "./is_raw_class";
 import { _QC_PACKAGES } from "./PrimaryCollections";
 import { __register_class__ } from "./RegisterClass";
 
@@ -19,10 +20,13 @@ export const Package = function (namespace: string, classes: any[] = []): any[] 
   ) {
     classes.filter(
       function (_c1) {
-        return _c1.prototype instanceof InheritClass;
+        return __is_raw_class__(_c1);
       }
     ).map(<T>(_class_: any): T => {
-      _class_.__definition.__namespace = namespace;
+      if (typeof _class_.__definition === "undefined") {
+        _class_.__definition = {};
+      }
+    _class_.__definition.__namespace = namespace;
       _class_.__namespace = namespace;
       return _class_ as T;
     });
@@ -31,15 +35,21 @@ export const Package = function (namespace: string, classes: any[] = []): any[] 
     if (typeof classes === "object" && Object.hasOwn(classes, "length")) {
       classes.filter(
         function (_c1) {
-          return _c1.prototype instanceof InheritClass;
+          return __is_raw_class__(_c1);
         }
       ).map(<T>(_class_: any): T => {
+        if (typeof _class_.__definition === "undefined") {
+          _class_.__definition = {};
+        }
         _class_.__definition.__namespace = namespace;
         _class_.__namespace = namespace;
         return _class_ as T;
       });
     } else if ((classes as any).prototype instanceof InheritClass) {
-      (classes as any).__definition.__namespace = namespace;
+      if (typeof (classes as any).__definition === "undefined") {
+        (classes as any).__definition = {};
+      }
+    (classes as any).__definition.__namespace = namespace;
       (classes as any).__namespace = namespace;
     }
     (_QC_PACKAGES as any)[namespace] = classes;

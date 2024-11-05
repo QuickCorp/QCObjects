@@ -1,3 +1,17 @@
+declare module "is_raw_class" {
+    export const __is_raw_class__: (o_c: any) => boolean;
+}
+declare module "PrimaryCollections" {
+    import { T_QC_CLASSES, T_QC_PACKAGES } from "types";
+    export var _QC_CLASSES: T_QC_CLASSES;
+    export var _QC_PACKAGES: T_QC_PACKAGES;
+    export var _QC_PACKAGES_IMPORTED: any[];
+    export var _QC_READY_LISTENERS: any[];
+}
+declare module "ClassFactory" {
+    import { TClassFactory } from "types";
+    export const ClassFactory: TClassFactory;
+}
 declare module "platform" {
     export const isDeno: boolean;
     export const isBrowser: boolean;
@@ -16,6 +30,54 @@ declare module "Logger" {
         warn(message: string): void;
     }
     export const logger: Logger;
+}
+declare module "New" {
+    /**
+     * Creates an object from a Class definition
+     *
+     * @param {QC_Object} o
+     * @param {Object} args
+     */
+    export const New: (__class__: any, args?: {}) => any;
+}
+declare module "mathFunctions" {
+    export const __to_number: (value: any) => number;
+}
+declare module "ArrayCollection" {
+    import { IArrayCollection, IArrayList } from "types";
+    export class ArrayList extends Array implements IArrayList {
+        prototype: any;
+        unique(): any[];
+        table(): void;
+        sum(): number;
+        avg(): number;
+        min(): number;
+        max(): number;
+        sortBy(propName: string, sortAsc?: boolean): any[];
+        matrix(length: number, fillValue?: number): any[];
+        matrix2d(length: number, fillValue?: number): any[][];
+        matrix3d(length: number, fillValue?: number): any[][][];
+    }
+    export class ArrayCollection implements IArrayCollection {
+        source: ArrayList;
+        changed(prop: string, value: any): void;
+        push(value: any): void;
+        pop(): void;
+        _new_(source: ArrayList): void;
+    }
+}
+declare module "basePath" {
+    export var _basePath_: string;
+    export const setBasePath: (value: string) => void;
+}
+declare module "LegacyCopy" {
+    export const _LegacyCopy: (obj: any, _ignore?: string[]) => any;
+}
+declare module "DataStringify" {
+    export const _DataStringify: (data: any) => string;
+}
+declare module "domain" {
+    export const _domain_: string;
 }
 declare module "IncrementInstanceID" {
     /**
@@ -44,9 +106,6 @@ declare module "DOMCreateElement" {
     import { IQCObjectsElement } from "types";
     export const _DOMCreateElement: (elementName: string) => IQCObjectsElement;
 }
-declare module "is_raw_class" {
-    export const __is_raw_class__: (o_c: any) => boolean;
-}
 declare module "ObjectName" {
     /**
      * Returns the object or function name
@@ -67,6 +126,10 @@ declare module "introspection" {
     export const _protected_code_: (_: any) => void;
     export const _methods_: <T>(_: any) => T[];
 }
+declare module "isQCObjects" {
+    export const isQCObjects_Object: (_: any) => boolean;
+    export const isQCObjects_Class: (_: any) => boolean;
+}
 declare module "is_a" {
     /**
      * Returns if a class or object is from a determinated type
@@ -74,13 +137,6 @@ declare module "is_a" {
      * @param {String} typeName
      */
     export const is_a: (obj: any, typeName: string) => boolean;
-}
-declare module "PrimaryCollections" {
-    import { T_QC_CLASSES, T_QC_PACKAGES } from "types";
-    export var _QC_CLASSES: T_QC_CLASSES;
-    export var _QC_PACKAGES: T_QC_PACKAGES;
-    export var _QC_PACKAGES_IMPORTED: any[];
-    export var _QC_READY_LISTENERS: any[];
 }
 declare module "is_forbidden_name" {
     /**
@@ -92,9 +148,6 @@ declare module "is_forbidden_name" {
      * @param {Object} definition
      */
     export const __is__forbidden_name__: (name: string) => boolean;
-}
-declare module "LegacyCopy" {
-    export const _LegacyCopy: (obj: any, _ignore?: string[]) => any;
 }
 declare module "Class" {
     import { TClass } from "types";
@@ -134,25 +187,6 @@ declare module "Base64" {
         _utf8_encode(e: string): string;
         _utf8_decode(e: string): string;
     };
-}
-declare module "basePath" {
-    export var _basePath_: string;
-    export const setBasePath: (value: string) => void;
-}
-declare module "DataStringify" {
-    export const _DataStringify: (data: any) => string;
-}
-declare module "domain" {
-    export const _domain_: string;
-}
-declare module "New" {
-    /**
-     * Creates an object from a Class definition
-     *
-     * @param {QC_Object} o
-     * @param {Object} args
-     */
-    export const New: (__class__: any, args?: {}) => any;
 }
 declare module "secretKey" {
     export const _secretKey: string;
@@ -561,40 +595,6 @@ declare module "InheritClass" {
         hierarchy(): any;
         append(_child?: any): void;
         attachIn(tag: any): void;
-    }
-}
-declare module "isQCObjects" {
-    export const isQCObjects_Object: (_: any) => boolean;
-    export const isQCObjects_Class: (_: any) => boolean;
-}
-declare module "ClassFactory" {
-    import { TClassFactory } from "types";
-    export const ClassFactory: TClassFactory;
-}
-declare module "mathFunctions" {
-    export const __to_number: (value: any) => number;
-}
-declare module "ArrayCollection" {
-    import { IArrayCollection, IArrayList } from "types";
-    export class ArrayList extends Array implements IArrayList {
-        prototype: any;
-        unique(): any[];
-        table(): void;
-        sum(): number;
-        avg(): number;
-        min(): number;
-        max(): number;
-        sortBy(propName: string, sortAsc?: boolean): any[];
-        matrix(length: number, fillValue?: number): any[];
-        matrix2d(length: number, fillValue?: number): any[][];
-        matrix3d(length: number, fillValue?: number): any[][][];
-    }
-    export class ArrayCollection implements IArrayCollection {
-        source: ArrayList;
-        changed(prop: string, value: any): void;
-        push(value: any): void;
-        pop(): void;
-        _new_(source: ArrayList): void;
     }
 }
 declare module "BackendMicroservice" {

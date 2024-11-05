@@ -59,7 +59,7 @@ export const Import = function (packagename:string, ready?:Function, external?:b
                 });
             };
 
-            if (!_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES, packagename)) {
+            if (!Object.hasOwn(_QC_PACKAGES, packagename)) {
                 const s1:HTMLScriptElement = _DOMCreateElement("script") as unknown as HTMLScriptElement;
                 s1.type = CONFIG.get("sourceType", "text/javascript");
                 s1.async = !!(CONFIG.get("asynchronousImportsLoad"));

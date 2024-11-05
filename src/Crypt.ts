@@ -22,7 +22,7 @@ export class _Crypt extends InheritClass implements _ICrypt{
     construct= false;
     _new_(o: { string?: string; key: string; }) {
         const string = o.string;
-        let key:string = (o.hasOwnProperty.call(o, "key")) ? (o.key) : ("");
+        let key:string = (Object.hasOwn(o, "key")) ? (o.key) : ("");
         this.__new__(o);
         key = (key === "") ? (this.__instanceID.toString()) : (key);
         this.last_key = key;
