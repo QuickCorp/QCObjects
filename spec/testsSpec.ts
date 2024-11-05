@@ -2,10 +2,11 @@
 
 import { _DataStringify, Class, ClassFactory, Component, CONFIG, Effect, logger, New, global, InheritClass, __getType__ } from "../src/QCObjects";
 
+
 /* eslint-disable no-undef */
 
 
-describe("QCObjects Main Test", function () {
+describe("qcobjects", function () {
   logger.debugEnabled=true;
   logger.infoEnabled=true;
   logger.warnEnabled=true;

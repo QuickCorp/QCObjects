@@ -29,7 +29,8 @@ export const findPackageNodePath = function (packagename:string):string|null {
                 sdkPath = sdkPaths[0];
                 logger.info(packagename + " is Installed.");
             } else {
-                //          logger.debug(packagename + ' is not in a standard path.');
+                sdkPath = "";
+                logger.info(`${packagename} is not in a standard path.`);
             }
         } catch (e) {
             // do nothing

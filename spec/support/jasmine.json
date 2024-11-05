@@ -7,7 +7,7 @@
   ],
 
   "helpers": [
-    "helpers/**/*.ts"
+    "helpers/**/*.helper.ts"
   ],
 
   "stopSpecOnExpectationFailure": true,

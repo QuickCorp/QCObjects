@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 import {Class, ClassFactory, Export, logger, Package, __make_global__, _top, _QC_PACKAGES, _QC_CLASSES, global} from "./../src/QCObjects";
 
-describe("Global Features Spec", function () {
+describe("qcobjects", function () {
     logger.debugEnabled=true;
     logger.infoEnabled=true;
     logger.warnEnabled=true;

@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 import {CONFIG, logger} from "./../src/QCObjects";
 
-describe("QCObjects Config", function () {
+describe("qcobjects", function () {
   logger.debugEnabled=true;
   logger.infoEnabled=true;
   logger.warnEnabled=true;

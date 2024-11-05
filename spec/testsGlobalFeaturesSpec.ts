@@ -4,7 +4,7 @@ import { __getType__, logger, global } from "../src/QCObjects";
 
 /* eslint-disable no-undef */
 
-describe("Global Features Spec", function () {
+describe("qcobjects", function () {
   
     it("Existence of global.ClassesList Spec", function () {
         logger.debugEnabled=true;

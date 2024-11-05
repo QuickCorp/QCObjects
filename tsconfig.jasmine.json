@@ -27,7 +27,8 @@
     "paths": {
       "types": [
         "src/types/global"
-      ]
+      ],
+      "qcobjects-sdk": ["spec/mocks/qcobjects-sdk.mock.ts"]
     }
   },
   "include": [

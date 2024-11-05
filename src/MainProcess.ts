@@ -11,7 +11,6 @@ import { CONFIG } from "./CONFIG";
 import { _DataStringify } from "./DataStringify";
 import { setDefaultProcessors } from "./defaultProcessors";
 import { Export } from "./Export";
-import { findPackageNodePath } from "./findPackageNodePath";
 import { Import } from "./Import";
 import { _methods_, _protected_code_ } from "./introspection";
 import { isQCObjects_Class, isQCObjects_Object } from "./isQCObjects";
@@ -21,7 +20,7 @@ import { NamespaceRef } from "./NamespaceRef";
 import { New } from "./New";
 import { ObjectName } from "./ObjectName";
 import { Package } from "./Package";
-import { _require_, is_phonegap, isBrowser, isNodeCommonJS } from "./platform";
+import {  is_phonegap, isBrowser } from "./platform";
 import { _QC_CLASSES, _QC_PACKAGES } from "./PrimaryCollections";
 import { _Ready, ready, Ready } from "./Ready";
 import { serviceLoader } from "./serviceLoader";
@@ -37,6 +36,7 @@ import { _super_ } from "./super";
 import { waitUntil } from "./waitUntil";
 import { subelements } from "./subelements";
 import { GlobalSettings } from "./globalSettings";
+import loadSDK from "./loadSDK";
 
 (function __qcobjects__(_top: any) {
     if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -526,52 +526,7 @@ import { GlobalSettings } from "./globalSettings";
         }
         Export(global);
   
-        if (CONFIG.get("useSDK")) {
-          (function () {
-            const remoteImportsPath = CONFIG.get("remoteImportsPath");
-            const external = (!CONFIG.get("useLocalSDK"));
-            CONFIG.set("remoteImportsPath", CONFIG.get("remoteSDKPath"));
-  
-            let tryImportingSDK = false;
-            let sdkName = "QCObjects-SDK";
-            if (isBrowser) {
-              tryImportingSDK = true;
-            } else {
-              const sdkPath = findPackageNodePath("qcobjects-sdk");
-              if (sdkPath !== null) {
-                sdkName = "qcobjects-sdk";
-                tryImportingSDK = true;
-              } else {
-                sdkName = "node_modules/qcobjects-sdk/QCObjects-SDK";
-                tryImportingSDK = true;
-              }
-            }
-  
-            if (tryImportingSDK) {
-              logger.info("Importing SDK... " + sdkName);
-              if (isNodeCommonJS && typeof require !== "undefined") {
-                const sdk = _require_("qcobjects-sdk");
-                if (sdk) {
-                    logger.debug("QCObjects SDK was loaded OK.");
-                } else {
-                    logger.debug("QCObjects SDK could not be imported.");
-                }
-              } else {
-                Import(sdkName, function () {
-                  if (external) {
-                    logger.debug("QCObjects-SDK.js loaded from remote location");
-                  } else {
-                    logger.debug("QCObjects-SDK.js loaded from local");
-                  }
-                  CONFIG.set("remoteImportsPath", remoteImportsPath);
-                }, external)
-                ?.catch ((e:any) => {throw new Error (`An error ocurred when trying to import: ${e}`);});
-              }
-            } else {
-              logger.debug("SDK has not been imported as it is not available at the moment");
-            }
-          })();
-        }
+        loadSDK();
       })(_top);
   
       if (isBrowser) {

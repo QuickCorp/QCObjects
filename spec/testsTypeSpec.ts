@@ -4,7 +4,7 @@ import { __getType__, Class, ClassFactory, logger } from "../src/QCObjects";
 
 /* eslint-disable no-undef */
 
-describe("Type Spec", function () {
+describe("qcobjects", function () {
   logger.debugEnabled=true;
   logger.infoEnabled=true;
   logger.warnEnabled=true;

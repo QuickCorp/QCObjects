@@ -1,33 +1,3 @@
-declare module "isQCObjects" {
-    export const isQCObjects_Object: (_: any) => boolean;
-    export const isQCObjects_Class: (_: any) => boolean;
-}
-declare module "PrimaryCollections" {
-    import { T_QC_CLASSES, T_QC_PACKAGES } from "types";
-    export var _QC_CLASSES: T_QC_CLASSES;
-    export var _QC_PACKAGES: T_QC_PACKAGES;
-    export var _QC_PACKAGES_IMPORTED: any[];
-    export var _QC_READY_LISTENERS: any[];
-}
-declare module "is_raw_class" {
-    export const __is_raw_class__: (o_c: any) => boolean;
-}
-declare module "ObjectName" {
-    /**
-     * Returns the object or function name
-     *
-     * @param Object or function
-     */
-    export const ObjectName: (o: any) => string;
-}
-declare module "getType" {
-    /**
-     * Determine the type of the Object for any QCObjects Object
-     *
-     * @param {Object} object
-     */
-    export const __getType__: (o_c: any) => any;
-}
 declare module "platform" {
     export const isDeno: boolean;
     export const isBrowser: boolean;
@@ -46,6 +16,13 @@ declare module "Logger" {
         warn(message: string): void;
     }
     export const logger: Logger;
+}
+declare module "IncrementInstanceID" {
+    /**
+     * Primary instance ID of all objects
+     */
+    export var __instanceID: number;
+    export const IncrementInstanceID: () => void;
 }
 declare module "Cast" {
     /**
@@ -67,12 +44,24 @@ declare module "DOMCreateElement" {
     import { IQCObjectsElement } from "types";
     export const _DOMCreateElement: (elementName: string) => IQCObjectsElement;
 }
-declare module "IncrementInstanceID" {
+declare module "is_raw_class" {
+    export const __is_raw_class__: (o_c: any) => boolean;
+}
+declare module "ObjectName" {
     /**
-     * Primary instance ID of all objects
+     * Returns the object or function name
+     *
+     * @param Object or function
      */
-    export var __instanceID: number;
-    export const IncrementInstanceID: () => void;
+    export const ObjectName: (o: any) => string;
+}
+declare module "getType" {
+    /**
+     * Determine the type of the Object for any QCObjects Object
+     *
+     * @param {Object} object
+     */
+    export const __getType__: (o_c: any) => any;
 }
 declare module "introspection" {
     export const _protected_code_: (_: any) => void;
@@ -85,6 +74,13 @@ declare module "is_a" {
      * @param {String} typeName
      */
     export const is_a: (obj: any, typeName: string) => boolean;
+}
+declare module "PrimaryCollections" {
+    import { T_QC_CLASSES, T_QC_PACKAGES } from "types";
+    export var _QC_CLASSES: T_QC_CLASSES;
+    export var _QC_PACKAGES: T_QC_PACKAGES;
+    export var _QC_PACKAGES_IMPORTED: any[];
+    export var _QC_READY_LISTENERS: any[];
 }
 declare module "is_forbidden_name" {
     /**
@@ -99,33 +95,6 @@ declare module "is_forbidden_name" {
 }
 declare module "LegacyCopy" {
     export const _LegacyCopy: (obj: any, _ignore?: string[]) => any;
-}
-declare module "InheritClass" {
-    import { type IInheritClass, type TBody } from "types";
-    export class InheritClass implements IInheritClass {
-        [key: string]: any;
-        __definition: any;
-        private _body;
-        get body(): TBody;
-        set body(value: TBody);
-        childs: any;
-        __instanceID: number;
-        constructor(_o_?: any);
-        static get __classType(): any;
-        get __classType(): string;
-        static hierarchy(__class__: any): any[];
-        __namespace?: string | undefined;
-        __new__(_o_: any): void;
-        _new_(_o_?: any): void;
-        static getParentClass(): any;
-        getParentClass(): any;
-        static getClass(): any;
-        getClass(): any;
-        css(_css: any): any;
-        hierarchy(): any;
-        append(_child?: any): void;
-        attachIn(tag: any): void;
-    }
 }
 declare module "Class" {
     import { TClass } from "types";
@@ -567,6 +536,37 @@ declare module "Package" {
      */
     export const Package: (namespace: string, classes?: any[]) => any[] | undefined;
 }
+declare module "InheritClass" {
+    import { type IInheritClass, type TBody } from "types";
+    export class InheritClass implements IInheritClass {
+        [key: string]: any;
+        __definition: any;
+        private _body;
+        get body(): TBody;
+        set body(value: TBody);
+        childs: any;
+        __instanceID: number;
+        constructor(_o_?: any);
+        static get __classType(): any;
+        get __classType(): string;
+        static hierarchy(__class__: any): any[];
+        __namespace?: string | undefined;
+        __new__(_o_: any): void;
+        _new_(_o_?: any): void;
+        static getParentClass(): any;
+        getParentClass(): any;
+        static getClass(): any;
+        getClass(): any;
+        css(_css: any): any;
+        hierarchy(): any;
+        append(_child?: any): void;
+        attachIn(tag: any): void;
+    }
+}
+declare module "isQCObjects" {
+    export const isQCObjects_Object: (_: any) => boolean;
+    export const isQCObjects_Class: (_: any) => boolean;
+}
 declare module "ClassFactory" {
     import { TClassFactory } from "types";
     export const ClassFactory: TClassFactory;
@@ -844,6 +844,10 @@ declare module "globalSettings" {
         get(name: string, _default?: any): any;
         __start__(): Promise<any>;
     }
+}
+declare module "loadSDK" {
+    function loadSDK(): void;
+    export default loadSDK;
 }
 declare module "MainProcess" { }
 declare module "assign" { }
