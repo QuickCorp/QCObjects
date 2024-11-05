@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../build/New.js"],
+  "sourcesContent": ["\"use strict\";\n/**\n * Creates an object from a Class definition\n *\n * @param {QC_Object} o\n * @param {Object} args\n */\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.New = void 0;\nconst New = function (__class__, args = {}) {\n    args = (arguments.length > 1) ? (args) : ({});\n    return (typeof __class__ === \"undefined\") ? (new Object()) : (new __class__(args));\n};\nexports.New = New;\nexports.New.prototype.toString = function () {\n    return \"New(QCObjectsClassName, args) { [QCObjects native code] }\";\n};\n"],
+  "mappings": "+CAAA,IAAAA,EAAAC,EAAAC,GAAA,CAOA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,IAAM,OACd,IAAMC,EAAMC,EAAA,SAAUC,EAAWC,EAAO,CAAC,EAAG,CACxC,OAAAA,EAAQ,UAAU,OAAS,EAAMA,EAAS,CAAC,EACnC,OAAOD,EAAc,IAAgB,IAAI,OAAa,IAAIA,EAAUC,CAAI,CACpF,EAHY,OAIZJ,EAAQ,IAAMC,EACdD,EAAQ,IAAI,UAAU,SAAW,UAAY,CACzC,MAAO,2DACX",
+  "names": ["require_New", "__commonJSMin", "exports", "New", "__name", "__class__", "args"]
+}

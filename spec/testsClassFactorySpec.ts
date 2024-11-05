@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-undef */
-import {Class, ClassFactory, Export, logger, Package, __make_global__, _top, _QC_PACKAGES, _QC_CLASSES, global} from "./../src/QCObjects";
+import {Class, ClassFactory, logger, Package, __make_global__, _top, _QC_PACKAGES, _QC_CLASSES, global} from "./../src/QCObjects";
 
 describe("qcobjects", function () {
     logger.debugEnabled=true;
@@ -30,7 +30,6 @@ describe("qcobjects", function () {
             })
         ]);
 
-        console.log(_QC_PACKAGES["com.qcobjects.tests"]);
         const classFactory = ClassFactory("com.qcobjects.tests.MyNewClass");
 
         expect(ClassFactory("MyNewClass")).toBe( classFactory );

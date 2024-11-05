@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../build/subelements.js"],
+  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.subelements = void 0;\nconst subelements = function subelements(query) {\n    const _self = this;\n    return [..._self.querySelectorAll(query)];\n};\nexports.subelements = subelements;\n"],
+  "mappings": "+CAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,YAAc,OACtB,IAAMC,EAAcC,EAAA,SAAqBC,EAAO,CAE5C,MAAO,CAAC,GADM,KACG,iBAAiBA,CAAK,CAAC,CAC5C,EAHoB,eAIpBH,EAAQ,YAAcC",
+  "names": ["require_subelements", "__commonJSMin", "exports", "subelements", "__name", "query"]
+}

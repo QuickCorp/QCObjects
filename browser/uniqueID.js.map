@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../build/uniqueID.js"],
+  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.uniqueId = void 0;\nconst shortCode_1 = require(\"./shortCode\");\nexports.uniqueId = shortCode_1.shortCode;\n"],
+  "mappings": "g2BAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,SAAW,OACnB,IAAMC,EAAc,IACpBD,EAAQ,SAAWC,EAAY",
+  "names": ["require_uniqueID", "__commonJSMin", "exports", "shortCode_1"]
+}

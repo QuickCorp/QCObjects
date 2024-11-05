@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../build/ObjectName.js"],
+  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.ObjectName = void 0;\n/**\n * Returns the object or function name\n *\n * @param Object or function\n */\nconst ObjectName = function (o) {\n    let ret = \"\";\n    if (typeof o === \"function\" && Object.hasOwn(o, \"name\") && o.name !== \"\") {\n        ret = o.name;\n    }\n    else if (typeof o !== \"undefined\" && typeof o.constructor === \"function\" && o.constructor.name !== \"\") {\n        ret = o.constructor.name;\n    }\n    else if (typeof o !== \"undefined\" && typeof o.constructor === \"object\") {\n        ret = o.constructor.toString().replace(/\\[(.*?)\\]/g, \"$1\").split(\" \").slice(1).join(\"\");\n    }\n    return ret;\n};\nexports.ObjectName = ObjectName;\n"],
+  "mappings": "+CAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,WAAa,OAMrB,IAAMC,EAAaC,EAAA,SAAUC,EAAG,CAC5B,IAAIC,EAAM,GACV,OAAI,OAAOD,GAAM,YAAc,OAAO,OAAOA,EAAG,MAAM,GAAKA,EAAE,OAAS,GAClEC,EAAMD,EAAE,KAEH,OAAOA,EAAM,KAAe,OAAOA,EAAE,aAAgB,YAAcA,EAAE,YAAY,OAAS,GAC/FC,EAAMD,EAAE,YAAY,KAEf,OAAOA,EAAM,KAAe,OAAOA,EAAE,aAAgB,WAC1DC,EAAMD,EAAE,YAAY,SAAS,EAAE,QAAQ,aAAc,IAAI,EAAE,MAAM,GAAG,EAAE,MAAM,CAAC,EAAE,KAAK,EAAE,GAEnFC,CACX,EAZmB,cAanBJ,EAAQ,WAAaC",
+  "names": ["require_ObjectName", "__commonJSMin", "exports", "ObjectName", "__name", "o", "ret"]
+}

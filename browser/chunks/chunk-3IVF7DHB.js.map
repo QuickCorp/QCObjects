@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../build/DocumentLayout.js"],
+  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.getDocumentLayout = void 0;\nconst getDocumentLayout = function () {\n    const h = (w, h) => {\n        return w > h ? \"landscape\" : null;\n    };\n    const v = (w, h) => {\n        return h > w ? \"portrait\" : null;\n    };\n    const square = (w, h) => {\n        return w === h ? \"square\" : null;\n    };\n    return [\n        h(document.documentElement.clientWidth, document.documentElement.clientHeight),\n        v(document.documentElement.clientWidth, document.documentElement.clientHeight),\n        square(document.documentElement.clientWidth, document.documentElement.clientHeight)\n    ].filter(e => e !== null).pop();\n};\nexports.getDocumentLayout = getDocumentLayout;\n"],
+  "mappings": "+CAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,kBAAoB,OAC5B,IAAMC,EAAoBC,EAAA,UAAY,CAClC,IAAMC,EAAID,EAAA,CAACE,EAAGD,IACHC,EAAID,EAAI,YAAc,KADvB,KAGJE,EAAIH,EAAA,CAACE,EAAGD,IACHA,EAAIC,EAAI,WAAa,KADtB,KAGJE,EAASJ,EAAA,CAACE,EAAGD,IACRC,IAAMD,EAAI,SAAW,KADjB,UAGf,MAAO,CACHA,EAAE,SAAS,gBAAgB,YAAa,SAAS,gBAAgB,YAAY,EAC7EE,EAAE,SAAS,gBAAgB,YAAa,SAAS,gBAAgB,YAAY,EAC7EC,EAAO,SAAS,gBAAgB,YAAa,SAAS,gBAAgB,YAAY,CACtF,EAAE,OAAO,GAAK,IAAM,IAAI,EAAE,IAAI,CAClC,EAf0B,qBAgB1BN,EAAQ,kBAAoBC",
+  "names": ["require_DocumentLayout", "__commonJSMin", "exports", "getDocumentLayout", "__name", "h", "w", "v", "square"]
+}

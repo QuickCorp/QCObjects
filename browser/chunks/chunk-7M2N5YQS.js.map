@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../build/shortCode.js"],
+  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.shortCode = void 0;\nconst Crypt_1 = require(\"./Crypt\");\nconst shortCode = function () {\n    const length = 1000;\n    const code1 = Crypt_1._Crypt.encrypt((Math.random() * length).toString().replace(\".\", \"\"), (new Date()).getTime().toString());\n    const code2 = Crypt_1._Crypt.encrypt((Math.random() * length).toString().replace(\".\", \"\"), (new Date((new Date()).getTime() - 1000 * 1000)).getTime().toString());\n    const shortCode = [...code2].map((o1, index) => {\n        return [...code1][index] === o1 ? null : o1;\n    }).filter((c) => c !== null).join(\"\");\n    return shortCode;\n};\nexports.shortCode = shortCode;\n"],
+  "mappings": "uFAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,UAAY,OACpB,IAAMC,EAAU,IACVC,EAAYC,EAAA,UAAY,CAE1B,IAAMC,EAAQH,EAAQ,OAAO,SAAS,KAAK,OAAO,EAAI,KAAQ,SAAS,EAAE,QAAQ,IAAK,EAAE,EAAI,IAAI,KAAK,EAAG,QAAQ,EAAE,SAAS,CAAC,EAK5H,MAHkB,CAAC,GADLA,EAAQ,OAAO,SAAS,KAAK,OAAO,EAAI,KAAQ,SAAS,EAAE,QAAQ,IAAK,EAAE,EAAI,IAAI,KAAM,IAAI,KAAK,EAAG,QAAQ,EAAI,IAAO,GAAI,EAAG,QAAQ,EAAE,SAAS,CAAC,CACrI,EAAE,IAAI,CAACI,EAAIC,IAC3B,CAAC,GAAGF,CAAK,EAAEE,CAAK,IAAMD,EAAK,KAAOA,CAC5C,EAAE,OAAQE,GAAMA,IAAM,IAAI,EAAE,KAAK,EAAE,CAExC,EARkB,aASlBP,EAAQ,UAAYE",
+  "names": ["require_shortCode", "__commonJSMin", "exports", "Crypt_1", "shortCode", "__name", "code1", "o1", "index", "c"]
+}

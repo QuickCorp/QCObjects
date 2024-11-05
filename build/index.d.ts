@@ -234,8 +234,10 @@ declare module "ConfigSettings" {
     };
     export class ConfigSettings extends InheritClass {
         _CONFIG: TConfigSettings;
-        private static _instance;
+        protected static _instance: ConfigSettings;
         _CONFIG_ENC: string;
+        set(name: string, value: any): void;
+        get(name: string, _defaultValue?: any): any;
         static get instance(): ConfigSettings;
     }
 }

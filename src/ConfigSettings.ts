@@ -36,12 +36,18 @@ export class ConfigSettings extends InheritClass {
     "useLocalSDK": false,
     "basePath": _basePath_
   };
-  private static _instance: ConfigSettings;
+  protected static _instance: ConfigSettings;
   public _CONFIG_ENC = "";
 
-  
+  set(name:string, value:any):void {
+    this._CONFIG[name] = value;
+  }
 
-  static get instance() {
+  get(name:string, _defaultValue?:any):any {
+    return this._CONFIG[name] || _defaultValue;
+  }
+
+  static get instance():ConfigSettings {
 
     if (typeof ConfigSettings._instance === "undefined") {
       ConfigSettings._instance = new ConfigSettings();
