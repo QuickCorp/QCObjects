@@ -5,7 +5,7 @@
      */
     export const ObjectName = function (o:any) {
         let ret = "";
-        if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
+        if (typeof o === "function" && Object.hasOwn(o, "name") && o.name !== "") {
           ret = o.name;
         } else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {
           ret = o.constructor.name;

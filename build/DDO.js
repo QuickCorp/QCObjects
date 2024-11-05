@@ -60,7 +60,7 @@ class DDO extends InheritClass_1.InheritClass {
                 const _value = instance["_" + name];
                 Logger_1.logger.debug("returning value " + name);
                 const is_ddo = (v) => {
-                    if (typeof v === "object" && Object.hasOwnProperty.call(v, "value")) {
+                    if (typeof v === "object" && Object.hasOwn(v, "value")) {
                         return v.value;
                     }
                     return v;

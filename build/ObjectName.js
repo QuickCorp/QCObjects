@@ -8,7 +8,7 @@ exports.ObjectName = void 0;
  */
 const ObjectName = function (o) {
     let ret = "";
-    if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
+    if (typeof o === "function" && Object.hasOwn(o, "name") && o.name !== "") {
         ret = o.name;
     }
     else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {

@@ -208,7 +208,7 @@ var init_ObjectName = __esm({
     "use strict";
     ObjectName = function(o) {
       let ret = "";
-      if (typeof o === "function" && Object.hasOwnProperty.call(o, "name") && o.name !== "") {
+      if (typeof o === "function" && Object.hasOwn(o, "name") && o.name !== "") {
         ret = o.name;
       } else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {
         ret = o.constructor.name;
@@ -360,7 +360,7 @@ var init_isQCObjects = __esm({
   "src/isQCObjects.ts"() {
     "use strict";
     isQCObjects_Object = function(_) {
-      return !!(typeof _ === "object" && Object.hasOwnProperty.call(_, "__classType") && !!_.__instanceID && Object.hasOwnProperty.call(_, "__definition") && typeof _.__definition !== "undefined");
+      return !!(typeof _ === "object" && Object.hasOwn(_, "__classType") && !!_.__instanceID && Object.hasOwn(_, "__definition") && typeof _.__definition !== "undefined");
     };
     isQCObjects_Class = function(_) {
       return !!(typeof _ === "function" && !_.__instanceID && !!_.__definition && typeof _.__definition !== "undefined" && !!_.__definition.__classType);
@@ -513,7 +513,7 @@ var init_Class = __esm({
         }
         static hierarchy(__class__) {
           const __classType = function(o_c) {
-            return Object.hasOwnProperty.call(o_c, "__classType") ? o_c.__classType : __getType__.call(__class__, o_c);
+            return Object.hasOwn(o_c, "__classType") ? o_c.__classType : __getType__.call(__class__, o_c);
           };
           const __hierarchy__proto__ = (c) => {
             return typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null ? (__classType(c) !== "" ? [__classType(c)] : []).concat(__hierarchy__proto__(c.__proto__)) : [];
@@ -559,7 +559,7 @@ var init_Class = __esm({
             return m;
           });
           if (self2.body) {
-            if (typeof self2.__definition === "undefined" || !Object.hasOwnProperty.call(self2.__definition, "body") || typeof self2.__definition.body === "undefined") {
+            if (typeof self2.__definition === "undefined" || !Object.hasOwn(self2.__definition, "body") || typeof self2.__definition.body === "undefined") {
               try {
                 if (isBrowser) {
                   self2.body = _DOMCreateElement(self2.__definition.__classType);
@@ -570,7 +570,7 @@ var init_Class = __esm({
                 logger.debug(`An error ocurred: ${e}.`);
                 self2.body = {};
               }
-            } else if (Object.hasOwnProperty.call(self2.__definition, "body")) {
+            } else if (Object.hasOwn(self2.__definition, "body")) {
               self2.body = self2.__definition.body;
             }
           }
@@ -581,7 +581,7 @@ var init_Class = __esm({
               self2.__new__ = super.__new__.bind(self2);
               self2.__new__.call(self2, _o_);
             }
-            if (typeof self2 === "object" && Object.hasOwnProperty.call(self2, "_new_") && typeof self2._new_.isCalled === "undefined") {
+            if (typeof self2 === "object" && Object.hasOwn(self2, "_new_") && typeof self2._new_.isCalled === "undefined") {
               try {
                 self2._new_(_o_);
                 self2._new_.isCalled = true;
@@ -693,7 +693,7 @@ var init_make_global = __esm({
             throw Error(`An error ocurred: ${e}`);
           }
         } else if (typeof global !== "undefined") {
-          if (!Object.hasOwnProperty.call(global, f.name)) {
+          if (!Object.hasOwn(global, f.name)) {
             global[f.name] = f;
           }
         }
@@ -768,12 +768,12 @@ var init_Package = __esm({
         }
         _QC_PACKAGES[namespace] = classes;
       }
-      if (Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) {
+      if (Object.hasOwn(_QC_PACKAGES, namespace)) {
         _QC_PACKAGES[namespace].map(function(_class_) {
           __register_class__(_class_, namespace);
         });
       }
-      return Object.hasOwnProperty.call(_QC_PACKAGES, namespace) ? _QC_PACKAGES[namespace] : void 0;
+      return Object.hasOwn(_QC_PACKAGES, namespace) ? _QC_PACKAGES[namespace] : void 0;
     };
     Package.prototype.toString = function() {
       return "Package(namespace, classes) { [QCObjects native code] }";
@@ -1045,7 +1045,7 @@ var init_InheritClass = __esm({
           return m;
         });
         if (self2.body) {
-          if (typeof self2.__definition === "undefined" || !Object.hasOwnProperty.call(self2.__definition, "body") || typeof self2.__definition.body === "undefined") {
+          if (typeof self2.__definition === "undefined" || !Object.hasOwn(self2.__definition, "body") || typeof self2.__definition.body === "undefined") {
             try {
               if (isBrowser) {
                 self2.body = _DOMCreateElement(self2.__definition.__classType);
@@ -1056,13 +1056,13 @@ var init_InheritClass = __esm({
               logger.debug(`An error ocurred: ${e}.`);
               self2.body = {};
             }
-          } else if (Object.hasOwnProperty.call(self2.__definition, "body")) {
+          } else if (Object.hasOwn(self2.__definition, "body")) {
             self2.body = self2.__definition.body;
           }
         }
         try {
           self2.__new__.call(self2, _o_);
-          if (typeof self2 === "object" && Object.hasOwnProperty.call(self2, "_new_") && typeof self2._new_.isCalled === "undefined") {
+          if (typeof self2 === "object" && Object.hasOwn(self2, "_new_") && typeof self2._new_.isCalled === "undefined") {
             try {
               self2._new_(_o_);
               self2._new_.isCalled = true;
@@ -1082,7 +1082,7 @@ var init_InheritClass = __esm({
       }
       static hierarchy(__class__) {
         const __classType = function(o_c) {
-          return Object.hasOwnProperty.call(o_c, "__classType") ? o_c.__classType : __getType__.call(__class__, o_c);
+          return Object.hasOwn(o_c, "__classType") ? o_c.__classType : __getType__.call(__class__, o_c);
         };
         const __hierarchy__proto__ = (c) => {
           return typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null ? (__classType(c) !== "" ? [__classType(c)] : []).concat(__hierarchy__proto__(c.__proto__)) : [];
@@ -1374,7 +1374,7 @@ var init_CONFIG = __esm({
         }
         _conf[name] = value;
         ConfigSettings.instance._CONFIG_ENC = _CryptObject(_conf);
-        if (Object.hasOwnProperty.call(ConfigSettings.instance, "_CONFIG") && Object.hasOwnProperty.call(ConfigSettings.instance._CONFIG, name)) {
+        if (Object.hasOwn(ConfigSettings.instance, "_CONFIG") && Object.hasOwn(ConfigSettings.instance._CONFIG, name)) {
           ConfigSettings.instance._CONFIG[name] = value;
         }
       }
@@ -1784,7 +1784,7 @@ var init_serviceLoader = __esm({
             }
             const serviceURL = new URL(service2.url);
             var req;
-            service2.useHTTP2 = Object.hasOwnProperty.call(service2, "useHTTP2") && service2.useHTTP2;
+            service2.useHTTP2 = Object.hasOwn(service2, "useHTTP2") && service2.useHTTP2;
             const captureEvents = function(req2) {
               logger.debug("LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}".replace("{{DATA}}", _DataStringify(service2.data)).replace("{{URL}}", service2.url));
               let dataXML;
@@ -1823,7 +1823,7 @@ var init_serviceLoader = __esm({
               req2.on("end", () => {
                 logger.debug("ending call...");
                 service2.template = dataXML;
-                if (Object.hasOwnProperty.call(service2, "useHTTP2") && service2.useHTTP2) {
+                if (Object.hasOwn(service2, "useHTTP2") && service2.useHTTP2) {
                   client.destroy();
                 } else {
                   req2.destroy();
@@ -1983,7 +1983,7 @@ var init_componentLoader = __esm({
       const _componentLoaderInBrowser = function(component2) {
         __promise__ = new Promise(function(resolve, reject) {
           const _promise = component2.__promise__;
-          const container = Object.hasOwnProperty.call(component2, "container") && typeof component2.container !== "undefined" && component2.container !== null ? component2.container : component2.body;
+          const container = Object.hasOwn(component2, "container") && typeof component2.container !== "undefined" && component2.container !== null ? component2.container : component2.body;
           if (container !== null) {
             const _feedComponent_ = function(component3) {
               component3.feedComponent();
@@ -2463,14 +2463,14 @@ var init_Component = __esm({
           if (__enable_service_class__ && _serviceClassName !== null) {
             __serviceClass = ClassFactory(_serviceClassName);
           }
-          if (!_response_to_data_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
+          if (!_response_to_data_ && __classDefinition && Object.hasOwn(__classDefinition, "responseTo")) {
             _response_to_data_ = __classDefinition.responseTo === "data";
-          } else if (!_response_to_data_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
+          } else if (!_response_to_data_ && Object.hasOwn(ClassFactory("Component"), "responseTo")) {
             _response_to_data_ = ClassFactory("Component").responseTo === "data";
           }
-          if (!_response_to_template_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
+          if (!_response_to_template_ && __classDefinition && Object.hasOwn(__classDefinition, "responseTo")) {
             _response_to_template_ = __classDefinition.responseTo === "template";
-          } else if (!_response_to_template_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
+          } else if (!_response_to_template_ && Object.hasOwn(ClassFactory("Component"), "responseTo")) {
             _response_to_template_ = ClassFactory("Component").responseTo === "template";
           }
           if (typeof __serviceClass !== "undefined" && (typeof __enable_service_class__ !== "undefined" && __enable_service_class__ === true) && (_response_to_data_ || _response_to_template_)) {
@@ -2629,7 +2629,7 @@ var init_Component = __esm({
               _component_.view = New(_View, {
                 component: _component_
               });
-              if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view?.done === "function") {
+              if (Object.hasOwn(_component_.view, "done") && typeof _component_.view?.done === "function") {
                 _component_.view?.done.call(_component_.view);
               }
             }
@@ -2960,7 +2960,7 @@ var init_Component = __esm({
                   });
                   return;
                 }).then(function() {
-                  if (Object.hasOwnProperty.call(rc, "subcomponents") && typeof rc.subcomponents !== "undefined" && rc.subcomponents.length > 0) {
+                  if (Object.hasOwn(rc, "subcomponents") && typeof rc.subcomponents !== "undefined" && rc.subcomponents.length > 0) {
                     logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + rc.name);
                     return __route__.call(rc, rc.subcomponents);
                   } else {
@@ -3071,7 +3071,7 @@ var init_Component = __esm({
         const _self = this;
         let _parsedAssignmentText;
         const value = template;
-        if (Object.hasOwnProperty.call(_self, "templateHandler")) {
+        if (Object.hasOwn(_self, "templateHandler")) {
           const templateHandlerName = _self.templateHandler;
           logger.debug(`[Component][${this.name}][parseTemplate] Attempting to use ${templateHandlerName} ...`);
           const templateHandlerClass = ClassFactory(templateHandlerName);
@@ -3081,7 +3081,7 @@ var init_Component = __esm({
           });
           templateInstance.component = _self;
           let selfData = _self.data;
-          if (Object.hasOwnProperty.call(_self, "assignRoutingParams") && _self.assignRoutingParams) {
+          if (Object.hasOwn(_self, "assignRoutingParams") && _self.assignRoutingParams) {
             try {
               selfData = Object.assign(selfData, _self.routingParams);
             } catch (e) {
@@ -3106,7 +3106,7 @@ var init_Component = __esm({
                 const componentURI = ComponentURI({
                   "COMPONENTS_BASE_PATH": CONFIG.get("componentsBasePath"),
                   "COMPONENT_NAME": routing.name.toString(),
-                  "TPLEXTENSION": Object.hasOwnProperty.call(routing, "tplextension") ? routing.tplextension || "" : rc.tplextension,
+                  "TPLEXTENSION": Object.hasOwn(routing, "tplextension") ? routing.tplextension || "" : rc.tplextension,
                   "TPL_SOURCE": "default"
                   /* here is always default in order to get the right uri */
                 });
@@ -3227,11 +3227,11 @@ var init_Component = __esm({
             const lang1 = CONFIG.get("lang", "en");
             const lang2 = navigator.language.slice(0, 2);
             const i18n = _top.global.get("i18n");
-            if (lang1 !== lang2 && (typeof i18n === "object" && Object.hasOwnProperty.call(i18n, "messages"))) {
+            if (lang1 !== lang2 && (typeof i18n === "object" && Object.hasOwn(i18n, "messages"))) {
               const callback_i18n = () => {
                 return new Promise(function(resolve) {
                   const messages = i18n.messages.filter(function(message) {
-                    return Object.hasOwnProperty.call(message, lang1) && Object.hasOwnProperty.call(message, lang2);
+                    return Object.hasOwn(message, lang1) && Object.hasOwn(message, lang2);
                   });
                   (_componentRoot?.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component")).map((element) => {
                     messages.map(function(message) {
@@ -3666,7 +3666,7 @@ var init_defaultProcessors = __esm({
             "landscape": layout_landscape,
             "portrait": layout_portrait
           };
-          return Object.hasOwnProperty.call(layout_code, layoutname) ? layout_code[layoutname] : "";
+          return Object.hasOwn(layout_code, layoutname) ? layout_code[layoutname] : "";
         };
         GlobalProcessor.setProcessor(layout);
         const component = (componentInstance, name, componentClass, ...args) => {
@@ -4184,7 +4184,7 @@ var init_Service = __esm({
         logger.debug("***** CONFIG LOADED:");
         logger.debug(result.service.template);
         this.JSONresponse = JSON.parse(result.service.template);
-        if (Object.hasOwnProperty.call(this.JSONresponse, "__encoded__")) {
+        if (Object.hasOwn(this.JSONresponse, "__encoded__")) {
           const decodedValue = _Crypt.decrypt(this.JSONresponse?.__encoded__, _secretKey);
           this.JSONresponse = JSON.parse(decodedValue);
         }
@@ -4651,7 +4651,7 @@ var require_MainProcess = __commonJS({
               const _get_packages_names = function(_packages) {
                 let _keys = [];
                 for (const _k of Object.keys(_packages)) {
-                  if (typeof _packages[_k] !== "undefined" && typeof _packages[_k] !== "function" && Object.hasOwnProperty.call(_packages[_k], "length") && _packages[_k].length > 0) {
+                  if (typeof _packages[_k] !== "undefined" && typeof _packages[_k] !== "function" && Object.hasOwn(_packages[_k], "length") && _packages[_k].length > 0) {
                     _keys.push(_k);
                     _keys = _keys.concat(_get_packages_names(_packages[_k]));
                   }
@@ -4829,10 +4829,10 @@ var require_MainProcess = __commonJS({
           }, []);
         }
         if (!isBrowser) {
-          if (typeof _top2.global !== "undefined" && Object.hasOwnProperty.call(_top2.global, "_fireAsyncLoad")) {
+          if (typeof _top2.global !== "undefined" && Object.hasOwn(_top2.global, "_fireAsyncLoad")) {
             _fireAsyncLoad.call(_top2);
           }
-          if (typeof _top2.global !== "undefined" && Object.hasOwnProperty.call(_top2.global, "onload")) {
+          if (typeof _top2.global !== "undefined" && Object.hasOwn(_top2.global, "onload")) {
             _top2.global.onload.call(_top2);
           }
         }
@@ -5026,7 +5026,7 @@ var BackendMicroservice = class extends InheritClass {
       const supportedMethods2 = {
         "post": microservice.post.bind(microservice)
       };
-      if (Object.hasOwnProperty.call(supportedMethods2, requestMethod2)) {
+      if (Object.hasOwn(supportedMethods2, requestMethod2)) {
         supportedMethods2[requestMethod2].call(microservice, data);
       }
     });
@@ -5041,7 +5041,7 @@ var BackendMicroservice = class extends InheritClass {
       "trace": microservice.trace.bind(microservice),
       "patch": microservice.patch.bind(microservice)
     };
-    if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
+    if (Object.hasOwn(supportedMethods, requestMethod)) {
       supportedMethods[requestMethod].call(microservice);
     }
   }
@@ -5285,7 +5285,7 @@ var SourceJS = class extends InheritClass {
         function(s, url, context2) {
           s.type = context2.type;
           s.src = url;
-          s.crossOrigin = Object.hasOwnProperty.call(context2, "crossOrigin") ? context2.crossOrigin : "anonymous";
+          s.crossOrigin = Object.hasOwn(context2, "crossOrigin") ? context2.crossOrigin : "anonymous";
           s.async = context2.async;
           s.onreadystatechange = function() {
             if (this.readyState === "complete") {
@@ -5991,7 +5991,7 @@ var Controller = class extends InheritClass {
         component.routingController = New(_Controller2, {
           component
         });
-        if (typeof component.routingController !== "undefined" && Object.hasOwnProperty.call(component.routingController, "done") && typeof component.routingController.done === "function") {
+        if (typeof component.routingController !== "undefined" && Object.hasOwn(component.routingController, "done") && typeof component.routingController.done === "function") {
           component.routingController.done.call(component.routingController);
         }
       }
@@ -6060,7 +6060,7 @@ var Effect = class extends InheritClass {
       if (timeFraction < 1) {
         requestAnimationFrame(animate);
       } else {
-        if (typeof _self !== "undefined" && _self !== null && Object.hasOwnProperty.call(_self, "done") && (typeof _self.done).toLowerCase() === "function") {
+        if (typeof _self !== "undefined" && _self !== null && Object.hasOwn(_self, "done") && (typeof _self.done).toLowerCase() === "function") {
           _self.done.call(_self);
         }
       }
@@ -6227,7 +6227,7 @@ var DDO = class extends InheritClass {
         const _value = instance["_" + name];
         logger.debug("returning value " + name);
         const is_ddo = (v) => {
-          if (typeof v === "object" && Object.hasOwnProperty.call(v, "value")) {
+          if (typeof v === "object" && Object.hasOwn(v, "value")) {
             return v.value;
           }
           return v;

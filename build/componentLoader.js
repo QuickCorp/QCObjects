@@ -18,7 +18,7 @@ const componentLoader = function (component, _async) {
     const _componentLoaderInBrowser = function (component) {
         __promise__ = new Promise(function (resolve, reject) {
             const _promise = component.__promise__;
-            const container = (Object.hasOwnProperty.call(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
+            const container = (Object.hasOwn(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
             if (container !== null) {
                 const _feedComponent_ = function (component) {
                     component.feedComponent();

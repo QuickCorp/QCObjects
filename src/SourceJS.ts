@@ -38,7 +38,7 @@ export class SourceJS extends InheritClass implements ISourceJS {
           (function (s:any, url:string, context:any):any {
             s.type = context.type;
             s.src = url;
-            s.crossOrigin = (Object.hasOwnProperty.call(context, "crossOrigin")) ? (context.crossOrigin) : ("anonymous");
+            s.crossOrigin = (Object.hasOwn(context, "crossOrigin")) ? (context.crossOrigin) : ("anonymous");
             s.async = context.async;
             s.onreadystatechange = function () {
               if (this.readyState === "complete") {

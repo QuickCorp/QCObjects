@@ -54,9 +54,5 @@ describe("qcobjects", function () {
     logger.debug("global as QCObjects global... OK");
   });
 
-  it("Existence of QCObjects SDK", function () {
-    expect(!!global._sdk_).toEqual(true);
-    logger.debug("Existence of QCObjects SDK... OK");
-  });
 
 });

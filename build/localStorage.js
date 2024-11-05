@@ -6,7 +6,7 @@ if (typeof exports.localStorage === "undefined") {
     /* Polyfill for localStorage */
     exports.localStorage = {
         getItem(name) {
-            return (Object.hasOwnProperty.call(this, name)) ? (this[name]) : (null);
+            return (Object.hasOwn(this, name)) ? (this[name]) : (null);
         },
         setItem(name, value) {
             this[name] = value;

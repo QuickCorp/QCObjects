@@ -73,7 +73,7 @@ export class DDO extends InheritClass {
                 const _value = instance["_" + name];
                 logger.debug("returning value " + name);
                 const is_ddo =  (v:any):any => {
-                    if (typeof v === "object" && Object.hasOwnProperty.call(v, "value")) {
+                    if (typeof v === "object" && Object.hasOwn(v, "value")) {
                         return v.value;
                     }
                     return v;

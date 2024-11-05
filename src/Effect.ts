@@ -39,7 +39,7 @@ export class Effect extends InheritClass implements IEffect{
         // if this is an object with a done method
         if (typeof _self !== "undefined" &&
           _self !== null &&
-          Object.hasOwnProperty.call(_self, "done") &&
+          Object.hasOwn(_self, "done") &&
           (typeof _self.done).toLowerCase() === "function") {
           _self.done.call(_self);
         }

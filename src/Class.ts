@@ -120,7 +120,7 @@ export const Class: TClass = (name?: string, _type?: unknown, _definition?: unkn
 
     static hierarchy(__class__: any): any[] {
       const __classType = function (o_c: any): any {
-        return (Object.hasOwnProperty.call(o_c, "__classType")) ? (o_c.__classType) : (__getType__.call(__class__, o_c));
+        return (Object.hasOwn(o_c, "__classType")) ? (o_c.__classType) : (__getType__.call(__class__, o_c));
       };
       const __hierarchy__proto__ = (c: any): any[] => {
         return (typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null) ? (((__classType(c) !== "") ? ([__classType(c)]) : ([])).concat(__hierarchy__proto__(c.__proto__))) : ([]);
@@ -172,7 +172,7 @@ export const Class: TClass = (name?: string, _type?: unknown, _definition?: unkn
       });
 
       if (self.body) {
-        if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition, "body")) || typeof self.__definition.body === "undefined") {
+        if (typeof self.__definition === "undefined" || (!Object.hasOwn(self.__definition, "body")) || typeof self.__definition.body === "undefined") {
           try {
             if (isBrowser) {
               self.body = _DOMCreateElement(self.__definition.__classType);
@@ -183,7 +183,7 @@ export const Class: TClass = (name?: string, _type?: unknown, _definition?: unkn
             logger.debug(`An error ocurred: ${e}.`);
             self.body = {};
           }
-        } else if (Object.hasOwnProperty.call(self.__definition, "body")) {
+        } else if (Object.hasOwn(self.__definition, "body")) {
           self.body = self.__definition.body;
         }
       }
@@ -196,7 +196,7 @@ export const Class: TClass = (name?: string, _type?: unknown, _definition?: unkn
           self.__new__ = super.__new__.bind(self);
           self.__new__.call(self, _o_);
         }
-        if (typeof self === "object" && Object.hasOwnProperty.call(self, "_new_") && typeof (self._new_ as any).isCalled === "undefined") {
+        if (typeof self === "object" && Object.hasOwn(self, "_new_") && typeof (self._new_ as any).isCalled === "undefined") {
           try {
             self._new_(_o_);
             (self._new_ as any).isCalled = true;
@@ -281,8 +281,6 @@ export const Class: TClass = (name?: string, _type?: unknown, _definition?: unkn
     }
 
   };
-
-  console.log("QC_CLASSES en Class: ", _QC_CLASSES);
 
   // remove the keys from definition that exist in the prototype
 

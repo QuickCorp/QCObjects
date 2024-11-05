@@ -68,7 +68,7 @@ const setDefaultProcessors = () => {
                 "landscape": layout_landscape,
                 "portrait": layout_portrait
             };
-            return (Object.hasOwnProperty.call(layout_code, layoutname)) ? layout_code[layoutname] : ("");
+            return (Object.hasOwn(layout_code, layoutname)) ? layout_code[layoutname] : ("");
         };
         Processor_1.GlobalProcessor.setProcessor(layout);
         const component = (componentInstance, name, componentClass, ...args) => {

@@ -9,12 +9,12 @@ import { __register_class__ } from "./RegisterClass";
  * @param {Object} classes
  */
 export const Package = function (namespace: string, classes: any[] = []): any[] | undefined {
-  if (_QC_PACKAGES.hasOwnProperty.call(_QC_PACKAGES, namespace) &&
+  if (Object.hasOwn(_QC_PACKAGES, namespace) &&
     typeof (_QC_PACKAGES as any)[namespace] !== "undefined" &&
-    (_QC_PACKAGES as any)[namespace].hasOwnProperty.call((_QC_PACKAGES as any)[namespace], "length") &&
+    Object.hasOwn((_QC_PACKAGES as any)[namespace], "length") &&
     (_QC_PACKAGES as any)[namespace].length > 0 &&
     typeof classes !== "undefined" &&
-    classes.hasOwnProperty.call(classes, "length") &&
+    Object.hasOwn(classes, "length") &&
     classes.length > 0
   ) {
     classes.filter(
@@ -28,7 +28,7 @@ export const Package = function (namespace: string, classes: any[] = []): any[] 
     });
     (_QC_PACKAGES as any)[namespace] = (_QC_PACKAGES as any)[namespace].concat(classes);
   } else if (typeof classes !== "undefined") {
-    if (typeof classes === "object" && classes.hasOwnProperty.call(classes, "length")) {
+    if (typeof classes === "object" && Object.hasOwn(classes, "length")) {
       classes.filter(
         function (_c1) {
           return _c1.prototype instanceof InheritClass;
@@ -44,13 +44,13 @@ export const Package = function (namespace: string, classes: any[] = []): any[] 
     }
     (_QC_PACKAGES as any)[namespace] = classes;
   }
-  if (Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) {
+  if (Object.hasOwn(_QC_PACKAGES, namespace)) {
     (_QC_PACKAGES as any)[namespace].map(<T>(_class_: any): T => {
       __register_class__(_class_, namespace);
       return _class_ as T;
     });
   }
-  return ((Object.hasOwnProperty.call(_QC_PACKAGES, namespace)) ? ((_QC_PACKAGES as any)[namespace]) : (undefined)) as any[] | undefined;
+  return ((Object.hasOwn(_QC_PACKAGES, namespace)) ? ((_QC_PACKAGES as any)[namespace]) : (undefined)) as any[] | undefined;
 };
 Package.prototype.toString = function () {
   return "Package(namespace, classes) { [QCObjects native code] }";

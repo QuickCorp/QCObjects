@@ -47,7 +47,7 @@ export class CONFIG extends InheritClass implements ICONFIG {
 
     _conf[name] = value;
     ConfigSettings.instance._CONFIG_ENC = _CryptObject(_conf);
-    if (Object.hasOwnProperty.call(ConfigSettings.instance, "_CONFIG") && Object.hasOwnProperty.call(ConfigSettings.instance._CONFIG, name)) {
+    if (Object.hasOwn(ConfigSettings.instance, "_CONFIG") && Object.hasOwn(ConfigSettings.instance._CONFIG, name)) {
       ConfigSettings.instance._CONFIG[name] = value;
     }
   }

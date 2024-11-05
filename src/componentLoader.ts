@@ -17,7 +17,7 @@ export const componentLoader = function (component: IComponent, _async: boolean)
     const _componentLoaderInBrowser = function (component: IComponent) {
         __promise__ = new Promise(function (resolve, reject) {
             const _promise = component.__promise__;
-            const container = (Object.hasOwnProperty.call(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
+            const container = (Object.hasOwn(component, "container") && typeof component.container !== "undefined" && component.container !== null) ? (component.container) : (component.body);
             if (container !== null) {
                 const _feedComponent_ = function (component: { feedComponent: () => void; }) {
                     component.feedComponent();

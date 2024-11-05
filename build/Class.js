@@ -111,7 +111,7 @@ const Class = (name, _type, _definition) => {
         }
         static hierarchy(__class__) {
             const __classType = function (o_c) {
-                return (Object.hasOwnProperty.call(o_c, "__classType")) ? (o_c.__classType) : (getType_1.__getType__.call(__class__, o_c));
+                return (Object.hasOwn(o_c, "__classType")) ? (o_c.__classType) : (getType_1.__getType__.call(__class__, o_c));
             };
             const __hierarchy__proto__ = (c) => {
                 return (typeof c !== "undefined" && typeof c.__proto__ !== "undefined" && c.__proto__ !== null) ? (((__classType(c) !== "") ? ([__classType(c)]) : ([])).concat(__hierarchy__proto__(c.__proto__))) : ([]);
@@ -158,7 +158,7 @@ const Class = (name, _type, _definition) => {
                 return m;
             });
             if (self.body) {
-                if (typeof self.__definition === "undefined" || (!Object.hasOwnProperty.call(self.__definition, "body")) || typeof self.__definition.body === "undefined") {
+                if (typeof self.__definition === "undefined" || (!Object.hasOwn(self.__definition, "body")) || typeof self.__definition.body === "undefined") {
                     try {
                         if (platform_1.isBrowser) {
                             self.body = (0, DOMCreateElement_1._DOMCreateElement)(self.__definition.__classType);
@@ -172,7 +172,7 @@ const Class = (name, _type, _definition) => {
                         self.body = {};
                     }
                 }
-                else if (Object.hasOwnProperty.call(self.__definition, "body")) {
+                else if (Object.hasOwn(self.__definition, "body")) {
                     self.body = self.__definition.body;
                 }
             }
@@ -184,7 +184,7 @@ const Class = (name, _type, _definition) => {
                     self.__new__ = super.__new__.bind(self);
                     self.__new__.call(self, _o_);
                 }
-                if (typeof self === "object" && Object.hasOwnProperty.call(self, "_new_") && typeof self._new_.isCalled === "undefined") {
+                if (typeof self === "object" && Object.hasOwn(self, "_new_") && typeof self._new_.isCalled === "undefined") {
                     try {
                         self._new_(_o_);
                         self._new_.isCalled = true;

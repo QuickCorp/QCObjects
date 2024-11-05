@@ -81,7 +81,7 @@ class ConfigService extends JSONService {
         Logger_1.logger.debug("***** CONFIG LOADED:");
         Logger_1.logger.debug(result.service.template);
         this.JSONresponse = JSON.parse(result.service.template);
-        if (Object.hasOwnProperty.call(this.JSONresponse, "__encoded__")) {
+        if (Object.hasOwn(this.JSONresponse, "__encoded__")) {
             const decodedValue = Crypt_1._Crypt.decrypt(this.JSONresponse?.__encoded__, secretKey_1._secretKey);
             this.JSONresponse = JSON.parse(decodedValue);
         }

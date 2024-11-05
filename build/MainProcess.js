@@ -394,7 +394,7 @@ const globalSettings_1 = require("./globalSettings");
                         for (const _k of Object.keys(_packages)) {
                             if (typeof _packages[_k] !== "undefined" &&
                                 typeof _packages[_k] !== "function" &&
-                                Object.hasOwnProperty.call(_packages[_k], "length") &&
+                                Object.hasOwn(_packages[_k], "length") &&
                                 _packages[_k].length > 0) {
                                 _keys.push(_k);
                                 _keys = _keys.concat(_get_packages_names(_packages[_k]));
@@ -569,10 +569,10 @@ const globalSettings_1 = require("./globalSettings");
             }, []);
         }
         if (!platform_1.isBrowser) {
-            if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "_fireAsyncLoad")) {
+            if (typeof _top.global !== "undefined" && Object.hasOwn(_top.global, "_fireAsyncLoad")) {
                 asyncLoad_1._fireAsyncLoad.call(_top);
             }
-            if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "onload")) {
+            if (typeof _top.global !== "undefined" && Object.hasOwn(_top.global, "onload")) {
                 _top.global.onload.call(_top);
             }
         }

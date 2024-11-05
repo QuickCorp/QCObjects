@@ -237,16 +237,16 @@ class Component extends InheritClass_1.InheritClass {
             if (__enable_service_class__ && _serviceClassName !== null) {
                 __serviceClass = (0, ClassFactory_1.ClassFactory)(_serviceClassName);
             }
-            if (!_response_to_data_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
+            if (!_response_to_data_ && __classDefinition && Object.hasOwn(__classDefinition, "responseTo")) {
                 _response_to_data_ = (__classDefinition.responseTo === "data");
             }
-            else if (!_response_to_data_ && Object.hasOwnProperty.call((0, ClassFactory_1.ClassFactory)("Component"), "responseTo")) {
+            else if (!_response_to_data_ && Object.hasOwn((0, ClassFactory_1.ClassFactory)("Component"), "responseTo")) {
                 _response_to_data_ = ((0, ClassFactory_1.ClassFactory)("Component").responseTo === "data");
             }
-            if (!_response_to_template_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
+            if (!_response_to_template_ && __classDefinition && Object.hasOwn(__classDefinition, "responseTo")) {
                 _response_to_template_ = (__classDefinition.responseTo === "template");
             }
-            else if (!_response_to_template_ && Object.hasOwnProperty.call((0, ClassFactory_1.ClassFactory)("Component"), "responseTo")) {
+            else if (!_response_to_template_ && Object.hasOwn((0, ClassFactory_1.ClassFactory)("Component"), "responseTo")) {
                 _response_to_template_ = ((0, ClassFactory_1.ClassFactory)("Component").responseTo === "template");
             }
             if (typeof __serviceClass !== "undefined" &&
@@ -418,7 +418,7 @@ class Component extends InheritClass_1.InheritClass {
                     _component_.view = (0, New_1.New)(_View, {
                         component: _component_
                     }); // Initializes the main view for the component
-                    if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view?.done === "function") {
+                    if (Object.hasOwn(_component_.view, "done") && typeof _component_.view?.done === "function") {
                         _component_.view?.done.call(_component_.view);
                     }
                 }
@@ -758,7 +758,7 @@ class Component extends InheritClass_1.InheritClass {
                             return;
                         })
                             .then(function () {
-                            if (Object.hasOwnProperty.call(rc, "subcomponents") &&
+                            if (Object.hasOwn(rc, "subcomponents") &&
                                 typeof rc.subcomponents !== "undefined" &&
                                 rc.subcomponents.length > 0) {
                                 Logger_1.logger.debug("LOOKING FOR ROUTINGS IN SUBCOMPONENTS FOR: " + rc.name);
@@ -890,7 +890,7 @@ class Component extends InheritClass_1.InheritClass {
         const _self = this;
         let _parsedAssignmentText;
         const value = template;
-        if (Object.hasOwnProperty.call(_self, "templateHandler")) {
+        if (Object.hasOwn(_self, "templateHandler")) {
             const templateHandlerName = _self.templateHandler;
             Logger_1.logger.debug(`[Component][${this.name}][parseTemplate] Attempting to use ${templateHandlerName} ...`);
             const templateHandlerClass = (0, ClassFactory_1.ClassFactory)(templateHandlerName);
@@ -900,7 +900,7 @@ class Component extends InheritClass_1.InheritClass {
             });
             templateInstance.component = _self;
             let selfData = _self.data;
-            if (Object.hasOwnProperty.call(_self, "assignRoutingParams") && _self.assignRoutingParams) {
+            if (Object.hasOwn(_self, "assignRoutingParams") && _self.assignRoutingParams) {
                 try {
                     selfData = Object.assign(selfData, _self.routingParams);
                 }
@@ -928,7 +928,7 @@ class Component extends InheritClass_1.InheritClass {
                         const componentURI = (0, ComponentFactory_1.ComponentURI)({
                             "COMPONENTS_BASE_PATH": CONFIG_1.CONFIG.get("componentsBasePath"),
                             "COMPONENT_NAME": routing.name.toString(),
-                            "TPLEXTENSION": (Object.hasOwnProperty.call(routing, "tplextension")) ? (routing.tplextension || "") : (rc.tplextension),
+                            "TPLEXTENSION": (Object.hasOwn(routing, "tplextension")) ? (routing.tplextension || "") : (rc.tplextension),
                             "TPL_SOURCE": "default" /* here is always default in order to get the right uri */
                         });
                         rc.templateURI = componentURI;
@@ -1053,11 +1053,11 @@ class Component extends InheritClass_1.InheritClass {
                 const lang1 = CONFIG_1.CONFIG.get("lang", "en");
                 const lang2 = navigator.language.slice(0, 2);
                 const i18n = top_1._top.global.get("i18n");
-                if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwnProperty.call(i18n, "messages"))) {
+                if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwn(i18n, "messages"))) {
                     const callback_i18n = () => {
                         return new Promise(function (resolve) {
                             const messages = i18n.messages.filter(function (message) {
-                                return Object.hasOwnProperty.call(message, lang1) && Object.hasOwnProperty.call(message, lang2);
+                                return Object.hasOwn(message, lang1) && Object.hasOwn(message, lang2);
                             });
                             (_componentRoot?.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component"))
                                 .map((element) => {

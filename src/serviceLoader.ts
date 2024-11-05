@@ -119,7 +119,7 @@ export const serviceLoader = function (service:IService, _async = false):Promise
                 }
                 const serviceURL = new URL(service.url);
                 var req;
-                service.useHTTP2 = Object.hasOwnProperty.call(service, "useHTTP2") && service.useHTTP2;
+                service.useHTTP2 = Object.hasOwn(service, "useHTTP2") && service.useHTTP2;
 
 
                 const captureEvents = function (req:any) {
@@ -168,7 +168,7 @@ export const serviceLoader = function (service:IService, _async = false):Promise
                     req.on("end", () => {
                         logger.debug("ending call...");
                         service.template = dataXML;
-                        if (Object.hasOwnProperty.call(service, "useHTTP2") && service.useHTTP2) {
+                        if (Object.hasOwn(service, "useHTTP2") && service.useHTTP2) {
                             client.destroy();
                         } else {
                             req.destroy();
@@ -233,9 +233,8 @@ export const serviceLoader = function (service:IService, _async = false):Promise
                     reject.call(_promise, e);
 
                 }
-            }).catch(function (e) {
-                console.log(e);
-                logger.debug("Something happened when trying to call the service: " + service.name);
+            }).catch( (e:any) => {
+                logger.debug(`Something happened when trying to call the service: ${service.name}. Error: ${e}`);
                 service.fail.call(service, e);
             });
         return _promise;

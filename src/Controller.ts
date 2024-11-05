@@ -74,7 +74,7 @@ export class Controller extends InheritClass implements IController{
           component
         }) as IController; // Initializes the main controller for the component
         if (typeof component.routingController !== "undefined" 
-          &&  Object.hasOwnProperty.call(component.routingController, "done") 
+          &&  Object.hasOwn(component.routingController, "done") 
           && typeof component.routingController.done === "function") {
           component.routingController.done.call(component.routingController);
         }

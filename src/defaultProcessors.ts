@@ -71,7 +71,7 @@ export const setDefaultProcessors = () => {
                 "portrait": layout_portrait
             };
     
-            return (Object.hasOwnProperty.call(layout_code, layoutname)) ? ((layout_code as any)[layoutname] as string) : ("");
+            return (Object.hasOwn(layout_code, layoutname)) ? ((layout_code as any)[layoutname] as string) : ("");
         };
     
         Processor.setProcessor(layout);

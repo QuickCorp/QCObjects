@@ -116,7 +116,7 @@ const serviceLoader = function (service, _async = false) {
             }
             const serviceURL = new URL(service.url);
             var req;
-            service.useHTTP2 = Object.hasOwnProperty.call(service, "useHTTP2") && service.useHTTP2;
+            service.useHTTP2 = Object.hasOwn(service, "useHTTP2") && service.useHTTP2;
             const captureEvents = function (req) {
                 Logger_1.logger.debug("LOADING SERVICE DATA (non-browser) {{DATA}} FROM {{URL}}".replace("{{DATA}}", (0, DataStringify_1._DataStringify)(service.data)).replace("{{URL}}", service.url));
                 let dataXML;
@@ -162,7 +162,7 @@ const serviceLoader = function (service, _async = false) {
                 req.on("end", () => {
                     Logger_1.logger.debug("ending call...");
                     service.template = dataXML;
-                    if (Object.hasOwnProperty.call(service, "useHTTP2") && service.useHTTP2) {
+                    if (Object.hasOwn(service, "useHTTP2") && service.useHTTP2) {
                         client.destroy();
                     }
                     else {

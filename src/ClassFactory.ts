@@ -25,7 +25,7 @@ export const ClassFactory:TClassFactory =  (className:string):any => {
         if (packageClasses.length > 0) {
             _classFactory = packageClasses[0];
         } else {
-            throw Error(`Class ${className} not found.`);
+            throw Error(`Class ${className} not found. Found classes: ${JSON.stringify(packageClasses)} in package ${packageName}`);
         }
     } else if (className !== null && Object.hasOwn(_QC_CLASSES, className)) {
         _classFactory = _QC_CLASSES[className];

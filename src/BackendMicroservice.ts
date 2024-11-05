@@ -43,7 +43,7 @@ export class BackendMicroservice extends InheritClass {
       const supportedMethods = {
         "post": microservice.post.bind(microservice),
       };
-      if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
+      if (Object.hasOwn(supportedMethods, requestMethod)) {
         (supportedMethods as any)[requestMethod].call(microservice, data);
       }
     });
@@ -60,7 +60,7 @@ export class BackendMicroservice extends InheritClass {
       "trace": microservice.trace.bind(microservice),
       "patch": microservice.patch.bind(microservice)
     };
-    if (Object.hasOwnProperty.call(supportedMethods, requestMethod)) {
+    if (Object.hasOwn(supportedMethods, requestMethod)) {
       (supportedMethods as any)[requestMethod].call(microservice);
     }
 

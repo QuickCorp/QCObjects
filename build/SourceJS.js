@@ -36,7 +36,7 @@ class SourceJS extends InheritClass_1.InheritClass {
             document.getElementsByTagName(context.containerTag)[0].appendChild((function (s, url, context) {
                 s.type = context.type;
                 s.src = url;
-                s.crossOrigin = (Object.hasOwnProperty.call(context, "crossOrigin")) ? (context.crossOrigin) : ("anonymous");
+                s.crossOrigin = (Object.hasOwn(context, "crossOrigin")) ? (context.crossOrigin) : ("anonymous");
                 s.async = context.async;
                 s.onreadystatechange = function () {
                     if (this.readyState === "complete") {

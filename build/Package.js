@@ -41,12 +41,12 @@ const Package = function (namespace, classes = []) {
         }
         PrimaryCollections_1._QC_PACKAGES[namespace] = classes;
     }
-    if (Object.hasOwnProperty.call(PrimaryCollections_1._QC_PACKAGES, namespace)) {
+    if (Object.hasOwn(PrimaryCollections_1._QC_PACKAGES, namespace)) {
         PrimaryCollections_1._QC_PACKAGES[namespace].map(function (_class_) {
             (0, RegisterClass_1.__register_class__)(_class_, namespace);
         });
     }
-    return ((Object.hasOwnProperty.call(PrimaryCollections_1._QC_PACKAGES, namespace)) ? (PrimaryCollections_1._QC_PACKAGES[namespace]) : (undefined));
+    return ((Object.hasOwn(PrimaryCollections_1._QC_PACKAGES, namespace)) ? (PrimaryCollections_1._QC_PACKAGES[namespace]) : (undefined));
 };
 exports.Package = Package;
 exports.Package.prototype.toString = function () {

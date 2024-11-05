@@ -442,7 +442,7 @@ import loadSDK from "./loadSDK";
                 if (
                   typeof _packages[_k] !== "undefined" &&
                   typeof _packages[_k] !== "function" &&
-                  Object.hasOwnProperty.call(_packages[_k], "length") &&
+                  Object.hasOwn(_packages[_k], "length") &&
                   _packages[_k].length > 0
                 ) {
                   _keys.push(_k);
@@ -600,10 +600,10 @@ import loadSDK from "./loadSDK";
       }
   
       if (!isBrowser) {
-        if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "_fireAsyncLoad")) {
+        if (typeof _top.global !== "undefined" && Object.hasOwn(_top.global, "_fireAsyncLoad")) {
           _fireAsyncLoad.call(_top);
         }
-        if (typeof _top.global !== "undefined" && Object.hasOwnProperty.call(_top.global, "onload")) {
+        if (typeof _top.global !== "undefined" && Object.hasOwn(_top.global, "onload")) {
           _top.global.onload.call(_top);
         }
       }

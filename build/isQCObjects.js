@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.isQCObjects_Class = exports.isQCObjects_Object = void 0;
 const isQCObjects_Object = function (_) {
     return !!((typeof _ === "object" &&
-        Object.hasOwnProperty.call(_, "__classType") &&
+        Object.hasOwn(_, "__classType") &&
         (!!_.__instanceID) &&
-        Object.hasOwnProperty.call(_, "__definition") &&
+        Object.hasOwn(_, "__definition") &&
         typeof _.__definition !== "undefined"));
 };
 exports.isQCObjects_Object = isQCObjects_Object;

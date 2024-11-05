@@ -42,7 +42,7 @@ class CONFIG extends InheritClass_1.InheritClass {
         }
         _conf[name] = value;
         ConfigSettings_1.ConfigSettings.instance._CONFIG_ENC = (0, Crypt_1._CryptObject)(_conf);
-        if (Object.hasOwnProperty.call(ConfigSettings_1.ConfigSettings.instance, "_CONFIG") && Object.hasOwnProperty.call(ConfigSettings_1.ConfigSettings.instance._CONFIG, name)) {
+        if (Object.hasOwn(ConfigSettings_1.ConfigSettings.instance, "_CONFIG") && Object.hasOwn(ConfigSettings_1.ConfigSettings.instance._CONFIG, name)) {
             ConfigSettings_1.ConfigSettings.instance._CONFIG[name] = value;
         }
     }

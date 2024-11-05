@@ -288,14 +288,14 @@ export class Component extends InheritClass implements IComponent {
             if (__enable_service_class__ && _serviceClassName !== null) {
                 __serviceClass = ClassFactory(_serviceClassName);
             }
-            if (!_response_to_data_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
+            if (!_response_to_data_ && __classDefinition && Object.hasOwn(__classDefinition, "responseTo")) {
                 _response_to_data_ = (__classDefinition.responseTo === "data");
-            } else if (!_response_to_data_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
+            } else if (!_response_to_data_ && Object.hasOwn(ClassFactory("Component"), "responseTo")) {
                 _response_to_data_ = ((ClassFactory("Component") as Component).responseTo === "data");
             }
-            if (!_response_to_template_ && __classDefinition && Object.hasOwnProperty.call(__classDefinition, "responseTo")) {
+            if (!_response_to_template_ && __classDefinition && Object.hasOwn(__classDefinition, "responseTo")) {
                 _response_to_template_ = (__classDefinition.responseTo === "template");
-            } else if (!_response_to_template_ && Object.hasOwnProperty.call(ClassFactory("Component"), "responseTo")) {
+            } else if (!_response_to_template_ && Object.hasOwn(ClassFactory("Component"), "responseTo")) {
                 _response_to_template_ = ((ClassFactory("Component") as Component).responseTo === "template");
             }
 
@@ -472,7 +472,7 @@ export class Component extends InheritClass implements IComponent {
                     _component_.view = New(_View, {
                         component: _component_
                     }); // Initializes the main view for the component
-                    if (Object.hasOwnProperty.call(_component_.view, "done") && typeof _component_.view?.done === "function") {
+                    if (Object.hasOwn(_component_.view as object, "done") && typeof _component_.view?.done === "function") {
                         _component_.view?.done.call(_component_.view);
                     }
                 }
@@ -835,7 +835,7 @@ export class Component extends InheritClass implements IComponent {
                                 return;
                             })
                             .then(function () {
-                                if (Object.hasOwnProperty.call(rc, "subcomponents") &&
+                                if (Object.hasOwn(rc, "subcomponents") &&
                                     typeof rc.subcomponents !== "undefined" &&
                                     rc.subcomponents.length > 0
                                 ) {
@@ -961,7 +961,7 @@ export class Component extends InheritClass implements IComponent {
         const _self = this;
         let _parsedAssignmentText:string;
         const value = template;
-        if (Object.hasOwnProperty.call(_self, "templateHandler")) {
+        if (Object.hasOwn(_self, "templateHandler")) {
             const templateHandlerName = _self.templateHandler;
             logger.debug(`[Component][${this.name}][parseTemplate] Attempting to use ${templateHandlerName} ...`);
             const templateHandlerClass = ClassFactory(templateHandlerName);
@@ -971,7 +971,7 @@ export class Component extends InheritClass implements IComponent {
             });
             templateInstance.component = _self;
             let selfData = _self.data;
-            if (Object.hasOwnProperty.call(_self, "assignRoutingParams") && _self.assignRoutingParams) {
+            if (Object.hasOwn(_self, "assignRoutingParams") && _self.assignRoutingParams) {
                 try {
                     selfData = Object.assign(selfData, _self.routingParams);
                 } catch (e:any) {
@@ -998,7 +998,7 @@ export class Component extends InheritClass implements IComponent {
                         const componentURI = ComponentURI({
                             "COMPONENTS_BASE_PATH": CONFIG.get("componentsBasePath"),
                             "COMPONENT_NAME": routing.name.toString(),
-                            "TPLEXTENSION": (Object.hasOwnProperty.call(routing, "tplextension")) ? (routing.tplextension || "") : (rc.tplextension),
+                            "TPLEXTENSION": (Object.hasOwn(routing, "tplextension")) ? (routing.tplextension || "") : (rc.tplextension),
                             "TPL_SOURCE": "default" /* here is always default in order to get the right uri */
                         });
                         rc.templateURI = componentURI;
@@ -1129,11 +1129,11 @@ export class Component extends InheritClass implements IComponent {
                 const lang1 = CONFIG.get("lang", "en");
                 const lang2 = navigator.language.slice(0, 2);
                 const i18n = _top.global.get("i18n");
-                if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwnProperty.call(i18n, "messages"))) {
+                if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwn(i18n, "messages"))) {
                     const callback_i18n =  () => {
                         return new Promise<void>(function (resolve) {
                             const messages = i18n.messages.filter(function (message: any) {
-                                return Object.hasOwnProperty.call(message, lang1) && Object.hasOwnProperty.call(message, lang2);
+                                return Object.hasOwn(message, lang1) && Object.hasOwn(message, lang2);
                             });
                             (_componentRoot?.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component") as HTMLElement[])
                                 .map( (element: HTMLElement):HTMLElement => {

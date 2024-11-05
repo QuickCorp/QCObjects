@@ -15,7 +15,7 @@ const __make_global__ = function (f) {
             }
         }
         else if (typeof global !== "undefined") {
-            if (!Object.hasOwnProperty.call(global, f.name)) {
+            if (!Object.hasOwn(global, f.name)) {
                 global[f.name] = f;
             }
         }
