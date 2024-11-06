@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../build/DOMCreateElement.js"],
-  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports._DOMCreateElement = void 0;\nconst platform_1 = require(\"./platform\");\nconst _DOMCreateElement = function (elementName) {\n    let _ret_;\n    if (platform_1.isBrowser) {\n        _ret_ = document.createElement(elementName);\n    }\n    else {\n        _ret_ = {};\n    }\n    return _ret_;\n};\nexports._DOMCreateElement = _DOMCreateElement;\n"],
-  "mappings": "uFAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,kBAAoB,OAC5B,IAAMC,EAAa,IACbC,EAAoBC,EAAA,SAAUC,EAAa,CAC7C,IAAIC,EACJ,OAAIJ,EAAW,UACXI,EAAQ,SAAS,cAAcD,CAAW,EAG1CC,EAAQ,CAAC,EAENA,CACX,EAT0B,qBAU1BL,EAAQ,kBAAoBE",
-  "names": ["require_DOMCreateElement", "__commonJSMin", "exports", "platform_1", "_DOMCreateElement", "__name", "elementName", "_ret_"]
-}

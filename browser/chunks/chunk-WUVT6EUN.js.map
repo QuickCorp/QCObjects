@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../build/is_forbidden_name.js"],
-  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.__is__forbidden_name__ = void 0;\n/**\n * Internal use to determine the forbidden names for classes\n * Reserved words\n *\n * @param {String} name\n * @param {Object} type\n * @param {Object} definition\n */\nconst __is__forbidden_name__ = function (name) {\n    return ([\"__proto__\", \"prototype\", \"Object\", \"Map\", \"defineProperty\", \"indexOf\", \"toString\", \"__instanceID\", \"function\", \"Function\"].indexOf(name) !== -1);\n};\nexports.__is__forbidden_name__ = __is__forbidden_name__;\n"],
-  "mappings": "+CAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,uBAAyB,OASjC,IAAMC,EAAyBC,EAAA,SAAUC,EAAM,CAC3C,MAAQ,CAAC,YAAa,YAAa,SAAU,MAAO,iBAAkB,UAAW,WAAY,eAAgB,WAAY,UAAU,EAAE,QAAQA,CAAI,IAAM,EAC3J,EAF+B,0BAG/BH,EAAQ,uBAAyBC",
-  "names": ["require_is_forbidden_name", "__commonJSMin", "exports", "__is__forbidden_name__", "__name", "name"]
-}

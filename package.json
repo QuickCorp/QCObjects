@@ -2,15 +2,15 @@
   "name": "qcobjects",
   "version": "2.4.107-ts",
   "description": "QCObjects is an Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.",
-  "main": "build/index.cjs",
-  "module": "build/index.mjs",
-  "browser": "browser/index.js",
+  "main": "public/cjs/index.cjs",
+  "module": "public/esm/index.mjs",
+  "browser": "public/browser/index.js",
   "type": "commonjs",
   "types": "build/index.d.ts",
   "exports": {
     ".": {
-      "require": "./build/index.cjs",
-      "import": "./build/index.mjs"
+      "require": "./public/cjs/index.cjs",
+      "import": "./public/esm/index.mjs"
     },
     "./types/*": "./types/*",
     "./package.json": "./package.json"
@@ -20,7 +20,7 @@
     "build": "npm run build:ts-types && npm run build:ts && npm run build:browser",
     "build:ts": "npm test && npx tsc",
     "build:ts-types": "npx tsc --project tsconfig.d.json",
-    "build:browser": "npx -y esbuild@0.17.19 build/*.js --bundle --outdir=browser --keep-names --minify --global-name=global --sourcemap --splitting --chunk-names=chunks/[name]-[hash] --format=esm --target=es2021",
+    "build:browser": "npm run build:esbuild",
     "build:esbuild": "node ./build-esbuild.js",
     "start": "qcobjects-shell",
     "test:ts-types": "npx tsc --project ./tsconfig.jasmine.json ",

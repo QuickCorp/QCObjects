@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../build/localStorage.js"],
-  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.localStorage = void 0;\nexports.localStorage = window.localStorage;\nif (typeof exports.localStorage === \"undefined\") {\n    /* Polyfill for localStorage */\n    exports.localStorage = {\n        getItem(name) {\n            return (Object.hasOwn(this, name)) ? (this[name]) : (null);\n        },\n        setItem(name, value) {\n            this[name] = value;\n        },\n        removeItem(name) {\n            delete this[name];\n        }\n    };\n    /* end Polyfill for localStorage */\n}\n"],
-  "mappings": "+CAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,aAAe,OACvBA,EAAQ,aAAe,OAAO,aAC1B,OAAOA,EAAQ,aAAiB,MAEhCA,EAAQ,aAAe,CACnB,QAAQC,EAAM,CACV,OAAQ,OAAO,OAAO,KAAMA,CAAI,EAAM,KAAKA,CAAI,EAAM,IACzD,EACA,QAAQA,EAAMC,EAAO,CACjB,KAAKD,CAAI,EAAIC,CACjB,EACA,WAAWD,EAAM,CACb,OAAO,KAAKA,CAAI,CACpB,CACJ",
-  "names": ["require_localStorage", "__commonJSMin", "exports", "name", "value"]
-}

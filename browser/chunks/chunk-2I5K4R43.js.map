@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../build/tag_filter.js"],
-  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports._tag_filter_ = void 0;\nexports._tag_filter_ = \"quick-component:not([loaded]),component:not([loaded])\";\n"],
-  "mappings": "wCAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,aAAe,OACvBA,EAAQ,aAAe",
-  "names": ["require_tag_filter", "__commonJSMin", "exports"]
-}

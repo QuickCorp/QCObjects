@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../build/range.js"],
-  "sourcesContent": ["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.range = void 0;\nconst introspection_1 = require(\"./introspection\");\nconst range = function (start, stop = 0, step = 1) {\n    if (stop === 0 || typeof stop === \"undefined\") {\n        stop = start;\n        start = 0;\n    }\n    return Array.from({\n        length: (stop - start) / step + 1\n    }, function (_, i) {\n        return start + (i * step);\n    });\n};\nexports.range = range;\n(introspection_1._protected_code_)(exports.range);\n"],
-  "mappings": "kFAAA,IAAAA,EAAAC,EAAAC,GAAA,CACA,OAAO,eAAeA,EAAS,aAAc,CAAE,MAAO,EAAK,CAAC,EAC5DA,EAAQ,MAAQ,OAChB,IAAMC,EAAkB,IAClBC,EAAQC,EAAA,SAAUC,EAAOC,EAAO,EAAGC,EAAO,EAAG,CAC/C,OAAID,IAAS,GAAK,OAAOA,EAAS,OAC9BA,EAAOD,EACPA,EAAQ,GAEL,MAAM,KAAK,CACd,QAASC,EAAOD,GAASE,EAAO,CACpC,EAAG,SAAUC,EAAGC,EAAG,CACf,OAAOJ,EAASI,EAAIF,CACxB,CAAC,CACL,EAVc,SAWdN,EAAQ,MAAQE,EACfD,EAAgB,iBAAkBD,EAAQ,KAAK",
-  "names": ["require_range", "__commonJSMin", "exports", "introspection_1", "range", "__name", "start", "stop", "step", "_", "i"]
-}
