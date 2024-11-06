@@ -157,7 +157,7 @@ export class InheritClass implements IInheritClass {
 
     hierarchy(): any {
         const __instance__ = this;
-        return this.getClass().hierarchy(__instance__);
+        return (this.constructor as typeof InheritClass).hierarchy(__instance__);
     }
 
 

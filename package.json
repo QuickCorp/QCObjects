@@ -2,15 +2,15 @@
   "name": "qcobjects",
   "version": "2.5.102-beta",
   "description": "QCObjects is an Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.",
-  "main": "public/cjs/index.cjs",
-  "module": "public/esm/index.mjs",
-  "browser": "public/browser/index.js",
+  "main": "public/cjs/QCObjects.cjs",
+  "module": "public/esm/QCObjects.mjs",
+  "browser": "public/browser/QCObjects.js",
   "type": "commonjs",
   "types": "build/index.d.ts",
   "exports": {
     ".": {
-      "require": "./public/cjs/index.cjs",
-      "import": "./public/esm/index.mjs"
+      "require": "./public/cjs/QCObjects.cjs",
+      "import": "./public/esm/QCObjects.mjs"
     },
     "./types/*": "./types/*",
     "./package.json": "./package.json"

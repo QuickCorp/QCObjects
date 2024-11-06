@@ -217,7 +217,7 @@ const Class = (name, _type, _definition) => {
         }
         hierarchy() {
             const __instance__ = this;
-            return this.getClass().hierarchy(__instance__);
+            return this.getClass()?.hierarchy(__instance__);
         }
         append(_child) {
             const child = _child || this.body;

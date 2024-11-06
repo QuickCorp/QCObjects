@@ -232,7 +232,7 @@ export const Class: TClass = (name?: string, _type?: unknown, _definition?: unkn
 
     hierarchy(): any {
       const __instance__ = this;
-      return this.getClass().hierarchy(__instance__);
+      return this.getClass()?.hierarchy(__instance__);
     }
 
 

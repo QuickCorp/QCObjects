@@ -1,3 +1,4 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -5,16 +6,10 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
-  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-}) : x)(function(x) {
-  if (typeof require !== "undefined") return require.apply(this, arguments);
-  throw Error('Dynamic require of "' + x + '" is not supported');
-});
 var __esm = (fn, res) => function __init() {
   return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
 };
-var __commonJS = (cb, mod) => function __require2() {
+var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __export = (target, all) => {
@@ -37,6 +32,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/assign.ts
 var require_assign = __commonJS({
@@ -97,7 +93,7 @@ var init_platform = __esm({
       return isDeno ? deno_require(name) : ((name2) => {
         let r;
         try {
-          r = __require(name2);
+          r = require(name2);
         } catch (e) {
           logger.debug(`An error ocurred importing module. ${e}`);
           r = { export: {} };
@@ -633,7 +629,7 @@ var init_InheritClass = __esm({
       }
       hierarchy() {
         const __instance__ = this;
-        return this.getClass().hierarchy(__instance__);
+        return this.constructor.hierarchy(__instance__);
       }
       append(_child) {
         const child = _child || this.body;
@@ -951,7 +947,7 @@ var init_Class = __esm({
         }
         hierarchy() {
           const __instance__ = this;
-          return this.getClass().hierarchy(__instance__);
+          return this.getClass()?.hierarchy(__instance__);
         }
         append(_child) {
           const child = _child || this.body;
@@ -4446,7 +4442,7 @@ function loadSDK() {
       }
       if (tryImportingSDK) {
         logger.info("Importing SDK... " + sdkName);
-        if (isNodeCommonJS && typeof __require !== "undefined") {
+        if (isNodeCommonJS && typeof require !== "undefined") {
           const sdk = _require_("qcobjects-sdk");
           if (sdk) {
             logger.debug("QCObjects SDK was loaded OK.");
@@ -5056,6 +5052,7 @@ __export(QCObjects_exports, {
   subelements: () => subelements,
   waitUntil: () => waitUntil
 });
+module.exports = __toCommonJS(QCObjects_exports);
 var AssignPolyfill = __toESM(require_assign());
 init_top();
 init_PrimaryCollections();
@@ -6485,10 +6482,94 @@ init_mathFunctions();
 init_top();
 init_make_global();
 var QCObjects = __toESM(require_MainProcess());
-
-// src/index.mts
-var src_default = QCObjects_exports;
-export {
-  src_default as default
-};
-//# sourceMappingURL=index.mjs.map
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  ArrayCollection,
+  ArrayList,
+  AssignPolyfill,
+  BackendMicroservice,
+  CONFIG,
+  Class,
+  ClassFactory,
+  ComplexStorageCache,
+  Component,
+  ComponentURI,
+  ConfigService,
+  Controller,
+  DDO,
+  DefaultTemplateHandler,
+  Effect,
+  Export,
+  GlobalSettings,
+  Import,
+  InheritClass,
+  JSONService,
+  Logger,
+  NamespaceRef,
+  New,
+  ObjectName,
+  Package,
+  Processor,
+  QCObjects,
+  Ready,
+  RegisterClass,
+  RegisterWidget,
+  RegisterWidgets,
+  Service,
+  SourceCSS,
+  SourceJS,
+  Tag,
+  TagElements,
+  Timer,
+  Toggle,
+  TransitionEffect,
+  VO,
+  View,
+  _Cast,
+  _CastProps,
+  _ComponentWidget_,
+  _Crypt,
+  _DOMCreateElement,
+  _DataStringify,
+  _LegacyCopy,
+  _QC_CLASSES,
+  _QC_PACKAGES,
+  _QC_PACKAGES_IMPORTED,
+  _QC_READY_LISTENERS,
+  _Ready,
+  __getType__,
+  __instanceID,
+  __is_raw_class__,
+  __make_global__,
+  __to_number,
+  _buildComponentsFromElements_,
+  _fireAsyncLoad,
+  _methods_,
+  _protected_code_,
+  _require_,
+  _super_,
+  _tag_filter_,
+  _top,
+  asyncLoad,
+  captureFalseTouch,
+  componentLoader,
+  findPackageNodePath,
+  getDocumentLayout,
+  global,
+  isBrowser,
+  isNodeCommonJS,
+  isQCObjects_Class,
+  isQCObjects_Object,
+  is_a,
+  is_phonegap,
+  logger,
+  range,
+  ready,
+  resetTop,
+  serviceLoader,
+  setDefaultProcessors,
+  shortCode,
+  subelements,
+  waitUntil
+});
+//# sourceMappingURL=QCObjects.cjs.map

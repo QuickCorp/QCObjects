@@ -1,4 +1,3 @@
-"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -6,15 +5,17 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
+  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
+}) : x)(function(x) {
+  if (typeof require !== "undefined") return require.apply(this, arguments);
+  throw Error('Dynamic require of "' + x + '" is not supported');
+});
 var __esm = (fn, res) => function __init() {
   return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
 };
-var __commonJS = (cb, mod) => function __require() {
+var __commonJS = (cb, mod) => function __require2() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-};
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -32,7 +33,6 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/assign.ts
 var require_assign = __commonJS({
@@ -93,7 +93,7 @@ var init_platform = __esm({
       return isDeno ? deno_require(name) : ((name2) => {
         let r;
         try {
-          r = require(name2);
+          r = __require(name2);
         } catch (e) {
           logger.debug(`An error ocurred importing module. ${e}`);
           r = { export: {} };
@@ -629,7 +629,7 @@ var init_InheritClass = __esm({
       }
       hierarchy() {
         const __instance__ = this;
-        return this.getClass().hierarchy(__instance__);
+        return this.constructor.hierarchy(__instance__);
       }
       append(_child) {
         const child = _child || this.body;
@@ -947,7 +947,7 @@ var init_Class = __esm({
         }
         hierarchy() {
           const __instance__ = this;
-          return this.getClass().hierarchy(__instance__);
+          return this.getClass()?.hierarchy(__instance__);
         }
         append(_child) {
           const child = _child || this.body;
@@ -4175,440 +4175,6 @@ var init_Import = __esm({
   }
 });
 
-// src/BackendMicroservice.ts
-var BackendMicroservice;
-var init_BackendMicroservice = __esm({
-  "src/BackendMicroservice.ts"() {
-    "use strict";
-    init_basePath();
-    init_DataStringify();
-    init_domain();
-    init_InheritClass();
-    init_Logger();
-    init_Package();
-    BackendMicroservice = class extends InheritClass {
-      static {
-        __name(this, "BackendMicroservice");
-      }
-      stream;
-      route;
-      headers;
-      request;
-      constructor({
-        domain = _domain_,
-        basePath = _basePath_,
-        body = null,
-        stream = null,
-        request = null
-      }) {
-        super({
-          domain,
-          basePath,
-          body,
-          stream,
-          request
-        });
-        logger.debug("Initializing BackendMicroservice...");
-        const microservice = this;
-        if (typeof this.body === "undefined") {
-          this.body = null;
-        }
-        if (typeof body !== "undefined") {
-          this.body = body;
-        }
-        this.cors();
-        microservice.stream = stream;
-        stream?.on("data", (data) => {
-          const requestMethod2 = request?.method.toLowerCase();
-          const supportedMethods2 = {
-            "post": microservice.post.bind(microservice)
-          };
-          if (Object.hasOwn(supportedMethods2, requestMethod2)) {
-            supportedMethods2[requestMethod2].call(microservice, data);
-          }
-        });
-        const requestMethod = request?.method.toLowerCase();
-        const supportedMethods = {
-          "get": microservice.get.bind(microservice),
-          "head": microservice.head.bind(microservice),
-          "put": microservice.put.bind(microservice),
-          "delete": microservice.delete.bind(microservice),
-          "connect": microservice.connect.bind(microservice),
-          "options": microservice.options.bind(microservice),
-          "trace": microservice.trace.bind(microservice),
-          "patch": microservice.patch.bind(microservice)
-        };
-        if (Object.hasOwn(supportedMethods, requestMethod)) {
-          supportedMethods[requestMethod].call(microservice);
-        }
-      }
-      cors() {
-        if (this.route.cors) {
-          logger.debug("Validating CORS...");
-          const {
-            allow_origins,
-            allow_credentials,
-            allow_methods,
-            allow_headers
-          } = this.route.cors;
-          const microservice = this;
-          if (typeof microservice.headers !== "object") {
-            microservice.headers = {};
-          }
-          if (typeof microservice.route.responseHeaders !== "object") {
-            microservice.route.responseHeaders = {};
-          }
-          if (typeof allow_origins !== "undefined") {
-            logger.debug("CORS: allow_origins available. Validating origins...");
-            if (allow_origins === "*" || typeof microservice.request.headers.origin === "undefined" || [...allow_origins].indexOf(microservice.request.headers.origin) !== -1) {
-              logger.debug("CORS: Adding header Access-Control-Allow-Origin=*");
-              microservice.route.responseHeaders["Access-Control-Allow-Origin"] = "*";
-            } else {
-              logger.debug("CORS: Origin is not allowed: " + microservice.request.headers.origin);
-              logger.debug("CORS: Forcing to finish the response...");
-              this.body = {};
-              try {
-                this.done();
-              } catch (e) {
-                logger.debug(`It was not possible to finish the call to the microservice: ${e}`);
-              }
-            }
-          } else {
-            logger.debug("CORS: no allow_origins available. Allowing all origins...");
-            logger.debug("CORS: Adding header Access-Control-Allow-Origin=*");
-            microservice.route.responseHeaders["Access-Control-Allow-Origin"] = "*";
-          }
-          if (typeof allow_credentials !== "undefined") {
-            logger.debug(`CORS: allow_credentials present. Allowing ${allow_credentials}...`);
-            microservice.route.responseHeaders["Access-Control-Allow-Credentials"] = allow_credentials.toString();
-          } else {
-            logger.debug("CORS: No allow_credentials present. Allowing all credentials.");
-            microservice.route.responseHeaders["Access-Control-Allow-Credentials"] = "true";
-          }
-          if (typeof allow_methods !== "undefined") {
-            logger.debug(`CORS: allow_methods present. Allowing ${allow_methods}...`);
-            microservice.route.responseHeaders["Access-Control-Allow-Methods"] = [...allow_methods].join(",");
-          } else {
-            logger.debug("CORS: No allow_methods present. Allowing only GET, OPTIONS and POST");
-            microservice.route.responseHeaders["Access-Control-Allow-Methods"] = "GET, OPTIONS, POST";
-          }
-          if (typeof allow_headers !== "undefined") {
-            logger.debug(`CORS: allow_headers present. Allowing ${allow_headers}...`);
-            microservice.route.responseHeaders["Access-Control-Allow-Headers"] = [...allow_headers].join(",");
-          } else {
-            logger.debug("CORS: No allow_headers present. Allowing all headers...");
-            microservice.route.responseHeaders["Access-Control-Allow-Headers"] = "*";
-          }
-        } else {
-          logger.debug("No CORS validation available. You can specify cors in CONFIG.backend.routes[].cors");
-        }
-      }
-      head(formData) {
-        logger.debug(`[BackendMicroservice.head] Data received: ${_DataStringify(formData)}`);
-        this.done();
-      }
-      get(formData) {
-        logger.debug(`[BackendMicroservice.get] Data received: ${_DataStringify(formData)}`);
-        this.done();
-      }
-      post(formData) {
-        logger.debug(`[BackendMicroservice.post] Data received: ${_DataStringify(formData)}`);
-        this.done();
-      }
-      put(formData) {
-        logger.debug(`[BackendMicroservice.put] Data received: ${_DataStringify(formData)}`);
-        this.done();
-      }
-      delete(formData) {
-        logger.debug(`[BackendMicroservice.delete] Data received: ${_DataStringify(formData)}`);
-        this.done();
-      }
-      connect(formData) {
-        logger.debug(`[BackendMicroservice.connect] Data received: ${_DataStringify(formData)}`);
-        this.done();
-      }
-      options(formData) {
-        logger.debug(`[BackendMicroservice.options] Data received: ${_DataStringify(formData)}`);
-        this.done();
-      }
-      trace(formData) {
-        logger.debug(`[BackendMicroservice.trace] Data received: ${_DataStringify(formData)}`);
-        this.done();
-      }
-      patch(formData) {
-        logger.debug(`[BackendMicroservice.patch] Data received: ${_DataStringify(formData)}`);
-        this.done();
-      }
-      finishWithBody(stream) {
-        try {
-          logger.debug("[BackendMicroservice.finishWithBody] Ending the stream...");
-          logger.debug(`[BackendMicroservice.finishWithBody] type of body is: ${typeof this.body}`);
-          if (typeof this.body !== "string") {
-            this.body = _DataStringify(this.body);
-          }
-          logger.debug(`[BackendMicroservice.finishWithBody] 
- body: ${this.body} `);
-          stream?.write(this.body);
-          stream?.end();
-          logger.debug("[BackendMicroservice.finishWithBody] Stream ended.");
-        } catch (e) {
-          logger.debug(`[BackendMicroservice.finishWithBody] Something went wrong ending the stream: ${e}`);
-        }
-      }
-      done() {
-        logger.debug("[BackendMicroservice.done] Finalizing the response...");
-        const microservice = this;
-        const stream = microservice.stream;
-        try {
-          logger.debug("[BackendMicroservice.done] Sending response headers...");
-          if (microservice.route.responseHeaders) {
-            logger.debug(`[BackendMicroservice.done] Response headers present: ${Object.keys(microservice.route.responseHeaders).join(",")}`);
-            stream.respond(microservice.route.responseHeaders);
-          } else {
-            throw Error("[BackendMicroservice.done] No headers present.");
-          }
-        } catch (e) {
-          logger.debug(`[BackendMicroservice.done] Something went wrong sending response headers: ${e}`);
-        }
-        if (microservice.body !== null) {
-          try {
-            logger.debug("[BackendMicroservice.done] A body of message is present. Finalizing the response...");
-            microservice.finishWithBody.call(microservice, stream);
-          } catch (e) {
-            logger.debug(`[BackendMicroservice.done] Something went wrong finalizing the response: ${e}`);
-          }
-        } else {
-          logger.debug("[BackendMicroservice.done] No body present. Ending stream...");
-          stream.end();
-        }
-      }
-    };
-    Package("com.qcobjects.api", [
-      BackendMicroservice
-    ]);
-  }
-});
-
-// src/DefaultTemplateHandler.ts
-var DefaultTemplateHandler;
-var init_DefaultTemplateHandler = __esm({
-  "src/DefaultTemplateHandler.ts"() {
-    "use strict";
-    init_Logger();
-    init_Processor();
-    init_RegisterClass();
-    DefaultTemplateHandler = class {
-      static {
-        __name(this, "DefaultTemplateHandler");
-      }
-      template = "";
-      __definition = {};
-      static __definition = {};
-      component;
-      constructor({ component, template }) {
-        this.component = component;
-        this.template = template;
-      }
-      assign(data) {
-        const templateInstance = this;
-        if (typeof templateInstance.component === "undefined") {
-          throw new Error("DefaultTemplateHandler.assign: component is undefined");
-        }
-        if (typeof templateInstance.component.processorHandler === "undefined") {
-          throw new Error("DefaultTemplateHandler.assign: component.processorHandler is undefined");
-        }
-        const processorHandler = templateInstance.component.processorHandler;
-        processorHandler.component = templateInstance.component;
-        let parsedAssignmentText = typeof templateInstance.template !== "undefined" ? templateInstance.template : "";
-        if (typeof data === "object") {
-          [...Object.keys(data)].map((k) => {
-            let _value = data[k];
-            if (typeof _value === "string" || typeof _value === "number" || !isNaN(_value)) {
-              try {
-                _value = GlobalProcessor.processObject.bind(processorHandler).call(processorHandler, _value, templateInstance.component);
-                parsedAssignmentText = parsedAssignmentText.replace(new RegExp(`{{${k}}}`, "g"), _value);
-              } catch (e) {
-                logger.warn(`${templateInstance.component.name} could not parse processors.`);
-                throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
-              }
-            }
-            return k;
-          });
-        } else {
-          logger.debug(`${templateInstance.component.name}.data is not an object`);
-        }
-        try {
-          parsedAssignmentText = GlobalProcessor.processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
-        } catch (e) {
-          logger.warn(`${templateInstance.component.name} could not parse processors.`);
-          throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
-        }
-        return parsedAssignmentText;
-      }
-    };
-    RegisterClass(DefaultTemplateHandler, "com.qcobjects");
-  }
-});
-
-// src/SourceJS.ts
-var SourceJS;
-var init_SourceJS = __esm({
-  "src/SourceJS.ts"() {
-    "use strict";
-    init_basePath();
-    init_Cast();
-    init_domain();
-    init_DOMCreateElement();
-    init_InheritClass();
-    init_Package();
-    init_Logger();
-    SourceJS = class extends InheritClass {
-      static {
-        __name(this, "SourceJS");
-      }
-      domain = _domain_;
-      basePath = _basePath_;
-      type = "text/javascript";
-      containerTag = "body";
-      url = "";
-      data = {};
-      async = false;
-      external = false;
-      constructor(o) {
-        super(o);
-        this.body = _DOMCreateElement("script");
-      }
-      set(name, value) {
-        this[name] = value;
-      }
-      get(name, _default) {
-        return this[name] || _default;
-      }
-      status = false;
-      done() {
-      }
-      fail() {
-      }
-      rebuild() {
-        const context = this;
-        try {
-          document.getElementsByTagName(context.containerTag)[0].appendChild(
-            function(s, url, context2) {
-              s.type = context2.type;
-              s.src = url;
-              s.crossOrigin = Object.hasOwn(context2, "crossOrigin") ? context2.crossOrigin : "anonymous";
-              s.async = context2.async;
-              s.onreadystatechange = function() {
-                if (this.readyState === "complete") {
-                  context2.done.call(context2);
-                }
-              };
-              s.onload = function(e) {
-                context2.status = true;
-                context2.done.call(context2, e);
-              };
-              s.onerror = function(e) {
-                context2.status = false;
-                context2.fail.call(context2, e);
-              };
-              context2.body = s;
-              return s;
-            }.call(
-              this,
-              _DOMCreateElement("script"),
-              this.external ? this.url : this.basePath + this.url,
-              context
-            )
-          );
-        } catch (e) {
-          context.status = false;
-          logger.debug(`An error ocurred: ${e}`);
-          context.fail();
-        }
-      }
-      Cast(o) {
-        return _Cast(this, o);
-      }
-      _new_(properties) {
-        this.__new__(properties);
-        this.rebuild();
-      }
-    };
-    Package("com.qcobjects", [SourceJS]);
-  }
-});
-
-// src/SourceCSS.ts
-var SourceCSS;
-var init_SourceCSS = __esm({
-  "src/SourceCSS.ts"() {
-    "use strict";
-    init_basePath();
-    init_Cast();
-    init_domain();
-    init_DOMCreateElement();
-    init_InheritClass();
-    init_platform();
-    init_Package();
-    SourceCSS = class extends InheritClass {
-      static {
-        __name(this, "SourceCSS");
-      }
-      domain = _domain_;
-      basePath = _basePath_;
-      url = "";
-      data = {};
-      async = false;
-      external = false;
-      constructor(o) {
-        super(o);
-        this.body = _DOMCreateElement("link");
-      }
-      fail() {
-        throw new Error("Method not implemented.");
-      }
-      Cast(o) {
-        return _Cast(this, o);
-      }
-      set(name, value) {
-        this[name] = value;
-      }
-      get(name, _default) {
-        return this[name] || _default;
-      }
-      done() {
-      }
-      rebuild() {
-        const context = this;
-        if (isBrowser) {
-          window.document.getElementsByTagName("head")[0].appendChild(
-            function(s, url, context2) {
-              s.type = "text/css";
-              s.rel = "stylesheet";
-              s.href = url;
-              s.crossOrigin = "anonymous";
-              s.onreadystatechange = function() {
-                if (this.readyState === "complete") {
-                  context2.done.call(context2);
-                }
-              };
-              s.onload = context2.done;
-              context2.body = s;
-              return s;
-            }.call(
-              this,
-              _DOMCreateElement("link"),
-              this.external ? this.url : this.basePath + this.url,
-              context
-            )
-          );
-        }
-      }
-    };
-    Package("com.qcobjects", [SourceCSS]);
-  }
-});
-
 // src/Service.ts
 var Service, JSONService, ConfigService;
 var init_Service = __esm({
@@ -4851,1026 +4417,6 @@ var init_globalSettings = __esm({
   }
 });
 
-// src/WidgetsFactory.ts
-var QCObjectsWidgetNode, _ComponentWidget_, RegisterWidget, RegisterWidgets;
-var init_WidgetsFactory = __esm({
-  "src/WidgetsFactory.ts"() {
-    "use strict";
-    init_DOMCreateElement();
-    init_Export();
-    init_introspection();
-    init_platform();
-    QCObjectsWidgetNode = class {
-      static {
-        __name(this, "QCObjectsWidgetNode");
-      }
-      accessKey;
-      accessKeyLabel;
-      autocapitalize;
-      dir;
-      draggable;
-      hidden;
-      inert;
-      innerText;
-      lang;
-      offsetHeight;
-      offsetLeft;
-      offsetParent;
-      offsetTop;
-      offsetWidth;
-      outerText;
-      popover;
-      spellcheck;
-      title;
-      translate;
-      attachInternals() {
-        throw new Error("Method not implemented.");
-      }
-      click() {
-        throw new Error("Method not implemented.");
-      }
-      hidePopover() {
-        throw new Error("Method not implemented.");
-      }
-      showPopover() {
-        throw new Error("Method not implemented.");
-      }
-      togglePopover(force) {
-        throw new Error("Method not implemented.");
-      }
-      addEventListener(type, listener, options) {
-        throw new Error("Method not implemented.");
-      }
-      removeEventListener(type, listener, options) {
-        throw new Error("Method not implemented.");
-      }
-      attributes;
-      classList;
-      className;
-      clientHeight;
-      clientLeft;
-      clientTop;
-      clientWidth;
-      id;
-      innerHTML;
-      localName;
-      namespaceURI;
-      onfullscreenchange;
-      onfullscreenerror;
-      outerHTML;
-      ownerDocument;
-      part;
-      prefix;
-      scrollHeight;
-      scrollLeft;
-      scrollTop;
-      scrollWidth;
-      shadowRoot;
-      slot;
-      tagName;
-      attachShadow(init) {
-        throw new Error("Method not implemented.");
-      }
-      checkVisibility(options) {
-        throw new Error("Method not implemented.");
-      }
-      closest(selectors) {
-        throw new Error("Method not implemented.");
-      }
-      computedStyleMap() {
-        throw new Error("Method not implemented.");
-      }
-      getAttribute(qualifiedName) {
-        throw new Error("Method not implemented.");
-      }
-      getAttributeNS(namespace, localName) {
-        throw new Error("Method not implemented.");
-      }
-      getAttributeNames() {
-        throw new Error("Method not implemented.");
-      }
-      getAttributeNode(qualifiedName) {
-        throw new Error("Method not implemented.");
-      }
-      getAttributeNodeNS(namespace, localName) {
-        throw new Error("Method not implemented.");
-      }
-      getBoundingClientRect() {
-        throw new Error("Method not implemented.");
-      }
-      getClientRects() {
-        throw new Error("Method not implemented.");
-      }
-      getElementsByClassName(classNames) {
-        throw new Error("Method not implemented.");
-      }
-      getElementsByTagName(qualifiedName) {
-        throw new Error("Method not implemented.");
-      }
-      getElementsByTagNameNS(namespace, localName) {
-        throw new Error("Method not implemented.");
-      }
-      getHTML(options) {
-        throw new Error("Method not implemented.");
-      }
-      hasAttribute(qualifiedName) {
-        throw new Error("Method not implemented.");
-      }
-      hasAttributeNS(namespace, localName) {
-        throw new Error("Method not implemented.");
-      }
-      hasAttributes() {
-        throw new Error("Method not implemented.");
-      }
-      hasPointerCapture(pointerId) {
-        throw new Error("Method not implemented.");
-      }
-      insertAdjacentElement(where, element) {
-        throw new Error("Method not implemented.");
-      }
-      insertAdjacentHTML(position, string) {
-        throw new Error("Method not implemented.");
-      }
-      insertAdjacentText(where, data) {
-        throw new Error("Method not implemented.");
-      }
-      matches(selectors) {
-        throw new Error("Method not implemented.");
-      }
-      releasePointerCapture(pointerId) {
-        throw new Error("Method not implemented.");
-      }
-      removeAttribute(qualifiedName) {
-        throw new Error("Method not implemented.");
-      }
-      removeAttributeNS(namespace, localName) {
-        throw new Error("Method not implemented.");
-      }
-      removeAttributeNode(attr) {
-        throw new Error("Method not implemented.");
-      }
-      requestFullscreen(options) {
-        throw new Error("Method not implemented.");
-      }
-      requestPointerLock(options) {
-        throw new Error("Method not implemented.");
-      }
-      scroll(x, y) {
-        throw new Error("Method not implemented.");
-      }
-      scrollBy(x, y) {
-        throw new Error("Method not implemented.");
-      }
-      scrollIntoView(arg) {
-        throw new Error("Method not implemented.");
-      }
-      scrollTo(x, y) {
-        throw new Error("Method not implemented.");
-      }
-      setAttribute(qualifiedName, value) {
-        throw new Error("Method not implemented.");
-      }
-      setAttributeNS(namespace, qualifiedName, value) {
-        throw new Error("Method not implemented.");
-      }
-      setAttributeNode(attr) {
-        throw new Error("Method not implemented.");
-      }
-      setAttributeNodeNS(attr) {
-        throw new Error("Method not implemented.");
-      }
-      setHTMLUnsafe(html) {
-        throw new Error("Method not implemented.");
-      }
-      setPointerCapture(pointerId) {
-        throw new Error("Method not implemented.");
-      }
-      toggleAttribute(qualifiedName, force) {
-        throw new Error("Method not implemented.");
-      }
-      webkitMatchesSelector(selectors) {
-        throw new Error("Method not implemented.");
-      }
-      baseURI;
-      childNodes;
-      firstChild;
-      isConnected;
-      lastChild;
-      nextSibling;
-      nodeName;
-      nodeType;
-      nodeValue;
-      parentElement;
-      parentNode;
-      previousSibling;
-      textContent;
-      appendChild(node) {
-        throw new Error("Method not implemented.");
-      }
-      cloneNode(deep) {
-        throw new Error("Method not implemented.");
-      }
-      compareDocumentPosition(other) {
-        throw new Error("Method not implemented.");
-      }
-      contains(other) {
-        throw new Error("Method not implemented.");
-      }
-      getRootNode(options) {
-        throw new Error("Method not implemented.");
-      }
-      hasChildNodes() {
-        throw new Error("Method not implemented.");
-      }
-      insertBefore(node, child) {
-        throw new Error("Method not implemented.");
-      }
-      isDefaultNamespace(namespace) {
-        throw new Error("Method not implemented.");
-      }
-      isEqualNode(otherNode) {
-        throw new Error("Method not implemented.");
-      }
-      isSameNode(otherNode) {
-        throw new Error("Method not implemented.");
-      }
-      lookupNamespaceURI(prefix) {
-        throw new Error("Method not implemented.");
-      }
-      lookupPrefix(namespace) {
-        throw new Error("Method not implemented.");
-      }
-      normalize() {
-        throw new Error("Method not implemented.");
-      }
-      removeChild(child) {
-        throw new Error("Method not implemented.");
-      }
-      replaceChild(node, child) {
-        throw new Error("Method not implemented.");
-      }
-      ELEMENT_NODE;
-      ATTRIBUTE_NODE;
-      TEXT_NODE;
-      CDATA_SECTION_NODE;
-      ENTITY_REFERENCE_NODE;
-      ENTITY_NODE;
-      PROCESSING_INSTRUCTION_NODE;
-      COMMENT_NODE;
-      DOCUMENT_NODE;
-      DOCUMENT_TYPE_NODE;
-      DOCUMENT_FRAGMENT_NODE;
-      NOTATION_NODE;
-      DOCUMENT_POSITION_DISCONNECTED;
-      DOCUMENT_POSITION_PRECEDING;
-      DOCUMENT_POSITION_FOLLOWING;
-      DOCUMENT_POSITION_CONTAINS;
-      DOCUMENT_POSITION_CONTAINED_BY;
-      DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
-      dispatchEvent(event) {
-        throw new Error("Method not implemented.");
-      }
-      ariaAtomic;
-      ariaAutoComplete;
-      ariaBrailleLabel;
-      ariaBrailleRoleDescription;
-      ariaBusy;
-      ariaChecked;
-      ariaColCount;
-      ariaColIndex;
-      ariaColSpan;
-      ariaCurrent;
-      ariaDescription;
-      ariaDisabled;
-      ariaExpanded;
-      ariaHasPopup;
-      ariaHidden;
-      ariaInvalid;
-      ariaKeyShortcuts;
-      ariaLabel;
-      ariaLevel;
-      ariaLive;
-      ariaModal;
-      ariaMultiLine;
-      ariaMultiSelectable;
-      ariaOrientation;
-      ariaPlaceholder;
-      ariaPosInSet;
-      ariaPressed;
-      ariaReadOnly;
-      ariaRequired;
-      ariaRoleDescription;
-      ariaRowCount;
-      ariaRowIndex;
-      ariaRowSpan;
-      ariaSelected;
-      ariaSetSize;
-      ariaSort;
-      ariaValueMax;
-      ariaValueMin;
-      ariaValueNow;
-      ariaValueText;
-      role;
-      animate(keyframes, options) {
-        throw new Error("Method not implemented.");
-      }
-      getAnimations(options) {
-        throw new Error("Method not implemented.");
-      }
-      after(...nodes) {
-        throw new Error("Method not implemented.");
-      }
-      before(...nodes) {
-        throw new Error("Method not implemented.");
-      }
-      remove() {
-        throw new Error("Method not implemented.");
-      }
-      replaceWith(...nodes) {
-        throw new Error("Method not implemented.");
-      }
-      nextElementSibling;
-      previousElementSibling;
-      childElementCount;
-      children;
-      firstElementChild;
-      lastElementChild;
-      append(...nodes) {
-        throw new Error("Method not implemented.");
-      }
-      prepend(...nodes) {
-        throw new Error("Method not implemented.");
-      }
-      querySelector(selectors) {
-        throw new Error("Method not implemented.");
-      }
-      querySelectorAll(selectors) {
-        throw new Error("Method not implemented.");
-      }
-      replaceChildren(...nodes) {
-        throw new Error("Method not implemented.");
-      }
-      assignedSlot;
-      attributeStyleMap;
-      style;
-      contentEditable;
-      enterKeyHint;
-      inputMode;
-      isContentEditable;
-      onabort;
-      onanimationcancel;
-      onanimationend;
-      onanimationiteration;
-      onanimationstart;
-      onauxclick;
-      onbeforeinput;
-      onbeforetoggle;
-      onblur;
-      oncancel;
-      oncanplay;
-      oncanplaythrough;
-      onchange;
-      onclick;
-      onclose;
-      oncontextlost;
-      oncontextmenu;
-      oncontextrestored;
-      oncopy;
-      oncuechange;
-      oncut;
-      ondblclick;
-      ondrag;
-      ondragend;
-      ondragenter;
-      ondragleave;
-      ondragover;
-      ondragstart;
-      ondrop;
-      ondurationchange;
-      onemptied;
-      onended;
-      onerror;
-      onfocus;
-      onformdata;
-      ongotpointercapture;
-      oninput;
-      oninvalid;
-      onkeydown;
-      onkeypress;
-      onkeyup;
-      onload;
-      onloadeddata;
-      onloadedmetadata;
-      onloadstart;
-      onlostpointercapture;
-      onmousedown;
-      onmouseenter;
-      onmouseleave;
-      onmousemove;
-      onmouseout;
-      onmouseover;
-      onmouseup;
-      onpaste;
-      onpause;
-      onplay;
-      onplaying;
-      onpointercancel;
-      onpointerdown;
-      onpointerenter;
-      onpointerleave;
-      onpointermove;
-      onpointerout;
-      onpointerover;
-      onpointerup;
-      onprogress;
-      onratechange;
-      onreset;
-      onresize;
-      onscroll;
-      onscrollend;
-      onsecuritypolicyviolation;
-      onseeked;
-      onseeking;
-      onselect;
-      onselectionchange;
-      onselectstart;
-      onslotchange;
-      onstalled;
-      onsubmit;
-      onsuspend;
-      ontimeupdate;
-      ontoggle;
-      ontouchcancel;
-      ontouchend;
-      ontouchmove;
-      ontouchstart;
-      ontransitioncancel;
-      ontransitionend;
-      ontransitionrun;
-      ontransitionstart;
-      onvolumechange;
-      onwaiting;
-      onwebkitanimationend;
-      onwebkitanimationiteration;
-      onwebkitanimationstart;
-      onwebkittransitionend;
-      onwheel;
-      autofocus;
-      dataset;
-      nonce;
-      tabIndex;
-      blur() {
-        throw new Error("Method not implemented.");
-      }
-      focus(options) {
-        throw new Error("Method not implemented.");
-      }
-    };
-    if (isBrowser) {
-      _ComponentWidget_ = class _ComponentWidget_ extends HTMLElement {
-        static {
-          __name(this, "_ComponentWidget_");
-        }
-        constructor() {
-          super();
-          const componentWidget = this;
-          const componentName = componentWidget.nodeName.toLowerCase();
-          const componentBody = _DOMCreateElement("quick-component");
-          const __enabled__atributes__ = componentWidget.getAttributeNames();
-          componentBody.setAttribute("name", componentName);
-          if (!componentWidget.hasAttribute("shadowed")) {
-            componentBody.setAttribute("shadowed", "true");
-          }
-          __enabled__atributes__.map(function(attributeName) {
-            if (componentWidget.hasAttribute(attributeName)) {
-              componentBody.setAttribute(attributeName, componentWidget?.getAttribute(attributeName));
-              componentWidget.removeAttribute(attributeName);
-            }
-          });
-          const data_attributenames = componentWidget.getAttributeNames().filter(function(a) {
-            return a.startsWith("data-");
-          }).map(function(a) {
-            return a.split("-")[1];
-          });
-          data_attributenames.map(function(_attribute_name_) {
-            componentBody.setAttribute("data-" + _attribute_name_, componentWidget?.getAttribute("data-" + _attribute_name_));
-            componentWidget.removeAttribute("data-" + _attribute_name_);
-          });
-          [...componentWidget.children].map(function(element) {
-            componentBody.appendChild(element.cloneNode(true));
-            element.remove();
-          });
-          componentWidget.append(componentBody);
-        }
-      };
-    } else {
-      _ComponentWidget_ = class _ComponentWidget_ extends QCObjectsWidgetNode {
-        static {
-          __name(this, "_ComponentWidget_");
-        }
-        constructor() {
-          super();
-          throw new Error("Class not implemented.");
-        }
-      };
-    }
-    Export(_ComponentWidget_);
-    RegisterWidget = /* @__PURE__ */ __name(function(widgetName) {
-      if (isBrowser) {
-        customElements.define(widgetName, class extends _ComponentWidget_ {
-        });
-      } else {
-        throw new Error("RegisterWidget is not implemented for non browser ecosystems yet.");
-      }
-    }, "RegisterWidget");
-    RegisterWidgets = /* @__PURE__ */ __name(function(...args) {
-      const widgetList = [...args];
-      widgetList.filter(function(widgetName) {
-        return typeof widgetName === "string";
-      }).map(function(widgetName) {
-        return RegisterWidget(widgetName);
-      });
-    }, "RegisterWidgets");
-    _protected_code_(RegisterWidget);
-    _protected_code_(RegisterWidgets);
-    Export(RegisterWidget);
-    Export(RegisterWidgets);
-  }
-});
-
-// src/Controller.ts
-var Controller;
-var init_Controller = __esm({
-  "src/Controller.ts"() {
-    "use strict";
-    init_ClassFactory();
-    init_getType();
-    init_InheritClass();
-    init_Logger();
-    init_New();
-    init_Package();
-    init_platform();
-    Controller = class extends InheritClass {
-      static {
-        __name(this, "Controller");
-      }
-      component;
-      dependencies = [];
-      constructor({
-        component,
-        dependencies
-      }) {
-        super({ component, dependencies });
-        this.component = component;
-        this.dependencies = dependencies;
-        if (typeof this.component === "undefined" || this.component === null) {
-          throw Error(`${__getType__(this)} must be called with a component`);
-        }
-      }
-      // eslint-disable-next-line no-unused-vars
-      fail(...args) {
-        throw new Error("Method not implemented.");
-      }
-      routingSelectedAttr(attrName) {
-        return this.component?.routingSelected.map((r) => {
-          return r[attrName];
-        }).filter(function(v) {
-          return v;
-        }).pop();
-      }
-      isTouchable() {
-        return "ontouchstart" in window || navigator.MaxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
-      }
-      onpress(subelementSelector, handler) {
-        if (isBrowser) {
-          try {
-            if (this.isTouchable()) {
-              (this.component?.componentRoot?.subelements(subelementSelector))[0].addEventListener("touchstart", handler, {
-                passive: true
-              });
-            } else {
-              (this.component?.componentRoot?.subelements(subelementSelector))[0].addEventListener("click", handler, {
-                passive: true
-              });
-            }
-          } catch (e) {
-            logger.debug(`An error ocurred: ${e}.`);
-            logger.debug("No button to assign press event");
-          }
-        }
-      }
-      createRoutingController() {
-        const controller = this;
-        const component = controller.component;
-        const controllerName = controller.routingSelectedAttr("controllerclass");
-        if (typeof controllerName !== "undefined") {
-          const _Controller2 = ClassFactory(controllerName);
-          if (typeof _Controller2 !== "undefined" && component !== null) {
-            component.routingController = New(_Controller2, {
-              component
-            });
-            if (typeof component.routingController !== "undefined" && Object.hasOwn(component.routingController, "done") && typeof component.routingController.done === "function") {
-              component.routingController.done.call(component.routingController);
-            }
-          }
-        }
-      }
-      done() {
-      }
-    };
-    Package("com.qcobjects.controllers", [
-      Controller
-    ]);
-  }
-});
-
-// src/View.ts
-var View;
-var init_View = __esm({
-  "src/View.ts"() {
-    "use strict";
-    init_getType();
-    init_InheritClass();
-    init_Package();
-    View = class extends InheritClass {
-      static {
-        __name(this, "View");
-      }
-      constructor({ component = void 0, dependencies = [] }) {
-        super({ component, dependencies });
-        if (typeof this.component === "undefined" || this.component === "null") {
-          throw Error(`${__getType__(this)} must be called with a component`);
-        }
-      }
-    };
-    Package("com.qcobjects.views", [
-      View
-    ]);
-  }
-});
-
-// src/VO.ts
-var VO;
-var init_VO = __esm({
-  "src/VO.ts"() {
-    "use strict";
-    init_InheritClass();
-    init_Package();
-    VO = class extends InheritClass {
-      static {
-        __name(this, "VO");
-      }
-    };
-    Package("com.qcobjects.valueObjects", [
-      VO
-    ]);
-  }
-});
-
-// src/Effect.ts
-var Effect;
-var init_Effect = __esm({
-  "src/Effect.ts"() {
-    "use strict";
-    init_InheritClass();
-    init_Package();
-    Effect = class extends InheritClass {
-      static {
-        __name(this, "Effect");
-      }
-      // eslint-disable-next-line no-unused-vars
-      done(...args) {
-        throw new Error("Method not implemented.");
-      }
-      // eslint-disable-next-line no-unused-vars
-      apply(...args) {
-        throw new Error("Method not implemented.");
-      }
-      duration = 1e3;
-      animate({
-        timing,
-        draw,
-        duration
-      }) {
-        const _self = this;
-        const start = performance.now();
-        requestAnimationFrame(/* @__PURE__ */ __name(function animate(time) {
-          let timeFraction = (time - start) / duration;
-          if (timeFraction > 1) timeFraction = 1;
-          const progress = timing(timeFraction);
-          draw(Math.round(progress * 100));
-          if (timeFraction < 1) {
-            requestAnimationFrame(animate);
-          } else {
-            if (typeof _self !== "undefined" && _self !== null && Object.hasOwn(_self, "done") && (typeof _self.done).toLowerCase() === "function") {
-              _self.done.call(_self);
-            }
-          }
-        }, "animate"));
-      }
-    };
-    Package("com.qcobjects.effects.base", [
-      Effect
-    ]);
-  }
-});
-
-// src/TransitionEffect.ts
-var TransitionEffect;
-var init_TransitionEffect = __esm({
-  "src/TransitionEffect.ts"() {
-    "use strict";
-    init_Effect();
-    init_Logger();
-    init_Package();
-    init_ClassFactory();
-    TransitionEffect = class extends Effect {
-      static {
-        __name(this, "TransitionEffect");
-      }
-      duration = 385;
-      defaultParams = {
-        alphaFrom: 0,
-        alphaTo: 1,
-        angleFrom: 180,
-        angleTo: 0,
-        radiusFrom: 0,
-        radiusTo: 30,
-        scaleFrom: 0,
-        scaleTo: 1
-      };
-      fitToHeight = false;
-      fitToWidth = false;
-      component;
-      effects;
-      apply({
-        alphaFrom,
-        alphaTo,
-        angleFrom,
-        angleTo,
-        radiusFrom,
-        radiusTo,
-        scaleFrom,
-        scaleTo
-      }) {
-        const _transition_ = this;
-        logger.info("EXECUTING TransitionEffect  ");
-        const componentRoot = _transition_.component.componentRoot;
-        if (typeof componentRoot !== "undefined" && componentRoot !== null) {
-          if (_transition_.fitToHeight) {
-            componentRoot.height = typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null ? componentRoot.offsetParent?.scrollHeight : componentRoot.getBoundingClientRect().height;
-          }
-          if (_transition_.fitToWidth) {
-            componentRoot.width = typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null ? componentRoot.offsetParent?.scrollWidth : componentRoot.getBoundingClientRect().width;
-          }
-          if (_transition_.component.shadowed) {
-            componentRoot.host.style.display = "block";
-          } else {
-            componentRoot.style.display = "block";
-          }
-          _transition_.effects.map((effectClassName) => {
-            const __effectClass__ = ClassFactory(effectClassName);
-            const effectObj = new __effectClass__({});
-            const effectClassMethod = effectObj.apply.bind(_transition_);
-            const componentHost = _transition_.component.shadowed ? componentRoot.host : componentRoot;
-            const effectParams = {
-              alphaFrom,
-              alphaTo,
-              angleFrom,
-              angleTo,
-              radiusFrom,
-              radiusTo,
-              scaleFrom,
-              scaleTo
-            };
-            effectClassMethod(componentHost, ...Object.values(effectParams));
-            return effectClassName;
-          });
-        }
-      }
-    };
-    Package("com.qcobjects.effects.transitions.base", [
-      TransitionEffect
-    ]);
-  }
-});
-
-// src/Timer.ts
-var Timer;
-var init_Timer = __esm({
-  "src/Timer.ts"() {
-    "use strict";
-    init_InheritClass();
-    init_Package();
-    Timer = class extends InheritClass {
-      static {
-        __name(this, "Timer");
-      }
-      duration = 1e3;
-      alive = true;
-      thread({
-        timing,
-        intervalInterceptor,
-        duration
-      }) {
-        const timer = this;
-        const start = performance.now();
-        requestAnimationFrame(/* @__PURE__ */ __name(function thread(time) {
-          const elapsed = time - start;
-          let timeFraction = elapsed / duration;
-          if (timeFraction > 1) timeFraction = 1;
-          const progress = timing(timeFraction, elapsed);
-          intervalInterceptor(Math.round(progress * 100));
-          if ((timeFraction < 1 || duration === -1) && timer.alive) {
-            requestAnimationFrame(thread);
-          }
-        }, "thread"));
-      }
-    };
-    Package("com.qcobjects.timing", [
-      Timer
-    ]);
-  }
-});
-
-// src/DDO.ts
-var DDO;
-var init_DDO = __esm({
-  "src/DDO.ts"() {
-    "use strict";
-    init_Export();
-    init_InheritClass();
-    init_Logger();
-    init_ObjectName();
-    DDO = class extends InheritClass {
-      static {
-        __name(this, "DDO");
-      }
-      constructor({
-        instance,
-        name,
-        fget,
-        fset,
-        value
-      }) {
-        super({
-          instance,
-          name,
-          fget,
-          fset,
-          value
-        });
-        this._new_({
-          instance,
-          name,
-          fget,
-          fset,
-          value
-        });
-      }
-      _new_({
-        instance,
-        name,
-        fget,
-        fset
-      }) {
-        const ddoInstance = this;
-        var name = typeof name === "undefined" ? ObjectName(ddoInstance) : name;
-        Object.defineProperty(instance, name, {
-          set(val) {
-            const _value = val;
-            logger.debug("value changed " + name);
-            let ret;
-            if (typeof fset !== "undefined" && typeof fset === "function") {
-              ret = fset(_value);
-            } else {
-              ret = _value;
-            }
-            instance["_" + name] = ret;
-          },
-          get() {
-            const _value = instance["_" + name];
-            logger.debug("returning value " + name);
-            const is_ddo = /* @__PURE__ */ __name((v) => {
-              if (typeof v === "object" && Object.hasOwn(v, "value")) {
-                return v.value;
-              }
-              return v;
-            }, "is_ddo");
-            let ret;
-            if (typeof fget !== "undefined" && typeof fget === "function") {
-              ret = fget(is_ddo(_value));
-            } else {
-              ret = is_ddo(_value);
-            }
-            return ret;
-          }
-        });
-      }
-    };
-    Export(DDO);
-  }
-});
-
-// src/Toggle.ts
-var Toggle;
-var init_Toggle = __esm({
-  "src/Toggle.ts"() {
-    "use strict";
-    init_InheritClass();
-    init_Logger();
-    init_Package();
-    Toggle = class extends InheritClass {
-      static {
-        __name(this, "Toggle");
-      }
-      _toggle = false;
-      _inverse = true;
-      _positive = null;
-      _negative = null;
-      _dispatched = null;
-      _args = {};
-      constructor(positive, negative, args) {
-        super({ positive, negative, args });
-        this._new_({ positive, negative, args });
-      }
-      changeToggle() {
-        this._toggle = !this._toggle;
-      }
-      _new_({
-        positive,
-        negative,
-        args
-      }) {
-        this._positive = positive;
-        this._negative = negative;
-        this._args = args;
-      }
-      fire() {
-        const toggle = this;
-        var _promise = new Promise(function(resolve, reject) {
-          if (typeof toggle._positive === "function" && typeof toggle._negative === "function") {
-            if (toggle._inverse) {
-              toggle._dispatched = toggle._toggle ? toggle._negative.bind(toggle) : toggle._positive.bind(toggle);
-            } else {
-              toggle._dispatched = toggle._toggle ? toggle._positive.bind(toggle) : toggle._negative.bind(toggle);
-            }
-            toggle._dispatched?.call(toggle, toggle._args);
-            resolve.call(_promise, toggle);
-          } else {
-            logger.debug("Toggle functions are not declared");
-            reject.call(_promise, toggle);
-          }
-          return toggle;
-        }).then(function(toggle2) {
-          toggle2.changeToggle();
-          return toggle2;
-        }).catch(function(e) {
-          logger.debug(e.toString());
-          return toggle;
-        }).finally(() => {
-          return toggle;
-        });
-        return _promise;
-      }
-    };
-    Package("com.qcobjects.tools.essentials", [
-      Toggle
-    ]);
-  }
-});
-
-// src/DocumentLayout.ts
-var getDocumentLayout;
-var init_DocumentLayout = __esm({
-  "src/DocumentLayout.ts"() {
-    "use strict";
-    getDocumentLayout = /* @__PURE__ */ __name(function() {
-      const h = /* @__PURE__ */ __name((w, h2) => {
-        return w > h2 ? "landscape" : null;
-      }, "h");
-      const v = /* @__PURE__ */ __name((w, h2) => {
-        return h2 > w ? "portrait" : null;
-      }, "v");
-      const square = /* @__PURE__ */ __name((w, h2) => {
-        return w === h2 ? "square" : null;
-      }, "square");
-      return [
-        h(document.documentElement.clientWidth, document.documentElement.clientHeight),
-        v(document.documentElement.clientWidth, document.documentElement.clientHeight),
-        square(document.documentElement.clientWidth, document.documentElement.clientHeight)
-      ].filter((e) => e !== null).pop();
-    }, "getDocumentLayout");
-  }
-});
-
-// src/types/global/index.d.ts
-var init_index_d = __esm({
-  "src/types/global/index.d.ts"() {
-    "use strict";
-  }
-});
-
 // src/loadSDK.ts
 function loadSDK() {
   if (CONFIG.get("useSDK")) {
@@ -5896,7 +4442,7 @@ function loadSDK() {
       }
       if (tryImportingSDK) {
         logger.info("Importing SDK... " + sdkName);
-        if (isNodeCommonJS && typeof require !== "undefined") {
+        if (isNodeCommonJS && typeof __require !== "undefined") {
           const sdk = _require_("qcobjects-sdk");
           if (sdk) {
             logger.debug("QCObjects SDK was loaded OK.");
@@ -6416,171 +4962,1522 @@ var require_MainProcess = __commonJS({
 });
 
 // src/QCObjects.ts
-var QCObjects_exports = {};
-__export(QCObjects_exports, {
-  ArrayCollection: () => ArrayCollection,
-  ArrayList: () => ArrayList,
-  AssignPolyfill: () => AssignPolyfill,
-  BackendMicroservice: () => BackendMicroservice,
-  CONFIG: () => CONFIG,
-  Class: () => Class,
-  ClassFactory: () => ClassFactory,
-  ComplexStorageCache: () => ComplexStorageCache,
-  Component: () => Component,
-  ComponentURI: () => ComponentURI,
-  ConfigService: () => ConfigService,
-  Controller: () => Controller,
-  DDO: () => DDO,
-  DefaultTemplateHandler: () => DefaultTemplateHandler,
-  Effect: () => Effect,
-  Export: () => Export,
-  GlobalSettings: () => GlobalSettings,
-  Import: () => Import,
-  InheritClass: () => InheritClass,
-  JSONService: () => JSONService,
-  Logger: () => Logger,
-  NamespaceRef: () => NamespaceRef,
-  New: () => New,
-  ObjectName: () => ObjectName,
-  Package: () => Package,
-  Processor: () => Processor,
-  QCObjects: () => QCObjects,
-  Ready: () => Ready,
-  RegisterClass: () => RegisterClass,
-  RegisterWidget: () => RegisterWidget,
-  RegisterWidgets: () => RegisterWidgets,
-  Service: () => Service,
-  SourceCSS: () => SourceCSS,
-  SourceJS: () => SourceJS,
-  Tag: () => Tag,
-  TagElements: () => TagElements,
-  Timer: () => Timer,
-  Toggle: () => Toggle,
-  TransitionEffect: () => TransitionEffect,
-  VO: () => VO,
-  View: () => View,
-  _Cast: () => _Cast,
-  _CastProps: () => _CastProps,
-  _ComponentWidget_: () => _ComponentWidget_,
-  _Crypt: () => _Crypt,
-  _DOMCreateElement: () => _DOMCreateElement,
-  _DataStringify: () => _DataStringify,
-  _LegacyCopy: () => _LegacyCopy,
-  _QC_CLASSES: () => _QC_CLASSES,
-  _QC_PACKAGES: () => _QC_PACKAGES,
-  _QC_PACKAGES_IMPORTED: () => _QC_PACKAGES_IMPORTED,
-  _QC_READY_LISTENERS: () => _QC_READY_LISTENERS,
-  _Ready: () => _Ready,
-  __getType__: () => __getType__,
-  __instanceID: () => __instanceID,
-  __is_raw_class__: () => __is_raw_class__,
-  __make_global__: () => __make_global__,
-  __to_number: () => __to_number,
-  _buildComponentsFromElements_: () => _buildComponentsFromElements_,
-  _fireAsyncLoad: () => _fireAsyncLoad,
-  _methods_: () => _methods_,
-  _protected_code_: () => _protected_code_,
-  _require_: () => _require_,
-  _super_: () => _super_,
-  _tag_filter_: () => _tag_filter_,
-  _top: () => _top,
-  asyncLoad: () => asyncLoad,
-  captureFalseTouch: () => captureFalseTouch,
-  componentLoader: () => componentLoader,
-  findPackageNodePath: () => findPackageNodePath,
-  getDocumentLayout: () => getDocumentLayout,
-  global: () => _top,
-  isBrowser: () => isBrowser,
-  isNodeCommonJS: () => isNodeCommonJS,
-  isQCObjects_Class: () => isQCObjects_Class,
-  isQCObjects_Object: () => isQCObjects_Object,
-  is_a: () => is_a,
-  is_phonegap: () => is_phonegap,
-  logger: () => logger,
-  range: () => range,
-  ready: () => ready,
-  resetTop: () => resetTop,
-  serviceLoader: () => serviceLoader,
-  setDefaultProcessors: () => setDefaultProcessors,
-  shortCode: () => shortCode,
-  subelements: () => subelements,
-  waitUntil: () => waitUntil
-});
-var AssignPolyfill, QCObjects;
-var init_QCObjects = __esm({
-  "src/QCObjects.ts"() {
-    "use strict";
-    AssignPolyfill = __toESM(require_assign());
-    init_top();
-    init_PrimaryCollections();
-    init_DataStringify();
-    init_DOMCreateElement();
-    init_introspection();
-    init_Logger();
-    init_platform();
-    init_subelements();
-    init_is_raw_class();
-    init_LegacyCopy();
-    init_asyncLoad();
-    init_IncrementInstanceID();
-    init_ObjectName();
-    init_getType();
-    init_is_a();
-    init_ComplexStorageCache();
-    init_waitUntil();
-    init_Cast();
-    init_isQCObjects();
-    init_Package();
-    init_ClassFactory();
-    init_Export();
-    init_Class();
-    init_InheritClass();
-    init_super();
-    init_shortCode();
-    init_Processor();
-    init_New();
-    init_Ready();
-    init_captureFalseTouch();
-    init_serviceLoader();
-    init_componentLoader();
-    init_ComponentFactory();
-    init_NamespaceRef();
-    init_defaultProcessors();
-    init_Tag();
-    init_Import();
-    init_BackendMicroservice();
-    init_Component();
-    init_Crypt();
-    init_DefaultTemplateHandler();
-    init_SourceJS();
-    init_SourceCSS();
-    init_globalSettings();
-    init_RegisterClass();
-    init_WidgetsFactory();
-    init_CONFIG();
-    init_Controller();
-    init_View();
-    init_Service();
-    init_VO();
-    init_Effect();
-    init_TransitionEffect();
-    init_Timer();
-    init_tag_filter();
-    init_range();
-    init_ArrayCollection();
-    init_DDO();
-    init_Toggle();
-    init_findPackageNodePath();
-    init_DocumentLayout();
-    init_index_d();
-    init_mathFunctions();
-    init_top();
-    init_make_global();
-    QCObjects = __toESM(require_MainProcess());
-  }
-});
+var AssignPolyfill = __toESM(require_assign());
+init_top();
+init_PrimaryCollections();
+init_DataStringify();
+init_DOMCreateElement();
+init_introspection();
+init_Logger();
+init_platform();
+init_subelements();
+init_is_raw_class();
+init_LegacyCopy();
+init_asyncLoad();
+init_IncrementInstanceID();
+init_ObjectName();
+init_getType();
+init_is_a();
+init_ComplexStorageCache();
+init_waitUntil();
+init_Cast();
+init_isQCObjects();
+init_Package();
+init_ClassFactory();
+init_Export();
+init_Class();
+init_InheritClass();
+init_super();
+init_shortCode();
+init_Processor();
+init_New();
+init_Ready();
+init_captureFalseTouch();
+init_serviceLoader();
+init_componentLoader();
+init_ComponentFactory();
+init_NamespaceRef();
+init_defaultProcessors();
+init_Tag();
+init_Import();
 
-// src/index.cts
-var QCObjects2 = (init_QCObjects(), __toCommonJS(QCObjects_exports));
-module.exports = QCObjects2;
-//# sourceMappingURL=index.cjs.map
+// src/BackendMicroservice.ts
+init_basePath();
+init_DataStringify();
+init_domain();
+init_InheritClass();
+init_Logger();
+init_Package();
+var BackendMicroservice = class extends InheritClass {
+  static {
+    __name(this, "BackendMicroservice");
+  }
+  stream;
+  route;
+  headers;
+  request;
+  constructor({
+    domain = _domain_,
+    basePath = _basePath_,
+    body = null,
+    stream = null,
+    request = null
+  }) {
+    super({
+      domain,
+      basePath,
+      body,
+      stream,
+      request
+    });
+    logger.debug("Initializing BackendMicroservice...");
+    const microservice = this;
+    if (typeof this.body === "undefined") {
+      this.body = null;
+    }
+    if (typeof body !== "undefined") {
+      this.body = body;
+    }
+    this.cors();
+    microservice.stream = stream;
+    stream?.on("data", (data) => {
+      const requestMethod2 = request?.method.toLowerCase();
+      const supportedMethods2 = {
+        "post": microservice.post.bind(microservice)
+      };
+      if (Object.hasOwn(supportedMethods2, requestMethod2)) {
+        supportedMethods2[requestMethod2].call(microservice, data);
+      }
+    });
+    const requestMethod = request?.method.toLowerCase();
+    const supportedMethods = {
+      "get": microservice.get.bind(microservice),
+      "head": microservice.head.bind(microservice),
+      "put": microservice.put.bind(microservice),
+      "delete": microservice.delete.bind(microservice),
+      "connect": microservice.connect.bind(microservice),
+      "options": microservice.options.bind(microservice),
+      "trace": microservice.trace.bind(microservice),
+      "patch": microservice.patch.bind(microservice)
+    };
+    if (Object.hasOwn(supportedMethods, requestMethod)) {
+      supportedMethods[requestMethod].call(microservice);
+    }
+  }
+  cors() {
+    if (this.route.cors) {
+      logger.debug("Validating CORS...");
+      const {
+        allow_origins,
+        allow_credentials,
+        allow_methods,
+        allow_headers
+      } = this.route.cors;
+      const microservice = this;
+      if (typeof microservice.headers !== "object") {
+        microservice.headers = {};
+      }
+      if (typeof microservice.route.responseHeaders !== "object") {
+        microservice.route.responseHeaders = {};
+      }
+      if (typeof allow_origins !== "undefined") {
+        logger.debug("CORS: allow_origins available. Validating origins...");
+        if (allow_origins === "*" || typeof microservice.request.headers.origin === "undefined" || [...allow_origins].indexOf(microservice.request.headers.origin) !== -1) {
+          logger.debug("CORS: Adding header Access-Control-Allow-Origin=*");
+          microservice.route.responseHeaders["Access-Control-Allow-Origin"] = "*";
+        } else {
+          logger.debug("CORS: Origin is not allowed: " + microservice.request.headers.origin);
+          logger.debug("CORS: Forcing to finish the response...");
+          this.body = {};
+          try {
+            this.done();
+          } catch (e) {
+            logger.debug(`It was not possible to finish the call to the microservice: ${e}`);
+          }
+        }
+      } else {
+        logger.debug("CORS: no allow_origins available. Allowing all origins...");
+        logger.debug("CORS: Adding header Access-Control-Allow-Origin=*");
+        microservice.route.responseHeaders["Access-Control-Allow-Origin"] = "*";
+      }
+      if (typeof allow_credentials !== "undefined") {
+        logger.debug(`CORS: allow_credentials present. Allowing ${allow_credentials}...`);
+        microservice.route.responseHeaders["Access-Control-Allow-Credentials"] = allow_credentials.toString();
+      } else {
+        logger.debug("CORS: No allow_credentials present. Allowing all credentials.");
+        microservice.route.responseHeaders["Access-Control-Allow-Credentials"] = "true";
+      }
+      if (typeof allow_methods !== "undefined") {
+        logger.debug(`CORS: allow_methods present. Allowing ${allow_methods}...`);
+        microservice.route.responseHeaders["Access-Control-Allow-Methods"] = [...allow_methods].join(",");
+      } else {
+        logger.debug("CORS: No allow_methods present. Allowing only GET, OPTIONS and POST");
+        microservice.route.responseHeaders["Access-Control-Allow-Methods"] = "GET, OPTIONS, POST";
+      }
+      if (typeof allow_headers !== "undefined") {
+        logger.debug(`CORS: allow_headers present. Allowing ${allow_headers}...`);
+        microservice.route.responseHeaders["Access-Control-Allow-Headers"] = [...allow_headers].join(",");
+      } else {
+        logger.debug("CORS: No allow_headers present. Allowing all headers...");
+        microservice.route.responseHeaders["Access-Control-Allow-Headers"] = "*";
+      }
+    } else {
+      logger.debug("No CORS validation available. You can specify cors in CONFIG.backend.routes[].cors");
+    }
+  }
+  head(formData) {
+    logger.debug(`[BackendMicroservice.head] Data received: ${_DataStringify(formData)}`);
+    this.done();
+  }
+  get(formData) {
+    logger.debug(`[BackendMicroservice.get] Data received: ${_DataStringify(formData)}`);
+    this.done();
+  }
+  post(formData) {
+    logger.debug(`[BackendMicroservice.post] Data received: ${_DataStringify(formData)}`);
+    this.done();
+  }
+  put(formData) {
+    logger.debug(`[BackendMicroservice.put] Data received: ${_DataStringify(formData)}`);
+    this.done();
+  }
+  delete(formData) {
+    logger.debug(`[BackendMicroservice.delete] Data received: ${_DataStringify(formData)}`);
+    this.done();
+  }
+  connect(formData) {
+    logger.debug(`[BackendMicroservice.connect] Data received: ${_DataStringify(formData)}`);
+    this.done();
+  }
+  options(formData) {
+    logger.debug(`[BackendMicroservice.options] Data received: ${_DataStringify(formData)}`);
+    this.done();
+  }
+  trace(formData) {
+    logger.debug(`[BackendMicroservice.trace] Data received: ${_DataStringify(formData)}`);
+    this.done();
+  }
+  patch(formData) {
+    logger.debug(`[BackendMicroservice.patch] Data received: ${_DataStringify(formData)}`);
+    this.done();
+  }
+  finishWithBody(stream) {
+    try {
+      logger.debug("[BackendMicroservice.finishWithBody] Ending the stream...");
+      logger.debug(`[BackendMicroservice.finishWithBody] type of body is: ${typeof this.body}`);
+      if (typeof this.body !== "string") {
+        this.body = _DataStringify(this.body);
+      }
+      logger.debug(`[BackendMicroservice.finishWithBody] 
+ body: ${this.body} `);
+      stream?.write(this.body);
+      stream?.end();
+      logger.debug("[BackendMicroservice.finishWithBody] Stream ended.");
+    } catch (e) {
+      logger.debug(`[BackendMicroservice.finishWithBody] Something went wrong ending the stream: ${e}`);
+    }
+  }
+  done() {
+    logger.debug("[BackendMicroservice.done] Finalizing the response...");
+    const microservice = this;
+    const stream = microservice.stream;
+    try {
+      logger.debug("[BackendMicroservice.done] Sending response headers...");
+      if (microservice.route.responseHeaders) {
+        logger.debug(`[BackendMicroservice.done] Response headers present: ${Object.keys(microservice.route.responseHeaders).join(",")}`);
+        stream.respond(microservice.route.responseHeaders);
+      } else {
+        throw Error("[BackendMicroservice.done] No headers present.");
+      }
+    } catch (e) {
+      logger.debug(`[BackendMicroservice.done] Something went wrong sending response headers: ${e}`);
+    }
+    if (microservice.body !== null) {
+      try {
+        logger.debug("[BackendMicroservice.done] A body of message is present. Finalizing the response...");
+        microservice.finishWithBody.call(microservice, stream);
+      } catch (e) {
+        logger.debug(`[BackendMicroservice.done] Something went wrong finalizing the response: ${e}`);
+      }
+    } else {
+      logger.debug("[BackendMicroservice.done] No body present. Ending stream...");
+      stream.end();
+    }
+  }
+};
+Package("com.qcobjects.api", [
+  BackendMicroservice
+]);
+
+// src/QCObjects.ts
+init_Component();
+init_Crypt();
+
+// src/DefaultTemplateHandler.ts
+init_Logger();
+init_Processor();
+init_RegisterClass();
+var DefaultTemplateHandler = class {
+  static {
+    __name(this, "DefaultTemplateHandler");
+  }
+  template = "";
+  __definition = {};
+  static __definition = {};
+  component;
+  constructor({ component, template }) {
+    this.component = component;
+    this.template = template;
+  }
+  assign(data) {
+    const templateInstance = this;
+    if (typeof templateInstance.component === "undefined") {
+      throw new Error("DefaultTemplateHandler.assign: component is undefined");
+    }
+    if (typeof templateInstance.component.processorHandler === "undefined") {
+      throw new Error("DefaultTemplateHandler.assign: component.processorHandler is undefined");
+    }
+    const processorHandler = templateInstance.component.processorHandler;
+    processorHandler.component = templateInstance.component;
+    let parsedAssignmentText = typeof templateInstance.template !== "undefined" ? templateInstance.template : "";
+    if (typeof data === "object") {
+      [...Object.keys(data)].map((k) => {
+        let _value = data[k];
+        if (typeof _value === "string" || typeof _value === "number" || !isNaN(_value)) {
+          try {
+            _value = GlobalProcessor.processObject.bind(processorHandler).call(processorHandler, _value, templateInstance.component);
+            parsedAssignmentText = parsedAssignmentText.replace(new RegExp(`{{${k}}}`, "g"), _value);
+          } catch (e) {
+            logger.warn(`${templateInstance.component.name} could not parse processors.`);
+            throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+          }
+        }
+        return k;
+      });
+    } else {
+      logger.debug(`${templateInstance.component.name}.data is not an object`);
+    }
+    try {
+      parsedAssignmentText = GlobalProcessor.processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
+    } catch (e) {
+      logger.warn(`${templateInstance.component.name} could not parse processors.`);
+      throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+    }
+    return parsedAssignmentText;
+  }
+};
+RegisterClass(DefaultTemplateHandler, "com.qcobjects");
+
+// src/SourceJS.ts
+init_basePath();
+init_Cast();
+init_domain();
+init_DOMCreateElement();
+init_InheritClass();
+init_Package();
+init_Logger();
+var SourceJS = class extends InheritClass {
+  static {
+    __name(this, "SourceJS");
+  }
+  domain = _domain_;
+  basePath = _basePath_;
+  type = "text/javascript";
+  containerTag = "body";
+  url = "";
+  data = {};
+  async = false;
+  external = false;
+  constructor(o) {
+    super(o);
+    this.body = _DOMCreateElement("script");
+  }
+  set(name, value) {
+    this[name] = value;
+  }
+  get(name, _default) {
+    return this[name] || _default;
+  }
+  status = false;
+  done() {
+  }
+  fail() {
+  }
+  rebuild() {
+    const context = this;
+    try {
+      document.getElementsByTagName(context.containerTag)[0].appendChild(
+        function(s, url, context2) {
+          s.type = context2.type;
+          s.src = url;
+          s.crossOrigin = Object.hasOwn(context2, "crossOrigin") ? context2.crossOrigin : "anonymous";
+          s.async = context2.async;
+          s.onreadystatechange = function() {
+            if (this.readyState === "complete") {
+              context2.done.call(context2);
+            }
+          };
+          s.onload = function(e) {
+            context2.status = true;
+            context2.done.call(context2, e);
+          };
+          s.onerror = function(e) {
+            context2.status = false;
+            context2.fail.call(context2, e);
+          };
+          context2.body = s;
+          return s;
+        }.call(
+          this,
+          _DOMCreateElement("script"),
+          this.external ? this.url : this.basePath + this.url,
+          context
+        )
+      );
+    } catch (e) {
+      context.status = false;
+      logger.debug(`An error ocurred: ${e}`);
+      context.fail();
+    }
+  }
+  Cast(o) {
+    return _Cast(this, o);
+  }
+  _new_(properties) {
+    this.__new__(properties);
+    this.rebuild();
+  }
+};
+Package("com.qcobjects", [SourceJS]);
+
+// src/SourceCSS.ts
+init_basePath();
+init_Cast();
+init_domain();
+init_DOMCreateElement();
+init_InheritClass();
+init_platform();
+init_Package();
+var SourceCSS = class extends InheritClass {
+  static {
+    __name(this, "SourceCSS");
+  }
+  domain = _domain_;
+  basePath = _basePath_;
+  url = "";
+  data = {};
+  async = false;
+  external = false;
+  constructor(o) {
+    super(o);
+    this.body = _DOMCreateElement("link");
+  }
+  fail() {
+    throw new Error("Method not implemented.");
+  }
+  Cast(o) {
+    return _Cast(this, o);
+  }
+  set(name, value) {
+    this[name] = value;
+  }
+  get(name, _default) {
+    return this[name] || _default;
+  }
+  done() {
+  }
+  rebuild() {
+    const context = this;
+    if (isBrowser) {
+      window.document.getElementsByTagName("head")[0].appendChild(
+        function(s, url, context2) {
+          s.type = "text/css";
+          s.rel = "stylesheet";
+          s.href = url;
+          s.crossOrigin = "anonymous";
+          s.onreadystatechange = function() {
+            if (this.readyState === "complete") {
+              context2.done.call(context2);
+            }
+          };
+          s.onload = context2.done;
+          context2.body = s;
+          return s;
+        }.call(
+          this,
+          _DOMCreateElement("link"),
+          this.external ? this.url : this.basePath + this.url,
+          context
+        )
+      );
+    }
+  }
+};
+Package("com.qcobjects", [SourceCSS]);
+
+// src/QCObjects.ts
+init_globalSettings();
+init_RegisterClass();
+
+// src/WidgetsFactory.ts
+init_DOMCreateElement();
+init_Export();
+init_introspection();
+init_platform();
+var QCObjectsWidgetNode = class {
+  static {
+    __name(this, "QCObjectsWidgetNode");
+  }
+  accessKey;
+  accessKeyLabel;
+  autocapitalize;
+  dir;
+  draggable;
+  hidden;
+  inert;
+  innerText;
+  lang;
+  offsetHeight;
+  offsetLeft;
+  offsetParent;
+  offsetTop;
+  offsetWidth;
+  outerText;
+  popover;
+  spellcheck;
+  title;
+  translate;
+  attachInternals() {
+    throw new Error("Method not implemented.");
+  }
+  click() {
+    throw new Error("Method not implemented.");
+  }
+  hidePopover() {
+    throw new Error("Method not implemented.");
+  }
+  showPopover() {
+    throw new Error("Method not implemented.");
+  }
+  togglePopover(force) {
+    throw new Error("Method not implemented.");
+  }
+  addEventListener(type, listener, options) {
+    throw new Error("Method not implemented.");
+  }
+  removeEventListener(type, listener, options) {
+    throw new Error("Method not implemented.");
+  }
+  attributes;
+  classList;
+  className;
+  clientHeight;
+  clientLeft;
+  clientTop;
+  clientWidth;
+  id;
+  innerHTML;
+  localName;
+  namespaceURI;
+  onfullscreenchange;
+  onfullscreenerror;
+  outerHTML;
+  ownerDocument;
+  part;
+  prefix;
+  scrollHeight;
+  scrollLeft;
+  scrollTop;
+  scrollWidth;
+  shadowRoot;
+  slot;
+  tagName;
+  attachShadow(init) {
+    throw new Error("Method not implemented.");
+  }
+  checkVisibility(options) {
+    throw new Error("Method not implemented.");
+  }
+  closest(selectors) {
+    throw new Error("Method not implemented.");
+  }
+  computedStyleMap() {
+    throw new Error("Method not implemented.");
+  }
+  getAttribute(qualifiedName) {
+    throw new Error("Method not implemented.");
+  }
+  getAttributeNS(namespace, localName) {
+    throw new Error("Method not implemented.");
+  }
+  getAttributeNames() {
+    throw new Error("Method not implemented.");
+  }
+  getAttributeNode(qualifiedName) {
+    throw new Error("Method not implemented.");
+  }
+  getAttributeNodeNS(namespace, localName) {
+    throw new Error("Method not implemented.");
+  }
+  getBoundingClientRect() {
+    throw new Error("Method not implemented.");
+  }
+  getClientRects() {
+    throw new Error("Method not implemented.");
+  }
+  getElementsByClassName(classNames) {
+    throw new Error("Method not implemented.");
+  }
+  getElementsByTagName(qualifiedName) {
+    throw new Error("Method not implemented.");
+  }
+  getElementsByTagNameNS(namespace, localName) {
+    throw new Error("Method not implemented.");
+  }
+  getHTML(options) {
+    throw new Error("Method not implemented.");
+  }
+  hasAttribute(qualifiedName) {
+    throw new Error("Method not implemented.");
+  }
+  hasAttributeNS(namespace, localName) {
+    throw new Error("Method not implemented.");
+  }
+  hasAttributes() {
+    throw new Error("Method not implemented.");
+  }
+  hasPointerCapture(pointerId) {
+    throw new Error("Method not implemented.");
+  }
+  insertAdjacentElement(where, element) {
+    throw new Error("Method not implemented.");
+  }
+  insertAdjacentHTML(position, string) {
+    throw new Error("Method not implemented.");
+  }
+  insertAdjacentText(where, data) {
+    throw new Error("Method not implemented.");
+  }
+  matches(selectors) {
+    throw new Error("Method not implemented.");
+  }
+  releasePointerCapture(pointerId) {
+    throw new Error("Method not implemented.");
+  }
+  removeAttribute(qualifiedName) {
+    throw new Error("Method not implemented.");
+  }
+  removeAttributeNS(namespace, localName) {
+    throw new Error("Method not implemented.");
+  }
+  removeAttributeNode(attr) {
+    throw new Error("Method not implemented.");
+  }
+  requestFullscreen(options) {
+    throw new Error("Method not implemented.");
+  }
+  requestPointerLock(options) {
+    throw new Error("Method not implemented.");
+  }
+  scroll(x, y) {
+    throw new Error("Method not implemented.");
+  }
+  scrollBy(x, y) {
+    throw new Error("Method not implemented.");
+  }
+  scrollIntoView(arg) {
+    throw new Error("Method not implemented.");
+  }
+  scrollTo(x, y) {
+    throw new Error("Method not implemented.");
+  }
+  setAttribute(qualifiedName, value) {
+    throw new Error("Method not implemented.");
+  }
+  setAttributeNS(namespace, qualifiedName, value) {
+    throw new Error("Method not implemented.");
+  }
+  setAttributeNode(attr) {
+    throw new Error("Method not implemented.");
+  }
+  setAttributeNodeNS(attr) {
+    throw new Error("Method not implemented.");
+  }
+  setHTMLUnsafe(html) {
+    throw new Error("Method not implemented.");
+  }
+  setPointerCapture(pointerId) {
+    throw new Error("Method not implemented.");
+  }
+  toggleAttribute(qualifiedName, force) {
+    throw new Error("Method not implemented.");
+  }
+  webkitMatchesSelector(selectors) {
+    throw new Error("Method not implemented.");
+  }
+  baseURI;
+  childNodes;
+  firstChild;
+  isConnected;
+  lastChild;
+  nextSibling;
+  nodeName;
+  nodeType;
+  nodeValue;
+  parentElement;
+  parentNode;
+  previousSibling;
+  textContent;
+  appendChild(node) {
+    throw new Error("Method not implemented.");
+  }
+  cloneNode(deep) {
+    throw new Error("Method not implemented.");
+  }
+  compareDocumentPosition(other) {
+    throw new Error("Method not implemented.");
+  }
+  contains(other) {
+    throw new Error("Method not implemented.");
+  }
+  getRootNode(options) {
+    throw new Error("Method not implemented.");
+  }
+  hasChildNodes() {
+    throw new Error("Method not implemented.");
+  }
+  insertBefore(node, child) {
+    throw new Error("Method not implemented.");
+  }
+  isDefaultNamespace(namespace) {
+    throw new Error("Method not implemented.");
+  }
+  isEqualNode(otherNode) {
+    throw new Error("Method not implemented.");
+  }
+  isSameNode(otherNode) {
+    throw new Error("Method not implemented.");
+  }
+  lookupNamespaceURI(prefix) {
+    throw new Error("Method not implemented.");
+  }
+  lookupPrefix(namespace) {
+    throw new Error("Method not implemented.");
+  }
+  normalize() {
+    throw new Error("Method not implemented.");
+  }
+  removeChild(child) {
+    throw new Error("Method not implemented.");
+  }
+  replaceChild(node, child) {
+    throw new Error("Method not implemented.");
+  }
+  ELEMENT_NODE;
+  ATTRIBUTE_NODE;
+  TEXT_NODE;
+  CDATA_SECTION_NODE;
+  ENTITY_REFERENCE_NODE;
+  ENTITY_NODE;
+  PROCESSING_INSTRUCTION_NODE;
+  COMMENT_NODE;
+  DOCUMENT_NODE;
+  DOCUMENT_TYPE_NODE;
+  DOCUMENT_FRAGMENT_NODE;
+  NOTATION_NODE;
+  DOCUMENT_POSITION_DISCONNECTED;
+  DOCUMENT_POSITION_PRECEDING;
+  DOCUMENT_POSITION_FOLLOWING;
+  DOCUMENT_POSITION_CONTAINS;
+  DOCUMENT_POSITION_CONTAINED_BY;
+  DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
+  dispatchEvent(event) {
+    throw new Error("Method not implemented.");
+  }
+  ariaAtomic;
+  ariaAutoComplete;
+  ariaBrailleLabel;
+  ariaBrailleRoleDescription;
+  ariaBusy;
+  ariaChecked;
+  ariaColCount;
+  ariaColIndex;
+  ariaColSpan;
+  ariaCurrent;
+  ariaDescription;
+  ariaDisabled;
+  ariaExpanded;
+  ariaHasPopup;
+  ariaHidden;
+  ariaInvalid;
+  ariaKeyShortcuts;
+  ariaLabel;
+  ariaLevel;
+  ariaLive;
+  ariaModal;
+  ariaMultiLine;
+  ariaMultiSelectable;
+  ariaOrientation;
+  ariaPlaceholder;
+  ariaPosInSet;
+  ariaPressed;
+  ariaReadOnly;
+  ariaRequired;
+  ariaRoleDescription;
+  ariaRowCount;
+  ariaRowIndex;
+  ariaRowSpan;
+  ariaSelected;
+  ariaSetSize;
+  ariaSort;
+  ariaValueMax;
+  ariaValueMin;
+  ariaValueNow;
+  ariaValueText;
+  role;
+  animate(keyframes, options) {
+    throw new Error("Method not implemented.");
+  }
+  getAnimations(options) {
+    throw new Error("Method not implemented.");
+  }
+  after(...nodes) {
+    throw new Error("Method not implemented.");
+  }
+  before(...nodes) {
+    throw new Error("Method not implemented.");
+  }
+  remove() {
+    throw new Error("Method not implemented.");
+  }
+  replaceWith(...nodes) {
+    throw new Error("Method not implemented.");
+  }
+  nextElementSibling;
+  previousElementSibling;
+  childElementCount;
+  children;
+  firstElementChild;
+  lastElementChild;
+  append(...nodes) {
+    throw new Error("Method not implemented.");
+  }
+  prepend(...nodes) {
+    throw new Error("Method not implemented.");
+  }
+  querySelector(selectors) {
+    throw new Error("Method not implemented.");
+  }
+  querySelectorAll(selectors) {
+    throw new Error("Method not implemented.");
+  }
+  replaceChildren(...nodes) {
+    throw new Error("Method not implemented.");
+  }
+  assignedSlot;
+  attributeStyleMap;
+  style;
+  contentEditable;
+  enterKeyHint;
+  inputMode;
+  isContentEditable;
+  onabort;
+  onanimationcancel;
+  onanimationend;
+  onanimationiteration;
+  onanimationstart;
+  onauxclick;
+  onbeforeinput;
+  onbeforetoggle;
+  onblur;
+  oncancel;
+  oncanplay;
+  oncanplaythrough;
+  onchange;
+  onclick;
+  onclose;
+  oncontextlost;
+  oncontextmenu;
+  oncontextrestored;
+  oncopy;
+  oncuechange;
+  oncut;
+  ondblclick;
+  ondrag;
+  ondragend;
+  ondragenter;
+  ondragleave;
+  ondragover;
+  ondragstart;
+  ondrop;
+  ondurationchange;
+  onemptied;
+  onended;
+  onerror;
+  onfocus;
+  onformdata;
+  ongotpointercapture;
+  oninput;
+  oninvalid;
+  onkeydown;
+  onkeypress;
+  onkeyup;
+  onload;
+  onloadeddata;
+  onloadedmetadata;
+  onloadstart;
+  onlostpointercapture;
+  onmousedown;
+  onmouseenter;
+  onmouseleave;
+  onmousemove;
+  onmouseout;
+  onmouseover;
+  onmouseup;
+  onpaste;
+  onpause;
+  onplay;
+  onplaying;
+  onpointercancel;
+  onpointerdown;
+  onpointerenter;
+  onpointerleave;
+  onpointermove;
+  onpointerout;
+  onpointerover;
+  onpointerup;
+  onprogress;
+  onratechange;
+  onreset;
+  onresize;
+  onscroll;
+  onscrollend;
+  onsecuritypolicyviolation;
+  onseeked;
+  onseeking;
+  onselect;
+  onselectionchange;
+  onselectstart;
+  onslotchange;
+  onstalled;
+  onsubmit;
+  onsuspend;
+  ontimeupdate;
+  ontoggle;
+  ontouchcancel;
+  ontouchend;
+  ontouchmove;
+  ontouchstart;
+  ontransitioncancel;
+  ontransitionend;
+  ontransitionrun;
+  ontransitionstart;
+  onvolumechange;
+  onwaiting;
+  onwebkitanimationend;
+  onwebkitanimationiteration;
+  onwebkitanimationstart;
+  onwebkittransitionend;
+  onwheel;
+  autofocus;
+  dataset;
+  nonce;
+  tabIndex;
+  blur() {
+    throw new Error("Method not implemented.");
+  }
+  focus(options) {
+    throw new Error("Method not implemented.");
+  }
+};
+var _ComponentWidget_;
+if (isBrowser) {
+  _ComponentWidget_ = class _ComponentWidget_ extends HTMLElement {
+    static {
+      __name(this, "_ComponentWidget_");
+    }
+    constructor() {
+      super();
+      const componentWidget = this;
+      const componentName = componentWidget.nodeName.toLowerCase();
+      const componentBody = _DOMCreateElement("quick-component");
+      const __enabled__atributes__ = componentWidget.getAttributeNames();
+      componentBody.setAttribute("name", componentName);
+      if (!componentWidget.hasAttribute("shadowed")) {
+        componentBody.setAttribute("shadowed", "true");
+      }
+      __enabled__atributes__.map(function(attributeName) {
+        if (componentWidget.hasAttribute(attributeName)) {
+          componentBody.setAttribute(attributeName, componentWidget?.getAttribute(attributeName));
+          componentWidget.removeAttribute(attributeName);
+        }
+      });
+      const data_attributenames = componentWidget.getAttributeNames().filter(function(a) {
+        return a.startsWith("data-");
+      }).map(function(a) {
+        return a.split("-")[1];
+      });
+      data_attributenames.map(function(_attribute_name_) {
+        componentBody.setAttribute("data-" + _attribute_name_, componentWidget?.getAttribute("data-" + _attribute_name_));
+        componentWidget.removeAttribute("data-" + _attribute_name_);
+      });
+      [...componentWidget.children].map(function(element) {
+        componentBody.appendChild(element.cloneNode(true));
+        element.remove();
+      });
+      componentWidget.append(componentBody);
+    }
+  };
+} else {
+  _ComponentWidget_ = class _ComponentWidget_ extends QCObjectsWidgetNode {
+    static {
+      __name(this, "_ComponentWidget_");
+    }
+    constructor() {
+      super();
+      throw new Error("Class not implemented.");
+    }
+  };
+}
+Export(_ComponentWidget_);
+var RegisterWidget = /* @__PURE__ */ __name(function(widgetName) {
+  if (isBrowser) {
+    customElements.define(widgetName, class extends _ComponentWidget_ {
+    });
+  } else {
+    throw new Error("RegisterWidget is not implemented for non browser ecosystems yet.");
+  }
+}, "RegisterWidget");
+var RegisterWidgets = /* @__PURE__ */ __name(function(...args) {
+  const widgetList = [...args];
+  widgetList.filter(function(widgetName) {
+    return typeof widgetName === "string";
+  }).map(function(widgetName) {
+    return RegisterWidget(widgetName);
+  });
+}, "RegisterWidgets");
+_protected_code_(RegisterWidget);
+_protected_code_(RegisterWidgets);
+Export(RegisterWidget);
+Export(RegisterWidgets);
+
+// src/QCObjects.ts
+init_CONFIG();
+
+// src/Controller.ts
+init_ClassFactory();
+init_getType();
+init_InheritClass();
+init_Logger();
+init_New();
+init_Package();
+init_platform();
+var Controller = class extends InheritClass {
+  static {
+    __name(this, "Controller");
+  }
+  component;
+  dependencies = [];
+  constructor({
+    component,
+    dependencies
+  }) {
+    super({ component, dependencies });
+    this.component = component;
+    this.dependencies = dependencies;
+    if (typeof this.component === "undefined" || this.component === null) {
+      throw Error(`${__getType__(this)} must be called with a component`);
+    }
+  }
+  // eslint-disable-next-line no-unused-vars
+  fail(...args) {
+    throw new Error("Method not implemented.");
+  }
+  routingSelectedAttr(attrName) {
+    return this.component?.routingSelected.map((r) => {
+      return r[attrName];
+    }).filter(function(v) {
+      return v;
+    }).pop();
+  }
+  isTouchable() {
+    return "ontouchstart" in window || navigator.MaxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+  }
+  onpress(subelementSelector, handler) {
+    if (isBrowser) {
+      try {
+        if (this.isTouchable()) {
+          (this.component?.componentRoot?.subelements(subelementSelector))[0].addEventListener("touchstart", handler, {
+            passive: true
+          });
+        } else {
+          (this.component?.componentRoot?.subelements(subelementSelector))[0].addEventListener("click", handler, {
+            passive: true
+          });
+        }
+      } catch (e) {
+        logger.debug(`An error ocurred: ${e}.`);
+        logger.debug("No button to assign press event");
+      }
+    }
+  }
+  createRoutingController() {
+    const controller = this;
+    const component = controller.component;
+    const controllerName = controller.routingSelectedAttr("controllerclass");
+    if (typeof controllerName !== "undefined") {
+      const _Controller2 = ClassFactory(controllerName);
+      if (typeof _Controller2 !== "undefined" && component !== null) {
+        component.routingController = New(_Controller2, {
+          component
+        });
+        if (typeof component.routingController !== "undefined" && Object.hasOwn(component.routingController, "done") && typeof component.routingController.done === "function") {
+          component.routingController.done.call(component.routingController);
+        }
+      }
+    }
+  }
+  done() {
+  }
+};
+Package("com.qcobjects.controllers", [
+  Controller
+]);
+
+// src/View.ts
+init_getType();
+init_InheritClass();
+init_Package();
+var View = class extends InheritClass {
+  static {
+    __name(this, "View");
+  }
+  constructor({ component = void 0, dependencies = [] }) {
+    super({ component, dependencies });
+    if (typeof this.component === "undefined" || this.component === "null") {
+      throw Error(`${__getType__(this)} must be called with a component`);
+    }
+  }
+};
+Package("com.qcobjects.views", [
+  View
+]);
+
+// src/QCObjects.ts
+init_Service();
+
+// src/VO.ts
+init_InheritClass();
+init_Package();
+var VO = class extends InheritClass {
+  static {
+    __name(this, "VO");
+  }
+};
+Package("com.qcobjects.valueObjects", [
+  VO
+]);
+
+// src/Effect.ts
+init_InheritClass();
+init_Package();
+var Effect = class extends InheritClass {
+  static {
+    __name(this, "Effect");
+  }
+  // eslint-disable-next-line no-unused-vars
+  done(...args) {
+    throw new Error("Method not implemented.");
+  }
+  // eslint-disable-next-line no-unused-vars
+  apply(...args) {
+    throw new Error("Method not implemented.");
+  }
+  duration = 1e3;
+  animate({
+    timing,
+    draw,
+    duration
+  }) {
+    const _self = this;
+    const start = performance.now();
+    requestAnimationFrame(/* @__PURE__ */ __name(function animate(time) {
+      let timeFraction = (time - start) / duration;
+      if (timeFraction > 1) timeFraction = 1;
+      const progress = timing(timeFraction);
+      draw(Math.round(progress * 100));
+      if (timeFraction < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        if (typeof _self !== "undefined" && _self !== null && Object.hasOwn(_self, "done") && (typeof _self.done).toLowerCase() === "function") {
+          _self.done.call(_self);
+        }
+      }
+    }, "animate"));
+  }
+};
+Package("com.qcobjects.effects.base", [
+  Effect
+]);
+
+// src/TransitionEffect.ts
+init_Logger();
+init_Package();
+init_ClassFactory();
+var TransitionEffect = class extends Effect {
+  static {
+    __name(this, "TransitionEffect");
+  }
+  duration = 385;
+  defaultParams = {
+    alphaFrom: 0,
+    alphaTo: 1,
+    angleFrom: 180,
+    angleTo: 0,
+    radiusFrom: 0,
+    radiusTo: 30,
+    scaleFrom: 0,
+    scaleTo: 1
+  };
+  fitToHeight = false;
+  fitToWidth = false;
+  component;
+  effects;
+  apply({
+    alphaFrom,
+    alphaTo,
+    angleFrom,
+    angleTo,
+    radiusFrom,
+    radiusTo,
+    scaleFrom,
+    scaleTo
+  }) {
+    const _transition_ = this;
+    logger.info("EXECUTING TransitionEffect  ");
+    const componentRoot = _transition_.component.componentRoot;
+    if (typeof componentRoot !== "undefined" && componentRoot !== null) {
+      if (_transition_.fitToHeight) {
+        componentRoot.height = typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null ? componentRoot.offsetParent?.scrollHeight : componentRoot.getBoundingClientRect().height;
+      }
+      if (_transition_.fitToWidth) {
+        componentRoot.width = typeof componentRoot.offsetParent === "object" && componentRoot.offsetParent !== null ? componentRoot.offsetParent?.scrollWidth : componentRoot.getBoundingClientRect().width;
+      }
+      if (_transition_.component.shadowed) {
+        componentRoot.host.style.display = "block";
+      } else {
+        componentRoot.style.display = "block";
+      }
+      _transition_.effects.map((effectClassName) => {
+        const __effectClass__ = ClassFactory(effectClassName);
+        const effectObj = new __effectClass__({});
+        const effectClassMethod = effectObj.apply.bind(_transition_);
+        const componentHost = _transition_.component.shadowed ? componentRoot.host : componentRoot;
+        const effectParams = {
+          alphaFrom,
+          alphaTo,
+          angleFrom,
+          angleTo,
+          radiusFrom,
+          radiusTo,
+          scaleFrom,
+          scaleTo
+        };
+        effectClassMethod(componentHost, ...Object.values(effectParams));
+        return effectClassName;
+      });
+    }
+  }
+};
+Package("com.qcobjects.effects.transitions.base", [
+  TransitionEffect
+]);
+
+// src/Timer.ts
+init_InheritClass();
+init_Package();
+var Timer = class extends InheritClass {
+  static {
+    __name(this, "Timer");
+  }
+  duration = 1e3;
+  alive = true;
+  thread({
+    timing,
+    intervalInterceptor,
+    duration
+  }) {
+    const timer = this;
+    const start = performance.now();
+    requestAnimationFrame(/* @__PURE__ */ __name(function thread(time) {
+      const elapsed = time - start;
+      let timeFraction = elapsed / duration;
+      if (timeFraction > 1) timeFraction = 1;
+      const progress = timing(timeFraction, elapsed);
+      intervalInterceptor(Math.round(progress * 100));
+      if ((timeFraction < 1 || duration === -1) && timer.alive) {
+        requestAnimationFrame(thread);
+      }
+    }, "thread"));
+  }
+};
+Package("com.qcobjects.timing", [
+  Timer
+]);
+
+// src/QCObjects.ts
+init_tag_filter();
+init_range();
+init_ArrayCollection();
+
+// src/DDO.ts
+init_Export();
+init_InheritClass();
+init_Logger();
+init_ObjectName();
+var DDO = class extends InheritClass {
+  static {
+    __name(this, "DDO");
+  }
+  constructor({
+    instance,
+    name,
+    fget,
+    fset,
+    value
+  }) {
+    super({
+      instance,
+      name,
+      fget,
+      fset,
+      value
+    });
+    this._new_({
+      instance,
+      name,
+      fget,
+      fset,
+      value
+    });
+  }
+  _new_({
+    instance,
+    name,
+    fget,
+    fset
+  }) {
+    const ddoInstance = this;
+    var name = typeof name === "undefined" ? ObjectName(ddoInstance) : name;
+    Object.defineProperty(instance, name, {
+      set(val) {
+        const _value = val;
+        logger.debug("value changed " + name);
+        let ret;
+        if (typeof fset !== "undefined" && typeof fset === "function") {
+          ret = fset(_value);
+        } else {
+          ret = _value;
+        }
+        instance["_" + name] = ret;
+      },
+      get() {
+        const _value = instance["_" + name];
+        logger.debug("returning value " + name);
+        const is_ddo = /* @__PURE__ */ __name((v) => {
+          if (typeof v === "object" && Object.hasOwn(v, "value")) {
+            return v.value;
+          }
+          return v;
+        }, "is_ddo");
+        let ret;
+        if (typeof fget !== "undefined" && typeof fget === "function") {
+          ret = fget(is_ddo(_value));
+        } else {
+          ret = is_ddo(_value);
+        }
+        return ret;
+      }
+    });
+  }
+};
+Export(DDO);
+
+// src/Toggle.ts
+init_InheritClass();
+init_Logger();
+init_Package();
+var Toggle = class extends InheritClass {
+  static {
+    __name(this, "Toggle");
+  }
+  _toggle = false;
+  _inverse = true;
+  _positive = null;
+  _negative = null;
+  _dispatched = null;
+  _args = {};
+  constructor(positive, negative, args) {
+    super({ positive, negative, args });
+    this._new_({ positive, negative, args });
+  }
+  changeToggle() {
+    this._toggle = !this._toggle;
+  }
+  _new_({
+    positive,
+    negative,
+    args
+  }) {
+    this._positive = positive;
+    this._negative = negative;
+    this._args = args;
+  }
+  fire() {
+    const toggle = this;
+    var _promise = new Promise(function(resolve, reject) {
+      if (typeof toggle._positive === "function" && typeof toggle._negative === "function") {
+        if (toggle._inverse) {
+          toggle._dispatched = toggle._toggle ? toggle._negative.bind(toggle) : toggle._positive.bind(toggle);
+        } else {
+          toggle._dispatched = toggle._toggle ? toggle._positive.bind(toggle) : toggle._negative.bind(toggle);
+        }
+        toggle._dispatched?.call(toggle, toggle._args);
+        resolve.call(_promise, toggle);
+      } else {
+        logger.debug("Toggle functions are not declared");
+        reject.call(_promise, toggle);
+      }
+      return toggle;
+    }).then(function(toggle2) {
+      toggle2.changeToggle();
+      return toggle2;
+    }).catch(function(e) {
+      logger.debug(e.toString());
+      return toggle;
+    }).finally(() => {
+      return toggle;
+    });
+    return _promise;
+  }
+};
+Package("com.qcobjects.tools.essentials", [
+  Toggle
+]);
+
+// src/QCObjects.ts
+init_findPackageNodePath();
+
+// src/DocumentLayout.ts
+var getDocumentLayout = /* @__PURE__ */ __name(function() {
+  const h = /* @__PURE__ */ __name((w, h2) => {
+    return w > h2 ? "landscape" : null;
+  }, "h");
+  const v = /* @__PURE__ */ __name((w, h2) => {
+    return h2 > w ? "portrait" : null;
+  }, "v");
+  const square = /* @__PURE__ */ __name((w, h2) => {
+    return w === h2 ? "square" : null;
+  }, "square");
+  return [
+    h(document.documentElement.clientWidth, document.documentElement.clientHeight),
+    v(document.documentElement.clientWidth, document.documentElement.clientHeight),
+    square(document.documentElement.clientWidth, document.documentElement.clientHeight)
+  ].filter((e) => e !== null).pop();
+}, "getDocumentLayout");
+
+// src/QCObjects.ts
+init_mathFunctions();
+init_top();
+init_make_global();
+var QCObjects = __toESM(require_MainProcess());
+export {
+  ArrayCollection,
+  ArrayList,
+  AssignPolyfill,
+  BackendMicroservice,
+  CONFIG,
+  Class,
+  ClassFactory,
+  ComplexStorageCache,
+  Component,
+  ComponentURI,
+  ConfigService,
+  Controller,
+  DDO,
+  DefaultTemplateHandler,
+  Effect,
+  Export,
+  GlobalSettings,
+  Import,
+  InheritClass,
+  JSONService,
+  Logger,
+  NamespaceRef,
+  New,
+  ObjectName,
+  Package,
+  Processor,
+  QCObjects,
+  Ready,
+  RegisterClass,
+  RegisterWidget,
+  RegisterWidgets,
+  Service,
+  SourceCSS,
+  SourceJS,
+  Tag,
+  TagElements,
+  Timer,
+  Toggle,
+  TransitionEffect,
+  VO,
+  View,
+  _Cast,
+  _CastProps,
+  _ComponentWidget_,
+  _Crypt,
+  _DOMCreateElement,
+  _DataStringify,
+  _LegacyCopy,
+  _QC_CLASSES,
+  _QC_PACKAGES,
+  _QC_PACKAGES_IMPORTED,
+  _QC_READY_LISTENERS,
+  _Ready,
+  __getType__,
+  __instanceID,
+  __is_raw_class__,
+  __make_global__,
+  __to_number,
+  _buildComponentsFromElements_,
+  _fireAsyncLoad,
+  _methods_,
+  _protected_code_,
+  _require_,
+  _super_,
+  _tag_filter_,
+  _top,
+  asyncLoad,
+  captureFalseTouch,
+  componentLoader,
+  findPackageNodePath,
+  getDocumentLayout,
+  _top as global,
+  isBrowser,
+  isNodeCommonJS,
+  isQCObjects_Class,
+  isQCObjects_Object,
+  is_a,
+  is_phonegap,
+  logger,
+  range,
+  ready,
+  resetTop,
+  serviceLoader,
+  setDefaultProcessors,
+  shortCode,
+  subelements,
+  waitUntil
+};
+//# sourceMappingURL=QCObjects.mjs.map

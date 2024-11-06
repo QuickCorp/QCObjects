@@ -4,7 +4,7 @@ const alias = require("esbuild-plugin-alias");
 const path = require("path");
 
 const baseSettings = {
-    entryPoints: ["src/*.ts", "src/*.mts", "src/*.cts"], // Your entry file
+    entryPoints: ["src/QCObjects.ts"], // Your entry file
     bundle: true,
     outdir: "public/cjs", // Output dir
     format: "cjs", // or "esm" depending on your module system    
@@ -24,7 +24,7 @@ const baseSettings = {
 };
 
 const cjsSettings = {...baseSettings,
-    entryPoints: ["src/*.cts"], // Your entry file
+    entryPoints: ["src/QCObjects.ts"], // Your entry file
     outdir: "public/cjs", // Output dir
     format: "cjs", // or "esm" depending on your module system    
     platform: "node", // or "browser" depending on your target environment
@@ -35,10 +35,10 @@ const cjsSettings = {...baseSettings,
 };
 
 const esmSettings = {...baseSettings,
-    entryPoints: ["src/*.mts"], // Your entry file
+    entryPoints: ["src/QCObjects.ts"], // Your entry file
     outdir: "public/esm", // Output dir
     format: "esm", // or "esm" depending on your module system    
-    platform: "neutral", // or "browser" depending on your target environment
+    platform: "browser", // or "browser" depending on your target environment
     outExtension: {
         ".js":".mjs"
     }
@@ -46,7 +46,8 @@ const esmSettings = {...baseSettings,
 };
 
 const browserSettings = {...baseSettings,
-    entryPoints: ["src/*.mts"], // Your entry file
+    entryPoints: ["src/QCObjects.ts"], // Your entry file
+    bundle: true,
     outdir: "public/browser", // Output dir
     format: "iife", // or "esm" depending on your module system    
     platform: "browser", // or "browser" depending on your target environment

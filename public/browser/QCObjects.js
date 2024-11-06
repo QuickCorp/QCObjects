@@ -636,7 +636,7 @@ var global = (() => {
         }
         hierarchy() {
           const __instance__ = this;
-          return this.getClass().hierarchy(__instance__);
+          return this.constructor.hierarchy(__instance__);
         }
         append(_child) {
           const child = _child || this.body;
@@ -954,7 +954,7 @@ var global = (() => {
           }
           hierarchy() {
             const __instance__ = this;
-            return this.getClass().hierarchy(__instance__);
+            return this.getClass()?.hierarchy(__instance__);
           }
           append(_child) {
             const child = _child || this.body;
@@ -4968,12 +4968,6 @@ var global = (() => {
     }
   });
 
-  // src/index.mts
-  var src_exports = {};
-  __export(src_exports, {
-    default: () => src_default
-  });
-
   // src/QCObjects.ts
   var QCObjects_exports = {};
   __export(QCObjects_exports, {
@@ -6494,9 +6488,6 @@ var global = (() => {
   init_top();
   init_make_global();
   var QCObjects = __toESM(require_MainProcess());
-
-  // src/index.mts
-  var src_default = QCObjects_exports;
-  return __toCommonJS(src_exports);
+  return __toCommonJS(QCObjects_exports);
 })();
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=QCObjects.js.map
