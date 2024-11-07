@@ -463,6 +463,71 @@ declare module "ComponentFactory" {
     export const _buildComponentsFromElements_: (elements: HTMLElement[], __parent__: Component | null) => Component[];
     export const buildComponents: (element: HTMLElement) => Component[];
 }
+declare module "Service" {
+    import { InheritClass } from "InheritClass";
+    import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "types";
+    export class Service extends InheritClass implements IService {
+        options: object;
+        withCredentials: boolean;
+        useHTTP2: any;
+        mockup({ request, service }: TServiceStandardResponse): void;
+        name: string;
+        responseHeaders: any;
+        local({ request, service }: TServiceStandardResponse): void;
+        kind: string;
+        domain: string;
+        basePath: string;
+        url: string;
+        method: string;
+        data: {};
+        reload: boolean;
+        cached: boolean;
+        headers: any;
+        template: unknown;
+        done({ request, service }: TServiceDoneResponse): void;
+        fail(...args: any[]): void;
+        set(name: string, value: never): void;
+        get(name: string, _default?: never): never;
+    }
+    export class JSONService extends Service implements IJSONService {
+        method: string;
+        cached: boolean;
+        headers: {
+            "Content-Type": string;
+            charset: string;
+        };
+        JSONresponse?: JSON;
+        done(result: TServiceDoneResponse): void;
+    }
+    export class ConfigService extends JSONService {
+        method: string;
+        cached: boolean;
+        configFileName: string;
+        headers: {
+            "Content-Type": string;
+            charset: string;
+        };
+        configLoaded(): Promise<void>;
+        JSONresponse?: JSON;
+        done(result: TServiceDoneResponse): void;
+        fail(): void;
+        constructor();
+    }
+}
+declare module "globalSettings" {
+    import { IGlobalSettings } from "types";
+    import { InheritClass } from "InheritClass";
+    export class GlobalSettings extends InheritClass implements IGlobalSettings {
+        static __start__(): Promise<any>;
+        [key: string]: any;
+        _GLOBAL: any;
+        private static _instance;
+        static get instance(): GlobalSettings;
+        set(name: string, value: any): void;
+        get(name: string, _default?: any): any;
+        __start__(): Promise<any>;
+    }
+}
 declare module "top" {
     import { IComplexStorageCache, IComponent, IConfigService } from "types";
     type QCObjects = {
@@ -551,10 +616,12 @@ declare module "top" {
     } & typeof self & typeof global;
     export var _top: QCObjects;
     export let componentsStack: IComponent[];
-    export const resetTop: (_top_: QCObjects) => void;
+    export const resetTop: () => void;
     export const buildComponentsStack: () => void;
     export let configService: IConfigService;
     export const setConfigService: (_configService: IConfigService) => void;
+    export const set: (name: string, value: any) => void;
+    export const get: (name: string, _defaultValue?: any) => any;
 }
 declare module "make_global" {
     export const __make_global__: (f: any) => void;
@@ -782,71 +849,6 @@ declare module "waitUntil" {
 declare module "subelements" {
     export const subelements: <T>(this: any, query: string) => T[];
 }
-declare module "Service" {
-    import { InheritClass } from "InheritClass";
-    import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "types";
-    export class Service extends InheritClass implements IService {
-        options: object;
-        withCredentials: boolean;
-        useHTTP2: any;
-        mockup({ request, service }: TServiceStandardResponse): void;
-        name: string;
-        responseHeaders: any;
-        local({ request, service }: TServiceStandardResponse): void;
-        kind: string;
-        domain: string;
-        basePath: string;
-        url: string;
-        method: string;
-        data: {};
-        reload: boolean;
-        cached: boolean;
-        headers: any;
-        template: unknown;
-        done({ request, service }: TServiceDoneResponse): void;
-        fail(...args: any[]): void;
-        set(name: string, value: never): void;
-        get(name: string, _default?: never): never;
-    }
-    export class JSONService extends Service implements IJSONService {
-        method: string;
-        cached: boolean;
-        headers: {
-            "Content-Type": string;
-            charset: string;
-        };
-        JSONresponse?: JSON;
-        done(result: TServiceDoneResponse): void;
-    }
-    export class ConfigService extends JSONService {
-        method: string;
-        cached: boolean;
-        configFileName: string;
-        headers: {
-            "Content-Type": string;
-            charset: string;
-        };
-        configLoaded(): Promise<void>;
-        JSONresponse?: JSON;
-        done(result: TServiceDoneResponse): void;
-        fail(): void;
-        constructor();
-    }
-}
-declare module "globalSettings" {
-    import { IGlobalSettings } from "types";
-    import { InheritClass } from "InheritClass";
-    export class GlobalSettings extends InheritClass implements IGlobalSettings {
-        static __start__(): Promise<any>;
-        [key: string]: any;
-        _GLOBAL: any;
-        private static _instance;
-        static get instance(): GlobalSettings;
-        set(name: string, value: any): void;
-        get(name: string, _default?: any): any;
-        __start__(): Promise<any>;
-    }
-}
 declare module "loadSDK" {
     function loadSDK(): void;
     export default loadSDK;
@@ -1031,6 +1033,7 @@ declare module "QCObjects" {
     export { __to_number } from "mathFunctions";
     export { _top as global } from "top";
     export { __make_global__ } from "make_global";
+    export { get, set } from "top";
     export * as QCObjects from "MainProcess";
 }
 declare module "index" {

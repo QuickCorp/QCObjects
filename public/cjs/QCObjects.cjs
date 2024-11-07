@@ -3454,17 +3454,262 @@ var init_ComponentFactory = __esm({
   }
 });
 
+// src/Service.ts
+var Service, JSONService, ConfigService;
+var init_Service = __esm({
+  "src/Service.ts"() {
+    "use strict";
+    init_basePath();
+    init_Crypt();
+    init_domain();
+    init_InheritClass();
+    init_Logger();
+    init_Package();
+    init_secretKey();
+    init_CONFIG();
+    Service = class extends InheritClass {
+      static {
+        __name(this, "Service");
+      }
+      options;
+      withCredentials;
+      useHTTP2;
+      // eslint-disable-next-line no-unused-vars
+      mockup({ request, service }) {
+        throw new Error("Method not implemented.");
+      }
+      name;
+      responseHeaders;
+      // eslint-disable-next-line no-unused-vars
+      local({ request, service }) {
+        throw new Error("Method not implemented.");
+      }
+      kind = "rest";
+      /* it can be rest, mockup, local */
+      domain = _domain_;
+      basePath = _basePath_;
+      url = "";
+      method = "GET";
+      data = {};
+      reload = false;
+      cached = false;
+      headers;
+      template;
+      // eslint-disable-next-line no-unused-vars
+      done({ request, service }) {
+        throw new Error("Method not implemented.");
+      }
+      // eslint-disable-next-line no-unused-vars
+      fail(...args) {
+        throw new Error("Method not implemented.");
+      }
+      set(name, value) {
+        this[name] = value;
+      }
+      get(name, _default) {
+        return this[name] || _default;
+      }
+    };
+    JSONService = class extends Service {
+      static {
+        __name(this, "JSONService");
+      }
+      method = "GET";
+      cached = false;
+      headers = {
+        "Content-Type": "application/json",
+        "charset": "utf-8"
+      };
+      JSONresponse = void 0;
+      done(result) {
+        logger.debug("***** RECEIVED RESPONSE:");
+        logger.debug(result.service.template);
+        this.JSONresponse = JSON.parse(result.service.template);
+      }
+    };
+    ConfigService = class extends JSONService {
+      static {
+        __name(this, "ConfigService");
+      }
+      method = "GET";
+      cached = false;
+      configFileName = "config.json";
+      headers = {
+        "Content-Type": "application/json",
+        "charset": "utf-8"
+      };
+      configLoaded() {
+        throw Error("Method not implemented.");
+      }
+      JSONresponse = void 0;
+      done(result) {
+        logger.debug("***** CONFIG LOADED:");
+        logger.debug(result.service.template);
+        this.JSONresponse = JSON.parse(result.service.template);
+        if (Object.hasOwn(this.JSONresponse, "__encoded__")) {
+          const decodedValue = _Crypt.decrypt(this.JSONresponse?.__encoded__, _secretKey);
+          this.JSONresponse = JSON.parse(decodedValue);
+        }
+        const jsonResponse = this.JSONresponse;
+        Object.keys(jsonResponse).map((k) => {
+          CONFIG.set(k, jsonResponse[k]);
+          return k;
+        });
+        this.configLoaded().catch((e) => {
+          throw new Error(`An error ocurred: ${e}`);
+        });
+      }
+      fail() {
+        this.configLoaded().catch((e) => {
+          throw new Error(`An error ocurred: ${e}`);
+        });
+      }
+      constructor() {
+        super();
+        this.set("url", `${this.get("basePath")}${this.get("configFileName")}`);
+      }
+    };
+    Package("com.qcobjects.api", [
+      Service
+    ]);
+    Package("com.qcobjects.api.services", [
+      JSONService
+    ]);
+    Package("com.qcobjects.api.config", [
+      ConfigService
+    ]);
+  }
+});
+
+// src/globalSettings.ts
+var GlobalSettings;
+var init_globalSettings = __esm({
+  "src/globalSettings.ts"() {
+    "use strict";
+    init_CONFIG();
+    init_InheritClass();
+    init_Logger();
+    init_Package();
+    init_platform();
+    init_serviceLoader();
+    init_top();
+    init_Service();
+    GlobalSettings = class _GlobalSettings extends InheritClass {
+      static {
+        __name(this, "GlobalSettings");
+      }
+      static __start__() {
+        return _GlobalSettings.instance.__start__();
+      }
+      _GLOBAL = {};
+      static _instance;
+      static get instance() {
+        if (typeof _GlobalSettings._instance === "undefined") {
+          _GlobalSettings._instance = new _GlobalSettings();
+        }
+        return _GlobalSettings._instance;
+      }
+      set(name, value) {
+        this._GLOBAL[name] = value;
+      }
+      get(name, _default) {
+        let _value;
+        if (typeof this._GLOBAL[name] !== "undefined") {
+          _value = this._GLOBAL[name];
+        } else if (typeof _default !== "undefined") {
+          _value = _default;
+        }
+        return _value;
+      }
+      __start__() {
+        const __load__serviceWorker = /* @__PURE__ */ __name(function() {
+          let _promise;
+          if (isBrowser) {
+            _promise = new Promise(function(resolve, reject) {
+              if ("serviceWorker" in navigator && typeof CONFIG.get("serviceWorkerURI") !== "undefined") {
+                CONFIG.set("serviceWorkerScope", CONFIG.get("serviceWorkerScope") ? CONFIG.get("serviceWorkerScope") : "/");
+                navigator.serviceWorker.register(CONFIG.get("serviceWorkerURI"), {
+                  scope: CONFIG.get("serviceWorkerScope")
+                }).then(function(registration) {
+                  logger.debug("Service Worker Registered");
+                  resolve.call(_promise, registration);
+                }, function(registration) {
+                  logger.debug("Error registering Service Worker");
+                  reject.call(_promise, registration);
+                });
+                navigator.serviceWorker.ready.then(function(registration) {
+                  logger.debug("Service Worker Ready");
+                  resolve.call(_promise, registration);
+                }, function(registration) {
+                  logger.debug("Error loading Service Worker");
+                  reject.call(_promise, registration);
+                });
+              }
+            });
+          } else {
+            _promise = Promise.resolve();
+          }
+          return _promise;
+        }, "__load__serviceWorker");
+        const _buildComponents = /* @__PURE__ */ __name(function() {
+          return new Promise((resolve) => {
+            if (isBrowser) {
+              logger.debug("Starting to building components");
+              try {
+                buildComponentsStack();
+              } catch (e) {
+                throw Error(`Something went wrong trying to start components tree: ${e.message}`);
+              }
+              logger.debug("Initializing the service worker");
+              __load__serviceWorker.call(_top).catch(function(e) {
+                logger.debug(`error loading the service worker ${e}`);
+              });
+            }
+            resolve();
+          });
+        }, "_buildComponents");
+        return new Promise((resolve) => {
+          logger.debug("Starting to load the config settings...");
+          if (CONFIG.get("useConfigService", false)) {
+            logger.debug("Loading settings using local configuration file...");
+            setConfigService(new ConfigService());
+            configService.configLoaded = _buildComponents;
+            serviceLoader(configService)?.then((standardResponse) => {
+              resolve(standardResponse);
+            })?.catch((e) => {
+              throw new Error(`An error ocurred while trying to load ${configService.url}: ${e}`);
+            });
+          } else {
+            logger.debug("Starting to load the components...");
+            _buildComponents.call(this).then(() => {
+              resolve({});
+            }).catch((e) => {
+              throw new Error(`An error ocurred while trying to build the components stack. ${e}`);
+            });
+          }
+        });
+      }
+    };
+    Package("com.qcobjects", [
+      GlobalSettings
+    ]);
+  }
+});
+
 // src/top.ts
-var _top, componentsStack, resetTop, buildComponentsStack, configService, setConfigService;
+var _top, componentsStack, resetTop, buildComponentsStack, configService, setConfigService, set, get;
 var init_top = __esm({
   "src/top.ts"() {
     "use strict";
     init_ComponentFactory();
-    _top = typeof self !== "undefined" && self || typeof window !== "undefined" && window || typeof global !== "undefined" && global || void 0;
+    init_Cast();
+    init_globalSettings();
+    _top = typeof module !== "undefined" && typeof module.exports !== "undefined" && module.exports || typeof global !== "undefined" && global || typeof globalThis !== "undefined" && globalThis || typeof window !== "undefined" && window || typeof self !== "undefined" && self || void 0;
     _top.lastCache = void 0;
     componentsStack = [];
-    resetTop = /* @__PURE__ */ __name((_top_) => {
-      _top = _top_;
+    resetTop = /* @__PURE__ */ __name(() => {
+      const globalSettings = new GlobalSettings();
+      _top = _CastProps(globalSettings, _top);
     }, "resetTop");
     buildComponentsStack = /* @__PURE__ */ __name(() => {
       componentsStack = buildComponents(document);
@@ -3473,6 +3718,12 @@ var init_top = __esm({
       _top.global.configService = _configService;
       configService = _configService;
     }, "setConfigService");
+    set = /* @__PURE__ */ __name((name, value) => {
+      _top.set(name, value);
+    }, "set");
+    get = /* @__PURE__ */ __name((name, _defaultValue) => {
+      return _top.get(name, _defaultValue);
+    }, "get");
   }
 });
 
@@ -4175,248 +4426,6 @@ var init_Import = __esm({
   }
 });
 
-// src/Service.ts
-var Service, JSONService, ConfigService;
-var init_Service = __esm({
-  "src/Service.ts"() {
-    "use strict";
-    init_basePath();
-    init_Crypt();
-    init_domain();
-    init_InheritClass();
-    init_Logger();
-    init_Package();
-    init_secretKey();
-    init_CONFIG();
-    Service = class extends InheritClass {
-      static {
-        __name(this, "Service");
-      }
-      options;
-      withCredentials;
-      useHTTP2;
-      // eslint-disable-next-line no-unused-vars
-      mockup({ request, service }) {
-        throw new Error("Method not implemented.");
-      }
-      name;
-      responseHeaders;
-      // eslint-disable-next-line no-unused-vars
-      local({ request, service }) {
-        throw new Error("Method not implemented.");
-      }
-      kind = "rest";
-      /* it can be rest, mockup, local */
-      domain = _domain_;
-      basePath = _basePath_;
-      url = "";
-      method = "GET";
-      data = {};
-      reload = false;
-      cached = false;
-      headers;
-      template;
-      // eslint-disable-next-line no-unused-vars
-      done({ request, service }) {
-        throw new Error("Method not implemented.");
-      }
-      // eslint-disable-next-line no-unused-vars
-      fail(...args) {
-        throw new Error("Method not implemented.");
-      }
-      set(name, value) {
-        this[name] = value;
-      }
-      get(name, _default) {
-        return this[name] || _default;
-      }
-    };
-    JSONService = class extends Service {
-      static {
-        __name(this, "JSONService");
-      }
-      method = "GET";
-      cached = false;
-      headers = {
-        "Content-Type": "application/json",
-        "charset": "utf-8"
-      };
-      JSONresponse = void 0;
-      done(result) {
-        logger.debug("***** RECEIVED RESPONSE:");
-        logger.debug(result.service.template);
-        this.JSONresponse = JSON.parse(result.service.template);
-      }
-    };
-    ConfigService = class extends JSONService {
-      static {
-        __name(this, "ConfigService");
-      }
-      method = "GET";
-      cached = false;
-      configFileName = "config.json";
-      headers = {
-        "Content-Type": "application/json",
-        "charset": "utf-8"
-      };
-      configLoaded() {
-        throw Error("Method not implemented.");
-      }
-      JSONresponse = void 0;
-      done(result) {
-        logger.debug("***** CONFIG LOADED:");
-        logger.debug(result.service.template);
-        this.JSONresponse = JSON.parse(result.service.template);
-        if (Object.hasOwn(this.JSONresponse, "__encoded__")) {
-          const decodedValue = _Crypt.decrypt(this.JSONresponse?.__encoded__, _secretKey);
-          this.JSONresponse = JSON.parse(decodedValue);
-        }
-        const jsonResponse = this.JSONresponse;
-        Object.keys(jsonResponse).map((k) => {
-          CONFIG.set(k, jsonResponse[k]);
-          return k;
-        });
-        this.configLoaded().catch((e) => {
-          throw new Error(`An error ocurred: ${e}`);
-        });
-      }
-      fail() {
-        this.configLoaded().catch((e) => {
-          throw new Error(`An error ocurred: ${e}`);
-        });
-      }
-      constructor() {
-        super();
-        this.set("url", `${this.get("basePath")}${this.get("configFileName")}`);
-      }
-    };
-    Package("com.qcobjects.api", [
-      Service
-    ]);
-    Package("com.qcobjects.api.services", [
-      JSONService
-    ]);
-    Package("com.qcobjects.api.config", [
-      ConfigService
-    ]);
-  }
-});
-
-// src/globalSettings.ts
-var GlobalSettings;
-var init_globalSettings = __esm({
-  "src/globalSettings.ts"() {
-    "use strict";
-    init_CONFIG();
-    init_InheritClass();
-    init_Logger();
-    init_Package();
-    init_platform();
-    init_serviceLoader();
-    init_top();
-    init_Service();
-    GlobalSettings = class _GlobalSettings extends InheritClass {
-      static {
-        __name(this, "GlobalSettings");
-      }
-      static __start__() {
-        return _GlobalSettings.instance.__start__();
-      }
-      _GLOBAL = {};
-      static _instance;
-      static get instance() {
-        if (typeof _GlobalSettings._instance === "undefined") {
-          _GlobalSettings._instance = new _GlobalSettings();
-        }
-        return _GlobalSettings._instance;
-      }
-      set(name, value) {
-        this._GLOBAL[name] = value;
-      }
-      get(name, _default) {
-        let _value;
-        if (typeof this._GLOBAL[name] !== "undefined") {
-          _value = this._GLOBAL[name];
-        } else if (typeof _default !== "undefined") {
-          _value = _default;
-        }
-        return _value;
-      }
-      __start__() {
-        const __load__serviceWorker = /* @__PURE__ */ __name(function() {
-          let _promise;
-          if (isBrowser) {
-            _promise = new Promise(function(resolve, reject) {
-              if ("serviceWorker" in navigator && typeof CONFIG.get("serviceWorkerURI") !== "undefined") {
-                CONFIG.set("serviceWorkerScope", CONFIG.get("serviceWorkerScope") ? CONFIG.get("serviceWorkerScope") : "/");
-                navigator.serviceWorker.register(CONFIG.get("serviceWorkerURI"), {
-                  scope: CONFIG.get("serviceWorkerScope")
-                }).then(function(registration) {
-                  logger.debug("Service Worker Registered");
-                  resolve.call(_promise, registration);
-                }, function(registration) {
-                  logger.debug("Error registering Service Worker");
-                  reject.call(_promise, registration);
-                });
-                navigator.serviceWorker.ready.then(function(registration) {
-                  logger.debug("Service Worker Ready");
-                  resolve.call(_promise, registration);
-                }, function(registration) {
-                  logger.debug("Error loading Service Worker");
-                  reject.call(_promise, registration);
-                });
-              }
-            });
-          } else {
-            _promise = Promise.resolve();
-          }
-          return _promise;
-        }, "__load__serviceWorker");
-        const _buildComponents = /* @__PURE__ */ __name(function() {
-          return new Promise((resolve) => {
-            if (isBrowser) {
-              logger.debug("Starting to building components");
-              try {
-                buildComponentsStack();
-              } catch (e) {
-                throw Error(`Something went wrong trying to start components tree: ${e.message}`);
-              }
-              logger.debug("Initializing the service worker");
-              __load__serviceWorker.call(_top).catch(function(e) {
-                logger.debug(`error loading the service worker ${e}`);
-              });
-            }
-            resolve();
-          });
-        }, "_buildComponents");
-        return new Promise((resolve) => {
-          logger.debug("Starting to load the config settings...");
-          if (CONFIG.get("useConfigService", false)) {
-            logger.debug("Loading settings using local configuration file...");
-            setConfigService(new ConfigService());
-            configService.configLoaded = _buildComponents;
-            serviceLoader(configService)?.then((standardResponse) => {
-              resolve(standardResponse);
-            })?.catch((e) => {
-              throw new Error(`An error ocurred while trying to load ${configService.url}: ${e}`);
-            });
-          } else {
-            logger.debug("Starting to load the components...");
-            _buildComponents.call(this).then(() => {
-              resolve({});
-            }).catch((e) => {
-              throw new Error(`An error ocurred while trying to build the components stack. ${e}`);
-            });
-          }
-        });
-      }
-    };
-    Package("com.qcobjects", [
-      GlobalSettings
-    ]);
-  }
-});
-
 // src/loadSDK.ts
 function loadSDK() {
   if (CONFIG.get("useSDK")) {
@@ -4790,7 +4799,7 @@ var require_MainProcess = __commonJS({
         Export(isBrowser);
         Export(_methods_);
         Export(GlobalSettings);
-        resetTop(_CastProps(New(GlobalSettings), _top2));
+        resetTop();
         (function(_top3) {
           Object.defineProperty(_top3, "PackagesNameList", {
             // eslint-disable-next-line no-unused-vars
@@ -5034,6 +5043,7 @@ __export(QCObjects_exports, {
   captureFalseTouch: () => captureFalseTouch,
   componentLoader: () => componentLoader,
   findPackageNodePath: () => findPackageNodePath,
+  get: () => get,
   getDocumentLayout: () => getDocumentLayout,
   global: () => _top,
   isBrowser: () => isBrowser,
@@ -5047,6 +5057,7 @@ __export(QCObjects_exports, {
   ready: () => ready,
   resetTop: () => resetTop,
   serviceLoader: () => serviceLoader,
+  set: () => set,
   setDefaultProcessors: () => setDefaultProcessors,
   shortCode: () => shortCode,
   subelements: () => subelements,
@@ -6481,6 +6492,7 @@ var getDocumentLayout = /* @__PURE__ */ __name(function() {
 init_mathFunctions();
 init_top();
 init_make_global();
+init_top();
 var QCObjects = __toESM(require_MainProcess());
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
@@ -6554,6 +6566,7 @@ var QCObjects = __toESM(require_MainProcess());
   captureFalseTouch,
   componentLoader,
   findPackageNodePath,
+  get,
   getDocumentLayout,
   global,
   isBrowser,
@@ -6567,6 +6580,7 @@ var QCObjects = __toESM(require_MainProcess());
   ready,
   resetTop,
   serviceLoader,
+  set,
   setDefaultProcessors,
   shortCode,
   subelements,

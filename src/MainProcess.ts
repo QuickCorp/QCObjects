@@ -1,7 +1,7 @@
 import { IQCObjectsElement, IQCObjectsShadowedElement } from "types";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
 import { captureFalseTouch } from "./captureFalseTouch";
-import { _Cast, _CastProps } from "./Cast";
+import { _Cast } from "./Cast";
 import { Class } from "./Class";
 import { ClassFactory } from "./ClassFactory";
 import { Component } from "./Component";
@@ -425,7 +425,7 @@ import loadSDK from "./loadSDK";
       Export(_methods_);
       Export(GlobalSettings);
   
-      resetTop(_CastProps(New(GlobalSettings), _top));
+      resetTop();
   
       (function (_top) {
   

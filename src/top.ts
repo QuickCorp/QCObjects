@@ -1,5 +1,7 @@
 import { IComplexStorageCache, IComponent, IConfigService, IQCObjectsElement } from "types";
 import { buildComponents } from "./ComponentFactory";
+import { _CastProps } from "./Cast";
+import { GlobalSettings } from "./globalSettings";
 
 type QCObjects = {
     lastCache?:IComplexStorageCache,
@@ -89,16 +91,19 @@ type QCObjects = {
 } &  typeof self   & typeof global ;
 
 export var _top: QCObjects = (
-    (typeof self !== "undefined" && self) ||
-           (typeof window !== "undefined" && window) ||
-           (typeof global !== "undefined" && global) ||
-           this
- ) as QCObjects;
+            (typeof module !== "undefined" && typeof module.exports !== "undefined" && module.exports) ||
+            (typeof global !== "undefined" && global) ||
+            (typeof globalThis !== "undefined" && globalThis) ||
+            (typeof window !== "undefined" && window) ||
+            (typeof self !== "undefined" && self) ||
+            this
+) as QCObjects;
 (_top as any).lastCache = undefined;
 export let componentsStack:IComponent[] = [];
 
-export const resetTop = (_top_: QCObjects) => {
-    _top = _top_;
+export const resetTop = () => {
+    const globalSettings = new GlobalSettings();
+    _top = _CastProps(globalSettings, _top);
 };
 
 export const buildComponentsStack = () => {
@@ -108,4 +113,12 @@ export let configService:IConfigService;
 export const setConfigService = (_configService:IConfigService) => {
     _top.global.configService = _configService;
     configService = _configService;
+};
+
+export const set = (name:string, value:any):void => {
+    _top.set(name, value);
+};
+
+export const get = (name:string, _defaultValue?:any):any => {
+    return _top.get(name, _defaultValue);
 };

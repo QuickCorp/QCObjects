@@ -97,4 +97,5 @@ export { IQCObjectsElement, IQCObjectsShadowedElement } from "types";
 export { __to_number } from "./mathFunctions";
 export {_top as global} from "./top";
 export {__make_global__} from "./make_global";
+export {get, set} from "./top";
 export * as QCObjects from "./MainProcess";
