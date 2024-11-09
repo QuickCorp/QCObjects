@@ -102,8 +102,8 @@ export var _top: QCObjects = (
 export let componentsStack:IComponent[] = [];
 
 export const resetTop = () => {
-    const globalSettings = new GlobalSettings();
-    _top = _CastProps(globalSettings, _top);
+    const globalSettings = GlobalSettings.instance;
+    _top = _CastProps(globalSettings, _top, true);
 };
 
 export const buildComponentsStack = () => {
@@ -116,9 +116,11 @@ export const setConfigService = (_configService:IConfigService) => {
 };
 
 export const set = (name:string, value:any):void => {
-    _top.set(name, value);
+    _top[name as never] = value;
 };
 
 export const get = (name:string, _defaultValue?:any):any => {
-    return _top.get(name, _defaultValue);
+    return _top[name as never] ||  _defaultValue;
 };
+
+resetTop();

@@ -1,3 +1,4 @@
+import { Export } from "./Export";
 import { isBrowser } from "./platform";
 
 export class Logger {
@@ -30,3 +31,4 @@ export class Logger {
 }
 
 export const logger = new Logger();
+Export(logger);

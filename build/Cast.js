@@ -29,14 +29,16 @@ exports._Cast = _Cast;
  * @param {Object} obj_source
  * @param {Object} obj_dest
  */
-const _CastProps = function (obj_source, obj_dest) {
+const _CastProps = function (obj_source, obj_dest, _ignoreError = true) {
     for (const v in obj_source) {
         if (typeof obj_source[v] !== "undefined" && typeof obj_source[v] !== "function") {
             try {
                 obj_dest[v] = obj_source[v];
             }
             catch (e) {
-                Logger_1.logger.debug(`An error ocurred: ${e}.`);
+                if (!_ignoreError) {
+                    Logger_1.logger.debug(`An error ocurred: ${e}.`);
+                }
             }
         }
         else if (typeof obj_source[v] === "function") {

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const top_1 = require("./top");
 const asyncLoad_1 = require("./asyncLoad");
 const captureFalseTouch_1 = require("./captureFalseTouch");
 const Cast_1 = require("./Cast");
@@ -29,7 +30,6 @@ const PrimaryCollections_1 = require("./PrimaryCollections");
 const Ready_1 = require("./Ready");
 const serviceLoader_1 = require("./serviceLoader");
 const Tag_1 = require("./Tag");
-const top_1 = require("./top");
 const Processor_1 = require("./Processor");
 const is_a_1 = require("./is_a");
 const getType_1 = require("./getType");
@@ -41,6 +41,7 @@ const waitUntil_1 = require("./waitUntil");
 const subelements_1 = require("./subelements");
 const globalSettings_1 = require("./globalSettings");
 const loadSDK_1 = __importDefault(require("./loadSDK"));
+const range_1 = require("./range");
 (function __qcobjects__(_top) {
     if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
         try {
@@ -60,8 +61,6 @@ const loadSDK_1 = __importDefault(require("./loadSDK"));
     }
     if (typeof _top.__qcobjects__.loaded === "undefined") {
         _top.__qcobjects__.loaded = true;
-        const global = _top;
-        _top.global = global;
         if (platform_1.isBrowser) {
             Element.prototype.subelements = subelements_1.subelements;
             Document.prototype.subelements = subelements_1.subelements;
@@ -72,7 +71,6 @@ const loadSDK_1 = __importDefault(require("./loadSDK"));
         }
         Logger_1.logger.debugEnabled = false;
         Logger_1.logger.infoEnabled = true;
-        _top.logger = Logger_1.logger;
         /**
          * Basic Type of all elements
          */
@@ -350,7 +348,7 @@ const loadSDK_1 = __importDefault(require("./loadSDK"));
         (introspection_1._protected_code_)(Array.prototype.matrix3d);
         String.prototype.list = function () {
             const __instance = this;
-            return _top.range(0, __instance.length - 1).map(function (i) {
+            return (0, range_1.range)(0, __instance.length - 1).map(function (i) {
                 return __instance[i];
             });
         };
@@ -384,7 +382,6 @@ const loadSDK_1 = __importDefault(require("./loadSDK"));
         (0, Export_1.Export)(platform_1.isBrowser);
         (0, Export_1.Export)(introspection_1._methods_);
         (0, Export_1.Export)(globalSettings_1.GlobalSettings);
-        (0, top_1.resetTop)();
         (function (_top) {
             Object.defineProperty(_top, "PackagesNameList", {
                 // eslint-disable-next-line no-unused-vars

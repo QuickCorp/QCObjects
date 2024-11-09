@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logger = exports.Logger = void 0;
+const Export_1 = require("./Export");
 const platform_1 = require("./platform");
 class Logger {
     debugEnabled = true;
@@ -31,3 +32,4 @@ class Logger {
 }
 exports.Logger = Logger;
 exports.logger = new Logger();
+(0, Export_1.Export)(exports.logger);

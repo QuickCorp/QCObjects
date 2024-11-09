@@ -21,6 +21,13 @@ class GlobalSettings extends InheritClass_1.InheritClass {
         }
         return GlobalSettings._instance;
     }
+    _logger = new Logger_1.Logger();
+    get logger() {
+        return this._logger;
+    }
+    set logger(value) {
+        this._logger = value;
+    }
     set(name, value) {
         this._GLOBAL[name] = value;
     }

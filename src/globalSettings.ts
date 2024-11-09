@@ -1,7 +1,7 @@
 import { IGlobalSettings } from "types";
 import { CONFIG } from "./CONFIG";
 import { InheritClass } from "./InheritClass";
-import { logger } from "./Logger";
+import { Logger, logger } from "./Logger";
 import { Package } from "./Package";
 import { isBrowser } from "./platform";
 import { serviceLoader } from "./serviceLoader";
@@ -21,6 +21,15 @@ export class GlobalSettings extends InheritClass implements IGlobalSettings{
       GlobalSettings._instance = new GlobalSettings();
     }
     return GlobalSettings._instance;
+  }
+
+  protected _logger:Logger = new Logger();
+  get logger ():Logger {
+    return this._logger;
+  }
+
+  set logger (value:Logger) {
+    this._logger = value;
   }
 
   set(name: string, value: any) {

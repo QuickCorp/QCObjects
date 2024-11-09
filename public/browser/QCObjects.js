@@ -114,11 +114,53 @@ var global = (() => {
     }
   });
 
+  // src/make_global.ts
+  var __make_global__;
+  var init_make_global = __esm({
+    "src/make_global.ts"() {
+      "use strict";
+      init_platform();
+      init_top();
+      __make_global__ = /* @__PURE__ */ __name(function(f) {
+        if (typeof f !== "undefined") {
+          if (isBrowser) {
+            try {
+              _top[f.name] = f;
+              window[f.name] = f;
+            } catch (e) {
+              throw Error(`An error ocurred: ${e}`);
+            }
+          } else if (typeof global !== "undefined") {
+            if (!Object.hasOwn(global, f.name)) {
+              global[f.name] = f;
+            }
+          }
+        }
+      }, "__make_global__");
+    }
+  });
+
+  // src/Export.ts
+  var Export;
+  var init_Export = __esm({
+    "src/Export.ts"() {
+      "use strict";
+      init_make_global();
+      Export = /* @__PURE__ */ __name(function(f) {
+        return __make_global__(f);
+      }, "Export");
+      Export.prototype.toString = function() {
+        return "Export(function or symbol) { [QCObjects native code] }";
+      };
+    }
+  });
+
   // src/Logger.ts
   var Logger, logger;
   var init_Logger = __esm({
     "src/Logger.ts"() {
       "use strict";
+      init_Export();
       init_platform();
       Logger = class {
         static {
@@ -150,6 +192,7 @@ var global = (() => {
         }
       };
       logger = new Logger();
+      Export(logger);
     }
   });
 
@@ -172,13 +215,15 @@ var global = (() => {
         }
         return obj_dest;
       }, "_Cast");
-      _CastProps = /* @__PURE__ */ __name(function(obj_source, obj_dest) {
+      _CastProps = /* @__PURE__ */ __name(function(obj_source, obj_dest, _ignoreError = true) {
         for (const v in obj_source) {
           if (typeof obj_source[v] !== "undefined" && typeof obj_source[v] !== "function") {
             try {
               obj_dest[v] = obj_source[v];
             } catch (e) {
-              logger.debug(`An error ocurred: ${e}.`);
+              if (!_ignoreError) {
+                logger.debug(`An error ocurred: ${e}.`);
+              }
             }
           } else if (typeof obj_source[v] === "function") {
             try {
@@ -372,32 +417,6 @@ var global = (() => {
         }
         return _m;
       }, "_methods_");
-    }
-  });
-
-  // src/make_global.ts
-  var __make_global__;
-  var init_make_global = __esm({
-    "src/make_global.ts"() {
-      "use strict";
-      init_platform();
-      init_top();
-      __make_global__ = /* @__PURE__ */ __name(function(f) {
-        if (typeof f !== "undefined") {
-          if (isBrowser) {
-            try {
-              _top[f.name] = f;
-              window[f.name] = f;
-            } catch (e) {
-              throw Error(`An error ocurred: ${e}`);
-            }
-          } else if (typeof global !== "undefined") {
-            if (!Object.hasOwn(global, f.name)) {
-              global[f.name] = f;
-            }
-          }
-        }
-      }, "__make_global__");
     }
   });
 
@@ -1581,21 +1600,6 @@ var global = (() => {
       __valid_routing_way__ = /* @__PURE__ */ __name(function(validRoutingWays, routingWay) {
         return validRoutingWays.includes(routingWay);
       }, "__valid_routing_way__");
-    }
-  });
-
-  // src/Export.ts
-  var Export;
-  var init_Export = __esm({
-    "src/Export.ts"() {
-      "use strict";
-      init_make_global();
-      Export = /* @__PURE__ */ __name(function(f) {
-        return __make_global__(f);
-      }, "Export");
-      Export.prototype.toString = function() {
-        return "Export(function or symbol) { [QCObjects native code] }";
-      };
     }
   });
 
@@ -3616,6 +3620,13 @@ var global = (() => {
           }
           return _GlobalSettings._instance;
         }
+        _logger = new Logger();
+        get logger() {
+          return this._logger;
+        }
+        set logger(value) {
+          this._logger = value;
+        }
         set(name, value) {
           this._GLOBAL[name] = value;
         }
@@ -3715,8 +3726,8 @@ var global = (() => {
       _top.lastCache = void 0;
       componentsStack = [];
       resetTop = /* @__PURE__ */ __name(() => {
-        const globalSettings = new GlobalSettings();
-        _top = _CastProps(globalSettings, _top);
+        const globalSettings = GlobalSettings.instance;
+        _top = _CastProps(globalSettings, _top, true);
       }, "resetTop");
       buildComponentsStack = /* @__PURE__ */ __name(() => {
         componentsStack = buildComponents(document);
@@ -3726,11 +3737,12 @@ var global = (() => {
         configService = _configService;
       }, "setConfigService");
       set = /* @__PURE__ */ __name((name, value) => {
-        _top.set(name, value);
+        _top[name] = value;
       }, "set");
       get = /* @__PURE__ */ __name((name, _defaultValue) => {
-        return _top.get(name, _defaultValue);
+        return _top[name] || _defaultValue;
       }, "get");
+      resetTop();
     }
   });
 
@@ -4501,6 +4513,7 @@ var global = (() => {
   var require_MainProcess = __commonJS({
     "src/MainProcess.ts"() {
       "use strict";
+      init_top();
       init_asyncLoad();
       init_captureFalseTouch();
       init_Cast();
@@ -4527,7 +4540,6 @@ var global = (() => {
       init_Ready();
       init_serviceLoader();
       init_Tag();
-      init_top();
       init_Processor();
       init_is_a();
       init_getType();
@@ -4539,6 +4551,7 @@ var global = (() => {
       init_subelements();
       init_globalSettings();
       init_loadSDK();
+      init_range();
       (/* @__PURE__ */ __name(function __qcobjects__(_top2) {
         if (typeof Object.defineProperty !== "undefined" && typeof _top2 !== "undefined") {
           try {
@@ -4557,8 +4570,6 @@ var global = (() => {
         }
         if (typeof _top2.__qcobjects__.loaded === "undefined") {
           _top2.__qcobjects__.loaded = true;
-          const global2 = _top2;
-          _top2.global = global2;
           if (isBrowser) {
             Element.prototype.subelements = subelements;
             Document.prototype.subelements = subelements;
@@ -4569,7 +4580,6 @@ var global = (() => {
           }
           logger.debugEnabled = false;
           logger.infoEnabled = true;
-          _top2.logger = logger;
           if (isBrowser) {
             Element.prototype.find = function(tag) {
               const _self = this;
@@ -4636,7 +4646,7 @@ var global = (() => {
               document.addEventListener("deviceready", _Ready, captureFalseTouch);
             }
           } else {
-            global2.onload = _Ready;
+            global.onload = _Ready;
           }
           if (isBrowser) {
             window.addEventListener("popstate", function(popStateEvent) {
@@ -4782,7 +4792,7 @@ var global = (() => {
           _protected_code_(Array.prototype.matrix3d);
           String.prototype.list = function() {
             const __instance = this;
-            return _top2.range(0, __instance.length - 1).map(function(i) {
+            return range(0, __instance.length - 1).map(function(i) {
               return __instance[i];
             });
           };
@@ -4806,7 +4816,6 @@ var global = (() => {
           Export(isBrowser);
           Export(_methods_);
           Export(GlobalSettings);
-          resetTop();
           (function(_top3) {
             Object.defineProperty(_top3, "PackagesNameList", {
               // eslint-disable-next-line no-unused-vars
@@ -4887,7 +4896,7 @@ var global = (() => {
               Class("GLOBAL", _QC_CLASSES.global);
               Export(ClassFactory("GLOBAL"));
             }
-            Export(global2);
+            Export(global);
             loadSDK_default();
           })(_top2);
           if (isBrowser) {

@@ -20,72 +20,6 @@ declare module "platform" {
     export const _require_: (name: string) => any;
     export const is_phonegap: boolean;
 }
-declare module "Logger" {
-    export class Logger {
-        debugEnabled: boolean;
-        infoEnabled: boolean;
-        warnEnabled: boolean;
-        debug(message: string): void;
-        info(message: string): void;
-        warn(message: string): void;
-    }
-    export const logger: Logger;
-}
-declare module "New" {
-    /**
-     * Creates an object from a Class definition
-     *
-     * @param {QC_Object} o
-     * @param {Object} args
-     */
-    export const New: (__class__: any, args?: {}) => any;
-}
-declare module "mathFunctions" {
-    export const __to_number: (value: any) => number;
-}
-declare module "ArrayCollection" {
-    import { IArrayCollection, IArrayList } from "types";
-    export class ArrayList extends Array implements IArrayList {
-        prototype: any;
-        unique(): any[];
-        table(): void;
-        sum(): number;
-        avg(): number;
-        min(): number;
-        max(): number;
-        sortBy(propName: string, sortAsc?: boolean): any[];
-        matrix(length: number, fillValue?: number): any[];
-        matrix2d(length: number, fillValue?: number): any[][];
-        matrix3d(length: number, fillValue?: number): any[][][];
-    }
-    export class ArrayCollection implements IArrayCollection {
-        source: ArrayList;
-        changed(prop: string, value: any): void;
-        push(value: any): void;
-        pop(): void;
-        _new_(source: ArrayList): void;
-    }
-}
-declare module "basePath" {
-    export var _basePath_: string;
-    export const setBasePath: (value: string) => void;
-}
-declare module "LegacyCopy" {
-    export const _LegacyCopy: (obj: any, _ignore?: string[]) => any;
-}
-declare module "DataStringify" {
-    export const _DataStringify: (data: any) => string;
-}
-declare module "domain" {
-    export const _domain_: string;
-}
-declare module "IncrementInstanceID" {
-    /**
-     * Primary instance ID of all objects
-     */
-    export var __instanceID: number;
-    export const IncrementInstanceID: () => void;
-}
 declare module "Cast" {
     /**
      * Casts an object to another object class type
@@ -100,7 +34,7 @@ declare module "Cast" {
      * @param {Object} obj_source
      * @param {Object} obj_dest
      */
-    export const _CastProps: (obj_source: any, obj_dest: any) => any;
+    export const _CastProps: (obj_source: any, obj_dest: any, _ignoreError?: boolean) => any;
 }
 declare module "DOMCreateElement" {
     import { IQCObjectsElement } from "types";
@@ -122,9 +56,56 @@ declare module "getType" {
      */
     export const __getType__: (o_c: any) => any;
 }
+declare module "IncrementInstanceID" {
+    /**
+     * Primary instance ID of all objects
+     */
+    export var __instanceID: number;
+    export const IncrementInstanceID: () => void;
+}
 declare module "introspection" {
     export const _protected_code_: (_: any) => void;
     export const _methods_: <T>(_: any) => T[];
+}
+declare module "RegisterClass" {
+    export const __register_class__: (_class_: any, __namespace?: string) => any;
+    export const RegisterClass: (_class_: any, __namespace?: string) => any;
+}
+declare module "Package" {
+    /**
+     * Defines a package for Class classification
+     *
+     * @param {Object} namespace
+     * @param {Object} classes
+     */
+    export const Package: (namespace: string, classes?: any[]) => any[] | undefined;
+}
+declare module "InheritClass" {
+    import { type IInheritClass, type TBody } from "types";
+    export class InheritClass implements IInheritClass {
+        [key: string]: any;
+        __definition: any;
+        private _body;
+        get body(): TBody;
+        set body(value: TBody);
+        childs: any;
+        __instanceID: number;
+        constructor(_o_?: any);
+        static get __classType(): any;
+        get __classType(): string;
+        static hierarchy(__class__: any): any[];
+        __namespace?: string | undefined;
+        __new__(_o_: any): void;
+        _new_(_o_?: any): void;
+        static getParentClass(): any;
+        getParentClass(): any;
+        static getClass(): any;
+        getClass(): any;
+        css(_css: any): any;
+        hierarchy(): any;
+        append(_child?: any): void;
+        attachIn(tag: any): void;
+    }
 }
 declare module "isQCObjects" {
     export const isQCObjects_Object: (_: any) => boolean;
@@ -148,6 +129,9 @@ declare module "is_forbidden_name" {
      * @param {Object} definition
      */
     export const __is__forbidden_name__: (name: string) => boolean;
+}
+declare module "LegacyCopy" {
+    export const _LegacyCopy: (obj: any, _ignore?: string[]) => any;
 }
 declare module "Class" {
     import { TClass } from "types";
@@ -187,6 +171,25 @@ declare module "Base64" {
         _utf8_encode(e: string): string;
         _utf8_decode(e: string): string;
     };
+}
+declare module "basePath" {
+    export var _basePath_: string;
+    export const setBasePath: (value: string) => void;
+}
+declare module "DataStringify" {
+    export const _DataStringify: (data: any) => string;
+}
+declare module "domain" {
+    export const _domain_: string;
+}
+declare module "New" {
+    /**
+     * Creates an object from a Class definition
+     *
+     * @param {QC_Object} o
+     * @param {Object} args
+     */
+    export const New: (__class__: any, args?: {}) => any;
 }
 declare module "secretKey" {
     export const _secretKey: string;
@@ -279,9 +282,6 @@ declare module "routings" {
     export const __routing_params__: (routing: TComponentRouting, routingPath: string) => object;
     export const __valid_routings__: (routings: TComponentRouting[], routingPath: string) => TComponentRouting[];
     export const __valid_routing_way__: (validRoutingWays: string[], routingWay: string) => boolean;
-}
-declare module "Export" {
-    export const Export: (f: any) => void;
 }
 declare module "asyncLoad" {
     import { TAsyncLoadCallback } from "types";
@@ -517,12 +517,16 @@ declare module "Service" {
 declare module "globalSettings" {
     import { IGlobalSettings } from "types";
     import { InheritClass } from "InheritClass";
+    import { Logger } from "Logger";
     export class GlobalSettings extends InheritClass implements IGlobalSettings {
         static __start__(): Promise<any>;
         [key: string]: any;
         _GLOBAL: any;
         private static _instance;
         static get instance(): GlobalSettings;
+        protected _logger: Logger;
+        get logger(): Logger;
+        set logger(value: Logger);
         set(name: string, value: any): void;
         get(name: string, _default?: any): any;
         __start__(): Promise<any>;
@@ -626,44 +630,44 @@ declare module "top" {
 declare module "make_global" {
     export const __make_global__: (f: any) => void;
 }
-declare module "RegisterClass" {
-    export const __register_class__: (_class_: any, __namespace?: string) => any;
-    export const RegisterClass: (_class_: any, __namespace?: string) => any;
+declare module "Export" {
+    export const Export: (f: any) => void;
 }
-declare module "Package" {
-    /**
-     * Defines a package for Class classification
-     *
-     * @param {Object} namespace
-     * @param {Object} classes
-     */
-    export const Package: (namespace: string, classes?: any[]) => any[] | undefined;
+declare module "Logger" {
+    export class Logger {
+        debugEnabled: boolean;
+        infoEnabled: boolean;
+        warnEnabled: boolean;
+        debug(message: string): void;
+        info(message: string): void;
+        warn(message: string): void;
+    }
+    export const logger: Logger;
 }
-declare module "InheritClass" {
-    import { type IInheritClass, type TBody } from "types";
-    export class InheritClass implements IInheritClass {
-        [key: string]: any;
-        __definition: any;
-        private _body;
-        get body(): TBody;
-        set body(value: TBody);
-        childs: any;
-        __instanceID: number;
-        constructor(_o_?: any);
-        static get __classType(): any;
-        get __classType(): string;
-        static hierarchy(__class__: any): any[];
-        __namespace?: string | undefined;
-        __new__(_o_: any): void;
-        _new_(_o_?: any): void;
-        static getParentClass(): any;
-        getParentClass(): any;
-        static getClass(): any;
-        getClass(): any;
-        css(_css: any): any;
-        hierarchy(): any;
-        append(_child?: any): void;
-        attachIn(tag: any): void;
+declare module "mathFunctions" {
+    export const __to_number: (value: any) => number;
+}
+declare module "ArrayCollection" {
+    import { IArrayCollection, IArrayList } from "types";
+    export class ArrayList extends Array implements IArrayList {
+        prototype: any;
+        unique(): any[];
+        table(): void;
+        sum(): number;
+        avg(): number;
+        min(): number;
+        max(): number;
+        sortBy(propName: string, sortAsc?: boolean): any[];
+        matrix(length: number, fillValue?: number): any[];
+        matrix2d(length: number, fillValue?: number): any[][];
+        matrix3d(length: number, fillValue?: number): any[][][];
+    }
+    export class ArrayCollection implements IArrayCollection {
+        source: ArrayList;
+        changed(prop: string, value: any): void;
+        push(value: any): void;
+        pop(): void;
+        _new_(source: ArrayList): void;
     }
 }
 declare module "BackendMicroservice" {

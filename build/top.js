@@ -13,8 +13,8 @@ exports._top = ((typeof module !== "undefined" && typeof module.exports !== "und
 exports._top.lastCache = undefined;
 exports.componentsStack = [];
 const resetTop = () => {
-    const globalSettings = new globalSettings_1.GlobalSettings();
-    exports._top = (0, Cast_1._CastProps)(globalSettings, exports._top);
+    const globalSettings = globalSettings_1.GlobalSettings.instance;
+    exports._top = (0, Cast_1._CastProps)(globalSettings, exports._top, true);
 };
 exports.resetTop = resetTop;
 const buildComponentsStack = () => {
@@ -27,10 +27,11 @@ const setConfigService = (_configService) => {
 };
 exports.setConfigService = setConfigService;
 const set = (name, value) => {
-    exports._top.set(name, value);
+    exports._top[name] = value;
 };
 exports.set = set;
 const get = (name, _defaultValue) => {
-    return exports._top.get(name, _defaultValue);
+    return exports._top[name] || _defaultValue;
 };
 exports.get = get;
+(0, exports.resetTop)();

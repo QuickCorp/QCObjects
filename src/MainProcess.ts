@@ -1,4 +1,5 @@
 import { IQCObjectsElement, IQCObjectsShadowedElement } from "types";
+import { _top } from "./top";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
 import { captureFalseTouch } from "./captureFalseTouch";
 import { _Cast } from "./Cast";
@@ -25,7 +26,6 @@ import { _QC_CLASSES, _QC_PACKAGES } from "./PrimaryCollections";
 import { _Ready, ready, Ready } from "./Ready";
 import { serviceLoader } from "./serviceLoader";
 import { Tag } from "./Tag";
-import { _top, resetTop } from "./top";
 import { Processor } from "./Processor";
 import { is_a } from "./is_a";
 import { __getType__ } from "./getType";
@@ -37,6 +37,7 @@ import { waitUntil } from "./waitUntil";
 import { subelements } from "./subelements";
 import { GlobalSettings } from "./globalSettings";
 import loadSDK from "./loadSDK";
+import { range } from "./range";
 
 (function __qcobjects__(_top: any) {
     if (typeof Object.defineProperty !== "undefined" && typeof _top !== "undefined") {
@@ -56,10 +57,7 @@ import loadSDK from "./loadSDK";
     }
     if (typeof _top.__qcobjects__.loaded === "undefined") {
       _top.__qcobjects__.loaded = true;
-  
-      const global = _top;
-      _top.global = global;
-    
+      
       if (isBrowser) {
         (Element as unknown as IQCObjectsElement).prototype.subelements = subelements;
         (Document as unknown as IQCObjectsElement).prototype.subelements = subelements;
@@ -72,7 +70,6 @@ import loadSDK from "./loadSDK";
   
       logger.debugEnabled = false;
       logger.infoEnabled = true;
-      _top.logger = logger;
   
       /**
        * Basic Type of all elements
@@ -381,7 +378,7 @@ import loadSDK from "./loadSDK";
   
       (String as unknown as any).prototype.list = function ():string[] {
         const __instance = this;
-        return _top.range(0, __instance.length - 1).map(function <T>(i:any):T {
+        return range(0, __instance.length - 1).map(function <T>(i:any):T {
           return __instance[i] as T;
         }) as string[];
       };
@@ -425,7 +422,6 @@ import loadSDK from "./loadSDK";
       Export(_methods_);
       Export(GlobalSettings);
   
-      resetTop();
   
       (function (_top) {
   
