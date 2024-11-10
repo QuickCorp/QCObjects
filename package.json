@@ -6,14 +6,18 @@
   "module": "public/esm/QCObjects.mjs",
   "browser": "public/browser/QCObjects.js",
   "type": "commonjs",
-  "types": "build/index.d.ts",
+  "types": "public/types/index.d.ts",
   "exports": {
     ".": {
       "require": "./public/cjs/QCObjects.cjs",
-      "import": "./public/esm/QCObjects.mjs"
+      "import": "./public/esm/QCObjects.mjs",
+      "types": "./public/types/index.d.ts"
     },
     "./types/*": "./types/*",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./tsconfig.json": "./tsconfig.json",
+    "./tsconfig.d.json": "./tsconfig.d.json",
+    "./tsconfig.jasmine.json": "./tsconfig.jasmine.json"
   },
   "license": "LGPL-3.0",
   "scripts": {
