@@ -1050,3 +1050,5 @@ declare module "localStorage" {
 declare module "uniqueID" {
     export const uniqueId: () => string;
 }
+
+export {};

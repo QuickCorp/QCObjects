@@ -20,7 +20,14 @@ const baseSettings = {
         alias({
             "types": path.join(__dirname, "src/types/global/index.d.ts")
         })
-    ]    
+    ],
+    external: ["os", "path", "http", "url", 
+        "child_process", "events", "fs", "process",
+        "node:fs", "node:os", "node:child_process", 
+        "node:path", "readline", "node:net", "node:repl",
+        "node:vm", "http2", "vm", "qcobjects", "qcobjects-sdk"
+    ]
+
 };
 
 const cjsSettings = {...baseSettings,

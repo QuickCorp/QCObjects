@@ -22,6 +22,7 @@
   "license": "LGPL-3.0",
   "scripts": {
     "build": "npm run build:ts-types && npm run build:ts && npm run build:browser",
+    "postbuild":"node ./postbuild.js",
     "build:ts": "npm test && npx tsc",
     "build:ts-types": "npx tsc --project tsconfig.d.json",
     "build:browser": "npm run build:esbuild",
