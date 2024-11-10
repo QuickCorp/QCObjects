@@ -13,8 +13,9 @@ const _require_ = (name) => {
     return (exports.isDeno) ? ((0, exports.deno_require)(name)) : (((name) => {
         let r;
         try {
-            (0, _import_1._import_)(name)
-                .then((m) => {
+            (async () => {
+                r = await (0, _import_1._import_)(name);
+            })().then((m) => {
                 r = (m && m.default) || m;
             })
                 .catch((e) => {

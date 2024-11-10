@@ -129,7 +129,9 @@ var global = (() => {
         return isDeno ? deno_require(name) : ((name2) => {
           let r;
           try {
-            _import_(name2).then((m) => {
+            (async () => {
+              r = await _import_(name2);
+            })().then((m) => {
               r = m && m.default || m;
             }).catch((e) => {
               logger.warn(`An error ocurred: ${e}`);
@@ -2281,9 +2283,9 @@ var global = (() => {
             } else {
               logger.debug("Loading the component as a local file in server...");
               const _directLoad = /* @__PURE__ */ __name(function() {
-                const fs2 = _require_("fs");
+                const fs = _require_("fs");
                 logger.debug("SENDING THE NORMAL REQUEST  ");
-                fs2.readFile(component2.url, _componentLoaded);
+                fs.readFile(component2.url, _componentLoaded);
               }, "_directLoad");
               if (component2.cached) {
                 logger.debug("USING CACHE FOR COMPONENT: " + component2.name);
@@ -4332,19 +4334,22 @@ var global = (() => {
   });
 
   // src/findPackageNodePath.ts
-  var import_node_fs, findPackageNodePath;
+  var findPackageNodePath;
   var init_findPackageNodePath = __esm({
     "src/findPackageNodePath.ts"() {
       "use strict";
+      init_import();
       init_CONFIG();
       init_Export();
       init_Logger();
       init_platform();
-      import_node_fs = __toESM(__require("node:fs"));
       findPackageNodePath = /* @__PURE__ */ __name(function(packagename) {
         let sdkPath = null;
         if (!isBrowser) {
-          try {
+          let fs;
+          (async () => {
+            fs = await _import_("node:fs");
+          })().then(() => {
             let sdkPaths = [
               `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
               `${CONFIG.get("basePath")}${CONFIG.get("relativeImportPath")}`,
@@ -4360,7 +4365,7 @@ var global = (() => {
               ""
             ].concat(module.paths);
             sdkPaths = sdkPaths.filter((p) => {
-              return import_node_fs.default.existsSync(p + "/" + packagename);
+              return fs.existsSync(p + "/" + packagename);
             });
             if (sdkPaths.length > 0) {
               sdkPath = sdkPaths[0];
@@ -4369,9 +4374,9 @@ var global = (() => {
               sdkPath = "";
               logger.info(`${packagename} is not in a standard path.`);
             }
-          } catch (e) {
-            console.log(e);
-          }
+          }).catch((e) => {
+            throw new Error(e);
+          });
         }
         return sdkPath;
       }, "findPackageNodePath");

@@ -122,7 +122,9 @@ var init_platform = __esm({
       return isDeno ? deno_require(name) : ((name2) => {
         let r;
         try {
-          _import_(name2).then((m) => {
+          (async () => {
+            r = await _import_(name2);
+          })().then((m) => {
             r = m && m.default || m;
           }).catch((e) => {
             logger.warn(`An error ocurred: ${e}`);
@@ -2274,9 +2276,9 @@ var init_componentLoader = __esm({
           } else {
             logger.debug("Loading the component as a local file in server...");
             const _directLoad = /* @__PURE__ */ __name(function() {
-              const fs2 = _require_("fs");
+              const fs = _require_("fs");
               logger.debug("SENDING THE NORMAL REQUEST  ");
-              fs2.readFile(component2.url, _componentLoaded);
+              fs.readFile(component2.url, _componentLoaded);
             }, "_directLoad");
             if (component2.cached) {
               logger.debug("USING CACHE FOR COMPONENT: " + component2.name);
@@ -4325,11 +4327,11 @@ var init_Tag = __esm({
 });
 
 // src/findPackageNodePath.ts
-import fs from "node:fs";
 var findPackageNodePath;
 var init_findPackageNodePath = __esm({
   "src/findPackageNodePath.ts"() {
     "use strict";
+    init_import();
     init_CONFIG();
     init_Export();
     init_Logger();
@@ -4337,7 +4339,10 @@ var init_findPackageNodePath = __esm({
     findPackageNodePath = /* @__PURE__ */ __name(function(packagename) {
       let sdkPath = null;
       if (!isBrowser) {
-        try {
+        let fs;
+        (async () => {
+          fs = await _import_("node:fs");
+        })().then(() => {
           let sdkPaths = [
             `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
             `${CONFIG.get("basePath")}${CONFIG.get("relativeImportPath")}`,
@@ -4362,9 +4367,9 @@ var init_findPackageNodePath = __esm({
             sdkPath = "";
             logger.info(`${packagename} is not in a standard path.`);
           }
-        } catch (e) {
-          console.log(e);
-        }
+        }).catch((e) => {
+          throw new Error(e);
+        });
       }
       return sdkPath;
     }, "findPackageNodePath");
