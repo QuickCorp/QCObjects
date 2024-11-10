@@ -42,7 +42,8 @@ declare module "Cast" {
 }
 declare module "DOMCreateElement" {
     import { IQCObjectsElement } from "types";
-    export const _DOMCreateElement: (elementName: string) => IQCObjectsElement;
+    export const _DOMCreateElement: (elementName: string, props?: any[], children?: any) => IQCObjectsElement;
+    export const _DOMCreateComplexElement: (_type: string | Function, props?: any[], children?: any) => HTMLElement;
 }
 declare module "ObjectName" {
     /**
