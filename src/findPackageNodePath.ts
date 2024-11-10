@@ -1,12 +1,12 @@
 import { CONFIG } from "./CONFIG";
 import { Export } from "./Export";
 import { logger } from "./Logger";
-import { _require_, isBrowser } from "./platform";
+import { isBrowser } from "./platform";
+import fs from "node:fs";
 
 export const findPackageNodePath = function (packagename:string):string|null {
     let sdkPath = null;
     if (!isBrowser) {
-        const fs = _require_("fs");
         try {
             let sdkPaths = [
                 `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,

@@ -12,6 +12,10 @@ declare module "ClassFactory" {
     import { TClassFactory } from "types";
     export const ClassFactory: TClassFactory;
 }
+declare module "_import_" {
+    function _import_(name: string): Promise<any>;
+    export { _import_ };
+}
 declare module "platform" {
     export const isDeno: boolean;
     export const isBrowser: boolean;

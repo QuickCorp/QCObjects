@@ -78,11 +78,40 @@ var init_PrimaryCollections = __esm({
   }
 });
 
+// src/_import_.ts
+async function _import_(name) {
+  logger.debug(`Importing ${name}...`);
+  function isPackage(name2) {
+    logger.debug(`Validating if ${name2} is a package name...`);
+    return !name2.startsWith(".") && !name2.startsWith("/") && !name2.includes("/");
+  }
+  __name(isPackage, "isPackage");
+  try {
+    const hasExtension = /\.[^/\\]+$/.test(name);
+    if (!hasExtension && !isPackage(name)) {
+      logger.debug(`${name} does not have an extension and is not a package. Adding js extension.`);
+      name += ".js";
+    }
+    const m = await import(name);
+    return m;
+  } catch (error) {
+    logger.warn(`Failed to load module: ${error}`);
+  }
+}
+var init_import = __esm({
+  "src/_import_.ts"() {
+    "use strict";
+    init_Logger();
+    __name(_import_, "_import_");
+  }
+});
+
 // src/platform.ts
 var isDeno, isBrowser, isNodeCommonJS, deno_require, _require_, is_phonegap;
 var init_platform = __esm({
   "src/platform.ts"() {
     "use strict";
+    init_import();
     init_Logger();
     isDeno = typeof window !== "undefined" && "Deno" in window;
     isBrowser = typeof window !== "undefined" && typeof window.self !== "undefined" && window === window.self && !isDeno;
@@ -93,7 +122,11 @@ var init_platform = __esm({
       return isDeno ? deno_require(name) : ((name2) => {
         let r;
         try {
-          r = require(name2);
+          _import_(name2).then((m) => {
+            r = m && m.default || m;
+          }).catch((e) => {
+            logger.warn(`An error ocurred: ${e}`);
+          });
         } catch (e) {
           logger.debug(`An error ocurred importing module. ${e}`);
           r = { export: {} };
@@ -2213,9 +2246,9 @@ var init_componentLoader = __esm({
           } else {
             logger.debug("Loading the component as a local file in server...");
             const _directLoad = /* @__PURE__ */ __name(function() {
-              const fs = _require_("fs");
+              const fs2 = _require_("fs");
               logger.debug("SENDING THE NORMAL REQUEST  ");
-              fs.readFile(component2.url, _componentLoaded);
+              fs2.readFile(component2.url, _componentLoaded);
             }, "_directLoad");
             if (component2.cached) {
               logger.debug("USING CACHE FOR COMPONENT: " + component2.name);
@@ -4264,7 +4297,7 @@ var init_Tag = __esm({
 });
 
 // src/findPackageNodePath.ts
-var findPackageNodePath;
+var import_node_fs, findPackageNodePath;
 var init_findPackageNodePath = __esm({
   "src/findPackageNodePath.ts"() {
     "use strict";
@@ -4272,10 +4305,10 @@ var init_findPackageNodePath = __esm({
     init_Export();
     init_Logger();
     init_platform();
+    import_node_fs = __toESM(require("node:fs"));
     findPackageNodePath = /* @__PURE__ */ __name(function(packagename) {
       let sdkPath = null;
       if (!isBrowser) {
-        const fs = _require_("fs");
         try {
           let sdkPaths = [
             `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
@@ -4292,7 +4325,7 @@ var init_findPackageNodePath = __esm({
             ""
           ].concat(module.paths);
           sdkPaths = sdkPaths.filter((p) => {
-            return fs.existsSync(p + "/" + packagename);
+            return import_node_fs.default.existsSync(p + "/" + packagename);
           });
           if (sdkPaths.length > 0) {
             sdkPath = sdkPaths[0];

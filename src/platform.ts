@@ -1,3 +1,4 @@
+import { _import_ } from "./_import_";
 import { logger } from "./Logger";
 
 export const isDeno:boolean = (typeof window !== "undefined" && "Deno" in window);
@@ -11,8 +12,14 @@ export const _require_ = (name:string):any => {
     ( (name):any => {
       let r;
       try {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        r = require(name);
+        _import_ (name)
+        .then ((m) => {
+          r = (m && m.default) || m;
+        })
+        .catch ((e:any) => {
+          logger.warn(`An error ocurred: ${e}`);
+        });
+
       } catch (e:any) {
         logger.debug(`An error ocurred importing module. ${e}`);
         r = {export:{}};
