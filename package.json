@@ -9,9 +9,9 @@
   "types": "public/types/index.d.ts",
   "exports": {
     ".": {
+      "types": "./public/types/index.d.ts",
       "require": "./public/cjs/QCObjects.cjs",
-      "import": "./public/esm/QCObjects.mjs",
-      "types": "./public/types/index.d.ts"
+      "import": "./public/esm/QCObjects.mjs"
     },
     "./types/*": "./types/*",
     "./package.json": "./package.json",
