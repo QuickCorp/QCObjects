@@ -10,10 +10,11 @@ export const _require_ = (name:string):any => {
    
   return (isDeno)?(deno_require(name)):(
     ( (name):any => {
-      let r;
+      let r:any;
       try {
-        _import_ (name)
-        .then ((m) => {
+        (async () => {
+          r = await _import_(name);
+        })().then((m:any) => {
           r = (m && m.default) || m;
         })
         .catch ((e:any) => {
