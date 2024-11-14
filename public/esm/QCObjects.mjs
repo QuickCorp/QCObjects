@@ -17,6 +17,10 @@ var __esm = (fn, res) => function __init() {
 var __commonJS = (cb, mod) => function __require2() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
@@ -75,6 +79,41 @@ var init_PrimaryCollections = __esm({
     _QC_PACKAGES = {};
     _QC_PACKAGES_IMPORTED = [];
     _QC_READY_LISTENERS = [];
+  }
+});
+
+// src/make_global.ts
+var __make_global__;
+var init_make_global = __esm({
+  "src/make_global.ts"() {
+    "use strict";
+    init_top();
+    __make_global__ = /* @__PURE__ */ __name(function(f) {
+      if (!!f && !!f.name) {
+        if (typeof _top !== "undefined" && typeof f !== "undefined" && _top !== null && !Object.hasOwn(_top, f.name)) {
+          set(f.name, f);
+        } else if (typeof global !== "undefined") {
+          global[f.name] = f;
+        } else if (typeof globalThis !== "undefined") {
+          globalThis[f.name] = f;
+        }
+      }
+    }, "__make_global__");
+  }
+});
+
+// src/Export.ts
+var Export;
+var init_Export = __esm({
+  "src/Export.ts"() {
+    "use strict";
+    init_make_global();
+    Export = /* @__PURE__ */ __name(function(f) {
+      return __make_global__(f);
+    }, "Export");
+    Export.prototype.toString = function() {
+      return "Export(function or symbol) { [QCObjects native code] }";
+    };
   }
 });
 
@@ -139,47 +178,6 @@ var init_platform = __esm({
     is_phonegap = /* @__PURE__ */ function() {
       return typeof cordova !== "undefined";
     }();
-  }
-});
-
-// src/make_global.ts
-var __make_global__;
-var init_make_global = __esm({
-  "src/make_global.ts"() {
-    "use strict";
-    init_platform();
-    init_top();
-    __make_global__ = /* @__PURE__ */ __name(function(f) {
-      if (typeof f !== "undefined") {
-        if (isBrowser) {
-          try {
-            _top[f.name] = f;
-            window[f.name] = f;
-          } catch (e) {
-            throw Error(`An error ocurred: ${e}`);
-          }
-        } else if (typeof global !== "undefined") {
-          if (!Object.hasOwn(global, f.name)) {
-            global[f.name] = f;
-          }
-        }
-      }
-    }, "__make_global__");
-  }
-});
-
-// src/Export.ts
-var Export;
-var init_Export = __esm({
-  "src/Export.ts"() {
-    "use strict";
-    init_make_global();
-    Export = /* @__PURE__ */ __name(function(f) {
-      return __make_global__(f);
-    }, "Export");
-    Export.prototype.toString = function() {
-      return "Export(function or symbol) { [QCObjects native code] }";
-    };
   }
 });
 
@@ -3771,6 +3769,17 @@ var init_globalSettings = __esm({
 });
 
 // src/top.ts
+var top_exports = {};
+__export(top_exports, {
+  _top: () => _top,
+  buildComponentsStack: () => buildComponentsStack,
+  componentsStack: () => componentsStack,
+  configService: () => configService,
+  get: () => get,
+  resetTop: () => resetTop,
+  set: () => set,
+  setConfigService: () => setConfigService
+});
 var _top, componentsStack, resetTop, buildComponentsStack, configService, setConfigService, set, get;
 var init_top = __esm({
   "src/top.ts"() {
@@ -3778,7 +3787,7 @@ var init_top = __esm({
     init_ComponentFactory();
     init_Cast();
     init_globalSettings();
-    _top = typeof module !== "undefined" && typeof module.exports !== "undefined" && module.exports || typeof global !== "undefined" && global || typeof globalThis !== "undefined" && globalThis || typeof window !== "undefined" && window || typeof self !== "undefined" && self || void 0;
+    _top = typeof module !== "undefined" && typeof module.exports !== "undefined" && module.exports || typeof global !== "undefined" && global || typeof globalThis !== "undefined" && globalThis || typeof window !== "undefined" && window || typeof self !== "undefined" && self !== null && self || void 0;
     _top.lastCache = void 0;
     componentsStack = [];
     resetTop = /* @__PURE__ */ __name(() => {
@@ -5047,6 +5056,7 @@ var require_MainProcess = __commonJS({
 
 // src/QCObjects.ts
 var AssignPolyfill = __toESM(require_assign());
+init_top();
 init_top();
 init_PrimaryCollections();
 init_DataStringify();
@@ -6535,6 +6545,7 @@ export {
   __is_raw_class__,
   __make_global__,
   __to_number,
+  top_exports as __top__,
   _buildComponentsFromElements_,
   _fireAsyncLoad,
   _methods_,

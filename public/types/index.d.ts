@@ -12,18 +12,6 @@ declare module "ClassFactory" {
     import { TClassFactory } from "types";
     export const ClassFactory: TClassFactory;
 }
-declare module "_import_" {
-    function _import_(name: string): Promise<any>;
-    export { _import_ };
-}
-declare module "platform" {
-    export const isDeno: boolean;
-    export const isBrowser: boolean;
-    export const isNodeCommonJS: boolean;
-    export const deno_require: (name: string) => void;
-    export const _require_: (name: string) => any;
-    export const is_phonegap: boolean;
-}
 declare module "Cast" {
     /**
      * Casts an object to another object class type
@@ -39,6 +27,18 @@ declare module "Cast" {
      * @param {Object} obj_dest
      */
     export const _CastProps: (obj_source: any, obj_dest: any, _ignoreError?: boolean) => any;
+}
+declare module "_import_" {
+    function _import_(name: string): Promise<any>;
+    export { _import_ };
+}
+declare module "platform" {
+    export const isDeno: boolean;
+    export const isBrowser: boolean;
+    export const isNodeCommonJS: boolean;
+    export const deno_require: (name: string) => void;
+    export const _require_: (name: string) => any;
+    export const is_phonegap: boolean;
 }
 declare module "DOMCreateElement" {
     import { IQCObjectsElement } from "types";
@@ -977,6 +977,7 @@ declare module "Toggle" {
 }
 declare module "QCObjects" {
     export * as AssignPolyfill from "assign";
+    export * as __top__ from "top";
     export { _top, resetTop } from "top";
     export { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "PrimaryCollections";
     export { _DataStringify } from "DataStringify";

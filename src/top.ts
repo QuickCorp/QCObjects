@@ -95,7 +95,7 @@ export var _top: QCObjects = (
             (typeof global !== "undefined" && global) ||
             (typeof globalThis !== "undefined" && globalThis) ||
             (typeof window !== "undefined" && window) ||
-            (typeof self !== "undefined" && self) ||
+            (typeof self !== "undefined" && self !== null && self) ||
             this
 ) as QCObjects;
 (_top as any).lastCache = undefined;

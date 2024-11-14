@@ -1,23 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.__make_global__ = void 0;
-const platform_1 = require("./platform");
 const top_1 = require("./top");
 const __make_global__ = function (f) {
-    if (typeof f !== "undefined") {
-        if (platform_1.isBrowser) {
-            try {
-                top_1._top[f.name] = f;
-                window[f.name] = f;
-            }
-            catch (e) {
-                throw Error(`An error ocurred: ${e}`);
-            }
+    if (!!f && !!f.name) {
+        if (typeof top_1._top !== "undefined" && typeof f !== "undefined" && top_1._top !== null && !Object.hasOwn(top_1._top, f.name)) {
+            (0, top_1.set)(f.name, f);
         }
         else if (typeof global !== "undefined") {
-            if (!Object.hasOwn(global, f.name)) {
-                global[f.name] = f;
-            }
+            global[f.name] = f;
+        }
+        else if (typeof globalThis !== "undefined") {
+            globalThis[f.name] = f;
         }
     }
 };

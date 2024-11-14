@@ -1,19 +1,17 @@
-import { isBrowser } from "./platform";
-import { _top } from "./top";
-
+import { _top, set } from "./top";
+declare const global:any;
+declare const globalThis:any;
 
 export const __make_global__ = function (f:any) {
-    if (typeof f !== "undefined") {
-        if (isBrowser) {
-            try {
-                (_top as any)[f.name] = f;
-                window[f.name] = f;
-            } catch (e:any) { throw Error (`An error ocurred: ${e}`); }
-        } else if (typeof global !== "undefined") {
-            if (!Object.hasOwn(global, f.name)) {
-                (global as any)[f.name] = f;
-            }
+    if (!!f && !!f.name) {
+        if (typeof _top !== "undefined" && typeof f !== "undefined" && _top !== null && !Object.hasOwn(_top,f.name)) {
+            set(f.name, f);
+        } else if (typeof global !== "undefined"){
+            global[f.name] = f;
+        } else if (typeof globalThis !== "undefined"){
+            globalThis[f.name] = f;
         }
+    
     }
 
 };

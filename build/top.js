@@ -8,7 +8,7 @@ exports._top = ((typeof module !== "undefined" && typeof module.exports !== "und
     (typeof global !== "undefined" && global) ||
     (typeof globalThis !== "undefined" && globalThis) ||
     (typeof window !== "undefined" && window) ||
-    (typeof self !== "undefined" && self) ||
+    (typeof self !== "undefined" && self !== null && self) ||
     this);
 exports._top.lastCache = undefined;
 exports.componentsStack = [];
