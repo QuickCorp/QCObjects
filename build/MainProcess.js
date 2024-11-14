@@ -465,7 +465,15 @@ const range_1 = require("./range");
                 (0, Class_1.Class)("GLOBAL", PrimaryCollections_1._QC_CLASSES.global); // case insensitive for compatibility con old versions;
                 (0, Export_1.Export)((0, ClassFactory_1.ClassFactory)("GLOBAL"));
             }
-            (0, Export_1.Export)(global);
+            if (platform_1.isBrowser && typeof window !== "undefined") {
+                (0, top_1.set)("global", window);
+            }
+            else if (typeof global !== "undefined") {
+                (0, top_1.set)("global", global);
+            }
+            else if (typeof globalThis !== "undefined") {
+                (0, top_1.set)("global", globalThis);
+            }
             (0, loadSDK_1.default)();
         })(_top);
         if (platform_1.isBrowser) {

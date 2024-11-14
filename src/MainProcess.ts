@@ -1,5 +1,5 @@
 import { IQCObjectsElement, IQCObjectsShadowedElement } from "types";
-import { _top } from "./top";
+import { _top, set } from "./top";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
 import { captureFalseTouch } from "./captureFalseTouch";
 import { _Cast } from "./Cast";
@@ -520,7 +520,14 @@ import { range } from "./range";
           Class("GLOBAL", (_QC_CLASSES as any).global); // case insensitive for compatibility con old versions;
           Export(ClassFactory("GLOBAL"));
         }
-        Export(global);
+
+        if (isBrowser && typeof window !== "undefined"){
+          set("global", window);
+        } else if (typeof global !== "undefined" ){
+            set("global", global);
+        } else if (typeof globalThis !== "undefined") {
+            set("global", globalThis);
+        }
   
         loadSDK();
       })(_top);

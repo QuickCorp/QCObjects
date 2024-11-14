@@ -4967,7 +4967,13 @@ var global = (() => {
               Class("GLOBAL", _QC_CLASSES.global);
               Export(ClassFactory("GLOBAL"));
             }
-            Export(global);
+            if (isBrowser && typeof window !== "undefined") {
+              set("global", window);
+            } else if (typeof global !== "undefined") {
+              set("global", global);
+            } else if (typeof globalThis !== "undefined") {
+              set("global", globalThis);
+            }
             loadSDK_default();
           })(_top2);
           if (isBrowser) {
