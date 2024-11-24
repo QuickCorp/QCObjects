@@ -73,15 +73,67 @@ var global = (() => {
     }
   });
 
-  // src/PrimaryCollections.ts
-  var _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS;
-  var init_PrimaryCollections = __esm({
-    "src/PrimaryCollections.ts"() {
+  // src/is_raw_class.ts
+  var __is_raw_class__;
+  var init_is_raw_class = __esm({
+    "src/is_raw_class.ts"() {
       "use strict";
-      _QC_CLASSES = {};
-      _QC_PACKAGES = {};
-      _QC_PACKAGES_IMPORTED = [];
-      _QC_READY_LISTENERS = [];
+      __is_raw_class__ = /* @__PURE__ */ __name(function(o_c) {
+        return !!(typeof o_c === "function" && o_c.toString().startsWith("class"));
+      }, "__is_raw_class__");
+    }
+  });
+
+  // src/ObjectName.ts
+  var ObjectName;
+  var init_ObjectName = __esm({
+    "src/ObjectName.ts"() {
+      "use strict";
+      ObjectName = /* @__PURE__ */ __name(function(o) {
+        let ret = "";
+        if (typeof o === "function" && Object.hasOwn(o, "name") && o.name !== "") {
+          ret = o.name;
+        } else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {
+          ret = o.constructor.name;
+        } else if (typeof o !== "undefined" && typeof o.constructor === "object") {
+          ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
+        }
+        return ret;
+      }, "ObjectName");
+    }
+  });
+
+  // src/getType.ts
+  var __getType__;
+  var init_getType = __esm({
+    "src/getType.ts"() {
+      "use strict";
+      init_is_raw_class();
+      init_ObjectName();
+      __getType__ = /* @__PURE__ */ __name(function __getType__2(o_c) {
+        let _ret_ = "";
+        switch (true) {
+          case (typeof o_c === "object" && (!!o_c.constructor && !!o_c.constructor.name) && o_c.constructor.name !== ""):
+            _ret_ = o_c.constructor.name;
+            break;
+          case (typeof o_c === "function" && !!o_c.name):
+            _ret_ = o_c.name;
+            break;
+          case (__is_raw_class__(o_c) && !!o_c.name):
+            _ret_ = o_c.name;
+            break;
+          case (!!o_c && !!o_c.__classType && o_c.__classType !== ""):
+            _ret_ = o_c.__classType;
+            break;
+          case (!!o_c && !!o_c.__definition && !!o_c.__definition.__classType && o_c.__definition.__classType !== ""):
+            _ret_ = o_c.__definition.__classType;
+            break;
+          default:
+            _ret_ = ObjectName(o_c);
+            break;
+        }
+        return _ret_;
+      }, "__getType__");
     }
   });
 
@@ -102,6 +154,94 @@ var global = (() => {
           }
         }
       }, "__make_global__");
+    }
+  });
+
+  // src/PrimaryCollections.ts
+  var _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS, __register_class__, get_QC_CLASS, _get_packages_names, getPackagesNamesList, getPackagesList, getClassesList, getClassesNamesList, set_QC_PACKAGE;
+  var init_PrimaryCollections = __esm({
+    "src/PrimaryCollections.ts"() {
+      "use strict";
+      init_getType();
+      init_make_global();
+      _QC_CLASSES = {};
+      _QC_PACKAGES = {};
+      _QC_PACKAGES_IMPORTED = [];
+      _QC_READY_LISTENERS = [];
+      __register_class__ = /* @__PURE__ */ __name(function(_class_, __namespace) {
+        const __classType = __getType__(_class_);
+        let name = _class_.name || __classType;
+        if (name.toLowerCase() === "function") {
+          name = __classType;
+        }
+        if (typeof _class_.__definition === "undefined") {
+          _class_.__definition = {};
+        }
+        _class_.__definition.__classType = __classType;
+        if (typeof __namespace !== "undefined") {
+          _class_.__definition.__namespace = __namespace;
+        }
+        _QC_CLASSES[name] = _class_;
+        __make_global__(_class_);
+        return _QC_CLASSES[name];
+      }, "__register_class__");
+      get_QC_CLASS = /* @__PURE__ */ __name((name) => {
+        return _QC_CLASSES[name];
+      }, "get_QC_CLASS");
+      _get_packages_names = /* @__PURE__ */ __name(function(_packages) {
+        let _keys = [];
+        for (const _k of Object.keys(_packages)) {
+          if (typeof _packages[_k] !== "undefined" && typeof _packages[_k] !== "function" && Object.hasOwn(_packages[_k], "length") && _packages[_k].length > 0) {
+            _keys.push(_k);
+            _keys = _keys.concat(_get_packages_names(_packages[_k]));
+          }
+        }
+        return _keys;
+      }, "_get_packages_names");
+      getPackagesNamesList = /* @__PURE__ */ __name(() => {
+        return _get_packages_names(_QC_PACKAGES);
+      }, "getPackagesNamesList");
+      getPackagesList = /* @__PURE__ */ __name(() => {
+        return [...getPackagesNamesList()].map((packagename) => {
+          const _classesList = _QC_PACKAGES[packagename];
+          let _ret_ = void 0;
+          if (_classesList) {
+            _ret_ = {
+              packageName: packagename,
+              classesList: _classesList.filter(function() {
+                return true;
+              })
+            };
+          }
+          return _ret_;
+        }).filter(function(_p) {
+          return typeof _p !== "undefined";
+        });
+      }, "getPackagesList");
+      getClassesList = /* @__PURE__ */ __name(() => {
+        let _classesList = [];
+        [...getPackagesList()].forEach(function(_package_element) {
+          _classesList = _classesList.concat(_package_element.classesList.map(
+            (_class_element) => {
+              return {
+                packageName: _package_element.packageName,
+                className: `${_package_element.packageName}.${__getType__(_class_element)}`,
+                classFactory: _class_element
+              };
+            }
+          ));
+          return _package_element;
+        });
+        return _classesList;
+      }, "getClassesList");
+      getClassesNamesList = /* @__PURE__ */ __name(() => {
+        return [...getClassesList()].map((_class_element) => {
+          return _class_element.className;
+        });
+      }, "getClassesNamesList");
+      set_QC_PACKAGE = /* @__PURE__ */ __name((packageName, _qc_packages) => {
+        _QC_PACKAGES[packageName] = _qc_packages;
+      }, "set_QC_PACKAGE");
     }
   });
 
@@ -313,70 +453,6 @@ var global = (() => {
     }
   });
 
-  // src/is_raw_class.ts
-  var __is_raw_class__;
-  var init_is_raw_class = __esm({
-    "src/is_raw_class.ts"() {
-      "use strict";
-      __is_raw_class__ = /* @__PURE__ */ __name(function(o_c) {
-        return !!(typeof o_c === "function" && o_c.toString().startsWith("class"));
-      }, "__is_raw_class__");
-    }
-  });
-
-  // src/ObjectName.ts
-  var ObjectName;
-  var init_ObjectName = __esm({
-    "src/ObjectName.ts"() {
-      "use strict";
-      ObjectName = /* @__PURE__ */ __name(function(o) {
-        let ret = "";
-        if (typeof o === "function" && Object.hasOwn(o, "name") && o.name !== "") {
-          ret = o.name;
-        } else if (typeof o !== "undefined" && typeof o.constructor === "function" && o.constructor.name !== "") {
-          ret = o.constructor.name;
-        } else if (typeof o !== "undefined" && typeof o.constructor === "object") {
-          ret = o.constructor.toString().replace(/\[(.*?)\]/g, "$1").split(" ").slice(1).join("");
-        }
-        return ret;
-      }, "ObjectName");
-    }
-  });
-
-  // src/getType.ts
-  var __getType__;
-  var init_getType = __esm({
-    "src/getType.ts"() {
-      "use strict";
-      init_is_raw_class();
-      init_ObjectName();
-      __getType__ = /* @__PURE__ */ __name(function __getType__2(o_c) {
-        let _ret_ = "";
-        switch (true) {
-          case (__is_raw_class__(o_c) && !!o_c.name):
-            _ret_ = o_c.name;
-            break;
-          case (typeof o_c === "object" && (!!o_c.constructor && !!o_c.constructor.name) && o_c.constructor.name !== ""):
-            _ret_ = o_c.constructor.name;
-            break;
-          case (!!o_c && !!o_c.__classType && o_c.__classType !== ""):
-            _ret_ = o_c.__classType;
-            break;
-          case (!!o_c && !!o_c.__definition && !!o_c.__definition.__classType && o_c.__definition.__classType !== ""):
-            _ret_ = o_c.__definition.__classType;
-            break;
-          case (typeof o_c === "function" && !!o_c.name):
-            _ret_ = o_c.name;
-            break;
-          default:
-            _ret_ = ObjectName(o_c);
-            break;
-        }
-        return _ret_;
-      }, "__getType__");
-    }
-  });
-
   // src/IncrementInstanceID.ts
   var __instanceID, IncrementInstanceID;
   var init_IncrementInstanceID = __esm({
@@ -477,95 +553,37 @@ var global = (() => {
     }
   });
 
-  // src/RegisterClass.ts
-  var __register_class__, RegisterClass;
-  var init_RegisterClass = __esm({
-    "src/RegisterClass.ts"() {
-      "use strict";
-      init_getType();
-      init_make_global();
-      init_PrimaryCollections();
-      __register_class__ = /* @__PURE__ */ __name(function(_class_, __namespace) {
-        let name = _class_.name || __getType__(_class_);
-        if (name.toLowerCase() === "function" && typeof _class_.__classType !== "undefined") {
-          name = _class_.__classType;
-        }
-        if (typeof _class_.__definition === "undefined") {
-          _class_.__definition = {};
-        }
-        _class_.__definition.__classType = name;
-        if (typeof __namespace !== "undefined") {
-          _class_.__definition.__namespace = __namespace;
-        }
-        _QC_CLASSES[name] = _class_;
-        __make_global__(_QC_CLASSES[name]);
-        return _QC_CLASSES[name];
-      }, "__register_class__");
-      RegisterClass = /* @__PURE__ */ __name(function(_class_, __namespace) {
-        return __register_class__(_class_, __namespace);
-      }, "RegisterClass");
-      __make_global__(RegisterClass);
-    }
-  });
-
   // src/Package.ts
   var Package;
   var init_Package = __esm({
     "src/Package.ts"() {
       "use strict";
-      init_InheritClass();
       init_is_raw_class();
       init_PrimaryCollections();
-      init_RegisterClass();
-      Package = /* @__PURE__ */ __name(function(namespace, classes = []) {
-        if (Object.hasOwn(_QC_PACKAGES, namespace) && typeof _QC_PACKAGES[namespace] !== "undefined" && Object.hasOwn(_QC_PACKAGES[namespace], "length") && _QC_PACKAGES[namespace].length > 0 && typeof classes !== "undefined" && Object.hasOwn(classes, "length") && classes.length > 0) {
-          classes.filter(
-            function(_c1) {
-              return __is_raw_class__(_c1);
-            }
-          ).map((_class_) => {
-            if (typeof _class_.__definition === "undefined") {
-              _class_.__definition = {};
-            }
-            _class_.__definition.__namespace = namespace;
-            _class_.__namespace = namespace;
-            return _class_;
-          });
-          _QC_PACKAGES[namespace] = _QC_PACKAGES[namespace].concat(classes);
-        } else if (typeof classes !== "undefined") {
-          if (typeof classes === "object" && Object.hasOwn(classes, "length")) {
-            classes.filter(
-              function(_c1) {
-                return __is_raw_class__(_c1);
-              }
-            ).map((_class_) => {
-              if (typeof _class_.__definition === "undefined") {
-                _class_.__definition = {};
-              }
-              _class_.__definition.__namespace = namespace;
-              _class_.__namespace = namespace;
-              return _class_;
-            });
-          } else if (classes.prototype instanceof InheritClass) {
-            if (typeof classes.__definition === "undefined") {
-              classes.__definition = {};
-            }
-            classes.__definition.__namespace = namespace;
-            classes.__namespace = namespace;
-          }
-          _QC_PACKAGES[namespace] = classes;
-        }
-        if (Object.hasOwn(_QC_PACKAGES, namespace)) {
-          _QC_PACKAGES[namespace].map((_class_) => {
+      Package = /* @__PURE__ */ __name((namespace, classes = []) => {
+        if (Object.hasOwn(_QC_PACKAGES, namespace) && typeof _QC_PACKAGES[namespace] !== "undefined" && typeof _QC_PACKAGES[namespace] !== "string" && Object.hasOwn(_QC_PACKAGES[namespace], "length") && _QC_PACKAGES[namespace].length > 0 && typeof classes !== "undefined" && Object.hasOwn(classes, "length") && classes.length > 0) {
+          classes.forEach((_class_) => {
             __register_class__(_class_, namespace);
-            return _class_;
           });
+          set_QC_PACKAGE(namespace, _QC_PACKAGES[namespace].concat(classes));
+        } else if (typeof classes !== "undefined" && typeof classes !== "undefined" && Object.hasOwn(classes, "length") && classes.length > 0) {
+          classes.forEach((_class_) => {
+            __register_class__(_class_, namespace);
+          });
+          set_QC_PACKAGE(namespace, classes);
+        } else if (__is_raw_class__(classes)) {
+          if (typeof classes.__definition === "undefined") {
+            classes.__definition = {};
+          }
+          classes.__definition.__namespace = namespace;
+          classes.__namespace = namespace;
+          __register_class__(classes, namespace);
+          set_QC_PACKAGE(namespace, [classes]);
+        } else {
+          throw new Error(`An error ocurred. It was not possible to add classes to ${namespace}.`);
         }
-        return Object.hasOwn(_QC_PACKAGES, namespace) ? _QC_PACKAGES[namespace] : void 0;
+        return Object.hasOwn(_QC_PACKAGES, namespace) ? _QC_PACKAGES[namespace] : [];
       }, "Package");
-      Package.prototype.toString = function() {
-        return "Package(namespace, classes) { [QCObjects native code] }";
-      };
     }
   });
 
@@ -1078,9 +1096,6 @@ var global = (() => {
         _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
         _QC_CLASSES[name].__definition = definition;
         _QC_CLASSES[name].__definition.__classType = name;
-        _QC_CLASSES[name].__definition.__new__ = /* @__PURE__ */ __name(function __new__(_o_) {
-          _CastProps(_o_, this);
-        }, "__new__");
         _top[name] = _QC_CLASSES[name];
         return _QC_CLASSES[name];
       }, "Class");
@@ -1104,7 +1119,7 @@ var global = (() => {
         if (typeof className === "undefined" || className === null) {
           throw Error("You need to pass a parameter {className}");
         }
-        if (className !== null && className.indexOf(".") > -1) {
+        if (className !== null && className.indexOf(".") !== -1) {
           const packageName = className.split(".").slice(0, className.split(".").length - 1).join(".");
           const _className = className.split(".").slice(-1).join("");
           const _package = _QC_PACKAGES[packageName] || [];
@@ -1116,10 +1131,15 @@ var global = (() => {
           } else {
             throw Error(`Class ${_className} not found. Found classes: ${JSON.stringify(packageClasses)} in package ${packageName}`);
           }
-        } else if (className !== null && Object.hasOwn(_QC_CLASSES, className)) {
-          _classFactory = _QC_CLASSES[className];
+        } else if (className !== null) {
+          _classFactory = get_QC_CLASS(className);
+          if (typeof _classFactory === "undefined") {
+            throw new Error(`${className} is undefined.`);
+          }
         } else {
-          throw Error(`Unable to determine class ${className}. Unable to retrieve the class factory.`);
+          throw Error(`className is null. Unable to retrieve the class factory.
+ Not found in: 
+ ${Object.keys(_QC_CLASSES).join("\n")}`);
         }
         return _classFactory;
       }, "ClassFactory");
@@ -3783,13 +3803,19 @@ var global = (() => {
     set: () => set,
     setConfigService: () => setConfigService
   });
-  var _top, componentsStack, resetTop, buildComponentsStack, configService, setConfigService, set, get;
+  var _top, componentsStack, resetTop, buildComponentsStack, configService, setConfigService, set, get, _define_props;
   var init_top = __esm({
     "src/top.ts"() {
       "use strict";
       init_ComponentFactory();
       init_Cast();
       init_globalSettings();
+      init_Class();
+      init_ClassFactory();
+      init_Export();
+      init_platform();
+      init_PrimaryCollections();
+      init_Logger();
       _top = typeof module !== "undefined" && typeof module.exports !== "undefined" && module.exports || typeof global !== "undefined" && global || typeof globalThis !== "undefined" && globalThis || typeof window !== "undefined" && window || typeof self !== "undefined" && self !== null && self || void 0;
       _top.lastCache = void 0;
       componentsStack = [];
@@ -3811,123 +3837,62 @@ var global = (() => {
         return _top[name] || _defaultValue;
       }, "get");
       resetTop();
-    }
-  });
-
-  // src/subelements.ts
-  var subelements;
-  var init_subelements = __esm({
-    "src/subelements.ts"() {
-      "use strict";
-      subelements = /* @__PURE__ */ __name(function subelements2(query) {
-        const _self = this;
-        return [..._self.querySelectorAll(query)];
-      }, "subelements");
-    }
-  });
-
-  // src/waitUntil.ts
-  var waitUntil;
-  var init_waitUntil = __esm({
-    "src/waitUntil.ts"() {
-      "use strict";
-      init_Logger();
-      waitUntil = /* @__PURE__ */ __name(function(func, exp) {
-        const _waitUntil = /* @__PURE__ */ __name(function(func2, exp2) {
-          const maxWaitCycles = 2e3;
-          let _w = 0;
-          var _t = setInterval(function() {
-            if (exp2()) {
-              clearInterval(_t);
-              func2();
-              logger.debug("Ejecuting " + func2.name + " after wait");
-            } else {
-              if (_w < maxWaitCycles) {
-                _w += 1;
-                logger.debug("WAIT UNTIL " + func2.name + " is true, " + _w.toString() + " cycles");
-              } else {
-                logger.debug("Max execution time for " + func2.name + " expression until true");
-                clearInterval(_t);
-              }
-            }
-          }, 1);
-        }, "_waitUntil");
-        setTimeout(function() {
-          _waitUntil(func, exp);
-        }, 1);
-      }, "waitUntil");
-    }
-  });
-
-  // src/super.ts
-  var _super_;
-  var init_super = __esm({
-    "src/super.ts"() {
-      "use strict";
-      init_ClassFactory();
-      _super_ = /* @__PURE__ */ __name(function(className, classMethodName) {
-        return ClassFactory(className)[classMethodName];
-      }, "_super_");
-      _super_.prototype.toString = function() {
-        return "_super_(className,classMethodName,params) { [QCObjects native code] }";
-      };
-    }
-  });
-
-  // src/shortCode.ts
-  var shortCode;
-  var init_shortCode = __esm({
-    "src/shortCode.ts"() {
-      "use strict";
-      init_Crypt();
-      shortCode = /* @__PURE__ */ __name(function() {
-        const length = 1e3;
-        const code1 = _Crypt.encrypt((Math.random() * length).toString().replace(".", ""), (/* @__PURE__ */ new Date()).getTime().toString());
-        const code2 = _Crypt.encrypt((Math.random() * length).toString().replace(".", ""), new Date((/* @__PURE__ */ new Date()).getTime() - 1e3 * 1e3).getTime().toString());
-        const shortCode2 = [...code2].map((o1, index) => {
-          return [...code1][index] === o1 ? null : o1;
-        }).filter((c) => c !== null).join("");
-        return shortCode2;
-      }, "shortCode");
-    }
-  });
-
-  // src/Ready.ts
-  var Ready, ready, _Ready;
-  var init_Ready = __esm({
-    "src/Ready.ts"() {
-      "use strict";
-      init_CONFIG();
-      init_platform();
-      init_PrimaryCollections();
-      init_top();
-      Ready = /* @__PURE__ */ __name(function Ready2(e) {
-        if (isBrowser) {
-          _QC_READY_LISTENERS.push(e.bind(window));
-        } else if (typeof global !== "undefined") {
-          _QC_READY_LISTENERS.push(e.bind(global));
-        }
-      }, "Ready");
-      ready = Ready;
-      _Ready = /* @__PURE__ */ __name(function(e) {
-        const _execReady = /* @__PURE__ */ __name(function() {
-          _QC_READY_LISTENERS.map(function(_ready_listener_, _r) {
-            if (typeof _ready_listener_ === "function") {
-              _ready_listener_();
-              _QC_READY_LISTENERS.splice(_r, 1);
-            }
+      _define_props = /* @__PURE__ */ __name(function(_top2) {
+        if (!Object.hasOwn(_top2, "PackagesList")) {
+          Object.defineProperty(_top2, "PackagesList", {
+            // eslint-disable-next-line no-unused-vars
+            set: /* @__PURE__ */ __name((value) => {
+              logger.debug("PackagesList is readonly");
+            }, "set"),
+            get: /* @__PURE__ */ __name(() => {
+              return getPackagesList();
+            }, "get")
           });
-        }, "_execReady");
-        if (CONFIG.get("delayForReady") > 0) {
-          if (isBrowser) {
-            setTimeout(_execReady.bind(window), CONFIG.get("delayForReady"));
-          } else if (typeof global !== "undefined") {
-            setTimeout(_execReady.bind(global), CONFIG.get("delayForReady"));
-          }
-        } else {
-          _execReady.call(_top);
         }
-      }, "_Ready");
+        if (!Object.hasOwn(_top2, "PackagesNameList")) {
+          Object.defineProperty(_top2, "PackagesNameList", {
+            // eslint-disable-next-line no-unused-vars
+            set: /* @__PURE__ */ __name((val) => {
+              logger.debug("PackagesNameList is readonly");
+            }, "set"),
+            get: /* @__PURE__ */ __name(() => {
+              return getPackagesNamesList();
+            }, "get")
+          });
+        }
+        if (!Object.hasOwn(_top2, "ClassesList")) {
+          Object.defineProperty(_top2, "ClassesList", {
+            // eslint-disable-next-line no-unused-vars
+            set: /* @__PURE__ */ __name((value) => {
+              logger.debug("ClassesList is readonly");
+            }, "set"),
+            get: /* @__PURE__ */ __name(() => {
+              return getClassesList();
+            }, "get")
+          });
+        }
+        if (!Object.hasOwn(_top2, "ClassesNameList")) {
+          Object.defineProperty(_top2, "ClassesNameList", {
+            // eslint-disable-next-line no-unused-vars
+            set(value) {
+              logger.debug("ClassesNameList is readonly");
+            },
+            get: /* @__PURE__ */ __name(() => {
+              return getClassesNamesList();
+            }, "get")
+          });
+        }
+      }, "_define_props");
+      if (isBrowser) {
+        Class("GLOBAL", _QC_CLASSES.global);
+        Export(ClassFactory("GLOBAL"));
+      }
+      if (isBrowser && typeof window !== "undefined") {
+        set("global", window);
+      } else if (isBrowser && typeof globalThis !== "undefined") {
+        set("global", globalThis);
+      }
+      _define_props(_top);
     }
   });
 
@@ -3961,34 +3926,6 @@ var global = (() => {
       } else {
         supportsPassive = false;
       }
-    }
-  });
-
-  // src/NamespaceRef.ts
-  var NamespaceRef;
-  var init_NamespaceRef = __esm({
-    "src/NamespaceRef.ts"() {
-      "use strict";
-      init_isQCObjects();
-      init_Package();
-      NamespaceRef = /* @__PURE__ */ __name(function(namespace) {
-        const packageInstance = Package(namespace) || [];
-        const classes = packageInstance.filter((c) => isQCObjects_Class(c)).map((c) => {
-          return {
-            [c.__definition.__classType]: c
-          };
-        }).reduce((a, b) => {
-          return Object.assign(a, b);
-        });
-        return namespace.split(".").map((c) => {
-          return {
-            [c]: classes
-          };
-        }).reverse().reduce((a, b) => {
-          b[Object.keys(b).join(".")] = a;
-          return b;
-        });
-      }, "NamespaceRef");
     }
   });
 
@@ -4111,6 +4048,181 @@ var global = (() => {
     }
   });
 
+  // src/findPackageNodePath.ts
+  var findPackageNodePath;
+  var init_findPackageNodePath = __esm({
+    "src/findPackageNodePath.ts"() {
+      "use strict";
+      init_CONFIG();
+      init_Export();
+      init_Logger();
+      init_platform();
+      findPackageNodePath = /* @__PURE__ */ __name(function(packagename) {
+        let sdkPath = null;
+        if (!isBrowser) {
+          const fs = __require("fs");
+          try {
+            let sdkPaths = [
+              `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
+              `${CONFIG.get("basePath")}${CONFIG.get("relativeImportPath")}`,
+              `${CONFIG.get("projectPath")}`,
+              `${CONFIG.get("basePath")}`,
+              `${CONFIG.get("relativeImportPath")}`,
+              `${process.cwd()}${CONFIG.get("relativeImportPath")}`,
+              `${process.cwd()}/node_modules/` + packagename,
+              `${process.cwd()}/node_modules`,
+              `${process.cwd()}`,
+              "node_modules",
+              "./",
+              ""
+            ].concat(module.paths);
+            sdkPaths = sdkPaths.filter((p) => {
+              return fs.existsSync(p + "/" + packagename);
+            });
+            if (sdkPaths.length > 0) {
+              sdkPath = sdkPaths[0];
+              logger.info(packagename + " is Installed.");
+            } else {
+              sdkPath = "";
+              logger.info(`${packagename} is not in a standard path.`);
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        }
+        return sdkPath;
+      }, "findPackageNodePath");
+      Export(findPackageNodePath);
+    }
+  });
+
+  // src/Import.ts
+  var Import;
+  var init_Import = __esm({
+    "src/Import.ts"() {
+      "use strict";
+      init_basePath();
+      init_CONFIG();
+      init_DataStringify();
+      init_DOMCreateElement();
+      init_findPackageNodePath();
+      init_Logger();
+      init_platform();
+      init_PrimaryCollections();
+      Import = /* @__PURE__ */ __name(function(packagename, ready2, external) {
+        if (external !== void 0) {
+          logger.debug(`[Import] Setting external=${external.toString()} resource to import: ${packagename}`);
+        }
+        if (external) {
+          logger.debug(`[Import] Registering external resource to import: ${packagename}`);
+        } else {
+          logger.debug(`[Import] Registering local resource to import: ${packagename}`);
+        }
+        let _promise_import_;
+        if (isBrowser) {
+          _promise_import_ = new Promise(function(resolve, reject) {
+            const allPackagesImported = /* @__PURE__ */ __name(function() {
+              let ret = false;
+              let cp = 0;
+              for (const p in _QC_PACKAGES) {
+                cp++;
+              }
+              if (cp < _QC_PACKAGES_IMPORTED.length) {
+                ret = false;
+              } else {
+                ret = true;
+              }
+              return ret;
+            }, "allPackagesImported");
+            const readyImported = /* @__PURE__ */ __name(function(e) {
+              _QC_PACKAGES_IMPORTED.push(ready2);
+              if (allPackagesImported()) {
+                _QC_PACKAGES_IMPORTED.map(function(_imported_) {
+                  _QC_READY_LISTENERS.push(_imported_);
+                });
+              }
+              if (isBrowser && CONFIG.get("removePackageScriptAfterLoading")) {
+                e.target.remove();
+              }
+              resolve.call(_promise_import_, {
+                "_imported_": e.target,
+                "_package_name_": packagename
+              });
+            }, "readyImported");
+            if (!Object.hasOwn(_QC_PACKAGES, packagename)) {
+              const s1 = _DOMCreateElement("script");
+              s1.type = CONFIG.get("sourceType", "text/javascript");
+              s1.async = !!CONFIG.get("asynchronousImportsLoad");
+              s1.onreadystatechange = function() {
+                if (s1.readyState === "complete") {
+                  readyImported(s1);
+                }
+              };
+              s1.onload = readyImported;
+              s1.onerror = function(e) {
+                logger.debug(`An error ocurred: ${e}.`);
+                reject.call(_promise_import_, {
+                  "_imported_": s1,
+                  "_package_name_": packagename
+                });
+              };
+              s1.src = external ? CONFIG.get("remoteImportsPath") + packagename + ".js" : _basePath_ + CONFIG.get("relativeImportPath") + packagename + ".js";
+              document.getElementsByTagName("head")[0].appendChild(s1);
+            }
+          });
+          _promise_import_.catch(function() {
+            logger.debug("Import: Error loading a package ");
+          });
+        } else {
+          _promise_import_ = new Promise(function(resolve, reject) {
+            try {
+              const standardNodePath = findPackageNodePath(packagename);
+              let packageAbsoluteName = "";
+              if (standardNodePath !== null) {
+                packageAbsoluteName = standardNodePath + "/" + packagename;
+              } else {
+                const jsNodePath = findPackageNodePath(packagename + ".js");
+                if (jsNodePath !== null) {
+                  packageAbsoluteName = jsNodePath + "/" + packagename + ".js";
+                } else {
+                  packageAbsoluteName = _basePath_ + CONFIG.get("relativeImportPath") + packagename;
+                }
+              }
+              try {
+                resolve.call(_promise_import_, {
+                  "_imported_": _require_(`${packageAbsoluteName}`),
+                  "_package_name_": packagename
+                });
+              } catch (e) {
+                reject.call(_promise_import_, {
+                  "_imported_": null,
+                  "_package_name_": packagename,
+                  "error": e
+                });
+              }
+            } catch (e) {
+              reject.call(_promise_import_, {
+                "_imported_": null,
+                "_package_name_": packagename,
+                "error": e
+              });
+            }
+          }).catch(function(e) {
+            logger.debug("Something happened when importing " + packagename);
+            console.warn(e);
+          });
+        }
+        _promise_import_.catch(function(e) {
+          logger.warn(_DataStringify(e));
+        });
+        return _promise_import_;
+      }, "Import");
+      Import.prototype.toString = function() {
+        return "Import(packagename,ready,external) { [QCObjects native code] }";
+      };
+    }
+  });
+
   // src/mathFunctions.ts
   var __to_number;
   var init_mathFunctions = __esm({
@@ -4119,6 +4231,73 @@ var global = (() => {
       __to_number = /* @__PURE__ */ __name(function(value) {
         return isNaN(value) ? new Number(0) : new Number(value);
       }, "__to_number");
+    }
+  });
+
+  // src/NamespaceRef.ts
+  var NamespaceRef;
+  var init_NamespaceRef = __esm({
+    "src/NamespaceRef.ts"() {
+      "use strict";
+      init_isQCObjects();
+      init_Package();
+      NamespaceRef = /* @__PURE__ */ __name(function(namespace) {
+        const packageInstance = Package(namespace) || [];
+        const classes = packageInstance.filter((c) => isQCObjects_Class(c)).map((c) => {
+          return {
+            [c.__definition.__classType]: c
+          };
+        }).reduce((a, b) => {
+          return Object.assign(a, b);
+        });
+        return namespace.split(".").map((c) => {
+          return {
+            [c]: classes
+          };
+        }).reverse().reduce((a, b) => {
+          b[Object.keys(b).join(".")] = a;
+          return b;
+        });
+      }, "NamespaceRef");
+    }
+  });
+
+  // src/Ready.ts
+  var Ready, ready, _Ready;
+  var init_Ready = __esm({
+    "src/Ready.ts"() {
+      "use strict";
+      init_CONFIG();
+      init_platform();
+      init_PrimaryCollections();
+      init_top();
+      Ready = /* @__PURE__ */ __name(function Ready2(e) {
+        if (isBrowser) {
+          _QC_READY_LISTENERS.push(e.bind(window));
+        } else if (typeof global !== "undefined") {
+          _QC_READY_LISTENERS.push(e.bind(global));
+        }
+      }, "Ready");
+      ready = Ready;
+      _Ready = /* @__PURE__ */ __name(function(e) {
+        const _execReady = /* @__PURE__ */ __name(function() {
+          _QC_READY_LISTENERS.map(function(_ready_listener_, _r) {
+            if (typeof _ready_listener_ === "function") {
+              _ready_listener_();
+              _QC_READY_LISTENERS.splice(_r, 1);
+            }
+          });
+        }, "_execReady");
+        if (CONFIG.get("delayForReady") > 0) {
+          if (isBrowser) {
+            setTimeout(_execReady.bind(window), CONFIG.get("delayForReady"));
+          } else if (typeof global !== "undefined") {
+            setTimeout(_execReady.bind(global), CONFIG.get("delayForReady"));
+          }
+        } else {
+          _execReady.call(_top);
+        }
+      }, "_Ready");
     }
   });
 
@@ -4338,181 +4517,81 @@ var global = (() => {
     }
   });
 
-  // src/findPackageNodePath.ts
-  var findPackageNodePath;
-  var init_findPackageNodePath = __esm({
-    "src/findPackageNodePath.ts"() {
+  // src/shortCode.ts
+  var shortCode;
+  var init_shortCode = __esm({
+    "src/shortCode.ts"() {
       "use strict";
-      init_import();
-      init_CONFIG();
-      init_Export();
-      init_Logger();
-      init_platform();
-      findPackageNodePath = /* @__PURE__ */ __name(function(packagename) {
-        let sdkPath = null;
-        if (!isBrowser) {
-          let fs;
-          (async () => {
-            fs = await _import_("node:fs");
-          })().then(() => {
-            let sdkPaths = [
-              `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
-              `${CONFIG.get("basePath")}${CONFIG.get("relativeImportPath")}`,
-              `${CONFIG.get("projectPath")}`,
-              `${CONFIG.get("basePath")}`,
-              `${CONFIG.get("relativeImportPath")}`,
-              `${process.cwd()}${CONFIG.get("relativeImportPath")}`,
-              `${process.cwd()}/node_modules/` + packagename,
-              `${process.cwd()}/node_modules`,
-              `${process.cwd()}`,
-              "node_modules",
-              "./",
-              ""
-            ].concat(module.paths);
-            sdkPaths = sdkPaths.filter((p) => {
-              return fs.existsSync(p + "/" + packagename);
-            });
-            if (sdkPaths.length > 0) {
-              sdkPath = sdkPaths[0];
-              logger.info(packagename + " is Installed.");
-            } else {
-              sdkPath = "";
-              logger.info(`${packagename} is not in a standard path.`);
-            }
-          }).catch((e) => {
-            throw new Error(e);
-          });
-        }
-        return sdkPath;
-      }, "findPackageNodePath");
-      Export(findPackageNodePath);
+      init_Crypt();
+      shortCode = /* @__PURE__ */ __name(function() {
+        const length = 1e3;
+        const code1 = _Crypt.encrypt((Math.random() * length).toString().replace(".", ""), (/* @__PURE__ */ new Date()).getTime().toString());
+        const code2 = _Crypt.encrypt((Math.random() * length).toString().replace(".", ""), new Date((/* @__PURE__ */ new Date()).getTime() - 1e3 * 1e3).getTime().toString());
+        const shortCode2 = [...code2].map((o1, index) => {
+          return [...code1][index] === o1 ? null : o1;
+        }).filter((c) => c !== null).join("");
+        return shortCode2;
+      }, "shortCode");
     }
   });
 
-  // src/Import.ts
-  var Import;
-  var init_Import = __esm({
-    "src/Import.ts"() {
+  // src/super.ts
+  var _super_;
+  var init_super = __esm({
+    "src/super.ts"() {
       "use strict";
-      init_basePath();
-      init_CONFIG();
-      init_DataStringify();
-      init_DOMCreateElement();
-      init_findPackageNodePath();
-      init_Logger();
-      init_platform();
-      init_PrimaryCollections();
-      Import = /* @__PURE__ */ __name(function(packagename, ready2, external) {
-        if (external !== void 0) {
-          logger.debug(`[Import] Setting external=${external.toString()} resource to import: ${packagename}`);
-        }
-        if (external) {
-          logger.debug(`[Import] Registering external resource to import: ${packagename}`);
-        } else {
-          logger.debug(`[Import] Registering local resource to import: ${packagename}`);
-        }
-        let _promise_import_;
-        if (isBrowser) {
-          _promise_import_ = new Promise(function(resolve, reject) {
-            const allPackagesImported = /* @__PURE__ */ __name(function() {
-              let ret = false;
-              let cp = 0;
-              for (const p in _QC_PACKAGES) {
-                cp++;
-              }
-              if (cp < _QC_PACKAGES_IMPORTED.length) {
-                ret = false;
-              } else {
-                ret = true;
-              }
-              return ret;
-            }, "allPackagesImported");
-            const readyImported = /* @__PURE__ */ __name(function(e) {
-              _QC_PACKAGES_IMPORTED.push(ready2);
-              if (allPackagesImported()) {
-                _QC_PACKAGES_IMPORTED.map(function(_imported_) {
-                  _QC_READY_LISTENERS.push(_imported_);
-                });
-              }
-              if (isBrowser && CONFIG.get("removePackageScriptAfterLoading")) {
-                e.target.remove();
-              }
-              resolve.call(_promise_import_, {
-                "_imported_": e.target,
-                "_package_name_": packagename
-              });
-            }, "readyImported");
-            if (!Object.hasOwn(_QC_PACKAGES, packagename)) {
-              const s1 = _DOMCreateElement("script");
-              s1.type = CONFIG.get("sourceType", "text/javascript");
-              s1.async = !!CONFIG.get("asynchronousImportsLoad");
-              s1.onreadystatechange = function() {
-                if (s1.readyState === "complete") {
-                  readyImported(s1);
-                }
-              };
-              s1.onload = readyImported;
-              s1.onerror = function(e) {
-                logger.debug(`An error ocurred: ${e}.`);
-                reject.call(_promise_import_, {
-                  "_imported_": s1,
-                  "_package_name_": packagename
-                });
-              };
-              s1.src = external ? CONFIG.get("remoteImportsPath") + packagename + ".js" : _basePath_ + CONFIG.get("relativeImportPath") + packagename + ".js";
-              document.getElementsByTagName("head")[0].appendChild(s1);
-            }
-          });
-          _promise_import_.catch(function() {
-            logger.debug("Import: Error loading a package ");
-          });
-        } else {
-          _promise_import_ = new Promise(function(resolve, reject) {
-            try {
-              const standardNodePath = findPackageNodePath(packagename);
-              let packageAbsoluteName = "";
-              if (standardNodePath !== null) {
-                packageAbsoluteName = standardNodePath + "/" + packagename;
-              } else {
-                const jsNodePath = findPackageNodePath(packagename + ".js");
-                if (jsNodePath !== null) {
-                  packageAbsoluteName = jsNodePath + "/" + packagename + ".js";
-                } else {
-                  packageAbsoluteName = _basePath_ + CONFIG.get("relativeImportPath") + packagename;
-                }
-              }
-              try {
-                resolve.call(_promise_import_, {
-                  "_imported_": _require_(`${packageAbsoluteName}`),
-                  "_package_name_": packagename
-                });
-              } catch (e) {
-                reject.call(_promise_import_, {
-                  "_imported_": null,
-                  "_package_name_": packagename,
-                  "error": e
-                });
-              }
-            } catch (e) {
-              reject.call(_promise_import_, {
-                "_imported_": null,
-                "_package_name_": packagename,
-                "error": e
-              });
-            }
-          }).catch(function(e) {
-            logger.debug("Something happened when importing " + packagename);
-            console.warn(e);
-          });
-        }
-        _promise_import_.catch(function(e) {
-          logger.warn(_DataStringify(e));
-        });
-        return _promise_import_;
-      }, "Import");
-      Import.prototype.toString = function() {
-        return "Import(packagename,ready,external) { [QCObjects native code] }";
+      init_ClassFactory();
+      _super_ = /* @__PURE__ */ __name(function(className, classMethodName) {
+        return ClassFactory(className)[classMethodName];
+      }, "_super_");
+      _super_.prototype.toString = function() {
+        return "_super_(className,classMethodName,params) { [QCObjects native code] }";
       };
+    }
+  });
+
+  // src/waitUntil.ts
+  var waitUntil;
+  var init_waitUntil = __esm({
+    "src/waitUntil.ts"() {
+      "use strict";
+      init_Logger();
+      waitUntil = /* @__PURE__ */ __name(function(func, exp) {
+        const _waitUntil = /* @__PURE__ */ __name(function(func2, exp2) {
+          const maxWaitCycles = 2e3;
+          let _w = 0;
+          var _t = setInterval(function() {
+            if (exp2()) {
+              clearInterval(_t);
+              func2();
+              logger.debug("Ejecuting " + func2.name + " after wait");
+            } else {
+              if (_w < maxWaitCycles) {
+                _w += 1;
+                logger.debug("WAIT UNTIL " + func2.name + " is true, " + _w.toString() + " cycles");
+              } else {
+                logger.debug("Max execution time for " + func2.name + " expression until true");
+                clearInterval(_t);
+              }
+            }
+          }, 1);
+        }, "_waitUntil");
+        setTimeout(function() {
+          _waitUntil(func, exp);
+        }, 1);
+      }, "waitUntil");
+    }
+  });
+
+  // src/subelements.ts
+  var subelements;
+  var init_subelements = __esm({
+    "src/subelements.ts"() {
+      "use strict";
+      subelements = /* @__PURE__ */ __name(function subelements2(query) {
+        const _self = this;
+        return [..._self.querySelectorAll(query)];
+      }, "subelements");
     }
   });
 
@@ -4607,7 +4686,6 @@ var global = (() => {
       init_ObjectName();
       init_Package();
       init_platform();
-      init_PrimaryCollections();
       init_Ready();
       init_serviceLoader();
       init_Tag();
@@ -4887,95 +4965,7 @@ var global = (() => {
           Export(isBrowser);
           Export(_methods_);
           Export(GlobalSettings);
-          (function(_top3) {
-            Object.defineProperty(_top3, "PackagesNameList", {
-              // eslint-disable-next-line no-unused-vars
-              set(val) {
-                logger.debug("PackagesNameList is readonly");
-              },
-              get() {
-                const _get_packages_names = /* @__PURE__ */ __name(function(_packages) {
-                  let _keys = [];
-                  for (const _k of Object.keys(_packages)) {
-                    if (typeof _packages[_k] !== "undefined" && typeof _packages[_k] !== "function" && Object.hasOwn(_packages[_k], "length") && _packages[_k].length > 0) {
-                      _keys.push(_k);
-                      _keys = _keys.concat(_get_packages_names(_packages[_k]));
-                    }
-                  }
-                  return _keys;
-                }, "_get_packages_names");
-                return _get_packages_names(_QC_PACKAGES);
-              }
-            });
-            Object.defineProperty(_top3, "PackagesList", {
-              // eslint-disable-next-line no-unused-vars
-              set(value) {
-                logger.debug("PackagesList is readonly");
-              },
-              get() {
-                return _top3.PackagesNameList.map(function(packagename) {
-                  const _classesList = Package(packagename);
-                  let _ret_ = void 0;
-                  if (_classesList) {
-                    _ret_ = {
-                      packageName: packagename,
-                      classesList: _classesList.filter(function(_packageClass) {
-                        return isQCObjects_Class(_packageClass);
-                      })
-                    };
-                  }
-                  return _ret_;
-                }).filter(function(_p) {
-                  return typeof _p !== "undefined";
-                });
-              }
-            });
-            Object.defineProperty(_top3, "ClassesList", {
-              // eslint-disable-next-line no-unused-vars
-              set(value) {
-                logger.debug("ClassesList is readonly");
-              },
-              get() {
-                let _classesList = [];
-                _top3.PackagesList.map(function(_package_element) {
-                  _classesList = _classesList.concat(_package_element.classesList.map(
-                    function(_class_element) {
-                      return {
-                        packageName: _package_element.packageName,
-                        className: _package_element.packageName + "." + _class_element.__definition.__classType,
-                        classFactory: _class_element
-                      };
-                    }
-                  ));
-                  return _package_element;
-                });
-                return _classesList;
-              }
-            });
-            Object.defineProperty(_top3, "ClassesNameList", {
-              // eslint-disable-next-line no-unused-vars
-              set(value) {
-                logger.debug("ClassesNameList is readonly");
-              },
-              get() {
-                return _top3.ClassesList.map(function(_class_element) {
-                  return _class_element.className;
-                });
-              }
-            });
-            if (isBrowser) {
-              Class("GLOBAL", _QC_CLASSES.global);
-              Export(ClassFactory("GLOBAL"));
-            }
-            if (isBrowser && typeof window !== "undefined") {
-              set("global", window);
-            } else if (typeof global !== "undefined") {
-              set("global", global);
-            } else if (typeof globalThis !== "undefined") {
-              set("global", globalThis);
-            }
-            loadSDK_default();
-          })(_top2);
+          loadSDK_default();
           if (isBrowser) {
             asyncLoad(function() {
               Ready(function() {
@@ -5159,6 +5149,7 @@ var global = (() => {
   });
   var AssignPolyfill = __toESM(require_assign());
   init_top();
+  var QCObjects = __toESM(require_MainProcess());
   init_top();
   init_PrimaryCollections();
   init_DataStringify();
@@ -5412,7 +5403,16 @@ var global = (() => {
   // src/DefaultTemplateHandler.ts
   init_Logger();
   init_Processor();
-  init_RegisterClass();
+
+  // src/RegisterClass.ts
+  init_make_global();
+  init_PrimaryCollections();
+  var RegisterClass = /* @__PURE__ */ __name(function(_class_, __namespace) {
+    return __register_class__(_class_, __namespace);
+  }, "RegisterClass");
+  __make_global__(RegisterClass);
+
+  // src/DefaultTemplateHandler.ts
   var DefaultTemplateHandler = class {
     static {
       __name(this, "DefaultTemplateHandler");
@@ -5613,7 +5613,6 @@ var global = (() => {
 
   // src/QCObjects.ts
   init_globalSettings();
-  init_RegisterClass();
 
   // src/WidgetsFactory.ts
   init_DOMCreateElement();
@@ -6277,6 +6276,8 @@ var global = (() => {
   // src/Effect.ts
   init_InheritClass();
   init_Package();
+  init_introspection();
+  init_ClassFactory();
   var Effect = class extends InheritClass {
     static {
       __name(this, "Effect");
@@ -6315,6 +6316,10 @@ var global = (() => {
   Package("com.qcobjects.effects.base", [
     Effect
   ]);
+  _methods_(ClassFactory("Effect")).map((__c__) => {
+    _protected_code_(__c__);
+    return __c__;
+  });
 
   // src/TransitionEffect.ts
   init_Logger();
@@ -6587,7 +6592,6 @@ var global = (() => {
   init_top();
   init_make_global();
   init_top();
-  var QCObjects = __toESM(require_MainProcess());
   return __toCommonJS(QCObjects_exports);
 })();
 //# sourceMappingURL=QCObjects.js.map

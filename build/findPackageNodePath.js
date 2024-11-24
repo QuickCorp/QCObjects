@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findPackageNodePath = void 0;
-const _import_1 = require("./_import_");
 const CONFIG_1 = require("./CONFIG");
 const Export_1 = require("./Export");
 const Logger_1 = require("./Logger");
@@ -9,10 +8,9 @@ const platform_1 = require("./platform");
 const findPackageNodePath = function (packagename) {
     let sdkPath = null;
     if (!platform_1.isBrowser) {
-        let fs;
-        (async () => {
-            fs = await (0, _import_1._import_)("node:fs");
-        })().then(() => {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const fs = require("fs");
+        try {
             let sdkPaths = [
                 `${CONFIG_1.CONFIG.get("projectPath")}${CONFIG_1.CONFIG.get("relativeImportPath")}`,
                 `${CONFIG_1.CONFIG.get("basePath")}${CONFIG_1.CONFIG.get("relativeImportPath")}`,
@@ -38,10 +36,11 @@ const findPackageNodePath = function (packagename) {
                 sdkPath = "";
                 Logger_1.logger.info(`${packagename} is not in a standard path.`);
             }
-        })
-            .catch((e) => {
-            throw new Error(e);
-        });
+        }
+        catch (e) {
+            // do nothing
+            console.log(e);
+        }
     }
     return sdkPath;
 };

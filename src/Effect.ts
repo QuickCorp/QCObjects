@@ -1,8 +1,10 @@
 import { IEffect, TEffectParams } from "types";
 import { InheritClass } from "./InheritClass";
 import { Package } from "./Package";
+import { _methods_, _protected_code_ } from "./introspection";
+import { ClassFactory } from "./ClassFactory";
 
-export class Effect extends InheritClass implements IEffect{
+class Effect extends InheritClass implements IEffect{
   // eslint-disable-next-line no-unused-vars
   done (...args: any[]): any {
     throw new Error("Method not implemented.");
@@ -54,3 +56,10 @@ export class Effect extends InheritClass implements IEffect{
 Package("com.qcobjects.effects.base", [
   Effect
 ]);
+
+(_methods_)(ClassFactory("Effect")).map( (__c__):any  => {
+  (_protected_code_)(__c__);
+  return __c__;
+});
+
+export {Effect};

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { _DataStringify, Class, ClassFactory, Component, CONFIG, Effect, logger, New, global, InheritClass, __getType__ } from "../src/QCObjects";
+import { _DataStringify, Class, ClassFactory, Component, CONFIG, Effect, logger, New, global, InheritClass, __getType__, _QC_CLASSES } from "../src/QCObjects";
 
 
 /* eslint-disable no-undef */
@@ -30,7 +30,7 @@ describe("qcobjects", function () {
   });
 
   it("Existence of Component Class", function () {
-    expect(Component as unknown as InheritClass).toEqual(ClassFactory("Component"));
+    expect(Component).toEqual(ClassFactory("Component"));
     logger.debug("Existence of Component Class... OK");
   });
 

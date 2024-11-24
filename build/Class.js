@@ -270,9 +270,6 @@ const Class = (name, _type, _definition) => {
     PrimaryCollections_1._QC_CLASSES[name] = (0, Cast_1._CastProps)(definition, PrimaryCollections_1._QC_CLASSES[name]);
     PrimaryCollections_1._QC_CLASSES[name].__definition = definition;
     PrimaryCollections_1._QC_CLASSES[name].__definition.__classType = name;
-    PrimaryCollections_1._QC_CLASSES[name].__definition.__new__ = function __new__(_o_) {
-        (0, Cast_1._CastProps)(_o_, this);
-    };
     top_1._top[name] = PrimaryCollections_1._QC_CLASSES[name];
     return PrimaryCollections_1._QC_CLASSES[name];
 };

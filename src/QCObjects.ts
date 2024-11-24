@@ -33,6 +33,8 @@
 
 export * as AssignPolyfill from "./assign";
 export * as __top__ from "./top";
+export * as QCObjects from "./MainProcess";
+
 export {_top, resetTop} from "./top";
 export { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "./PrimaryCollections";
 export { _DataStringify } from "./DataStringify";
@@ -99,4 +101,3 @@ export { __to_number } from "./mathFunctions";
 export {_top as global} from "./top";
 export {__make_global__} from "./make_global";
 export {get, set} from "./top";
-export * as QCObjects from "./MainProcess";

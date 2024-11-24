@@ -287,9 +287,6 @@ export const Class: TClass = (name?: string, _type?: unknown, _definition?: unkn
   _QC_CLASSES[name] = _CastProps(definition, _QC_CLASSES[name]);
   _QC_CLASSES[name].__definition = definition;
   _QC_CLASSES[name].__definition.__classType = name;
-  _QC_CLASSES[name].__definition.__new__ = function __new__(_o_: any) {
-    _CastProps(_o_, this);
-  };
 
   (_top as any)[name] = _QC_CLASSES[name];
 

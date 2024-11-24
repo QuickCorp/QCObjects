@@ -13,7 +13,7 @@ const ClassFactory = (className) => {
     if (typeof className === "undefined" || className === null) {
         throw Error("You need to pass a parameter {className}");
     }
-    if (className !== null && className.indexOf(".") > -1) {
+    if (className !== null && className.indexOf(".") !== -1) {
         const packageName = className.split(".").slice(0, className.split(".").length - 1).join(".");
         const _className = className.split(".").slice(-1).join("");
         const _package = PrimaryCollections_1._QC_PACKAGES[packageName] || [];
@@ -27,11 +27,14 @@ const ClassFactory = (className) => {
             throw Error(`Class ${_className} not found. Found classes: ${JSON.stringify(packageClasses)} in package ${packageName}`);
         }
     }
-    else if (className !== null && Object.hasOwn(PrimaryCollections_1._QC_CLASSES, className)) {
-        _classFactory = PrimaryCollections_1._QC_CLASSES[className];
+    else if (className !== null) {
+        _classFactory = (0, PrimaryCollections_1.get_QC_CLASS)(className);
+        if (typeof _classFactory === "undefined") {
+            throw new Error(`${className} is undefined.`);
+        }
     }
     else {
-        throw Error(`Unable to determine class ${className}. Unable to retrieve the class factory.`);
+        throw Error(`className is null. Unable to retrieve the class factory.\n Not found in: \n ${Object.keys(PrimaryCollections_1._QC_CLASSES).join("\n")}`);
     }
     return _classFactory;
 };

@@ -5,6 +5,12 @@ import { __getType__, logger, global } from "../src/QCObjects";
 /* eslint-disable no-undef */
 
 describe("qcobjects", function () {
+    it("Existence of global.PackagesList Spec", function () {
+        let packagesList:any[] = global.PackagesList;
+        expect(__getType__(packagesList)).toBe("Array");
+  
+        logger.debug("Existence of global.PackagesList Spec... OK");
+    });
   
     it("Existence of global.ClassesList Spec", function () {
         logger.debugEnabled=true;
@@ -23,12 +29,6 @@ describe("qcobjects", function () {
         logger.debug("Existence of global.PackagesNameList Spec... OK");
     });
 
-    it("Existence of global.PackagesList Spec", function () {
-        let packagesList:any[] = global.PackagesList;
-        expect(__getType__(packagesList)).toBe("Array");
-  
-        logger.debug("Existence of global.PackagesList Spec... OK");
-    });
 
     it("Existence of global.ClassesNameList Spec", function () {
         let classesNameList = global.ClassesNameList;

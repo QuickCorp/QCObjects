@@ -1,16 +1,47 @@
 declare module "is_raw_class" {
     export const __is_raw_class__: (o_c: any) => boolean;
 }
-declare module "PrimaryCollections" {
-    import { T_QC_CLASSES, T_QC_PACKAGES } from "types";
-    export var _QC_CLASSES: T_QC_CLASSES;
-    export var _QC_PACKAGES: T_QC_PACKAGES;
-    export var _QC_PACKAGES_IMPORTED: any[];
-    export var _QC_READY_LISTENERS: any[];
+declare module "ObjectName" {
+    /**
+     * Returns the object or function name
+     *
+     * @param Object or function
+     */
+    export const ObjectName: (o: any) => string;
 }
-declare module "ClassFactory" {
-    import { TClassFactory } from "types";
-    export const ClassFactory: TClassFactory;
+declare module "getType" {
+    /**
+     * Determine the type of the Object for any QCObjects Object
+     *
+     * @param {Object} object
+     */
+    export const __getType__: (o_c: any) => any;
+}
+declare module "Export" {
+    export const Export: (f: any) => void;
+}
+declare module "_import_" {
+    function _import_(name: string): Promise<any>;
+    export { _import_ };
+}
+declare module "platform" {
+    export const isDeno: boolean;
+    export const isBrowser: boolean;
+    export const isNodeCommonJS: boolean;
+    export const deno_require: (name: string) => void;
+    export const _require_: (name: string) => any;
+    export const is_phonegap: boolean;
+}
+declare module "Logger" {
+    export class Logger {
+        debugEnabled: boolean;
+        infoEnabled: boolean;
+        warnEnabled: boolean;
+        debug(message: string): void;
+        info(message: string): void;
+        warn(message: string): void;
+    }
+    export const logger: Logger;
 }
 declare module "Cast" {
     /**
@@ -28,38 +59,10 @@ declare module "Cast" {
      */
     export const _CastProps: (obj_source: any, obj_dest: any, _ignoreError?: boolean) => any;
 }
-declare module "_import_" {
-    function _import_(name: string): Promise<any>;
-    export { _import_ };
-}
-declare module "platform" {
-    export const isDeno: boolean;
-    export const isBrowser: boolean;
-    export const isNodeCommonJS: boolean;
-    export const deno_require: (name: string) => void;
-    export const _require_: (name: string) => any;
-    export const is_phonegap: boolean;
-}
 declare module "DOMCreateElement" {
     import { IQCObjectsElement } from "types";
     export const _DOMCreateElement: (elementName: string, props?: any[], children?: any) => IQCObjectsElement;
     export const _DOMCreateComplexElement: (_type: string | Function, props?: any[], children?: any) => HTMLElement;
-}
-declare module "ObjectName" {
-    /**
-     * Returns the object or function name
-     *
-     * @param Object or function
-     */
-    export const ObjectName: (o: any) => string;
-}
-declare module "getType" {
-    /**
-     * Determine the type of the Object for any QCObjects Object
-     *
-     * @param {Object} object
-     */
-    export const __getType__: (o_c: any) => any;
 }
 declare module "IncrementInstanceID" {
     /**
@@ -72,10 +75,6 @@ declare module "introspection" {
     export const _protected_code_: (_: any) => void;
     export const _methods_: <T>(_: any) => T[];
 }
-declare module "RegisterClass" {
-    export const __register_class__: (_class_: any, __namespace?: string) => any;
-    export const RegisterClass: (_class_: any, __namespace?: string) => any;
-}
 declare module "Package" {
     /**
      * Defines a package for Class classification
@@ -83,7 +82,7 @@ declare module "Package" {
      * @param {Object} namespace
      * @param {Object} classes
      */
-    export const Package: (namespace: string, classes?: any[]) => any[] | undefined;
+    export const Package: (namespace: string, classes?: any[]) => any[];
 }
 declare module "InheritClass" {
     import { type IInheritClass, type TBody } from "types";
@@ -635,19 +634,23 @@ declare module "top" {
 declare module "make_global" {
     export const __make_global__: (f: any) => void;
 }
-declare module "Export" {
-    export const Export: (f: any) => void;
+declare module "PrimaryCollections" {
+    import { T_QC_CLASSES, T_QC_PACKAGES } from "types";
+    export var _QC_CLASSES: T_QC_CLASSES;
+    export var _QC_PACKAGES: T_QC_PACKAGES;
+    export var _QC_PACKAGES_IMPORTED: any[];
+    export var _QC_READY_LISTENERS: any[];
+    export const __register_class__: (_class_: any, __namespace?: string) => any;
+    export const get_QC_CLASS: (name: string) => any;
+    export const getPackagesNamesList: () => any[];
+    export const getPackagesList: () => any[];
+    export const getClassesList: () => any[];
+    export const getClassesNamesList: () => any[];
+    export const set_QC_PACKAGE: (packageName: string, _qc_packages: any[]) => void;
 }
-declare module "Logger" {
-    export class Logger {
-        debugEnabled: boolean;
-        infoEnabled: boolean;
-        warnEnabled: boolean;
-        debug(message: string): void;
-        info(message: string): void;
-        warn(message: string): void;
-    }
-    export const logger: Logger;
+declare module "ClassFactory" {
+    import { TClassFactory } from "types";
+    export const ClassFactory: TClassFactory;
 }
 declare module "mathFunctions" {
     export const __to_number: (value: any) => number;
@@ -746,6 +749,9 @@ declare module "DDO" {
         _new_({ instance, name, fget, fset }: TDDOParams): void;
     }
 }
+declare module "RegisterClass" {
+    export const RegisterClass: (_class_: any, __namespace?: string) => any;
+}
 declare module "DefaultTemplateHandler" {
     import { DefaultTemplateHandlerParams } from "types";
     export class DefaultTemplateHandler {
@@ -763,12 +769,13 @@ declare module "DocumentLayout" {
 declare module "Effect" {
     import { IEffect, TEffectParams } from "types";
     import { InheritClass } from "InheritClass";
-    export class Effect extends InheritClass implements IEffect {
+    class Effect extends InheritClass implements IEffect {
         done(...args: any[]): any;
         apply(...args: any[]): void;
         duration: number;
         animate({ timing, draw, duration }: TEffectParams): void;
     }
+    export { Effect };
 }
 declare module "findPackageNodePath" {
     export const findPackageNodePath: (packagename: string) => string | null;
@@ -978,6 +985,7 @@ declare module "Toggle" {
 declare module "QCObjects" {
     export * as AssignPolyfill from "assign";
     export * as __top__ from "top";
+    export * as QCObjects from "MainProcess";
     export { _top, resetTop } from "top";
     export { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "PrimaryCollections";
     export { _DataStringify } from "DataStringify";
@@ -1044,7 +1052,6 @@ declare module "QCObjects" {
     export { _top as global } from "top";
     export { __make_global__ } from "make_global";
     export { get, set } from "top";
-    export * as QCObjects from "MainProcess";
 }
 declare module "index" {
     import * as QCObjects from "QCObjects";

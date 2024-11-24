@@ -5,7 +5,7 @@
  */
 
 import { __is_raw_class__ } from "./is_raw_class";
-import { _QC_CLASSES, _QC_PACKAGES } from "./PrimaryCollections";
+import { _QC_CLASSES, _QC_PACKAGES, get_QC_CLASS } from "./PrimaryCollections";
 import { TClassFactory } from "types";
 
 export const ClassFactory:TClassFactory =  (className:string):any => {
@@ -13,7 +13,7 @@ export const ClassFactory:TClassFactory =  (className:string):any => {
     if (typeof className === "undefined" || className === null) {
         throw Error ("You need to pass a parameter {className}");
     }
-    if (className !== null && className.indexOf(".") > -1) {
+    if (className !== null && className.indexOf(".") !== -1) {
         const packageName = className.split(".").slice(0, className.split(".").length - 1).join(".");
         const _className = className.split(".").slice(-1).join("");
         const _package = _QC_PACKAGES[packageName] || [];
@@ -25,10 +25,13 @@ export const ClassFactory:TClassFactory =  (className:string):any => {
         } else {
             throw Error(`Class ${_className} not found. Found classes: ${JSON.stringify(packageClasses)} in package ${packageName}`);
         }
-    } else if (className !== null && Object.hasOwn(_QC_CLASSES, className)) {
-        _classFactory = _QC_CLASSES[className];
+    } else if (className !== null) {
+        _classFactory = get_QC_CLASS(className);
+        if (typeof _classFactory === "undefined"){
+            throw new Error (`${className} is undefined.`);            
+        }
     } else {
-        throw Error(`Unable to determine class ${className}. Unable to retrieve the class factory.`);
+        throw Error(`className is null. Unable to retrieve the class factory.\n Not found in: \n ${Object.keys(_QC_CLASSES).join("\n")}`);
     }
     return _classFactory;
 };

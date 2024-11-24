@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Effect = void 0;
 const InheritClass_1 = require("./InheritClass");
 const Package_1 = require("./Package");
+const introspection_1 = require("./introspection");
+const ClassFactory_1 = require("./ClassFactory");
 class Effect extends InheritClass_1.InheritClass {
     // eslint-disable-next-line no-unused-vars
     done(...args) {
@@ -44,3 +46,7 @@ exports.Effect = Effect;
 (0, Package_1.Package)("com.qcobjects.effects.base", [
     Effect
 ]);
+(introspection_1._methods_)((0, ClassFactory_1.ClassFactory)("Effect")).map((__c__) => {
+    (introspection_1._protected_code_)(__c__);
+    return __c__;
+});

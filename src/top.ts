@@ -2,6 +2,12 @@ import { IComplexStorageCache, IComponent, IConfigService, IQCObjectsElement } f
 import { buildComponents } from "./ComponentFactory";
 import { _CastProps } from "./Cast";
 import { GlobalSettings } from "./globalSettings";
+import { Class } from "./Class";
+import { ClassFactory } from "./ClassFactory";
+import { Export } from "./Export";
+import { isBrowser } from "./platform";
+import {  _QC_CLASSES, getPackagesNamesList, getPackagesList, getClassesList, getClassesNamesList } from "./PrimaryCollections";
+import { logger } from "./Logger";
 
 type QCObjects = {
     lastCache?:IComplexStorageCache,
@@ -124,3 +130,79 @@ export const get = (name:string, _defaultValue?:any):any => {
 };
 
 resetTop();
+
+const _define_props = function (_top: any) {
+    if (!Object.hasOwn(_top, "PackagesList")) {
+        Object.defineProperty(_top, "PackagesList", {
+          // eslint-disable-next-line no-unused-vars
+          set:(value) => {
+            logger.debug("PackagesList is readonly");
+  
+          },
+          get:():any => {
+            return getPackagesList();
+          }
+        });
+  
+      }
+  
+  
+    if (!Object.hasOwn(_top, "PackagesNameList")) {
+      Object.defineProperty(_top, "PackagesNameList", {
+        // eslint-disable-next-line no-unused-vars
+        set:(val) => {
+          logger.debug("PackagesNameList is readonly");
+
+        },
+        get:():any =>{
+            return getPackagesNamesList();
+        }
+      });
+
+    }
+
+    if (!Object.hasOwn(_top, "ClassesList")) {
+      Object.defineProperty(_top, "ClassesList", {
+        // eslint-disable-next-line no-unused-vars
+        set:(value) => {
+          logger.debug("ClassesList is readonly");
+
+        },
+        get:(): any => {
+            return getClassesList();
+        }
+      });
+    }
+
+    if (!Object.hasOwn(_top, "ClassesNameList")) {
+      Object.defineProperty(_top, "ClassesNameList", {
+        // eslint-disable-next-line no-unused-vars
+        set(value):any {
+          logger.debug("ClassesNameList is readonly");
+
+        },
+        get:(): any => {
+            return getClassesNamesList();
+        }
+      });
+
+    }
+
+
+  };
+
+
+  if (isBrowser) {
+    // use of GLOBAL word is deprecated in node.js
+    // this is only for compatibility purpose with old versions of QCObjects in browsers
+    Class("GLOBAL", (_QC_CLASSES as any).global); // case insensitive for compatibility con old versions;
+    Export(ClassFactory("GLOBAL"));
+  }
+
+  if (isBrowser && typeof window !== "undefined") {
+    set("global", window);
+  } else if (isBrowser && typeof globalThis !== "undefined") {
+    set("global", globalThis);
+  }
+
+  _define_props(_top);

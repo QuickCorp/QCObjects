@@ -26,7 +26,6 @@ const New_1 = require("./New");
 const ObjectName_1 = require("./ObjectName");
 const Package_1 = require("./Package");
 const platform_1 = require("./platform");
-const PrimaryCollections_1 = require("./PrimaryCollections");
 const Ready_1 = require("./Ready");
 const serviceLoader_1 = require("./serviceLoader");
 const Tag_1 = require("./Tag");
@@ -382,100 +381,7 @@ const range_1 = require("./range");
         (0, Export_1.Export)(platform_1.isBrowser);
         (0, Export_1.Export)(introspection_1._methods_);
         (0, Export_1.Export)(globalSettings_1.GlobalSettings);
-        (function (_top) {
-            Object.defineProperty(_top, "PackagesNameList", {
-                // eslint-disable-next-line no-unused-vars
-                set(val) {
-                    Logger_1.logger.debug("PackagesNameList is readonly");
-                },
-                get() {
-                    const _get_packages_names = function (_packages) {
-                        let _keys = [];
-                        for (const _k of Object.keys(_packages)) {
-                            if (typeof _packages[_k] !== "undefined" &&
-                                typeof _packages[_k] !== "function" &&
-                                Object.hasOwn(_packages[_k], "length") &&
-                                _packages[_k].length > 0) {
-                                _keys.push(_k);
-                                _keys = _keys.concat(_get_packages_names(_packages[_k]));
-                            }
-                        }
-                        return _keys;
-                    };
-                    return _get_packages_names(PrimaryCollections_1._QC_PACKAGES);
-                }
-            });
-            Object.defineProperty(_top, "PackagesList", {
-                // eslint-disable-next-line no-unused-vars
-                set(value) {
-                    Logger_1.logger.debug("PackagesList is readonly");
-                },
-                get() {
-                    return _top.PackagesNameList.map(function (packagename) {
-                        const _classesList = (0, Package_1.Package)(packagename);
-                        let _ret_ = undefined;
-                        if (_classesList) {
-                            _ret_ = {
-                                packageName: packagename,
-                                classesList: _classesList.filter(function (_packageClass) {
-                                    return (0, isQCObjects_1.isQCObjects_Class)(_packageClass);
-                                })
-                            };
-                        }
-                        return _ret_;
-                    }).filter(function (_p) {
-                        return typeof _p !== "undefined";
-                    });
-                }
-            });
-            Object.defineProperty(_top, "ClassesList", {
-                // eslint-disable-next-line no-unused-vars
-                set(value) {
-                    Logger_1.logger.debug("ClassesList is readonly");
-                },
-                get() {
-                    let _classesList = [];
-                    _top.PackagesList.map(function (_package_element) {
-                        _classesList = _classesList.concat(_package_element.classesList.map(function (_class_element) {
-                            return {
-                                packageName: _package_element.packageName,
-                                className: _package_element.packageName + "." + _class_element.__definition.__classType,
-                                classFactory: _class_element
-                            };
-                        }));
-                        return _package_element;
-                    });
-                    return _classesList;
-                }
-            });
-            Object.defineProperty(_top, "ClassesNameList", {
-                // eslint-disable-next-line no-unused-vars
-                set(value) {
-                    Logger_1.logger.debug("ClassesNameList is readonly");
-                },
-                get() {
-                    return _top.ClassesList.map(function (_class_element) {
-                        return _class_element.className;
-                    });
-                }
-            });
-            if (platform_1.isBrowser) {
-                // use of GLOBAL word is deprecated in node.js
-                // this is only for compatibility purpose with old versions of QCObjects in browsers
-                (0, Class_1.Class)("GLOBAL", PrimaryCollections_1._QC_CLASSES.global); // case insensitive for compatibility con old versions;
-                (0, Export_1.Export)((0, ClassFactory_1.ClassFactory)("GLOBAL"));
-            }
-            if (platform_1.isBrowser && typeof window !== "undefined") {
-                (0, top_1.set)("global", window);
-            }
-            else if (typeof global !== "undefined") {
-                (0, top_1.set)("global", global);
-            }
-            else if (typeof globalThis !== "undefined") {
-                (0, top_1.set)("global", globalThis);
-            }
-            (0, loadSDK_1.default)();
-        })(_top);
+        (loadSDK_1.default)();
         if (platform_1.isBrowser) {
             (0, asyncLoad_1.asyncLoad)(function () {
                 (0, Ready_1.Ready)(function () {

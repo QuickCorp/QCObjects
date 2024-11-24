@@ -1,7 +1,5 @@
-import { InheritClass } from "./InheritClass";
 import { __is_raw_class__ } from "./is_raw_class";
-import { _QC_PACKAGES } from "./PrimaryCollections";
-import { __register_class__ } from "./RegisterClass";
+import {_QC_PACKAGES, set_QC_PACKAGE, __register_class__ } from "./PrimaryCollections";
 
 /**
  * Defines a package for Class classification
@@ -9,59 +7,39 @@ import { __register_class__ } from "./RegisterClass";
  * @param {Object} namespace
  * @param {Object} classes
  */
-export const Package = function (namespace: string, classes: any[] = []): any[] | undefined {
+export const Package = (namespace: string, classes: any[] = []): any[] => {
+
   if (Object.hasOwn(_QC_PACKAGES, namespace) &&
-    typeof (_QC_PACKAGES as any)[namespace] !== "undefined" &&
-    Object.hasOwn((_QC_PACKAGES as any)[namespace], "length") &&
-    (_QC_PACKAGES as any)[namespace].length > 0 &&
+    typeof _QC_PACKAGES[namespace] !== "undefined" &&
+    typeof _QC_PACKAGES[namespace] !== "string" &&
+    Object.hasOwn(_QC_PACKAGES[namespace], "length") &&
+    _QC_PACKAGES[namespace].length > 0 &&
     typeof classes !== "undefined" &&
     Object.hasOwn(classes, "length") &&
     classes.length > 0
   ) {
-    classes.filter(
-      function (_c1) {
-        return __is_raw_class__(_c1);
-      }
-    ).map(<T>(_class_: any): T => {
-      if (typeof _class_.__definition === "undefined") {
-        _class_.__definition = {};
-      }
-    _class_.__definition.__namespace = namespace;
-      _class_.__namespace = namespace;
-      return _class_ as T;
-    });
-    (_QC_PACKAGES as any)[namespace] = (_QC_PACKAGES as any)[namespace].concat(classes);
-  } else if (typeof classes !== "undefined") {
-    if (typeof classes === "object" && Object.hasOwn(classes, "length")) {
-      classes.filter(
-        function (_c1) {
-          return __is_raw_class__(_c1);
-        }
-      ).map(<T>(_class_: any): T => {
-        if (typeof _class_.__definition === "undefined") {
-          _class_.__definition = {};
-        }
-        _class_.__definition.__namespace = namespace;
-        _class_.__namespace = namespace;
-        return _class_ as T;
-      });
-    } else if ((classes as any).prototype instanceof InheritClass) {
-      if (typeof (classes as any).__definition === "undefined") {
-        (classes as any).__definition = {};
-      }
-    (classes as any).__definition.__namespace = namespace;
-      (classes as any).__namespace = namespace;
-    }
-    (_QC_PACKAGES as any)[namespace] = classes;
-  }
-  if (Object.hasOwn(_QC_PACKAGES, namespace)) {
-    (_QC_PACKAGES as any)[namespace].map(<T>(_class_: any): T => {
+    classes.forEach((_class_: any) => {
       __register_class__(_class_, namespace);
-      return _class_ as T;
     });
+    set_QC_PACKAGE(namespace, _QC_PACKAGES[namespace].concat(classes));
+  } else if (typeof classes !== "undefined"
+    && typeof classes !== "undefined"
+    && Object.hasOwn(classes, "length")
+    && classes.length > 0) {
+    classes.forEach((_class_: any) => {
+      __register_class__(_class_, namespace);
+    });
+    set_QC_PACKAGE(namespace, classes);
+  } else if (__is_raw_class__(classes)) {
+    if (typeof (classes as any).__definition === "undefined") {
+      (classes as any).__definition = {};
+    }
+    (classes as any).__definition.__namespace = namespace;
+    (classes as any).__namespace = namespace;
+    __register_class__(classes, namespace);
+    set_QC_PACKAGE(namespace, [classes]);
+  } else {
+    throw new Error (`An error ocurred. It was not possible to add classes to ${namespace}.`);
   }
-  return ((Object.hasOwn(_QC_PACKAGES, namespace)) ? ((_QC_PACKAGES as any)[namespace]) : (undefined)) as any[] | undefined;
-};
-Package.prototype.toString = function () {
-  return "Package(namespace, classes) { [QCObjects native code] }";
+  return ((Object.hasOwn(_QC_PACKAGES, namespace)) ? (_QC_PACKAGES[namespace]) : []) as any[] | [];
 };
