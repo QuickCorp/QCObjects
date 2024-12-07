@@ -8,7 +8,7 @@ const baseSettings = {
     bundle: true,
     outdir: "public/cjs", // Output dir
     format: "cjs", // or "esm" depending on your module system    
-    target: ["esnext"], // Adjust based on your target environment
+    target: ["esnext", "node22"], // Adjust based on your target environment
     tsconfig: "tsconfig.json", // Path to your tsconfig.json,
     globalName: "global",
     minify:false,
