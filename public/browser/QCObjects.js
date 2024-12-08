@@ -2489,7 +2489,10 @@ var global = (() => {
             view
           });
           const self2 = this;
-          if (typeof self2.name === "undefined") {
+          if (typeof name !== "undefined") {
+            self2.name = name;
+          }
+          if (typeof self2.name === "undefined" && typeof name === "undefined") {
             logger.warn("A name is not defined for " + __getType__(self2));
           }
           self2.routingWay = CONFIG.get("routingWay");

@@ -100,7 +100,10 @@ class Component extends InheritClass_1.InheritClass {
             view
         });
         const self = this;
-        if (typeof self.name === "undefined") {
+        if (typeof name !== "undefined") {
+            self.name = name;
+        }
+        if (typeof self.name === "undefined" && typeof name === "undefined") {
             Logger_1.logger.warn("A name is not defined for " + (0, getType_1.__getType__)(self));
         }
         self.routingWay = CONFIG_1.CONFIG.get("routingWay");

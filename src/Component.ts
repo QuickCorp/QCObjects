@@ -126,7 +126,11 @@ export class Component extends InheritClass implements IComponent {
         });
         const self = this;
 
-        if (typeof self.name === "undefined") {
+        if (typeof name !== "undefined"){
+            self.name = name;
+        }
+
+        if (typeof self.name === "undefined" && typeof name === "undefined") {
             logger.warn("A name is not defined for " + __getType__(self));
         }
 
