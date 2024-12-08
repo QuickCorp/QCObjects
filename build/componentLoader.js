@@ -193,9 +193,10 @@ const componentLoader = function (component, _async) {
             else {
                 Logger_1.logger.debug("Loading the component as a local file in server...");
                 const _directLoad = function () {
-                    const fs = (0, platform_1._require_)("fs");
+                    // eslint-disable-next-line @typescript-eslint/no-require-imports
+                    const { readFile } = require("node:fs");
                     Logger_1.logger.debug("SENDING THE NORMAL REQUEST  ");
-                    (fs).readFile(component.url, _componentLoaded);
+                    readFile(component.url, _componentLoaded);
                 };
                 if (component.cached) {
                     Logger_1.logger.debug("USING CACHE FOR COMPONENT: " + component.name);

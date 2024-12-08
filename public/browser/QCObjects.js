@@ -2297,9 +2297,9 @@ var global = (() => {
             } else {
               logger.debug("Loading the component as a local file in server...");
               const _directLoad = /* @__PURE__ */ __name(function() {
-                const fs = _require_("fs");
+                const { readFile } = __require("node:fs");
                 logger.debug("SENDING THE NORMAL REQUEST  ");
-                fs.readFile(component2.url, _componentLoaded);
+                readFile(component2.url, _componentLoaded);
               }, "_directLoad");
               if (component2.cached) {
                 logger.debug("USING CACHE FOR COMPONENT: " + component2.name);

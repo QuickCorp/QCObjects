@@ -3,7 +3,7 @@ import { asyncLoad } from "./asyncLoad";
 import { ComplexStorageCache } from "./ComplexStorageCache";
 import { _DataStringify } from "./DataStringify";
 import { logger } from "./Logger";
-import { _require_, is_phonegap, isBrowser } from "./platform";
+import { is_phonegap, isBrowser } from "./platform";
 import { _top } from "./top";
 
 /**
@@ -188,9 +188,10 @@ export const componentLoader = function (component: IComponent, _async: boolean)
             } else {
                 logger.debug("Loading the component as a local file in server...");
                 const _directLoad = function () {
-                    const fs = _require_("fs");
+                    // eslint-disable-next-line @typescript-eslint/no-require-imports
+                    const {readFile} = require("node:fs");
                     logger.debug("SENDING THE NORMAL REQUEST  ");
-                    (fs).readFile(component.url, _componentLoaded);
+                    readFile(component.url, _componentLoaded);
                 };
 
                 if (component.cached) {
