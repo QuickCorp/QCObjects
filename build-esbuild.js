@@ -54,7 +54,7 @@ const esmSettings = {...baseSettings,
 };
 
 const browserSettings = {...baseSettings,
-    entryPoints: ["src/QCObjects.ts"], // Your entry file
+    entryPoints: ["src/qcobjects.ts"], // Your entry file
     bundle: true,
     outdir: "public/browser", // Output dir
     format: "iife", // or "esm" depending on your module system    

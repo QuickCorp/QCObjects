@@ -5132,7 +5132,6 @@ __export(qcobjects_exports, {
   asyncLoad: () => asyncLoad,
   captureFalseTouch: () => captureFalseTouch,
   componentLoader: () => componentLoader,
-  default: () => qcobjects_default,
   findPackageNodePath: () => findPackageNodePath,
   get: () => get,
   getDocumentLayout: () => getDocumentLayout,
@@ -6605,7 +6604,6 @@ init_mathFunctions();
 init_top();
 init_make_global();
 init_top();
-var qcobjects_default = {};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ArrayCollection,

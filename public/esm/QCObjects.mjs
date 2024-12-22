@@ -6514,7 +6514,6 @@ init_mathFunctions();
 init_top();
 init_make_global();
 init_top();
-var qcobjects_default = {};
 export {
   ArrayCollection,
   ArrayList,
@@ -6585,7 +6584,6 @@ export {
   asyncLoad,
   captureFalseTouch,
   componentLoader,
-  qcobjects_default as default,
   findPackageNodePath,
   get,
   getDocumentLayout,

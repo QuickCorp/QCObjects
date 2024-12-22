@@ -5067,9 +5067,9 @@ var global = (() => {
     }
   });
 
-  // src/QCObjects.ts
-  var QCObjects_exports = {};
-  __export(QCObjects_exports, {
+  // src/qcobjects.ts
+  var qcobjects_exports = {};
+  __export(qcobjects_exports, {
     ArrayCollection: () => ArrayCollection,
     ArrayList: () => ArrayList,
     AssignPolyfill: () => AssignPolyfill,
@@ -5139,7 +5139,6 @@ var global = (() => {
     asyncLoad: () => asyncLoad,
     captureFalseTouch: () => captureFalseTouch,
     componentLoader: () => componentLoader,
-    default: () => QCObjects_default,
     findPackageNodePath: () => findPackageNodePath,
     get: () => get,
     getDocumentLayout: () => getDocumentLayout,
@@ -5411,7 +5410,7 @@ var global = (() => {
     BackendMicroservice
   ]);
 
-  // src/QCObjects.ts
+  // src/qcobjects.ts
   init_Component();
   init_Crypt();
 
@@ -5626,7 +5625,7 @@ var global = (() => {
   };
   Package("com.qcobjects", [SourceCSS]);
 
-  // src/QCObjects.ts
+  // src/qcobjects.ts
   init_globalSettings();
 
   // src/WidgetsFactory.ts
@@ -6175,7 +6174,7 @@ var global = (() => {
   Export(RegisterWidget);
   Export(RegisterWidgets);
 
-  // src/QCObjects.ts
+  // src/qcobjects.ts
   init_CONFIG();
 
   // src/Controller.ts
@@ -6277,7 +6276,7 @@ var global = (() => {
     View
   ]);
 
-  // src/QCObjects.ts
+  // src/qcobjects.ts
   init_Service();
 
   // src/VO.ts
@@ -6445,7 +6444,7 @@ var global = (() => {
     Timer
   ]);
 
-  // src/QCObjects.ts
+  // src/qcobjects.ts
   init_tag_filter();
   init_range();
   init_ArrayCollection();
@@ -6585,7 +6584,7 @@ var global = (() => {
     Toggle
   ]);
 
-  // src/QCObjects.ts
+  // src/qcobjects.ts
   init_findPackageNodePath();
 
   // src/DocumentLayout.ts
@@ -6606,12 +6605,11 @@ var global = (() => {
     ].filter((e) => e !== null).pop();
   }, "getDocumentLayout");
 
-  // src/QCObjects.ts
+  // src/qcobjects.ts
   init_mathFunctions();
   init_top();
   init_make_global();
   init_top();
-  var QCObjects_default = {};
-  return __toCommonJS(QCObjects_exports);
+  return __toCommonJS(qcobjects_exports);
 })();
-//# sourceMappingURL=QCObjects.js.map
+//# sourceMappingURL=qcobjects.js.map

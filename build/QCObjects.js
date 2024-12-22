@@ -219,4 +219,3 @@ Object.defineProperty(exports, "__make_global__", { enumerable: true, get: funct
 var top_3 = require("./top");
 Object.defineProperty(exports, "get", { enumerable: true, get: function () { return top_3.get; } });
 Object.defineProperty(exports, "set", { enumerable: true, get: function () { return top_3.set; } });
-exports.default = {};

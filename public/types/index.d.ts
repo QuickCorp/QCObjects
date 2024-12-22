@@ -1052,8 +1052,6 @@ declare module "qcobjects" {
     export { _top as global } from "top";
     export { __make_global__ } from "make_global";
     export { get, set } from "top";
-    const _default: {};
-    export default _default;
 }
 declare module "index" {
     import * as QCObjects from "qcobjects";
