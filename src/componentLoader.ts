@@ -1,4 +1,4 @@
-import { IComponent, TCacheController } from "types";
+import { IComponent, TCacheController } from "./types/global";
 import { asyncLoad } from "./asyncLoad";
 import { ComplexStorageCache } from "./ComplexStorageCache";
 import { _DataStringify } from "./DataStringify";

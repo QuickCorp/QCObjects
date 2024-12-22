@@ -1,4 +1,4 @@
-import { type IInheritClass, type IQCObjectsElement, type TBody } from "types";
+import { type IInheritClass, type IQCObjectsElement, type TBody } from "./types/global";
 import { logger } from "./Logger";
 import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
 import { _CastProps, _Cast } from "./Cast";
@@ -31,7 +31,21 @@ export class InheritClass implements IInheritClass {
             };
         }
 
-        const self:any = this;
+        const self:this = this;
+        if (typeof _o_ !== "undefined" && _o_ !== null){
+            Object.keys(_o_)
+            .filter(function (k) {
+                return isNaN(k as any) && !["__instanceID", "__classType", "__definition"].includes(k);
+            })
+            .forEach(function (key) {
+                if (typeof self[key] === "function") {
+                    self[key] = _o_[key].bind(self);
+                } else {
+                    self[key] = _o_[key];
+                }
+            });    
+        }
+
         IncrementInstanceID();
         if (!self.__instanceID) {
             Object.defineProperty(self, "__instanceID", {
@@ -80,10 +94,10 @@ export class InheritClass implements IInheritClass {
 
         try {
             self.__new__.call(self, _o_);
-            if (typeof self === "object" && Object.hasOwn(self, "_new_") && typeof self._new_.isCalled === "undefined") {
+            if (typeof self === "object" && Object.hasOwn(self, "_new_") && typeof (self._new_ as any).isCalled === "undefined") {
                 try {
                     self._new_(_o_);
-                    self._new_.isCalled = true;
+                    (self._new_ as any).isCalled = true;
                 } catch (e: any) {
                     logger.warn(`${self.__classType}._new_() failed with error: ${e}`);
                 }

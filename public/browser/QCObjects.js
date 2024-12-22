@@ -623,6 +623,17 @@ var global = (() => {
             };
           }
           const self2 = this;
+          if (typeof _o_ !== "undefined" && _o_ !== null) {
+            Object.keys(_o_).filter(function(k) {
+              return isNaN(k) && !["__instanceID", "__classType", "__definition"].includes(k);
+            }).forEach(function(key) {
+              if (typeof self2[key] === "function") {
+                self2[key] = _o_[key].bind(self2);
+              } else {
+                self2[key] = _o_[key];
+              }
+            });
+          }
           IncrementInstanceID();
           if (!self2.__instanceID) {
             Object.defineProperty(self2, "__instanceID", {
@@ -2511,7 +2522,7 @@ var global = (() => {
                   logger.info(`Component._new_ The component ${self2.name} was built successfully!`);
                 }).catch(function(standardResponse) {
                   logger.warn(`Component._new_ Something went wrong building the component ${self2.name}`);
-                  console.error(standardResponse);
+                  console.error(`Component._new_ Something went wrong building the component ${self2.name}`, standardResponse);
                 });
               }).catch((e) => {
                 throw Error(`Unexpected error ${e}`);
@@ -5129,6 +5140,7 @@ var global = (() => {
     asyncLoad: () => asyncLoad,
     captureFalseTouch: () => captureFalseTouch,
     componentLoader: () => componentLoader,
+    default: () => QCObjects_default,
     findPackageNodePath: () => findPackageNodePath,
     get: () => get,
     getDocumentLayout: () => getDocumentLayout,
@@ -5626,6 +5638,10 @@ var global = (() => {
     static {
       __name(this, "QCObjectsWidgetNode");
     }
+    writingSuggestions;
+    currentCSSZoom;
+    ariaColIndexText;
+    ariaRowIndexText;
     accessKey;
     accessKeyLabel;
     autocapitalize;
@@ -6595,6 +6611,7 @@ var global = (() => {
   init_top();
   init_make_global();
   init_top();
+  var QCObjects_default = {};
   return __toCommonJS(QCObjects_exports);
 })();
 //# sourceMappingURL=QCObjects.js.map

@@ -1,4 +1,4 @@
-import { IQCObjectsElement } from "types";
+import { IQCObjectsElement } from "./types/global";
 import { isBrowser } from "./platform";
 
 export const _DOMCreateElement = function (elementName:string, props?:any[], children?:any):IQCObjectsElement {

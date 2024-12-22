@@ -1,4 +1,4 @@
-import { TAsyncLoadCallback } from "types";
+import { TAsyncLoadCallback } from "./types/global";
 import { Export } from "./Export";
 import { isBrowser } from "./platform";
 import { _top } from "./top";

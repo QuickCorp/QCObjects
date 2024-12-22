@@ -1,4 +1,4 @@
-import { IArrayCollection, IArrayList } from "types";
+import { IArrayCollection, IArrayList } from "./types/global";
 import { ClassFactory } from "./ClassFactory";
 import { logger } from "./Logger";
 import { New } from "./New";

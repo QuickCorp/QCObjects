@@ -7,7 +7,7 @@ import { GlobalProcessor as Processor } from "./Processor";
 import { _secretKey } from "./secretKey";
 import { Package } from "./Package";
 import { InheritClass } from "./InheritClass";
-import { ICONFIG } from "types";
+import { ICONFIG } from "./types/global";
 import { ConfigSettings } from "./ConfigSettings";
 
 

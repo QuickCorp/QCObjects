@@ -25,8 +25,8 @@
     ],
     "paths": {
       "types": [
-        "src/types/global"
-      ]
+        "types/global"
+      ],
     }
   },
   "include": [

@@ -6,7 +6,7 @@
 
 import { __is_raw_class__ } from "./is_raw_class";
 import { _QC_CLASSES, _QC_PACKAGES, get_QC_CLASS } from "./PrimaryCollections";
-import { TClassFactory } from "types";
+import { TClassFactory } from "./types/global";
 
 export const ClassFactory:TClassFactory =  (className:string):any => {
     let _classFactory;

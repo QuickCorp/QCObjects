@@ -1,4 +1,4 @@
-import { T_QC_CLASSES, T_QC_PACKAGES } from "types";
+import { T_QC_CLASSES, T_QC_PACKAGES } from "./types/global";
 import { __getType__ } from "./getType";
 import { __make_global__ } from "./make_global";
 

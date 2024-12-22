@@ -221,9 +221,10 @@ export interface IComplexStorageCache {
     new(cache: TComplexCacheParams): IComplexStorageCache;
 
 }
+export type I_ComponentWidget_ = HTMLElement;
+
 
 export type TComponentURIParams = { COMPONENTS_BASE_PATH: string, COMPONENT_NAME: string, TPLEXTENSION: string, TPL_SOURCE: string };
-export type I_ComponentWidget_ = HTMLElement;
 
 export type TasyncLoad = (callback: Function, args: Array<any>) => any;
 export type TRegisterClass = (_class_: any, namespace: string) => void;

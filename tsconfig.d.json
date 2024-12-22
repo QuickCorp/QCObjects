@@ -19,17 +19,15 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types"],
     "paths": {
-      "types": ["src/types/global"]
+      "types": ["types/global"]
     }
   },
   "include": [
     "src/**/*",
     "src/types/**/*"
   ],
-  "exclude": ["src/**/*.mts", "src/**/*.cts", "node_modules/**/*"],
-"ts-node": {
-    // It is faster to skip typechecking.
-    // Remove if you want ts-node to do typechecking.
+  "exclude": ["src/**/*.mts", "src/**/*.cts", "node_modules", "node_modules/**/*"],
+  "ts-node": {
     "transpileOnly": true,
     "files": true,
     "compilerOptions": {
@@ -37,9 +35,7 @@
       "baseUrl": ".",
       "paths": {
         "types": ["types/global"]
-  
       }
-        
     }
   }
 }

@@ -2,7 +2,7 @@ import { logger } from "./Logger";
 import { GlobalProcessor as Processor } from "./Processor";
 import { _top } from "./top";
 import { range } from "./range";
-import { IComponent } from "types";
+import { IComponent } from "./types/global";
 
 // Set Processors
 export const setDefaultProcessors = () => {

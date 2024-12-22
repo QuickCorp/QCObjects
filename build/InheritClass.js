@@ -29,6 +29,20 @@ class InheritClass {
             };
         }
         const self = this;
+        if (typeof _o_ !== "undefined" && _o_ !== null) {
+            Object.keys(_o_)
+                .filter(function (k) {
+                return isNaN(k) && !["__instanceID", "__classType", "__definition"].includes(k);
+            })
+                .forEach(function (key) {
+                if (typeof self[key] === "function") {
+                    self[key] = _o_[key].bind(self);
+                }
+                else {
+                    self[key] = _o_[key];
+                }
+            });
+        }
         (0, IncrementInstanceID_1.IncrementInstanceID)();
         if (!self.__instanceID) {
             Object.defineProperty(self, "__instanceID", {

@@ -126,12 +126,11 @@
     "globals": "^15.11.0",
     "hint": "^2.0.0",
     "install": "^0.13.0",
-    "jasmine": "^3.7.0",
+    "jasmine": "^3.99.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "^8.11.0"
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1"
   },
-  "dependencies": {},
   "engines": {
     "npm": ">=10",
     "node": ">=22"

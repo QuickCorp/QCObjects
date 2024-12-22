@@ -127,7 +127,7 @@ class Component extends InheritClass_1.InheritClass {
                         Logger_1.logger.info(`Component._new_ The component ${self.name} was built successfully!`);
                     }).catch(function (standardResponse) {
                         Logger_1.logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
-                        console.error(standardResponse);
+                        console.error(`Component._new_ Something went wrong building the component ${self.name}`, standardResponse);
                     });
                 }).catch((e) => {
                     throw Error(`Unexpected error ${e}`);

@@ -22,7 +22,7 @@ import { CONFIG } from "./CONFIG";
 import { serviceLoader } from "./serviceLoader";
 import { _tag_filter_ } from "./tag_filter";
 import { componentLoader } from "./componentLoader";
-import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types";
+import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "./types/global";
 
 export class Component extends InheritClass implements IComponent {
     static shadowed: boolean | undefined = false;
@@ -30,7 +30,7 @@ export class Component extends InheritClass implements IComponent {
     [key: string]: any;
     name!: string;
     templateURI!: string;
-    url!:string;
+    url!: string;
     tplsource!: string;
     tplextension!: string;
     template!: string;
@@ -126,7 +126,7 @@ export class Component extends InheritClass implements IComponent {
         });
         const self = this;
 
-        if (typeof name !== "undefined"){
+        if (typeof name !== "undefined") {
             self.name = name;
         }
 
@@ -159,7 +159,7 @@ export class Component extends InheritClass implements IComponent {
                                         logger.info(`Component._new_ The component ${self.name} was built successfully!`);
                                     }).catch(function (standardResponse) {
                                         logger.warn(`Component._new_ Something went wrong building the component ${self.name}`);
-                                        console.error(standardResponse);
+                                        console.error(`Component._new_ Something went wrong building the component ${self.name}`, standardResponse);
                                     });
                             }).catch((e: any) => {
                                 throw Error(`Unexpected error ${e}`);
@@ -254,8 +254,8 @@ export class Component extends InheritClass implements IComponent {
         return _serviceClassName;
     }
 
-    protected get responseToData ():boolean {
-        let _response_to_data_:boolean = false;
+    protected get responseToData(): boolean {
+        let _response_to_data_: boolean = false;
         if (isBrowser) {
             const responseToAttr = (this.body as HTMLElement).getAttribute("response-to");
             _response_to_data_ = responseToAttr === "data" || this.responseTo === "data";
@@ -265,8 +265,8 @@ export class Component extends InheritClass implements IComponent {
         return _response_to_data_;
     }
 
-    protected get responseToTemplate ():boolean {
-        let _response_to_template_:boolean = false;
+    protected get responseToTemplate(): boolean {
+        let _response_to_template_: boolean = false;
         if (isBrowser) {
             const responseToAttr = (this.body as HTMLElement).getAttribute("response-to");
             _response_to_template_ = responseToAttr === "template" || this.responseTo === "template";
@@ -274,7 +274,7 @@ export class Component extends InheritClass implements IComponent {
             _response_to_template_ = this.responseTo === "template";
         }
         return _response_to_template_;
-    }    
+    }
 
     createServiceInstance(): Promise<JSON | string | null> {
         const component = this;
@@ -502,9 +502,9 @@ export class Component extends InheritClass implements IComponent {
                 await _component_.createControllerInstance();
                 await _component_.createEffectInstance();
             })()
-            .catch ((e:any) => {
-                throw new Error (`Unknown error ${e}.`);
-            });
+                .catch((e: any) => {
+                    throw new Error(`Unknown error ${e}.`);
+                });
 
             logger.debug(`Trying to run component helpers for ${_component_.name}...`);
             try {
@@ -526,8 +526,8 @@ export class Component extends InheritClass implements IComponent {
         return new Promise(function (resolve, reject) {
             try {
                 resolve(componentDone.call(_component_));
-            } catch (e:any) {
-                reject(new Error (e));
+            } catch (e: any) {
+                reject(new Error(e));
             }
         });
 
@@ -565,7 +565,7 @@ export class Component extends InheritClass implements IComponent {
         return (isBrowser) ? ([{}].concat([...(c as HTMLElement).getAttributeNames()].filter(n => n.startsWith("data-")).map(a => { return { [a.split("-")[1]]: (c as HTMLElement).getAttribute(a) }; })).reduce((accumulator, colData) => { return Object.assign(accumulator, colData); })) : ({});
     }
 
-    __buildSubComponents__(rebuildObjects = false):any {
+    __buildSubComponents__(rebuildObjects = false): any {
         const _component_: Component = this as Component;
         let elementList = _component_.subtags;
         if (!rebuildObjects) {
@@ -583,7 +583,7 @@ export class Component extends InheritClass implements IComponent {
                 const { error, component } = standardResponse;
                 resolve({ error, component });
             } else {
-                reject( new Error (" Unknown error."));
+                reject(new Error(" Unknown error."));
             }
         });
         return _ret_;
@@ -593,14 +593,14 @@ export class Component extends InheritClass implements IComponent {
         this[key] = value;
     }
 
-    get(key: string, _defaultValue?: string):any {
+    get(key: string, _defaultValue?: string): any {
         return this[key] || _defaultValue;
     }
 
     feedComponent(): Promise<any> {
         const _component_ = this;
         logger.debug(`[Component][${this.name}][feedComponent] start feeding component...`);
-        const _feedComponent_InBrowser = function (_component_: Component):any {
+        const _feedComponent_InBrowser = function (_component_: Component): any {
             if (typeof _component_.container === "undefined" && typeof _component_.body === "undefined") {
                 logger.warn("COMPONENT {{NAME}} has an undefined container and body".replace("{{NAME}}", _component_.name));
                 return;
@@ -613,7 +613,7 @@ export class Component extends InheritClass implements IComponent {
                 logger.debug("Preparing slots for Shadowed COMPONENT {{NAME}}".replace("{{NAME}}", _component_.name));
                 const tmp_shadowContainer = _DOMCreateElement("div");
                 container.subelements("[slot]").map(
-                     (c: { parentElement: any; }):any => {
+                    (c: { parentElement: any; }): any => {
                         if (c.parentElement === container) {
                             tmp_shadowContainer.appendChild(c as any);
                         }
@@ -626,12 +626,12 @@ export class Component extends InheritClass implements IComponent {
                     _component_.shadowRoot = shadowContainer.attachShadow({
                         mode: "open"
                     }) as IQCObjectsShadowedElement;
-                } catch (e:any) {
+                } catch (e: any) {
                     logger.debug(`An error ocurred: ${e}.`);
                     try {
                         logger.debug("Shadowed COMPONENT {{NAME}} is repeated".replace("{{NAME}}", _component_.name));
                         _component_.shadowRoot = shadowContainer.shadowRoot as IQCObjectsShadowedElement;
-                    } catch (e:any) {
+                    } catch (e: any) {
                         logger.debug(`An error ocurred: ${e}.`);
                         logger.warn("Shadowed COMPONENT {{NAME}} is not allowed on this browser".replace("{{NAME}}", _component_.name));
                     }
@@ -678,7 +678,7 @@ export class Component extends InheritClass implements IComponent {
 
         };
 
-        const _feedComponent_InNode = function (_component_: Component):any {
+        const _feedComponent_InNode = function (_component_: Component): any {
             const parsedAssignmentText = _component_.parsedAssignmentText;
             _component_.innerHTML = parsedAssignmentText;
         };
@@ -686,22 +686,22 @@ export class Component extends InheritClass implements IComponent {
         let _ret_;
         if (!is_a(_component_, "Component")) {
             logger.warn("Trying to feed a non component object");
-            return Promise.reject(new Error (`Trying to feed a non component object ${typeof _component_}`));
+            return Promise.reject(new Error(`Trying to feed a non component object ${typeof _component_}`));
         }
-        return new Promise <any> ((resolve, reject) => {
+        return new Promise<any>((resolve, reject) => {
             if (isBrowser) {
                 try {
                     _ret_ = _feedComponent_InBrowser(_component_);
                     resolve(_ret_);
-                } catch (e:any) {
-                    reject (new Error(e));
+                } catch (e: any) {
+                    reject(new Error(e));
                 }
             } else {
                 try {
                     _ret_ = _feedComponent_InNode(_component_);
                     resolve(_ret_);
-                } catch (e:any){
-                    reject (new Error (e));
+                } catch (e: any) {
+                    reject(new Error(e));
                 }
 
             }
@@ -713,7 +713,7 @@ export class Component extends InheritClass implements IComponent {
         const _component = this as Component;
         var _promise = new Promise<{ request?: XMLHttpRequest, component: Component }>(function (resolve, reject) {
             if (typeof _component === "undefined" || _component === null) {
-                reject(new Error ("Component is undefined"));
+                reject(new Error("Component is undefined"));
             }
             if (isQCObjects_Object(_component) && is_a(_component, "Component")) {
                 switch (true) {
@@ -726,9 +726,9 @@ export class Component extends InheritClass implements IComponent {
                         _component.__done__().then(function () {
                             if (typeof _component.done === "function") {
                                 _component.done.call(_component, standardResponse)
-                                .catch((e:any)=> {
-                                    logger.debug(`It was an error while calling done() in ${_component.name}: ${e}`);
-                                });
+                                    .catch((e: any) => {
+                                        logger.debug(`It was an error while calling done() in ${_component.name}: ${e}`);
+                                    });
                             }
                             resolve.call(_promise, standardResponse);
                         }, function () {
@@ -740,10 +740,10 @@ export class Component extends InheritClass implements IComponent {
                         (async (_component) => {
                             await _component.feedComponent.bind(_component)();
                         })(_component)
-                        .catch((e:any)=> {
-                            logger.debug(`It was not possible to feed the component ${_component.name}: ${e}`);
-                        });
-                    var standardResponse = {
+                            .catch((e: any) => {
+                                logger.debug(`It was not possible to feed the component ${_component.name}: ${e}`);
+                            });
+                        var standardResponse = {
                             request: undefined,
                             component: _component
                         };
@@ -796,9 +796,9 @@ export class Component extends InheritClass implements IComponent {
         return _promise;
     }
 
-    Cast(oClass: any):any {
+    Cast(oClass: any): any {
         /* Cast method for components has been deprecated. Don't use this method, it is available only for compatibility purposes */
-        const o = _methods_(oClass).map((m):any => (m as Function).name.replace(/bound /g, "")).map(m => {
+        const o = _methods_(oClass).map((m): any => (m as Function).name.replace(/bound /g, "")).map(m => {
             return {
                 [m]: oClass[m].bind(this)
             };
@@ -806,7 +806,7 @@ export class Component extends InheritClass implements IComponent {
         return _Cast(this, o);
     }
 
-    route () {
+    route() {
         return (this.constructor as typeof Component).route();
     }
 
@@ -830,12 +830,12 @@ export class Component extends InheritClass implements IComponent {
                             .then(function () {
                                 rc.reload = true;
                                 rc.rebuild()
-                                .then(()=> {
-                                    resolve();
-                                })
-                                .catch((e:any) => {
-                                    logger.debug(`Error ${e}`);
-                                });
+                                    .then(() => {
+                                        resolve();
+                                    })
+                                    .catch((e: any) => {
+                                        logger.debug(`Error ${e}`);
+                                    });
                                 return;
                             })
                             .then(function () {
@@ -852,11 +852,11 @@ export class Component extends InheritClass implements IComponent {
                                     }
                                     resolve();
                                 }
-                            }).catch ((e:any) => {
+                            }).catch((e: any) => {
                                 logger.debug(`Error: ${e}`);
                             });
                     } else if (typeof rc !== "undefined") {
-                        reject(new Error ("Component " + rc.name + " is not an instance of Component"));
+                        reject(new Error("Component " + rc.name + " is not an instance of Component"));
                     }
                     return;
                 });
@@ -882,12 +882,12 @@ export class Component extends InheritClass implements IComponent {
 
     fullscreen() {
         if (isBrowser) {
-            const elem:HTMLElement = this.body as HTMLElement;
+            const elem: HTMLElement = this.body as HTMLElement;
             if (elem.requestFullscreen) {
                 elem.requestFullscreen()
-                .catch ((e:any) => {
-                    throw new Error (`An error ocurred when requesting fullscreen: ${e}`);
-                });
+                    .catch((e: any) => {
+                        throw new Error(`An error ocurred when requesting fullscreen: ${e}`);
+                    });
             } else if ((elem as any).mozRequestFullScreen) {
                 /* Firefox */
                 (elem as any).mozRequestFullScreen();
@@ -907,7 +907,7 @@ export class Component extends InheritClass implements IComponent {
         if (isBrowser) {
             if (document.exitFullscreen) {
                 document.exitFullscreen()
-                .catch((e:any) => {throw new Error (`An error ocurred when trying to exit fullscrenn ${e}.`);});
+                    .catch((e: any) => { throw new Error(`An error ocurred when trying to exit fullscrenn ${e}.`); });
             } else if ((document as any).mozCancelFullScreen) {
                 (document as any).mozCancelFullScreen();
             } else if ((document as any).webkitExitFullscreen) {
@@ -929,10 +929,10 @@ export class Component extends InheritClass implements IComponent {
                         component.innerHTML = (componentBody as HTMLElement)?.innerHTML;
                         component.routingNodes = (componentBody as IQCObjectsElement)?.subelements("routing");
                         component.routings = [];
-                        component.routingNodes.map( (routingNode):any => {
+                        component.routingNodes.map((routingNode): any => {
                             const attributeNames = (routingNode as HTMLElement).getAttributeNames();
                             const routing = {} as TComponentRouting;
-                            attributeNames.map( (attributeName: any, a: string | number):any => {
+                            attributeNames.map((attributeName: any, a: string | number): any => {
                                 (routing as any)[attributeNames[a as any]] = (routingNode as HTMLElement).getAttribute(attributeNames[a as any]);
                                 return attributeName;
                             });
@@ -961,9 +961,9 @@ export class Component extends InheritClass implements IComponent {
         });
     }
 
-    parseTemplate(template: any):string {
+    parseTemplate(template: any): string {
         const _self = this;
-        let _parsedAssignmentText:string;
+        let _parsedAssignmentText: string;
         const value = template;
         if (Object.hasOwn(_self, "templateHandler")) {
             const templateHandlerName = _self.templateHandler;
@@ -978,7 +978,7 @@ export class Component extends InheritClass implements IComponent {
             if (Object.hasOwn(_self, "assignRoutingParams") && _self.assignRoutingParams) {
                 try {
                     selfData = Object.assign(selfData, _self.routingParams);
-                } catch (e:any) {
+                } catch (e: any) {
                     logger.debug(`An error ocurred: ${e}.`);
                     logger.debug("[parseTemplate] it was not possible to assign the routing params to the template");
                 }
@@ -998,7 +998,7 @@ export class Component extends InheritClass implements IComponent {
             if (isBrowser) {
                 if (__valid_routing_way__(rc.validRoutingWays, rc.routingWay || "")) {
                     rc.routingPath = (location as any)[rc.routingWay as string];
-                    rc.routingSelected.map( (routing: TComponentRouting, ):TComponentRouting => {
+                    rc.routingSelected.map((routing: TComponentRouting,): TComponentRouting => {
                         const componentURI = ComponentURI({
                             "COMPONENTS_BASE_PATH": CONFIG.get("componentsBasePath"),
                             "COMPONENT_NAME": routing.name.toString(),
@@ -1010,7 +1010,7 @@ export class Component extends InheritClass implements IComponent {
                     });
                     if (rc.routingSelected.length > 0) {
                         rc.template = "";
-                        if (typeof rc.body !== "undefined" && rc.body !== null){
+                        if (typeof rc.body !== "undefined" && rc.body !== null) {
                             (rc.body as HTMLElement).innerHTML = "";
                         }
                     }
@@ -1025,7 +1025,7 @@ export class Component extends InheritClass implements IComponent {
         if (isBrowser) {
             const component = this;
             const _componentRoot = component.componentRoot as IQCObjectsShadowedElement;
-            if (typeof _componentRoot !== "undefined" && _componentRoot !== null){ 
+            if (typeof _componentRoot !== "undefined" && _componentRoot !== null) {
                 const _imgLazyLoaded = [..._componentRoot.subelements("img[lazy-src]")];
                 const _lazyLoadImages = function (image: Element | HTMLElement) {
                     image.setAttribute("src", image.getAttribute("lazy-src")?.toString() as string);
@@ -1096,7 +1096,7 @@ export class Component extends InheritClass implements IComponent {
 
     }
 
-    get componentRoot ():TBody {
+    get componentRoot(): TBody {
         return (this.shadowed) ? (this.shadowRoot) : (this.body);
     }
 
@@ -1106,7 +1106,7 @@ export class Component extends InheritClass implements IComponent {
             if (document.location.hash !== "") {
                 const _componentRoot = component.componentRoot;
                 ((_componentRoot as IQCObjectsShadowedElement)?.subelements(document.location.hash) as unknown as Element[]).map(
-                     (element: Element):any  => {
+                    (element: Element): any => {
                         if (typeof element.scrollIntoView === "function") {
                             element.scrollIntoView(
                                 CONFIG.get("scrollIntoHash", {
@@ -1134,13 +1134,13 @@ export class Component extends InheritClass implements IComponent {
                 const lang2 = navigator.language.slice(0, 2);
                 const i18n = _top.global.get("i18n");
                 if ((lang1 !== lang2) && (typeof i18n === "object" && Object.hasOwn(i18n, "messages"))) {
-                    const callback_i18n =  () => {
+                    const callback_i18n = () => {
                         return new Promise<void>(function (resolve) {
                             const messages = i18n.messages.filter(function (message: any) {
                                 return Object.hasOwn(message, lang1) && Object.hasOwn(message, lang2);
                             });
                             (_componentRoot?.subelements("ul,li,h1,h2,h3,a,b,p,input,textarea,summary,details,option,component") as HTMLElement[])
-                                .map( (element: HTMLElement):HTMLElement => {
+                                .map((element: HTMLElement): HTMLElement => {
                                     messages.map(function (message: { [x: string]: any; }) {
                                         let _innerHTML = element.innerHTML;
                                         _innerHTML = _innerHTML?.replace(new RegExp(`${message[lang1]}`, "g"), message[lang2]);
@@ -1154,7 +1154,7 @@ export class Component extends InheritClass implements IComponent {
                     };
                     callback_i18n.call(component).then(function () {
                         logger.debug("i18n loaded for component: " + component.name);
-                    }).catch((e:any) => {throw new Error (`An error ocurred when parsing i18n: ${e}.`);});
+                    }).catch((e: any) => { throw new Error(`An error ocurred when parsing i18n: ${e}.`); });
 
                 }
             }
@@ -1201,7 +1201,7 @@ export class Component extends InheritClass implements IComponent {
             __component_helpers__ = __component_helpers__.concat(component._componentHelpers);
 
             __component_helpers__.map(
-                 (_component_helper_):any => {
+                (_component_helper_): any => {
                     logger.debug(`Executing ${_component_helper_.name} as component helper for ${component.name}...`);
                     _component_helper_();
                     return _component_helper_;
@@ -1220,7 +1220,7 @@ Package("com.qcobjects", [
     Component
 ]);
 
-(_methods_)(ClassFactory("Component")).map( (__c__):any  => {
+(_methods_)(ClassFactory("Component")).map((__c__): any => {
     (_protected_code_)(__c__);
     return __c__;
 });

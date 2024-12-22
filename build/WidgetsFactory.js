@@ -1,11 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterWidgets = exports.RegisterWidget = exports._ComponentWidget_ = void 0;
+/* eslint-disable no-unused-vars */
 const DOMCreateElement_1 = require("./DOMCreateElement");
 const Export_1 = require("./Export");
 const introspection_1 = require("./introspection");
 const platform_1 = require("./platform");
 class QCObjectsWidgetNode {
+    writingSuggestions;
+    currentCSSZoom;
+    ariaColIndexText;
+    ariaRowIndexText;
     accessKey;
     accessKeyLabel;
     autocapitalize;

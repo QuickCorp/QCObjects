@@ -9,7 +9,7 @@ import { __is__forbidden_name__ } from "./is_forbidden_name";
 import { _LegacyCopy } from "./LegacyCopy";
 import { logger } from "./Logger";
 import { isBrowser } from "./platform";
-import { IQCObjectsElement, TBody, TClass } from "types";
+import { IQCObjectsElement, TBody, TClass } from "./types/global";
 import { InheritClass } from "./InheritClass";
 import { _top } from "./top";
 

@@ -1,4 +1,4 @@
-import { IController, IComponent, TControllerParams, IQCObjectsElement, IQCObjectsShadowedElement } from "types";
+import { IController, IComponent, TControllerParams, IQCObjectsElement, IQCObjectsShadowedElement } from "./types/global";
 import { ClassFactory } from "./ClassFactory";
 import { __getType__ } from "./getType";
 import { InheritClass } from "./InheritClass";

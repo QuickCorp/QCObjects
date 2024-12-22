@@ -1,12 +1,16 @@
  
 /* eslint-disable no-unused-vars */
-import { I_ComponentWidget_ } from "types";
 import { _DOMCreateElement } from "./DOMCreateElement";
 import { Export } from "./Export";
 import { _protected_code_ } from "./introspection";
 import { isBrowser } from "./platform";
+import { I_ComponentWidget_ } from "./types/global";
 
 class QCObjectsWidgetNode implements I_ComponentWidget_ {
+  writingSuggestions!: string;
+  currentCSSZoom!: number;
+  ariaColIndexText!: string | null;
+  ariaRowIndexText!: string | null;
   accessKey!: string;
   accessKeyLabel!: string;
   autocapitalize!: string;
