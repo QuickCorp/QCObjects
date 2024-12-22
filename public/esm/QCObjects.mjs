@@ -1626,8 +1626,8 @@ var init_Processor = __esm({
       process(template, component = null) {
         const processorHandler = component !== null ? component.processorHandler : New(_Processor, { component: null });
         if (typeof template === "string") {
-          Object.keys(processorHandler.processors).map(function(funcName) {
-            [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
+          Object.keys(processorHandler.processors).map((funcName) => {
+            return [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
               function(procesorMatch) {
                 const match0 = `$${funcName}(${procesorMatch[1]})`;
                 template = template.replace(match0, processorHandler.execute.bind(processorHandler).call(processorHandler, component, funcName, procesorMatch[1]));
@@ -4148,8 +4148,8 @@ var init_Import = __esm({
           const readyImported = /* @__PURE__ */ __name(function(e) {
             _QC_PACKAGES_IMPORTED.push(ready2);
             if (allPackagesImported()) {
-              _QC_PACKAGES_IMPORTED.map(function(_imported_) {
-                _QC_READY_LISTENERS.push(_imported_);
+              _QC_PACKAGES_IMPORTED.map((_imported_) => {
+                return _QC_READY_LISTENERS.push(_imported_);
               });
             }
             if (isBrowser && CONFIG.get("removePackageScriptAfterLoading")) {
@@ -5064,10 +5064,10 @@ var require_MainProcess = __commonJS({
   }
 });
 
-// src/QCObjects.ts
+// src/qcobjects.ts
 var AssignPolyfill = __toESM(require_assign());
 init_top();
-var QCObjects = __toESM(require_MainProcess());
+var qcobjects = __toESM(require_MainProcess());
 init_top();
 init_PrimaryCollections();
 init_DataStringify();
@@ -5314,7 +5314,7 @@ Package("com.qcobjects.api", [
   BackendMicroservice
 ]);
 
-// src/QCObjects.ts
+// src/qcobjects.ts
 init_Component();
 init_Crypt();
 
@@ -5529,7 +5529,7 @@ var SourceCSS = class extends InheritClass {
 };
 Package("com.qcobjects", [SourceCSS]);
 
-// src/QCObjects.ts
+// src/qcobjects.ts
 init_globalSettings();
 
 // src/WidgetsFactory.ts
@@ -6023,7 +6023,7 @@ if (isBrowser) {
       if (!componentWidget.hasAttribute("shadowed")) {
         componentBody.setAttribute("shadowed", "true");
       }
-      __enabled__atributes__.map(function(attributeName) {
+      __enabled__atributes__.forEach((attributeName) => {
         if (componentWidget.hasAttribute(attributeName)) {
           componentBody.setAttribute(attributeName, componentWidget?.getAttribute(attributeName));
           componentWidget.removeAttribute(attributeName);
@@ -6034,11 +6034,11 @@ if (isBrowser) {
       }).map(function(a) {
         return a.split("-")[1];
       });
-      data_attributenames.map(function(_attribute_name_) {
+      data_attributenames.forEach(function(_attribute_name_) {
         componentBody.setAttribute("data-" + _attribute_name_, componentWidget?.getAttribute("data-" + _attribute_name_));
         componentWidget.removeAttribute("data-" + _attribute_name_);
       });
-      [...componentWidget.children].map(function(element) {
+      [...componentWidget.children].forEach((element) => {
         componentBody.appendChild(element.cloneNode(true));
         element.remove();
       });
@@ -6078,7 +6078,7 @@ _protected_code_(RegisterWidgets);
 Export(RegisterWidget);
 Export(RegisterWidgets);
 
-// src/QCObjects.ts
+// src/qcobjects.ts
 init_CONFIG();
 
 // src/Controller.ts
@@ -6180,7 +6180,7 @@ Package("com.qcobjects.views", [
   View
 ]);
 
-// src/QCObjects.ts
+// src/qcobjects.ts
 init_Service();
 
 // src/VO.ts
@@ -6348,7 +6348,7 @@ Package("com.qcobjects.timing", [
   Timer
 ]);
 
-// src/QCObjects.ts
+// src/qcobjects.ts
 init_tag_filter();
 init_range();
 init_ArrayCollection();
@@ -6488,7 +6488,7 @@ Package("com.qcobjects.tools.essentials", [
   Toggle
 ]);
 
-// src/QCObjects.ts
+// src/qcobjects.ts
 init_findPackageNodePath();
 
 // src/DocumentLayout.ts
@@ -6509,12 +6509,12 @@ var getDocumentLayout = /* @__PURE__ */ __name(function() {
   ].filter((e) => e !== null).pop();
 }, "getDocumentLayout");
 
-// src/QCObjects.ts
+// src/qcobjects.ts
 init_mathFunctions();
 init_top();
 init_make_global();
 init_top();
-var QCObjects_default = {};
+var qcobjects_default = {};
 export {
   ArrayCollection,
   ArrayList,
@@ -6542,7 +6542,6 @@ export {
   ObjectName,
   Package,
   Processor,
-  QCObjects,
   Ready,
   RegisterClass,
   RegisterWidget,
@@ -6586,7 +6585,7 @@ export {
   asyncLoad,
   captureFalseTouch,
   componentLoader,
-  QCObjects_default as default,
+  qcobjects_default as default,
   findPackageNodePath,
   get,
   getDocumentLayout,
@@ -6598,6 +6597,7 @@ export {
   is_a,
   is_phonegap,
   logger,
+  qcobjects,
   range,
   ready,
   resetTop,
@@ -6608,4 +6608,4 @@ export {
   subelements,
   waitUntil
 };
-//# sourceMappingURL=QCObjects.mjs.map
+//# sourceMappingURL=qcobjects.mjs.map

@@ -44,8 +44,8 @@ class Processor extends InheritClass_1.InheritClass {
     process(template, component = null) {
         const processorHandler = (component !== null) ? (component.processorHandler) : ((0, New_1.New)(Processor, { component: null }));
         if (typeof template === "string") {
-            Object.keys(processorHandler.processors).map(function (funcName) {
-                [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(function (procesorMatch) {
+            Object.keys(processorHandler.processors).map((funcName) => {
+                return [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(function (procesorMatch) {
                     const match0 = `$${funcName}(${procesorMatch[1]})`;
                     template = template.replace(match0, processorHandler.execute.bind(processorHandler).call(processorHandler, component, funcName, procesorMatch[1]));
                     return procesorMatch;

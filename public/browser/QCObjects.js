@@ -1629,8 +1629,8 @@ var global = (() => {
         process(template, component = null) {
           const processorHandler = component !== null ? component.processorHandler : New(_Processor, { component: null });
           if (typeof template === "string") {
-            Object.keys(processorHandler.processors).map(function(funcName) {
-              [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
+            Object.keys(processorHandler.processors).map((funcName) => {
+              return [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
                 function(procesorMatch) {
                   const match0 = `$${funcName}(${procesorMatch[1]})`;
                   template = template.replace(match0, processorHandler.execute.bind(processorHandler).call(processorHandler, component, funcName, procesorMatch[1]));
@@ -4151,8 +4151,8 @@ var global = (() => {
             const readyImported = /* @__PURE__ */ __name(function(e) {
               _QC_PACKAGES_IMPORTED.push(ready2);
               if (allPackagesImported()) {
-                _QC_PACKAGES_IMPORTED.map(function(_imported_) {
-                  _QC_READY_LISTENERS.push(_imported_);
+                _QC_PACKAGES_IMPORTED.map((_imported_) => {
+                  return _QC_READY_LISTENERS.push(_imported_);
                 });
               }
               if (isBrowser && CONFIG.get("removePackageScriptAfterLoading")) {
@@ -5096,7 +5096,6 @@ var global = (() => {
     ObjectName: () => ObjectName,
     Package: () => Package,
     Processor: () => Processor,
-    QCObjects: () => QCObjects,
     Ready: () => Ready,
     RegisterClass: () => RegisterClass,
     RegisterWidget: () => RegisterWidget,
@@ -5152,6 +5151,7 @@ var global = (() => {
     is_a: () => is_a,
     is_phonegap: () => is_phonegap,
     logger: () => logger,
+    qcobjects: () => qcobjects,
     range: () => range,
     ready: () => ready,
     resetTop: () => resetTop,
@@ -5164,7 +5164,7 @@ var global = (() => {
   });
   var AssignPolyfill = __toESM(require_assign());
   init_top();
-  var QCObjects = __toESM(require_MainProcess());
+  var qcobjects = __toESM(require_MainProcess());
   init_top();
   init_PrimaryCollections();
   init_DataStringify();
@@ -6120,7 +6120,7 @@ var global = (() => {
         if (!componentWidget.hasAttribute("shadowed")) {
           componentBody.setAttribute("shadowed", "true");
         }
-        __enabled__atributes__.map(function(attributeName) {
+        __enabled__atributes__.forEach((attributeName) => {
           if (componentWidget.hasAttribute(attributeName)) {
             componentBody.setAttribute(attributeName, componentWidget?.getAttribute(attributeName));
             componentWidget.removeAttribute(attributeName);
@@ -6131,11 +6131,11 @@ var global = (() => {
         }).map(function(a) {
           return a.split("-")[1];
         });
-        data_attributenames.map(function(_attribute_name_) {
+        data_attributenames.forEach(function(_attribute_name_) {
           componentBody.setAttribute("data-" + _attribute_name_, componentWidget?.getAttribute("data-" + _attribute_name_));
           componentWidget.removeAttribute("data-" + _attribute_name_);
         });
-        [...componentWidget.children].map(function(element) {
+        [...componentWidget.children].forEach((element) => {
           componentBody.appendChild(element.cloneNode(true));
           element.remove();
         });

@@ -1,2 +1,2 @@
-import QCObjects from "./QCObjects.js";
+import QCObjects from "./qcobjects.js";
 export default QCObjects;

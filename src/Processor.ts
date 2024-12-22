@@ -51,8 +51,8 @@ export class Processor extends InheritClass implements IProcessor {
    process(template: string, component: IComponent | null = null) {
     const processorHandler = (component !== null) ? (component.processorHandler) : (New(Processor, { component: null }));
     if (typeof template === "string") {
-      Object.keys(processorHandler.processors).map(function (funcName) {
-        [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
+      Object.keys(processorHandler.processors).map( (funcName) => {
+        return [...template.matchAll(new RegExp("\\$" + funcName + "\\((.*)\\).*", "g"))].map(
           function (procesorMatch) {
             const match0 = `$${funcName}(${procesorMatch[1]})`;
             template = template.replace(match0, processorHandler.execute.bind(processorHandler).call(processorHandler, component, funcName, procesorMatch[1]));

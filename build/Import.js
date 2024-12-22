@@ -47,8 +47,8 @@ const Import = function (packagename, ready, external) {
             const readyImported = function (e) {
                 PrimaryCollections_1._QC_PACKAGES_IMPORTED.push(ready);
                 if (allPackagesImported()) {
-                    PrimaryCollections_1._QC_PACKAGES_IMPORTED.map(function (_imported_) {
-                        PrimaryCollections_1._QC_READY_LISTENERS.push(_imported_);
+                    PrimaryCollections_1._QC_PACKAGES_IMPORTED.map((_imported_) => {
+                        return PrimaryCollections_1._QC_READY_LISTENERS.push(_imported_);
                     });
                 }
                 if (platform_1.isBrowser && CONFIG_1.CONFIG.get("removePackageScriptAfterLoading")) {

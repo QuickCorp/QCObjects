@@ -493,7 +493,7 @@ if (isBrowser) {
       if (!componentWidget.hasAttribute("shadowed")) {
         componentBody.setAttribute("shadowed", "true");
       }
-      __enabled__atributes__.map(function (attributeName) {
+      __enabled__atributes__.forEach( (attributeName) => {
         if (componentWidget.hasAttribute(attributeName)) {
           componentBody.setAttribute(attributeName, componentWidget?.getAttribute(attributeName) as any);
           componentWidget.removeAttribute(attributeName);
@@ -504,11 +504,11 @@ if (isBrowser) {
       }).map(function (a) {
         return a.split("-")[1];
       });
-      data_attributenames.map(function (_attribute_name_) {
+      data_attributenames.forEach(function (_attribute_name_) {
         componentBody.setAttribute("data-" + _attribute_name_, componentWidget?.getAttribute("data-" + _attribute_name_) as any);
         componentWidget.removeAttribute("data-" + _attribute_name_);
       });
-      [...(componentWidget as any).children].map(function (element) {
+      [...(componentWidget as any).children].forEach( (element) => {
         componentBody.appendChild(element.cloneNode(true));
         element.remove();
       });

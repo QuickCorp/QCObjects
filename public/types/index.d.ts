@@ -870,7 +870,25 @@ declare module "loadSDK" {
     export default loadSDK;
 }
 declare module "MainProcess" { }
-declare module "assign" { }
+declare module "SourceCSS" {
+    import { ISourceCSS } from "./types/global";
+    import { InheritClass } from "InheritClass";
+    export class SourceCSS extends InheritClass implements ISourceCSS {
+        domain: string;
+        basePath: string;
+        url: string;
+        data: {};
+        async: boolean;
+        external: boolean;
+        constructor(o: any);
+        fail(): void;
+        Cast(o: any): any;
+        set(name: string, value: any): void;
+        get(name: string, _default?: any): any;
+        done(): void;
+        rebuild(): void;
+    }
+}
 declare module "SourceJS" {
     import { ISourceJS } from "./types/global";
     import { InheritClass } from "InheritClass";
@@ -892,66 +910,6 @@ declare module "SourceJS" {
         rebuild(): void;
         Cast(o: any): any;
         _new_(properties: any): void;
-    }
-}
-declare module "SourceCSS" {
-    import { ISourceCSS } from "./types/global";
-    import { InheritClass } from "InheritClass";
-    export class SourceCSS extends InheritClass implements ISourceCSS {
-        domain: string;
-        basePath: string;
-        url: string;
-        data: {};
-        async: boolean;
-        external: boolean;
-        constructor(o: any);
-        fail(): void;
-        Cast(o: any): any;
-        set(name: string, value: any): void;
-        get(name: string, _default?: any): any;
-        done(): void;
-        rebuild(): void;
-    }
-}
-declare module "WidgetsFactory" {
-    export let _ComponentWidget_: CustomElementConstructor;
-    export const RegisterWidget: (widgetName: string) => void;
-    export const RegisterWidgets: (...args: string[]) => void;
-}
-declare module "View" {
-    import { InheritClass } from "InheritClass";
-    export class View extends InheritClass {
-        constructor({ component, dependencies }: {
-            component?: undefined;
-            dependencies?: never[] | undefined;
-        });
-    }
-}
-declare module "VO" {
-    import { InheritClass } from "InheritClass";
-    export class VO extends InheritClass {
-    }
-}
-declare module "TransitionEffect" {
-    import { Effect } from "Effect";
-    import { ITransitionEffect, IComponent, TTransitionEffectParams } from "./types/global";
-    export class TransitionEffect extends Effect implements ITransitionEffect {
-        duration: number;
-        defaultParams: {
-            alphaFrom: number;
-            alphaTo: number;
-            angleFrom: number;
-            angleTo: number;
-            radiusFrom: number;
-            radiusTo: number;
-            scaleFrom: number;
-            scaleTo: number;
-        };
-        fitToHeight: boolean;
-        fitToWidth: boolean;
-        component: IComponent;
-        effects: string[];
-        apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: TTransitionEffectParams): void;
     }
 }
 declare module "Timer" {
@@ -982,10 +940,52 @@ declare module "Toggle" {
         fire(): Promise<Toggle>;
     }
 }
-declare module "QCObjects" {
+declare module "TransitionEffect" {
+    import { Effect } from "Effect";
+    import { ITransitionEffect, IComponent, TTransitionEffectParams } from "./types/global";
+    export class TransitionEffect extends Effect implements ITransitionEffect {
+        duration: number;
+        defaultParams: {
+            alphaFrom: number;
+            alphaTo: number;
+            angleFrom: number;
+            angleTo: number;
+            radiusFrom: number;
+            radiusTo: number;
+            scaleFrom: number;
+            scaleTo: number;
+        };
+        fitToHeight: boolean;
+        fitToWidth: boolean;
+        component: IComponent;
+        effects: string[];
+        apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: TTransitionEffectParams): void;
+    }
+}
+declare module "VO" {
+    import { InheritClass } from "InheritClass";
+    export class VO extends InheritClass {
+    }
+}
+declare module "View" {
+    import { InheritClass } from "InheritClass";
+    export class View extends InheritClass {
+        constructor({ component, dependencies }: {
+            component?: undefined;
+            dependencies?: never[] | undefined;
+        });
+    }
+}
+declare module "WidgetsFactory" {
+    export let _ComponentWidget_: CustomElementConstructor;
+    export const RegisterWidget: (widgetName: string) => void;
+    export const RegisterWidgets: (...args: string[]) => void;
+}
+declare module "assign" { }
+declare module "qcobjects" {
     export * as AssignPolyfill from "assign";
     export * as __top__ from "top";
-    export * as QCObjects from "MainProcess";
+    export * as qcobjects from "MainProcess";
     export { _top, resetTop } from "top";
     export { _QC_CLASSES, _QC_PACKAGES, _QC_PACKAGES_IMPORTED, _QC_READY_LISTENERS } from "PrimaryCollections";
     export { _DataStringify } from "DataStringify";
@@ -1056,7 +1056,7 @@ declare module "QCObjects" {
     export default _default;
 }
 declare module "index" {
-    import * as QCObjects from "QCObjects";
+    import * as QCObjects from "qcobjects";
     export default QCObjects;
 }
 declare module "localStorage" {
