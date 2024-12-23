@@ -8,7 +8,7 @@ const top_1 = require("./top");
 /**
  * Defines a Custom Ready listener
  */
-const Ready = function Ready(e) {
+const Ready = (e) => {
     if (platform_1.isBrowser) {
         PrimaryCollections_1._QC_READY_LISTENERS.push(e.bind(window));
     }
@@ -24,8 +24,8 @@ exports.ready = exports.Ready; // case insensitive ready option
  * @param {Object} e
  */
 // eslint-disable-next-line no-unused-vars
-const _Ready = function (e) {
-    const _execReady = function () {
+const _Ready = (e) => {
+    const _execReady = () => {
         // eslint-disable-next-line array-callback-return
         PrimaryCollections_1._QC_READY_LISTENERS.map(function (_ready_listener_, _r) {
             if (typeof _ready_listener_ === "function") {

@@ -1,24 +1,24 @@
 import { IQCObjectsElement } from "./types/global";
 import { isBrowser } from "./platform";
 
-export const _DOMCreateElement = function (elementName:string, props?:any[], children?:any):IQCObjectsElement {
+export const _DOMCreateElement = function (elementName: string, props?: any[], children?: any): IQCObjectsElement {
     let _ret_;
     if (isBrowser) {
-      _ret_ = _DOMCreateComplexElement(elementName, props, children) as unknown as IQCObjectsElement;
+        _ret_ = _DOMCreateComplexElement(elementName, props, children) as unknown as IQCObjectsElement;
     } else {
-      _ret_ = {} as IQCObjectsElement;
+        _ret_ = {} as IQCObjectsElement;
     }
     return _ret_;
-  };
-
-
-const ComplexTypeCall = (_type:Function, {props, children}:{props?:any[], children?:any}):IQCObjectsElement => {
-    return _type({props, children}) as IQCObjectsElement;
 };
-export const _DOMCreateComplexElement = (_type:string|Function, props?:any[], children?:any) => {
+
+
+const ComplexTypeCall = (_type: Function, { props, children }: { props?: any[], children?: any }): IQCObjectsElement => {
+    return _type({ props, children }) as IQCObjectsElement;
+};
+export const _DOMCreateComplexElement = (_type: string | Function, props?: any[], children?: any): HTMLElement | IQCObjectsElement => {
 
     if (typeof _type !== "string") {
-        return ComplexTypeCall(_type, {props,children});
+        return ComplexTypeCall(_type, { props, children });
     }
     const element = document.createElement(_type);
 

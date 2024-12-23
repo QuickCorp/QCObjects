@@ -93,23 +93,23 @@ export class ArrayList extends Array implements IArrayList {
 
 export class ArrayCollection implements IArrayCollection {
   source :ArrayList = New(ArrayList, []);
-  changed(prop: string, value: any) {
+  changed(prop: string, value: any):void {
     logger.debug("VALUE CHANGED");
     logger.debug(prop);
     logger.debug(value);
   }
-  push(value: any) {
+  push(value: any):number {
     const self = this;
     logger.debug("VALUE ADDED");
     logger.debug(value);
-    self.source.push(value);
+    return self.source.push(value);
   }
-  pop() {
+  pop():any {
     const self = this;
     logger.debug("VALUE POPPED");
-    self.source.pop();
+    return self.source.pop();
   }
-  _new_(source: ArrayList) {
+  _new_(source: ArrayList):void {
     const self = this;
     let _index = 0;
     self.source = New(ClassFactory("ArrayList"), source);

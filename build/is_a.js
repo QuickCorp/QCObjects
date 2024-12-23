@@ -9,7 +9,7 @@ const ObjectName_1 = require("./ObjectName");
  * @param {Object} object
  * @param {String} typeName
  */
-const is_a = function is_a(obj, typeName) {
+const is_a = (obj, typeName) => {
     return !!((typeof obj !== "undefined" && obj !== null &&
         ((((0, isQCObjects_1.isQCObjects_Class)(obj) || (0, isQCObjects_1.isQCObjects_Object)(obj)) && (obj.hierarchy().includes(typeName))) ||
             (0, getType_1.__getType__)(obj) === typeName ||

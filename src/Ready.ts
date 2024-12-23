@@ -6,7 +6,7 @@ import { _top } from "./top";
 /**
  * Defines a Custom Ready listener
  */
-export const Ready = function Ready(e:any) {
+export const Ready = (e:any):void => {
     if (isBrowser) {
         _QC_READY_LISTENERS.push(e.bind(window) as never);
     } else if (typeof global !== "undefined") {
@@ -14,7 +14,7 @@ export const Ready = function Ready(e:any) {
     }
 };
 
-export const ready = Ready; // case insensitive ready option
+export const ready:Function = Ready; // case insensitive ready option
 
 /**
  * Default Ready event function for window. Executes all micro ready events of Import calls
@@ -22,8 +22,8 @@ export const ready = Ready; // case insensitive ready option
  * @param {Object} e
  */
 // eslint-disable-next-line no-unused-vars
-export const _Ready = function (e:any) {
-    const _execReady = function () {
+export const _Ready = (e:any):void => {
+    const _execReady = ():void => {
         // eslint-disable-next-line array-callback-return
         _QC_READY_LISTENERS.map(function (_ready_listener_, _r):any {
             if (typeof _ready_listener_ === "function") {

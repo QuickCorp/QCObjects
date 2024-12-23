@@ -107,16 +107,16 @@ export var _top: QCObjects = (
 (_top as any).lastCache = undefined;
 export let componentsStack:IComponent[] = [];
 
-export const resetTop = () => {
+export const resetTop = ():void => {
     const globalSettings = GlobalSettings.instance;
     _top = _CastProps(globalSettings, _top, true);
 };
 
-export const buildComponentsStack = () => {
+export const buildComponentsStack = ():void => {
     componentsStack = buildComponents(document as unknown as IQCObjectsElement);
 };
 export let configService:IConfigService;
-export const setConfigService = (_configService:IConfigService) => {
+export const setConfigService = (_configService:IConfigService):void => {
     _top.global.configService = _configService;
     configService = _configService;
 };

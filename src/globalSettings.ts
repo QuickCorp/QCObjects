@@ -8,36 +8,36 @@ import { serviceLoader } from "./serviceLoader";
 import { _top, buildComponentsStack, configService, setConfigService } from "./top";
 import { ConfigService } from "./Service";
 
-export class GlobalSettings extends InheritClass implements IGlobalSettings{
-  static __start__() {
+export class GlobalSettings extends InheritClass implements IGlobalSettings {
+  static __start__(): Promise<any> {
     return GlobalSettings.instance.__start__();
   }
   [key: string]: any;
 
-  _GLOBAL:any = {};
-  private static _instance:GlobalSettings;
-  static get instance ():GlobalSettings{
-    if (typeof GlobalSettings._instance === "undefined"){
+  _GLOBAL: any = {};
+  private static _instance: GlobalSettings;
+  static get instance(): GlobalSettings {
+    if (typeof GlobalSettings._instance === "undefined") {
       GlobalSettings._instance = new GlobalSettings();
     }
     return GlobalSettings._instance;
   }
 
-  protected _logger:Logger = new Logger();
-  get logger ():Logger {
+  protected _logger: Logger = new Logger();
+  get logger(): Logger {
     return this._logger;
   }
 
-  set logger (value:Logger) {
+  set logger(value: Logger) {
     this._logger = value;
   }
 
-  set(name: string, value: any) {
+  set(name: string, value: any): void {
     this._GLOBAL[name] = value;
   }
 
-  get(name: string, _default?: any):any {
-    let _value:any;
+  get(name: string, _default?: any): any {
+    let _value: any;
     if (typeof this._GLOBAL[name] !== "undefined") {
       _value = this._GLOBAL[name];
     } else if (typeof _default !== "undefined") {
@@ -46,7 +46,7 @@ export class GlobalSettings extends InheritClass implements IGlobalSettings{
     return _value;
   }
 
-  __start__():Promise<any> {
+  __start__(): Promise<any> {
     const __load__serviceWorker = function () {
       let _promise: Promise<ServiceWorkerRegistration> | Promise<unknown>;
       if (isBrowser) {
@@ -97,26 +97,26 @@ export class GlobalSettings extends InheritClass implements IGlobalSettings{
       });
     };
 
-    return new Promise<any> ((resolve) => {
+    return new Promise<any>((resolve) => {
       logger.debug("Starting to load the config settings...");
       if (CONFIG.get("useConfigService", false)) {
         logger.debug("Loading settings using local configuration file...");
         setConfigService(new ConfigService());
         configService.configLoaded = _buildComponents;
         serviceLoader(configService)
-        ?.then((standardResponse:any)=> {
-          resolve(standardResponse);
-        })
-        ?.catch ((e:any) => {throw new Error (`An error ocurred while trying to load ${configService.url}: ${e}`);});
+          ?.then((standardResponse: any) => {
+            resolve(standardResponse);
+          })
+          ?.catch((e: any) => { throw new Error(`An error ocurred while trying to load ${configService.url}: ${e}`); });
       } else {
         logger.debug("Starting to load the components...");
         _buildComponents.call(this)
-        .then(()=> {
-          resolve({});
-        })
-        .catch((e:any) => {throw new Error (`An error ocurred while trying to build the components stack. ${e}`);});
+          .then(() => {
+            resolve({});
+          })
+          .catch((e: any) => { throw new Error(`An error ocurred while trying to build the components stack. ${e}`); });
       }
-  
+
     });
   }
 

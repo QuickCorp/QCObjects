@@ -52,7 +52,7 @@ export class DDO extends InheritClass {
         name,
         fget,
         fset
-    }:TDDOParams) {
+    }:TDDOParams):void {
         const ddoInstance = this;
         var name = (typeof name === "undefined") ? (ObjectName(ddoInstance)) : (name);
 

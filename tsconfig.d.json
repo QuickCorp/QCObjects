@@ -3,7 +3,12 @@
     "./tsconfig.json"
   ],
   "compilerOptions": {
+    "allowJs": false,
     "strict": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "isolatedDeclarations": true,    
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,

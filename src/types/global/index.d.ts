@@ -8,8 +8,8 @@ export interface IMicroservice {
     domain: string;
     basePath: string;
     body: any;
-    stream?: Http2Stream | Stream;
-    request?: Http2ServerRequest | ClientRequest;
+    stream?: Http2Stream | Stream|null;
+    request?: Http2ServerRequest | ClientRequest|null;
 }
 
 export interface IRoute {
@@ -433,8 +433,8 @@ export interface IController extends IInheritClass{
 }
 
 export type TViewParams = {
-    component: IComponent;
-    dependencies: Array<any>;
+    component?: IComponent;
+    dependencies: any[];
 };
 
 export interface IView {

@@ -1,6 +1,6 @@
 import {  TComponentRouting } from "./types/global";
 
-export const __routing_params__ = function (routing:TComponentRouting, routingPath:string):object {
+export const __routing_params__ = (routing:TComponentRouting, routingPath:string):object => {
     const standardRoutingPath = routing.path.replace(/{(.*?)}/g, "(?<$1>.*)"); // allowing {param}
     return {
         ...[...routingPath.matchAll((new RegExp(standardRoutingPath, "g")))][0].groups
@@ -13,6 +13,6 @@ export const __valid_routings__ = function (routings:TComponentRouting[], routin
         return (new RegExp(standardRoutingPath, "g")).test(routingPath);
     }).reverse();
 };
-export const __valid_routing_way__ = function (validRoutingWays:string[], routingWay:string) {
+export const __valid_routing_way__ = (validRoutingWays:string[], routingWay:string):boolean => {
     return validRoutingWays.includes(routingWay);
 };

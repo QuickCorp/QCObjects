@@ -5,7 +5,7 @@ const findPackageNodePath_1 = require("./findPackageNodePath");
 const Import_1 = require("./Import");
 const Logger_1 = require("./Logger");
 const platform_1 = require("./platform");
-function loadSDK() {
+const loadSDK = () => {
     if (CONFIG_1.CONFIG.get("useSDK")) {
         (function () {
             const remoteImportsPath = CONFIG_1.CONFIG.get("remoteImportsPath");
@@ -59,5 +59,5 @@ function loadSDK() {
             }
         })();
     }
-}
+};
 exports.default = loadSDK;

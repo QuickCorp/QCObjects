@@ -7,17 +7,17 @@ import { Effect } from "./Effect";
 import { ArrayList } from "./ArrayCollection";
 
 export class TagElements extends ArrayList implements ITagElements {
-    show() {
+    show():void {
       this.map(function (element:any) {
         return element.style.opacity = 1;
       });
     }
-    hide() {
+    hide():void {
       this.map(function (element:any) {
         return element.style.opacity = 0;
       });
     }
-    effect<T>(...args:T[]) {
+    effect<T>(...args:T[]):void {
       const effectArguments = [...args].slice(1);
       const effectClassName = args[0] as string;
       let effectClass = undefined;

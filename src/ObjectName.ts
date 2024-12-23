@@ -3,7 +3,7 @@
  *
  * @param Object or function
  */
-export const ObjectName = function (o: any) {
+export const ObjectName = (o: any):string => {
   let ret = "";
   if (typeof o === "function" && Object.hasOwn(o, "name") && o.name !== "") {
     ret = o.name;

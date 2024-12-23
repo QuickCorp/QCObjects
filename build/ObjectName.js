@@ -6,7 +6,7 @@ exports.ObjectName = void 0;
  *
  * @param Object or function
  */
-const ObjectName = function (o) {
+const ObjectName = (o) => {
     let ret = "";
     if (typeof o === "function" && Object.hasOwn(o, "name") && o.name !== "") {
         ret = o.name;

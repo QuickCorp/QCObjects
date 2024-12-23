@@ -37,13 +37,13 @@ export class Controller extends InheritClass implements IController{
     }).pop();
   }
 
-  isTouchable() {
+  isTouchable():boolean {
     return ("ontouchstart" in window) ||
       ((navigator as any).MaxTouchPoints > 0) ||
       ((navigator as any).msMaxTouchPoints > 0);
   }
 
-  onpress(subelementSelector: string, handler: Function) {
+  onpress(subelementSelector: string, handler: Function):void {
     if (isBrowser){
       try {
         if (this.isTouchable()) {
@@ -63,7 +63,7 @@ export class Controller extends InheritClass implements IController{
     }
   }
 
-  createRoutingController() {
+  createRoutingController():void {
     const controller = this;
     const component = controller.component;
     const controllerName = controller.routingSelectedAttr("controllerclass");
@@ -82,7 +82,7 @@ export class Controller extends InheritClass implements IController{
     }
   }
 
-  done() { }
+  done():void { }
 }
 
 Package("com.qcobjects.controllers", [

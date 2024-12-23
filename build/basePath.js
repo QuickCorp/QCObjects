@@ -1,8 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setBasePath = exports._basePath_ = void 0;
-const Logger_1 = require("./Logger");
 const platform_1 = require("./platform");
+const node_process_1 = __importDefault(require("node:process"));
 exports._basePath_ = (function () {
     let _basePath = "";
     if (platform_1.isBrowser) {
@@ -11,16 +14,8 @@ exports._basePath_ = (function () {
         _basePath = baseURI.join("/") + "/";
     }
     else {
-        let process;
-        try {
-            process = (0, platform_1._require_)("process");
-        }
-        catch (e) {
-            Logger_1.logger.debug(`An error ocurred: ${e}.`);
-            // not a process module
-        }
-        if (typeof process !== "undefined") {
-            _basePath = `${(process).cwd()}/`;
+        if (typeof node_process_1.default !== "undefined") {
+            _basePath = `${(node_process_1.default).cwd()}/`;
         }
         else {
             _basePath = "";

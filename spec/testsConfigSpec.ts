@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-undef */
-import {CONFIG, logger} from "./../src/QCObjects";
+import {CONFIG, logger} from "./../src/qcobjects";
 
 describe("qcobjects", function () {
   logger.debugEnabled=true;

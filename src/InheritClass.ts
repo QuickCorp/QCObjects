@@ -25,25 +25,25 @@ export class InheritClass implements IInheritClass {
 
     constructor(_o_?: any) {
 
-        if (typeof _o_ !== "undefined" && typeof _o_.__definition !== "undefined"){
+        if (typeof _o_ !== "undefined" && typeof _o_.__definition !== "undefined") {
             this.__definition = {
                 ...(_o_.__definition)
             };
         }
 
-        const self:this = this;
-        if (typeof _o_ !== "undefined" && _o_ !== null){
+        const self: this = this;
+        if (typeof _o_ !== "undefined" && _o_ !== null) {
             Object.keys(_o_)
-            .filter(function (k) {
-                return isNaN(k as any) && !["__instanceID", "__classType", "__definition"].includes(k);
-            })
-            .forEach(function (key) {
-                if (typeof self[key] === "function") {
-                    self[key] = _o_[key].bind(self);
-                } else {
-                    self[key] = _o_[key];
-                }
-            });    
+                .filter(function (k) {
+                    return isNaN(k as any) && !["__instanceID", "__classType", "__definition"].includes(k);
+                })
+                .forEach(function (key) {
+                    if (typeof self[key] === "function") {
+                        self[key] = _o_[key].bind(self);
+                    } else {
+                        self[key] = _o_[key];
+                    }
+                });
         }
 
         IncrementInstanceID();
@@ -82,7 +82,7 @@ export class InheritClass implements IInheritClass {
                     } else {
                         self.body = {};
                     }
-                } catch (e:any) {
+                } catch (e: any) {
                     logger.debug(`An error ocurred: ${e}.`);
                     self.body = {};
                 }
@@ -136,37 +136,37 @@ export class InheritClass implements IInheritClass {
 
     __namespace?: string | undefined;
 
-    __new__(_o_: any) {
+    __new__(_o_: any): void {
         _CastProps(_o_, this);
     }
 
     // eslint-disable-next-line no-unused-vars
-    _new_(_o_?: any) { }
+    _new_(_o_?: any): void { }
 
     static getParentClass(): any {
         return Object.getPrototypeOf(this.prototype.constructor);
     }
-    getParentClass():any {
+    getParentClass(): any {
         return (this.constructor as typeof InheritClass).getParentClass();
     }
 
-    
+
     static getClass(): any {
         return Object.getPrototypeOf(this.constructor);
     }
 
     getClass(): any {
         return (this.constructor as typeof InheritClass).getClass();
-    }    
+    }
 
     css(_css: any): any {
         if (typeof this.body !== "undefined" && typeof this?.body !== "string" && typeof (this?.body as HTMLElement)?.style !== "undefined") {
             logger.debug("body style");
-            if (this.body){
+            if (this.body) {
                 (this.body as any).style = _Cast(_css, (this?.body as HTMLElement)?.style);
             }
         }
-        return (typeof this.body !== "string")? (this?.body as HTMLElement)?.style :{};
+        return (typeof this.body !== "string") ? (this?.body as HTMLElement)?.style : {};
     }
 
     hierarchy(): any {
@@ -175,7 +175,7 @@ export class InheritClass implements IInheritClass {
     }
 
 
-    append(_child?: any) {
+    append(_child?: any): void {
         const child: any = _child || this.body;
         logger.debug("append: start");
         if (is_a(child, "Component")) {
@@ -186,11 +186,11 @@ export class InheritClass implements IInheritClass {
             logger.debug("append element");
             if (arguments.length > 0) {
                 logger.debug("append to element");
-                if (typeof this.body !== "string"){
+                if (typeof this.body !== "string") {
                     if (typeof (this.body as IQCObjectsElement)?.append !== "undefined") {
                         (this?.body as IQCObjectsElement)?.append(child);
                     } else {
-                        throw Error ("body.append is undefined. That means the body is not well formed.");
+                        throw Error("body.append is undefined. That means the body is not well formed.");
                     }
                 } else {
                     this.append(child);
@@ -208,7 +208,7 @@ export class InheritClass implements IInheritClass {
         }
     }
 
-    attachIn(tag: any) {
+    attachIn(tag: any): void {
         if (isBrowser) {
             const tags = (document as any).subelements(tag);
             for (let i = 0, j = tags.length; i < j; i++) {

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports._methods_ = exports._protected_code_ = void 0;
-const _protected_code_ = function (_) {
+const _protected_code_ = (_) => {
     const __oldtoString = (typeof _.prototype !== "undefined") ? (_.prototype.toString) : (function () {
         return "";
     });

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports._DataStringify = void 0;
 const LegacyCopy_1 = require("./LegacyCopy");
-const _DataStringify = function (data) {
+const _DataStringify = (data) => {
     const getCircularReplacer = function () {
         const seen = new WeakSet();
         let _level = 0;

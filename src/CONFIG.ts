@@ -21,7 +21,7 @@ export class CONFIG extends InheritClass implements ICONFIG {
     return ConfigSettings.instance._CONFIG as unknown;
   }
 
-  set(name: string, value: unknown) {
+  set(name: string, value: unknown):void {
     logger.debug(`CONFIG.set  ${name}: ${value as string}`);
     // hack to force update basePath from CONFIG
     if (name === "basePath") {
@@ -83,7 +83,7 @@ export class CONFIG extends InheritClass implements ICONFIG {
     return CONFIG._instance;
   }
 
-  static set(name: string, value: unknown) {
+  static set(name: string, value: unknown):void {
     (CONFIG.instance.set(name, value));
   }
   static get(name: string, value?: unknown): any {

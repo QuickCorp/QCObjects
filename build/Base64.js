@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Base64 = void 0;
-exports.Base64 = {
-    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-    encode(e) {
+class Base64 {
+    static _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    static encode(e) {
         let t = "";
         let n, r, i, s, o, u, a;
         let f = 0;
-        e = exports.Base64._utf8_encode(e);
+        e = Base64._utf8_encode(e);
         while (f < e.length) {
             n = e.charCodeAt(f++);
             r = e.charCodeAt(f++);
@@ -25,8 +25,8 @@ exports.Base64 = {
             t = t + this._keyStr.charAt(s) + this._keyStr.charAt(o) + this._keyStr.charAt(u) + this._keyStr.charAt(a);
         }
         return t;
-    },
-    decode(e) {
+    }
+    static decode(e) {
         let t = "";
         let n, r, i;
         let s, o, u, a;
@@ -48,10 +48,10 @@ exports.Base64 = {
                 t = t + String.fromCharCode(i);
             }
         }
-        t = exports.Base64._utf8_decode(t);
+        t = Base64._utf8_decode(t);
         return t;
-    },
-    _utf8_encode(e) {
+    }
+    static _utf8_encode(e) {
         e = e.replace(/rn/g, "n");
         let t = "";
         for (let n = 0; n < e.length; n++) {
@@ -70,8 +70,8 @@ exports.Base64 = {
             }
         }
         return t;
-    },
-    _utf8_decode(e) {
+    }
+    static _utf8_decode(e) {
         let t = "";
         let n = 0;
         let r = 0;
@@ -97,4 +97,6 @@ exports.Base64 = {
         }
         return t;
     }
-};
+}
+exports.Base64 = Base64;
+;

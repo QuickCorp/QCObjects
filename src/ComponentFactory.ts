@@ -18,12 +18,12 @@ import { _tag_filter_ } from "./tag_filter";
  * @author: Jean Machuca <correojean@gmail.com>
  * @param params an object with the params to build the uri path
  */
-export const ComponentURI = ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }:TComponentURIParams) => {
+export const ComponentURI = ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXTENSION }:TComponentURIParams):string => {
     const templateURI = (TPL_SOURCE === "default") ? (`${COMPONENTS_BASE_PATH}${COMPONENT_NAME}.${TPLEXTENSION}`) : ("");
     return templateURI;
 };
 
-export const _buildComponentFromElement_ = function (element: Element, __parent__: any) {
+export const _buildComponentFromElement_ = (element: Element, __parent__: any):Component => {
     const __shadowed_not_set = (element.getAttribute("shadowed") === null);
     const __tplsource_attr_not_set = (element.getAttribute("template-source") === null);
     const shadowed = (element.getAttribute("shadowed") === "true");
@@ -101,7 +101,7 @@ export const _buildComponentFromElement_ = function (element: Element, __parent_
     return newComponent;
 };
 
-export const _buildComponentsFromElements_ = function (elements: HTMLElement[], __parent__: Component | null) {
+export const _buildComponentsFromElements_ = (elements: HTMLElement[], __parent__: Component | null):Component[] => {
     let componentsBuiltWith:Component[] = [];
     if (isBrowser) {
         componentsBuiltWith = elements.map(

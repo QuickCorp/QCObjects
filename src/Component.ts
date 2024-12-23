@@ -35,8 +35,8 @@ export class Component extends InheritClass implements IComponent {
     tplextension!: string;
     template!: string;
     validRoutingWays: string[] = ["pathname", "hash", "search"];
-    basePath = _basePath_;
-    domain = _domain_;
+    basePath:string = _basePath_;
+    domain:string = _domain_;
     templateHandler = "DefaultTemplateHandler";
     processorHandler?: IProcessor;
     routingWay: string | null = null;
@@ -179,7 +179,7 @@ export class Component extends InheritClass implements IComponent {
         logger.debug("[cacheIndex] This property is readonly");
     }
 
-    get cacheIndex() {
+    get cacheIndex():string {
         const self = this;
         const __routing_path__ = _DataStringify(self.routingPath);
         return Base64.encode(self.name + __routing_path__);
@@ -349,7 +349,7 @@ export class Component extends InheritClass implements IComponent {
         });
     }
 
-    _bindroute_() {
+    _bindroute_():void {
         const _component_ = this;
         if (!(_component_ as any)._bindroute_.loaded) {
             if (isBrowser) {
@@ -553,13 +553,13 @@ export class Component extends InheritClass implements IComponent {
         return _component_.hostElements(tagFilter);
     }
 
-    get bodyAttributes() {
+    get bodyAttributes():any {
         const _component_ = this;
         const c = _component_.body;
         return (isBrowser) ? ([...(c as HTMLElement).getAttributeNames()].map(a => { return { [a]: (c as HTMLElement).getAttribute(a) }; }).reduce((accumulator, colData) => { return Object.assign(accumulator, colData); })) : ({});
     }
 
-    get dataAttributes() {
+    get dataAttributes():any {
         const _component_ = this;
         const c = _component_.body;
         return (isBrowser) ? ([{}].concat([...(c as HTMLElement).getAttributeNames()].filter(n => n.startsWith("data-")).map(a => { return { [a.split("-")[1]]: (c as HTMLElement).getAttribute(a) }; })).reduce((accumulator, colData) => { return Object.assign(accumulator, colData); })) : ({});
@@ -589,7 +589,7 @@ export class Component extends InheritClass implements IComponent {
         return _ret_;
     }
 
-    set(key: string, value: any) {
+    set(key: string, value: any):void {
         this[key] = value;
     }
 
@@ -806,11 +806,11 @@ export class Component extends InheritClass implements IComponent {
         return _Cast(this, o);
     }
 
-    route() {
+    route():Promise<void> {
         return (this.constructor as typeof Component).route();
     }
 
-    static route() {
+    static route():Promise<void> {
         const componentClass = this; /* is can be class or object */
         let _route_promise_;
         const isValidInstance = !!((isQCObjects_Object(componentClass) && is_a(componentClass, "Component")));
@@ -880,7 +880,7 @@ export class Component extends InheritClass implements IComponent {
         return _route_promise_;
     }
 
-    fullscreen() {
+    fullscreen():void {
         if (isBrowser) {
             const elem: HTMLElement = this.body as HTMLElement;
             if (elem.requestFullscreen) {
@@ -903,7 +903,7 @@ export class Component extends InheritClass implements IComponent {
         }
     }
 
-    closefullscreen() {
+    closefullscreen():void {
         if (isBrowser) {
             if (document.exitFullscreen) {
                 document.exitFullscreen()
@@ -920,7 +920,7 @@ export class Component extends InheritClass implements IComponent {
         }
     }
 
-    _generateRoutingPaths(componentBody: TBody) {
+    _generateRoutingPaths(componentBody: TBody):Promise<void> {
         const component = this;
         return new Promise<void>(function (resolve) {
             if (isBrowser) {
@@ -1055,7 +1055,7 @@ export class Component extends InheritClass implements IComponent {
         return null;
     }
 
-    applyTransitionEffect(effectClassName: string) {
+    applyTransitionEffect(effectClassName: string):void {
         const _Effect = ClassFactory(effectClassName);
         if (typeof _Effect === "undefined") {
             throw Error(`${effectClassName} not found.`);
@@ -1070,7 +1070,7 @@ export class Component extends InheritClass implements IComponent {
         }
     }
 
-    applyObserveTransitionEffect(effectClassName: any) {
+    applyObserveTransitionEffect(effectClassName: any):void {
         if (isBrowser) {
             const component = this;
             const _componentRoot = component.componentRoot;
@@ -1100,7 +1100,7 @@ export class Component extends InheritClass implements IComponent {
         return (this.shadowed) ? (this.shadowRoot) : (this.body);
     }
 
-    scrollIntoHash() {
+    scrollIntoHash():void {
         if (isBrowser) {
             const component = this;
             if (document.location.hash !== "") {
@@ -1125,7 +1125,7 @@ export class Component extends InheritClass implements IComponent {
         }
     }
 
-    i18n_translate() {
+    i18n_translate():void {
         if (isBrowser) {
             if (CONFIG.get("use_i18n")) {
                 const component = this;
@@ -1163,12 +1163,12 @@ export class Component extends InheritClass implements IComponent {
         }
     }
 
-    addComponentHelper(componentHelper: any) {
+    addComponentHelper(componentHelper: any):void {
         const component = this;
         component._componentHelpers.push(componentHelper as never);
     }
 
-    runComponentHelpers() {
+    runComponentHelpers():void {
         if (isBrowser) {
             const component = this;
             let __component_helpers__ = [];

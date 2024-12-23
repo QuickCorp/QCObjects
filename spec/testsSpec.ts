@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { _DataStringify, Class, ClassFactory, Component, CONFIG, Effect, logger, New, global, InheritClass, __getType__, _QC_CLASSES } from "../src/QCObjects";
+import { _DataStringify, Class, ClassFactory, Component, CONFIG, Effect, logger, New, global, InheritClass, __getType__, _QC_CLASSES } from "../src/qcobjects";
 
 
 /* eslint-disable no-undef */

@@ -33,7 +33,7 @@ export class TransitionEffect extends Effect implements ITransitionEffect{
     radiusTo,
     scaleFrom,
     scaleTo
-  }: TTransitionEffectParams) {
+  }: TTransitionEffectParams):void {
     const _transition_ = this;
     logger.info("EXECUTING TransitionEffect  ");
     const componentRoot =_transition_.component.componentRoot as IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | ShadowRoot;

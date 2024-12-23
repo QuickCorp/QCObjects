@@ -8,8 +8,8 @@ import { Package } from "./Package";
 import { logger } from "./Logger";
 
 export class SourceJS extends InheritClass implements ISourceJS {
-    domain= _domain_;
-    basePath= _basePath_;
+    domain:string= _domain_;
+    basePath:string= _basePath_;
     type= "text/javascript";
     containerTag= "body";
     url= "";
@@ -22,16 +22,16 @@ export class SourceJS extends InheritClass implements ISourceJS {
       this.body= _DOMCreateElement("script");
 
     }
-    set(name:string, value:any) {
+    set(name:string, value:any):void {
       this[name] = value;
     }
     get(name:string, _default?:any):any {
       return this[name] || _default;
     }
     status= false;
-    done() { }
-    fail() { }
-    rebuild() {
+    done():void { }
+    fail():void { }
+    rebuild():void {
       const context = this;
       try {
         document.getElementsByTagName(context.containerTag)[0].appendChild(
@@ -67,7 +67,7 @@ export class SourceJS extends InheritClass implements ISourceJS {
     Cast(o:any):any {
       return _Cast(this, o);
     }
-    _new_(properties:any) {
+    _new_(properties:any):void {
       this.__new__(properties);
       this.rebuild();
     }

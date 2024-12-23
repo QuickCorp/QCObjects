@@ -2,7 +2,7 @@ import { logger } from "./Logger";
 import { isBrowser } from "./platform";
 
 export let supportsPassive = false;
-export const captureFalseTouch = () => {
+export const captureFalseTouch = ():boolean | { passive: boolean; } => {
     return (supportsPassive) ? ({
         passive: true
     }) : (false);

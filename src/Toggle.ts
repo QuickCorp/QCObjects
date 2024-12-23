@@ -14,7 +14,7 @@ export class Toggle extends InheritClass {
     this._new_({positive, negative, args});
   }
 
-  changeToggle() {
+  changeToggle():void {
     this._toggle = !(this._toggle);
   }
 
@@ -22,7 +22,7 @@ export class Toggle extends InheritClass {
     positive,
     negative,
     args
-  }:{positive: Function, negative: Function, args: Array<any>}) {
+  }:{positive: Function, negative: Function, args: Array<any>}):void {
     this._positive = positive;
     this._negative = negative;
     this._args = args;

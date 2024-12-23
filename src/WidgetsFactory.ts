@@ -526,14 +526,14 @@ if (isBrowser) {
   };
 }
 Export(_ComponentWidget_);
-export const RegisterWidget = function (widgetName: string) {
+export const RegisterWidget = (widgetName: string):void => {
   if (isBrowser){
     customElements.define(widgetName, class extends _ComponentWidget_ { });
   } else {
     throw new Error ("RegisterWidget is not implemented for non browser ecosystems yet.");
   }
 };
-export const RegisterWidgets = function (...args: string[]) {
+export const RegisterWidgets =  (...args: string[]):void  =>{
   const widgetList = [...args];
   widgetList.filter(function (widgetName) {
     return typeof widgetName === "string";

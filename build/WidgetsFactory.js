@@ -517,7 +517,7 @@ else {
     };
 }
 (0, Export_1.Export)(exports._ComponentWidget_);
-const RegisterWidget = function (widgetName) {
+const RegisterWidget = (widgetName) => {
     if (platform_1.isBrowser) {
         customElements.define(widgetName, class extends exports._ComponentWidget_ {
         });
@@ -527,7 +527,7 @@ const RegisterWidget = function (widgetName) {
     }
 };
 exports.RegisterWidget = RegisterWidget;
-const RegisterWidgets = function (...args) {
+const RegisterWidgets = (...args) => {
     const widgetList = [...args];
     widgetList.filter(function (widgetName) {
         return typeof widgetName === "string";

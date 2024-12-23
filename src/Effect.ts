@@ -4,13 +4,13 @@ import { Package } from "./Package";
 import { _methods_, _protected_code_ } from "./introspection";
 import { ClassFactory } from "./ClassFactory";
 
-class Effect extends InheritClass implements IEffect{
+class Effect extends InheritClass implements IEffect {
   // eslint-disable-next-line no-unused-vars
-  done (...args: any[]): any {
+  done(...args: any[]): any {
     throw new Error("Method not implemented.");
   };
   // eslint-disable-next-line no-unused-vars
-  apply(...args: any[]) {
+  apply(...args: any[]): void {
     throw new Error("Method not implemented.");
   }
   duration = 1000;
@@ -20,7 +20,7 @@ class Effect extends InheritClass implements IEffect{
     timing,
     draw,
     duration
-  }: TEffectParams) {
+  }: TEffectParams): void {
     const _self: this = this;
 
     const start = performance.now();
@@ -57,9 +57,9 @@ Package("com.qcobjects.effects.base", [
   Effect
 ]);
 
-(_methods_)(ClassFactory("Effect")).map( (__c__):any  => {
+(_methods_)(ClassFactory("Effect")).map((__c__): any => {
   (_protected_code_)(__c__);
   return __c__;
 });
 
-export {Effect};
+export { Effect };

@@ -24,8 +24,8 @@ export class Service extends InheritClass implements IService{
     }
     kind = "rest";
     /* it can be rest, mockup, local */
-    domain = _domain_;
-    basePath = _basePath_;
+    domain:string = _domain_;
+    basePath:string = _basePath_;
     url = "";
     method = "GET";
     data = {};
@@ -44,11 +44,11 @@ export class Service extends InheritClass implements IService{
         throw new Error("Method not implemented.");
     }
 
-    set(name:string, value:never) {
+    set(name:string, value:never):void {
         this[name] = value;
     }
 
-    get(name:string, _default?:never) {
+    get(name:string, _default?:never):any {
         return this[name] as never || _default;
     }
 
@@ -63,7 +63,7 @@ export class JSONService extends Service implements IJSONService{
     };
 
     JSONresponse?:JSON = undefined;
-    done(result:TServiceDoneResponse) {
+    done(result:TServiceDoneResponse):void {
         logger.debug("***** RECEIVED RESPONSE:");
         logger.debug(result.service.template as string);
         this.JSONresponse = JSON.parse(result.service.template as string);
@@ -87,7 +87,7 @@ export class ConfigService extends JSONService {
     }
 
     JSONresponse?:JSON = undefined;
-    done(result:TServiceDoneResponse) {
+    done(result:TServiceDoneResponse):void {
         logger.debug("***** CONFIG LOADED:");
         logger.debug(result.service.template as string);
         this.JSONresponse = JSON.parse(result.service.template as string);
@@ -103,7 +103,7 @@ export class ConfigService extends JSONService {
         this.configLoaded().catch((e:any)=>{throw new Error (`An error ocurred: ${e}`);});
     }
 
-    fail() {
+    fail():void {
         this.configLoaded().catch((e:any)=>{throw new Error (`An error ocurred: ${e}`);});
     }
 

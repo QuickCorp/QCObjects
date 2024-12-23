@@ -78,7 +78,7 @@ var global = (() => {
   var init_is_raw_class = __esm({
     "src/is_raw_class.ts"() {
       "use strict";
-      __is_raw_class__ = /* @__PURE__ */ __name(function(o_c) {
+      __is_raw_class__ = /* @__PURE__ */ __name((o_c) => {
         return !!(typeof o_c === "function" && o_c.toString().startsWith("class"));
       }, "__is_raw_class__");
     }
@@ -89,7 +89,7 @@ var global = (() => {
   var init_ObjectName = __esm({
     "src/ObjectName.ts"() {
       "use strict";
-      ObjectName = /* @__PURE__ */ __name(function(o) {
+      ObjectName = /* @__PURE__ */ __name((o) => {
         let ret = "";
         if (typeof o === "function" && Object.hasOwn(o, "name") && o.name !== "") {
           ret = o.name;
@@ -143,7 +143,7 @@ var global = (() => {
     "src/make_global.ts"() {
       "use strict";
       init_top();
-      __make_global__ = /* @__PURE__ */ __name(function(f) {
+      __make_global__ = /* @__PURE__ */ __name((f) => {
         if (!!f && !!f.name) {
           if (typeof _top !== "undefined" && typeof f !== "undefined" && _top !== null && !Object.hasOwn(_top, f.name)) {
             set(f.name, f);
@@ -470,7 +470,7 @@ var global = (() => {
   var init_introspection = __esm({
     "src/introspection.ts"() {
       "use strict";
-      _protected_code_ = /* @__PURE__ */ __name(function(_) {
+      _protected_code_ = /* @__PURE__ */ __name((_) => {
         const __oldtoString = typeof _.prototype !== "undefined" ? _.prototype.toString : function() {
           return "";
         };
@@ -813,7 +813,7 @@ var global = (() => {
       init_getType();
       init_isQCObjects();
       init_ObjectName();
-      is_a = /* @__PURE__ */ __name(function is_a2(obj, typeName) {
+      is_a = /* @__PURE__ */ __name((obj, typeName) => {
         return !!(typeof obj !== "undefined" && obj !== null && ((isQCObjects_Class(obj) || isQCObjects_Object(obj)) && obj.hierarchy().includes(typeName) || __getType__(obj) === typeName || ObjectName(obj) === typeName || typeof obj === typeName));
       }, "is_a");
     }
@@ -824,7 +824,7 @@ var global = (() => {
   var init_is_forbidden_name = __esm({
     "src/is_forbidden_name.ts"() {
       "use strict";
-      __is__forbidden_name__ = /* @__PURE__ */ __name(function(name) {
+      __is__forbidden_name__ = /* @__PURE__ */ __name((name) => {
         return ["__proto__", "prototype", "Object", "Map", "defineProperty", "indexOf", "toString", "__instanceID", "function", "Function"].indexOf(name) !== -1;
       }, "__is__forbidden_name__");
     }
@@ -1162,13 +1162,16 @@ var global = (() => {
   var init_Base64 = __esm({
     "src/Base64.ts"() {
       "use strict";
-      Base64 = {
-        _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-        encode(e) {
+      Base64 = class _Base64 {
+        static {
+          __name(this, "Base64");
+        }
+        static _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        static encode(e) {
           let t = "";
           let n, r, i, s, o, u, a;
           let f = 0;
-          e = Base64._utf8_encode(e);
+          e = _Base64._utf8_encode(e);
           while (f < e.length) {
             n = e.charCodeAt(f++);
             r = e.charCodeAt(f++);
@@ -1185,8 +1188,8 @@ var global = (() => {
             t = t + this._keyStr.charAt(s) + this._keyStr.charAt(o) + this._keyStr.charAt(u) + this._keyStr.charAt(a);
           }
           return t;
-        },
-        decode(e) {
+        }
+        static decode(e) {
           let t = "";
           let n, r, i;
           let s, o, u, a;
@@ -1208,10 +1211,10 @@ var global = (() => {
               t = t + String.fromCharCode(i);
             }
           }
-          t = Base64._utf8_decode(t);
+          t = _Base64._utf8_decode(t);
           return t;
-        },
-        _utf8_encode(e) {
+        }
+        static _utf8_encode(e) {
           e = e.replace(/rn/g, "n");
           let t = "";
           for (let n = 0; n < e.length; n++) {
@@ -1228,8 +1231,8 @@ var global = (() => {
             }
           }
           return t;
-        },
-        _utf8_decode(e) {
+        }
+        static _utf8_decode(e) {
           let t = "";
           let n = 0;
           let r = 0;
@@ -1258,12 +1261,12 @@ var global = (() => {
   });
 
   // src/basePath.ts
-  var _basePath_, setBasePath;
+  var import_node_process, _basePath_, setBasePath;
   var init_basePath = __esm({
     "src/basePath.ts"() {
       "use strict";
-      init_Logger();
       init_platform();
+      import_node_process = __toESM(__require("node:process"));
       _basePath_ = function() {
         let _basePath = "";
         if (isBrowser) {
@@ -1271,14 +1274,8 @@ var global = (() => {
           baseURI.pop();
           _basePath = baseURI.join("/") + "/";
         } else {
-          let process2;
-          try {
-            process2 = _require_("process");
-          } catch (e) {
-            logger.debug(`An error ocurred: ${e}.`);
-          }
-          if (typeof process2 !== "undefined") {
-            _basePath = `${process2.cwd()}/`;
+          if (typeof import_node_process.default !== "undefined") {
+            _basePath = `${import_node_process.default.cwd()}/`;
           } else {
             _basePath = "";
           }
@@ -1297,7 +1294,7 @@ var global = (() => {
     "src/DataStringify.ts"() {
       "use strict";
       init_LegacyCopy();
-      _DataStringify = /* @__PURE__ */ __name(function(data) {
+      _DataStringify = /* @__PURE__ */ __name((data) => {
         const getCircularReplacer = /* @__PURE__ */ __name(function() {
           const seen = /* @__PURE__ */ new WeakSet();
           let _level = 0;
@@ -1673,7 +1670,7 @@ var global = (() => {
   var init_routings = __esm({
     "src/routings.ts"() {
       "use strict";
-      __routing_params__ = /* @__PURE__ */ __name(function(routing, routingPath) {
+      __routing_params__ = /* @__PURE__ */ __name((routing, routingPath) => {
         const standardRoutingPath = routing.path.replace(/{(.*?)}/g, "(?<$1>.*)");
         return {
           ...[...routingPath.matchAll(new RegExp(standardRoutingPath, "g"))][0].groups
@@ -1685,7 +1682,7 @@ var global = (() => {
           return new RegExp(standardRoutingPath, "g").test(routingPath);
         }).reverse();
       }, "__valid_routings__");
-      __valid_routing_way__ = /* @__PURE__ */ __name(function(validRoutingWays, routingWay) {
+      __valid_routing_way__ = /* @__PURE__ */ __name((validRoutingWays, routingWay) => {
         return validRoutingWays.includes(routingWay);
       }, "__valid_routing_way__");
     }
@@ -1719,7 +1716,7 @@ var global = (() => {
       init_top();
       _asyncLoad = [];
       __name(asyncLoad, "asyncLoad");
-      _fireAsyncLoad = /* @__PURE__ */ __name(function() {
+      _fireAsyncLoad = /* @__PURE__ */ __name(() => {
         if (isBrowser) {
           document.addEventListener("readystatechange", () => {
             if (document.readyState === "complete") {
@@ -3473,7 +3470,7 @@ var global = (() => {
         const templateURI = TPL_SOURCE === "default" ? `${COMPONENTS_BASE_PATH}${COMPONENT_NAME}.${TPLEXTENSION}` : "";
         return templateURI;
       }, "ComponentURI");
-      _buildComponentFromElement_ = /* @__PURE__ */ __name(function(element, __parent__) {
+      _buildComponentFromElement_ = /* @__PURE__ */ __name((element, __parent__) => {
         const __shadowed_not_set = element.getAttribute("shadowed") === null;
         const __tplsource_attr_not_set = element.getAttribute("template-source") === null;
         const shadowed = element.getAttribute("shadowed") === "true";
@@ -3535,7 +3532,7 @@ var global = (() => {
         const newComponent = __create_component_instance_();
         return newComponent;
       }, "_buildComponentFromElement_");
-      _buildComponentsFromElements_ = /* @__PURE__ */ __name(function(elements, __parent__) {
+      _buildComponentsFromElements_ = /* @__PURE__ */ __name((elements, __parent__) => {
         let componentsBuiltWith = [];
         if (isBrowser) {
           componentsBuiltWith = elements.map(
@@ -3949,7 +3946,7 @@ var global = (() => {
     "src/range.ts"() {
       "use strict";
       init_introspection();
-      range = /* @__PURE__ */ __name(function(start, stop = 0, step = 1) {
+      range = /* @__PURE__ */ __name((start, stop = 0, step = 1) => {
         if (stop === 0 || typeof stop === "undefined") {
           stop = start;
           start = 0;
@@ -4285,7 +4282,7 @@ var global = (() => {
       init_platform();
       init_PrimaryCollections();
       init_top();
-      Ready = /* @__PURE__ */ __name(function Ready2(e) {
+      Ready = /* @__PURE__ */ __name((e) => {
         if (isBrowser) {
           _QC_READY_LISTENERS.push(e.bind(window));
         } else if (typeof global !== "undefined") {
@@ -4293,8 +4290,8 @@ var global = (() => {
         }
       }, "Ready");
       ready = Ready;
-      _Ready = /* @__PURE__ */ __name(function(e) {
-        const _execReady = /* @__PURE__ */ __name(function() {
+      _Ready = /* @__PURE__ */ __name((e) => {
+        const _execReady = /* @__PURE__ */ __name(() => {
           _QC_READY_LISTENERS.map(function(_ready_listener_, _r) {
             if (typeof _ready_listener_ === "function") {
               _ready_listener_();
@@ -4418,12 +4415,12 @@ var global = (() => {
           const self2 = this;
           logger.debug("VALUE ADDED");
           logger.debug(value);
-          self2.source.push(value);
+          return self2.source.push(value);
         }
         pop() {
           const self2 = this;
           logger.debug("VALUE POPPED");
-          self2.source.pop();
+          return self2.source.pop();
         }
         _new_(source) {
           const self2 = this;
@@ -4537,7 +4534,7 @@ var global = (() => {
     "src/shortCode.ts"() {
       "use strict";
       init_Crypt();
-      shortCode = /* @__PURE__ */ __name(function() {
+      shortCode = /* @__PURE__ */ __name(() => {
         const length = 1e3;
         const code1 = _Crypt.encrypt((Math.random() * length).toString().replace(".", ""), (/* @__PURE__ */ new Date()).getTime().toString());
         const code2 = _Crypt.encrypt((Math.random() * length).toString().replace(".", ""), new Date((/* @__PURE__ */ new Date()).getTime() - 1e3 * 1e3).getTime().toString());
@@ -4570,8 +4567,8 @@ var global = (() => {
     "src/waitUntil.ts"() {
       "use strict";
       init_Logger();
-      waitUntil = /* @__PURE__ */ __name(function(func, exp) {
-        const _waitUntil = /* @__PURE__ */ __name(function(func2, exp2) {
+      waitUntil = /* @__PURE__ */ __name((func, exp) => {
+        const _waitUntil = /* @__PURE__ */ __name((func2, exp2) => {
           const maxWaitCycles = 2e3;
           let _w = 0;
           var _t = setInterval(function() {
@@ -4610,56 +4607,7 @@ var global = (() => {
   });
 
   // src/loadSDK.ts
-  function loadSDK() {
-    if (CONFIG.get("useSDK")) {
-      (function() {
-        const remoteImportsPath = CONFIG.get("remoteImportsPath");
-        const external = !CONFIG.get("useLocalSDK");
-        CONFIG.set("remoteImportsPath", CONFIG.get("remoteSDKPath"));
-        let tryImportingSDK = false;
-        let sdkName = "QCObjects-SDK";
-        if (isBrowser) {
-          tryImportingSDK = true;
-        } else {
-          const sdkPath = findPackageNodePath("qcobjects-sdk");
-          if (sdkPath !== null) {
-            sdkName = "qcobjects-sdk";
-            tryImportingSDK = true;
-          } else if (sdkPath !== "") {
-            sdkName = "node_modules/qcobjects-sdk/QCObjects-SDK";
-            tryImportingSDK = true;
-          } else {
-            tryImportingSDK = false;
-          }
-        }
-        if (tryImportingSDK) {
-          logger.info("Importing SDK... " + sdkName);
-          if (isNodeCommonJS && typeof __require !== "undefined") {
-            const sdk = _require_("qcobjects-sdk");
-            if (sdk) {
-              logger.debug("QCObjects SDK was loaded OK.");
-            } else {
-              logger.debug("QCObjects SDK could not be imported.");
-            }
-          } else {
-            Import(sdkName, function() {
-              if (external) {
-                logger.debug("QCObjects-SDK.js loaded from remote location");
-              } else {
-                logger.debug("QCObjects-SDK.js loaded from local");
-              }
-              CONFIG.set("remoteImportsPath", remoteImportsPath);
-            }, external)?.catch((e) => {
-              throw new Error(`An error ocurred when trying to import: ${e}`);
-            });
-          }
-        } else {
-          logger.debug("SDK has not been imported as it is not available at the moment");
-        }
-      })();
-    }
-  }
-  var loadSDK_default;
+  var loadSDK, loadSDK_default;
   var init_loadSDK = __esm({
     "src/loadSDK.ts"() {
       "use strict";
@@ -4668,7 +4616,55 @@ var global = (() => {
       init_Import();
       init_Logger();
       init_platform();
-      __name(loadSDK, "loadSDK");
+      loadSDK = /* @__PURE__ */ __name(() => {
+        if (CONFIG.get("useSDK")) {
+          (function() {
+            const remoteImportsPath = CONFIG.get("remoteImportsPath");
+            const external = !CONFIG.get("useLocalSDK");
+            CONFIG.set("remoteImportsPath", CONFIG.get("remoteSDKPath"));
+            let tryImportingSDK = false;
+            let sdkName = "QCObjects-SDK";
+            if (isBrowser) {
+              tryImportingSDK = true;
+            } else {
+              const sdkPath = findPackageNodePath("qcobjects-sdk");
+              if (sdkPath !== null) {
+                sdkName = "qcobjects-sdk";
+                tryImportingSDK = true;
+              } else if (sdkPath !== "") {
+                sdkName = "node_modules/qcobjects-sdk/QCObjects-SDK";
+                tryImportingSDK = true;
+              } else {
+                tryImportingSDK = false;
+              }
+            }
+            if (tryImportingSDK) {
+              logger.info("Importing SDK... " + sdkName);
+              if (isNodeCommonJS && typeof __require !== "undefined") {
+                const sdk = _require_("qcobjects-sdk");
+                if (sdk) {
+                  logger.debug("QCObjects SDK was loaded OK.");
+                } else {
+                  logger.debug("QCObjects SDK could not be imported.");
+                }
+              } else {
+                Import(sdkName, function() {
+                  if (external) {
+                    logger.debug("QCObjects-SDK.js loaded from remote location");
+                  } else {
+                    logger.debug("QCObjects-SDK.js loaded from local");
+                  }
+                  CONFIG.set("remoteImportsPath", remoteImportsPath);
+                }, external)?.catch((e) => {
+                  throw new Error(`An error ocurred when trying to import: ${e}`);
+                });
+              }
+            } else {
+              logger.debug("SDK has not been imported as it is not available at the moment");
+            }
+          })();
+        }
+      }, "loadSDK");
       loadSDK_default = loadSDK;
     }
   });
@@ -5458,20 +5454,20 @@ var global = (() => {
               _value = GlobalProcessor.processObject.bind(processorHandler).call(processorHandler, _value, templateInstance.component);
               parsedAssignmentText = parsedAssignmentText.replace(new RegExp(`{{${k}}}`, "g"), _value);
             } catch (e) {
-              logger.warn(`${templateInstance.component.name} could not parse processors.`);
-              throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+              logger.warn(`${templateInstance.component?.name} could not parse processors.`);
+              throw Error(`${templateInstance.component?.name} could not parse processors. Reason: ${e.message}`);
             }
           }
           return k;
         });
       } else {
-        logger.debug(`${templateInstance.component.name}.data is not an object`);
+        logger.debug(`${templateInstance.component?.name}.data is not an object`);
       }
       try {
         parsedAssignmentText = GlobalProcessor.processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
       } catch (e) {
-        logger.warn(`${templateInstance.component.name} could not parse processors.`);
-        throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+        logger.warn(`${templateInstance.component?.name} could not parse processors.`);
+        throw Error(`${templateInstance.component?.name} could not parse processors. Reason: ${e.message}`);
       }
       return parsedAssignmentText;
     }
@@ -6153,7 +6149,7 @@ var global = (() => {
     };
   }
   Export(_ComponentWidget_);
-  var RegisterWidget = /* @__PURE__ */ __name(function(widgetName) {
+  var RegisterWidget = /* @__PURE__ */ __name((widgetName) => {
     if (isBrowser) {
       customElements.define(widgetName, class extends _ComponentWidget_ {
       });
@@ -6161,7 +6157,7 @@ var global = (() => {
       throw new Error("RegisterWidget is not implemented for non browser ecosystems yet.");
     }
   }, "RegisterWidget");
-  var RegisterWidgets = /* @__PURE__ */ __name(function(...args) {
+  var RegisterWidgets = /* @__PURE__ */ __name((...args) => {
     const widgetList = [...args];
     widgetList.filter(function(widgetName) {
       return typeof widgetName === "string";

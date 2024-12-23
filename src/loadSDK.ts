@@ -4,7 +4,7 @@ import { Import } from "./Import";
 import { logger } from "./Logger";
 import { _require_, isBrowser, isNodeCommonJS } from "./platform";
 
-function loadSDK() {
+const loadSDK = ():void => {
     if (CONFIG.get("useSDK")) {
         (function () {
             const remoteImportsPath = CONFIG.get("remoteImportsPath");
@@ -54,6 +54,6 @@ function loadSDK() {
         })();
     }
 
-}
+};
 
 export default loadSDK;

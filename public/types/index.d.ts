@@ -62,7 +62,7 @@ declare module "Cast" {
 declare module "DOMCreateElement" {
     import { IQCObjectsElement } from "./types/global";
     export const _DOMCreateElement: (elementName: string, props?: any[], children?: any) => IQCObjectsElement;
-    export const _DOMCreateComplexElement: (_type: string | Function, props?: any[], children?: any) => HTMLElement;
+    export const _DOMCreateComplexElement: (_type: string | Function, props?: any[], children?: any) => HTMLElement | IQCObjectsElement;
 }
 declare module "IncrementInstanceID" {
     /**
@@ -168,13 +168,13 @@ declare module "Class" {
     export const Class: TClass;
 }
 declare module "Base64" {
-    export const Base64: {
-        _keyStr: string;
-        encode(e: string): string;
-        decode(e: string): string;
-        _utf8_encode(e: string): string;
-        _utf8_decode(e: string): string;
-    };
+    export class Base64 {
+        static _keyStr: string;
+        static encode(e: string): string;
+        static decode(e: string): string;
+        static _utf8_encode(e: string): string;
+        static _utf8_decode(e: string): string;
+    }
 }
 declare module "basePath" {
     export var _basePath_: string;
@@ -289,7 +289,7 @@ declare module "routings" {
 }
 declare module "asyncLoad" {
     import { TAsyncLoadCallback } from "./types/global";
-    export const _asyncLoad: never[];
+    export const _asyncLoad: any[];
     export function asyncLoad(callback: TAsyncLoadCallback, args?: any[]): any;
     export const _fireAsyncLoad: () => void;
 }
@@ -415,10 +415,8 @@ declare module "Component" {
         __done__(): Promise<unknown>;
         hostElements(tagFilter: string): (IQCObjectsElement | HTMLElement | IQCObjectsShadowedElement)[];
         get subtags(): (HTMLElement | IQCObjectsElement | IQCObjectsShadowedElement)[];
-        get bodyAttributes(): {
-            [x: string]: string | null;
-        };
-        get dataAttributes(): {};
+        get bodyAttributes(): any;
+        get dataAttributes(): any;
         __buildSubComponents__(rebuildObjects?: boolean): any;
         fail(standardResponse: {
             error: any;
@@ -491,7 +489,7 @@ declare module "Service" {
         done({ request, service }: TServiceDoneResponse): void;
         fail(...args: any[]): void;
         set(name: string, value: never): void;
-        get(name: string, _default?: never): never;
+        get(name: string, _default?: never): any;
     }
     export class JSONService extends Service implements IJSONService {
         method: string;
@@ -673,8 +671,8 @@ declare module "ArrayCollection" {
     export class ArrayCollection implements IArrayCollection {
         source: ArrayList;
         changed(prop: string, value: any): void;
-        push(value: any): void;
-        pop(): void;
+        push(value: any): number;
+        pop(): any;
         _new_(source: ArrayList): void;
     }
 }
@@ -682,18 +680,13 @@ declare module "BackendMicroservice" {
     import { Http2Stream } from "http2";
     import { Stream } from "stream";
     import { InheritClass } from "InheritClass";
+    import { IMicroservice } from "./types/global";
     export class BackendMicroservice extends InheritClass {
         stream: any;
         route: any;
         headers: any;
         request: any;
-        constructor({ domain, basePath, body, stream, request }: {
-            domain?: string | undefined;
-            basePath?: string | undefined;
-            body?: null | undefined;
-            stream?: null | undefined;
-            request?: null | undefined;
-        });
+        constructor({ domain, basePath, body, stream, request }: IMicroservice);
         cors(): void;
         head(formData: any): void;
         get(formData: any): void;
@@ -753,12 +746,12 @@ declare module "RegisterClass" {
     export const RegisterClass: (_class_: any, __namespace?: string) => any;
 }
 declare module "DefaultTemplateHandler" {
-    import { DefaultTemplateHandlerParams } from "./types/global";
+    import { DefaultTemplateHandlerParams, IComponent } from "./types/global";
     export class DefaultTemplateHandler {
         template: string;
         __definition: {};
         static __definition: {};
-        component: import("types").IComponent;
+        component?: IComponent;
         constructor({ component, template }: DefaultTemplateHandlerParams);
         assign(data: any): string;
     }
@@ -795,7 +788,7 @@ declare module "Import" {
 }
 declare module "captureFalseTouch" {
     export let supportsPassive: boolean;
-    export const captureFalseTouch: () => false | {
+    export const captureFalseTouch: () => boolean | {
         passive: boolean;
     };
 }
@@ -819,7 +812,7 @@ declare module "Ready" {
      * Defines a Custom Ready listener
      */
     export const Ready: (e: any) => void;
-    export const ready: (e: any) => void;
+    export const ready: Function;
     /**
      * Default Ready event function for window. Executes all micro ready events of Import calls
      *
@@ -866,7 +859,7 @@ declare module "subelements" {
     export const subelements: <T>(this: any, query: string) => T[];
 }
 declare module "loadSDK" {
-    function loadSDK(): void;
+    const loadSDK: () => void;
     export default loadSDK;
 }
 declare module "MainProcess" { }
@@ -969,11 +962,9 @@ declare module "VO" {
 }
 declare module "View" {
     import { InheritClass } from "InheritClass";
+    import { TViewParams } from "./types/global";
     export class View extends InheritClass {
-        constructor({ component, dependencies }: {
-            component?: undefined;
-            dependencies?: never[] | undefined;
-        });
+        constructor({ component, dependencies }: TViewParams);
     }
 }
 declare module "WidgetsFactory" {
@@ -1061,7 +1052,7 @@ declare module "localStorage" {
     export var localStorage: any;
 }
 declare module "uniqueID" {
-    export const uniqueId: () => string;
+    export const uniqueId: Function;
 }
-
+//# sourceMappingURL=index.d.ts.map
 export {};

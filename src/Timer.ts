@@ -11,7 +11,7 @@ export class Timer extends InheritClass implements ITimer {
       timing,
       intervalInterceptor,
       duration
-    }:TTimerParams) {
+    }:TTimerParams):void {
       const timer = this;
 
       const start = performance.now();

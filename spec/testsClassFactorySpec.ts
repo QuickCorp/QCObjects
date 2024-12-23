@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-undef */
-import {Class, ClassFactory, logger, Package, __make_global__, _top, _QC_PACKAGES, _QC_CLASSES, global} from "./../src/QCObjects";
+import {Class, ClassFactory, logger, Package, __make_global__, _top, _QC_PACKAGES, _QC_CLASSES, global} from "./../src/qcobjects";
 
 describe("qcobjects", function () {
     logger.debugEnabled=true;

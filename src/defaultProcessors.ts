@@ -5,8 +5,8 @@ import { range } from "./range";
 import { IComponent } from "./types/global";
 
 // Set Processors
-export const setDefaultProcessors = () => {
-    (function (_top) {
+export const setDefaultProcessors = ():void => {
+    (function (_top):void {
 
         const mapper = (componentInstance:IComponent, componentName:string, valueName:string):string => {
             /*

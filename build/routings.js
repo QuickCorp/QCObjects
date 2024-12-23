@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.__valid_routing_way__ = exports.__valid_routings__ = exports.__routing_params__ = void 0;
-const __routing_params__ = function (routing, routingPath) {
+const __routing_params__ = (routing, routingPath) => {
     const standardRoutingPath = routing.path.replace(/{(.*?)}/g, "(?<$1>.*)"); // allowing {param}
     return {
         ...[...routingPath.matchAll((new RegExp(standardRoutingPath, "g")))][0].groups
@@ -15,7 +15,7 @@ const __valid_routings__ = function (routings, routingPath) {
     }).reverse();
 };
 exports.__valid_routings__ = __valid_routings__;
-const __valid_routing_way__ = function (validRoutingWays, routingWay) {
+const __valid_routing_way__ = (validRoutingWays, routingWay) => {
     return validRoutingWays.includes(routingWay);
 };
 exports.__valid_routing_way__ = __valid_routing_way__;

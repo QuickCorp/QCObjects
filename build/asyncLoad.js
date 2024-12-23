@@ -21,13 +21,13 @@ function asyncLoad(callback, args) {
     exports._asyncLoad.push((new AsyncCallback(callback, args)));
     return AsyncCallback;
 }
-const _fireAsyncLoad = function () {
+const _fireAsyncLoad = () => {
     if (platform_1.isBrowser) {
         document.addEventListener("readystatechange", () => {
             if (document.readyState === "complete") {
                 // eslint-disable-next-line array-callback-return
                 exports._asyncLoad.map(function (fc) {
-                    fc.dispatch.call(fc);
+                    (fc).dispatch.call(fc);
                 });
             }
         });
@@ -35,7 +35,7 @@ const _fireAsyncLoad = function () {
     else if (typeof top_1._top.global !== "undefined") {
         // eslint-disable-next-line array-callback-return
         exports._asyncLoad.map(function (fc) {
-            fc.dispatch.call(fc);
+            (fc).dispatch.call(fc);
         });
     }
 };

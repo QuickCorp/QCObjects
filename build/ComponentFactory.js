@@ -24,7 +24,7 @@ const ComponentURI = ({ TPL_SOURCE, COMPONENTS_BASE_PATH, COMPONENT_NAME, TPLEXT
     return templateURI;
 };
 exports.ComponentURI = ComponentURI;
-const _buildComponentFromElement_ = function (element, __parent__) {
+const _buildComponentFromElement_ = (element, __parent__) => {
     const __shadowed_not_set = (element.getAttribute("shadowed") === null);
     const __tplsource_attr_not_set = (element.getAttribute("template-source") === null);
     const shadowed = (element.getAttribute("shadowed") === "true");
@@ -92,7 +92,7 @@ const _buildComponentFromElement_ = function (element, __parent__) {
     return newComponent;
 };
 exports._buildComponentFromElement_ = _buildComponentFromElement_;
-const _buildComponentsFromElements_ = function (elements, __parent__) {
+const _buildComponentsFromElements_ = (elements, __parent__) => {
     let componentsBuiltWith = [];
     if (platform_1.isBrowser) {
         componentsBuiltWith = elements.map(function (element) {

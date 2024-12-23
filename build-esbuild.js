@@ -23,7 +23,7 @@ const baseSettings = {
         })
     ],
     external: ["os", "path", "http", "url", 
-        "child_process", "events", "fs", "process",
+        "child_process", "events", "fs", "process","node:process",
         "node:fs", "node:os", "node:child_process", 
         "node:path", "readline", "node:net", "node:repl",
         "node:vm", "http2", "vm", "qcobjects", "qcobjects-sdk"

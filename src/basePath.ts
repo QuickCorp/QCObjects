@@ -1,21 +1,14 @@
-import { logger } from "./Logger";
-import { _require_, isBrowser } from "./platform";
+import { isBrowser } from "./platform";
+import process from "node:process";
 
-export var _basePath_ = (
-    function () {
-      let _basePath = "";
+export var _basePath_:string = (
+    function ():string {
+      let _basePath:string = "";
       if (isBrowser) {
-        const baseURI = document.baseURI.split("?")[0].split("/");
+        const baseURI:string[] = document.baseURI.split("?")[0].split("/");
         baseURI.pop();
         _basePath = baseURI.join("/") + "/";
       } else {
-        let process;
-        try {
-          process = _require_("process");
-        } catch (e:any) {
-          logger.debug(`An error ocurred: ${e}.`);
-          // not a process module
-        }
         if (typeof process !== "undefined") {
           _basePath = `${(process).cwd()}/`;
         } else {
@@ -26,4 +19,4 @@ export var _basePath_ = (
     }
   )();
 
-export const setBasePath = (value:string) => { _basePath_ = value;};
+export const setBasePath = (value:string):void => { _basePath_ = value;};

@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.waitUntil = void 0;
 const Logger_1 = require("./Logger");
-const waitUntil = function (func, exp) {
-    const _waitUntil = function (func, exp) {
+const waitUntil = (func, exp) => {
+    const _waitUntil = (func, exp) => {
         const maxWaitCycles = 2000;
         let _w = 0;
         var _t = setInterval(function () {

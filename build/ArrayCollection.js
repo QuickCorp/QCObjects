@@ -96,12 +96,12 @@ class ArrayCollection {
         const self = this;
         Logger_1.logger.debug("VALUE ADDED");
         Logger_1.logger.debug(value);
-        self.source.push(value);
+        return self.source.push(value);
     }
     pop() {
         const self = this;
         Logger_1.logger.debug("VALUE POPPED");
-        self.source.pop();
+        return self.source.pop();
     }
     _new_(source) {
         const self = this;

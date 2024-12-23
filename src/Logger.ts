@@ -5,13 +5,13 @@ export class Logger {
     debugEnabled = true;
     infoEnabled = true;
     warnEnabled = true;
-    debug(message:string) {
+    debug(message: string): void {
         if (this.debugEnabled) {
             console.log("\x1b[35m%s\x1b[0m", `[DEBUG][${performance.now().toLocaleString()}] ${message}`);
         }
     }
 
-    info(message:string) {
+    info(message: string): void {
         let color;
         if (this.infoEnabled) {
             if (isBrowser) {
@@ -23,12 +23,12 @@ export class Logger {
         }
     }
 
-    warn(message:string) {
+    warn(message: string): void {
         if (this.warnEnabled) {
             console.warn("\x1b[31m%s\x1b[0m", `[WARN][${performance.now().toLocaleString()}] ${message}`);
         }
     }
 }
 
-export const logger = new Logger();
+export const logger: Logger = new Logger();
 Export(logger);

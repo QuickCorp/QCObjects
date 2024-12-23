@@ -6,6 +6,7 @@ import { _domain_ } from "./domain";
 import { InheritClass } from "./InheritClass";
 import { logger } from "./Logger";
 import { Package } from "./Package";
+import { IMicroservice } from "./types/global";
 
 export class BackendMicroservice extends InheritClass {
   stream: any;
@@ -19,7 +20,7 @@ export class BackendMicroservice extends InheritClass {
     body = null,
     stream = null,
     request = null
-  }) {
+  }:IMicroservice) {
     super({
       domain,
       basePath,
@@ -67,7 +68,7 @@ export class BackendMicroservice extends InheritClass {
 
   }
 
-  cors() {
+  cors():void {
     if (this.route.cors) {
       logger.debug("Validating CORS...");
       const {
@@ -132,52 +133,52 @@ export class BackendMicroservice extends InheritClass {
   }
 
 
-  head(formData: any) {
+  head(formData: any):void {
     logger.debug(`[BackendMicroservice.head] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  get(formData: any) {
+  get(formData: any):void {
     logger.debug(`[BackendMicroservice.get] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  post(formData: any) {
+  post(formData: any):void {
     logger.debug(`[BackendMicroservice.post] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  put(formData: any) {
+  put(formData: any):void {
     logger.debug(`[BackendMicroservice.put] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  delete(formData: any) {
+  delete(formData: any):void {
     logger.debug(`[BackendMicroservice.delete] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  connect(formData: any) {
+  connect(formData: any):void {
     logger.debug(`[BackendMicroservice.connect] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  options(formData: any) {
+  options(formData: any):void {
     logger.debug(`[BackendMicroservice.options] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  trace(formData: any) {
+  trace(formData: any):void {
     logger.debug(`[BackendMicroservice.trace] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  patch(formData: any) {
+  patch(formData: any):void {
     logger.debug(`[BackendMicroservice.patch] Data received: ${_DataStringify(formData)}`);
     this.done();
   }
 
-  finishWithBody(stream?: Http2Stream | Stream) {
+  finishWithBody(stream?: Http2Stream | Stream):void {
     try {
       logger.debug("[BackendMicroservice.finishWithBody] Ending the stream...");
       logger.debug(`[BackendMicroservice.finishWithBody] type of body is: ${typeof this.body}`);
@@ -193,7 +194,7 @@ export class BackendMicroservice extends InheritClass {
     }
   }
 
-  done() {
+  done():void {
     logger.debug("[BackendMicroservice.done] Finalizing the response...");
     const microservice = this;
     const stream = microservice.stream;

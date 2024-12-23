@@ -10,14 +10,21 @@
   "exports": {
     ".": {
       "types": "./public/types/index.d.ts",
-      "require": "./public/cjs/QCObjects.cjs",
-      "import": "./public/esm/QCObjects.mjs"
+      "require": "./public/cjs/index.cjs",
+      "import": "./public/esm/index.mjs"
     },
     "./types/*": "./types/*",
     "./package.json": "./package.json",
     "./tsconfig.json": "./tsconfig.json",
     "./tsconfig.d.json": "./tsconfig.d.json",
-    "./tsconfig.jasmine.json": "./tsconfig.jasmine.json"
+    "./tsconfig.jasmine.json": "./tsconfig.jasmine.json",
+    "./*.js": "./public/*.js",
+    "./*.cjs": "./public/cjs/*.cjs",
+    "./*.mjs": "./public/esm/*.mjs",
+    "./*": {
+      "require": "./public/cjs/*.cjs",
+      "import": "./public/esm/*.mjs"
+    }
   },
   "license": "LGPL-3.0",
   "scripts": {

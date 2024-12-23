@@ -92,7 +92,7 @@ export const getClassesNamesList = (): any[] => {
     });
 };
 
-export const set_QC_PACKAGE = (packageName: string, _qc_packages: any[]) => {
+export const set_QC_PACKAGE = (packageName: string, _qc_packages: any[]):void => {
     _QC_PACKAGES[packageName] = _qc_packages;
 };
 

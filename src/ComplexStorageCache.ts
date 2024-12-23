@@ -45,11 +45,11 @@ export class ComplexStorageCache {
   }
 
 
-  setItem(cachedObjectID: string, value: any) {
+  setItem(cachedObjectID: string, value: any):void {
     localStorage.setItem(cachedObjectID, _DataStringify(value));
   }
 
-  isEmpty(object: string | number | null) {
+  isEmpty(object: string | number | null):boolean {
     let r = false;
     switch (true) {
       case (typeof object === "undefined"):
@@ -66,7 +66,7 @@ export class ComplexStorageCache {
   }
 
 
-  getID(object: any) {
+  getID(object: any):string|undefined {
     let cachedObjectID;
     if (typeof object !== "undefined") {
       cachedObjectID = "cachedObject_" + Base64.encode(_DataStringify(object).replace(/\{|\}|,/g, "_"));
@@ -74,7 +74,7 @@ export class ComplexStorageCache {
     return cachedObjectID;
   }
 
-  save(object: any, cachedNewResponse: any) {
+  save(object: any, cachedNewResponse: any):void {
     const cachedObjectID = this.getID(object);
     logger.debug("CACHING THE RESPONSE OF {{cachedObjectID}} ".replace("{{cachedObjectID}}", cachedObjectID as string));
     this.setItem(cachedObjectID as string, cachedNewResponse);
@@ -85,7 +85,7 @@ export class ComplexStorageCache {
     return this.getItem(cachedObjectID as string);
   }
 
-  clear() {
+  clear():void {
     Object.keys(localStorage).filter(function (k) {
       return k.startsWith("cachedObject_");
     }).map(function (c):any {

@@ -33,22 +33,22 @@ class DefaultTemplateHandler {
                         parsedAssignmentText = parsedAssignmentText.replace((new RegExp(`{{${k}}}`, "g")), _value);
                     }
                     catch (e) {
-                        Logger_1.logger.warn(`${templateInstance.component.name} could not parse processors.`);
-                        throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+                        Logger_1.logger.warn(`${templateInstance.component?.name} could not parse processors.`);
+                        throw Error(`${templateInstance.component?.name} could not parse processors. Reason: ${e.message}`);
                     }
                 }
                 return k;
             });
         }
         else {
-            Logger_1.logger.debug(`${templateInstance.component.name}.data is not an object`);
+            Logger_1.logger.debug(`${templateInstance.component?.name}.data is not an object`);
         }
         try {
             parsedAssignmentText = Processor_1.GlobalProcessor.processObject.call(processorHandler, parsedAssignmentText, templateInstance.component);
         }
         catch (e) {
-            Logger_1.logger.warn(`${templateInstance.component.name} could not parse processors.`);
-            throw Error(`${templateInstance.component.name} could not parse processors. Reason: ${e.message}`);
+            Logger_1.logger.warn(`${templateInstance.component?.name} could not parse processors.`);
+            throw Error(`${templateInstance.component?.name} could not parse processors. Reason: ${e.message}`);
         }
         return parsedAssignmentText;
     }
