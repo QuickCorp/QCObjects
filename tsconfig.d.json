@@ -23,6 +23,7 @@
     "emitDeclarationOnly": true,
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types"],
+    "types": ["node"],
     "paths": {
       "*": ["src/*"],
       "types": ["types/global"]

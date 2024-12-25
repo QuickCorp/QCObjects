@@ -28,6 +28,7 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
+    "types": ["node", "jasmine"],
     "paths": {
       "./*": ["./src/*.ts"],
       "types": [
