@@ -31,3 +31,4 @@
           configurable: true
         });
       }
+export {};

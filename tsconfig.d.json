@@ -24,6 +24,7 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types"],
     "paths": {
+      "*": ["src/*"],
       "types": ["types/global"]
     }
   },
@@ -39,6 +40,7 @@
       "rootDir": "./src",
       "baseUrl": ".",
       "paths": {
+        "*": ["src/*"],
         "types": ["types/global"]
       }
     }

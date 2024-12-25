@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
+    "moduleDetection": "auto",
+    "moduleResolution": "nodenext",
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -22,19 +23,23 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "baseUrl": ".",
+    "sourceRoot": "./src",
+    "inlineSourceMap": true,
     "typeRoots": [
       "./node_modules/@types"
     ],
     "paths": {
+      "./*": ["./src/*.ts"],
       "types": [
         "src/types/global"
       ],
+      "../src/qcobjects":["src/qcobjects.ts"],
+      "qcobjects":["src/qcobjects.ts"],
       "qcobjects-sdk": ["spec/mocks/qcobjects-sdk.mock.ts"]
     }
   },
   "include": [
     "spec/**/*"
-  ],
-  "exclude": ["src/**/*"]
+  ]
 
 }

@@ -972,7 +972,9 @@ declare module "WidgetsFactory" {
     export const RegisterWidget: (widgetName: string) => void;
     export const RegisterWidgets: (...args: string[]) => void;
 }
-declare module "assign" { }
+declare module "assign" {
+    export {};
+}
 declare module "qcobjects" {
     export * as AssignPolyfill from "assign";
     export * as __top__ from "top";
@@ -1055,4 +1057,3 @@ declare module "uniqueID" {
     export const uniqueId: Function;
 }
 //# sourceMappingURL=index.d.ts.map
-export {};
