@@ -1,4 +1,4 @@
-import { IQCObjectsElement, TComponentURIParams } from "./types/global";
+import { IQCObjectsElement, TComponentURIParams } from "@types";
 import { Class } from "./Class";
 import { ClassFactory } from "./ClassFactory";
 import { Component } from "./Component";

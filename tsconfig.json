@@ -26,8 +26,8 @@
     "types": ["node"],
     "paths": {
       "*": ["src/*"],
-      "types": [
-        "types/global"
+      "@types": [
+        "src/types/global/index.d.ts"
       ],
     }
   },

@@ -32,7 +32,7 @@ export default [
         parserOptions: {
             projectService: true,
             tsconfigRootDir: import.meta.dirname,
-            programs: [parser.createProgram('tsconfig.json')],
+            programs: [parser.createProgram('tsconfig.json')]
         }
         ,        
 

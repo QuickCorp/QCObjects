@@ -1,4 +1,4 @@
-import {  TComponentRouting } from "./types/global";
+import {  TComponentRouting } from "@types";
 
 export const __routing_params__ = (routing:TComponentRouting, routingPath:string):object => {
     const standardRoutingPath = routing.path.replace(/{(.*?)}/g, "(?<$1>.*)"); // allowing {param}

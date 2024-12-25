@@ -1,4 +1,4 @@
-import { ISourceCSS, TBody } from "./types/global";
+import { ISourceCSS, TBody } from "@types";
 import { _basePath_ } from "./basePath";
 import { _Cast } from "./Cast";
 import { _domain_ } from "./domain";

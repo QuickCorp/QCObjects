@@ -18,8 +18,7 @@ const baseSettings = {
     chunkNames: "chunks/[name]-[hash]",
     plugins: [
         alias({
-            "types": path.join(__dirname, "src/types/global/index.d.ts"),
-            "./types/global": path.join(__dirname, "src/types/global/index.d.ts")
+            "@types": path.join(__dirname, "src/types/global/index.d.ts")
         })
     ],
     external: ["os", "path", "http", "url", 

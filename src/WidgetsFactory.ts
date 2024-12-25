@@ -4,7 +4,7 @@ import { _DOMCreateElement } from "./DOMCreateElement";
 import { Export } from "./Export";
 import { _protected_code_ } from "./introspection";
 import { isBrowser } from "./platform";
-import { I_ComponentWidget_ } from "./types/global";
+import { I_ComponentWidget_ } from "@types";
 
 class QCObjectsWidgetNode implements I_ComponentWidget_ {
   writingSuggestions!: string;

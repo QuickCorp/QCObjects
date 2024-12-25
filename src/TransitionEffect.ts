@@ -2,8 +2,8 @@ import { Effect } from "./Effect";
 import { logger } from "./Logger";
 import { Package } from "./Package";
 import { ClassFactory } from "./ClassFactory";
-import { IQCObjectsElement, IQCObjectsShadowedElement } from "./types/global";
-import { ITransitionEffect, IComponent, TTransitionEffectParams } from "./types/global";
+import { IQCObjectsElement, IQCObjectsShadowedElement } from "@types";
+import { ITransitionEffect, IComponent, TTransitionEffectParams } from "@types";
 
 export class TransitionEffect extends Effect implements ITransitionEffect{
   duration = 385;

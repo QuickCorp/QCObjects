@@ -1,4 +1,4 @@
-import { type IInheritClass, type IQCObjectsElement, type TBody } from "./types/global";
+import { type IInheritClass, type IQCObjectsElement, type TBody } from "@types";
 import { logger } from "./Logger";
 import { __instanceID, IncrementInstanceID } from "./IncrementInstanceID";
 import { _CastProps, _Cast } from "./Cast";

@@ -1,4 +1,4 @@
-import { IService, TCacheController } from "./types/global";
+import { IService, TCacheController } from "@types";
 import { asyncLoad } from "./asyncLoad";
 import { ComplexStorageCache } from "./ComplexStorageCache";
 import { _DataStringify } from "./DataStringify";

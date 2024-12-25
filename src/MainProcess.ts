@@ -1,4 +1,4 @@
-import { IQCObjectsElement, IQCObjectsShadowedElement } from "./types/global";
+import { IQCObjectsElement, IQCObjectsShadowedElement } from "@types";
 import { _top } from "./top";
 import { _fireAsyncLoad, asyncLoad } from "./asyncLoad";
 import { captureFalseTouch } from "./captureFalseTouch";

@@ -1,7 +1,7 @@
 import { __getType__ } from "./getType";
 import { InheritClass } from "./InheritClass";
 import { Package } from "./Package";
-import { TViewParams } from "./types/global";
+import { TViewParams } from "@types";
 
 export class View extends InheritClass {
     constructor({ component = undefined, dependencies = [] }:TViewParams) {

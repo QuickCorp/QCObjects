@@ -1,4 +1,4 @@
-import { type IComponent, type IProcessor } from "./types/global";
+import { type IComponent, type IProcessor } from "@types";
 import { CONFIG } from "./CONFIG";
 import { InheritClass } from "./InheritClass";
 import { New } from "./New";

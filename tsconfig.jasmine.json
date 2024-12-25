@@ -32,17 +32,17 @@
     "types": ["node", "jasmine"],
     "paths": {
       "./*": ["./src/*.ts"],
-      "types": [
-        "src/types/global"
+      "@types": [
+        "src/types/global/index.d.ts"
       ],
-      "../src/qcobjects":["src/qcobjects.ts"],
       "qcobjects":["src/qcobjects.ts"],
       "qcobjects-sdk": ["spec/mocks/qcobjects-sdk.mock.ts"]
     }
   },
   "include": [
     "spec/**/*",
-     "src/**/*"
+     "src/**/*",
+     "src/*"
   ]
 
 }

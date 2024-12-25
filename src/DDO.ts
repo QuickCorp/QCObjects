@@ -1,4 +1,4 @@
-import { TDDOParams } from "./types/global";
+import { TDDOParams } from "@types";
 import { Export } from "./Export";
 import { InheritClass } from "./InheritClass";
 import { logger } from "./Logger";

@@ -1,4 +1,4 @@
-import { IGlobalSettings } from "./types/global";
+import { IGlobalSettings } from "@types";
 import { CONFIG } from "./CONFIG";
 import { InheritClass } from "./InheritClass";
 import { Logger, logger } from "./Logger";

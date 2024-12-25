@@ -6,7 +6,7 @@ import { _domain_ } from "./domain";
 import { InheritClass } from "./InheritClass";
 import { logger } from "./Logger";
 import { Package } from "./Package";
-import { IMicroservice } from "./types/global";
+import { IMicroservice } from "@types";
 
 export class BackendMicroservice extends InheritClass {
   stream: any;
