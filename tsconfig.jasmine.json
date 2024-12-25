@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "moduleDetection": "auto",
     "moduleResolution": "nodenext",
     "allowImportingTsExtensions":true,
