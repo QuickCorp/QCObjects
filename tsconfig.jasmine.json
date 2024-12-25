@@ -2,6 +2,7 @@
   "compilerOptions": {
     "moduleDetection": "auto",
     "moduleResolution": "nodenext",
+    "allowImportingTsExtensions":true,
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
