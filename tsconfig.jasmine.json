@@ -31,8 +31,10 @@
     ],
     "types": ["node", "jasmine"],
     "paths": {
-      "./*": ["./src/*.ts"],
-      "@types": [
+      "*": [
+        "src/*"
+      ],
+    "types": [
         "src/types/global/index.d.ts"
       ],
       "qcobjects":["src/qcobjects.ts"],

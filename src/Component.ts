@@ -22,7 +22,7 @@ import { CONFIG } from "./CONFIG";
 import { serviceLoader } from "./serviceLoader";
 import { _tag_filter_ } from "./tag_filter";
 import { componentLoader } from "./componentLoader";
-import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "@types";
+import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types";
 
 export class Component extends InheritClass implements IComponent {
     static shadowed: boolean | undefined = false;

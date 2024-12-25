@@ -1,4 +1,4 @@
-import { DefaultTemplateHandlerParams, IComponent } from "@types";
+import { DefaultTemplateHandlerParams, IComponent } from "types";
 import { logger } from "./Logger";
 import { GlobalProcessor as Processor } from "./Processor";
 import { RegisterClass } from "./RegisterClass";

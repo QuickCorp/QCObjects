@@ -6,7 +6,7 @@ import { logger } from "./Logger";
 import { Package } from "./Package";
 import { _secretKey } from "./secretKey";
 import { CONFIG } from "./CONFIG";
-import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "@types";
+import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "types";
 
 export class Service extends InheritClass implements IService{
     options!: object;

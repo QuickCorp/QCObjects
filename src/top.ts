@@ -1,4 +1,4 @@
-import { IComplexStorageCache, IComponent, IConfigService, IQCObjectsElement } from "@types";
+import { IComplexStorageCache, IComponent, IConfigService, IQCObjectsElement } from "types";
 import { buildComponents } from "./ComponentFactory";
 import { _CastProps } from "./Cast";
 import { GlobalSettings } from "./globalSettings";

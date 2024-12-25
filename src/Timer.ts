@@ -1,4 +1,4 @@
-import { ITimer, TTimerParams } from "@types";
+import { ITimer, TTimerParams } from "types";
 import { InheritClass } from "./InheritClass";
 import { Package } from "./Package";
 

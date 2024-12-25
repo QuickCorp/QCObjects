@@ -1,4 +1,4 @@
-import { IEffect, TEffectParams } from "@types";
+import { IEffect, TEffectParams } from "types";
 import { InheritClass } from "./InheritClass";
 import { Package } from "./Package";
 import { _methods_, _protected_code_ } from "./introspection";

@@ -95,7 +95,7 @@ export { DDO } from "./DDO";
 export { Toggle } from "./Toggle";
 export { findPackageNodePath } from "./findPackageNodePath";
 export { getDocumentLayout } from "./DocumentLayout";
-export { IQCObjectsElement, IQCObjectsShadowedElement } from "@types";
+export { IQCObjectsElement, IQCObjectsShadowedElement } from "types";
 export { __to_number } from "./mathFunctions";
 export {_top as global} from "./top";
 export {__make_global__} from "./make_global";

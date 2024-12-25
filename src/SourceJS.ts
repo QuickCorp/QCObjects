@@ -1,4 +1,4 @@
-import { ISourceJS } from "@types";
+import { ISourceJS } from "types";
 import { _basePath_ } from "./basePath";
 import { _Cast } from "./Cast";
 import { _domain_ } from "./domain";

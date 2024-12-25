@@ -60,7 +60,7 @@ declare module "Cast" {
     export const _CastProps: (obj_source: any, obj_dest: any, _ignoreError?: boolean) => any;
 }
 declare module "DOMCreateElement" {
-    import { IQCObjectsElement } from "@types";
+    import { IQCObjectsElement } from "types";
     export const _DOMCreateElement: (elementName: string, props?: any[], children?: any) => IQCObjectsElement;
     export const _DOMCreateComplexElement: (_type: string | Function, props?: any[], children?: any) => HTMLElement | IQCObjectsElement;
 }
@@ -85,7 +85,7 @@ declare module "Package" {
     export const Package: (namespace: string, classes?: any[]) => any[];
 }
 declare module "InheritClass" {
-    import { type IInheritClass, type TBody } from "@types";
+    import { type IInheritClass, type TBody } from "types";
     export class InheritClass implements IInheritClass {
         [key: string]: any;
         __definition: any;
@@ -138,7 +138,7 @@ declare module "LegacyCopy" {
     export const _LegacyCopy: (obj: any, _ignore?: string[]) => any;
 }
 declare module "Class" {
-    import { TClass } from "@types";
+    import { TClass } from "types";
     /**
      * Creates new object class  of another object
      *
@@ -199,7 +199,7 @@ declare module "secretKey" {
     export const _secretKey: string;
 }
 declare module "Crypt" {
-    import { _ICrypt } from "@types";
+    import { _ICrypt } from "types";
     import { InheritClass } from "InheritClass";
     export class _Crypt extends InheritClass implements _ICrypt {
         string: string;
@@ -250,7 +250,7 @@ declare module "ConfigSettings" {
 }
 declare module "CONFIG" {
     import { InheritClass } from "InheritClass";
-    import { ICONFIG } from "@types";
+    import { ICONFIG } from "types";
     export class CONFIG extends InheritClass implements ICONFIG {
         get _CONFIG_ENC(): string;
         get _CONFIG(): unknown;
@@ -263,7 +263,7 @@ declare module "CONFIG" {
     }
 }
 declare module "Processor" {
-    import { type IComponent, type IProcessor } from "@types";
+    import { type IComponent, type IProcessor } from "types";
     import { InheritClass } from "InheritClass";
     export class Processor extends InheritClass implements IProcessor {
         protected static _instance: IProcessor | undefined;
@@ -282,13 +282,13 @@ declare module "Processor" {
     export const GlobalProcessor: IProcessor;
 }
 declare module "routings" {
-    import { TComponentRouting } from "@types";
+    import { TComponentRouting } from "types";
     export const __routing_params__: (routing: TComponentRouting, routingPath: string) => object;
     export const __valid_routings__: (routings: TComponentRouting[], routingPath: string) => TComponentRouting[];
     export const __valid_routing_way__: (validRoutingWays: string[], routingWay: string) => boolean;
 }
 declare module "asyncLoad" {
-    import { TAsyncLoadCallback } from "@types";
+    import { TAsyncLoadCallback } from "types";
     export const _asyncLoad: any[];
     export function asyncLoad(callback: TAsyncLoadCallback, args?: any[]): any;
     export const _fireAsyncLoad: () => void;
@@ -310,7 +310,7 @@ declare module "ComplexStorageCache" {
     }
 }
 declare module "serviceLoader" {
-    import { IService } from "@types";
+    import { IService } from "types";
     /**
      * Loads a simple component from a template
      *
@@ -323,7 +323,7 @@ declare module "tag_filter" {
     export const _tag_filter_ = "quick-component:not([loaded]),component:not([loaded])";
 }
 declare module "componentLoader" {
-    import { IComponent } from "@types";
+    import { IComponent } from "types";
     /**
      * Loads a simple component from a template
      *
@@ -334,7 +334,7 @@ declare module "componentLoader" {
 }
 declare module "Component" {
     import { InheritClass } from "InheritClass";
-    import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "@types";
+    import { IComponent, IController, IEffect, IProcessor, IQCObjectsElement, IQCObjectsShadowedElement, IView, TBody, TComponentDoneResponse, TComponentParams, TComponentRouting, TComponentRoutings } from "types";
     export class Component extends InheritClass implements IComponent {
         static shadowed: boolean | undefined;
         static cached: any;
@@ -451,7 +451,7 @@ declare module "Component" {
     }
 }
 declare module "ComponentFactory" {
-    import { TComponentURIParams } from "@types";
+    import { TComponentURIParams } from "types";
     import { Component } from "Component";
     /**
      * Returns a standarized uri for a component
@@ -467,7 +467,7 @@ declare module "ComponentFactory" {
 }
 declare module "Service" {
     import { InheritClass } from "InheritClass";
-    import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "@types";
+    import { IJSONService, IService, TServiceDoneResponse, TServiceStandardResponse } from "types";
     export class Service extends InheritClass implements IService {
         options: object;
         withCredentials: boolean;
@@ -517,7 +517,7 @@ declare module "Service" {
     }
 }
 declare module "globalSettings" {
-    import { IGlobalSettings } from "@types";
+    import { IGlobalSettings } from "types";
     import { InheritClass } from "InheritClass";
     import { Logger } from "Logger";
     export class GlobalSettings extends InheritClass implements IGlobalSettings {
@@ -535,7 +535,7 @@ declare module "globalSettings" {
     }
 }
 declare module "top" {
-    import { IComplexStorageCache, IComponent, IConfigService } from "@types";
+    import { IComplexStorageCache, IComponent, IConfigService } from "types";
     type QCObjects = {
         lastCache?: IComplexStorageCache;
         componentsStack: IComponent[];
@@ -633,7 +633,7 @@ declare module "make_global" {
     export const __make_global__: (f: any) => void;
 }
 declare module "PrimaryCollections" {
-    import { T_QC_CLASSES, T_QC_PACKAGES } from "@types";
+    import { T_QC_CLASSES, T_QC_PACKAGES } from "types";
     export var _QC_CLASSES: T_QC_CLASSES;
     export var _QC_PACKAGES: T_QC_PACKAGES;
     export var _QC_PACKAGES_IMPORTED: any[];
@@ -647,14 +647,14 @@ declare module "PrimaryCollections" {
     export const set_QC_PACKAGE: (packageName: string, _qc_packages: any[]) => void;
 }
 declare module "ClassFactory" {
-    import { TClassFactory } from "@types";
+    import { TClassFactory } from "types";
     export const ClassFactory: TClassFactory;
 }
 declare module "mathFunctions" {
     export const __to_number: (value: any) => number;
 }
 declare module "ArrayCollection" {
-    import { IArrayCollection, IArrayList } from "@types";
+    import { IArrayCollection, IArrayList } from "types";
     export class ArrayList extends Array implements IArrayList {
         prototype: any;
         unique(): any[];
@@ -680,7 +680,7 @@ declare module "BackendMicroservice" {
     import { Http2Stream } from "http2";
     import { Stream } from "stream";
     import { InheritClass } from "InheritClass";
-    import { IMicroservice } from "@types";
+    import { IMicroservice } from "types";
     export class BackendMicroservice extends InheritClass {
         stream: any;
         route: any;
@@ -702,7 +702,7 @@ declare module "BackendMicroservice" {
     }
 }
 declare module "Controller" {
-    import { IController, IComponent, TControllerParams } from "@types";
+    import { IController, IComponent, TControllerParams } from "types";
     import { InheritClass } from "InheritClass";
     export class Controller extends InheritClass implements IController {
         component: IComponent;
@@ -717,7 +717,7 @@ declare module "Controller" {
     }
 }
 declare module "DDO" {
-    import { TDDOParams } from "@types";
+    import { TDDOParams } from "types";
     import { InheritClass } from "InheritClass";
     /**
      * Dynamic Data Objects Class
@@ -746,7 +746,7 @@ declare module "RegisterClass" {
     export const RegisterClass: (_class_: any, __namespace?: string) => any;
 }
 declare module "DefaultTemplateHandler" {
-    import { DefaultTemplateHandlerParams, IComponent } from "@types";
+    import { DefaultTemplateHandlerParams, IComponent } from "types";
     export class DefaultTemplateHandler {
         template: string;
         __definition: {};
@@ -760,7 +760,7 @@ declare module "DocumentLayout" {
     export const getDocumentLayout: () => string | undefined;
 }
 declare module "Effect" {
-    import { IEffect, TEffectParams } from "@types";
+    import { IEffect, TEffectParams } from "types";
     import { InheritClass } from "InheritClass";
     class Effect extends InheritClass implements IEffect {
         done(...args: any[]): any;
@@ -821,7 +821,7 @@ declare module "Ready" {
     export const _Ready: (e: any) => void;
 }
 declare module "Tag" {
-    import { ITagElements } from "@types";
+    import { ITagElements } from "types";
     import { ArrayList } from "ArrayCollection";
     export class TagElements extends ArrayList implements ITagElements {
         show(): void;
@@ -864,7 +864,7 @@ declare module "loadSDK" {
 }
 declare module "MainProcess" { }
 declare module "SourceCSS" {
-    import { ISourceCSS } from "@types";
+    import { ISourceCSS } from "types";
     import { InheritClass } from "InheritClass";
     export class SourceCSS extends InheritClass implements ISourceCSS {
         domain: string;
@@ -883,7 +883,7 @@ declare module "SourceCSS" {
     }
 }
 declare module "SourceJS" {
-    import { ISourceJS } from "@types";
+    import { ISourceJS } from "types";
     import { InheritClass } from "InheritClass";
     export class SourceJS extends InheritClass implements ISourceJS {
         domain: string;
@@ -906,7 +906,7 @@ declare module "SourceJS" {
     }
 }
 declare module "Timer" {
-    import { ITimer, TTimerParams } from "@types";
+    import { ITimer, TTimerParams } from "types";
     import { InheritClass } from "InheritClass";
     export class Timer extends InheritClass implements ITimer {
         duration: number;
@@ -935,7 +935,7 @@ declare module "Toggle" {
 }
 declare module "TransitionEffect" {
     import { Effect } from "Effect";
-    import { ITransitionEffect, IComponent, TTransitionEffectParams } from "@types";
+    import { ITransitionEffect, IComponent, TTransitionEffectParams } from "types";
     export class TransitionEffect extends Effect implements ITransitionEffect {
         duration: number;
         defaultParams: {
@@ -962,7 +962,7 @@ declare module "VO" {
 }
 declare module "View" {
     import { InheritClass } from "InheritClass";
-    import { TViewParams } from "@types";
+    import { TViewParams } from "types";
     export class View extends InheritClass {
         constructor({ component, dependencies }: TViewParams);
     }
@@ -1040,7 +1040,7 @@ declare module "qcobjects" {
     export { Toggle } from "Toggle";
     export { findPackageNodePath } from "findPackageNodePath";
     export { getDocumentLayout } from "DocumentLayout";
-    export { IQCObjectsElement, IQCObjectsShadowedElement } from "@types";
+    export { IQCObjectsElement, IQCObjectsShadowedElement } from "types";
     export { __to_number } from "mathFunctions";
     export { _top as global } from "top";
     export { __make_global__ } from "make_global";

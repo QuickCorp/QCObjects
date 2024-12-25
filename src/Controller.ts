@@ -1,4 +1,4 @@
-import { IController, IComponent, TControllerParams, IQCObjectsElement, IQCObjectsShadowedElement } from "@types";
+import { IController, IComponent, TControllerParams } from "types";
 import { ClassFactory } from "./ClassFactory";
 import { __getType__ } from "./getType";
 import { InheritClass } from "./InheritClass";
@@ -47,11 +47,11 @@ export class Controller extends InheritClass implements IController{
     if (isBrowser){
       try {
         if (this.isTouchable()) {
-          ((this.component?.componentRoot as IQCObjectsElement| IQCObjectsShadowedElement)?.subelements(subelementSelector) as any[])[0].addEventListener("touchstart", handler, {
+          ((this.component?.componentRoot as any)?.subelements(subelementSelector) as any[])[0].addEventListener("touchstart", handler, {
             passive: true
           });
         } else {
-          ((this.component?.componentRoot as IQCObjectsElement | IQCObjectsShadowedElement)?.subelements(subelementSelector) as any[])[0].addEventListener("click", handler, {
+          ((this.component?.componentRoot as any)?.subelements(subelementSelector) as any[])[0].addEventListener("click", handler, {
             passive: true
           });
         }

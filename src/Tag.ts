@@ -1,4 +1,4 @@
-import { IQCObjectsElement, ITagElements } from "@types";
+import { IQCObjectsElement, ITagElements } from "types";
 import { ClassFactory } from "./ClassFactory";
 import { New } from "./New";
 import { Package } from "./Package";

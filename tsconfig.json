@@ -23,10 +23,14 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "paths": {
-      "*": ["src/*"],
-      "@types": [
+      "*": [
+        "src/*"
+      ],
+      "types": [
         "src/types/global/index.d.ts"
       ],
     }
@@ -44,10 +48,11 @@
       "rootDir": "./src",
       "baseUrl": ".",
       "paths": {
-        "./qcobjects":["./src/qcobjects.ts"],
-        "*": ["src/*"],
+        "*": [
+          "src/*"
+        ],
         "types": [
-          "types/global"
+          "src/types/global/index.d.ts"
         ]
       }
     }

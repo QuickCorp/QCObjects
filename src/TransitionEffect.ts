@@ -2,8 +2,7 @@ import { Effect } from "./Effect";
 import { logger } from "./Logger";
 import { Package } from "./Package";
 import { ClassFactory } from "./ClassFactory";
-import { IQCObjectsElement, IQCObjectsShadowedElement } from "@types";
-import { ITransitionEffect, IComponent, TTransitionEffectParams } from "@types";
+import { ITransitionEffect, IComponent, TTransitionEffectParams } from "types";
 
 export class TransitionEffect extends Effect implements ITransitionEffect{
   duration = 385;
@@ -36,7 +35,7 @@ export class TransitionEffect extends Effect implements ITransitionEffect{
   }: TTransitionEffectParams):void {
     const _transition_ = this;
     logger.info("EXECUTING TransitionEffect  ");
-    const componentRoot =_transition_.component.componentRoot as IQCObjectsElement | IQCObjectsShadowedElement | HTMLElement | ShadowRoot;
+    const componentRoot =_transition_.component.componentRoot;
 
     if (typeof componentRoot !== "undefined" && componentRoot !== null){
       if (_transition_.fitToHeight) {

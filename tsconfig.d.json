@@ -8,7 +8,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "composite": true,
-    "isolatedDeclarations": true,    
+    "isolatedDeclarations": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
@@ -22,11 +22,17 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["node"],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "node"
+    ],
     "paths": {
-      "*": ["src/*"],
-      "@types": [
+      "*": [
+        "src/*"
+      ],
+      "types": [
         "src/types/global/index.d.ts"
       ]
     }
@@ -35,7 +41,12 @@
     "src/**/*",
     "src/types/**/*"
   ],
-  "exclude": ["src/**/*.mts", "src/**/*.cts", "node_modules", "node_modules/**/*"],
+  "exclude": [
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "node_modules",
+    "node_modules/**/*"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "files": true,
@@ -43,8 +54,12 @@
       "rootDir": "./src",
       "baseUrl": ".",
       "paths": {
-        "*": ["src/*"],
-        "types": ["types/global"]
+        "*": [
+          "src/*"
+        ],
+        "types": [
+          "src/types/global/index.d.ts"
+        ]
       }
     }
   }
