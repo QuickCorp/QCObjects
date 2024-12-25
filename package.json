@@ -36,7 +36,7 @@
     "build:esbuild": "node ./build-esbuild.js",
     "start": "qcobjects-shell",
     "test:ts-types": "npx tsc --project ./tsconfig.jasmine.json ",
-    "test:jasmine": "npm run test:ts-types && npx ts-node --project ./tsconfig.jasmine.json ./node_modules/jasmine/bin/jasmine",
+    "test:jasmine": "npm run test:ts-types && npx ts-node --project ./tsconfig.jasmine.json ./node_modules/jasmine/bin/jasmine.js",
     "test": "(npm run lint && npm run test:jasmine)",
     "lint": "(npx -y eslint@latest src/**/*.ts --fix )",
     "preversion": "npm cache verify && npm test",
@@ -117,7 +117,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
-    "@types/jasmine": "^5.1.4",
+    "@types/jasmine": "^5.1.5",
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
