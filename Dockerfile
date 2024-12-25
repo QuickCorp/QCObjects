@@ -2,10 +2,10 @@ FROM alpine/git:latest
 FROM alpine/openssl
 FROM certbot/certbot
 FROM docker/extension-npm-installer
-FROM --platform=$BUILDPLATFORM node:lts-alpine as builder
+FROM --platform=$BUILDPLATFORM node:lts-alpine AS builder
 
 ###
-#  QCObjects  2.4
+#  QCObjects  2.5
 #  ________________
 #
 #  Author: Jean Machuca <correojean@gmail.com>
@@ -29,7 +29,7 @@ FROM --platform=$BUILDPLATFORM node:lts-alpine as builder
 #  license document, but changing it is not allowed.
 ###
 
-LABEL org.quickcorp.qcobjects.cli.version="2.4.62"
+LABEL org.quickcorp.qcobjects.cli.version="2.5.108-beta"
 LABEL vendor1="QuickCorp"
 LABEL vendor2="QCObjects"
 LABEL org.quickcorp.qcobjects.release-date="2019-06-01"
