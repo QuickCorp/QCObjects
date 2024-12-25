@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { __getType__, Class, ClassFactory, logger } from "../src/qcobjects";
+import { __getType__, Class, ClassFactory, logger } from "../src/qcobjects.ts";
 
 /* eslint-disable no-undef */
 
