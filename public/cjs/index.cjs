@@ -32,6 +32,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/is_raw_class.ts
 var __is_raw_class__;
@@ -5023,9 +5024,9 @@ var require_MainProcess = __commonJS({
   }
 });
 
-// src/QCObjects.ts
-var QCObjects_exports = {};
-__export(QCObjects_exports, {
+// src/index.cts
+var index_exports = {};
+__export(index_exports, {
   ArrayCollection: () => ArrayCollection,
   ArrayList: () => ArrayList,
   AssignPolyfill: () => assign_exports,
@@ -5117,6 +5118,7 @@ __export(QCObjects_exports, {
   subelements: () => subelements,
   waitUntil: () => waitUntil
 });
+module.exports = __toCommonJS(index_exports);
 
 // src/assign.ts
 var assign_exports = {};
@@ -6595,7 +6597,97 @@ init_mathFunctions();
 init_top();
 init_make_global();
 init_top();
-
-// src/index.cts
-module.exports = QCObjects_exports;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  ArrayCollection,
+  ArrayList,
+  AssignPolyfill,
+  BackendMicroservice,
+  CONFIG,
+  Class,
+  ClassFactory,
+  ComplexStorageCache,
+  Component,
+  ComponentURI,
+  ConfigService,
+  Controller,
+  DDO,
+  DefaultTemplateHandler,
+  Effect,
+  Export,
+  GlobalSettings,
+  Import,
+  InheritClass,
+  JSONService,
+  Logger,
+  NamespaceRef,
+  New,
+  ObjectName,
+  Package,
+  Processor,
+  Ready,
+  RegisterClass,
+  RegisterWidget,
+  RegisterWidgets,
+  Service,
+  SourceCSS,
+  SourceJS,
+  Tag,
+  TagElements,
+  Timer,
+  Toggle,
+  TransitionEffect,
+  VO,
+  View,
+  _Cast,
+  _CastProps,
+  _ComponentWidget_,
+  _Crypt,
+  _DOMCreateElement,
+  _DataStringify,
+  _LegacyCopy,
+  _QC_CLASSES,
+  _QC_PACKAGES,
+  _QC_PACKAGES_IMPORTED,
+  _QC_READY_LISTENERS,
+  _Ready,
+  __getType__,
+  __instanceID,
+  __is_raw_class__,
+  __make_global__,
+  __to_number,
+  __top__,
+  _buildComponentsFromElements_,
+  _fireAsyncLoad,
+  _methods_,
+  _protected_code_,
+  _require_,
+  _super_,
+  _tag_filter_,
+  _top,
+  asyncLoad,
+  captureFalseTouch,
+  componentLoader,
+  findPackageNodePath,
+  get,
+  getDocumentLayout,
+  global,
+  isBrowser,
+  isNodeCommonJS,
+  isQCObjects_Class,
+  isQCObjects_Object,
+  is_a,
+  is_phonegap,
+  logger,
+  qcobjects,
+  range,
+  ready,
+  resetTop,
+  serviceLoader,
+  set,
+  setDefaultProcessors,
+  shortCode,
+  subelements,
+  waitUntil
+});
 //# sourceMappingURL=index.cjs.map

@@ -37,11 +37,11 @@
   },
   "include": [
     "src/**/*",
+    "src/index.mts",
+    "src/index.cts",
     "src/types/**/*"
   ],
   "exclude": [
-    "src/**/*.mts",
-    "src/**/*.cts",
     "node_modules",
     "node_modules/**/*",
     "public/types"
