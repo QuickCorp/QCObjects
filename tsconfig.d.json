@@ -45,7 +45,8 @@
     "src/**/*.mts",
     "src/**/*.cts",
     "node_modules",
-    "node_modules/**/*"
+    "node_modules/**/*",
+    "public/types"
   ],
   "ts-node": {
     "transpileOnly": true,

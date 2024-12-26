@@ -46,6 +46,13 @@
     "spec/**/*",
      "src/**/*",
      "src/*"
+  ],
+  "exclude": [
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "node_modules",
+    "node_modules/**/*",
+    "public/types"
   ]
 
 }

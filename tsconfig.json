@@ -39,6 +39,13 @@
     "src/**/*",
     "src/types/**/*"
   ],
+  "exclude": [
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "node_modules",
+    "node_modules/**/*",
+    "public/types"
+  ],
   "ts-node": {
     // It is faster to skip typechecking.
     // Remove if you want ts-node to do typechecking.
