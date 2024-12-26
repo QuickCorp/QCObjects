@@ -5028,9 +5028,9 @@ var require_MainProcess = __commonJS({
   }
 });
 
-// src/qcobjects.ts
-var qcobjects_exports = {};
-__export(qcobjects_exports, {
+// src/QCObjects.ts
+var QCObjects_exports = {};
+__export(QCObjects_exports, {
   ArrayCollection: () => ArrayCollection,
   ArrayList: () => ArrayList,
   AssignPolyfill: () => assign_exports,
@@ -5151,7 +5151,7 @@ if (typeof Object.assign !== "function") {
   });
 }
 
-// src/qcobjects.ts
+// src/QCObjects.ts
 init_top();
 var qcobjects = __toESM(require_MainProcess());
 init_top();
@@ -5400,7 +5400,7 @@ Package("com.qcobjects.api", [
   BackendMicroservice
 ]);
 
-// src/qcobjects.ts
+// src/QCObjects.ts
 init_Component();
 init_Crypt();
 
@@ -5615,7 +5615,7 @@ var SourceCSS = class extends InheritClass {
 };
 Package("com.qcobjects", [SourceCSS]);
 
-// src/qcobjects.ts
+// src/QCObjects.ts
 init_globalSettings();
 
 // src/WidgetsFactory.ts
@@ -6164,7 +6164,7 @@ _protected_code_(RegisterWidgets);
 Export(RegisterWidget);
 Export(RegisterWidgets);
 
-// src/qcobjects.ts
+// src/QCObjects.ts
 init_CONFIG();
 
 // src/Controller.ts
@@ -6266,7 +6266,7 @@ Package("com.qcobjects.views", [
   View
 ]);
 
-// src/qcobjects.ts
+// src/QCObjects.ts
 init_Service();
 
 // src/VO.ts
@@ -6434,7 +6434,7 @@ Package("com.qcobjects.timing", [
   Timer
 ]);
 
-// src/qcobjects.ts
+// src/QCObjects.ts
 init_tag_filter();
 init_range();
 init_ArrayCollection();
@@ -6574,7 +6574,7 @@ Package("com.qcobjects.tools.essentials", [
   Toggle
 ]);
 
-// src/qcobjects.ts
+// src/QCObjects.ts
 init_findPackageNodePath();
 
 // src/DocumentLayout.ts
@@ -6595,14 +6595,14 @@ var getDocumentLayout = /* @__PURE__ */ __name(function() {
   ].filter((e) => e !== null).pop();
 }, "getDocumentLayout");
 
-// src/qcobjects.ts
+// src/QCObjects.ts
 init_mathFunctions();
 init_top();
 init_make_global();
 init_top();
 
 // src/index.mts
-var index_default = qcobjects_exports;
+var index_default = QCObjects_exports;
 export {
   index_default as default
 };

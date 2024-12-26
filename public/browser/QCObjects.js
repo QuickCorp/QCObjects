@@ -5031,9 +5031,9 @@ var global = (() => {
     }
   });
 
-  // src/qcobjects.ts
-  var qcobjects_exports = {};
-  __export(qcobjects_exports, {
+  // src/QCObjects.ts
+  var QCObjects_exports = {};
+  __export(QCObjects_exports, {
     ArrayCollection: () => ArrayCollection,
     ArrayList: () => ArrayList,
     AssignPolyfill: () => assign_exports,
@@ -5154,7 +5154,7 @@ var global = (() => {
     });
   }
 
-  // src/qcobjects.ts
+  // src/QCObjects.ts
   init_top();
   var qcobjects = __toESM(require_MainProcess());
   init_top();
@@ -5403,7 +5403,7 @@ var global = (() => {
     BackendMicroservice
   ]);
 
-  // src/qcobjects.ts
+  // src/QCObjects.ts
   init_Component();
   init_Crypt();
 
@@ -5618,7 +5618,7 @@ var global = (() => {
   };
   Package("com.qcobjects", [SourceCSS]);
 
-  // src/qcobjects.ts
+  // src/QCObjects.ts
   init_globalSettings();
 
   // src/WidgetsFactory.ts
@@ -6167,7 +6167,7 @@ var global = (() => {
   Export(RegisterWidget);
   Export(RegisterWidgets);
 
-  // src/qcobjects.ts
+  // src/QCObjects.ts
   init_CONFIG();
 
   // src/Controller.ts
@@ -6269,7 +6269,7 @@ var global = (() => {
     View
   ]);
 
-  // src/qcobjects.ts
+  // src/QCObjects.ts
   init_Service();
 
   // src/VO.ts
@@ -6437,7 +6437,7 @@ var global = (() => {
     Timer
   ]);
 
-  // src/qcobjects.ts
+  // src/QCObjects.ts
   init_tag_filter();
   init_range();
   init_ArrayCollection();
@@ -6577,7 +6577,7 @@ var global = (() => {
     Toggle
   ]);
 
-  // src/qcobjects.ts
+  // src/QCObjects.ts
   init_findPackageNodePath();
 
   // src/DocumentLayout.ts
@@ -6598,11 +6598,11 @@ var global = (() => {
     ].filter((e) => e !== null).pop();
   }, "getDocumentLayout");
 
-  // src/qcobjects.ts
+  // src/QCObjects.ts
   init_mathFunctions();
   init_top();
   init_make_global();
   init_top();
-  return __toCommonJS(qcobjects_exports);
+  return __toCommonJS(QCObjects_exports);
 })();
-//# sourceMappingURL=qcobjects.js.map
+//# sourceMappingURL=QCObjects.js.map

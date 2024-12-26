@@ -3,7 +3,7 @@
     "skipLibCheck": true,
     "moduleDetection": "auto",
     "moduleResolution": "nodenext",
-    "allowImportingTsExtensions":true,
+    "allowImportingTsExtensions": true,
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -30,29 +30,35 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "types": ["node", "jasmine"],
+    "types": [
+      "node",
+      "jasmine"
+    ],
     "paths": {
       "*": [
         "src/*"
       ],
-    "types": [
+      "types": [
         "src/types/global/index.d.ts"
       ],
-      "qcobjects":["src/qcobjects.ts"],
-      "qcobjects-sdk": ["spec/mocks/qcobjects-sdk.mock.ts"]
+      "qcobjects": [
+        "src/qcobjects.ts"
+      ],
+      "qcobjects-sdk": [
+        "spec/mocks/qcobjects-sdk.mock.ts"
+      ]
     }
   },
   "include": [
     "spec/**/*",
-     "src/**/*",
-     "src/*"
+    "src/**/*",
+    "src/*"
   ],
   "exclude": [
     "src/**/*.mts",
     "src/**/*.cts",
     "node_modules",
     "node_modules/**/*",
-    "public/types"
+    "public/types/**/*"
   ]
-
 }

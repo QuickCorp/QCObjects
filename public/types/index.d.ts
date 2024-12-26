@@ -863,24 +863,8 @@ declare module "loadSDK" {
     export default loadSDK;
 }
 declare module "MainProcess" { }
-declare module "SourceCSS" {
-    import { ISourceCSS } from "types";
-    import { InheritClass } from "InheritClass";
-    export class SourceCSS extends InheritClass implements ISourceCSS {
-        domain: string;
-        basePath: string;
-        url: string;
-        data: {};
-        async: boolean;
-        external: boolean;
-        constructor(o: any);
-        fail(): void;
-        Cast(o: any): any;
-        set(name: string, value: any): void;
-        get(name: string, _default?: any): any;
-        done(): void;
-        rebuild(): void;
-    }
+declare module "assign" {
+    export {};
 }
 declare module "SourceJS" {
     import { ISourceJS } from "types";
@@ -903,6 +887,64 @@ declare module "SourceJS" {
         rebuild(): void;
         Cast(o: any): any;
         _new_(properties: any): void;
+    }
+}
+declare module "SourceCSS" {
+    import { ISourceCSS } from "types";
+    import { InheritClass } from "InheritClass";
+    export class SourceCSS extends InheritClass implements ISourceCSS {
+        domain: string;
+        basePath: string;
+        url: string;
+        data: {};
+        async: boolean;
+        external: boolean;
+        constructor(o: any);
+        fail(): void;
+        Cast(o: any): any;
+        set(name: string, value: any): void;
+        get(name: string, _default?: any): any;
+        done(): void;
+        rebuild(): void;
+    }
+}
+declare module "WidgetsFactory" {
+    export let _ComponentWidget_: CustomElementConstructor;
+    export const RegisterWidget: (widgetName: string) => void;
+    export const RegisterWidgets: (...args: string[]) => void;
+}
+declare module "View" {
+    import { InheritClass } from "InheritClass";
+    import { TViewParams } from "types";
+    export class View extends InheritClass {
+        constructor({ component, dependencies }: TViewParams);
+    }
+}
+declare module "VO" {
+    import { InheritClass } from "InheritClass";
+    export class VO extends InheritClass {
+    }
+}
+declare module "TransitionEffect" {
+    import { Effect } from "Effect";
+    import { ITransitionEffect, IComponent, TTransitionEffectParams } from "types";
+    export class TransitionEffect extends Effect implements ITransitionEffect {
+        duration: number;
+        defaultParams: {
+            alphaFrom: number;
+            alphaTo: number;
+            angleFrom: number;
+            angleTo: number;
+            radiusFrom: number;
+            radiusTo: number;
+            scaleFrom: number;
+            scaleTo: number;
+        };
+        fitToHeight: boolean;
+        fitToWidth: boolean;
+        component: IComponent;
+        effects: string[];
+        apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: TTransitionEffectParams): void;
     }
 }
 declare module "Timer" {
@@ -933,49 +975,7 @@ declare module "Toggle" {
         fire(): Promise<Toggle>;
     }
 }
-declare module "TransitionEffect" {
-    import { Effect } from "Effect";
-    import { ITransitionEffect, IComponent, TTransitionEffectParams } from "types";
-    export class TransitionEffect extends Effect implements ITransitionEffect {
-        duration: number;
-        defaultParams: {
-            alphaFrom: number;
-            alphaTo: number;
-            angleFrom: number;
-            angleTo: number;
-            radiusFrom: number;
-            radiusTo: number;
-            scaleFrom: number;
-            scaleTo: number;
-        };
-        fitToHeight: boolean;
-        fitToWidth: boolean;
-        component: IComponent;
-        effects: string[];
-        apply({ alphaFrom, alphaTo, angleFrom, angleTo, radiusFrom, radiusTo, scaleFrom, scaleTo }: TTransitionEffectParams): void;
-    }
-}
-declare module "VO" {
-    import { InheritClass } from "InheritClass";
-    export class VO extends InheritClass {
-    }
-}
-declare module "View" {
-    import { InheritClass } from "InheritClass";
-    import { TViewParams } from "types";
-    export class View extends InheritClass {
-        constructor({ component, dependencies }: TViewParams);
-    }
-}
-declare module "WidgetsFactory" {
-    export let _ComponentWidget_: CustomElementConstructor;
-    export const RegisterWidget: (widgetName: string) => void;
-    export const RegisterWidgets: (...args: string[]) => void;
-}
-declare module "assign" {
-    export {};
-}
-declare module "qcobjects" {
+declare module "QCObjects" {
     export * as AssignPolyfill from "assign";
     export * as __top__ from "top";
     export * as qcobjects from "MainProcess";
@@ -1047,7 +1047,7 @@ declare module "qcobjects" {
     export { get, set } from "top";
 }
 declare module "index" {
-    import * as QCObjects from "qcobjects";
+    import * as QCObjects from "QCObjects";
     export default QCObjects;
 }
 declare module "localStorage" {

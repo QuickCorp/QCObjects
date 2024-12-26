@@ -1,2 +1,2 @@
-import * as QCObjects from "./qcobjects.js";
+import * as QCObjects from "./QCObjects";
 module.exports = QCObjects;
