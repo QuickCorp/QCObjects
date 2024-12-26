@@ -33,5 +33,5 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const QCObjects = __importStar(require("./qcobjects"));
+const QCObjects = __importStar(require("./QCObjects"));
 exports.default = QCObjects;

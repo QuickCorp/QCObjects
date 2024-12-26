@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { __getType__, logger, global } from "qcobjects";
+import { __getType__, logger, global } from "../src/QCObjects";
 
 /* eslint-disable no-undef */
 
