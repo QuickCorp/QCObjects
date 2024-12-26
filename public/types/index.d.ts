@@ -1047,8 +1047,7 @@ declare module "QCObjects" {
     export { get, set } from "top";
 }
 declare module "index" {
-    import * as QCObjects from "QCObjects";
-    export default QCObjects;
+    export * from "QCObjects";
 }
 declare module "localStorage" {
     export var localStorage: any;
@@ -1057,5 +1056,4 @@ declare module "uniqueID" {
     export const uniqueId: Function;
 }
 //# sourceMappingURL=index.d.ts.map
-export {};
 export {};
