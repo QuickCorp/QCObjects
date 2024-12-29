@@ -2,12 +2,12 @@ import { CONFIG } from "./CONFIG";
 import { Export } from "./Export";
 import { logger } from "./Logger";
 import { isBrowser } from "./platform";
+import fs from "node:fs";
 
 export const findPackageNodePath = function (packagename:string):string|null {
     let sdkPath = null;
     if (!isBrowser) {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const fs = require("fs");
         try {
             let sdkPaths = [
                 `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
