@@ -7,7 +7,7 @@ import fs from "node:fs";
 export const findPackageNodePath = function (packagename:string):string|null {
     let sdkPath = null;
     if (!isBrowser) {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
+         
         try {
             let sdkPaths = [
                 `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
