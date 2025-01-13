@@ -4028,7 +4028,7 @@ var global = (() => {
   });
 
   // src/findPackageNodePath.ts
-  var findPackageNodePath;
+  var import_node_fs, findPackageNodePath;
   var init_findPackageNodePath = __esm({
     "src/findPackageNodePath.ts"() {
       "use strict";
@@ -4036,10 +4036,10 @@ var global = (() => {
       init_Export();
       init_Logger();
       init_platform();
+      import_node_fs = __toESM(__require("node:fs"));
       findPackageNodePath = /* @__PURE__ */ __name(function(packagename) {
         let sdkPath = null;
         if (!isBrowser) {
-          const fs = __require("fs");
           try {
             let sdkPaths = [
               `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,
@@ -4056,7 +4056,7 @@ var global = (() => {
               ""
             ].concat(module.paths);
             sdkPaths = sdkPaths.filter((p) => {
-              return fs.existsSync(p + "/" + packagename);
+              return import_node_fs.default.existsSync(p + "/" + packagename);
             });
             if (sdkPaths.length > 0) {
               sdkPath = sdkPaths[0];

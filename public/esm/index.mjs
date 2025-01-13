@@ -4025,6 +4025,7 @@ var init_defaultProcessors = __esm({
 });
 
 // src/findPackageNodePath.ts
+import fs from "node:fs";
 var findPackageNodePath;
 var init_findPackageNodePath = __esm({
   "src/findPackageNodePath.ts"() {
@@ -4036,7 +4037,6 @@ var init_findPackageNodePath = __esm({
     findPackageNodePath = /* @__PURE__ */ __name(function(packagename) {
       let sdkPath = null;
       if (!isBrowser) {
-        const fs = __require("fs");
         try {
           let sdkPaths = [
             `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,

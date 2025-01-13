@@ -1,15 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findPackageNodePath = void 0;
 const CONFIG_1 = require("./CONFIG");
 const Export_1 = require("./Export");
 const Logger_1 = require("./Logger");
 const platform_1 = require("./platform");
+const node_fs_1 = __importDefault(require("node:fs"));
 const findPackageNodePath = function (packagename) {
     let sdkPath = null;
     if (!platform_1.isBrowser) {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const fs = require("fs");
         try {
             let sdkPaths = [
                 `${CONFIG_1.CONFIG.get("projectPath")}${CONFIG_1.CONFIG.get("relativeImportPath")}`,
@@ -26,7 +28,7 @@ const findPackageNodePath = function (packagename) {
                 ""
             ].concat(module.paths);
             sdkPaths = sdkPaths.filter(p => {
-                return (fs).existsSync(p + "/" + packagename);
+                return (node_fs_1.default).existsSync(p + "/" + packagename);
             });
             if (sdkPaths.length > 0) {
                 sdkPath = sdkPaths[0];
