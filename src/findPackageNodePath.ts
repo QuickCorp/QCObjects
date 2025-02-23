@@ -7,7 +7,6 @@ import fs from "node:fs";
 export const findPackageNodePath = function (packagename:string):string|null {
     let sdkPath = null;
     if (!isBrowser) {
-         
         try {
             let sdkPaths = [
                 `${CONFIG.get("projectPath")}${CONFIG.get("relativeImportPath")}`,

@@ -1,1 +1,1 @@
-export * from "./QCObjects.js";
+export * from "./QCObjects";
