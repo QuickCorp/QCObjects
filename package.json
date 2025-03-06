@@ -121,7 +121,7 @@
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.25.0",
     "esbuild-plugin-alias": "^0.2.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^8.10.0",
