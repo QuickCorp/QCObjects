@@ -1,3 +1,5 @@
+> **Note**: This documentation was generated with the assistance of AI. While we strive for accuracy, please verify critical information and consult the official QCObjects repository for the most up-to-date documentation.
+
 # QCObjects Framework Audit
 
 ## Overview
