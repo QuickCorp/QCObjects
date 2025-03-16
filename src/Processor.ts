@@ -65,6 +65,11 @@ export class Processor extends InheritClass implements IProcessor {
   }
 
   processObject(obj: any, component: IComponent | null = null): any {
+    // If obj is null or undefined, return it as is
+    if (obj === null || obj === undefined) {
+      return obj;
+    }
+
     let __instance__: IProcessor | undefined = (component === null) ? (this) : (component.processorHandler);
     if (typeof __instance__ === "undefined") {
       __instance__ = new Processor({ component });

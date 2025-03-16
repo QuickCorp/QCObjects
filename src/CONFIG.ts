@@ -72,7 +72,12 @@ export class CONFIG extends InheritClass implements ICONFIG {
       logger.debug("No config value for: " + name);
       _value = _default;
     }
-    return Processor.processObject(_value) || _default;
+    const processedValue = Processor.processObject(_value);
+    // Special handling for null values
+    if (_value === null && processedValue === null) {
+      return null;
+    }
+    return processedValue || _default;
   }
 
   private static _instance:CONFIG;
