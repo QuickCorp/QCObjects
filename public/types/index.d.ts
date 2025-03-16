@@ -273,10 +273,15 @@ declare module "Processor" {
         });
         processors: any;
         static get instance(): IProcessor;
+        static setProcessor(_proc_: Function): void;
         setProcessor(_proc_: Function): void;
+        static getProcessor(_procName_: string): Function | undefined;
+        static getProcessorNames(): string[];
         component: IComponent | null;
         execute(component: IComponent, processorName: string, args: string): string;
+        static process(template: string, component?: IComponent | null): string;
         process(template: string, component?: IComponent | null): string;
+        static processObject(obj: any, component: IComponent | undefined): any;
         processObject(obj: any, component?: IComponent | null): any;
     }
     export const GlobalProcessor: IProcessor;
@@ -1056,6 +1061,4 @@ declare module "uniqueID" {
     export const uniqueId: Function;
 }
 //# sourceMappingURL=index.d.ts.map
-export {};
-export {};
 export {};

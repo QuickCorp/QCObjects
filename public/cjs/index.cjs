@@ -1578,15 +1578,29 @@ var init_Processor = __esm({
         }
         return _Processor._instance;
       }
+      static setProcessor(_proc_) {
+        if (typeof _proc_ === "function" && _proc_.name !== "") {
+          _Processor.instance.processors[_proc_.name] = _proc_;
+        }
+      }
       setProcessor(_proc_) {
         if (typeof _proc_ === "function" && _proc_.name !== "") {
           this.processors[_proc_.name] = _proc_;
         }
       }
+      static getProcessor(_procName_) {
+        return _Processor.instance.processors[_procName_];
+      }
+      static getProcessorNames() {
+        return Object.keys(_Processor.instance.processors);
+      }
       component;
       execute(component, processorName, args) {
         const processorHandler = typeof component !== "undefined" && component !== null ? component.processorHandler : this;
         return processorHandler?.processors[processorName].bind(processorHandler).apply(processorHandler, [component, args?.split(",")]);
+      }
+      static process(template, component = null) {
+        return _Processor.instance.process(template, component);
       }
       process(template, component = null) {
         const processorHandler = component !== null ? component.processorHandler : New(_Processor, { component: null });
@@ -1602,6 +1616,12 @@ var init_Processor = __esm({
           });
         }
         return template;
+      }
+      static processObject(obj, component) {
+        if (obj === null || obj === void 0) {
+          return obj;
+        }
+        return _Processor.instance.processObject(obj, component);
       }
       processObject(obj, component = null) {
         if (obj === null || obj === void 0) {

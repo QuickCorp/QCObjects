@@ -31,15 +31,29 @@ class Processor extends InheritClass_1.InheritClass {
         }
         return Processor._instance;
     }
+    static setProcessor(_proc_) {
+        if (typeof _proc_ === "function" && _proc_.name !== "") {
+            Processor.instance.processors[_proc_.name] = _proc_;
+        }
+    }
     setProcessor(_proc_) {
         if (typeof _proc_ === "function" && _proc_.name !== "") {
             this.processors[_proc_.name] = _proc_;
         }
     }
+    static getProcessor(_procName_) {
+        return Processor.instance.processors[_procName_];
+    }
+    static getProcessorNames() {
+        return Object.keys(Processor.instance.processors);
+    }
     component;
     execute(component, processorName, args) {
         const processorHandler = (typeof component !== "undefined" && component !== null) ? (component.processorHandler) : (this);
         return processorHandler?.processors[processorName].bind(processorHandler).apply(processorHandler, [component, args?.split(",")]);
+    }
+    static process(template, component = null) {
+        return Processor.instance.process(template, component);
     }
     process(template, component = null) {
         const processorHandler = (component !== null) ? (component.processorHandler) : ((0, New_1.New)(Processor, { component: null }));
@@ -53,6 +67,12 @@ class Processor extends InheritClass_1.InheritClass {
             });
         }
         return template;
+    }
+    static processObject(obj, component) {
+        if (obj === null || obj === undefined) {
+            return obj;
+        }
+        return Processor.instance.processObject(obj, component);
     }
     processObject(obj, component = null) {
         // If obj is null or undefined, return it as is

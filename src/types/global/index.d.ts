@@ -277,7 +277,7 @@ export interface IInheritClass {
 export interface IProcessor extends IInheritClass {
     component: IComponent|null;
     processors: any;
-    process(template: string, component: IComponent): any;
+    process(template: string, component: IComponent | null): any;
     processObject(obj: any, component?: IComponent): any;
     setProcessor(proc: Function): any;
     execute (component:IComponent, processorName:string, args:string):any;

@@ -34,18 +34,35 @@ export class Processor extends InheritClass implements IProcessor {
     return Processor._instance;
   }
 
+  static setProcessor(_proc_: Function):void {
+    if (typeof _proc_ === "function" && _proc_.name !== "") {
+      Processor.instance.processors[_proc_.name] = _proc_;
+    }
+  }
+
   setProcessor(_proc_: Function):void {
     if (typeof _proc_ === "function" && _proc_.name !== "") {
       this.processors[_proc_.name] = _proc_;
     }
   }
 
-  component!: IComponent | null;
+  static getProcessor(_procName_: string): Function | undefined {
+    return Processor.instance.processors[_procName_] as Function | undefined;
+  }
 
+  static getProcessorNames(): string[] {
+    return Object.keys(Processor.instance.processors);
+  }
+
+  component!: IComponent | null;
 
   execute(component: IComponent, processorName: string, args: string): string {
     const processorHandler = (typeof component !== "undefined" && component !== null) ? (component.processorHandler) : (this);
     return processorHandler?.processors[processorName].bind(processorHandler).apply(processorHandler, [component, args?.split(",")]) as string;
+  }
+
+  static process(template: string, component: IComponent | null = null):string {
+    return Processor.instance.process(template, component) as string;
   }
 
   process(template: string, component: IComponent | null = null):string {
@@ -63,6 +80,18 @@ export class Processor extends InheritClass implements IProcessor {
     }
     return template;
   }
+
+  static processObject(obj: any, component: IComponent | undefined): any {
+
+    if (obj === null || obj === undefined) {
+      return obj;
+    }
+
+    return Processor.instance.processObject(obj, component);
+
+  }
+
+  
 
   processObject(obj: any, component: IComponent | null = null): any {
     // If obj is null or undefined, return it as is
