@@ -1516,7 +1516,11 @@ var init_CONFIG = __esm({
           logger.debug("No config value for: " + name);
           _value = _default;
         }
-        return GlobalProcessor.processObject(_value) || _default;
+        const processedValue = GlobalProcessor.processObject(_value);
+        if (_value === null && processedValue === null) {
+          return null;
+        }
+        return processedValue || _default;
       }
       static _instance;
       static get instance() {
@@ -1600,6 +1604,9 @@ var init_Processor = __esm({
         return template;
       }
       processObject(obj, component = null) {
+        if (obj === null || obj === void 0) {
+          return obj;
+        }
         let __instance__ = component === null ? this : component.processorHandler;
         if (typeof __instance__ === "undefined") {
           __instance__ = new _Processor({ component });

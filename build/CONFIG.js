@@ -65,7 +65,12 @@ class CONFIG extends InheritClass_1.InheritClass {
             Logger_1.logger.debug("No config value for: " + name);
             _value = _default;
         }
-        return Processor_1.GlobalProcessor.processObject(_value) || _default;
+        const processedValue = Processor_1.GlobalProcessor.processObject(_value);
+        // Special handling for null values
+        if (_value === null && processedValue === null) {
+            return null;
+        }
+        return processedValue || _default;
     }
     static _instance;
     static get instance() {

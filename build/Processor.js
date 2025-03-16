@@ -55,6 +55,10 @@ class Processor extends InheritClass_1.InheritClass {
         return template;
     }
     processObject(obj, component = null) {
+        // If obj is null or undefined, return it as is
+        if (obj === null || obj === undefined) {
+            return obj;
+        }
         let __instance__ = (component === null) ? (this) : (component.processorHandler);
         if (typeof __instance__ === "undefined") {
             __instance__ = new Processor({ component });
