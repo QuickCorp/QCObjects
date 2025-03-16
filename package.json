@@ -30,7 +30,7 @@
   "scripts": {
     "build": "npm run build:ts-types && npm run build:ts && npm run build:browser",
     "postbuild": "node ./postbuild.js",
-    "build:ts": "npm test && npx tsc",
+    "build:ts": "npm run coverage && npx tsc",
     "build:ts-types": "npx tsc --project tsconfig.d.json",
     "build:browser": "npm run build:esbuild",
     "build:esbuild": "node ./build-esbuild.js",
@@ -40,7 +40,7 @@
     "test": "(npm run lint && npm run test:jasmine)",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm run test",
     "lint": "(npx -y eslint@latest src/**/*.ts --fix )",
-    "preversion": "npm cache verify && npm test",
+    "preversion": "npm cache verify && npm run coverage",
     "sync": "git add . && git commit -am ",
     "postversion": "git push && git push --tags",
     "v-patch": "qcobjects v-patch",
