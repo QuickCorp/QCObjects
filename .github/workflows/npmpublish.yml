@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 22
       - run: npm i --legacy-peer-deps
+      - run: npm run build
       - run: npm test
 
   publish-npm:
@@ -36,6 +37,7 @@ jobs:
       - name: Upgrade npm for OIDC support (requires >=11.5.1)
         run: npm install -g npm@latest
       - run: npm i --legacy-peer-deps
+      - run: npm run build
       - name: Publish to npm
         run: |
           if [[ "${{ github.ref }}" == *-beta ]]; then
