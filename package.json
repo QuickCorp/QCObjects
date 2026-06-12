@@ -39,7 +39,7 @@
     "test:jasmine": "npm run test:ts-types && npx ts-node -r tsconfig-paths/register --project ./tsconfig.jasmine.json ./node_modules/jasmine/bin/jasmine.js",
     "test": "(npm run lint && npm run test:jasmine)",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm run test",
-    "lint": "(npx -y eslint@latest src/**/*.ts --fix )",
+    "lint": "(npx eslint src/**/*.ts --fix )",
     "preversion": "npm cache verify && npm run coverage",
     "sync": "git add . && git commit -am ",
     "postversion": "git push && git push --tags",
