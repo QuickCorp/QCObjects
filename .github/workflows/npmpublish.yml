@@ -1,0 +1,47 @@
+name: Node.js Publish
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm i --legacy-peer-deps
+      - run: npm test
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Upgrade npm for OIDC support (requires >=11.5.1)
+        run: npm install -g npm@latest
+      - run: npm i --legacy-peer-deps
+      - name: Publish to npm
+        run: |
+          if [[ "${{ github.ref }}" == *-beta ]]; then
+            npm publish --tag beta
+          elif [[ "${{ github.ref }}" == *-lts ]]; then
+            npm publish --tag lts
+          else
+            npm publish
+          fi
