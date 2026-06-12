@@ -1,0 +1,29 @@
+import { logger } from "./Logger";
+import { isBrowser } from "./platform";
+
+export let supportsPassive = false;
+export const captureFalseTouch = ():boolean | { passive: boolean; } => {
+    return (supportsPassive) ? ({
+        passive: true
+    }) : (false);
+};
+
+// Test via a getter in the options object to see if the passive property is accessed
+if (isBrowser) {
+    try {
+        const opts = Object.defineProperty({}, "passive", {
+            get() {
+                supportsPassive = true;
+                return supportsPassive;
+            }
+        });
+        (window as any).addEventListener("testPassive", null, opts);
+        (window as any).removeEventListener("testPassive", null, opts);
+    } catch (e:any) {
+        logger.debug(`An error ocurred: ${e}.`);
+        supportsPassive = false;
+    }
+
+} else {
+    supportsPassive = false;
+}

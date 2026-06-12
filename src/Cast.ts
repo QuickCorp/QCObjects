@@ -1,0 +1,48 @@
+import { logger } from "./Logger";
+
+/**
+ * Casts an object to another object class type
+ *
+ * @param {Object} obj_source
+ * @param {Object} obj_dest
+ */
+export const _Cast = function (obj_source: any, obj_dest: any):any {
+    for (const v in obj_source) {
+        if (typeof obj_source[v] !== "undefined") {
+            try {
+                obj_dest[v] = obj_source[v];
+            } catch (e:any) {
+                logger.debug(`An error ocurred: ${e}.`);
+                logger.warn(`Unable to cast ${(typeof obj_source).toString()}.${typeof v.toString()} to ${(typeof obj_dest).toString()}.${typeof v.toString()}`);
+            }
+        }
+    }
+    return obj_dest;
+};
+
+/**
+ * Casts an object to another object class type. Only properties
+ *
+ * @param {Object} obj_source
+ * @param {Object} obj_dest
+ */
+export const _CastProps = function (obj_source: any, obj_dest: any, _ignoreError:boolean = true):any {
+    for (const v in obj_source) {
+        if (typeof obj_source[v] !== "undefined" && typeof obj_source[v] !== "function") {
+            try {
+                obj_dest[v] = obj_source[v];
+            } catch (e:any) {
+                if (!_ignoreError){
+                    logger.debug(`An error ocurred: ${e}.`);
+                }
+            }
+        } else if (typeof obj_source[v] === "function") {
+            try {
+                obj_dest[v] = obj_source[v].bind(obj_dest);
+            } catch (e:any) {
+                logger.warn(e);
+            }
+        }
+    }
+    return obj_dest;
+};

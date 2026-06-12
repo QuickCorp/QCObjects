@@ -2,15 +2,18 @@
   "spec_dir": "spec",
 
   "spec_files": [
-    "**/*[sS]pec.js",
-    "!**/*nospec.js"
+    "**/*[sS]pec.ts",
+    "!**/*nospec.ts"
   ],
 
   "helpers": [
-    "helpers/**/*.js"
+    "helpers/**/*.helper.ts"
   ],
 
-  "stopSpecOnExpectationFailure": false,
+  "stopSpecOnExpectationFailure": true,
+  "failSpecWithNoExpectations": true,
+
+  "stopOnSpecFailure": false,
 
   "random": false
 }

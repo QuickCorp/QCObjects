@@ -1,0 +1,64 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "moduleDetection": "auto",
+    "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "target": "ESNext",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "module": "NodeNext",
+    "rootDir": "./",
+    "allowJs": true,
+    "outDir": "build/spec",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "sourceRoot": "./src",
+    "inlineSourceMap": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "node",
+      "jasmine"
+    ],
+    "paths": {
+      "*": [
+        "src/*"
+      ],
+      "types": [
+        "src/types/global/index.d.ts"
+      ],
+      "qcobjects": [
+        "src/qcobjects.ts"
+      ],
+      "qcobjects-sdk": [
+        "spec/mocks/qcobjects-sdk.mock.ts"
+      ]
+    }
+  },
+  "include": [
+    "spec/**/*",
+    "src/**/*",
+    "src/*"
+  ],
+  "exclude": [
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "node_modules",
+    "node_modules/**/*",
+    "public/types/**/*"
+  ]
+}

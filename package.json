@@ -1,19 +1,61 @@
 {
   "name": "qcobjects",
-  "version": "2.3.75",
+  "version": "2.5.142",
   "description": "QCObjects is an Open-source framework that empowers full-stack developers to make micro-services and micro-frontends into an N-Tier architecture.",
-  "main": "QCObjects.js",
+  "main": "public/cjs/index.cjs",
+  "module": "public/esm/index.mjs",
+  "browser": "public/browser/QCObjects.js",
+  "type": "commonjs",
+  "types": "public/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./public/types/index.d.ts",
+      "require": "./public/cjs/index.cjs",
+      "import": "./public/esm/index.mjs"
+    },
+    "./types/*": "./types/*",
+    "./package.json": "./package.json",
+    "./tsconfig.json": "./tsconfig.json",
+    "./tsconfig.d.json": "./tsconfig.d.json",
+    "./tsconfig.jasmine.json": "./tsconfig.jasmine.json",
+    "./*.js": "./public/*.js",
+    "./*.cjs": "./public/cjs/*.cjs",
+    "./*.mjs": "./public/esm/*.mjs",
+    "./*": {
+      "require": "./public/cjs/*.cjs",
+      "import": "./public/esm/*.mjs"
+    }
+  },
   "license": "LGPL-3.0",
   "scripts": {
+    "build": "npm run build:ts-types && npm run build:ts && npm run build:browser",
+    "postbuild": "node ./postbuild.js",
+    "build:ts": "npm run coverage && npx tsc",
+    "build:ts-types": "npx tsc --project tsconfig.d.json",
+    "build:browser": "npm run build:esbuild",
+    "build:esbuild": "node ./build-esbuild.js",
     "start": "qcobjects-shell",
-    "test": "npx eslint --fix QCObjects.js && jasmine",
-    "preversion": "npm cache verify && npm test",
+    "test:ts-types": "npx tsc --project ./tsconfig.jasmine.json ",
+    "test:jasmine": "npm run test:ts-types && npx ts-node -r tsconfig-paths/register --project ./tsconfig.jasmine.json ./node_modules/jasmine/bin/jasmine.js",
+    "test": "(npm run lint && npm run test:jasmine)",
+    "coverage": "nyc --reporter=lcov --reporter=text-summary npm run test",
+    "lint": "(npx eslint src/**/*.ts --fix )",
+    "preversion": "npm cache verify && npm run coverage",
     "sync": "git add . && git commit -am ",
-    "postversion": "git push && git push --tags "
+    "postversion": "git push && git push --tags",
+    "v-patch": "qcobjects v-patch",
+    "v-minor": "qcobjects v-minor",
+    "v-major": "qcobjects v-major",
+    "qcobjects": "qcobjects",
+    "cli": "qcobjects",
+    "prepare": "node -e \"if(!require('fs').existsSync('.git')){process.exit(0)}\" || npx -y husky install",
+    "cli:help": "qcobjects --help",
+    "tree": "tree -d --gitignore",
+    "generate-readme-pdf": "(npx -y markdown-pdf --paper-format \"Letter\" -o README.pdf README.md && npx markdown-pdf --paper-format \"Letter\" -o README-es.pdf README-es.md) && npm uninstall markdown-pdf"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/QuickGroup/QCObjects.git"
+    "url": "git+https://github.com/QuickCorp/QCObjects.git"
   },
   "keywords": [
     "qcobjects",
@@ -70,14 +112,37 @@
   ],
   "author": "Jean Machuca <correojean@gmail.com>",
   "bugs": {
-    "url": "https://github.com/QuickGroup/QCObjects/issues"
+    "url": "https://github.com/QuickCorp/QCObjects/issues"
   },
   "homepage": "https://qcobjects.com",
-  "dependencies": {
-    "qcobjects-sdk": "latest"
-  },
   "devDependencies": {
-    "eslint": "^8.0.1",
-    "jasmine": "^3.7.0"
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.13.0",
+    "@types/jasmine": "^5.1.7",
+    "@types/node": "^22.13.10",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "esbuild": "^0.25.0",
+    "esbuild-plugin-alias": "^0.2.1",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-config-semistandard": "^17.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "globals": "^15.11.0",
+    "hint": "^2.0.0",
+    "install": "^0.13.0",
+    "jasmine": "^3.99.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1",
+    "nyc": "^15.1.0"
+  },
+  "engines": {
+    "npm": ">=10",
+    "node": ">=22"
   }
 }
