@@ -55,7 +55,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/QuickGroup/QCObjects.git"
+    "url": "git+https://github.com/QuickCorp/QCObjects.git"
   },
   "keywords": [
     "qcobjects",
@@ -112,7 +112,7 @@
   ],
   "author": "Jean Machuca <correojean@gmail.com>",
   "bugs": {
-    "url": "https://github.com/QuickGroup/QCObjects/issues"
+    "url": "https://github.com/QuickCorp/QCObjects/issues"
   },
   "homepage": "https://qcobjects.com",
   "devDependencies": {
